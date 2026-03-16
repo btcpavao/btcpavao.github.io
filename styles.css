@@ -48,6 +48,13 @@ a {
   gap: 16px;
 }
 
+.topbar-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .topbar-brand,
 .topbar-link {
   color: #241d16;
@@ -213,6 +220,14 @@ h3 {
 @media (max-width: 640px) {
   .topbar-inner {
     padding: 10px 14px;
+    gap: 10px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .topbar-actions {
+    width: 100%;
+    justify-content: flex-start;
   }
 
   .content {
