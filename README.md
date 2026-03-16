@@ -1,45 +1,48 @@
 # btcpavao.github.io
 
-Personal website for [@btcpavao](https://github.com/btcpavao), focused on Bitcoin projects, writing, and community work.
+Personal website for [@btcpavao](https://github.com/btcpavao), focused on Bitcoin projects, writing, advisory work, and community building.
 
 ## What this site is
 
-This is the public profile site behind:
+This repository powers:
 
 - `https://btcpavao.github.io`
 
-It highlights:
+The site highlights:
 
-- Bio and background
+- Personal positioning and biography
 - Core projects (`Saifedean.com`, `TheSaifHouse.com`, `TwentyOne.World`, `DvadesetJedan.com`)
-- Writing (`Practical Bitcoin Standard` on GitBook)
-- Social and contact links (`X`, `LinkedIn`, `GitHub`, `Cal.com`, email)
+- Writing (`Practical Bitcoin Standard`)
+- Social and contact links (`X`, `Nostr`, `LinkedIn`, `Cal.com`, email)
 
 ## Tech
 
-- Static HTML
-- Tailwind CSS via CDN for layout and styling
-- Small custom stylesheet for font smoothing and reduced-motion fallback
-- Hosted on GitHub Pages from `main` branch root
+- Vite + React + TypeScript
+- shadcn/ui components
+- Tailwind CSS v4
+- GitHub Pages deployment via GitHub Actions
+
+## Project layout
+
+- App source lives in [`btcpavao-github-io/`](/Users/pavao/Documents/Playground/btcpavao-github-io)
+- GitHub Pages workflow lives in [`.github/workflows/deploy.yml`](/Users/pavao/Documents/Playground/.github/workflows/deploy.yml)
 
 ## Local development
 
-Run a local static server from repo root:
+From the app directory:
 
 ```bash
-python3 -m http.server 5173
+cd btcpavao-github-io
+npm install
+npm run dev
 ```
 
-Open:
-
-- `http://localhost:5173/`
+Then open the local Vite URL shown in the terminal.
 
 ## Deployment
 
-GitHub Pages user site configuration:
+Pushes to `main` trigger the Pages workflow, which:
 
-- Repository: `btcpavao.github.io`
-- Branch: `main`
-- Folder: `/ (root)`
-
-Any push to `main` triggers the Pages deployment workflow.
+- installs dependencies inside `btcpavao-github-io`
+- builds the app
+- deploys the generated `dist/` output to GitHub Pages
