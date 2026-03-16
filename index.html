@@ -14,348 +14,307 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+              display: ["Manrope", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+            },
+            colors: {
+              ink: "#14191f",
+              mist: "#f3f5f8",
+              line: "#d9e1ea",
+              ocean: "#0a66d1",
+              ember: "#c98d2d",
+              slate: "#5a6675",
+            },
+            boxShadow: {
+              glow: "0 24px 60px rgba(10, 102, 209, 0.14)",
+              float: "0 22px 50px rgba(20, 25, 31, 0.08)",
+              soft: "0 12px 28px rgba(20, 25, 31, 0.06)",
+            },
+            keyframes: {
+              rise: {
+                "0%": { opacity: "0", transform: "translateY(22px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              drift: {
+                "0%, 100%": { transform: "translateY(0px)" },
+                "50%": { transform: "translateY(-8px)" },
+              },
+              pulseGlow: {
+                "0%, 100%": { opacity: "0.7", transform: "scale(1)" },
+                "50%": { opacity: "1", transform: "scale(1.04)" },
+              },
+            },
+            animation: {
+              rise: "rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both",
+              drift: "drift 7s ease-in-out infinite",
+              pulseGlow: "pulseGlow 7s ease-in-out infinite",
+            },
+          },
+        },
+      };
+    </script>
     <link rel="stylesheet" href="./styles.css" />
   </head>
-  <body>
-    <header class="topbar">
-      <div class="topbar-inner">
-        <a class="topbar-brand" href="#top">@btcpavao</a>
-        <div class="topbar-actions">
-          <a
-            class="topbar-link"
-            href="https://x.com/btcpavao"
-            target="_blank"
-            rel="noopener noreferrer"
-            >X</a
-          >
-          <a
-            class="topbar-link"
-            href="https://primal.net/btcpavao"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Nostr</a
-          >
-          <a
-            class="topbar-link"
-            href="https://www.linkedin.com/in/pavaopahljina/"
-            target="_blank"
-            rel="noopener noreferrer"
-            >LinkedIn</a
-          >
-          <a
-            class="topbar-link"
-            href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
-            target="_blank"
-            rel="noopener noreferrer"
-            >GitBook</a
-          >
-          <a
-            class="topbar-link"
-            href="https://cal.com/btcpavao/meeting"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Book a Call</a
-          >
+  <body class="bg-mist font-sans text-ink antialiased">
+    <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(10,102,209,0.18),_transparent_30%),radial-gradient(circle_at_80%_10%,_rgba(201,141,45,0.16),_transparent_24%),linear-gradient(180deg,_#fbfdff_0%,_#f3f5f8_42%,_#edf1f5_100%)]"></div>
+      <div class="absolute inset-0 opacity-60 [background-image:linear-gradient(rgba(255,255,255,0.7)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.7)_1px,transparent_1px)] [background-size:56px_56px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0.8),transparent_85%)]"></div>
+      <div class="absolute -left-20 top-20 h-72 w-72 rounded-full bg-ocean/10 blur-3xl"></div>
+      <div class="absolute right-0 top-0 h-80 w-80 rounded-full bg-amber-300/10 blur-3xl"></div>
+    </div>
+
+    <header class="sticky top-0 z-30 border-b border-slate-900/5 bg-white/70 backdrop-blur-xl">
+      <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+        <a class="font-display text-base font-extrabold tracking-[-0.03em] text-ink" href="#top">@btcpavao</a>
+        <div class="flex flex-wrap gap-2">
+          <a class="rounded-full border border-slate-900/10 bg-white/85 px-3 py-2 text-sm font-semibold text-ink shadow-soft transition hover:-translate-y-0.5 hover:border-ocean/20 hover:shadow-glow" href="https://x.com/btcpavao" target="_blank" rel="noopener noreferrer">X</a>
+          <a class="rounded-full border border-slate-900/10 bg-white/85 px-3 py-2 text-sm font-semibold text-ink shadow-soft transition hover:-translate-y-0.5 hover:border-ocean/20 hover:shadow-glow" href="https://primal.net/btcpavao" target="_blank" rel="noopener noreferrer">Nostr</a>
+          <a class="rounded-full border border-slate-900/10 bg-white/85 px-3 py-2 text-sm font-semibold text-ink shadow-soft transition hover:-translate-y-0.5 hover:border-ocean/20 hover:shadow-glow" href="https://www.linkedin.com/in/pavaopahljina/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a class="rounded-full border border-slate-900/10 bg-white/85 px-3 py-2 text-sm font-semibold text-ink shadow-soft transition hover:-translate-y-0.5 hover:border-ocean/20 hover:shadow-glow" href="https://btcpavao.gitbook.io/practical-bitcoin-standard/" target="_blank" rel="noopener noreferrer">GitBook</a>
+          <a class="rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-glow" href="https://cal.com/btcpavao/meeting" target="_blank" rel="noopener noreferrer">Book a Call</a>
         </div>
       </div>
     </header>
 
-    <main class="site-shell" id="top">
-      <aside class="sidebar">
-        <div class="sidebar-card reveal reveal-1">
-          <div class="avatar-wrap">
+    <main id="top" class="mx-auto grid max-w-7xl gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[320px_minmax(0,1fr)] lg:px-8 lg:py-10">
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <div class="animate-rise overflow-hidden rounded-[30px] border border-slate-900/10 bg-white/80 p-6 shadow-float backdrop-blur-xl">
+          <div class="relative mx-auto mb-6 w-full max-w-[220px]">
+            <div class="absolute inset-3 -z-10 rounded-full bg-ocean/20 blur-2xl animate-pulseGlow"></div>
             <img
-              class="avatar"
+              class="aspect-square w-full rounded-full border-4 border-white/90 object-cover shadow-glow animate-drift"
               src="https://avatars.githubusercontent.com/u/109140795?v=4"
               alt="Pavao GitHub profile image"
             />
           </div>
-          <p class="sidebar-kicker">Independent Practice</p>
-          <h2>btcpavao</h2>
-          <p class="sidebar-handle">@btcpavao</p>
-          <p class="sidebar-text">Entrepreneur / Bitcoiner</p>
-          <div class="sidebar-tags" aria-label="Profile specialties">
-            <span>Advisory</span>
-            <span>Bitcoin Standard</span>
-            <span>Communities</span>
+          <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-slate">Independent Practice</p>
+          <h2 class="mt-2 font-display text-3xl font-extrabold tracking-[-0.04em] text-ink">btcpavao</h2>
+          <p class="text-base text-slate">@btcpavao</p>
+          <p class="mt-4 text-base font-medium text-slate-800">Entrepreneur / Bitcoiner</p>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <span class="rounded-full border border-ocean/15 bg-ocean/10 px-3 py-1.5 text-xs font-semibold text-ocean">Advisory</span>
+            <span class="rounded-full border border-ocean/15 bg-ocean/10 px-3 py-1.5 text-xs font-semibold text-ocean">Bitcoin Standard</span>
+            <span class="rounded-full border border-ocean/15 bg-ocean/10 px-3 py-1.5 text-xs font-semibold text-ocean">Communities</span>
           </div>
         </div>
-        <nav class="sidebar-nav" aria-label="Page navigation">
-          <a href="#purpose">Purpose</a>
-          <a href="#about">About</a>
-          <a href="#projects">Working On</a>
-          <a href="#contact">Support</a>
+
+        <nav class="mt-4 grid gap-2 rounded-[24px] border border-slate-900/8 bg-white/65 p-3 shadow-soft backdrop-blur-xl">
+          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-ink transition hover:translate-x-1 hover:bg-white hover:text-ocean" href="#purpose">Purpose</a>
+          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-ink transition hover:translate-x-1 hover:bg-white hover:text-ocean" href="#about">About</a>
+          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-ink transition hover:translate-x-1 hover:bg-white hover:text-ocean" href="#projects">Working On</a>
+          <a class="rounded-2xl px-4 py-3 text-sm font-semibold text-ink transition hover:translate-x-1 hover:bg-white hover:text-ocean" href="#contact">Support</a>
         </nav>
-        <div class="sidebar-note reveal reveal-2">
-          <p class="sidebar-note-label">Current Focus</p>
-          <p>
-            Helping individuals and communities move toward a practical Bitcoin
-            standard through writing, calls, and local network building.
+
+        <div class="mt-4 animate-rise rounded-[24px] border border-slate-900/10 bg-white/75 p-5 shadow-soft backdrop-blur-xl [animation-delay:120ms]">
+          <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-slate">Current Focus</p>
+          <p class="mt-3 text-sm leading-7 text-slate-700">
+            Helping individuals and communities move toward a practical Bitcoin standard through writing, calls, and local network building.
           </p>
         </div>
       </aside>
 
-      <article class="content">
-        <section id="purpose" class="hero-section reveal reveal-1">
-          <div class="hero-grid">
-            <div class="hero-copy">
-              <p class="kicker">Pavao Pahljina</p>
-              <h1>Bitcoin Standard Advisor</h1>
-              <p class="lead">
-                I share practical Bitcoin ideas, tools, and money habits from my own
-                journey. This is the home base for my writing, advisory work, and
-                community building across global and Balkan Bitcoin networks.
+      <article class="min-w-0 animate-rise rounded-[34px] border border-slate-900/10 bg-white/72 p-5 shadow-float backdrop-blur-xl sm:p-7 [animation-delay:80ms]">
+        <section id="purpose" class="rounded-[28px] border border-slate-900/8 bg-gradient-to-br from-white via-white to-slate-50 p-6 shadow-soft sm:p-8">
+          <div class="grid gap-6 xl:grid-cols-[minmax(0,1.25fr)_360px] xl:items-stretch">
+            <div>
+              <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-slate">Pavao Pahljina</p>
+              <h1 class="mt-3 max-w-[12ch] font-display text-5xl font-extrabold leading-[0.94] tracking-[-0.06em] text-ink sm:text-6xl xl:text-7xl">
+                Bitcoin Standard Advisor
+              </h1>
+              <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-700">
+                I share practical Bitcoin ideas, tools, and money habits from my own journey. This is the home base for my writing, advisory work, and community building across global and Balkan Bitcoin networks.
               </p>
-              <div class="hero-actions">
-                <a
-                  class="primary-action"
-                  href="https://cal.com/btcpavao/meeting"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Book a Call</a
-                >
-                <a
-                  class="secondary-action"
-                  href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Read GitBook</a
-                >
+              <div class="mt-8 flex flex-wrap gap-3">
+                <a class="inline-flex min-h-12 items-center justify-center rounded-full bg-ocean px-5 py-3 text-sm font-bold text-white shadow-glow transition hover:-translate-y-0.5 hover:bg-blue-700" href="https://cal.com/btcpavao/meeting" target="_blank" rel="noopener noreferrer">Book a Call</a>
+                <a class="inline-flex min-h-12 items-center justify-center rounded-full border border-slate-900/10 bg-white px-5 py-3 text-sm font-bold text-ink shadow-soft transition hover:-translate-y-0.5 hover:border-ocean/20 hover:text-ocean" href="https://btcpavao.gitbook.io/practical-bitcoin-standard/" target="_blank" rel="noopener noreferrer">Read GitBook</a>
               </div>
-              <div class="hero-signals" aria-label="Key focus areas">
-              <span class="signal-chip">Advisor</span>
-              <span class="signal-chip">Writer</span>
-              <span class="signal-chip">Community Builder</span>
+              <div class="mt-6 flex flex-wrap gap-2">
+                <span class="rounded-full border border-ocean/15 bg-ocean/10 px-3 py-1.5 text-xs font-semibold text-ocean">Advisor</span>
+                <span class="rounded-full border border-ocean/15 bg-ocean/10 px-3 py-1.5 text-xs font-semibold text-ocean">Writer</span>
+                <span class="rounded-full border border-ocean/15 bg-ocean/10 px-3 py-1.5 text-xs font-semibold text-ocean">Community Builder</span>
               </div>
             </div>
 
-            <div class="hero-panel">
-              <p class="panel-kicker">Current Focus</p>
-              <div class="focus-item">
-                <span class="focus-index">01</span>
-                <div>
-                  <h3>Advisory</h3>
-                  <p>Helping people adopt Bitcoin-standard thinking with practical next steps.</p>
+            <div class="relative overflow-hidden rounded-[26px] border border-slate-900/8 bg-slate-50/90 p-5 shadow-soft">
+              <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-ocean/40 via-ember/40 to-transparent"></div>
+              <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-slate">Current Focus</p>
+              <div class="mt-4 space-y-3">
+                <div class="grid grid-cols-[46px_minmax(0,1fr)] gap-3 rounded-2xl border border-slate-900/6 bg-white/85 p-3">
+                  <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-ocean/10 font-display text-sm font-extrabold text-ocean">01</span>
+                  <div>
+                    <h3 class="font-display text-lg font-bold tracking-[-0.03em] text-ink">Advisory</h3>
+                    <p class="mt-1 text-sm leading-6 text-slate-600">Helping people adopt Bitcoin-standard thinking with practical next steps.</p>
+                  </div>
                 </div>
-              </div>
-              <div class="focus-item">
-                <span class="focus-index">02</span>
-                <div>
-                  <h3>Writing</h3>
-                  <p>Expanding Practical Bitcoin Standard into a durable open-source guide.</p>
+                <div class="grid grid-cols-[46px_minmax(0,1fr)] gap-3 rounded-2xl border border-slate-900/6 bg-white/85 p-3">
+                  <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-ocean/10 font-display text-sm font-extrabold text-ocean">02</span>
+                  <div>
+                    <h3 class="font-display text-lg font-bold tracking-[-0.03em] text-ink">Writing</h3>
+                    <p class="mt-1 text-sm leading-6 text-slate-600">Expanding Practical Bitcoin Standard into a durable open-source guide.</p>
+                  </div>
                 </div>
-              </div>
-              <div class="focus-item">
-                <span class="focus-index">03</span>
-                <div>
-                  <h3>Communities</h3>
-                  <p>Supporting TwentyOne.World and DvadesetJedan through signal, events, and media.</p>
+                <div class="grid grid-cols-[46px_minmax(0,1fr)] gap-3 rounded-2xl border border-slate-900/6 bg-white/85 p-3">
+                  <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-ocean/10 font-display text-sm font-extrabold text-ocean">03</span>
+                  <div>
+                    <h3 class="font-display text-lg font-bold tracking-[-0.03em] text-ink">Communities</h3>
+                    <p class="mt-1 text-sm leading-6 text-slate-600">Supporting TwentyOne.World and DvadesetJedan through signal, events, and media.</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="callout">
-            <strong>Note:</strong> I actively support Bitcoin communities through
-            TwentyOne.World and DvadesetJedan, including livestreams, Telegram groups,
-            and local meetups.
+
+          <div class="mt-6 rounded-[22px] border border-ocean/15 bg-gradient-to-r from-sky-100/90 via-white to-amber-50 px-5 py-4 text-sm leading-7 text-slate-700 shadow-soft">
+            <strong class="text-ink">Note:</strong> I actively support Bitcoin communities through TwentyOne.World and DvadesetJedan, including livestreams, Telegram groups, and local meetups.
           </div>
         </section>
 
-        <section id="about" class="reveal reveal-2">
-          <div class="section-heading">
-            <p class="section-kicker">Background</p>
-            <h2>About</h2>
+        <section id="about" class="mt-8 border-t border-slate-900/8 pt-8">
+          <div class="mb-5">
+            <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-slate">Background</p>
+            <h2 class="mt-2 font-display text-3xl font-extrabold tracking-[-0.04em] text-ink sm:text-4xl">About</h2>
           </div>
-          <div class="about-grid">
-            <div class="about-copy">
-              <p>
-                A former ed-tech entrepreneur turned full-time Bitcoiner, currently
-                working on
-                <a href="https://saifedean.com" target="_blank" rel="noopener noreferrer"
-                  >Saifedean.com</a
-                >,
-                <a href="https://thesaifhouse.com" target="_blank" rel="noopener noreferrer"
-                  >TheSaifHouse.com</a
-                >, and
-                <a href="https://twentyone.world" target="_blank" rel="noopener noreferrer"
-                  >TwentyOne.World</a
-                >.
+
+          <div class="grid gap-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)]">
+            <div class="rounded-[24px] border border-slate-900/8 bg-white/80 p-6 shadow-soft">
+              <p class="text-base leading-8 text-slate-700">
+                A former ed-tech entrepreneur turned full-time Bitcoiner, currently working on
+                <a href="https://saifedean.com" target="_blank" rel="noopener noreferrer">Saifedean.com</a>,
+                <a href="https://thesaifhouse.com" target="_blank" rel="noopener noreferrer">TheSaifHouse.com</a>, and
+                <a href="https://twentyone.world" target="_blank" rel="noopener noreferrer">TwentyOne.World</a>.
               </p>
-              <p>
-                I am also writing an open-source guide for living on a full Bitcoin
-                standard:
-                <a
-                  href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >btcpavao.gitbook.io/practical-bitcoin-standard</a
-                >. I have spent over 10,000 hours studying, teaching, and working in Bitcoin.
+              <p class="mt-4 text-base leading-8 text-slate-700">
+                I am also writing an open-source guide for living on a full Bitcoin standard:
+                <a href="https://btcpavao.gitbook.io/practical-bitcoin-standard/" target="_blank" rel="noopener noreferrer">btcpavao.gitbook.io/practical-bitcoin-standard</a>.
+                I have spent over 10,000 hours studying, teaching, and working in Bitcoin.
               </p>
             </div>
-            <div class="about-highlights">
-              <div class="highlight-card">
-                <strong>10,000+</strong>
-                <span>hours invested in studying, teaching, and working in Bitcoin.</span>
+
+            <div class="grid gap-3">
+              <div class="rounded-[22px] border border-slate-900/8 bg-white/80 p-5 shadow-soft">
+                <strong class="block font-display text-lg font-extrabold tracking-[-0.03em] text-ink">10,000+</strong>
+                <span class="mt-2 block text-sm leading-6 text-slate-600">Hours invested in studying, teaching, and working in Bitcoin.</span>
               </div>
-              <div class="highlight-card">
-                <strong>Global + Local</strong>
-                <span>Working across worldwide and Balkan Bitcoin communities.</span>
+              <div class="rounded-[22px] border border-slate-900/8 bg-white/80 p-5 shadow-soft">
+                <strong class="block font-display text-lg font-extrabold tracking-[-0.03em] text-ink">Global + Local</strong>
+                <span class="mt-2 block text-sm leading-6 text-slate-600">Working across worldwide and Balkan Bitcoin communities.</span>
               </div>
-              <div class="highlight-card">
-                <strong>Open Source</strong>
-                <span>Building a practical guide people can use to live on a Bitcoin standard.</span>
+              <div class="rounded-[22px] border border-slate-900/8 bg-white/80 p-5 shadow-soft">
+                <strong class="block font-display text-lg font-extrabold tracking-[-0.03em] text-ink">Open Source</strong>
+                <span class="mt-2 block text-sm leading-6 text-slate-600">Building a practical guide people can use to live on a Bitcoin standard.</span>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="projects" class="reveal reveal-3">
-          <div class="section-heading">
-            <p class="section-kicker">Projects</p>
-            <h2>Working On</h2>
+        <section id="projects" class="mt-8 border-t border-slate-900/8 pt-8">
+          <div class="mb-5">
+            <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-slate">Projects</p>
+            <h2 class="mt-2 font-display text-3xl font-extrabold tracking-[-0.04em] text-ink sm:text-4xl">Working On</h2>
           </div>
-          <div class="project-grid">
-            <article class="project">
-              <span class="project-accent"></span>
-              <h3>Saifedean.com</h3>
-              <p>Work and contributions around Austrian economics and Bitcoin education.</p>
-              <a href="https://saifedean.com" target="_blank" rel="noopener noreferrer"
-                >Visit Saifedean.com</a
-              >
+
+          <div class="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
+            <article class="group overflow-hidden rounded-[24px] border border-slate-900/8 bg-white/85 p-5 shadow-soft transition hover:-translate-y-1.5 hover:border-ocean/15 hover:shadow-float">
+              <span class="mb-4 block h-1.5 w-14 rounded-full bg-gradient-to-r from-ocean to-ember"></span>
+              <h3 class="font-display text-xl font-bold tracking-[-0.03em] text-ink">Saifedean.com</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">Work and contributions around Austrian economics and Bitcoin education.</p>
+              <a class="mt-4 inline-block text-sm font-bold text-ocean no-underline transition group-hover:translate-x-1" href="https://saifedean.com" target="_blank" rel="noopener noreferrer">Visit Saifedean.com</a>
             </article>
-            <article class="project">
-              <span class="project-accent"></span>
-              <h3>TheSaifHouse.com</h3>
-              <p>The best bitcoin books delivered worldwide in all formats, at the best prices, with the best bitcoin &amp; fiat checkout experience.</p>
-              <a href="https://thesaifhouse.com" target="_blank" rel="noopener noreferrer"
-                >Visit TheSaifHouse.com</a
-              >
+
+            <article class="group overflow-hidden rounded-[24px] border border-slate-900/8 bg-white/85 p-5 shadow-soft transition hover:-translate-y-1.5 hover:border-ocean/15 hover:shadow-float">
+              <span class="mb-4 block h-1.5 w-14 rounded-full bg-gradient-to-r from-ocean to-ember"></span>
+              <h3 class="font-display text-xl font-bold tracking-[-0.03em] text-ink">TheSaifHouse.com</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">The best bitcoin books delivered worldwide in all formats, at the best prices, with the best bitcoin &amp; fiat checkout experience.</p>
+              <a class="mt-4 inline-block text-sm font-bold text-ocean no-underline transition group-hover:translate-x-1" href="https://thesaifhouse.com" target="_blank" rel="noopener noreferrer">Visit TheSaifHouse.com</a>
             </article>
-            <article class="project">
-              <span class="project-accent"></span>
-              <h3>TwentyOne.World</h3>
-              <p>A global network of local Bitcoin communities.</p>
-              <a href="https://twentyone.world" target="_blank" rel="noopener noreferrer"
-                >Visit TwentyOne.World</a
-              >
+
+            <article class="group overflow-hidden rounded-[24px] border border-slate-900/8 bg-white/85 p-5 shadow-soft transition hover:-translate-y-1.5 hover:border-ocean/15 hover:shadow-float">
+              <span class="mb-4 block h-1.5 w-14 rounded-full bg-gradient-to-r from-ocean to-ember"></span>
+              <h3 class="font-display text-xl font-bold tracking-[-0.03em] text-ink">TwentyOne.World</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">A global network of local Bitcoin communities.</p>
+              <a class="mt-4 inline-block text-sm font-bold text-ocean no-underline transition group-hover:translate-x-1" href="https://twentyone.world" target="_blank" rel="noopener noreferrer">Visit TwentyOne.World</a>
             </article>
-            <article class="project">
-              <span class="project-accent"></span>
-              <h3>DvadesetJedan.com</h3>
-              <p>
-                Balkan Bitcoin community with clean Bitcoin signal, livestreams,
-                Telegram, and local meetups.
-              </p>
-              <a href="https://dvadesetjedan.com" target="_blank" rel="noopener noreferrer"
-                >Visit DvadesetJedan.com</a
-              >
+
+            <article class="group overflow-hidden rounded-[24px] border border-slate-900/8 bg-white/85 p-5 shadow-soft transition hover:-translate-y-1.5 hover:border-ocean/15 hover:shadow-float">
+              <span class="mb-4 block h-1.5 w-14 rounded-full bg-gradient-to-r from-ocean to-ember"></span>
+              <h3 class="font-display text-xl font-bold tracking-[-0.03em] text-ink">DvadesetJedan.com</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">Balkan Bitcoin community with clean Bitcoin signal, livestreams, Telegram, and local meetups.</p>
+              <a class="mt-4 inline-block text-sm font-bold text-ocean no-underline transition group-hover:translate-x-1" href="https://dvadesetjedan.com" target="_blank" rel="noopener noreferrer">Visit DvadesetJedan.com</a>
             </article>
-            <article class="project">
-              <span class="project-accent"></span>
-              <h3>DvadesetJedan Weekly Livestreams</h3>
-              <p>Weekly YouTube livestreams covering Bitcoin signal, news, and community discussion.</p>
-              <a
-                href="https://www.youtube.com/@dvadesetjedan/streams"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Watch Livestreams</a
-              >
+
+            <article class="group overflow-hidden rounded-[24px] border border-slate-900/8 bg-white/85 p-5 shadow-soft transition hover:-translate-y-1.5 hover:border-ocean/15 hover:shadow-float">
+              <span class="mb-4 block h-1.5 w-14 rounded-full bg-gradient-to-r from-ocean to-ember"></span>
+              <h3 class="font-display text-xl font-bold tracking-[-0.03em] text-ink">DvadesetJedan Weekly Livestreams</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">Weekly YouTube livestreams covering Bitcoin signal, news, and community discussion.</p>
+              <a class="mt-4 inline-block text-sm font-bold text-ocean no-underline transition group-hover:translate-x-1" href="https://www.youtube.com/@dvadesetjedan/streams" target="_blank" rel="noopener noreferrer">Watch Livestreams</a>
             </article>
-            <article class="project">
-              <span class="project-accent"></span>
-              <h3>Practical Bitcoin Standard</h3>
-              <p>My main writing project with actionable principles and examples.</p>
-              <a
-                href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Read on GitBook</a
-              >
+
+            <article class="group overflow-hidden rounded-[24px] border border-slate-900/8 bg-white/85 p-5 shadow-soft transition hover:-translate-y-1.5 hover:border-ocean/15 hover:shadow-float">
+              <span class="mb-4 block h-1.5 w-14 rounded-full bg-gradient-to-r from-ocean to-ember"></span>
+              <h3 class="font-display text-xl font-bold tracking-[-0.03em] text-ink">Practical Bitcoin Standard</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">My main writing project with actionable principles and examples.</p>
+              <a class="mt-4 inline-block text-sm font-bold text-ocean no-underline transition group-hover:translate-x-1" href="https://btcpavao.gitbook.io/practical-bitcoin-standard/" target="_blank" rel="noopener noreferrer">Read on GitBook</a>
             </article>
-            <article class="project">
-              <span class="project-accent"></span>
-              <h3>X Profile</h3>
-              <p>Daily thoughts, Bitcoin signals, and direct updates.</p>
-              <a href="https://x.com/btcpavao" target="_blank" rel="noopener noreferrer"
-                >View on X</a
-              >
+
+            <article class="group overflow-hidden rounded-[24px] border border-slate-900/8 bg-white/85 p-5 shadow-soft transition hover:-translate-y-1.5 hover:border-ocean/15 hover:shadow-float">
+              <span class="mb-4 block h-1.5 w-14 rounded-full bg-gradient-to-r from-ocean to-ember"></span>
+              <h3 class="font-display text-xl font-bold tracking-[-0.03em] text-ink">X Profile</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">Daily thoughts, Bitcoin signals, and direct updates.</p>
+              <a class="mt-4 inline-block text-sm font-bold text-ocean no-underline transition group-hover:translate-x-1" href="https://x.com/btcpavao" target="_blank" rel="noopener noreferrer">View on X</a>
             </article>
-            <article class="project">
-              <span class="project-accent"></span>
-              <h3>Nostr Profile</h3>
-              <p>Decentralized social presence on Primal and the wider Nostr network.</p>
-              <a href="https://primal.net/btcpavao" target="_blank" rel="noopener noreferrer"
-                >View on Nostr</a
-              >
+
+            <article class="group overflow-hidden rounded-[24px] border border-slate-900/8 bg-white/85 p-5 shadow-soft transition hover:-translate-y-1.5 hover:border-ocean/15 hover:shadow-float">
+              <span class="mb-4 block h-1.5 w-14 rounded-full bg-gradient-to-r from-ocean to-ember"></span>
+              <h3 class="font-display text-xl font-bold tracking-[-0.03em] text-ink">Nostr Profile</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">Decentralized social presence on Primal and the wider Nostr network.</p>
+              <a class="mt-4 inline-block text-sm font-bold text-ocean no-underline transition group-hover:translate-x-1" href="https://primal.net/btcpavao" target="_blank" rel="noopener noreferrer">View on Nostr</a>
             </article>
-            <article class="project">
-              <span class="project-accent"></span>
-              <h3>LinkedIn Profile</h3>
-              <p>Professional updates, background, and collaboration details.</p>
-              <a
-                href="https://www.linkedin.com/in/pavaopahljina/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >View on LinkedIn</a
-              >
+
+            <article class="group overflow-hidden rounded-[24px] border border-slate-900/8 bg-white/85 p-5 shadow-soft transition hover:-translate-y-1.5 hover:border-ocean/15 hover:shadow-float">
+              <span class="mb-4 block h-1.5 w-14 rounded-full bg-gradient-to-r from-ocean to-ember"></span>
+              <h3 class="font-display text-xl font-bold tracking-[-0.03em] text-ink">LinkedIn Profile</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">Professional updates, background, and collaboration details.</p>
+              <a class="mt-4 inline-block text-sm font-bold text-ocean no-underline transition group-hover:translate-x-1" href="https://www.linkedin.com/in/pavaopahljina/" target="_blank" rel="noopener noreferrer">View on LinkedIn</a>
             </article>
-            <article class="project">
-              <span class="project-accent"></span>
-              <h3>Book a Call</h3>
-              <p>Schedule a meeting for support, questions, or collaboration.</p>
-              <a
-                href="https://cal.com/btcpavao/meeting"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Open Calendar</a
-              >
+
+            <article class="group overflow-hidden rounded-[24px] border border-slate-900/8 bg-white/85 p-5 shadow-soft transition hover:-translate-y-1.5 hover:border-ocean/15 hover:shadow-float">
+              <span class="mb-4 block h-1.5 w-14 rounded-full bg-gradient-to-r from-ocean to-ember"></span>
+              <h3 class="font-display text-xl font-bold tracking-[-0.03em] text-ink">Book a Call</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">Schedule a meeting for support, questions, or collaboration.</p>
+              <a class="mt-4 inline-block text-sm font-bold text-ocean no-underline transition group-hover:translate-x-1" href="https://cal.com/btcpavao/meeting" target="_blank" rel="noopener noreferrer">Open Calendar</a>
             </article>
           </div>
         </section>
 
-        <section id="contact" class="reveal reveal-4">
-          <div class="contact-card">
-            <div class="section-heading">
-              <p class="section-kicker">Reach Out</p>
-              <h2>Feedback and Support</h2>
-            </div>
-            <p class="contact-copy">
-              Reach me on <a href="https://x.com/btcpavao">X</a>,
-              <a href="https://primal.net/btcpavao">Nostr</a>, connect on
-              <a href="https://www.linkedin.com/in/pavaopahljina/">LinkedIn</a>, follow the guide on
-              <a
-                href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >GitBook</a
-              >, join Balkan community updates on
-              <a href="https://dvadesetjedan.com" target="_blank" rel="noopener noreferrer"
-                >DvadesetJedan.com</a
-              >, catch the weekly show on
-              <a
-                href="https://www.youtube.com/@dvadesetjedan/streams"
-                target="_blank"
-                rel="noopener noreferrer"
-                >YouTube Livestreams</a
-              >, book a call on
-              <a href="https://cal.com/btcpavao/meeting" target="_blank" rel="noopener noreferrer"
-                >Cal.com</a
-              >, or email me at
-              <a href="mailto:pavao@hey.com">pavao@hey.com</a>.
-            </p>
-            <div class="contact-actions">
-              <a
-                class="primary-action"
-                href="mailto:pavao@hey.com"
-                >Email Me</a
-              >
-              <a
-                class="secondary-action"
-                href="https://cal.com/btcpavao/meeting"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Schedule a Call</a
-              >
+        <section id="contact" class="mt-8 border-t border-slate-900/8 pt-8">
+          <div class="overflow-hidden rounded-[30px] border border-slate-900/8 bg-gradient-to-br from-white via-sky-50/70 to-amber-50/60 p-6 shadow-soft sm:p-8">
+            <div class="max-w-3xl">
+              <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-slate">Reach Out</p>
+              <h2 class="mt-2 font-display text-3xl font-extrabold tracking-[-0.04em] text-ink sm:text-4xl">Feedback and Support</h2>
+              <p class="mt-4 text-base leading-8 text-slate-700">
+                Reach me on <a href="https://x.com/btcpavao">X</a>,
+                <a href="https://primal.net/btcpavao">Nostr</a>, connect on
+                <a href="https://www.linkedin.com/in/pavaopahljina/">LinkedIn</a>, follow the guide on
+                <a href="https://btcpavao.gitbook.io/practical-bitcoin-standard/" target="_blank" rel="noopener noreferrer">GitBook</a>,
+                join Balkan community updates on
+                <a href="https://dvadesetjedan.com" target="_blank" rel="noopener noreferrer">DvadesetJedan.com</a>,
+                catch the weekly show on
+                <a href="https://www.youtube.com/@dvadesetjedan/streams" target="_blank" rel="noopener noreferrer">YouTube Livestreams</a>,
+                book a call on
+                <a href="https://cal.com/btcpavao/meeting" target="_blank" rel="noopener noreferrer">Cal.com</a>,
+                or email me at
+                <a href="mailto:pavao@hey.com">pavao@hey.com</a>.
+              </p>
+              <div class="mt-7 flex flex-wrap gap-3">
+                <a class="inline-flex min-h-12 items-center justify-center rounded-full bg-ocean px-5 py-3 text-sm font-bold text-white shadow-glow transition hover:-translate-y-0.5 hover:bg-blue-700" href="mailto:pavao@hey.com">Email Me</a>
+                <a class="inline-flex min-h-12 items-center justify-center rounded-full border border-slate-900/10 bg-white px-5 py-3 text-sm font-bold text-ink shadow-soft transition hover:-translate-y-0.5 hover:border-ocean/20 hover:text-ocean" href="https://cal.com/btcpavao/meeting" target="_blank" rel="noopener noreferrer">Schedule a Call</a>
+              </div>
             </div>
           </div>
         </section>

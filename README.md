@@ -17,7 +17,9 @@ It highlights:
 
 ## Tech
 
-- Plain HTML + CSS (no framework)
+- Static HTML
+- Tailwind CSS via CDN for layout and styling
+- Small custom stylesheet for font smoothing and reduced-motion fallback
 - Hosted on GitHub Pages from `main` branch root
 
 ## Local development
