@@ -1,11 +1,11 @@
 :root {
-  --paper: #faf8f5;
+  --paper: #f6f8fa;
   --panel: #ffffff;
-  --text: #1d1d1d;
-  --muted: #6e6a65;
-  --line: #e8e2db;
-  --soft: #f4efea;
-  --header: #ed9f51;
+  --text: #1f2328;
+  --muted: #59636e;
+  --line: #d0d7de;
+  --soft: #eef2f6;
+  --header: #ffffff;
 }
 
 * {
@@ -25,7 +25,7 @@ body {
 }
 
 a {
-  color: #704200;
+  color: #0969da;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -35,7 +35,7 @@ a {
   top: 0;
   z-index: 20;
   background: var(--header);
-  border-bottom: 1px solid #d58b42;
+  border-bottom: 1px solid var(--line);
 }
 
 .topbar-inner {
@@ -57,7 +57,7 @@ a {
 
 .topbar-brand,
 .topbar-link {
-  color: #241d16;
+  color: #24292f;
   text-decoration: none;
 }
 
@@ -67,9 +67,10 @@ a {
 
 .topbar-link {
   font-size: 0.92rem;
-  border: 1px solid rgba(36, 29, 22, 0.3);
-  border-radius: 999px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
   padding: 6px 10px;
+  background: #f6f8fa;
 }
 
 .site-shell {
@@ -94,18 +95,25 @@ a {
   padding: 16px;
 }
 
-.sidebar-label {
-  margin: 0 0 6px;
-  color: var(--muted);
-  font-size: 0.78rem;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+.avatar {
+  width: 100%;
+  max-width: 260px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  display: block;
+  margin: 0 auto 12px;
 }
 
 .sidebar-card h2 {
-  margin: 0;
-  font-size: 1.08rem;
+  margin: 0 0 2px;
+  font-size: 1.45rem;
   line-height: 1.35;
+}
+
+.sidebar-handle {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
 }
 
 .sidebar-text {
@@ -113,6 +121,12 @@ a {
   color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.55;
+}
+
+.sidebar-meta {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
 }
 
 .sidebar-nav {
@@ -123,7 +137,7 @@ a {
 
 .sidebar-nav a {
   text-decoration: none;
-  color: #4c4945;
+  color: #1f2328;
   border-left: 2px solid transparent;
   padding: 8px 10px;
   border-radius: 0 8px 8px 0;
@@ -131,7 +145,7 @@ a {
 
 .sidebar-nav a:hover {
   background: var(--soft);
-  border-left-color: #cfb59b;
+  border-left-color: #2f81f7;
 }
 
 .content {
@@ -174,17 +188,17 @@ h3 {
 
 .lead {
   margin: 0;
-  color: #38342f;
+  color: #32383f;
   font-size: 1.05rem;
 }
 
 .callout {
   margin-top: 16px;
-  border: 1px solid #e7d7c5;
-  background: #fffaf4;
+  border: 1px solid #b6e3ff;
+  background: #ddf4ff;
   border-radius: 10px;
   padding: 12px 14px;
-  color: #59493a;
+  color: #1f2328;
 }
 
 .project-grid {

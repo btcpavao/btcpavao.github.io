@@ -1,23 +1,43 @@
 # btcpavao.github.io
 
-Personal website hosted with GitHub Pages.
+Personal website for [@btcpavao](https://github.com/btcpavao), focused on Bitcoin projects, writing, and community work.
 
-## Run locally
+## What this site is
 
-From the project root:
+This is the public profile site behind:
+
+- `https://btcpavao.github.io`
+
+It highlights:
+
+- Bio and background
+- Core projects (`Saifedean.com`, `TheSaifHouse.com`, `TwentyOne.World`, `DvadesetJedan.com`)
+- Writing (`Practical Bitcoin Standard` on GitBook)
+- Social and contact links (`X`, `LinkedIn`, `GitHub`, `Cal.com`, email)
+
+## Tech
+
+- Plain HTML + CSS (no framework)
+- Hosted on GitHub Pages from `main` branch root
+
+## Local development
+
+Run a local static server from repo root:
 
 ```bash
 python3 -m http.server 5173
 ```
 
-Then open:
+Open:
 
 - `http://localhost:5173/`
 
-## Deploy
+## Deployment
 
-This repository is intended to be published as a GitHub Pages **user site**:
+GitHub Pages user site configuration:
 
-- Repository name: `btcpavao.github.io`
+- Repository: `btcpavao.github.io`
 - Branch: `main`
 - Folder: `/ (root)`
+
+Any push to `main` triggers the Pages deployment workflow.
