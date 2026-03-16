@@ -3,73 +3,117 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pavao | Personal Website</title>
+    <title>Pavao | Practical Bitcoin Standard</title>
     <meta
       name="description"
       content="Personal website of Pavao. Building projects, learning in public, and sharing work."
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <header class="hero">
-      <nav class="nav">
-        <a class="brand" href="#top">Pavao</a>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="https://btcpavao.gitbook.io/practical-bitcoin-standard/" target="_blank" rel="noopener noreferrer">GitBook</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <div class="hero-content" id="top">
-        <p class="eyebrow">Personal website</p>
-        <h1>Hi, I am Pavao.</h1>
-        <p>
-          I am a beginner developer building useful things and improving every day.
-          This is my place to share projects and progress.
-        </p>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="topbar-brand" href="#top">Practical Bitcoin Standard</a>
+        <a
+          class="topbar-link"
+          href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Open Full GitBook</a
+        >
       </div>
     </header>
 
-    <main class="container">
-      <section id="about" class="card">
-        <h2>About</h2>
-        <p>
-          I enjoy learning by shipping small projects, exploring web development,
-          and turning ideas into working products.
-        </p>
-      </section>
-
-      <section id="projects" class="card">
-        <h2>Projects</h2>
-        <div class="project-grid">
-          <article class="project">
-            <h3>Project One</h3>
-            <p>Short description of your first project.</p>
-            <a href="#" aria-label="Project One link">Coming soon</a>
-          </article>
-          <article class="project">
-            <h3>Project Two</h3>
-            <p>Short description of your second project.</p>
-            <a href="#" aria-label="Project Two link">Coming soon</a>
-          </article>
-          <article class="project">
-            <h3>Project Three</h3>
-            <p>Short description of your third project.</p>
-            <a href="#" aria-label="Project Three link">Coming soon</a>
-          </article>
+    <main class="site-shell" id="top">
+      <aside class="sidebar">
+        <div class="sidebar-card">
+          <p class="sidebar-label">Guide</p>
+          <h2>Practical Bitcoin Standard</h2>
+          <p class="sidebar-text">
+            Notes, principles, and practical tools for living on a Bitcoin standard.
+          </p>
         </div>
-      </section>
+        <nav class="sidebar-nav" aria-label="Page navigation">
+          <a href="#purpose">The Purpose</a>
+          <a href="#about">About the Author</a>
+          <a href="#projects">Related Projects</a>
+          <a href="#contact">Feedback and Support</a>
+        </nav>
+      </aside>
 
-      <section id="contact" class="card">
-        <h2>Contact</h2>
-        <p>
-          Reach me on
-          <a href="https://github.com/btcpavao">GitHub</a>
-          and read my
-          <a href="https://btcpavao.gitbook.io/practical-bitcoin-standard/" target="_blank" rel="noopener noreferrer">GitBook</a>
-          or by email at
-          <a href="mailto:your.email@example.com">your.email@example.com</a>.
-        </p>
-      </section>
+      <article class="content">
+        <section id="purpose">
+          <p class="kicker">Introduction</p>
+          <h1>The Purpose</h1>
+          <p class="lead">
+            This page mirrors the look and feel of my GitBook while serving as my
+            personal homepage. It is a practical entry point into my Bitcoin-focused
+            writing and projects.
+          </p>
+          <div class="callout">
+            <strong>Note:</strong> The full guide is continuously updated inside my
+            GitBook workspace.
+          </div>
+        </section>
+
+        <section id="about">
+          <h2>About the Author</h2>
+          <p>
+            I am Pavao, a builder learning in public and sharing practical ideas for
+            money management in a Bitcoin world. I focus on clarity, discipline, and
+            real-world implementation.
+          </p>
+        </section>
+
+        <section id="projects">
+          <h2>Related Projects</h2>
+          <div class="project-grid">
+            <article class="project">
+              <h3>Practical Bitcoin Standard</h3>
+              <p>My main writing project with actionable principles and examples.</p>
+              <a
+                href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Read on GitBook</a
+              >
+            </article>
+            <article class="project">
+              <h3>GitHub Profile</h3>
+              <p>Code, experiments, and public project history.</p>
+              <a href="https://github.com/btcpavao" target="_blank" rel="noopener noreferrer"
+                >View GitHub</a
+              >
+            </article>
+            <article class="project">
+              <h3>Personal Site</h3>
+              <p>This GitHub Pages website, styled to match my documentation brand.</p>
+              <a href="#top">You are here</a>
+            </article>
+          </div>
+        </section>
+
+        <section id="contact">
+          <h2>Feedback and Support</h2>
+          <p>
+            Reach me on <a href="https://github.com/btcpavao">GitHub</a>, follow the
+            guide on
+            <a
+              href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >GitBook</a
+            >, or email me at
+            <a href="mailto:your.email@example.com">your.email@example.com</a>.
+          </p>
+        </section>
+      </article>
     </main>
   </body>
 </html>
