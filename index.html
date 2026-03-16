@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
@@ -62,35 +62,98 @@
 
     <main class="site-shell" id="top">
       <aside class="sidebar">
-        <div class="sidebar-card">
-          <img
-            class="avatar"
-            src="https://avatars.githubusercontent.com/u/109140795?v=4"
-            alt="Pavao GitHub profile image"
-          />
+        <div class="sidebar-card reveal reveal-1">
+          <div class="avatar-wrap">
+            <img
+              class="avatar"
+              src="https://avatars.githubusercontent.com/u/109140795?v=4"
+              alt="Pavao GitHub profile image"
+            />
+          </div>
+          <p class="sidebar-kicker">Independent Practice</p>
           <h2>btcpavao</h2>
           <p class="sidebar-handle">@btcpavao</p>
-          <p class="sidebar-text">
-            Entrepreneur / Bitcoiner
-          </p>
+          <p class="sidebar-text">Entrepreneur / Bitcoiner</p>
+          <div class="sidebar-tags" aria-label="Profile specialties">
+            <span>Advisory</span>
+            <span>Bitcoin Standard</span>
+            <span>Communities</span>
+          </div>
         </div>
         <nav class="sidebar-nav" aria-label="Page navigation">
-          <a href="#purpose">The Purpose</a>
-          <a href="#about">About the Author</a>
-          <a href="#projects">Related Projects</a>
-          <a href="#contact">Feedback and Support</a>
+          <a href="#purpose">Purpose</a>
+          <a href="#about">About</a>
+          <a href="#projects">Working On</a>
+          <a href="#contact">Support</a>
         </nav>
+        <div class="sidebar-note reveal reveal-2">
+          <p class="sidebar-note-label">Current Focus</p>
+          <p>
+            Helping individuals and communities move toward a practical Bitcoin
+            standard through writing, calls, and local network building.
+          </p>
+        </div>
       </aside>
 
       <article class="content">
-        <section id="purpose">
-          <p class="kicker">Pavao Pahljina</p>
-          <h1>Bitcoin Standard Advisor</h1>
-          <p class="lead">
-            I share practical Bitcoin ideas, tools, and money habits from my own journey.
-            This page mirrors my GitHub profile style and serves as the entry point to my writing,
-            open-source guide, and community work across global and Balkan Bitcoin networks.
-          </p>
+        <section id="purpose" class="hero-section reveal reveal-1">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <p class="kicker">Pavao Pahljina</p>
+              <h1>Bitcoin Standard Advisor</h1>
+              <p class="lead">
+                I share practical Bitcoin ideas, tools, and money habits from my own
+                journey. This is the home base for my writing, advisory work, and
+                community building across global and Balkan Bitcoin networks.
+              </p>
+              <div class="hero-actions">
+                <a
+                  class="primary-action"
+                  href="https://cal.com/btcpavao/meeting"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Book a Call</a
+                >
+                <a
+                  class="secondary-action"
+                  href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Read GitBook</a
+                >
+              </div>
+              <div class="hero-signals" aria-label="Key focus areas">
+              <span class="signal-chip">Advisor</span>
+              <span class="signal-chip">Writer</span>
+              <span class="signal-chip">Community Builder</span>
+              </div>
+            </div>
+
+            <div class="hero-panel">
+              <p class="panel-kicker">Current Focus</p>
+              <div class="focus-item">
+                <span class="focus-index">01</span>
+                <div>
+                  <h3>Advisory</h3>
+                  <p>Helping people adopt Bitcoin-standard thinking with practical next steps.</p>
+                </div>
+              </div>
+              <div class="focus-item">
+                <span class="focus-index">02</span>
+                <div>
+                  <h3>Writing</h3>
+                  <p>Expanding Practical Bitcoin Standard into a durable open-source guide.</p>
+                </div>
+              </div>
+              <div class="focus-item">
+                <span class="focus-index">03</span>
+                <div>
+                  <h3>Communities</h3>
+                  <p>Supporting TwentyOne.World and DvadesetJedan through signal, events, and media.</p>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="callout">
             <strong>Note:</strong> I actively support Bitcoin communities through
             TwentyOne.World and DvadesetJedan, including livestreams, Telegram groups,
@@ -98,33 +161,62 @@
           </div>
         </section>
 
-        <section id="about">
-          <h2>About</h2>
-          <p>
-            A former ed-tech entrepreneur turned full-time Bitcoiner, currently
-            working on
-            <a href="https://saifedean.com" target="_blank" rel="noopener noreferrer"
-              >Saifedean.com</a
-            >,
-            <a href="https://thesaifhouse.com" target="_blank" rel="noopener noreferrer"
-              >TheSaifHouse.com</a
-            >, and
-            <a href="https://twentyone.world" target="_blank" rel="noopener noreferrer"
-              >TwentyOne.World</a
-            >. Also writing an open-source guide for living on a full Bitcoin standard:
-            <a
-              href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
-              target="_blank"
-              rel="noopener noreferrer"
-              >btcpavao.gitbook.io/practical-bitcoin-standard</a
-            >. Spent over 10,000 hours studying, teaching, and working in Bitcoin.
-          </p>
+        <section id="about" class="reveal reveal-2">
+          <div class="section-heading">
+            <p class="section-kicker">Background</p>
+            <h2>About</h2>
+          </div>
+          <div class="about-grid">
+            <div class="about-copy">
+              <p>
+                A former ed-tech entrepreneur turned full-time Bitcoiner, currently
+                working on
+                <a href="https://saifedean.com" target="_blank" rel="noopener noreferrer"
+                  >Saifedean.com</a
+                >,
+                <a href="https://thesaifhouse.com" target="_blank" rel="noopener noreferrer"
+                  >TheSaifHouse.com</a
+                >, and
+                <a href="https://twentyone.world" target="_blank" rel="noopener noreferrer"
+                  >TwentyOne.World</a
+                >.
+              </p>
+              <p>
+                I am also writing an open-source guide for living on a full Bitcoin
+                standard:
+                <a
+                  href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >btcpavao.gitbook.io/practical-bitcoin-standard</a
+                >. I have spent over 10,000 hours studying, teaching, and working in Bitcoin.
+              </p>
+            </div>
+            <div class="about-highlights">
+              <div class="highlight-card">
+                <strong>10,000+</strong>
+                <span>hours invested in studying, teaching, and working in Bitcoin.</span>
+              </div>
+              <div class="highlight-card">
+                <strong>Global + Local</strong>
+                <span>Working across worldwide and Balkan Bitcoin communities.</span>
+              </div>
+              <div class="highlight-card">
+                <strong>Open Source</strong>
+                <span>Building a practical guide people can use to live on a Bitcoin standard.</span>
+              </div>
+            </div>
+          </div>
         </section>
 
-        <section id="projects">
-          <h2>Working On</h2>
+        <section id="projects" class="reveal reveal-3">
+          <div class="section-heading">
+            <p class="section-kicker">Projects</p>
+            <h2>Working On</h2>
+          </div>
           <div class="project-grid">
             <article class="project">
+              <span class="project-accent"></span>
               <h3>Saifedean.com</h3>
               <p>Work and contributions around Austrian economics and Bitcoin education.</p>
               <a href="https://saifedean.com" target="_blank" rel="noopener noreferrer"
@@ -132,13 +224,15 @@
               >
             </article>
             <article class="project">
+              <span class="project-accent"></span>
               <h3>TheSaifHouse.com</h3>
-              <p>The best bitcoin books delivered worldwide in all formats, at the best prices, with the best bitcoin & fiat checkout experience.</p>
+              <p>The best bitcoin books delivered worldwide in all formats, at the best prices, with the best bitcoin &amp; fiat checkout experience.</p>
               <a href="https://thesaifhouse.com" target="_blank" rel="noopener noreferrer"
                 >Visit TheSaifHouse.com</a
               >
             </article>
             <article class="project">
+              <span class="project-accent"></span>
               <h3>TwentyOne.World</h3>
               <p>A global network of local Bitcoin communities.</p>
               <a href="https://twentyone.world" target="_blank" rel="noopener noreferrer"
@@ -146,6 +240,7 @@
               >
             </article>
             <article class="project">
+              <span class="project-accent"></span>
               <h3>DvadesetJedan.com</h3>
               <p>
                 Balkan Bitcoin community with clean Bitcoin signal, livestreams,
@@ -156,6 +251,7 @@
               >
             </article>
             <article class="project">
+              <span class="project-accent"></span>
               <h3>DvadesetJedan Weekly Livestreams</h3>
               <p>Weekly YouTube livestreams covering Bitcoin signal, news, and community discussion.</p>
               <a
@@ -166,6 +262,7 @@
               >
             </article>
             <article class="project">
+              <span class="project-accent"></span>
               <h3>Practical Bitcoin Standard</h3>
               <p>My main writing project with actionable principles and examples.</p>
               <a
@@ -176,6 +273,7 @@
               >
             </article>
             <article class="project">
+              <span class="project-accent"></span>
               <h3>X Profile</h3>
               <p>Daily thoughts, Bitcoin signals, and direct updates.</p>
               <a href="https://x.com/btcpavao" target="_blank" rel="noopener noreferrer"
@@ -183,6 +281,7 @@
               >
             </article>
             <article class="project">
+              <span class="project-accent"></span>
               <h3>Nostr Profile</h3>
               <p>Decentralized social presence on Primal and the wider Nostr network.</p>
               <a href="https://primal.net/btcpavao" target="_blank" rel="noopener noreferrer"
@@ -190,6 +289,7 @@
               >
             </article>
             <article class="project">
+              <span class="project-accent"></span>
               <h3>LinkedIn Profile</h3>
               <p>Professional updates, background, and collaboration details.</p>
               <a
@@ -200,6 +300,7 @@
               >
             </article>
             <article class="project">
+              <span class="project-accent"></span>
               <h3>Book a Call</h3>
               <p>Schedule a meeting for support, questions, or collaboration.</p>
               <a
@@ -212,32 +313,51 @@
           </div>
         </section>
 
-        <section id="contact">
-          <h2>Feedback and Support</h2>
-          <p>
-            Reach me on <a href="https://x.com/btcpavao">X</a>,
-            <a href="https://primal.net/btcpavao">Nostr</a>, connect on
-            <a href="https://www.linkedin.com/in/pavaopahljina/">LinkedIn</a>, follow the guide on
-            <a
-              href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
-              target="_blank"
-              rel="noopener noreferrer"
-              >GitBook</a
-            >, join Balkan community updates on
-            <a href="https://dvadesetjedan.com" target="_blank" rel="noopener noreferrer"
-              >DvadesetJedan.com</a
-            >, catch the weekly show on
-            <a
-              href="https://www.youtube.com/@dvadesetjedan/streams"
-              target="_blank"
-              rel="noopener noreferrer"
-              >YouTube Livestreams</a
-            >, book a call on
-            <a href="https://cal.com/btcpavao/meeting" target="_blank" rel="noopener noreferrer"
-              >Cal.com</a
-            >, or email me at
-            <a href="mailto:pavao@hey.com">pavao@hey.com</a>.
-          </p>
+        <section id="contact" class="reveal reveal-4">
+          <div class="contact-card">
+            <div class="section-heading">
+              <p class="section-kicker">Reach Out</p>
+              <h2>Feedback and Support</h2>
+            </div>
+            <p class="contact-copy">
+              Reach me on <a href="https://x.com/btcpavao">X</a>,
+              <a href="https://primal.net/btcpavao">Nostr</a>, connect on
+              <a href="https://www.linkedin.com/in/pavaopahljina/">LinkedIn</a>, follow the guide on
+              <a
+                href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >GitBook</a
+              >, join Balkan community updates on
+              <a href="https://dvadesetjedan.com" target="_blank" rel="noopener noreferrer"
+                >DvadesetJedan.com</a
+              >, catch the weekly show on
+              <a
+                href="https://www.youtube.com/@dvadesetjedan/streams"
+                target="_blank"
+                rel="noopener noreferrer"
+                >YouTube Livestreams</a
+              >, book a call on
+              <a href="https://cal.com/btcpavao/meeting" target="_blank" rel="noopener noreferrer"
+                >Cal.com</a
+              >, or email me at
+              <a href="mailto:pavao@hey.com">pavao@hey.com</a>.
+            </p>
+            <div class="contact-actions">
+              <a
+                class="primary-action"
+                href="mailto:pavao@hey.com"
+                >Email Me</a
+              >
+              <a
+                class="secondary-action"
+                href="https://cal.com/btcpavao/meeting"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Schedule a Call</a
+              >
+            </div>
+          </div>
         </section>
       </article>
     </main>
