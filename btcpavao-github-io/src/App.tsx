@@ -161,7 +161,7 @@ const projectGroups = [
         cta: "Open profile",
       },
       {
-        title: "Book a Call",
+        title: "Schedule Advisory Call",
         description:
           "Schedule a meeting for support, questions, or collaboration.",
         href: "https://cal.com/btcpavao/meeting",
@@ -348,20 +348,20 @@ export function App() {
           <div className="space-y-8">
             <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/80 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground backdrop-blur">
               <span className="size-2 rounded-full bg-primary" />
-              Independent Practice
+              Pavao Pahljina
             </div>
 
             <div className="space-y-5">
               <p className="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">
-                Bitcoin Standard Advisor
+                Bitcoin Standard Advisory
               </p>
               <h1 className="max-w-[12ch] font-display text-5xl font-bold leading-[0.92] tracking-[-0.07em] text-balance sm:text-6xl lg:text-7xl">
-                Building signal around a Bitcoin-first life.
+                Signal for living on a Bitcoin standard.
               </h1>
               <p className="max-w-3xl text-lg leading-8 text-muted-foreground sm:text-xl">
-                I share practical Bitcoin ideas, tools, and money habits from my
-                own journey. This is the home base for my writing, advisory work,
-                and community building across global and Balkan Bitcoin networks.
+                Practical Bitcoin standard ideas, tools, and money habits from
+                my own journey. This serves as a central hub for my writing,
+                advisory work, and community across global Bitcoin networks.
               </p>
             </div>
 
@@ -376,7 +376,7 @@ export function App() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Book a Call
+                  Schedule Advisory Call
                 </a>
               </Button>
               <Button
@@ -390,7 +390,7 @@ export function App() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Read GitBook
+                  Read Practical Bitcoin Standard
                 </a>
               </Button>
               <Button
@@ -399,11 +399,17 @@ export function App() {
                 className="h-auto px-1 text-sm font-semibold"
               >
                 <a href="mailto:pavao@hey.com">
-                  pavao@hey.com
+                  Email Pavao
                   <ArrowUpRight className="size-4" />
                 </a>
               </Button>
             </div>
+
+            <p className="max-w-3xl text-sm leading-7 text-muted-foreground">
+              Start with the guide if you are exploring, schedule a call if you
+              want direct help, or send an email if collaboration is the better
+              fit.
+            </p>
 
             <div className="grid gap-3 sm:grid-cols-3">
               {proofPoints.map((item) => (
@@ -499,8 +505,8 @@ export function App() {
         >
           <SectionHeader
             eyebrow="About"
-            title="A focused practice built around Bitcoin education, community, and signal."
-            copy="Former ed-tech entrepreneur turned full-time Bitcoiner, now focused on practical education, strong communities, and clearer signal around a Bitcoin-first life."
+            title="Trusted signal, practical guidance, and real project involvement."
+            copy="The work connects education, advisory support, and community-building for people moving toward a Bitcoin standard with more clarity and conviction."
           />
 
           <div className="space-y-6">
@@ -577,8 +583,8 @@ export function App() {
         <section id="work" className="mt-16 border-t border-border/60 pt-16">
           <SectionHeader
             eyebrow="Work"
-            title="Three pillars define the practice."
-            copy="The work is organized around helping people think more clearly, act more practically, and plug into stronger Bitcoin networks."
+            title="How I can help"
+            copy="Choose the path that fits what you need most right now: direct guidance, public writing, or stronger community signal."
           />
 
           <div className="mt-8 grid gap-4 lg:grid-cols-3">
@@ -617,8 +623,8 @@ export function App() {
         <section id="projects" className="mt-16 border-t border-border/60 pt-16">
           <SectionHeader
             eyebrow="Projects"
-            title="A cleaner map of where the work lives."
-            copy="These are the main destinations across company work, publishing, community media, and direct contact."
+            title="Where the work lives"
+            copy="Start with the part that matches your intent: company work, public writing, community media, or direct contact."
           />
 
           <div className="mt-8 space-y-10">
@@ -687,8 +693,8 @@ export function App() {
               <div>
                 <SectionHeader
                   eyebrow="Contact"
-                  title="Feedback and support"
-                  copy="Reach me on X, Nostr, connect on LinkedIn, follow the guide on GitBook, join Balkan community updates on DvadesetJedan.com, catch the weekly show on YouTube Livestreams, book a call on Cal.com, or email me at pavao@hey.com."
+                  title="Start with the simplest path"
+                  copy="Email is best for direct outreach. If you want to talk live, schedule a call. You can also follow the work on X, Nostr, LinkedIn, GitBook, DvadesetJedan.com, and the weekly YouTube livestreams."
                 />
 
                 <div className="mt-8 flex flex-wrap gap-3">
@@ -722,12 +728,10 @@ export function App() {
 
               <div className="rounded-[30px] border border-border/70 bg-background/76 p-6">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-                  Best entry point
+                  Need a starting point?
                 </p>
                 <p className="mt-4 text-base leading-8 text-muted-foreground">
-                  If you are unsure where to start, book a call or send an email
-                  and I will point you toward the right resource, conversation,
-                  or community.
+                  If you are unsure where to start, send an email or book a call and I will point you toward the right resource, conversation, or community.
                 </p>
 
                 <div className="mt-6 space-y-3">
