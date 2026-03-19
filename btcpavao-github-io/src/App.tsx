@@ -73,6 +73,16 @@ const proofPoints = [
   },
 ]
 
+const sectionReveal =
+  "animate-inview:opacity-0 animate-inview:y-8 animate-duration-700 animate-ease-out animate-once"
+const itemReveal =
+  "animate-inview:opacity-0 animate-inview:y-6 animate-duration-600 animate-ease-out animate-once"
+const subtleReveal =
+  "animate-inview:opacity-0 animate-inview:y-4 animate-duration-500 animate-ease-out animate-once"
+const liftHover =
+  "animate-hover:-y-2 animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-300 animate-damping-24"
+const staggerDelays = ["animate-delay-0", "animate-delay-100", "animate-delay-200", "animate-delay-300"]
+
 const projectGroups = [
   {
     title: "Core Work",
@@ -254,7 +264,7 @@ export function App() {
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/78 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <a
-            className="font-display text-base font-bold tracking-[-0.04em]"
+            className={`font-display text-base font-bold tracking-[-0.04em] ${subtleReveal}`}
             href="#top"
           >
             Pavao Pahljina
@@ -265,7 +275,7 @@ export function App() {
               <a
                 key={link.href}
                 href={link.href}
-                className="rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition hover:bg-card/70 hover:text-foreground"
+                className={`rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition hover:bg-card/70 hover:text-foreground ${liftHover}`}
               >
                 {link.label}
               </a>
@@ -280,7 +290,7 @@ export function App() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full border border-border/70 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:border-primary/30 hover:bg-card hover:text-foreground"
+                  className={`rounded-full border border-border/70 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:border-primary/30 hover:bg-card hover:text-foreground ${liftHover}`}
                 >
                   {link.label}
                 </a>
@@ -292,7 +302,7 @@ export function App() {
             <Button
               variant="outline"
               size="icon"
-              className="rounded-full border-border/70 bg-background/85 md:hidden"
+              className={`rounded-full border-border/70 bg-background/85 md:hidden ${liftHover}`}
               onClick={() => setMobileMenuOpen((open) => !open)}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-nav"
@@ -309,14 +319,14 @@ export function App() {
 
         {mobileMenuOpen ? (
           <div id="mobile-nav" className="mx-auto max-w-6xl px-4 pb-4 md:hidden">
-            <Card className="overflow-hidden rounded-[28px] border-border/70 bg-card/95 py-0 shadow-soft">
+            <Card className={`overflow-hidden rounded-[28px] border-border/70 bg-card/95 py-0 shadow-soft ${itemReveal}`}>
               <CardContent className="grid gap-3 p-4">
                 <div className="grid gap-2">
                   {sectionLinks.map((link) => (
                     <a
                       key={link.href}
                       href={link.href}
-                      className="rounded-2xl px-4 py-3 text-sm font-medium text-foreground transition hover:bg-background/70"
+                      className={`rounded-2xl px-4 py-3 text-sm font-medium text-foreground transition hover:bg-background/70 ${liftHover}`}
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {link.label}
@@ -331,7 +341,7 @@ export function App() {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-2xl border border-border/70 bg-background/80 px-4 py-3 text-center text-sm font-medium text-muted-foreground transition hover:text-foreground"
+                      className={`rounded-2xl border border-border/70 bg-background/80 px-4 py-3 text-center text-sm font-medium text-muted-foreground transition hover:text-foreground ${liftHover}`}
                     >
                       {link.label}
                     </a>
@@ -344,14 +354,14 @@ export function App() {
       </header>
 
       <main id="top" className="mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 lg:px-8 lg:pt-12">
-        <section className="grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_360px] lg:items-start">
+        <section className={sectionReveal + " grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_360px] lg:items-start"}>
           <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/80 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground backdrop-blur">
+            <div className={subtleReveal + " inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/80 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground backdrop-blur"}>
               <span className="size-2 rounded-full bg-primary" />
               Pavao Pahljina
             </div>
 
-            <div className="space-y-5">
+            <div className={`animate-inview:opacity-0 animate-inview:y-6 animate-duration-600 animate-ease-out animate-once animate-delay-100 space-y-5`}>
               <p className="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">
                 Bitcoin Standard Advisory
               </p>
@@ -365,11 +375,11 @@ export function App() {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className={`animate-inview:opacity-0 animate-inview:y-4 animate-duration-500 animate-ease-out animate-once animate-delay-200 flex flex-wrap gap-3`}>
               <Button
                 asChild
                 size="lg"
-                className="rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
+                className="rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)] animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-400 animate-damping-24"
               >
                 <a
                   href="https://cal.com/btcpavao/meeting"
@@ -383,7 +393,7 @@ export function App() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="rounded-full border-border/70 bg-background/80 px-6"
+                className="rounded-full border-border/70 bg-background/80 px-6 animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-400 animate-damping-24"
               >
                 <a
                   href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
@@ -396,7 +406,7 @@ export function App() {
               <Button
                 asChild
                 variant="link"
-                className="h-auto px-1 text-sm font-semibold"
+                className="h-auto px-1 text-sm font-semibold animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-400 animate-damping-24"
               >
                 <a href="mailto:pavao@hey.com">
                   Email Pavao
@@ -405,17 +415,17 @@ export function App() {
               </Button>
             </div>
 
-            <p className="max-w-3xl text-sm leading-7 text-muted-foreground">
+            <p className={`animate-inview:opacity-0 animate-inview:y-4 animate-duration-500 animate-ease-out animate-once animate-delay-300 max-w-3xl text-sm leading-7 text-muted-foreground`}>
               Start with the guide if you are exploring, schedule a call if you
               want direct help, or send an email if collaboration is the better
               fit.
             </p>
 
-            <div className="grid gap-3 sm:grid-cols-3">
-              {proofPoints.map((item) => (
+            <div className={itemReveal + " grid gap-3 sm:grid-cols-3"}>
+              {proofPoints.map((item, index) => (
                 <div
                   key={item.value}
-                  className="rounded-[28px] border border-border/70 bg-card/78 p-5 shadow-soft backdrop-blur"
+                  className={`rounded-[28px] border border-border/70 bg-card/78 p-5 shadow-soft backdrop-blur ${liftHover} ${staggerDelays[index] ?? ""}`}
                 >
                   <p className="font-display text-2xl font-bold tracking-[-0.05em]">
                     {item.value}
@@ -431,9 +441,9 @@ export function App() {
             </div>
           </div>
 
-          <Card className="overflow-hidden rounded-[36px] border-border/70 bg-card/84 py-0 shadow-float backdrop-blur">
+          <Card className={`overflow-hidden rounded-[36px] border-border/70 bg-card/84 py-0 shadow-float backdrop-blur animate-inview:opacity-0 animate-inview:x-8 animate-duration-700 animate-ease-out animate-once animate-delay-200`}>
             <CardContent className="p-6 sm:p-7">
-              <div className="relative mx-auto mb-6 w-full max-w-[220px]">
+              <div className={subtleReveal + " relative mx-auto mb-6 w-full max-w-[220px]"}>
                 <div className="absolute inset-4 -z-10 rounded-full bg-[radial-gradient(circle,hsl(var(--hero-glow)/0.35),transparent_72%)] blur-2xl" />
                 <Avatar className="size-full rounded-full border-4 border-background shadow-[0_30px_80px_hsl(var(--hero-shadow)/0.16)]">
                   <AvatarImage
@@ -456,7 +466,7 @@ export function App() {
                 </p>
               </div>
 
-              <div className="mt-7 rounded-[28px] border border-border/70 bg-background/72 p-5">
+              <div className={`animate-inview:opacity-0 animate-inview:y-6 animate-duration-600 animate-ease-out animate-once animate-delay-100 mt-7 rounded-[28px] border border-border/70 bg-background/72 p-5`}>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
                   Current Focus
                 </p>
@@ -464,7 +474,7 @@ export function App() {
                   {focusItems.map((item, index) => (
                     <div
                       key={item.title}
-                      className="grid grid-cols-[36px_minmax(0,1fr)] gap-4"
+                      className={`grid grid-cols-[36px_minmax(0,1fr)] gap-4 ${staggerDelays[index] ?? ""}`}
                     >
                       <div className="flex size-9 items-center justify-center rounded-full border border-border/70 bg-card text-xs font-semibold text-muted-foreground">
                         {String(index + 1).padStart(2, "0")}
@@ -482,7 +492,7 @@ export function App() {
                 </div>
               </div>
 
-              <div className="mt-6 flex flex-wrap justify-center gap-2">
+              <div className={`animate-inview:opacity-0 animate-inview:y-4 animate-duration-500 animate-ease-out animate-once animate-delay-200 mt-6 flex flex-wrap justify-center gap-2`}>
                 {socialLinks.map((link) => (
                   <a
                     key={link.label}
@@ -501,7 +511,7 @@ export function App() {
 
         <section
           id="about"
-          className="mt-16 grid gap-8 border-t border-border/60 pt-16 lg:grid-cols-[minmax(0,1.1fr)_0.9fr]"
+          className={sectionReveal + " mt-16 grid gap-8 border-t border-border/60 pt-16 lg:grid-cols-[minmax(0,1.1fr)_0.9fr]"}
         >
           <SectionHeader
             eyebrow="About"
@@ -510,7 +520,7 @@ export function App() {
           />
 
           <div className="space-y-6">
-            <Card className="rounded-[30px] border-border/70 bg-card/80 py-0 shadow-soft">
+            <Card className={`rounded-[30px] border-border/70 bg-card/80 py-0 shadow-soft ${liftHover}`}>
               <CardContent className="p-6 text-base leading-8 text-muted-foreground sm:p-7">
                 <p>
                   A former ed-tech entrepreneur turned full-time Bitcoiner,
@@ -557,7 +567,7 @@ export function App() {
             </Card>
 
             <div className="grid gap-3">
-              <div className="rounded-[26px] border border-border/70 bg-background/74 p-5">
+              <div className={`rounded-[26px] border border-border/70 bg-background/74 p-5 ${liftHover}`}>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                   Geographic range
                 </p>
@@ -566,7 +576,7 @@ export function App() {
                   engaged with Balkan communities and regional media.
                 </p>
               </div>
-              <div className="rounded-[26px] border border-border/70 bg-background/74 p-5">
+              <div className={`rounded-[26px] border border-border/70 bg-background/74 p-5 ${liftHover}`}>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                   Practical orientation
                 </p>
@@ -580,7 +590,7 @@ export function App() {
           </div>
         </section>
 
-        <section id="work" className="mt-16 border-t border-border/60 pt-16">
+        <section id="work" className={sectionReveal + " mt-16 border-t border-border/60 pt-16"}>
           <SectionHeader
             eyebrow="Work"
             title="How I can help"
@@ -591,7 +601,7 @@ export function App() {
             {focusItems.map((item, index) => (
               <Card
                 key={item.title}
-                className="rounded-[30px] border-border/70 bg-card/82 py-0 shadow-soft"
+                className="rounded-[30px] border-border/70 bg-card/82 py-0 shadow-soft animate-hover:-y-2 animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-300 animate-damping-24"
               >
                 <CardContent className="p-6">
                   <p className="text-sm font-semibold text-muted-foreground">
@@ -608,7 +618,7 @@ export function App() {
             ))}
           </div>
 
-          <div className="mt-6 rounded-[34px] border border-border/70 bg-[linear-gradient(135deg,hsl(var(--card))_0%,hsl(var(--hero-ember)/0.08)_100%)] p-6 shadow-soft sm:p-8">
+          <div className="mt-6 rounded-[34px] border border-border/70 bg-[linear-gradient(135deg,hsl(var(--card))_0%,hsl(var(--hero-ember)/0.08)_100%)] p-6 shadow-soft sm:p-8 animate-inview:opacity-0 animate-inview:y-6 animate-duration-700 animate-ease-out animate-once animate-delay-100">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
               Network Note
             </p>
@@ -620,16 +630,16 @@ export function App() {
           </div>
         </section>
 
-        <section id="projects" className="mt-16 border-t border-border/60 pt-16">
+        <section id="projects" className={sectionReveal + " mt-16 border-t border-border/60 pt-16"}>
           <SectionHeader
             eyebrow="Projects"
             title="Where the work lives"
             copy="Start with the part that matches your intent: company work, public writing, community media, or direct contact."
           />
 
-          <div className="mt-8 space-y-10">
+          <div className={itemReveal + " mt-8 space-y-10"}>
             {projectGroups.map((group) => (
-              <div key={group.title} className="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
+              <div key={group.title} className={itemReveal + " grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]"}>
                 <div className="lg:pt-2">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
                     {group.title}
@@ -640,13 +650,13 @@ export function App() {
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
-                  {group.items.map((item) => {
+                  {group.items.map((item, index) => {
                     const Icon = item.icon
 
                     return (
                       <Card
                         key={item.title}
-                        className="group rounded-[28px] border-border/70 bg-card/82 py-0 shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-float"
+                        className={`group rounded-[28px] border-border/70 bg-card/82 py-0 shadow-soft transition duration-300 hover:shadow-float ${liftHover} ${staggerDelays[index % staggerDelays.length] ?? ""}`}
                       >
                         <CardContent className="p-6">
                           <div className="flex items-start justify-between gap-4">
@@ -687,9 +697,9 @@ export function App() {
           </div>
         </section>
 
-        <section id="contact" className="mt-16 border-t border-border/60 pt-16">
-          <Card className="overflow-hidden rounded-[38px] border-border/70 bg-card/86 py-0 shadow-float">
-            <CardContent className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[minmax(0,1.2fr)_320px] lg:p-10">
+        <section id="contact" className={sectionReveal + " mt-16 border-t border-border/60 pt-16"}>
+          <Card className={sectionReveal + " overflow-hidden rounded-[38px] border-border/70 bg-card/86 py-0 shadow-float"}>
+            <CardContent className={itemReveal + " grid gap-8 p-6 sm:p-8 lg:grid-cols-[minmax(0,1.2fr)_320px] lg:p-10"}>
               <div>
                 <SectionHeader
                   eyebrow="Contact"
@@ -701,7 +711,7 @@ export function App() {
                   <Button
                     asChild
                     size="lg"
-                    className="rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
+                    className="rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)] animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-400 animate-damping-24"
                   >
                     <a href="mailto:pavao@hey.com">
                       <Mail className="size-4" />
@@ -712,7 +722,7 @@ export function App() {
                     asChild
                     variant="outline"
                     size="lg"
-                    className="rounded-full border-border/70 bg-background/82 px-6"
+                    className="rounded-full border-border/70 bg-background/82 px-6 animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-400 animate-damping-24"
                   >
                     <a
                       href="https://cal.com/btcpavao/meeting"
@@ -726,7 +736,7 @@ export function App() {
                 </div>
               </div>
 
-              <div className="rounded-[30px] border border-border/70 bg-background/76 p-6">
+              <div className={`animate-inview:opacity-0 animate-inview:y-6 animate-duration-600 animate-ease-out animate-once animate-delay-100 rounded-[30px] border border-border/70 bg-background/76 p-6 animate-inview:x-6`}>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
                   Need a starting point?
                 </p>
