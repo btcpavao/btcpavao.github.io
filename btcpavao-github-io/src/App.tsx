@@ -74,11 +74,11 @@ const proofPoints = [
 ]
 
 const sectionReveal =
-  "animate-inview:opacity-0 animate-inview:y-8 animate-duration-700 animate-ease-out animate-once"
+  "animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-8 animate-inview:y-0 animate-duration-700 animate-ease-out animate-once"
 const itemReveal =
-  "animate-inview:opacity-0 animate-inview:y-6 animate-duration-600 animate-ease-out animate-once"
+  "animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-6 animate-inview:y-0 animate-duration-600 animate-ease-out animate-once"
 const subtleReveal =
-  "animate-inview:opacity-0 animate-inview:y-4 animate-duration-500 animate-ease-out animate-once"
+  "animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-4 animate-inview:y-0 animate-duration-500 animate-ease-out animate-once"
 const liftHover =
   "animate-hover:-y-2 animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-300 animate-damping-24"
 const staggerDelays = ["animate-delay-0", "animate-delay-100", "animate-delay-200", "animate-delay-300"]
@@ -361,7 +361,7 @@ export function App() {
               Pavao Pahljina
             </div>
 
-            <div className={`animate-inview:opacity-0 animate-inview:y-6 animate-duration-600 animate-ease-out animate-once animate-delay-100 space-y-5`}>
+            <div className={`animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-6 animate-inview:y-0 animate-duration-600 animate-ease-out animate-once animate-delay-100 space-y-5`}>
               <p className="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">
                 Bitcoin Standard Advisory
               </p>
@@ -375,7 +375,7 @@ export function App() {
               </p>
             </div>
 
-            <div className={`animate-inview:opacity-0 animate-inview:y-4 animate-duration-500 animate-ease-out animate-once animate-delay-200 flex flex-wrap gap-3`}>
+            <div className={`animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-4 animate-inview:y-0 animate-duration-500 animate-ease-out animate-once animate-delay-200 flex flex-wrap gap-3`}>
               <Button
                 asChild
                 size="lg"
@@ -415,7 +415,7 @@ export function App() {
               </Button>
             </div>
 
-            <p className={`animate-inview:opacity-0 animate-inview:y-4 animate-duration-500 animate-ease-out animate-once animate-delay-300 max-w-3xl text-sm leading-7 text-muted-foreground`}>
+            <p className={`animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-4 animate-inview:y-0 animate-duration-500 animate-ease-out animate-once animate-delay-300 max-w-3xl text-sm leading-7 text-muted-foreground`}>
               Start with the guide if you are exploring, schedule a call if you
               want direct help, or send an email if collaboration is the better
               fit.
@@ -441,7 +441,7 @@ export function App() {
             </div>
           </div>
 
-          <Card className={`overflow-hidden rounded-[36px] border-border/70 bg-card/84 py-0 shadow-float backdrop-blur animate-inview:opacity-0 animate-inview:x-8 animate-duration-700 animate-ease-out animate-once animate-delay-200`}>
+          <Card className={`overflow-hidden rounded-[36px] border-border/70 bg-card/84 py-0 shadow-float backdrop-blur animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:x-8 animate-inview:x-0 animate-duration-700 animate-ease-out animate-once animate-delay-200`}>
             <CardContent className="p-6 sm:p-7">
               <div className={subtleReveal + " relative mx-auto mb-6 w-full max-w-[220px]"}>
                 <div className="absolute inset-4 -z-10 rounded-full bg-[radial-gradient(circle,hsl(var(--hero-glow)/0.35),transparent_72%)] blur-2xl" />
@@ -466,7 +466,7 @@ export function App() {
                 </p>
               </div>
 
-              <div className={`animate-inview:opacity-0 animate-inview:y-6 animate-duration-600 animate-ease-out animate-once animate-delay-100 mt-7 rounded-[28px] border border-border/70 bg-background/72 p-5`}>
+              <div className={`animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-6 animate-inview:y-0 animate-duration-600 animate-ease-out animate-once animate-delay-100 mt-7 rounded-[28px] border border-border/70 bg-background/72 p-5`}>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
                   Current Focus
                 </p>
@@ -492,7 +492,7 @@ export function App() {
                 </div>
               </div>
 
-              <div className={`animate-inview:opacity-0 animate-inview:y-4 animate-duration-500 animate-ease-out animate-once animate-delay-200 mt-6 flex flex-wrap justify-center gap-2`}>
+              <div className={`animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-4 animate-inview:y-0 animate-duration-500 animate-ease-out animate-once animate-delay-200 mt-6 flex flex-wrap justify-center gap-2`}>
                 {socialLinks.map((link) => (
                   <a
                     key={link.label}
@@ -618,7 +618,7 @@ export function App() {
             ))}
           </div>
 
-          <div className="mt-6 rounded-[34px] border border-border/70 bg-[linear-gradient(135deg,hsl(var(--card))_0%,hsl(var(--hero-ember)/0.08)_100%)] p-6 shadow-soft sm:p-8 animate-inview:opacity-0 animate-inview:y-6 animate-duration-700 animate-ease-out animate-once animate-delay-100">
+          <div className="mt-6 rounded-[34px] border border-border/70 bg-[linear-gradient(135deg,hsl(var(--card))_0%,hsl(var(--hero-ember)/0.08)_100%)] p-6 shadow-soft sm:p-8 animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-6 animate-inview:y-0 animate-duration-700 animate-ease-out animate-once animate-delay-100">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
               Network Note
             </p>
@@ -736,7 +736,7 @@ export function App() {
                 </div>
               </div>
 
-              <div className={`animate-inview:opacity-0 animate-inview:y-6 animate-duration-600 animate-ease-out animate-once animate-delay-100 rounded-[30px] border border-border/70 bg-background/76 p-6 animate-inview:x-6`}>
+              <div className={`animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-6 animate-inview:y-0 animate-duration-600 animate-ease-out animate-once animate-delay-100 rounded-[30px] border border-border/70 bg-background/76 p-6 animate-initial:x-6 animate-inview:x-0`}>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
                   Need a starting point?
                 </p>
