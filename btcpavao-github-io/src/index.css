@@ -214,9 +214,17 @@
     scroll-behavior: auto;
   }
 
+  .page-atmosphere,
+  .page-grid,
   .ambient-orb {
     animation: none;
+    display: none;
     opacity: 0.35;
+  }
+
+  .floating-top-button {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.875rem) !important;
+    box-shadow: 0 14px 36px hsl(var(--hero-shadow) / 0.12) !important;
   }
 
   [class*="backdrop-blur"] {

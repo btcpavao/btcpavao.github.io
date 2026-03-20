@@ -261,11 +261,11 @@ export function App() {
     <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,hsl(var(--hero-glow)/0.18)_0%,transparent_30%),radial-gradient(circle_at_85%_10%,hsl(var(--hero-ember)/0.16)_0%,transparent_18%),linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--background))_42%,hsl(var(--muted)/0.72)_150%)]"
+        className="page-atmosphere pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,hsl(var(--hero-glow)/0.18)_0%,transparent_30%),radial-gradient(circle_at_85%_10%,hsl(var(--hero-ember)/0.16)_0%,transparent_18%),linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--background))_42%,hsl(var(--muted)/0.72)_150%)]"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-55 [background-image:linear-gradient(hsl(var(--border)/0.28)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--border)/0.28)_1px,transparent_1px)] [background-size:68px_68px] [mask-image:linear-gradient(180deg,black,transparent_84%)]"
+        className="page-grid pointer-events-none absolute inset-0 opacity-55 [background-image:linear-gradient(hsl(var(--border)/0.28)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--border)/0.28)_1px,transparent_1px)] [background-size:68px_68px] [mask-image:linear-gradient(180deg,black,transparent_84%)]"
       />
       <div aria-hidden="true" className="ambient-orb ambient-orb-left" />
       <div aria-hidden="true" className="ambient-orb ambient-orb-right" />
@@ -777,7 +777,8 @@ export function App() {
         <Button
           type="button"
           size="icon"
-          className="fixed bottom-5 right-4 z-50 size-12 rounded-full border border-border/70 bg-background/88 shadow-float backdrop-blur supports-[backdrop-filter]:bg-background/72 md:bottom-6 md:right-6"
+          className="floating-top-button fixed bottom-5 right-4 z-50 size-12 rounded-full border border-border/70 bg-background/94 shadow-soft md:bottom-6 md:right-6"
+          style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Back to top"
         >
