@@ -129,6 +129,7 @@
 @layer base {
   html {
     @apply font-sans antialiased;
+    overflow-x: clip;
     scroll-behavior: smooth;
   }
 
@@ -139,6 +140,8 @@
   body {
     @apply bg-background text-foreground;
     min-height: 100vh;
+    overflow-x: clip;
+    overscroll-behavior-x: none;
     background-image:
       radial-gradient(circle at top, hsl(var(--hero-glow) / 0.1), transparent 24%),
       linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted) / 0.72) 138%);
@@ -176,6 +179,7 @@
 @layer components {
   .ambient-orb {
     @apply pointer-events-none absolute rounded-full blur-3xl;
+    will-change: transform;
     animation: float-orb 18s ease-in-out infinite;
     background: radial-gradient(
       circle,
@@ -202,6 +206,17 @@
     right: -5rem;
     top: 28rem;
     width: 22rem;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .ambient-orb {
+    animation: none;
+    opacity: 0.35;
   }
 }
 
