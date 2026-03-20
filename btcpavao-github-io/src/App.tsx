@@ -249,7 +249,7 @@ export function App() {
   }, [])
 
   return (
-    <div className="relative min-h-svh overflow-x-clip bg-background text-foreground">
+    <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,hsl(var(--hero-glow)/0.18)_0%,transparent_30%),radial-gradient(circle_at_85%_10%,hsl(var(--hero-ember)/0.16)_0%,transparent_18%),linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--background))_42%,hsl(var(--muted)/0.72)_150%)]"
@@ -261,7 +261,7 @@ export function App() {
       <div aria-hidden="true" className="ambient-orb ambient-orb-left" />
       <div aria-hidden="true" className="ambient-orb ambient-orb-right" />
 
-      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/92 md:bg-background/78 md:backdrop-blur-xl">
+      <header className="z-40 border-b border-border/60 bg-background/92 md:sticky md:top-0 md:bg-background/78 md:backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <a
             className={`font-display text-base font-bold tracking-[-0.04em] ${subtleReveal}`}

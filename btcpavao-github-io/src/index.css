@@ -218,6 +218,11 @@
     animation: none;
     opacity: 0.35;
   }
+
+  [class*="backdrop-blur"] {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
 }
 
 @keyframes float-orb {
