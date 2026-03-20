@@ -223,6 +223,17 @@
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
   }
+
+  [class*="animate-initial:"],
+  [class*="animate-inview:"],
+  [class*="animate-hover:"],
+  [class*="animate-tap:"],
+  [class*="animate-delay-"] {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition-duration: 0s !important;
+  }
 }
 
 @keyframes float-orb {

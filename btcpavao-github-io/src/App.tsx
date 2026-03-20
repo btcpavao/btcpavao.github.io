@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import {
+  ArrowUp,
   ArrowUpRight,
   BookOpen,
   CalendarDays,
@@ -225,6 +226,7 @@ function SectionHeader({
 
 export function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [showBackToTop, setShowBackToTop] = useState(false)
 
   useEffect(() => {
     function handleKeydown(event: KeyboardEvent) {
@@ -239,12 +241,19 @@ export function App() {
       }
     }
 
+    function handleScroll() {
+      setShowBackToTop(window.scrollY > 320)
+    }
+
     window.addEventListener("keydown", handleKeydown)
     window.addEventListener("resize", handleResize)
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    handleScroll()
 
     return () => {
       window.removeEventListener("keydown", handleKeydown)
       window.removeEventListener("resize", handleResize)
+      window.removeEventListener("scroll", handleScroll)
     }
   }, [])
 
@@ -366,12 +375,10 @@ export function App() {
                 Bitcoin Standard Advisory
               </p>
               <h1 className="max-w-[12ch] font-display text-5xl font-bold leading-[0.92] tracking-[-0.07em] text-balance sm:text-6xl lg:text-7xl">
-                Signal for living on a Bitcoin standard.
+                Life on a full Bitcoin standard.
               </h1>
               <p className="max-w-3xl text-lg leading-8 text-muted-foreground sm:text-xl">
-                Practical Bitcoin standard ideas, tools, and money habits from
-                my own journey. This serves as a central hub for my writing,
-                advisory work, and community across global Bitcoin networks.
+                Practical Bitcoin standard ideas, tools, and money habits drawn from my own journey since fall 2020.
               </p>
             </div>
 
@@ -765,6 +772,18 @@ export function App() {
           </Card>
         </section>
       </main>
+
+      {showBackToTop ? (
+        <Button
+          type="button"
+          size="icon"
+          className="fixed bottom-5 right-4 z-50 size-12 rounded-full border border-border/70 bg-background/88 shadow-float backdrop-blur supports-[backdrop-filter]:bg-background/72 md:bottom-6 md:right-6"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          aria-label="Back to top"
+        >
+          <ArrowUp className="size-4" />
+        </Button>
+      ) : null}
     </div>
   )
 }
