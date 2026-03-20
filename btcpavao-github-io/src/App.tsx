@@ -777,8 +777,8 @@ export function App() {
         <Button
           type="button"
           size="icon"
-          className="floating-top-button fixed bottom-5 right-4 z-50 size-12 rounded-full border border-border/70 bg-background/94 shadow-soft md:bottom-6 md:right-6"
-          style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}
+          className="floating-top-button fixed right-4 top-4 z-50 size-12 rounded-full border border-border/70 bg-background/94 shadow-soft md:right-6 md:top-24"
+          style={{ top: "calc(env(safe-area-inset-top, 0px) + 1rem)" }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Back to top"
         >

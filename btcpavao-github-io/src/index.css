@@ -142,6 +142,8 @@
     min-height: 100vh;
     overflow-x: clip;
     overscroll-behavior-x: none;
+    overscroll-behavior-y: none;
+    overflow-anchor: none;
     background-image:
       radial-gradient(circle at top, hsl(var(--hero-glow) / 0.1), transparent 24%),
       linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted) / 0.72) 138%);
@@ -223,7 +225,8 @@
   }
 
   .floating-top-button {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.875rem) !important;
+    top: calc(env(safe-area-inset-top, 0px) + 0.875rem) !important;
+    bottom: auto !important;
     box-shadow: 0 14px 36px hsl(var(--hero-shadow) / 0.12) !important;
   }
 
