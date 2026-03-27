@@ -87,7 +87,7 @@ const staggerDelays = ["animate-delay-0", "animate-delay-100", "animate-delay-20
 const projectGroups = [
   {
     title: "Core Work",
-    description: "Projects where I actively build, advise, and contribute.",
+    description: "Curent work in the Bitcoin industry.",
     items: [
       {
         title: "Saifedean.com",
