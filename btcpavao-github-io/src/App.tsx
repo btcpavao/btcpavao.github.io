@@ -146,7 +146,7 @@ const projectGroups = [
   },
   {
     title: "Contact",
-    description: "Direct channels for updates, collaboration, and support.",
+    description: "Get in touch via one of these channels.",
     items: [
       {
         title: "X Profile",
