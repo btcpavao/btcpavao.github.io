@@ -473,31 +473,6 @@ export function App() {
                 </p>
               </div>
 
-              <div className={`animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-6 animate-inview:y-0 animate-duration-600 animate-ease-out animate-once animate-delay-100 mt-7 rounded-[28px] border border-border/70 bg-background/72 p-5`}>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-                  Current Focus
-                </p>
-                <div className="mt-4 space-y-4">
-                  {focusItems.map((item, index) => (
-                    <div
-                      key={item.title}
-                      className={`grid grid-cols-[36px_minmax(0,1fr)] gap-4 ${staggerDelays[index] ?? ""}`}
-                    >
-                      <div className="flex size-9 items-center justify-center rounded-full border border-border/70 bg-card text-xs font-semibold text-muted-foreground">
-                        {String(index + 1).padStart(2, "0")}
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-foreground">
-                          {item.title}
-                        </p>
-                        <p className="mt-1 text-sm leading-7 text-muted-foreground">
-                          {item.description}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
 
             </CardContent>
           </Card>
