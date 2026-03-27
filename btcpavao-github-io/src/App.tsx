@@ -563,16 +563,6 @@ export function App() {
             ))}
           </div>
 
-          <div className="mt-6 rounded-[34px] border border-border/70 bg-[linear-gradient(135deg,hsl(var(--card))_0%,hsl(var(--hero-ember)/0.08)_100%)] p-6 shadow-soft sm:p-8 animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-6 animate-inview:y-0 animate-duration-700 animate-ease-out animate-once animate-delay-100">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-              Network Note
-            </p>
-            <p className="mt-4 max-w-4xl text-base leading-8 text-muted-foreground">
-              I actively support Bitcoin communities through TwentyOne.World and
-              DvadesetJedan, including livestreams, Telegram groups, and local
-              meetups.
-            </p>
-          </div>
         </section>
 
         <section id="projects" className={sectionReveal + " mt-16 border-t border-border/60 pt-16"}>
