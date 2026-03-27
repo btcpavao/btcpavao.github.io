@@ -85,7 +85,7 @@ const staggerDelays = ["animate-delay-0", "animate-delay-100", "animate-delay-20
 const projectGroups = [
   {
     title: "Core Work",
-    description: "Curent work in the Bitcoin industry.",
+    description: "Current work in the Bitcoin industry.",
     items: [
       {
         title: "Saifedean.com",
@@ -326,7 +326,7 @@ export function App() {
       <main id="top" className="mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 lg:px-8 lg:pt-12">
         <section className={sectionReveal + " flex flex-col gap-8"}>
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_360px] lg:items-start">
-          <div className="space-y-8">
+            <div className="space-y-8">
             <div className={subtleReveal + " inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/80 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground backdrop-blur"}>
               <span className="size-2 rounded-full bg-primary" />
               Pavao Pahljina
@@ -439,7 +439,7 @@ export function App() {
 
         <section
           id="about"
-          className={sectionReveal + " mt-16 grid gap-8 border-t border-border/60 pt-16 lg:grid-cols-[minmax(0,1.1fr)_0.9fr]"}
+          className={sectionReveal + " mt-16 border-t border-border/60 pt-16"}
         >
           <SectionHeader
             eyebrow="About"
@@ -447,54 +447,51 @@ export function App() {
             copy="The work connects education, advisory support, and community-building for people moving toward a Bitcoin standard with more clarity and conviction."
           />
 
-          <div className="space-y-6">
-            <Card className={`rounded-[30px] border-border/70 bg-card/80 py-0 shadow-soft ${liftHover}`}>
-              <CardContent className="p-6 text-base leading-8 text-muted-foreground sm:p-7">
-                <p>
-                  A former ed-tech entrepreneur turned full-time Bitcoiner,
-                  currently working on{" "}
-                  <a
-                    href="https://saifedean.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Saifedean.com
-                  </a>
-                  ,{" "}
-                  <a
-                    href="https://thesaifhouse.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    TheSaifHouse.com
-                  </a>
-                  , and{" "}
-                  <a
-                    href="https://twentyone.world"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    TwentyOne.World
-                  </a>
-                  .
-                </p>
-                <p className="mt-5">
-                  I am also writing an open-source guide for living on a full
-                  Bitcoin standard:{" "}
-                  <a
-                    href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    btcpavao.gitbook.io/practical-bitcoin-standard
-                  </a>
-                  . I have spent over 10,000 hours studying, teaching, and
-                  working in Bitcoin.
-                </p>
-              </CardContent>
-            </Card>
-
-          </div>
+          <Card className={`mt-8 rounded-[30px] border-border/70 bg-card/80 py-0 shadow-soft ${liftHover}`}>
+            <CardContent className="p-6 text-base leading-8 text-muted-foreground sm:p-8 lg:p-10">
+              <p>
+                A former ed-tech entrepreneur turned full-time Bitcoiner,
+                currently working on{" "}
+                <a
+                  href="https://saifedean.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Saifedean.com
+                </a>
+                ,{" "}
+                <a
+                  href="https://thesaifhouse.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  TheSaifHouse.com
+                </a>
+                , and{" "}
+                <a
+                  href="https://twentyone.world"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  TwentyOne.World
+                </a>
+                .
+              </p>
+              <p className="mt-5">
+                I am also writing an open-source guide for living on a full
+                Bitcoin standard:{" "}
+                <a
+                  href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  btcpavao.gitbook.io/practical-bitcoin-standard
+                </a>
+                . I have spent over 10,000 hours studying, teaching, and
+                working in Bitcoin.
+              </p>
+            </CardContent>
+          </Card>
         </section>
 
         <section id="work" className={sectionReveal + " mt-16 border-t border-border/60 pt-16"}>
@@ -531,7 +528,7 @@ export function App() {
           <SectionHeader
             eyebrow="Projects"
             title="Where the work lives"
-            copy="Start with the part that matches your intent: company work, public writing, community media, or direct contact."
+            copy="Start with the part that matches your intent: company work, public writing, or community media."
           />
 
           <div className={itemReveal + " mt-8 space-y-10"}>
