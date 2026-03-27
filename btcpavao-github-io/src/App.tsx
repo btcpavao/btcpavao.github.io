@@ -701,6 +701,43 @@ export function App() {
         </section>
       </main>
 
+      <footer className="border-t border-border/60 bg-background/92 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+          <a
+            className="font-display text-base font-bold tracking-[-0.04em]"
+            href="#top"
+          >
+            Pavao Pahljina
+          </a>
+
+          <nav className="hidden items-center gap-1 md:flex">
+            {sectionLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition hover:bg-card/70 hover:text-foreground"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            {socialLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-border/70 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:border-primary/30 hover:bg-card hover:text-foreground"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </footer>
+
       {showBackToTop ? (
         <Button
           type="button"
