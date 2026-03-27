@@ -5,11 +5,9 @@ import {
   BookOpen,
   CalendarDays,
   Globe2,
-  Linkedin,
   Mail,
   Menu,
   MoonStar,
-  Nfc,
   RadioTower,
   SunMedium,
   Users,
@@ -141,43 +139,6 @@ const projectGroups = [
         href: "https://btcpavao.gitbook.io/practical-bitcoin-standard/",
         icon: BookOpen,
         cta: "Read guide",
-      },
-    ],
-  },
-  {
-    title: "Contact",
-    description: "Get in touch via one of these channels.",
-    items: [
-      {
-        title: "X Profile",
-        description: "Daily thoughts, Bitcoin signal, and direct updates.",
-        href: "https://x.com/btcpavao",
-        icon: ArrowUpRight,
-        cta: "Open profile",
-      },
-      {
-        title: "Nostr Profile",
-        description:
-          "Decentralized social presence on Primal and the wider Nostr network.",
-        href: "https://primal.net/btcpavao",
-        icon: Nfc,
-        cta: "Open profile",
-      },
-      {
-        title: "LinkedIn Profile",
-        description:
-          "Professional updates, background, and collaboration details.",
-        href: "https://www.linkedin.com/in/pavaopahljina/",
-        icon: Linkedin,
-        cta: "Open profile",
-      },
-      {
-        title: "Schedule Advisory Call",
-        description:
-          "Schedule a meeting for support, questions, or collaboration.",
-        href: "https://cal.com/btcpavao/meeting",
-        icon: CalendarDays,
-        cta: "Open calendar",
       },
     ],
   },
