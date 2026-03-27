@@ -423,11 +423,6 @@ export function App() {
               </Button>
             </div>
 
-            <p className={`animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-4 animate-inview:y-0 animate-duration-500 animate-ease-out animate-once animate-delay-300 max-w-3xl text-sm leading-7 text-muted-foreground`}>
-              Start with the guide if you are exploring, schedule a call if you
-              want direct help, or send an email if collaboration is the better
-              fit.
-            </p>
           </div>
 
           <Card className={`overflow-hidden rounded-[36px] border-border/70 bg-card/84 py-0 shadow-float backdrop-blur animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:x-8 animate-inview:x-0 animate-duration-700 animate-ease-out animate-once animate-delay-200`}>
