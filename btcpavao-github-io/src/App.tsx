@@ -433,6 +433,7 @@ export function App() {
                   <AvatarImage
                     src="https://avatars.githubusercontent.com/u/109140795?v=4"
                     alt="Pavao GitHub profile image"
+                    className="avatar-shimmer"
                   />
                   <AvatarFallback>PP</AvatarFallback>
                 </Avatar>

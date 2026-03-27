@@ -256,3 +256,23 @@
     transform: translate3d(0, -18px, 0) scale(1.06);
   }
 }
+
+@keyframes shimmer-light {
+  0%, 100% {
+    filter: brightness(1) saturate(1) contrast(1);
+  }
+  25% {
+    filter: brightness(1.12) saturate(1.15) contrast(1.04);
+  }
+  50% {
+    filter: brightness(1.18) saturate(1.2) contrast(1.06);
+  }
+  75% {
+    filter: brightness(1.08) saturate(1.1) contrast(1.02);
+  }
+}
+
+.avatar-shimmer {
+  animation: shimmer-light 3.5s ease-in-out infinite;
+  will-change: filter;
+}
