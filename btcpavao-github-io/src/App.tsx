@@ -124,7 +124,7 @@ const projectGroups = [
   },
   {
     title: "Media and Writing",
-    description: "Where the ideas, commentary, and educational work live.",
+    description: "Open source & community building projects.",
     items: [
       {
         title: "DvadesetJedan Weekly Livestreams",
