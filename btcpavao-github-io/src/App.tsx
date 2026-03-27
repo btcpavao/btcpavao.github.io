@@ -532,27 +532,6 @@ export function App() {
               </CardContent>
             </Card>
 
-            <div className="grid gap-3">
-              <div className={`rounded-[26px] border border-border/70 bg-background/74 p-5 ${liftHover}`}>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                  Geographic range
-                </p>
-                <p className="mt-3 text-base leading-8 text-muted-foreground">
-                  Working across worldwide Bitcoin circles while staying deeply
-                  engaged with Balkan communities and regional media.
-                </p>
-              </div>
-              <div className={`rounded-[26px] border border-border/70 bg-background/74 p-5 ${liftHover}`}>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                  Practical orientation
-                </p>
-                <p className="mt-3 text-base leading-8 text-muted-foreground">
-                  The emphasis is on usable signal: money habits, tools,
-                  education, and communities that help people move toward a
-                  Bitcoin standard in real life.
-                </p>
-              </div>
-            </div>
           </div>
         </section>
 
