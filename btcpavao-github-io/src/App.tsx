@@ -363,7 +363,8 @@ export function App() {
       </header>
 
       <main id="top" className="mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 lg:px-8 lg:pt-12">
-        <section className={sectionReveal + " grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_360px] lg:items-start"}>
+        <section className={sectionReveal + " flex flex-col gap-8"}>
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_360px] lg:items-start">
           <div className="space-y-8">
             <div className={subtleReveal + " inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/80 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground backdrop-blur"}>
               <span className="size-2 rounded-full bg-primary" />
@@ -427,25 +428,6 @@ export function App() {
               want direct help, or send an email if collaboration is the better
               fit.
             </p>
-
-            <div className={itemReveal + " grid gap-3 sm:grid-cols-3"}>
-              {proofPoints.map((item, index) => (
-                <div
-                  key={item.value}
-                  className={`rounded-[28px] border border-border/70 bg-card/78 p-5 shadow-soft backdrop-blur ${liftHover} ${staggerDelays[index] ?? ""}`}
-                >
-                  <p className="font-display text-2xl font-bold tracking-[-0.05em]">
-                    {item.value}
-                  </p>
-                  <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    {item.label}
-                  </p>
-                  <p className="mt-4 text-sm leading-7 text-muted-foreground">
-                    {item.copy}
-                  </p>
-                </div>
-              ))}
-            </div>
           </div>
 
           <Card className={`overflow-hidden rounded-[36px] border-border/70 bg-card/84 py-0 shadow-float backdrop-blur animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:x-8 animate-inview:x-0 animate-duration-700 animate-ease-out animate-once animate-delay-200`}>
@@ -476,6 +458,26 @@ export function App() {
 
             </CardContent>
           </Card>
+          </div>
+
+          <div className={itemReveal + " grid gap-3 sm:grid-cols-3"}>
+            {proofPoints.map((item, index) => (
+              <div
+                key={item.value}
+                className={`rounded-[28px] border border-border/70 bg-card/78 p-5 shadow-soft backdrop-blur ${liftHover} ${staggerDelays[index] ?? ""}`}
+              >
+                <p className="font-display text-2xl font-bold tracking-[-0.05em]">
+                  {item.value}
+                </p>
+                <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  {item.label}
+                </p>
+                <p className="mt-4 text-sm leading-7 text-muted-foreground">
+                  {item.copy}
+                </p>
+              </div>
+            ))}
+          </div>
         </section>
 
         <section
