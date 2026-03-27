@@ -123,7 +123,7 @@ const projectGroups = [
     ],
   },
   {
-    title: "Media and Writing",
+    title: "Open Source Work",
     description: "Open source & community building projects.",
     items: [
       {
