@@ -363,7 +363,7 @@ export function App() {
       </header>
 
       <main id="top" className="mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 lg:px-8 lg:pt-12">
-        <section className={sectionReveal + " grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_360px] lg:items-stretch"}>
+        <section className={sectionReveal + " grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_360px] lg:items-start"}>
           <div className="space-y-8">
             <div className={subtleReveal + " inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/80 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground backdrop-blur"}>
               <span className="size-2 rounded-full bg-primary" />
@@ -448,8 +448,8 @@ export function App() {
             </div>
           </div>
 
-          <Card className={`overflow-hidden rounded-[36px] border-border/70 bg-card/84 py-0 shadow-float backdrop-blur animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:x-8 animate-inview:x-0 animate-duration-700 animate-ease-out animate-once animate-delay-200 h-full`}>
-            <CardContent className="flex h-full flex-col items-center justify-center p-6 sm:p-7">
+          <Card className={`overflow-hidden rounded-[36px] border-border/70 bg-card/84 py-0 shadow-float backdrop-blur animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:x-8 animate-inview:x-0 animate-duration-700 animate-ease-out animate-once animate-delay-200`}>
+            <CardContent className="p-6 sm:p-7">
               <div className={subtleReveal + " relative mx-auto mb-6 w-full max-w-[220px]"}>
                 <div className="absolute inset-4 -z-10 rounded-full bg-[radial-gradient(circle,hsl(var(--hero-glow)/0.35),transparent_72%)] blur-2xl" />
                 <Avatar className="size-full rounded-full border-4 border-background shadow-[0_30px_80px_hsl(var(--hero-shadow)/0.16)]">
