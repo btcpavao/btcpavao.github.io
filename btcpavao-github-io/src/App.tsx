@@ -499,19 +499,6 @@ export function App() {
                 </div>
               </div>
 
-              <div className={`animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-4 animate-inview:y-0 animate-duration-500 animate-ease-out animate-once animate-delay-200 mt-6 flex flex-wrap justify-center gap-2`}>
-                {socialLinks.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-full border border-border/70 px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground transition hover:border-primary/30 hover:text-foreground"
-                  >
-                    {link.label}
-                  </a>
-                ))}
-              </div>
             </CardContent>
           </Card>
         </section>
