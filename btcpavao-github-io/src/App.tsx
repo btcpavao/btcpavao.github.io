@@ -79,7 +79,7 @@ const itemReveal =
 const subtleReveal =
   "animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-4 animate-inview:y-0 animate-duration-500 animate-ease-out animate-once"
 const liftHover =
-  "animate-hover:-y-2 animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-300 animate-damping-24"
+  "transition-[border-color,box-shadow,background-color,color] duration-300 hover:border-primary/35 hover:shadow-[0_18px_40px_hsl(var(--hero-shadow)/0.08)]"
 const staggerDelays = ["animate-delay-0", "animate-delay-100", "animate-delay-200", "animate-delay-300"]
 
 const projectGroups = [
@@ -152,7 +152,7 @@ function ThemeToggle() {
     <Button
       variant="outline"
       size="icon"
-      className="rounded-full border-border/70 bg-background/85 backdrop-blur"
+      className="glimmer-button inline-flex size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border-border/70 bg-background/85 p-0 leading-none backdrop-blur"
       onClick={() => setTheme(isDark ? "light" : "dark")}
     >
       {isDark ? <SunMedium className="size-4" /> : <MoonStar className="size-4" />}
@@ -245,7 +245,7 @@ export function App() {
               <a
                 key={link.href}
                 href={link.href}
-                className={`rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition hover:bg-card/70 hover:text-foreground ${liftHover}`}
+                className={`inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-medium text-muted-foreground transition hover:bg-card/70 hover:text-foreground glimmer-button ${liftHover}`}
               >
                 {link.label}
               </a>
@@ -260,7 +260,7 @@ export function App() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`rounded-full border border-border/70 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:border-primary/30 hover:bg-card hover:text-foreground ${liftHover}`}
+                  className={`inline-flex h-10 min-h-10 shrink-0 items-center justify-center rounded-full border border-border/70 bg-background/80 px-4 leading-none text-sm font-medium text-muted-foreground transition hover:border-primary/30 hover:bg-card hover:text-foreground glimmer-button ${liftHover}`}
                 >
                   {link.label}
                 </a>
@@ -272,7 +272,7 @@ export function App() {
             <Button
               variant="outline"
               size="icon"
-              className={`rounded-full border-border/70 bg-background/85 md:hidden ${liftHover}`}
+              className={`glimmer-button inline-flex size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border-border/70 bg-background/85 p-0 leading-none md:hidden ${liftHover}`}
               onClick={() => setMobileMenuOpen((open) => !open)}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-nav"
@@ -296,7 +296,7 @@ export function App() {
                     <a
                       key={link.href}
                       href={link.href}
-                      className={`rounded-2xl px-4 py-3 text-sm font-medium text-foreground transition hover:bg-background/70 ${liftHover}`}
+                      className={`rounded-2xl px-4 py-3 text-sm font-medium text-foreground transition hover:bg-background/70 glimmer-button ${liftHover}`}
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {link.label}
@@ -311,7 +311,7 @@ export function App() {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`rounded-2xl border border-border/70 bg-background/80 px-4 py-3 text-center text-sm font-medium text-muted-foreground transition hover:text-foreground ${liftHover}`}
+                      className={`rounded-2xl border border-border/70 bg-background/80 px-4 py-3 text-center text-sm font-medium text-muted-foreground transition hover:text-foreground glimmer-button ${liftHover}`}
                     >
                       {link.label}
                     </a>
@@ -447,8 +447,8 @@ export function App() {
             copy="The work connects education, advisory support, and community-building for people moving toward a Bitcoin standard with more clarity and conviction."
           />
 
-          <Card className={`mt-8 rounded-[30px] border-border/70 bg-card/80 py-0 shadow-soft ${liftHover}`}>
-            <CardContent className="p-6 text-base leading-8 text-muted-foreground sm:p-8 lg:p-10">
+          <div className="mt-8 border-l border-border/70 pl-6 text-base leading-8 text-muted-foreground sm:pl-8 lg:max-w-4xl">
+            <div className="space-y-5">
               <p>
                 A former ed-tech entrepreneur turned full-time Bitcoiner,
                 currently working on{" "}
@@ -490,8 +490,8 @@ export function App() {
                 . I have spent over 10,000 hours studying, teaching, and
                 working in Bitcoin.
               </p>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </section>
 
         <section id="work" className={sectionReveal + " mt-16 border-t border-border/60 pt-16"}>
@@ -501,24 +501,27 @@ export function App() {
             copy="Choose the path that fits what you need most right now: direct guidance, public writing, or stronger community signal."
           />
 
-          <div className="mt-8 grid gap-4 lg:grid-cols-3">
+          <div className="mt-8 divide-y divide-border/70 border-y border-border/70">
             {focusItems.map((item, index) => (
-              <Card
+              <div
                 key={item.title}
-                className="rounded-[30px] border-border/70 bg-card/82 py-0 shadow-soft animate-hover:-y-2 animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-300 animate-damping-24"
+                className="grid gap-4 py-6 md:grid-cols-[120px_minmax(0,1fr)_minmax(0,0.95fr)] md:items-start"
               >
-                <CardContent className="p-6">
-                  <p className="text-sm font-semibold text-muted-foreground">
-                    {String(index + 1).padStart(2, "0")}
+                <p className="text-sm font-semibold text-muted-foreground">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                    {item.title}
                   </p>
-                  <h3 className="mt-6 font-display text-2xl font-bold tracking-[-0.04em]">
+                  <h3 className="mt-3 font-display text-2xl font-bold tracking-[-0.04em] text-foreground">
                     {item.title}
                   </h3>
-                  <p className="mt-4 text-base leading-8 text-muted-foreground">
-                    {item.description}
-                  </p>
-                </CardContent>
-              </Card>
+                </div>
+                <p className="max-w-xl text-base leading-8 text-muted-foreground">
+                  {item.description}
+                </p>
+              </div>
             ))}
           </div>
 
@@ -605,7 +608,7 @@ export function App() {
                   <Button
                     asChild
                     size="lg"
-                    className="rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)] animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-400 animate-damping-24"
+                    className="glimmer-button rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)] transition-[border-color,box-shadow,background-color,color] duration-300 hover:border-primary/35 hover:shadow-[0_24px_48px_hsl(var(--primary)/0.24)]"
                   >
                     <a href="mailto:pavao@hey.com">
                       <Mail className="size-4" />
@@ -616,7 +619,7 @@ export function App() {
                     asChild
                     variant="outline"
                     size="lg"
-                    className="rounded-full border-border/70 bg-background/82 px-6 animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-400 animate-damping-24"
+                    className="glimmer-button rounded-full border-border/70 bg-background/82 px-6 transition-[border-color,box-shadow,background-color,color] duration-300 hover:border-primary/35 hover:bg-card hover:shadow-[0_18px_40px_hsl(var(--hero-shadow)/0.08)]"
                   >
                     <a
                       href="https://cal.com/btcpavao/meeting"
@@ -641,7 +644,7 @@ export function App() {
                 <div className="mt-6 space-y-3">
                   <a
                     href="mailto:pavao@hey.com"
-                    className="block rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium text-foreground transition hover:bg-card/70"
+                    className="glimmer-button block rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium text-foreground transition hover:bg-card/70"
                   >
                     pavao@hey.com
                   </a>
@@ -649,7 +652,7 @@ export function App() {
                     href="https://cal.com/btcpavao/meeting"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium text-foreground transition hover:bg-card/70"
+                    className="glimmer-button block rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium text-foreground transition hover:bg-card/70"
                   >
                     cal.com/btcpavao/meeting
                   </a>
@@ -674,7 +677,7 @@ export function App() {
               <a
                 key={link.href}
                 href={link.href}
-                className="rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition hover:bg-card/70 hover:text-foreground"
+                className="glimmer-button rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition hover:bg-card/70 hover:text-foreground"
               >
                 {link.label}
               </a>
@@ -688,7 +691,7 @@ export function App() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-border/70 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:border-primary/30 hover:bg-card hover:text-foreground"
+                className="glimmer-button rounded-full border border-border/70 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:border-primary/30 hover:bg-card hover:text-foreground"
               >
                 {link.label}
               </a>
@@ -701,8 +704,8 @@ export function App() {
         <Button
           type="button"
           size="icon"
-          className="floating-top-button fixed right-4 top-4 z-50 size-12 rounded-full border border-border/70 bg-background/94 shadow-soft md:right-6 md:top-24"
-          style={{ top: "calc(env(safe-area-inset-top, 0px) + 1rem)" }}
+          className="glimmer-button floating-top-button fixed bottom-4 right-4 z-50 inline-flex size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border border-border/70 bg-background/94 p-0 leading-none shadow-soft md:bottom-6 md:right-6"
+          style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Back to top"
         >

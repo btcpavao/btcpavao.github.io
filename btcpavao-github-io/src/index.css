@@ -146,7 +146,7 @@
     overflow-anchor: none;
     background-image:
       radial-gradient(circle at top, hsl(var(--hero-glow) / 0.1), transparent 24%),
-      linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted) / 0.72) 138%);
+      linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted) / 0.76) 138%);
   }
 
   ::selection {
@@ -179,6 +179,47 @@
 }
 
 @layer components {
+  .glimmer-button {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition:
+      border-color 220ms ease,
+      background-color 220ms ease,
+      box-shadow 260ms ease,
+      color 220ms ease;
+  }
+
+  .glimmer-button::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    transform: translate3d(-115%, 0, 0);
+    transition: transform 520ms ease, opacity 260ms ease;
+    background: linear-gradient(115deg, transparent 12%, hsl(var(--hero-ember) / 0.08) 34%, hsl(210 90% 84% / 0.14) 50%, hsl(var(--hero-glow) / 0.16) 64%, transparent 86%);
+    mix-blend-mode: screen;
+  }
+
+  .glimmer-button:hover {
+    border-color: hsl(var(--hero-glow) / 0.34);
+    box-shadow:
+      0 14px 34px hsl(var(--hero-shadow) / 0.08),
+      0 0 0 1px hsl(var(--hero-glow) / 0.08),
+      inset 0 1px 0 hsl(var(--background) / 0.52);
+  }
+
+  .glimmer-button:hover::before {
+    opacity: 1;
+    transform: translate3d(115%, 0, 0);
+  }
+
+  .glimmer-button:focus-visible {
+    border-color: hsl(var(--hero-glow) / 0.4);
+  }
+
   .ambient-orb {
     @apply pointer-events-none absolute rounded-full blur-3xl;
     will-change: transform;
@@ -225,9 +266,13 @@
   }
 
   .floating-top-button {
-    top: calc(env(safe-area-inset-top, 0px) + 0.875rem) !important;
-    bottom: auto !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 0.875rem) !important;
+    top: auto !important;
     box-shadow: 0 14px 36px hsl(var(--hero-shadow) / 0.12) !important;
+  }
+
+  .glimmer-button::before {
+    display: none;
   }
 
   [class*="backdrop-blur"] {
