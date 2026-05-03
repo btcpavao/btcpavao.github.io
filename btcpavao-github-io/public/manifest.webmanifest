@@ -1,0 +1,16 @@
+{
+  "name": "Pavao Pahljina",
+  "short_name": "btcpavao",
+  "description": "Practical guidance for living on a Bitcoin standard.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1f1b16",
+  "theme_color": "#f2a900",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

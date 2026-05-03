@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Pavao Pahljina">
+  <defs>
+    <linearGradient id="mark-bg" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f7c766"/>
+      <stop offset="0.54" stop-color="#f2a900"/>
+      <stop offset="1" stop-color="#7a4b10"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="#1f1b16"/>
+  <rect x="5" y="5" width="54" height="54" rx="15" fill="url(#mark-bg)"/>
+  <path fill="#1f1b16" d="M19 44V20h13.7c5.6 0 9.4 3.2 9.4 8.1 0 5.1-3.9 8.4-9.6 8.4h-6.3V44H19Zm7.2-13.5h5.5c2.1 0 3.3-.9 3.3-2.4 0-1.6-1.2-2.4-3.3-2.4h-5.5v4.8Z"/>
+  <path fill="#1f1b16" d="M31.4 44V20h13.1c5.6 0 9.3 3.2 9.3 8.1 0 5.1-3.9 8.4-9.5 8.4h-5.7V44h-7.2Zm7.2-13.5h4.8c2.1 0 3.3-.9 3.3-2.4 0-1.6-1.2-2.4-3.3-2.4h-4.8v4.8Z" opacity="0.88"/>
+</svg>

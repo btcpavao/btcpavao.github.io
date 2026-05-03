@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
   ArrowUp,
   ArrowUpRight,
@@ -21,8 +21,10 @@ import { Card, CardContent } from "@/components/ui/card"
 
 const sectionLinks = [
   { label: "About", href: "#about" },
+  { label: "Advisory", href: "#advisory" },
   { label: "Work", href: "#work" },
   { label: "Projects", href: "#projects" },
+  { label: "For You", href: "#for-you" },
   { label: "Contact", href: "#contact" },
 ]
 
@@ -38,20 +40,59 @@ const socialLinks = [
 
 const focusItems = [
   {
-    title: "Advisory",
+    category: "Advisory",
+    heading: "Practical Bitcoin-standard guidance",
     description:
-      "Helping people adopt Bitcoin-standard thinking with practical next steps.",
+      "One-on-one conversations for Bitcoiners who want to organize money, habits, risk, and next steps around Bitcoin.",
   },
   {
-    title: "Writing",
+    category: "Writing",
+    heading: "Open-source Bitcoin-standard guide",
     description:
-      "Expanding Practical Bitcoin Standard into a durable open-source guide.",
+      "Practical Bitcoin Standard is my long-term writing project for people moving from Bitcoin conviction to Bitcoin practice.",
   },
   {
-    title: "Communities",
+    category: "Communities",
+    heading: "Local and global Bitcoin signal",
     description:
       "Supporting TwentyOne.World and DvadesetJedan through signal, events, and media.",
   },
+]
+
+const advisoryTopics = [
+  {
+    title: "Bitcoin as primary money",
+    description:
+      "How to think about income, spending, saving, buffers, and fiat exposure.",
+  },
+  {
+    title: "Budgeting on a Bitcoin standard",
+    description:
+      "Build a simple system for tracking expenses, planning cash flow, and reducing fiat noise.",
+  },
+  {
+    title: "Debt-free transition",
+    description:
+      "Think clearly about debt, liquidity, risk, and time preference.",
+  },
+  {
+    title: "Practical learning path",
+    description:
+      "Turn scattered Bitcoin content into a focused reading and implementation plan.",
+  },
+  {
+    title: "Community and media strategy",
+    description:
+      "Build stronger local Bitcoin signal through meetups, livestreams, writing, and networks.",
+  },
+]
+
+const audienceItems = [
+  "You save in Bitcoin but still plan your life in fiat terms.",
+  "You want a cleaner system for spending, saving, and budgeting.",
+  "You want to reduce debt, noise, and financial fragility.",
+  "You are building or joining a serious Bitcoin community.",
+  "You want a structured path through Bitcoin, Austrian economics, and personal finance.",
 ]
 
 const proofPoints = [
@@ -89,31 +130,36 @@ const projectGroups = [
     items: [
       {
         title: "Saifedean.com",
+        focus: "Education",
         description:
-          "Work and contributions around Austrian economics and Bitcoin education.",
+          "Work around Bitcoin education, Austrian economics, and high-signal learning infrastructure.",
         href: "https://saifedean.com",
         icon: BookOpen,
         cta: "Visit site",
       },
       {
         title: "TheSaifHouse.com",
+        focus: "Books",
         description:
-          "The best bitcoin books delivered worldwide in all formats, at the best prices, with the best bitcoin & fiat checkout experience.",
+          "Bitcoin books delivered worldwide with a strong checkout and customer experience across bitcoin and fiat rails.",
         href: "https://thesaifhouse.com",
         icon: Globe2,
         cta: "Visit site",
       },
       {
         title: "TwentyOne.World",
-        description: "A global network of local Bitcoin communities.",
+        focus: "Community network",
+        description:
+          "A global network of local Bitcoin communities helping people find signal, events, and peers.",
         href: "https://twentyone.world",
         icon: Users,
         cta: "Visit site",
       },
       {
         title: "DvadesetJedan.com",
+        focus: "Balkan Bitcoin media",
         description:
-          "Balkan Bitcoin community with clean Bitcoin signal, livestreams, Telegram, and local meetups.",
+          "Balkan Bitcoin community focused on clean signal, livestreams, Telegram discussion, and local meetups.",
         href: "https://dvadesetjedan.com",
         icon: RadioTower,
         cta: "Visit site",
@@ -126,16 +172,18 @@ const projectGroups = [
     items: [
       {
         title: "DvadesetJedan Weekly Livestreams",
+        focus: "Balkan Bitcoin media",
         description:
-          "Weekly YouTube livestreams covering Bitcoin signal, news, and community discussion.",
+          "Weekly Bitcoin media and community discussion for the Balkan region.",
         href: "https://www.youtube.com/@dvadesetjedan/streams",
         icon: RadioTower,
         cta: "Watch now",
       },
       {
         title: "Practical Bitcoin Standard",
+        focus: "Open-source writing",
         description:
-          "My open-source guide for living on a full Bitcoin standard.",
+          "My open-source guide for turning Bitcoin conviction into everyday monetary habits.",
         href: "https://btcpavao.gitbook.io/practical-bitcoin-standard/",
         icon: BookOpen,
         cta: "Read guide",
@@ -154,9 +202,10 @@ function ThemeToggle() {
       size="icon"
       className="glimmer-button inline-flex size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border-border/70 bg-background/85 p-0 leading-none backdrop-blur"
       onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      title={isDark ? "Switch to light theme" : "Switch to dark theme"}
     >
       {isDark ? <SunMedium className="size-4" /> : <MoonStar className="size-4" />}
-      <span className="sr-only">Toggle theme</span>
     </Button>
   )
 }
@@ -188,6 +237,7 @@ function SectionHeader({
 export function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [showBackToTop, setShowBackToTop] = useState(false)
+  const firstMobileLinkRef = useRef<HTMLAnchorElement | null>(null)
 
   useEffect(() => {
     function handleKeydown(event: KeyboardEvent) {
@@ -217,6 +267,25 @@ export function App() {
       window.removeEventListener("scroll", handleScroll)
     }
   }, [])
+
+  useEffect(() => {
+    if (!mobileMenuOpen) {
+      return
+    }
+
+    firstMobileLinkRef.current?.focus()
+  }, [mobileMenuOpen])
+
+  function scrollToTop() {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches
+
+    window.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+    })
+  }
 
   return (
     <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
@@ -276,13 +345,13 @@ export function App() {
               onClick={() => setMobileMenuOpen((open) => !open)}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-nav"
+              aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
             >
               {mobileMenuOpen ? (
                 <X className="size-4" />
               ) : (
                 <Menu className="size-4" />
               )}
-              <span className="sr-only">Toggle navigation</span>
             </Button>
           </div>
         </div>
@@ -295,6 +364,7 @@ export function App() {
                   {sectionLinks.map((link) => (
                     <a
                       key={link.href}
+                      ref={link.href === sectionLinks[0].href ? firstMobileLinkRef : undefined}
                       href={link.href}
                       className={`rounded-2xl px-4 py-3 text-sm font-medium text-foreground transition hover:bg-background/70 glimmer-button ${liftHover}`}
                       onClick={() => setMobileMenuOpen(false)}
@@ -324,27 +394,30 @@ export function App() {
       </header>
 
       <main id="top" className="mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 lg:px-8 lg:pt-12">
-        <section className={sectionReveal + " flex flex-col gap-8"}>
+        <section className="flex flex-col gap-8">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_360px] lg:items-start">
             <div className="space-y-8">
-            <div className={subtleReveal + " inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/80 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground backdrop-blur"}>
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/80 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground backdrop-blur">
               <span className="size-2 rounded-full bg-primary" />
               Pavao Pahljina
             </div>
 
-            <div className={`animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-6 animate-inview:y-0 animate-duration-600 animate-ease-out animate-once animate-delay-100 space-y-5`}>
+            <div className="space-y-5">
               <p className="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">
                 Bitcoin Standard Advisory
               </p>
-              <h1 className="max-w-[12ch] font-display text-5xl font-bold leading-[0.92] tracking-[-0.07em] text-balance sm:text-6xl lg:text-7xl">
-                Life on a full Bitcoin standard.
+              <h1 className="max-w-[11ch] font-display text-4xl font-bold leading-[0.95] tracking-[-0.06em] text-balance sm:max-w-[12ch] sm:text-6xl sm:tracking-[-0.07em] lg:text-7xl">
+                Practical guidance for living on a Bitcoin standard.
               </h1>
               <p className="max-w-3xl text-lg leading-8 text-muted-foreground sm:text-xl">
-                Practical Bitcoin standard ideas, tools, and money habits drawn from my own journey since fall 2020.
+                I help Bitcoiners organize their money, habits, and community life around Bitcoin through writing, advisory calls, and hands-on project work.
+              </p>
+              <p className="max-w-2xl rounded-2xl border border-border/70 bg-card/64 px-4 py-3 text-sm leading-7 text-muted-foreground">
+                For Bitcoiners who already understand why Bitcoin matters and want a practical path for using it as money.
               </p>
             </div>
 
-            <div className={`animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-4 animate-inview:y-0 animate-duration-500 animate-ease-out animate-once animate-delay-200 flex flex-wrap gap-3`}>
+            <div className="flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <Button
                 asChild
                 size="lg"
@@ -386,9 +459,9 @@ export function App() {
 
           </div>
 
-          <Card className={`overflow-hidden rounded-[36px] border-border/70 bg-card/84 py-0 shadow-float backdrop-blur animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:x-8 animate-inview:x-0 animate-duration-700 animate-ease-out animate-once animate-delay-200`}>
+          <Card className="overflow-hidden rounded-[36px] border-border/70 bg-card/84 py-0 shadow-float backdrop-blur">
             <CardContent className="p-6 sm:p-7">
-              <div className={subtleReveal + " relative mx-auto mb-6 w-full max-w-[220px]"}>
+              <div className="relative mx-auto mb-6 w-full max-w-[220px]">
                 <div className="absolute inset-4 -z-10 rounded-full bg-[radial-gradient(circle,hsl(var(--hero-glow)/0.35),transparent_72%)] blur-2xl" />
                 <Avatar className="size-full rounded-full border-4 border-background shadow-[0_30px_80px_hsl(var(--hero-shadow)/0.16)]">
                   <AvatarImage
@@ -408,7 +481,7 @@ export function App() {
                   @btcpavao
                 </h2>
                 <p className="mt-2 text-base text-muted-foreground">
-                  Entrepreneur / Bitcoiner
+                  Bitcoin Standard Advisor
                 </p>
               </div>
 
@@ -444,7 +517,7 @@ export function App() {
           <SectionHeader
             eyebrow="About"
             title="Trusted signal, practical guidance, and real project involvement."
-            copy="The work connects education, advisory support, and community-building for people moving toward a Bitcoin standard with more clarity and conviction."
+            copy="I work at the intersection of Bitcoin education, advisory support, and community-building for people moving toward a Bitcoin standard with more clarity and conviction."
           />
 
           <div className="mt-8 border-l border-border/70 pl-6 text-base leading-8 text-muted-foreground sm:pl-8 lg:max-w-4xl">
@@ -494,6 +567,55 @@ export function App() {
           </div>
         </section>
 
+        <section id="advisory" className={sectionReveal + " mt-16 border-t border-border/60 pt-16"}>
+          <SectionHeader
+            eyebrow="Advisory"
+            title="Work with me"
+            copy="If you already understand why Bitcoin matters, the next challenge is practical: organizing your money, habits, risk, and environment around it."
+          />
+
+          <div className={itemReveal + " mt-8 grid gap-4 md:grid-cols-2"}>
+            {advisoryTopics.map((item, index) => (
+              <Card
+                key={item.title}
+                className={`rounded-[28px] border-border/70 bg-card/82 py-0 shadow-soft ${liftHover} ${staggerDelays[index % staggerDelays.length] ?? ""}`}
+              >
+                <CardContent className="p-6">
+                  <p className="text-sm font-semibold text-primary">
+                    {String(index + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="mt-4 font-display text-xl font-bold tracking-[-0.04em] text-foreground">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                    {item.description}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className={subtleReveal + " mt-8 flex flex-col gap-4 rounded-[30px] border border-border/70 bg-card/76 p-6 shadow-soft sm:flex-row sm:items-center sm:justify-between"}>
+            <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
+              This is practical education and guidance, not investment advice.
+            </p>
+            <Button
+              asChild
+              size="lg"
+              className="glimmer-button rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
+            >
+              <a
+                href="https://cal.com/btcpavao/meeting"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Book an advisory call
+                <CalendarDays className="size-4" />
+              </a>
+            </Button>
+          </div>
+        </section>
+
         <section id="work" className={sectionReveal + " mt-16 border-t border-border/60 pt-16"}>
           <SectionHeader
             eyebrow="Work"
@@ -504,7 +626,7 @@ export function App() {
           <div className="mt-8 divide-y divide-border/70 border-y border-border/70">
             {focusItems.map((item, index) => (
               <div
-                key={item.title}
+                key={item.category}
                 className="grid gap-4 py-6 md:grid-cols-[120px_minmax(0,1fr)_minmax(0,0.95fr)] md:items-start"
               >
                 <p className="text-sm font-semibold text-muted-foreground">
@@ -512,10 +634,10 @@ export function App() {
                 </p>
                 <div>
                   <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                    {item.title}
+                    {item.category}
                   </p>
                   <h3 className="mt-3 font-display text-2xl font-bold tracking-[-0.04em] text-foreground">
-                    {item.title}
+                    {item.heading}
                   </h3>
                 </div>
                 <p className="max-w-xl text-base leading-8 text-muted-foreground">
@@ -566,6 +688,9 @@ export function App() {
                           <h3 className="mt-6 font-display text-2xl font-bold tracking-[-0.04em] text-foreground">
                             {item.title}
                           </h3>
+                          <p className="mt-3 inline-flex rounded-full border border-border/70 bg-background/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                            {item.focus}
+                          </p>
                           <p className="mt-3 text-sm leading-7 text-muted-foreground">
                             {item.description}
                           </p>
@@ -594,14 +719,36 @@ export function App() {
           </div>
         </section>
 
+        <section id="for-you" className={sectionReveal + " mt-16 border-t border-border/60 pt-16"}>
+          <SectionHeader
+            eyebrow="Who this is for"
+            title="Past beginner conviction, toward daily practice."
+            copy="This site is for people who are past the beginner stage and want to make Bitcoin more practical in daily life."
+          />
+
+          <div className={itemReveal + " mt-8 grid gap-3 md:grid-cols-2"}>
+            {audienceItems.map((item, index) => (
+              <div
+                key={item}
+                className={`rounded-[24px] border border-border/70 bg-card/78 p-5 text-sm leading-7 text-muted-foreground shadow-soft ${liftHover} ${staggerDelays[index % staggerDelays.length] ?? ""}`}
+              >
+                <span className="mr-3 font-semibold text-primary">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                {item}
+              </div>
+            ))}
+          </div>
+        </section>
+
         <section id="contact" className={sectionReveal + " mt-16 border-t border-border/60 pt-16"}>
           <Card className={sectionReveal + " overflow-hidden rounded-[38px] border-border/70 bg-card/86 py-0 shadow-float"}>
             <CardContent className={itemReveal + " grid gap-8 p-6 sm:p-8 lg:grid-cols-[minmax(0,1.2fr)_320px] lg:p-10"}>
               <div>
                 <SectionHeader
                   eyebrow="Contact"
-                  title="Start with the simplest path"
-                  copy="Email is best for direct outreach. If you want to talk live, schedule a call. You can also follow the work on X, Nostr, LinkedIn, GitBook, DvadesetJedan.com, and the weekly YouTube livestreams."
+                  title="Start with the simplest next step"
+                  copy="Email is best for direct outreach. If you want to talk live, book a call. If you want to read first, start with Practical Bitcoin Standard."
                 />
 
                 <div className="mt-8 flex flex-wrap gap-3">
@@ -630,6 +777,21 @@ export function App() {
                       Schedule a Call
                     </a>
                   </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="lg"
+                    className="glimmer-button rounded-full border-border/70 bg-background/82 px-6 transition-[border-color,box-shadow,background-color,color] duration-300 hover:border-primary/35 hover:bg-card hover:shadow-[0_18px_40px_hsl(var(--hero-shadow)/0.08)]"
+                  >
+                    <a
+                      href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BookOpen className="size-4" />
+                      Read the Guide
+                    </a>
+                  </Button>
                 </div>
               </div>
 
@@ -655,6 +817,14 @@ export function App() {
                     className="glimmer-button block rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium text-foreground transition hover:bg-card/70"
                   >
                     cal.com/btcpavao/meeting
+                  </a>
+                  <a
+                    href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="glimmer-button block rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium text-foreground transition hover:bg-card/70"
+                  >
+                    Practical Bitcoin Standard
                   </a>
                 </div>
               </div>
@@ -706,7 +876,7 @@ export function App() {
           size="icon"
           className="glimmer-button floating-top-button fixed bottom-4 right-4 z-50 inline-flex size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border border-border/70 bg-background/94 p-0 leading-none shadow-soft md:bottom-6 md:right-6"
           style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          onClick={scrollToTop}
           aria-label="Back to top"
         >
           <ArrowUp className="size-4" />
