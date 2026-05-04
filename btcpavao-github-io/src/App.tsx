@@ -44,7 +44,7 @@ const focusItems = [
     description:
       "One-on-one conversations for Bitcoiners who want to organize money, habits, risk, and next steps around Bitcoin.",
     cta: "Book a call",
-    href: "https://cal.com/btcpavao/meeting",
+    href: "https://cal.com/btcpavao/introductory-call",
   },
   {
     category: "Writing",
@@ -437,7 +437,7 @@ export function App() {
                 className="rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)] animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-400 animate-damping-24"
               >
                 <a
-                  href="https://cal.com/btcpavao/meeting"
+                  href="https://cal.com/btcpavao/introductory-call"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -636,7 +636,7 @@ export function App() {
               className="glimmer-button shrink-0 rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
             >
               <a
-                href="https://cal.com/btcpavao/meeting"
+                href="https://cal.com/btcpavao/introductory-call"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -868,7 +868,7 @@ export function App() {
                     className="glimmer-button rounded-full border-border/70 bg-background/82 px-6 transition-[border-color,box-shadow,background-color,color] duration-300 hover:border-primary/35 hover:bg-card hover:shadow-[0_18px_40px_hsl(var(--hero-shadow)/0.08)]"
                   >
                     <a
-                      href="https://cal.com/btcpavao/meeting"
+                      href="https://cal.com/btcpavao/introductory-call"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -910,12 +910,12 @@ export function App() {
                     pavao@hey.com
                   </a>
                   <a
-                    href="https://cal.com/btcpavao/meeting"
+                    href="https://cal.com/btcpavao/introductory-call"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="glimmer-button block rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium text-foreground transition hover:bg-card/70"
                   >
-                    cal.com/btcpavao/meeting
+                    cal.com/btcpavao/introductory-call
                   </a>
                   <a
                     href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
