@@ -22,7 +22,6 @@ import { Card, CardContent } from "@/components/ui/card"
 const sectionLinks = [
   { label: "About", href: "#about" },
   { label: "Advisory", href: "#advisory" },
-  { label: "Work", href: "#work" },
   { label: "Projects", href: "#projects" },
   { label: "For You", href: "#for-you" },
   { label: "Contact", href: "#contact" },
@@ -44,18 +43,24 @@ const focusItems = [
     heading: "Practical Bitcoin-standard guidance",
     description:
       "One-on-one conversations for Bitcoiners who want to organize money, habits, risk, and next steps around Bitcoin.",
+    cta: "Book a call",
+    href: "https://cal.com/btcpavao/meeting",
   },
   {
     category: "Writing",
-    heading: "Open-source Bitcoin-standard guide",
+    heading: "Practical Bitcoin Standard",
     description:
-      "Practical Bitcoin Standard is my long-term writing project for people moving from Bitcoin conviction to Bitcoin practice.",
+      "My open-source writing project for people moving from Bitcoin conviction to everyday Bitcoin practice.",
+    cta: "Read the guide",
+    href: "https://btcpavao.gitbook.io/practical-bitcoin-standard/",
   },
   {
     category: "Communities",
     heading: "Local and global Bitcoin signal",
     description:
-      "Supporting TwentyOne.World and DvadesetJedan through signal, events, and media.",
+      "Supporting TwentyOne.World and DvadesetJedan through events, livestreams, media, and community infrastructure.",
+    cta: "Explore projects",
+    href: "#projects",
   },
 ]
 
@@ -85,6 +90,13 @@ const advisoryTopics = [
     description:
       "Build stronger local Bitcoin signal through meetups, livestreams, writing, and networks.",
   },
+]
+
+const callFaqItems = [
+  "We clarify where you are today.",
+  "We identify the biggest source of fiat noise, debt, confusion, or friction.",
+  "We outline simple next steps.",
+  "You leave with a practical path, not generic theory.",
 ]
 
 const audienceItems = [
@@ -126,11 +138,13 @@ const staggerDelays = ["animate-delay-0", "animate-delay-100", "animate-delay-20
 const projectGroups = [
   {
     title: "Core Work",
-    description: "Current work in the Bitcoin industry.",
+    description: "Work in the Bitcoin industry.",
     items: [
       {
         title: "Saifedean.com",
         focus: "Education",
+        role:
+          "Bitcoin education, Austrian economics, and high-signal learning infrastructure.",
         description:
           "Work around Bitcoin education, Austrian economics, and high-signal learning infrastructure.",
         href: "https://saifedean.com",
@@ -140,6 +154,8 @@ const projectGroups = [
       {
         title: "TheSaifHouse.com",
         focus: "Books",
+        role:
+          "Books, global fulfillment, checkout experience, and Bitcoin-native commerce.",
         description:
           "Bitcoin books delivered worldwide with a strong checkout and customer experience across bitcoin and fiat rails.",
         href: "https://thesaifhouse.com",
@@ -149,6 +165,8 @@ const projectGroups = [
       {
         title: "TwentyOne.World",
         focus: "Community network",
+        role:
+          "Local community discovery, network coordination, and Bitcoin signal.",
         description:
           "A global network of local Bitcoin communities helping people find signal, events, and peers.",
         href: "https://twentyone.world",
@@ -158,6 +176,8 @@ const projectGroups = [
       {
         title: "DvadesetJedan.com",
         focus: "Balkan Bitcoin media",
+        role:
+          "Balkan Bitcoin signal, livestreams, Telegram discussion, and local meetups.",
         description:
           "Balkan Bitcoin community focused on clean signal, livestreams, Telegram discussion, and local meetups.",
         href: "https://dvadesetjedan.com",
@@ -173,6 +193,8 @@ const projectGroups = [
       {
         title: "DvadesetJedan Weekly Livestreams",
         focus: "Balkan Bitcoin media",
+        role:
+          "Weekly Bitcoin media and community discussion for the Balkan region.",
         description:
           "Weekly Bitcoin media and community discussion for the Balkan region.",
         href: "https://www.youtube.com/@dvadesetjedan/streams",
@@ -182,6 +204,8 @@ const projectGroups = [
       {
         title: "Practical Bitcoin Standard",
         focus: "Open-source writing",
+        role:
+          "Turning Bitcoin conviction into everyday monetary habits.",
         description:
           "My open-source guide for turning Bitcoin conviction into everyday monetary habits.",
         href: "https://btcpavao.gitbook.io/practical-bitcoin-standard/",
@@ -247,7 +271,7 @@ export function App() {
     }
 
     function handleResize() {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1024) {
         setMobileMenuOpen(false)
       }
     }
@@ -309,7 +333,7 @@ export function App() {
             Pavao Pahljina
           </a>
 
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav className="hidden items-center gap-1 lg:flex">
             {sectionLinks.map((link) => (
               <a
                 key={link.href}
@@ -341,7 +365,7 @@ export function App() {
             <Button
               variant="outline"
               size="icon"
-              className={`glimmer-button inline-flex size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border-border/70 bg-background/85 p-0 leading-none md:hidden ${liftHover}`}
+              className={`glimmer-button inline-flex size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border-border/70 bg-background/85 p-0 leading-none lg:hidden ${liftHover}`}
               onClick={() => setMobileMenuOpen((open) => !open)}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-nav"
@@ -357,7 +381,7 @@ export function App() {
         </div>
 
         {mobileMenuOpen ? (
-          <div id="mobile-nav" className="mx-auto max-w-6xl px-4 pb-4 md:hidden">
+          <div id="mobile-nav" className="mx-auto max-w-6xl px-4 pb-4 lg:hidden">
             <Card className={`overflow-hidden rounded-[28px] border-border/70 bg-card/95 py-0 shadow-soft ${itemReveal}`}>
               <CardContent className="grid gap-3 p-4">
                 <div className="grid gap-2">
@@ -596,13 +620,31 @@ export function App() {
           </div>
 
           <div className={subtleReveal + " mt-8 flex flex-col gap-4 rounded-[30px] border border-border/70 bg-card/76 p-6 shadow-soft sm:flex-row sm:items-center sm:justify-between"}>
-            <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
-              This is practical education and guidance, not investment advice.
-            </p>
+            <div className="max-w-2xl">
+              <h3 className="font-display text-xl font-bold tracking-[-0.04em] text-foreground">
+                What happens on a call?
+              </h3>
+              <div className="mt-4 grid gap-2">
+                {callFaqItems.map((item, index) => (
+                  <p
+                    key={item}
+                    className="rounded-2xl border border-border/60 bg-background/64 px-4 py-3 text-sm leading-7 text-muted-foreground"
+                  >
+                    <span className="mr-3 font-semibold text-primary">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    {item}
+                  </p>
+                ))}
+              </div>
+              <p className="mt-4 text-sm leading-7 text-muted-foreground">
+                This is practical education and guidance, not investment advice.
+              </p>
+            </div>
             <Button
               asChild
               size="lg"
-              className="glimmer-button rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
+              className="glimmer-button shrink-0 rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
             >
               <a
                 href="https://cal.com/btcpavao/meeting"
@@ -619,8 +661,8 @@ export function App() {
         <section id="work" className={sectionReveal + " mt-16 border-t border-border/60 pt-16"}>
           <SectionHeader
             eyebrow="Work"
-            title="How I can help"
-            copy="Choose the path that fits what you need most right now: direct guidance, public writing, or stronger community signal."
+            title="Three ways to follow the work"
+            copy="Start with the path that fits your intent: direct advisory, public writing, or community signal."
           />
 
           <div className="mt-8 divide-y divide-border/70 border-y border-border/70">
@@ -643,6 +685,20 @@ export function App() {
                 <p className="max-w-xl text-base leading-8 text-muted-foreground">
                   {item.description}
                 </p>
+                <Button
+                  asChild
+                  variant="link"
+                  className="h-auto justify-self-start px-0 text-sm font-semibold md:col-start-2"
+                >
+                  <a
+                    href={item.href}
+                    target={item.href.startsWith("http") ? "_blank" : undefined}
+                    rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  >
+                    {item.cta}
+                    <ArrowUpRight className="size-4" />
+                  </a>
+                </Button>
               </div>
             ))}
           </div>
@@ -694,6 +750,14 @@ export function App() {
                           <p className="mt-3 text-sm leading-7 text-muted-foreground">
                             {item.description}
                           </p>
+                          <div className="mt-4 rounded-2xl border border-border/70 bg-background/62 p-4">
+                            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                              Role
+                            </p>
+                            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                              {item.role}
+                            </p>
+                          </div>
 
                           <Button
                             asChild
@@ -717,6 +781,52 @@ export function App() {
               </div>
             ))}
           </div>
+
+          <Card className={subtleReveal + " mt-10 overflow-hidden rounded-[32px] border-border/70 bg-card/86 py-0 shadow-soft"}>
+            <CardContent className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+                  Balkan Bitcoin
+                </p>
+                <h3 className="mt-3 font-display text-2xl font-bold tracking-[-0.04em] text-foreground">
+                  For Balkan Bitcoiners
+                </h3>
+                <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground">
+                  I also support the DvadesetJedan community through local Bitcoin signal, livestreams, Telegram discussion, and meetups.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
+                <Button
+                  asChild
+                  size="lg"
+                  className="glimmer-button rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.2)]"
+                >
+                  <a
+                    href="https://dvadesetjedan.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visit DvadesetJedan
+                  </a>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="glimmer-button rounded-full border-border/70 bg-background/82 px-6"
+                >
+                  <a
+                    href="https://www.youtube.com/@dvadesetjedan/streams"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Watch livestreams
+                    <ArrowUpRight className="size-4" />
+                  </a>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </section>
 
         <section id="for-you" className={sectionReveal + " mt-16 border-t border-border/60 pt-16"}>
@@ -842,7 +952,7 @@ export function App() {
             Pavao Pahljina
           </a>
 
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav className="hidden items-center gap-1 lg:flex">
             {sectionLinks.map((link) => (
               <a
                 key={link.href}
