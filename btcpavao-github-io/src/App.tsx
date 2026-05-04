@@ -162,6 +162,23 @@ const projectGroups = [
         icon: Globe2,
         cta: "Visit site",
       },
+    ],
+  },
+  {
+    title: "Open Source Work",
+    description: "Open source & community building projects.",
+    items: [
+      {
+        title: "Practical Bitcoin Standard",
+        focus: "Open-source writing",
+        role:
+          "Turning Bitcoin conviction into everyday monetary habits.",
+        description:
+          "My open-source guide for turning Bitcoin conviction into everyday monetary habits.",
+        href: "https://btcpavao.gitbook.io/practical-bitcoin-standard/",
+        icon: BookOpen,
+        cta: "Read guide",
+      },
       {
         title: "TwentyOne.World",
         focus: "Community network",
@@ -183,34 +200,6 @@ const projectGroups = [
         href: "https://dvadesetjedan.com",
         icon: RadioTower,
         cta: "Visit site",
-      },
-    ],
-  },
-  {
-    title: "Open Source Work",
-    description: "Open source & community building projects.",
-    items: [
-      {
-        title: "DvadesetJedan Weekly Livestreams",
-        focus: "Balkan Bitcoin media",
-        role:
-          "Weekly Bitcoin media and community discussion for the Balkan region.",
-        description:
-          "Weekly Bitcoin media and community discussion for the Balkan region.",
-        href: "https://www.youtube.com/@dvadesetjedan/streams",
-        icon: RadioTower,
-        cta: "Watch now",
-      },
-      {
-        title: "Practical Bitcoin Standard",
-        focus: "Open-source writing",
-        role:
-          "Turning Bitcoin conviction into everyday monetary habits.",
-        description:
-          "My open-source guide for turning Bitcoin conviction into everyday monetary habits.",
-        href: "https://btcpavao.gitbook.io/practical-bitcoin-standard/",
-        icon: BookOpen,
-        cta: "Read guide",
       },
     ],
   },
