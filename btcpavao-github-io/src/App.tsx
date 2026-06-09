@@ -8,7 +8,6 @@ import {
   Mail,
   Menu,
   MoonStar,
-  RadioTower,
   SunMedium,
   Users,
   X,
@@ -58,7 +57,7 @@ const focusItems = [
     category: "Communities",
     heading: "Local and global Bitcoin signal",
     description:
-      "Supporting TwentyOne.World and DvadesetJedan through events, livestreams, media, and community infrastructure.",
+      "Supporting Bitcoin communities through events, writing, networks, and practical infrastructure.",
     cta: "Explore projects",
     href: "#projects",
   },
@@ -188,17 +187,6 @@ const projectGroups = [
           "A global network of local Bitcoin communities helping people find signal, events, and peers.",
         href: "https://twentyone.world",
         icon: Users,
-        cta: "Visit site",
-      },
-      {
-        title: "DvadesetJedan.com",
-        focus: "Balkan Bitcoin media",
-        role:
-          "Balkan Bitcoin signal, livestreams, Telegram discussion, and local meetups.",
-        description:
-          "Balkan Bitcoin community focused on clean signal, livestreams, Telegram discussion, and local meetups.",
-        href: "https://dvadesetjedan.com",
-        icon: RadioTower,
         cta: "Visit site",
       },
     ],
@@ -770,52 +758,6 @@ export function App() {
               </div>
             ))}
           </div>
-
-          <Card className={subtleReveal + " mt-10 overflow-hidden rounded-[32px] border-border/70 bg-card/86 py-0 shadow-soft"}>
-            <CardContent className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-                  Balkan Bitcoin
-                </p>
-                <h3 className="mt-3 font-display text-2xl font-bold tracking-[-0.04em] text-foreground">
-                  For Balkan Bitcoiners
-                </h3>
-                <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground">
-                  I also support the DvadesetJedan community through local Bitcoin signal, livestreams, Telegram discussion, and meetups.
-                </p>
-              </div>
-              <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
-                <Button
-                  asChild
-                  size="lg"
-                  className="glimmer-button rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.2)]"
-                >
-                  <a
-                    href="https://dvadesetjedan.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Visit DvadesetJedan
-                  </a>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="glimmer-button rounded-full border-border/70 bg-background/82 px-6"
-                >
-                  <a
-                    href="https://www.youtube.com/@dvadesetjedan/streams"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Watch livestreams
-                    <ArrowUpRight className="size-4" />
-                  </a>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
         </section>
 
         <section id="for-you" className={sectionReveal + " mt-16 border-t border-border/60 pt-16"}>
