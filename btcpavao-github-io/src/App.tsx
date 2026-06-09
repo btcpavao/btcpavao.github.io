@@ -85,6 +85,11 @@ const advisoryTopics = [
       "Turn scattered Bitcoin content into a focused reading and implementation plan.",
   },
   {
+    title: "Bitcoin education and consulting",
+    description:
+      "General Bitcoin education, custody guidance, inheritance planning, and security reviews.",
+  },
+  {
     title: "Community and media strategy",
     description:
       "Build stronger local Bitcoin signal through meetups, livestreams, writing, and networks.",
