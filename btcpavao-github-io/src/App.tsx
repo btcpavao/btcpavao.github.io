@@ -61,9 +61,10 @@ const articleIntro = [
   "Postoji trenutak kada nova tehnologija prestane biti zanimljivost i postane dio svakodnevnog rada.",
   "Meni se to s AI-em dogodilo tek nedavno.",
   "ChatGPT koristim od početka, pa mogu reći da mi je već dulje vrijeme koristan alat. Ali, tek zadnja dva mjeseca postao je nešto drugo: dio stvarnog radnog procesa.",
-  "Prvih mjeseci i godina koristio sam ga za pisanje, ispravke, prevođenje, sažimanje i povremeno razmišljanje, i sve je to bilo korisno, ali još uvijek nije mijenjalo način na koji stvarno radim. U manje od dva mjeseca počeo sam ga koristiti drukčije: aktivno, svakodnevno i operativno, ne kao tražilicu, ne kao igračku i ne kao zamjenu za vlastito razmišljanje, nego kao produžetak vlastitog rada.",
+  "Prvih mjeseci i godina koristio sam ga za pisanje ispravki, prevođenje, sažimanje i provjeru razmišljanja, i sve je to bilo korisno, ali još uvijek nije mijenjalo način na koji stvarno radim. Osjetio sam pomake u produktivnosti, naravno: brže bih napisao mail, brže bih provjerio kako popraviti neki problem na stranici, brže bih došao do prve verzije nečega. U tom smislu produktivnost se povećala, možda za 20, 30 ili 40 posto, ali to je i dalje bilo inkrementalno poboljšanje postojećeg načina rada.",
+  "U manje od dva mjeseca počeo sam ga koristiti drukčije: aktivno, svakodnevno i operativno, ne kao tražilicu, ne kao igračku i ne kao zamjenu za vlastito razmišljanje, nego kao produžetak vlastitog rada. Kada sam mu počeo diktirati umjesto tipkati, i kada sam ga počeo slobodnije koristiti i za stvari za koje mi se činilo da ih možda ne može napraviti, ali sam se uvjerio da može, promjene u produktivnosti počele su se mjeriti u redovima veličine, a ne samo u malim poboljšanjima.",
   "Koristim ga za pisanje, uređivanje, dizajn, programiranje, istraživanje, strukturiranje, čitanje nacrta, izradu web stranica i pripremu materijala za objavu. Ono što me najviše iznenadilo nije samo količina napravljenog posla, nego osjećaj da su se granice između ideje i izvedbe odjednom pomaknule puno bliže jedna drugoj.",
-  "U tom kratkom razdoblju dovršio sam knjigu Bitcoin kao novac, koja je godinama postojala u bilješkama, nacrtima i idejama. Podigao sam i uredio više web stranica. Napravio sam vizuale, vodiče, stranice, tehničke strukture, automatizacije i sustave za koje bi prije trebalo uključiti cijeli niz ljudi: urednika, dizajnera, developera, copywritera, istraživača i voditelja projekta.",
+  "U tom kratkom razdoblju dovršio sam knjigu Bitcoin kao novac, koja je godinama postojala u bilješkama, nacrtima i idejama. Podigao sam i uredio više web stranica, među njima https://bitcoin-savjetovanje.com/, https://dvadesetjedan.com/ i https://btcpavao.com/. Napravio sam vizuale, vodiče, stranice, tehničke strukture, automatizacije i sustave za koje bi prije trebalo uključiti cijeli niz ljudi: urednika, dizajnera, developera, copywritera, istraživača i voditelja projekta.",
   "Nisam sve to napravio zato što sam odjednom postao programer, dizajner ili izdavački stručnjak.",
   "Nisam.",
   "Ja sam generalist. Znam ponešto o poduzetništvu, pisanju, Bitcoinu, webu, marketingu i proizvodima, ali nisam usko specijaliziran programer ni profesionalni dizajner. Upravo zato mi je ovo iskustvo bilo toliko snažno: AI mi nije samo pomogao napraviti ono što već znam raditi, nego mi je pomogao prijeći granice između područja u kojima sam prije morao stati i tražiti tuđu izvedbu.",
@@ -429,6 +430,33 @@ function setCanonicalUrl(href: string) {
   link.href = href
 }
 
+function renderLinkedText(text: string) {
+  return text.split(/(https?:\/\/[^\s]+)/g).map((part, index) => {
+    if (!part.startsWith("http")) {
+      return part
+    }
+
+    const trailingMatch = part.match(/[.,;:!?]+$/)
+    const trailing = trailingMatch?.[0] ?? ""
+    const href = trailing ? part.slice(0, -trailing.length) : part
+    const label = href.replace(/^https?:\/\//, "").replace(/\/$/, "")
+
+    return (
+      <span key={`${href}-${index}`}>
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-medium text-foreground underline decoration-primary/35 underline-offset-4 hover:text-primary"
+        >
+          {label}
+        </a>
+        {trailing}
+      </span>
+    )
+  })
+}
+
 function useArticleMetadata() {
   useEffect(() => {
     document.documentElement.lang = "hr"
@@ -537,7 +565,7 @@ function ArticlePage() {
           <div className="mt-10 space-y-10 text-lg leading-8 text-muted-foreground">
             <div className="space-y-6">
               {articleIntro.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+                <p key={paragraph}>{renderLinkedText(paragraph)}</p>
               ))}
             </div>
 
@@ -547,7 +575,7 @@ function ArticlePage() {
                   {section.heading}
                 </h2>
                 {section.paragraphs.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
+                  <p key={paragraph}>{renderLinkedText(paragraph)}</p>
                 ))}
               </section>
             ))}
