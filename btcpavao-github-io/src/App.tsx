@@ -28,6 +28,7 @@ const ARTICLE_OG_DESCRIPTION =
   "Kako AI u praksi mijenja rad jednog generalista: od diktiranja u šetnji do knjige, web stranica, agenata i automatizacije."
 const ARTICLE_DATE = "2026-06-12"
 const ARTICLE_DISPLAY_DATE = "12. lipnja 2026."
+const BOOK_SECTION_HEADING = "Knjiga koja je godinama čekala red"
 
 const sectionLinks = [
   { label: "About", href: "#about" },
@@ -577,6 +578,26 @@ function ArticlePage() {
                 <h2 className="pt-4 font-display text-3xl font-bold tracking-[-0.04em] text-foreground">
                   {section.heading}
                 </h2>
+                {section.heading === BOOK_SECTION_HEADING ? (
+                  <figure className="space-y-3">
+                    <img
+                      src="/bitcoin-kao-novac-cover.png"
+                      alt='Naslovnica knjige "Bitcoin kao novac"'
+                      width={1448}
+                      height={1086}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full rounded-lg border border-border/70 bg-card/80 shadow-soft"
+                    />
+                    <figcaption className="text-sm leading-6 text-muted-foreground">
+                      Naslovnica knjige{" "}
+                      <span className="font-medium text-foreground">
+                        Bitcoin kao novac
+                      </span>
+                      .
+                    </figcaption>
+                  </figure>
+                ) : null}
                 {section.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{renderLinkedText(paragraph)}</p>
                 ))}
