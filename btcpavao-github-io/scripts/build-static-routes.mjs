@@ -7,7 +7,7 @@ const description =
   "Osobni osvrt na to kako sam uz diktiranje, ChatGPT i Codex u manje od dva mjeseca dovršio knjigu, podigao web stranice i promijenio vlastiti način rada."
 const ogDescription =
   "Kako AI u praksi mijenja rad jednog generalista: od diktiranja u šetnji do knjige, web stranica, agenata i automatizacije."
-const publishedDate = "2026-06-11"
+const publishedDate = "2026-06-12"
 
 const distIndexUrl = new URL("../dist/index.html", import.meta.url)
 const routeDirectoryUrl = new URL(`../dist/${routePath}/`, import.meta.url)
