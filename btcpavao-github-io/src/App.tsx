@@ -31,6 +31,7 @@ const ARTICLE_DATE = "2026-06-12"
 const ARTICLE_DISPLAY_DATE = "12. lipnja 2026."
 const BOOK_SECTION_HEADING = "Knjiga koja je godinama čekala red"
 const AGENTS_SECTION_HEADING = "Agenti kao probni čitatelji"
+const WEB_SECTION_HEADING = "Web stranice kroz razgovor"
 
 const sectionLinks = [
   { label: "About", href: "#about" },
@@ -113,7 +114,7 @@ const articleSections = [
     ],
   },
   {
-    heading: "Web stranice kroz razgovor",
+    heading: WEB_SECTION_HEADING,
     paragraphs: [
       "Paralelno s knjigom radio sam i web stranice.",
       "Tu mi je promjena možda bila još očitija, jer nisam morao sjesti i ručno naučiti sve što stoji iza moderne web stranice da bih nešto objavio. Nisam morao sam pisati svaku komponentu, podešavati svaki korak izgradnje stranice ili ručno spajati svaki tehnički detalj.",
@@ -178,6 +179,23 @@ const articleSections = [
       "Nego kao čovjek koji je u zadnja dva mjeseca iz prve ruke vidio da se način rada upravo promijenio.",
       "I da bi bilo šteta praviti se da nije.",
     ],
+  },
+]
+
+const websiteScreenshots = [
+  {
+    src: "/bitcoin-savjetovanje-screenshot.png",
+    alt: "Screenshot web stranice Bitcoin Savjetovanje",
+    title: "Bitcoin Savjetovanje",
+    caption:
+      "Savjetodavna stranica za ljude koji žele Bitcoin pretvoriti u uređen sustav odluka.",
+  },
+  {
+    src: "/dvadesetjedan-screenshot.png",
+    alt: "Screenshot web stranice DvadesetJedan",
+    title: "DvadesetJedan",
+    caption:
+      "Regionalna Bitcoin zajednica i javni signal na jeziku koji ljudima iz regije dolazi prirodno.",
   },
 ]
 
@@ -728,6 +746,32 @@ function ArticlePage() {
                 {section.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{renderLinkedText(paragraph)}</p>
                 ))}
+                {section.heading === WEB_SECTION_HEADING ? (
+                  <div className="grid gap-5">
+                    {websiteScreenshots.map((site) => (
+                      <figure
+                        key={site.title}
+                        className="space-y-3 rounded-[28px] border border-border/70 bg-card/78 p-3 shadow-soft sm:p-4"
+                      >
+                        <img
+                          src={site.src}
+                          alt={site.alt}
+                          width={2048}
+                          height={1153}
+                          loading="lazy"
+                          decoding="async"
+                          className="w-full rounded-2xl border border-border/70 bg-background/80"
+                        />
+                        <figcaption className="px-1 pb-1 text-sm leading-6 text-muted-foreground">
+                          <span className="font-medium text-foreground">
+                            {site.title}
+                          </span>
+                          : {site.caption}
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                ) : null}
                 {section.heading === AGENTS_SECTION_HEADING ? (
                   <div className="space-y-5 rounded-[28px] border border-border/70 bg-card/78 p-5 text-base leading-7 shadow-soft sm:p-6">
                     <div className="space-y-2">
