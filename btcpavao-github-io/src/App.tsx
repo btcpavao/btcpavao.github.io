@@ -136,7 +136,8 @@ const articleSections = [
       "Ali možemo barem okvirno vidjeti što bi bilo potrebno.",
       "Za knjigu bi trebalo uključiti urednika, lektora, korektora, dizajnera naslovnice, grafičkog dizajnera za unutarnje vizuale, osobu za prijelom i pripremu za tisak, a vjerojatno i ljude za probno čitanje i istraživanje publike. Za web stranice bi trebalo uključiti developera, dizajnera, copywritera, osobu za SEO, možda voditelja projekta i nekoga tko razumije objavu stranice, domene, hosting i tehničke provjere. Za automatizacije bi opet trebalo uključiti nekoga tko razumije API-je, rasporede, skripte, GitHub radne tokove i održavanje.",
       "Da sam sve to radio klasičnim putem, vjerojatno bi se radilo o mjesecima posla i desecima tisuća eura ozbiljnog profesionalnog rada. Možda i više, ovisno o razini izvedbe, broju iteracija i kvaliteti ljudi.",
-      "S AI-em trošak nije nestao, ali se promijenilo ono što zapravo kupujem i gdje ulažem vlastitu energiju. Umjesto da kupujem izvedbu svakog pojedinog specijalista, kupujem pristup alatima i ulažem vlastito vrijeme u usmjeravanje, kontekst, odluke, pregledavanje i iteraciju.",
+      "S AI-em trošak nije u potpunosti nestao, ali je postao minimalan dio onoga što bih platio da sam angažirao agencije ili pojedinačne stručnjake. U mom slučaju govorimo o oko 200 eura za dva mjeseca AI alata, plus oko 40 eura za Soniox, nasuprot desecima tisuća eura koliko bi vjerojatno stajao klasični put.",
+      "Umjesto da kupujem izvedbu svakog pojedinog specijalista, kupujem pristup alatima i ulažem vlastito vrijeme u usmjeravanje, kontekst, odluke, pregledavanje i iteraciju.",
       "Drugim riječima, AI ne uklanja odgovornost.",
       "On povećava polugu.",
     ],
@@ -160,7 +161,7 @@ const articleSections = [
     heading: "Ovo je početak serijala",
     paragraphs: [
       "Ovaj tekst pišem kao prvi zapis, ne kao zaključak.",
-      "Još uvijek učim. Još uvijek mijenjam način rada. Još uvijek otkrivam gdje AI pomaže najviše, a gdje ga treba držati pod kontrolom. Još uvijek testiram agente, automatizacije, pisanje, kod, dizajn i načine kako sve to povezati u stvaran rad.",
+      "I dalje učim gdje AI najviše pomaže, gdje ga treba držati pod kontrolom i kako agente, automatizacije, pisanje, kod i dizajn povezati u stvaran rad.",
       "Ali jedna stvar mi je već sada jasna.",
       "Ovo nije prolazna promjena u alatu koji koristim, nego promjena u odnosu između ideje i izvedbe.",
       "Kada jedan čovjek može diktirati ideju u šetnji, pretvoriti je u strukturirani tekst, iz njega dobiti prompt, dati ga agentu, implementirati stranicu, pripremiti vizuale, objaviti sadržaj i zatim nastaviti iterirati, tada se smanjuje udaljenost između onoga što zamisliš i onoga što stvarno možeš napraviti.",
