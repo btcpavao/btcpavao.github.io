@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 
 const SITE_URL = "https://btcpavao.com"
+const CONTACT_EMAIL = "mailto:pavao@hey.com"
 const ARTICLE_PATH = "/hr/ai-u-praksi/jedan-covjek-ai-i-dva-mjeseca-rada/"
 const ARTICLE_URL = `${SITE_URL}${ARTICLE_PATH}`
 const ARTICLE_TITLE = "Jedan čovjek, AI i dva mjeseca rada"
@@ -511,7 +512,7 @@ function ArticlePage() {
               Home
             </a>
             <a
-              href="/#contact"
+              href={CONTACT_EMAIL}
               className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground transition hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
             >
               Contact
@@ -624,7 +625,7 @@ function ArticlePage() {
                 size="lg"
                 className="glimmer-button mt-6 rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
               >
-                <a href="/#contact">
+                <a href={CONTACT_EMAIL}>
                   Kontakt
                   <Mail className="size-4" />
                 </a>
