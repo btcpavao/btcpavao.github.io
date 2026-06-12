@@ -194,7 +194,6 @@
     transition:
       border-color 220ms ease,
       background-color 220ms ease,
-      box-shadow 260ms ease,
       color 220ms ease;
   }
 
@@ -204,24 +203,17 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
+    display: none;
     opacity: 0;
-    transform: translate3d(-115%, 0, 0);
-    transition: transform 520ms ease, opacity 260ms ease;
+    transform: none;
+    transition: none;
     background: linear-gradient(115deg, transparent 12%, hsl(var(--hero-ember) / 0.08) 34%, hsl(210 90% 84% / 0.14) 50%, hsl(var(--hero-glow) / 0.16) 64%, transparent 86%);
     mix-blend-mode: screen;
   }
 
-  .glimmer-button:hover {
-    border-color: hsl(var(--hero-glow) / 0.34);
-    box-shadow:
-      0 14px 34px hsl(var(--hero-shadow) / 0.08),
-      0 0 0 1px hsl(var(--hero-glow) / 0.08),
-      inset 0 1px 0 hsl(var(--background) / 0.52);
-  }
-
   .glimmer-button:hover::before {
-    opacity: 1;
-    transform: translate3d(115%, 0, 0);
+    opacity: 0;
+    transform: none;
   }
 
   .glimmer-button:focus-visible {

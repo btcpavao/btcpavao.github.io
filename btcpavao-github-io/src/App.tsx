@@ -279,7 +279,7 @@ const itemReveal =
 const subtleReveal =
   "animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-4 animate-inview:y-0 animate-duration-500 animate-ease-out animate-once"
 const liftHover =
-  "transition-[border-color,box-shadow,background-color,color] duration-300 hover:border-primary/35 hover:shadow-[0_18px_40px_hsl(var(--hero-shadow)/0.08)]"
+  "transition-[background-color,color,border-color] duration-300"
 const staggerDelays = [
   "animate-delay-0",
   "animate-delay-100",
@@ -650,7 +650,7 @@ function ArticlePage() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="glimmer-button rounded-full border border-border/70 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:border-primary/30 hover:bg-card hover:text-foreground"
+                className="glimmer-button rounded-full border border-border/70 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:bg-card hover:text-foreground"
               >
                 {link.label}
               </a>
@@ -757,7 +757,7 @@ function HomePage() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`glimmer-button inline-flex h-10 min-h-10 shrink-0 items-center justify-center rounded-full border border-border/70 bg-background/80 px-4 text-sm leading-none font-medium text-muted-foreground transition hover:border-primary/30 hover:bg-card hover:text-foreground ${liftHover}`}
+                  className={`glimmer-button inline-flex h-10 min-h-10 shrink-0 items-center justify-center rounded-full border border-border/70 bg-background/80 px-4 text-sm leading-none font-medium text-muted-foreground transition hover:bg-card hover:text-foreground ${liftHover}`}
                 >
                   {link.label}
                 </a>
@@ -866,7 +866,7 @@ function HomePage() {
                 <Button
                   asChild
                   size="lg"
-                  className="animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-400 animate-damping-24 rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
+                  className="rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
                 >
                   <a
                     href="https://cal.com/btcpavao/introductory-call"
@@ -880,7 +880,7 @@ function HomePage() {
                   asChild
                   variant="outline"
                   size="lg"
-                  className="animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-400 animate-damping-24 rounded-full border-border/70 bg-background/80 px-6"
+                  className="rounded-full border-border/70 bg-background/80 px-6"
                 >
                   <a
                     href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
@@ -893,7 +893,7 @@ function HomePage() {
                 <Button
                   asChild
                   variant="link"
-                  className="animate-hover:scale-105 animate-tap:scale-95 animate-spring animate-stiffness-400 animate-damping-24 h-auto px-1 text-sm font-semibold"
+                  className="h-auto px-1 text-sm font-semibold"
                 >
                   <a href="mailto:pavao@hey.com">
                     Email Pavao
@@ -1211,7 +1211,7 @@ function HomePage() {
                     return (
                       <Card
                         key={item.title}
-                        className={`group rounded-[28px] border-border/70 bg-card/82 py-0 shadow-soft transition duration-300 hover:shadow-float ${liftHover} ${staggerDelays[index % staggerDelays.length] ?? ""}`}
+                        className={`group rounded-[28px] border-border/70 bg-card/82 py-0 shadow-soft transition duration-300 ${liftHover} ${staggerDelays[index % staggerDelays.length] ?? ""}`}
                       >
                         <CardContent className="p-6">
                           <div className="flex items-start justify-between gap-4">
@@ -1250,7 +1250,7 @@ function HomePage() {
                               rel="noopener noreferrer"
                             >
                               {item.cta}
-                              <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                              <ArrowUpRight className="size-4" />
                             </a>
                           </Button>
                         </CardContent>
@@ -1315,7 +1315,7 @@ function HomePage() {
                   <Button
                     asChild
                     size="lg"
-                    className="glimmer-button rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)] transition-[border-color,box-shadow,background-color,color] duration-300 hover:border-primary/35 hover:shadow-[0_24px_48px_hsl(var(--primary)/0.24)]"
+                    className="glimmer-button rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)] transition-[background-color,border-color,color] duration-300"
                   >
                     <a href="mailto:pavao@hey.com">
                       <Mail className="size-4" />
@@ -1326,7 +1326,7 @@ function HomePage() {
                     asChild
                     variant="outline"
                     size="lg"
-                    className="glimmer-button rounded-full border-border/70 bg-background/82 px-6 transition-[border-color,box-shadow,background-color,color] duration-300 hover:border-primary/35 hover:bg-card hover:shadow-[0_18px_40px_hsl(var(--hero-shadow)/0.08)]"
+                    className="glimmer-button rounded-full border-border/70 bg-background/82 px-6 transition-[background-color,border-color,color] duration-300 hover:bg-card"
                   >
                     <a
                       href="https://cal.com/btcpavao/introductory-call"
@@ -1341,7 +1341,7 @@ function HomePage() {
                     asChild
                     variant="outline"
                     size="lg"
-                    className="glimmer-button rounded-full border-border/70 bg-background/82 px-6 transition-[border-color,box-shadow,background-color,color] duration-300 hover:border-primary/35 hover:bg-card hover:shadow-[0_18px_40px_hsl(var(--hero-shadow)/0.08)]"
+                    className="glimmer-button rounded-full border-border/70 bg-background/82 px-6 transition-[background-color,border-color,color] duration-300 hover:bg-card"
                   >
                     <a
                       href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
@@ -1425,7 +1425,7 @@ function HomePage() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="glimmer-button rounded-full border border-border/70 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:border-primary/30 hover:bg-card hover:text-foreground"
+                className="glimmer-button rounded-full border border-border/70 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:bg-card hover:text-foreground"
               >
                 {link.label}
               </a>
