@@ -30,6 +30,7 @@ const ARTICLE_OG_DESCRIPTION =
 const ARTICLE_DATE = "2026-06-12"
 const ARTICLE_DISPLAY_DATE = "12. lipnja 2026."
 const BOOK_SECTION_HEADING = "Knjiga koja je godinama čekala red"
+const AGENTS_SECTION_HEADING = "Agenti kao probni čitatelji"
 
 const sectionLinks = [
   { label: "About", href: "#about" },
@@ -100,7 +101,7 @@ const articleSections = [
     ],
   },
   {
-    heading: "Agenti kao probni čitatelji",
+    heading: AGENTS_SECTION_HEADING,
     paragraphs: [
       "Jedan od najzanimljivijih dijelova procesa bilo je korištenje različitih AI čitatelja.",
       "Pitao sam ChatGPT kako bih mogao simulirati različite profile čitatelja iz Hrvatske koji bi mogli uzeti knjigu u ruke. Iz toga su nastali profili ljudi različitih prihoda, životnih situacija, razina razumijevanja Bitcoina i odnosa prema novcu.",
@@ -176,6 +177,131 @@ const articleSections = [
       "Ne kao stručnjak koji tvrdi da ima završene odgovore.",
       "Nego kao čovjek koji je u zadnja dva mjeseca iz prve ruke vidio da se način rada upravo promijenio.",
       "I da bi bilo šteta praviti se da nije.",
+    ],
+  },
+]
+
+const bookAgentGroups = [
+  {
+    label: "Čitateljski agenti",
+    description:
+      "Profili koji čitaju knjigu iz različitih hrvatskih životnih situacija.",
+    agents: [
+      {
+        id: "bkn_reader_mislav",
+        title: "Mislav",
+        description:
+          "Uvjereni Bitcoiner koji već kuži priču, ali još nema sređen životni i financijski sustav.",
+      },
+      {
+        id: "bkn_reader_zoran",
+        title: "Zoran",
+        description:
+          "Čitatelj betona: kuća, stan, zemlja, apartman, nasljedstvo i opipljiva sigurnost.",
+      },
+      {
+        id: "bkn_reader_ivana",
+        title: "Ivana",
+        description:
+          "Obiteljska čitateljica koja pazi na budžet, strah supružnika, pritisak i razumljivost za normalnu obitelj.",
+      },
+      {
+        id: "bkn_reader_tomo",
+        title: "Tomo",
+        description:
+          "Mali hrvatski poduzetnik koji razmišlja kroz novčani tok, PDV, doprinose, leasing, sezonu i klijente koji kasne.",
+      },
+      {
+        id: "bkn_reader_lea",
+        title: "Lea",
+        description:
+          "Mlađa digitalna čitateljica bez kuće, djece, stabilne plaće i velikog kapitala, s niskom tolerancijom na hype.",
+      },
+      {
+        id: "bkn_reader_nada",
+        title: "Nada",
+        description:
+          "Predmirovinska ili umirovljenička perspektiva kojoj su važni sigurnost, lozinke, prijevare i nasljeđivanje.",
+      },
+      {
+        id: "bkn_reader_marko",
+        title: "Marko",
+        description:
+          "Čitatelj iz dijaspore ili povratnik koji provjerava pretpostavlja li tekst da svi žive, rade i troše u jednoj državi.",
+      },
+      {
+        id: "bkn_reader_matej",
+        title: "Matej",
+        description:
+          "Mladi zaposleni čitatelj koji još živi s roditeljima i treba prijeći iz hypea u proračun, strpljenje i financijsko odrastanje.",
+      },
+      {
+        id: "bkn_reader_davor",
+        title: "Davor",
+        description:
+          "Skeptični mainstream financijaš koji testira zvuči li tekst kao dokaz ili uvjerenje i treba li dodati ogradu ili provjeru.",
+      },
+      {
+        id: "bkn_reader_josip",
+        title: "Josip",
+        description:
+          "Čita kroz davanje, vjeru, zajednicu i otvorenu šaku, te pazi da velikodušnost ne postane financijski nered.",
+      },
+      {
+        id: "bkn_reader_jakov",
+        title: "Jakov",
+        description:
+          "Gleda novac kroz dostojanstvo poslovanja, pošteno zarađivanje, služenje kupcu, profit i odgovorno davanje.",
+      },
+      {
+        id: "bkn_reader_leon_powerlaw",
+        title: "Leon",
+        description:
+          "Specijalizirani modelarski čitatelj za Bitcoin power law, halving clock, block height, volatilnost i rizik lažne preciznosti.",
+      },
+    ],
+  },
+  {
+    label: "Didaktički agent",
+    description: "Most između složenih pojmova i običnog hrvatskog jezika.",
+    agents: [
+      {
+        id: "bkn_reader_maja_didaktika",
+        title: "Maja",
+        description:
+          "Prevodi matematiku, financije i tehničke pojmove u jednostavno objašnjenje, mali primjer ili okvir koji čitatelju pomaže nastaviti čitati.",
+      },
+    ],
+  },
+  {
+    label: "Vizualni agenti",
+    description:
+      "Agentni par koji pronalazi gdje vizual stvarno pomaže i zatim ga pretvara u konkretan materijal.",
+    agents: [
+      {
+        id: "bkn_visual_mapper",
+        title: "Mapper",
+        description:
+          "Vizualni urednik koji traži tokove, mape, vage, vremenske crte, sheme skrbništva i druge mentalne modele koji nisu dekoracija.",
+      },
+      {
+        id: "bkn_visual_builder",
+        title: "Builder",
+        description:
+          "Produkcijski agent koji iz placeholdera izrađuje originalne SVG vizuale, alt tekst, captione i oznake za provjeru.",
+      },
+    ],
+  },
+  {
+    label: "Urednički agent",
+    description: "Završni prolaz koji čuva autorski glas i uklanja AI dojam.",
+    agents: [
+      {
+        id: "bkn_editor_glas",
+        title: "Glas",
+        description:
+          "Glavni urednik autorskog glasa koji popravlja hrvatski, ritam, gramatiku, zareze, anglizme i generičke fraze bez pretvaranja knjige u neutralni investicijski vodič.",
+      },
     ],
   },
 ]
@@ -602,6 +728,59 @@ function ArticlePage() {
                 {section.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{renderLinkedText(paragraph)}</p>
                 ))}
+                {section.heading === AGENTS_SECTION_HEADING ? (
+                  <div className="space-y-5 rounded-[28px] border border-border/70 bg-card/78 p-5 text-base leading-7 shadow-soft sm:p-6">
+                    <div className="space-y-2">
+                      <p className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
+                        Primjer iz stvarnog procesa
+                      </p>
+                      <h3 className="font-display text-2xl font-bold tracking-[-0.04em] text-foreground">
+                        Mali urednički tim za knjigu Bitcoin kao novac
+                      </h3>
+                      <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
+                        Ovo nisu bili likovi za zabavu, nego radne perspektive
+                        kroz koje sam testirao tekst prije stvarnih čitatelja:
+                        tko se gubi, tko osjeća pritisak, tko vidi rizik i gdje
+                        knjiga preskače korak.
+                      </p>
+                    </div>
+                    <div className="grid gap-4">
+                      {bookAgentGroups.map((group) => (
+                        <section
+                          key={group.label}
+                          className="rounded-2xl border border-border/70 bg-background/62 p-4"
+                        >
+                          <div className="mb-4">
+                            <h4 className="font-display text-lg font-bold tracking-[-0.03em] text-foreground">
+                              {group.label}
+                            </h4>
+                            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                              {group.description}
+                            </p>
+                          </div>
+                          <div className="grid gap-3 md:grid-cols-2">
+                            {group.agents.map((agent) => (
+                              <div
+                                key={agent.id}
+                                className="rounded-2xl border border-border/60 bg-card/72 p-4"
+                              >
+                                <p className="font-mono text-[11px] leading-5 font-semibold break-all text-primary">
+                                  {agent.id}
+                                </p>
+                                <h5 className="mt-2 font-display text-lg font-bold tracking-[-0.03em] text-foreground">
+                                  {agent.title}
+                                </h5>
+                                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                                  {agent.description}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </section>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
               </section>
             ))}
           </div>
