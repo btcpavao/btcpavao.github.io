@@ -13,7 +13,7 @@
     --popover: oklch(0.993 0.006 90);
     --popover-foreground: oklch(0.24 0.018 58);
     --primary: oklch(0.69 0.16 72);
-    --primary-foreground: oklch(0.18 0.01 58);
+    --primary-foreground: oklch(0.985 0.003 95);
     --secondary: oklch(0.955 0.012 85);
     --secondary-foreground: oklch(0.28 0.016 58);
     --muted: oklch(0.95 0.01 85);
@@ -33,7 +33,7 @@
     --sidebar: oklch(0.993 0.006 90);
     --sidebar-foreground: oklch(0.24 0.018 58);
     --sidebar-primary: oklch(0.69 0.16 72);
-    --sidebar-primary-foreground: oklch(0.18 0.01 58);
+    --sidebar-primary-foreground: oklch(0.985 0.003 95);
     --sidebar-accent: oklch(0.965 0.012 84);
     --sidebar-accent-foreground: oklch(0.28 0.016 58);
     --sidebar-border: oklch(0.89 0.01 85);
@@ -51,7 +51,7 @@
     --popover: oklch(0.235 0.012 56);
     --popover-foreground: oklch(0.95 0.008 88);
     --primary: oklch(0.75 0.15 72);
-    --primary-foreground: oklch(0.19 0.012 56);
+    --primary-foreground: oklch(0.985 0.003 95);
     --secondary: oklch(0.28 0.012 56);
     --secondary-foreground: oklch(0.95 0.008 88);
     --muted: oklch(0.255 0.01 56);
@@ -70,7 +70,7 @@
     --sidebar: oklch(0.235 0.012 56);
     --sidebar-foreground: oklch(0.95 0.008 88);
     --sidebar-primary: oklch(0.75 0.15 72);
-    --sidebar-primary-foreground: oklch(0.19 0.012 56);
+    --sidebar-primary-foreground: oklch(0.985 0.003 95);
     --sidebar-accent: oklch(0.29 0.012 56);
     --sidebar-accent-foreground: oklch(0.95 0.008 88);
     --sidebar-border: oklch(1 0 0 / 10%);
@@ -179,6 +179,14 @@
 }
 
 @layer components {
+  [data-slot="button"] {
+    scale: 1 !important;
+  }
+
+  [data-slot="button"]:hover {
+    scale: 1 !important;
+  }
+
   .glimmer-button {
     position: relative;
     overflow: hidden;
