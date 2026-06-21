@@ -41,6 +41,7 @@
     --hero-glow: 0.69 0.16 72;
     --hero-ember: 0.58 0.1 48;
     --hero-shadow: 0.34 0.025 60;
+    --reading-progress: 0;
 }
 
 .dark {
@@ -131,10 +132,14 @@
     @apply font-sans antialiased;
     overflow-x: clip;
     scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   * {
     @apply border-border outline-ring/50;
+    letter-spacing: 0 !important;
   }
 
   body {
@@ -155,15 +160,45 @@
 
   a {
     @apply transition-colors;
+    -webkit-tap-highlight-color: transparent;
   }
 
   a:hover {
     @apply text-primary;
   }
+
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+
+  p,
+  li,
+  figcaption {
+    text-wrap: pretty;
+  }
+
+  time,
+  .font-mono,
+  [data-slot="button"] {
+    font-variant-numeric: tabular-nums;
+  }
 }
 
 @utility text-balance {
   text-wrap: balance;
+}
+
+@utility text-pretty {
+  text-wrap: pretty;
 }
 
 @utility shadow-soft {
@@ -181,20 +216,129 @@
 @layer components {
   [data-slot="button"] {
     scale: 1 !important;
+    transform: translateY(0) scale(1);
+    transition:
+      background-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1),
+      color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   [data-slot="button"]:hover {
     scale: 1 !important;
   }
 
+  [data-slot="button"]:active {
+    transform: translateY(1px) scale(0.99);
+  }
+
+  .reading-progress {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 70;
+    height: 3px;
+    pointer-events: none;
+    background: hsl(var(--border) / 0.45);
+  }
+
+  .reading-progress::before {
+    display: block;
+    width: 100%;
+    height: 100%;
+    content: "";
+    background: linear-gradient(
+      90deg,
+      hsl(var(--hero-glow) / 0.95),
+      hsl(var(--hero-ember) / 0.92)
+    );
+    transform: scaleX(var(--reading-progress));
+    transform-origin: left center;
+  }
+
+  .article-hero-grid {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+  }
+
+  .article-shell {
+    display: block;
+    width: min(100%, 48rem);
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  a.article-shell {
+    width: fit-content;
+    margin-left: calc((100% - min(100%, 48rem)) / 2);
+  }
+
+  .article-hero-media {
+    position: relative;
+    margin: 0;
+    border-radius: calc(var(--radius) * 1.4);
+    background: hsl(var(--card) / 0.82);
+    box-shadow:
+      0 24px 70px hsl(var(--hero-shadow) / 0.13),
+      0 0 0 1px hsl(var(--border) / 0.72);
+    isolation: isolate;
+  }
+
+  .article-hero-media::before {
+    position: absolute;
+    inset: 0.55rem;
+    z-index: -1;
+    border-radius: calc(var(--radius) * 1.05);
+    content: "";
+    background: linear-gradient(
+      135deg,
+      hsl(var(--hero-glow) / 0.2),
+      hsl(var(--hero-ember) / 0.14)
+    );
+    transform: rotate(-1.35deg);
+  }
+
+  .article-hero-media img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1672 / 941;
+    border-radius: calc(var(--radius) * 1.4);
+    object-fit: cover;
+  }
+
+  .article-toc a {
+    transform: translateY(0) scale(1);
+  }
+
+  .article-toc a:active {
+    transform: translateY(1px) scale(0.99);
+  }
+
   .glimmer-button {
     position: relative;
     overflow: hidden;
     isolation: isolate;
+    transform: translateY(0) scale(1);
     transition:
       border-color 220ms ease,
       background-color 220ms ease,
-      color 220ms ease;
+      box-shadow 220ms ease,
+      color 220ms ease,
+      transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .glimmer-button:hover {
+    box-shadow:
+      0 12px 32px hsl(var(--hero-shadow) / 0.08),
+      0 0 0 1px hsl(var(--border) / 0.64);
+    transform: translateY(-1px);
+  }
+
+  .glimmer-button:active {
+    transform: translateY(1px) scale(0.99);
   }
 
   .glimmer-button::before {
@@ -218,6 +362,9 @@
 
   .glimmer-button:focus-visible {
     border-color: hsl(var(--hero-glow) / 0.4);
+    box-shadow:
+      0 0 0 3px hsl(var(--hero-glow) / 0.18),
+      0 12px 32px hsl(var(--hero-shadow) / 0.1);
   }
 
   .ambient-orb {
@@ -249,6 +396,12 @@
     right: -5rem;
     top: 28rem;
     width: 22rem;
+  }
+}
+
+@media (min-width: 960px) {
+  .article-hero-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(26rem, 1.1fr);
   }
 }
 

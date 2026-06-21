@@ -29,6 +29,7 @@ const ARTICLE_OG_DESCRIPTION =
   "Kako AI u praksi mijenja rad jednog generalista: od diktiranja u šetnji do knjige, web stranica, agenata i automatizacije."
 const ARTICLE_DATE = "2026-06-12"
 const ARTICLE_DISPLAY_DATE = "12. lipnja 2026."
+const ARTICLE_HERO_IMAGE = "/ai-workflow-hero.png"
 const BOOK_SECTION_HEADING = "Knjiga koja je godinama čekala red"
 const AGENTS_SECTION_HEADING = "Agenti kao probni čitatelji"
 const WEB_SECTION_HEADING = "Web stranice kroz razgovor"
@@ -424,7 +425,7 @@ const itemReveal =
 const subtleReveal =
   "animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-4 animate-inview:y-0 animate-duration-500 animate-ease-out animate-once"
 const liftHover =
-  "transition-[background-color,color,border-color] duration-300"
+  "transition-[background-color,color,border-color,box-shadow,transform] duration-300 active:translate-y-px active:scale-[0.99]"
 const staggerDelays = [
   "animate-delay-0",
   "animate-delay-100",
@@ -623,11 +624,38 @@ function useArticleMetadata() {
   }, [])
 }
 
+function useReadingProgress() {
+  useEffect(() => {
+    function updateProgress() {
+      const max =
+        document.documentElement.scrollHeight - window.innerHeight
+      const progress = max <= 0 ? 0 : Math.min(window.scrollY / max, 1)
+      document.documentElement.style.setProperty(
+        "--reading-progress",
+        progress.toFixed(4)
+      )
+    }
+
+    updateProgress()
+    window.addEventListener("scroll", updateProgress, { passive: true })
+    window.addEventListener("resize", updateProgress)
+
+    return () => {
+      window.removeEventListener("scroll", updateProgress)
+      window.removeEventListener("resize", updateProgress)
+      document.documentElement.style.removeProperty("--reading-progress")
+    }
+  }, [])
+}
+
 function ArticlePage() {
   useArticleMetadata()
+  useReadingProgress()
+  const articleHeadings = articleSections.map((section) => section.heading)
 
   return (
     <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
+      <div className="reading-progress" aria-hidden="true" />
       <div
         aria-hidden="true"
         className="page-atmosphere pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,hsl(var(--hero-glow)/0.18)_0%,transparent_30%),radial-gradient(circle_at_85%_10%,hsl(var(--hero-ember)/0.16)_0%,transparent_18%),linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--background))_42%,hsl(var(--muted)/0.72)_150%)]"
@@ -670,15 +698,15 @@ function ArticlePage() {
         id="top"
         className="relative mx-auto max-w-5xl px-4 pt-10 pb-20 sm:px-6 lg:px-8 lg:pt-14"
       >
-        <article className="mx-auto max-w-3xl">
+        <article className="article-layout mx-auto max-w-5xl">
           <a
             href="/"
-            className="glimmer-button inline-flex rounded-full border border-border/70 bg-card/72 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:bg-card hover:text-foreground"
+            className="article-shell glimmer-button inline-flex rounded-full border border-border/70 bg-card/72 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:bg-card hover:text-foreground"
           >
             Natrag na početnu
           </a>
 
-          <div className="mt-8 flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-[0.22em] text-muted-foreground uppercase">
+          <div className="article-shell mt-8 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase">
             <span className="rounded-full border border-border/70 bg-card/80 px-3 py-1">
               AI u praksi
             </span>
@@ -694,16 +722,31 @@ function ArticlePage() {
           </div>
 
           <header className="mt-8">
-            <h1 className="font-display text-4xl leading-[1.03] font-bold tracking-[-0.05em] text-balance text-foreground sm:text-6xl">
-              {ARTICLE_TITLE}
-            </h1>
-            <p className="mt-5 max-w-2xl text-xl leading-8 text-muted-foreground">
-              Kako sam uz diktiranje, ChatGPT i Codex počeo raditi kao da imam
-              mali tim oko sebe.
-            </p>
+            <div className="article-hero-grid">
+              <div>
+                <h1 className="font-display text-4xl leading-[1.04] font-bold text-balance text-foreground sm:text-6xl">
+                  {ARTICLE_TITLE}
+                </h1>
+                <p className="mt-5 max-w-2xl text-xl leading-8 text-pretty text-muted-foreground">
+                  Kako sam uz diktiranje, ChatGPT i Codex počeo raditi kao da
+                  imam mali tim oko sebe.
+                </p>
+              </div>
+
+              <figure className="article-hero-media">
+                <img
+                  src={ARTICLE_HERO_IMAGE}
+                  alt="Laptop, mobitel, bilježnica, kava i rukopis knjige na radnom stolu"
+                  width={1672}
+                  height={941}
+                  decoding="async"
+                  fetchPriority="high"
+                />
+              </figure>
+            </div>
           </header>
 
-          <div className="mt-10 border-y border-border/70 py-8">
+          <div className="article-shell mt-10 border-y border-border/70 py-8">
             <p className="max-w-2xl text-base leading-8 text-muted-foreground">
               Ovo je prvi tekst u serijalu o praktičnom korištenju AI-a. Nije
               manifest ni prodajna stranica, nego osobni zapis o tome kako se
@@ -711,7 +754,30 @@ function ArticlePage() {
             </p>
           </div>
 
-          <div className="mt-10 space-y-10 text-lg leading-8 text-muted-foreground">
+          <nav
+            aria-label="Sadržaj članka"
+            className="article-shell article-toc mt-10 rounded-[24px] border border-border/70 bg-card/78 p-4 shadow-soft"
+          >
+            <p className="text-[11px] font-semibold text-muted-foreground uppercase">
+              Sadržaj
+            </p>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              {articleHeadings.map((heading) => (
+                <a
+                  key={heading}
+                  href={`#${heading
+                    .toLowerCase()
+                    .replaceAll(" ", "-")
+                    .replaceAll("?", "")}`}
+                  className={`glimmer-button rounded-2xl border border-border/60 bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
+                >
+                  {heading}
+                </a>
+              ))}
+            </div>
+          </nav>
+
+          <div className="article-shell mt-10 space-y-10 text-lg leading-8 text-muted-foreground">
             <div className="space-y-6">
               {articleIntro.map((paragraph) => (
                 <p key={paragraph}>{renderLinkedText(paragraph)}</p>
@@ -720,7 +786,13 @@ function ArticlePage() {
 
             {articleSections.map((section) => (
               <section key={section.heading} className="space-y-6">
-                <h2 className="pt-4 font-display text-3xl font-bold tracking-[-0.04em] text-foreground">
+                <h2
+                  id={section.heading
+                    .toLowerCase()
+                    .replaceAll(" ", "-")
+                    .replaceAll("?", "")}
+                  className="pt-4 font-display text-3xl font-bold text-balance text-foreground"
+                >
                   {section.heading}
                 </h2>
                 {section.heading === BOOK_SECTION_HEADING ? (
@@ -829,7 +901,7 @@ function ArticlePage() {
             ))}
           </div>
 
-          <Card className="mt-14 rounded-[30px] border-border/70 bg-card/86 py-0 shadow-float">
+          <Card className="article-shell mt-14 rounded-[30px] border-border/70 bg-card/86 py-0 shadow-float">
             <CardContent className="p-6 sm:p-8">
               <p className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
                 AI u praksi
