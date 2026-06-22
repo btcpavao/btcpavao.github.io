@@ -186,6 +186,10 @@
     text-wrap: pretty;
   }
 
+  picture {
+    display: block;
+  }
+
   time,
   .font-mono,
   [data-slot="button"] {

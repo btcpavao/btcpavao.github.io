@@ -9,6 +9,8 @@
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
+    "verify": "npm run verify:assets",
+    "verify:assets": "node scripts/verify-assets.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
