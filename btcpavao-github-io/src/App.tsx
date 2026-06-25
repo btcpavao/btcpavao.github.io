@@ -492,10 +492,10 @@ function ArticlePage() {
                   </time>
                 </div>
 
-                <h1 className="mt-8 max-w-[11ch] font-display text-5xl leading-[0.96] font-bold text-balance text-foreground sm:text-6xl lg:text-7xl">
+                <h1 className="mt-8 max-w-[10ch] font-display text-5xl leading-[0.96] font-bold text-balance text-foreground sm:text-6xl xl:text-7xl">
                   {ARTICLE_TITLE}
                 </h1>
-                <p className="mt-6 max-w-2xl text-xl leading-8 text-pretty text-muted-foreground sm:text-2xl sm:leading-9">
+                <p className="mt-6 max-w-xl text-xl leading-8 text-pretty text-muted-foreground sm:text-2xl sm:leading-9">
                   Kako sam uz diktiranje, ChatGPT i Codex počeo raditi kao da
                   imam mali tim oko sebe.
                 </p>
