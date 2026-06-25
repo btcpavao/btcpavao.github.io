@@ -164,7 +164,7 @@ const itemReveal =
 const subtleReveal =
   "animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-4 animate-inview:y-0 animate-duration-500 animate-ease-out animate-once"
 const liftHover =
-  "transition-[background-color,color,border-color,box-shadow,transform] duration-300 active:translate-y-px active:scale-[0.99]"
+  "transition-[background-color,color,border-color,box-shadow,transform] duration-300 active:translate-y-px active:scale-[0.96]"
 const staggerDelays = [
   "animate-delay-0",
   "animate-delay-100",
@@ -240,11 +240,18 @@ function ThemeToggle() {
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
       title={isDark ? "Switch to light theme" : "Switch to dark theme"}
     >
-      {isDark ? (
-        <SunMedium className="size-4" />
-      ) : (
-        <MoonStar className="size-4" />
-      )}
+      <span className="theme-toggle-icon-stack" aria-hidden="true">
+        <SunMedium
+          className={`theme-toggle-icon ${
+            isDark ? "theme-toggle-icon-active" : "theme-toggle-icon-inactive"
+          }`}
+        />
+        <MoonStar
+          className={`theme-toggle-icon ${
+            isDark ? "theme-toggle-icon-inactive" : "theme-toggle-icon-active"
+          }`}
+        />
+      </span>
     </Button>
   )
 }
