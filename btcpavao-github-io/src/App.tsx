@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { type ReactNode, useEffect, useRef, useState } from "react"
 import {
   ArrowUp,
   ArrowUpRight,
@@ -20,6 +20,13 @@ import { Card, CardContent } from "@/components/ui/card"
 
 const SITE_URL = "https://btcpavao.com"
 const CONTACT_EMAIL = "mailto:pavao@hey.com"
+const AI_SERIES_PATH = "/hr/ai-u-praksi/"
+const AI_SERIES_URL = `${SITE_URL}${AI_SERIES_PATH}`
+const AI_SERIES_TITLE = "AI u praksi"
+const AI_SERIES_DESCRIPTION =
+  "Osobne bilješke o tome kako koristim AI za pisanje, knjige, web stranice, agente, automatizaciju i svakodnevni rad."
+const AI_SERIES_OG_DESCRIPTION =
+  "Kako jedan generalist koristi AI da ideje pretvori u tekstove, knjige, web stranice i stvarne poslovne sustave."
 const ARTICLE_PATH = "/hr/ai-u-praksi/jedan-covjek-ai-i-dva-mjeseca-rada/"
 const ARTICLE_URL = `${SITE_URL}${ARTICLE_PATH}`
 const ARTICLE_TITLE = "Jedan čovjek, AI i dva mjeseca rada"
@@ -31,6 +38,17 @@ const ARTICLE_DATE = "2026-06-12"
 const ARTICLE_DISPLAY_DATE = "12. lipnja 2026."
 const ARTICLE_HERO_IMAGE = "/ai-workflow-hero.png"
 const ARTICLE_HERO_IMAGE_WEBP = "/ai-workflow-hero.webp"
+const WORKFLOW_ARTICLE_PATH =
+  "/hr/ai-u-praksi/od-diktata-do-objavljene-stranice/"
+const WORKFLOW_ARTICLE_URL = `${SITE_URL}${WORKFLOW_ARTICLE_PATH}`
+const WORKFLOW_ARTICLE_TITLE =
+  "Moj AI workflow: od diktata do objavljene stranice"
+const WORKFLOW_ARTICLE_DESCRIPTION =
+  "Kako koristim diktiranje, transkripciju, ChatGPT i Codex da ideju pretvorim u članak, vodič, knjigu ili web stranicu."
+const WORKFLOW_ARTICLE_OG_DESCRIPTION =
+  "Praktičan prikaz procesa od ideje izgovorene u šetnji do sadržaja ili stranice spremne za objavu."
+const WORKFLOW_ARTICLE_DATE = "2026-06-25"
+const WORKFLOW_ARTICLE_DISPLAY_DATE = "25. lipnja 2026."
 const BOOK_SECTION_HEADING = "Knjiga koja je godinama čekala red"
 const AGENTS_SECTION_HEADING = "Agenti kao probni čitatelji"
 const WEB_SECTION_HEADING = "Web stranice kroz razgovor"
@@ -54,15 +72,26 @@ const socialLinks = [
   },
 ]
 
-const latestWriting = {
-  category: "AI u praksi",
-  title: ARTICLE_TITLE,
-  description:
-    "Prvi hrvatski zapis o tome kako mi je diktiranje, ChatGPT i Codex promijenilo svakodnevni rad.",
-  href: ARTICLE_PATH,
-  language: "HR",
-  date: ARTICLE_DISPLAY_DATE,
-}
+const aiSeriesPosts = [
+  {
+    category: "AI u praksi",
+    title: ARTICLE_TITLE,
+    description:
+      "Prvi hrvatski zapis o tome kako mi je diktiranje, ChatGPT i Codex promijenilo svakodnevni rad.",
+    href: ARTICLE_PATH,
+    language: "HR",
+    date: ARTICLE_DISPLAY_DATE,
+  },
+  {
+    category: "AI u praksi",
+    title: WORKFLOW_ARTICLE_TITLE,
+    description:
+      "Kako ideja iz šetnje prolazi kroz transkripciju, razgovor s ChatGPT-em i implementaciju u Codexu.",
+    href: WORKFLOW_ARTICLE_PATH,
+    language: "HR",
+    date: WORKFLOW_ARTICLE_DISPLAY_DATE,
+  },
+]
 
 const focusItems = [
   {
@@ -353,28 +382,77 @@ function renderLinkedText(text: string) {
   })
 }
 
-function useArticleMetadata() {
+type MetadataOptions = {
+  title: string
+  description: string
+  ogDescription: string
+  url: string
+  type?: "website" | "article"
+  publishedDate?: string
+}
+
+function usePageMetadata({
+  title,
+  description,
+  ogDescription,
+  url,
+  type = "website",
+  publishedDate,
+}: MetadataOptions) {
   useEffect(() => {
     document.documentElement.lang = "hr"
-    document.title = ARTICLE_TITLE
-    setCanonicalUrl(ARTICLE_URL)
-    setMetaContent("name", "description", ARTICLE_DESCRIPTION)
-    setMetaContent("property", "og:type", "article")
-    setMetaContent("property", "og:title", ARTICLE_TITLE)
-    setMetaContent("property", "og:description", ARTICLE_OG_DESCRIPTION)
-    setMetaContent("property", "og:url", ARTICLE_URL)
-    setMetaContent("property", "article:section", "AI u praksi")
-    setMetaContent("property", "article:published_time", ARTICLE_DATE)
-    setMetaContent("name", "twitter:title", ARTICLE_TITLE)
-    setMetaContent("name", "twitter:description", ARTICLE_OG_DESCRIPTION)
-  }, [])
+    document.title = title
+    setCanonicalUrl(url)
+    setMetaContent("name", "description", description)
+    setMetaContent("property", "og:type", type)
+    setMetaContent("property", "og:title", title)
+    setMetaContent("property", "og:description", ogDescription)
+    setMetaContent("property", "og:url", url)
+    setMetaContent("name", "twitter:title", title)
+    setMetaContent("name", "twitter:description", ogDescription)
+
+    if (type === "article" && publishedDate) {
+      setMetaContent("property", "article:section", "AI u praksi")
+      setMetaContent("property", "article:published_time", publishedDate)
+    }
+  }, [description, ogDescription, publishedDate, title, type, url])
+}
+
+function useArticleMetadata() {
+  usePageMetadata({
+    title: ARTICLE_TITLE,
+    description: ARTICLE_DESCRIPTION,
+    ogDescription: ARTICLE_OG_DESCRIPTION,
+    url: ARTICLE_URL,
+    type: "article",
+    publishedDate: ARTICLE_DATE,
+  })
+}
+
+function useSeriesMetadata() {
+  usePageMetadata({
+    title: `${AI_SERIES_TITLE} | Pavao Pahljina`,
+    description: AI_SERIES_DESCRIPTION,
+    ogDescription: AI_SERIES_OG_DESCRIPTION,
+    url: AI_SERIES_URL,
+  })
+}
+
+function useWorkflowArticleMetadata() {
+  usePageMetadata({
+    title: WORKFLOW_ARTICLE_TITLE,
+    description: WORKFLOW_ARTICLE_DESCRIPTION,
+    ogDescription: WORKFLOW_ARTICLE_OG_DESCRIPTION,
+    url: WORKFLOW_ARTICLE_URL,
+    type: "article",
+    publishedDate: WORKFLOW_ARTICLE_DATE,
+  })
 }
 
 function useReadingProgress() {
   useEffect(() => {
     function updateProgress() {
-      const max =
-        document.documentElement.scrollHeight - window.innerHeight
+      const max = document.documentElement.scrollHeight - window.innerHeight
       const progress = max <= 0 ? 0 : Math.min(window.scrollY / max, 1)
       document.documentElement.style.setProperty(
         "--reading-progress",
@@ -445,13 +523,13 @@ function ArticlePage() {
           <div className="flex items-center gap-2">
             <a
               href="/"
-              className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground transition hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
+              className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
             >
               Home
             </a>
             <a
               href={CONTACT_EMAIL}
-              className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground transition hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
+              className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
             >
               Contact
             </a>
@@ -479,7 +557,7 @@ function ArticlePage() {
               <div className="article-hero-copy">
                 <a
                   href="/"
-                  className="glimmer-button inline-flex rounded-full border border-border/70 bg-background/82 px-4 py-2 text-sm font-medium text-muted-foreground backdrop-blur transition hover:bg-card hover:text-foreground"
+                  className="glimmer-button inline-flex rounded-full border border-border/70 bg-background/82 px-4 py-2 text-sm font-medium text-muted-foreground backdrop-blur transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground"
                 >
                   Natrag na početnu
                 </a>
@@ -512,194 +590,211 @@ function ArticlePage() {
 
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <div className="article-shell mt-12 border-y border-border/70 py-8">
-            <p className="max-w-2xl text-base leading-8 text-muted-foreground">
-              Ovo je prvi tekst u serijalu o praktičnom korištenju AI-a. Nije
-              manifest ni prodajna stranica, nego osobni zapis o tome kako se
-              promijenio moj svakodnevni ritam rada.
-            </p>
+              <p className="max-w-2xl text-base leading-8 text-muted-foreground">
+                Ovo je prvi tekst u serijalu o praktičnom korištenju AI-a. Nije
+                manifest ni prodajna stranica, nego osobni zapis o tome kako se
+                promijenio moj svakodnevni ritam rada.
+              </p>
             </div>
 
-          <nav
-            aria-label="Sadržaj članka"
-            className="article-shell article-toc mt-10 rounded-[24px] border border-border/70 bg-card/78 p-4 shadow-soft"
-          >
-            <p className="text-[11px] font-semibold text-muted-foreground uppercase">
-              Sadržaj
-            </p>
-            <div className="mt-3 grid gap-2 sm:grid-cols-2">
-              {articleHeadings.map((heading) => (
-                <a
-                  key={heading}
-                  href={`#${heading
-                    .toLowerCase()
-                    .replaceAll(" ", "-")
-                    .replaceAll("?", "")}`}
-                  className={`glimmer-button rounded-2xl border border-border/60 bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
-                >
-                  {heading}
-                </a>
-              ))}
-            </div>
-          </nav>
+            <nav
+              aria-label="Sadržaj članka"
+              className="article-shell article-toc mt-10 rounded-[24px] border border-border/70 bg-card/78 p-4 shadow-soft"
+            >
+              <p className="text-[11px] font-semibold text-muted-foreground uppercase">
+                Sadržaj
+              </p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {articleHeadings.map((heading) => (
+                  <a
+                    key={heading}
+                    href={`#${heading
+                      .toLowerCase()
+                      .replaceAll(" ", "-")
+                      .replaceAll("?", "")}`}
+                    className={`glimmer-button rounded-2xl border border-border/60 bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
+                  >
+                    {heading}
+                  </a>
+                ))}
+              </div>
+            </nav>
 
-          <div className="article-shell mt-10 space-y-10 text-lg leading-8 text-muted-foreground">
-            <div className="space-y-6">
-              {articleIntro.map((paragraph) => (
-                <p key={paragraph}>{renderLinkedText(paragraph)}</p>
-              ))}
-            </div>
-
-            {articleSections.map((section) => (
-              <section key={section.heading} className="space-y-6">
-                <h2
-                  id={section.heading
-                    .toLowerCase()
-                    .replaceAll(" ", "-")
-                    .replaceAll("?", "")}
-                  className="pt-4 font-display text-3xl font-bold text-balance text-foreground"
-                >
-                  {section.heading}
-                </h2>
-                {section.heading === BOOK_SECTION_HEADING ? (
-                  <figure className="space-y-3">
-                    <picture>
-                      <source
-                        srcSet="/bitcoin-kao-novac-cover.webp"
-                        type="image/webp"
-                      />
-                      <img
-                        src="/bitcoin-kao-novac-cover.png"
-                        alt='Naslovnica knjige "Bitcoin kao novac"'
-                        width={1448}
-                        height={1086}
-                        loading="lazy"
-                        decoding="async"
-                        className="w-full rounded-lg border border-border/70 bg-card/80 shadow-soft"
-                      />
-                    </picture>
-                    <figcaption className="text-sm leading-6 text-muted-foreground">
-                      Naslovnica knjige{" "}
-                      <span className="font-medium text-foreground">
-                        Bitcoin kao novac
-                      </span>
-                      .
-                    </figcaption>
-                  </figure>
-                ) : null}
-                {section.paragraphs.map((paragraph) => (
+            <div className="article-shell mt-10 space-y-10 text-lg leading-8 text-muted-foreground">
+              <div className="space-y-6">
+                {articleIntro.map((paragraph) => (
                   <p key={paragraph}>{renderLinkedText(paragraph)}</p>
                 ))}
-                {section.heading === WEB_SECTION_HEADING ? (
-                  <div className="grid gap-5">
-                    {websiteScreenshots.map((site) => (
-                      <figure
-                        key={site.title}
-                        className="space-y-3 rounded-[28px] border border-border/70 bg-card/78 p-3 shadow-soft sm:p-4"
-                      >
-                        <picture>
-                          <source srcSet={site.webpSrc} type="image/webp" />
-                          <img
-                            src={site.src}
-                            alt={site.alt}
-                            width={2048}
-                            height={1153}
-                            loading="lazy"
-                            decoding="async"
-                            className="w-full rounded-2xl border border-border/70 bg-background/80"
-                          />
-                        </picture>
-                        <figcaption className="px-1 pb-1 text-sm leading-6 text-muted-foreground">
-                          <span className="font-medium text-foreground">
-                            {site.title}
-                          </span>
-                          : {site.caption}
-                        </figcaption>
-                      </figure>
-                    ))}
-                  </div>
-                ) : null}
-                {section.heading === AGENTS_SECTION_HEADING ? (
-                  <div className="space-y-5 rounded-[28px] border border-border/70 bg-card/78 p-5 text-base leading-7 shadow-soft sm:p-6">
-                    <div className="space-y-2">
-                      <p className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
-                        Primjer iz stvarnog procesa
-                      </p>
-                      <h3 className="font-display text-2xl font-bold tracking-[-0.04em] text-foreground">
-                        Mali urednički tim za knjigu Bitcoin kao novac
-                      </h3>
-                      <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
-                        Ovo nisu bili likovi za zabavu, nego radne perspektive
-                        kroz koje sam testirao tekst prije stvarnih čitatelja:
-                        tko se gubi, tko osjeća pritisak, tko vidi rizik i gdje
-                        knjiga preskače korak.
-                      </p>
-                    </div>
-                    <div className="grid gap-4">
-                      {bookAgentGroups.map((group) => (
-                        <section
-                          key={group.label}
-                          className="rounded-2xl border border-border/70 bg-background/62 p-4"
+              </div>
+
+              {articleSections.map((section) => (
+                <section key={section.heading} className="space-y-6">
+                  <h2
+                    id={section.heading
+                      .toLowerCase()
+                      .replaceAll(" ", "-")
+                      .replaceAll("?", "")}
+                    className="pt-4 font-display text-3xl font-bold text-balance text-foreground"
+                  >
+                    {section.heading}
+                  </h2>
+                  {section.heading === BOOK_SECTION_HEADING ? (
+                    <figure className="space-y-3">
+                      <picture>
+                        <source
+                          srcSet="/bitcoin-kao-novac-cover.webp"
+                          type="image/webp"
+                        />
+                        <img
+                          src="/bitcoin-kao-novac-cover.png"
+                          alt='Naslovnica knjige "Bitcoin kao novac"'
+                          width={1448}
+                          height={1086}
+                          loading="lazy"
+                          decoding="async"
+                          className="w-full rounded-lg border border-border/70 bg-card/80 shadow-soft"
+                        />
+                      </picture>
+                      <figcaption className="text-sm leading-6 text-muted-foreground">
+                        Naslovnica knjige{" "}
+                        <span className="font-medium text-foreground">
+                          Bitcoin kao novac
+                        </span>
+                        .
+                      </figcaption>
+                    </figure>
+                  ) : null}
+                  {section.paragraphs.map((paragraph) => (
+                    <p key={paragraph}>{renderLinkedText(paragraph)}</p>
+                  ))}
+                  {section.heading === WEB_SECTION_HEADING ? (
+                    <div className="grid gap-5">
+                      {websiteScreenshots.map((site) => (
+                        <figure
+                          key={site.title}
+                          className="space-y-3 rounded-[28px] border border-border/70 bg-card/78 p-3 shadow-soft sm:p-4"
                         >
-                          <div className="mb-4">
-                            <h4 className="font-display text-lg font-bold tracking-[-0.03em] text-foreground">
-                              {group.label}
-                            </h4>
-                            <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                              {group.description}
-                            </p>
-                          </div>
-                          <div className="grid gap-3 md:grid-cols-2">
-                            {group.agents.map((agent) => (
-                              <div
-                                key={agent.id}
-                                className="rounded-2xl border border-border/60 bg-card/72 p-4"
-                              >
-                                <p className="font-mono text-[11px] leading-5 font-semibold break-all text-primary">
-                                  {agent.id}
-                                </p>
-                                <h5 className="mt-2 font-display text-lg font-bold tracking-[-0.03em] text-foreground">
-                                  {agent.title}
-                                </h5>
-                                <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                                  {agent.description}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        </section>
+                          <picture>
+                            <source srcSet={site.webpSrc} type="image/webp" />
+                            <img
+                              src={site.src}
+                              alt={site.alt}
+                              width={2048}
+                              height={1153}
+                              loading="lazy"
+                              decoding="async"
+                              className="w-full rounded-2xl border border-border/70 bg-background/80"
+                            />
+                          </picture>
+                          <figcaption className="px-1 pb-1 text-sm leading-6 text-muted-foreground">
+                            <span className="font-medium text-foreground">
+                              {site.title}
+                            </span>
+                            : {site.caption}
+                          </figcaption>
+                        </figure>
                       ))}
                     </div>
-                  </div>
-                ) : null}
-              </section>
-            ))}
-          </div>
+                  ) : null}
+                  {section.heading === AGENTS_SECTION_HEADING ? (
+                    <div className="space-y-5 rounded-[28px] border border-border/70 bg-card/78 p-5 text-base leading-7 shadow-soft sm:p-6">
+                      <div className="space-y-2">
+                        <p className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
+                          Primjer iz stvarnog procesa
+                        </p>
+                        <h3 className="font-display text-2xl font-bold tracking-[-0.04em] text-foreground">
+                          Mali urednički tim za knjigu Bitcoin kao novac
+                        </h3>
+                        <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
+                          Ovo nisu bili likovi za zabavu, nego radne perspektive
+                          kroz koje sam testirao tekst prije stvarnih čitatelja:
+                          tko se gubi, tko osjeća pritisak, tko vidi rizik i
+                          gdje knjiga preskače korak.
+                        </p>
+                      </div>
+                      <div className="grid gap-4">
+                        {bookAgentGroups.map((group) => (
+                          <section
+                            key={group.label}
+                            className="rounded-2xl border border-border/70 bg-background/62 p-4"
+                          >
+                            <div className="mb-4">
+                              <h4 className="font-display text-lg font-bold tracking-[-0.03em] text-foreground">
+                                {group.label}
+                              </h4>
+                              <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                                {group.description}
+                              </p>
+                            </div>
+                            <div className="grid gap-3 md:grid-cols-2">
+                              {group.agents.map((agent) => (
+                                <div
+                                  key={agent.id}
+                                  className="rounded-2xl border border-border/60 bg-card/72 p-4"
+                                >
+                                  <p className="font-mono text-[11px] leading-5 font-semibold break-all text-primary">
+                                    {agent.id}
+                                  </p>
+                                  <h5 className="mt-2 font-display text-lg font-bold tracking-[-0.03em] text-foreground">
+                                    {agent.title}
+                                  </h5>
+                                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                                    {agent.description}
+                                  </p>
+                                </div>
+                              ))}
+                            </div>
+                          </section>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+                </section>
+              ))}
+            </div>
 
             <Card className="article-shell mt-14 rounded-[30px] border-border/70 bg-card/86 py-0 shadow-float">
-            <CardContent className="p-6 sm:p-8">
-              <p className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
-                AI u praksi
-              </p>
-              <h2 className="mt-3 font-display text-2xl font-bold tracking-[-0.04em] text-foreground">
-                Prvi zapis u novom serijalu
-              </h2>
-              <p className="mt-4 max-w-2xl text-base leading-8 text-muted-foreground">
-                Ovo je prvi tekst u serijalu o tome kako koristim AI za pisanje,
-                web stranice, knjige, agente i poslovne procese. Za razgovor o
-                praktičnoj primjeni AI-a u vlastitom radu možeš mi se javiti
-                kroz postojeći kontakt na stranici.
-              </p>
-              <Button
-                asChild
-                size="lg"
-                className="glimmer-button mt-6 rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
-              >
-                <a href={CONTACT_EMAIL}>
-                  Kontakt
-                  <Mail className="size-4" />
-                </a>
-              </Button>
-            </CardContent>
+              <CardContent className="p-6 sm:p-8">
+                <p className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
+                  AI u praksi
+                </p>
+                <h2 className="mt-3 font-display text-2xl font-bold tracking-[-0.04em] text-foreground">
+                  Serijal AI u praksi
+                </h2>
+                <p className="mt-4 max-w-2xl text-base leading-8 text-muted-foreground">
+                  Ovo je prvi tekst u serijalu o tome kako koristim AI za
+                  pisanje, web stranice, knjige, agente i poslovne procese.
+                  Sljedeći tekst opisuje moj konkretan workflow od diktata do
+                  objavljene stranice.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="glimmer-button rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
+                  >
+                    <a href={AI_SERIES_PATH}>Svi tekstovi iz serijala</a>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="lg"
+                    className="glimmer-button rounded-full border-border/70 bg-background/82 px-6"
+                  >
+                    <a href={WORKFLOW_ARTICLE_PATH}>Sljedeći tekst</a>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="link"
+                    className="h-auto px-1 text-sm font-semibold"
+                  >
+                    <a href={CONTACT_EMAIL}>
+                      Kontakt
+                      <Mail className="size-4" />
+                    </a>
+                  </Button>
+                </div>
+              </CardContent>
             </Card>
           </div>
         </article>
@@ -721,7 +816,7 @@ function ArticlePage() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="glimmer-button rounded-full border border-border/70 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:bg-card hover:text-foreground"
+                className="glimmer-button rounded-full border border-border/70 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground"
               >
                 {link.label}
               </a>
@@ -730,6 +825,419 @@ function ArticlePage() {
         </div>
       </footer>
     </div>
+  )
+}
+
+function PageChrome({
+  children,
+  active = "series",
+}: {
+  children: ReactNode
+  active?: "home" | "series"
+}) {
+  return (
+    <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
+      <div
+        aria-hidden="true"
+        className="page-atmosphere pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,hsl(var(--hero-glow)/0.18)_0%,transparent_30%),radial-gradient(circle_at_85%_10%,hsl(var(--hero-ember)/0.16)_0%,transparent_18%),linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--background))_42%,hsl(var(--muted)/0.72)_150%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="page-grid pointer-events-none absolute inset-0 [background-image:linear-gradient(hsl(var(--border)/0.28)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--border)/0.28)_1px,transparent_1px)] [mask-image:linear-gradient(180deg,black,transparent_84%)] [background-size:68px_68px] opacity-55"
+      />
+      <div aria-hidden="true" className="ambient-orb ambient-orb-left" />
+      <div aria-hidden="true" className="ambient-orb ambient-orb-right" />
+
+      <header className="z-40 border-b border-border/60 bg-background/92 md:sticky md:top-0 md:bg-background/78 md:backdrop-blur-xl">
+        <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
+          <a
+            className="font-display text-base font-bold tracking-[-0.04em]"
+            href="/"
+            aria-current={active === "home" ? "page" : undefined}
+          >
+            Pavao Pahljina
+          </a>
+
+          <div className="flex items-center gap-2">
+            <a
+              href={AI_SERIES_PATH}
+              aria-current={active === "series" ? "page" : undefined}
+              className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
+            >
+              AI u praksi
+            </a>
+            <a
+              href="/#contact"
+              className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
+            >
+              Contact
+            </a>
+            <ThemeToggle />
+          </div>
+        </div>
+      </header>
+
+      {children}
+    </div>
+  )
+}
+
+function SeriesCard({ post }: { post: (typeof aiSeriesPosts)[number] }) {
+  return (
+    <a
+      href={post.href}
+      className={`glimmer-button grid rounded-[28px] border border-border/70 bg-card/82 p-6 shadow-soft hover:bg-card ${liftHover}`}
+    >
+      <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+        <span className="rounded-full bg-background/70 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)]">
+          {post.category}
+        </span>
+        <span className="rounded-full bg-background/70 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)]">
+          {post.language}
+        </span>
+        <span className="rounded-full bg-background/70 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)]">
+          {post.date}
+        </span>
+      </div>
+      <h3 className="mt-5 font-display text-2xl font-bold tracking-[-0.04em] text-balance text-foreground">
+        {post.title}
+      </h3>
+      <p className="mt-3 text-sm leading-7 text-pretty text-muted-foreground">
+        {post.description}
+      </p>
+    </a>
+  )
+}
+
+function AiSeriesPage() {
+  useSeriesMetadata()
+
+  const topics = [
+    "Pisanje i knjige",
+    "Diktiranje i razmišljanje naglas",
+    "Web stranice i kod",
+    "Agenti i povratne informacije",
+    "Automatizacija",
+    "AI za generaliste",
+    "Granice, pogreške i odgovornost",
+  ]
+
+  return (
+    <PageChrome>
+      <main className="relative mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+        <section>
+          <a
+            href="/"
+            className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
+          >
+            Početna
+          </a>
+          <p className="mt-12 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
+            AI u praksi
+          </p>
+          <h1 className="mt-4 max-w-[12ch] font-display text-5xl leading-[0.94] font-bold tracking-[-0.06em] text-balance text-foreground sm:text-6xl">
+            AI u praksi
+          </h1>
+          <div className="mt-8 max-w-3xl space-y-5 text-lg leading-8 text-pretty text-muted-foreground">
+            <p>
+              Ovdje bilježim kako koristim AI u stvarnom radu: za pisanje,
+              knjige, web stranice, poslovne procese, agente i automatizacije.
+            </p>
+            <p>
+              Ovo nije zbirka vijesti o umjetnoj inteligenciji niti pokušaj
+              predviđanja daleke budućnosti. Pišem o onome što trenutačno
+              testiram, što mi pomaže, gdje AI griješi i kako se mijenja posao
+              čovjeka koji ima ideju, ali nema veliki tim za njezinu izvedbu.
+            </p>
+            <p>
+              Posebno me zanima što AI znači za generaliste, poduzetnike,
+              autore, konzultante i druge ljude koji dobro poznaju svoj problem,
+              ali nisu programeri, dizajneri i stručnjaci za svaki pojedini dio
+              procesa.
+            </p>
+          </div>
+        </section>
+
+        <section className="mt-16 border-t border-border/60 pt-16">
+          <SectionHeader
+            eyebrow="Objavljeni tekstovi"
+            title="Tekstovi iz serijala"
+          />
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {aiSeriesPosts.map((post) => (
+              <SeriesCard key={post.href} post={post} />
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-16 grid gap-8 border-t border-border/60 pt-16 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)]">
+          <SectionHeader eyebrow="Bilješke" title="O čemu ovdje pišem" />
+          <ul className="flex flex-wrap gap-3">
+            {topics.map((topic) => (
+              <li
+                key={topic}
+                className="rounded-2xl bg-card/82 px-4 py-3 text-sm font-medium text-muted-foreground shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_10px_26px_hsl(var(--hero-shadow)/0.06)]"
+              >
+                {topic}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <Card className="mt-16 rounded-[32px] border-border/70 bg-card/86 py-0 shadow-float">
+          <CardContent className="p-6 sm:p-8">
+            <p className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
+              Kontakt
+            </p>
+            <h2 className="mt-3 font-display text-2xl font-bold tracking-[-0.04em] text-balance text-foreground">
+              Razgovor o praktičnoj primjeni AI-a
+            </h2>
+            <p className="mt-4 max-w-2xl text-base leading-8 text-pretty text-muted-foreground">
+              Ako pokušavaš uklopiti AI u vlastito pisanje, posao ili
+              svakodnevni workflow, možeš mi se javiti i opisati što pokušavaš
+              napraviti.
+            </p>
+            <Button
+              asChild
+              size="lg"
+              className="glimmer-button mt-6 rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
+            >
+              <a href={CONTACT_EMAIL}>
+                Kontakt
+                <Mail className="size-4" />
+              </a>
+            </Button>
+          </CardContent>
+        </Card>
+      </main>
+    </PageChrome>
+  )
+}
+
+type WorkflowBlock =
+  | { type: "p"; text: string }
+  | { type: "h3"; text: string }
+  | { type: "ul"; items: string[] }
+  | { type: "ol"; items: string[] }
+  | { type: "workflow" }
+
+function WorkflowSteps({ steps }: { steps: string[] }) {
+  return (
+    <ol
+      className="my-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"
+      aria-label="Workflow od ideje do objave"
+    >
+      {steps.map((step, index) => (
+        <li
+          key={step}
+          className="grid min-h-24 content-center rounded-[20px] bg-card/86 p-4 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_12px_30px_hsl(var(--hero-shadow)/0.07)]"
+        >
+          <span className="grid size-7 place-items-center rounded-full bg-primary/12 text-xs font-bold text-primary">
+            {index + 1}
+          </span>
+          <span className="mt-3 font-display text-lg font-bold tracking-[-0.03em] text-foreground">
+            {step}
+          </span>
+        </li>
+      ))}
+    </ol>
+  )
+}
+
+function WorkflowArticleBlock({
+  block,
+  steps,
+}: {
+  block: WorkflowBlock
+  steps: string[]
+}) {
+  if (block.type === "workflow") {
+    return <WorkflowSteps steps={steps} />
+  }
+
+  if (block.type === "h3") {
+    return (
+      <h3 className="pt-2 font-display text-2xl font-bold tracking-[-0.04em] text-balance text-foreground">
+        {block.text}
+      </h3>
+    )
+  }
+
+  if (block.type === "ul" || block.type === "ol") {
+    const List = block.type
+    return (
+      <List className="grid gap-3 pl-6 text-base leading-8 text-muted-foreground marker:text-primary">
+        {block.items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </List>
+    )
+  }
+
+  return <p>{renderLinkedText(block.text)}</p>
+}
+
+function WorkflowArticlePage() {
+  useWorkflowArticleMetadata()
+  useReadingProgress()
+  const [articleData, setArticleData] = useState<ArticleDataModule | null>(null)
+
+  useEffect(() => {
+    let isMounted = true
+
+    import("./article-data").then((data) => {
+      if (isMounted) {
+        setArticleData(data)
+      }
+    })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  const intro = articleData?.aiWorkflowArticleIntro ?? []
+  const sections = articleData?.aiWorkflowArticleSections ?? []
+  const steps = articleData?.aiWorkflowSteps ?? []
+
+  return (
+    <PageChrome>
+      <div className="reading-progress" aria-hidden="true" />
+      <main className="relative pb-20">
+        <article>
+          <header className="article-hero-bleed">
+            <picture className="article-hero-background">
+              <source srcSet={ARTICLE_HERO_IMAGE_WEBP} type="image/webp" />
+              <img
+                src={ARTICLE_HERO_IMAGE}
+                alt="Laptop, mobitel, bilježnica, kava i rukopis knjige na radnom stolu"
+                width={1672}
+                height={941}
+                decoding="async"
+                fetchPriority="high"
+              />
+            </picture>
+
+            <div className="article-hero-content">
+              <div className="article-hero-copy">
+                <a
+                  href={AI_SERIES_PATH}
+                  className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
+                >
+                  AI u praksi
+                </a>
+
+                <div className="mt-12 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase">
+                  <span className="rounded-full bg-background/78 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)] backdrop-blur">
+                    AI u praksi
+                  </span>
+                  <span className="rounded-full bg-background/78 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)] backdrop-blur">
+                    Hrvatski
+                  </span>
+                  <time
+                    className="rounded-full bg-background/78 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)] backdrop-blur"
+                    dateTime={WORKFLOW_ARTICLE_DATE}
+                  >
+                    {WORKFLOW_ARTICLE_DISPLAY_DATE}
+                  </time>
+                </div>
+
+                <h1 className="mt-8 max-w-[12ch] font-display text-5xl leading-[0.96] font-bold text-balance text-foreground sm:text-6xl xl:text-7xl">
+                  {WORKFLOW_ARTICLE_TITLE}
+                </h1>
+                <p className="mt-6 max-w-xl text-xl leading-8 text-pretty text-muted-foreground sm:text-2xl sm:leading-9">
+                  Kako ideja nastala u šetnji prolazi kroz transkripciju,
+                  razgovor s ChatGPT-em i implementaciju u Codexu dok ne postane
+                  nešto stvarno.
+                </p>
+              </div>
+            </div>
+          </header>
+
+          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <div className="article-shell mt-10 space-y-6 text-lg leading-8 text-muted-foreground">
+              {intro.map((paragraph) => (
+                <p key={paragraph}>{renderLinkedText(paragraph)}</p>
+              ))}
+            </div>
+
+            <nav
+              aria-label="Sadržaj članka"
+              className="article-shell article-toc mt-10 rounded-[24px] bg-card/78 p-4 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)]"
+            >
+              <p className="text-[11px] font-semibold text-muted-foreground uppercase">
+                Sadržaj
+              </p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {sections.map((section) => (
+                  <a
+                    key={section.heading}
+                    href={`#${section.heading
+                      .toLowerCase()
+                      .replaceAll(" ", "-")
+                      .replaceAll("?", "")}`}
+                    className={`glimmer-button rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground shadow-[0_0_0_1px_hsl(var(--border)/0.6)] hover:bg-card hover:text-foreground ${liftHover}`}
+                  >
+                    {section.heading}
+                  </a>
+                ))}
+              </div>
+            </nav>
+
+            <div className="article-shell mt-10 space-y-10 text-lg leading-8 text-muted-foreground">
+              {sections.map((section) => (
+                <section key={section.heading} className="space-y-6">
+                  <h2
+                    id={section.heading
+                      .toLowerCase()
+                      .replaceAll(" ", "-")
+                      .replaceAll("?", "")}
+                    className="pt-4 font-display text-3xl font-bold text-balance text-foreground"
+                  >
+                    {section.heading}
+                  </h2>
+                  {section.blocks.map((block, index) => (
+                    <WorkflowArticleBlock
+                      key={`${section.heading}-${index}`}
+                      block={block as WorkflowBlock}
+                      steps={steps}
+                    />
+                  ))}
+                </section>
+              ))}
+            </div>
+
+            <nav
+              aria-label="Povezani članci"
+              className="article-shell mt-14 grid gap-3 sm:grid-cols-2"
+            >
+              <a
+                href={ARTICLE_PATH}
+                className={`glimmer-button rounded-[24px] bg-card/82 p-5 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)] hover:bg-card ${liftHover}`}
+              >
+                <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+                  Prethodni tekst
+                </span>
+                <span className="mt-3 block font-display text-xl font-bold tracking-[-0.04em] text-balance text-foreground">
+                  {ARTICLE_TITLE}
+                </span>
+              </a>
+              <a
+                href={AI_SERIES_PATH}
+                className={`glimmer-button rounded-[24px] bg-card/82 p-5 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)] hover:bg-card ${liftHover}`}
+              >
+                <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+                  Serijal
+                </span>
+                <span className="mt-3 block font-display text-xl font-bold tracking-[-0.04em] text-balance text-foreground">
+                  Svi tekstovi iz serijala
+                </span>
+              </a>
+            </nav>
+          </div>
+        </article>
+      </main>
+    </PageChrome>
   )
 }
 
@@ -813,7 +1321,7 @@ function HomePage() {
               <a
                 key={link.href}
                 href={link.href}
-                className={`glimmer-button inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-medium text-muted-foreground transition hover:bg-card/70 hover:text-foreground ${liftHover}`}
+                className={`glimmer-button inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-medium text-muted-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card/70 hover:text-foreground ${liftHover}`}
               >
                 {link.label}
               </a>
@@ -828,7 +1336,7 @@ function HomePage() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`glimmer-button inline-flex h-10 min-h-10 shrink-0 items-center justify-center rounded-full border border-border/70 bg-background/80 px-4 text-sm leading-none font-medium text-muted-foreground transition hover:bg-card hover:text-foreground ${liftHover}`}
+                  className={`glimmer-button inline-flex h-10 min-h-10 shrink-0 items-center justify-center rounded-full border border-border/70 bg-background/80 px-4 text-sm leading-none font-medium text-muted-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground ${liftHover}`}
                 >
                   {link.label}
                 </a>
@@ -876,7 +1384,7 @@ function HomePage() {
                           : undefined
                       }
                       href={link.href}
-                      className={`glimmer-button rounded-2xl px-4 py-3 text-sm font-medium text-foreground transition hover:bg-background/70 ${liftHover}`}
+                      className={`glimmer-button rounded-2xl px-4 py-3 text-sm font-medium text-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-background/70 ${liftHover}`}
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {link.label}
@@ -891,7 +1399,7 @@ function HomePage() {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`glimmer-button rounded-2xl border border-border/70 bg-background/80 px-4 py-3 text-center text-sm font-medium text-muted-foreground transition hover:text-foreground ${liftHover}`}
+                      className={`glimmer-button rounded-2xl border border-border/70 bg-background/80 px-4 py-3 text-center text-sm font-medium text-muted-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:text-foreground ${liftHover}`}
                     >
                       {link.label}
                     </a>
@@ -1213,39 +1721,26 @@ function HomePage() {
         >
           <SectionHeader
             eyebrow="Latest writing"
-            title="A first Croatian note on AI in practice."
-            copy="A quiet starting point for a new line of writing about how AI changes real everyday work."
+            title="Kako AI koristim u stvarnom radu."
+            copy="Pišem o diktiranju, knjigama, web stranicama, agentima, automatizaciji i tome što AI znači za generaliste koji imaju ideje, ali nemaju veliki tim za izvedbu."
           />
 
-          <a
-            href={latestWriting.href}
-            className={`glimmer-button mt-8 grid gap-5 rounded-[30px] border border-border/70 bg-card/82 p-6 text-left shadow-soft transition hover:bg-card sm:p-7 md:grid-cols-[minmax(0,1fr)_auto] md:items-center ${liftHover}`}
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {aiSeriesPosts.map((post) => (
+              <SeriesCard key={post.href} post={post} />
+            ))}
+          </div>
+          <Button
+            asChild
+            variant="outline"
+            size="lg"
+            className="glimmer-button mt-6 rounded-full border-border/70 bg-background/82 px-6 transition-[background-color,border-color,box-shadow,color,transform] duration-300 hover:bg-card"
           >
-            <div>
-              <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
-                <span className="rounded-full border border-border/70 bg-background/70 px-3 py-1">
-                  {latestWriting.category}
-                </span>
-                <span className="rounded-full border border-border/70 bg-background/70 px-3 py-1">
-                  {latestWriting.language}
-                </span>
-                <span className="rounded-full border border-border/70 bg-background/70 px-3 py-1">
-                  {latestWriting.date}
-                </span>
-              </div>
-              <h3 className="mt-5 font-display text-2xl font-bold tracking-[-0.04em] text-foreground">
-                {latestWriting.title}
-              </h3>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
-                {latestWriting.description}
-              </p>
-            </div>
-
-            <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
-              Read in Croatian
+            <a href={AI_SERIES_PATH}>
+              Svi tekstovi
               <ArrowUpRight className="size-4" />
-            </span>
-          </a>
+            </a>
+          </Button>
         </section>
 
         <section
@@ -1282,7 +1777,7 @@ function HomePage() {
                     return (
                       <Card
                         key={item.title}
-                        className={`group rounded-[28px] border-border/70 bg-card/82 py-0 shadow-soft transition duration-300 ${liftHover} ${staggerDelays[index % staggerDelays.length] ?? ""}`}
+                        className={`group rounded-[28px] border-border/70 bg-card/82 py-0 shadow-soft transition-[background-color,color,border-color,box-shadow,transform] duration-300 ${liftHover} ${staggerDelays[index % staggerDelays.length] ?? ""}`}
                       >
                         <CardContent className="p-6">
                           <div className="flex items-start justify-between gap-4">
@@ -1441,7 +1936,7 @@ function HomePage() {
                 <div className="mt-6 space-y-3">
                   <a
                     href="mailto:pavao@hey.com"
-                    className="glimmer-button block rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium text-foreground transition hover:bg-card/70"
+                    className="glimmer-button block rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium text-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card/70"
                   >
                     pavao@hey.com
                   </a>
@@ -1449,7 +1944,7 @@ function HomePage() {
                     href="https://cal.com/btcpavao/introductory-call"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="glimmer-button block rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium text-foreground transition hover:bg-card/70"
+                    className="glimmer-button block rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium text-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card/70"
                   >
                     cal.com/btcpavao/introductory-call
                   </a>
@@ -1457,7 +1952,7 @@ function HomePage() {
                     href="https://btcpavao.gitbook.io/practical-bitcoin-standard/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="glimmer-button block rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium text-foreground transition hover:bg-card/70"
+                    className="glimmer-button block rounded-2xl border border-border/70 px-4 py-3 text-sm font-medium text-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card/70"
                   >
                     Practical Bitcoin Standard
                   </a>
@@ -1482,7 +1977,7 @@ function HomePage() {
               <a
                 key={link.href}
                 href={link.href}
-                className="glimmer-button rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition hover:bg-card/70 hover:text-foreground"
+                className="glimmer-button rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card/70 hover:text-foreground"
               >
                 {link.label}
               </a>
@@ -1496,7 +1991,7 @@ function HomePage() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="glimmer-button rounded-full border border-border/70 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:bg-card hover:text-foreground"
+                className="glimmer-button rounded-full border border-border/70 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground"
               >
                 {link.label}
               </a>
@@ -1522,7 +2017,21 @@ function HomePage() {
 }
 
 export function App() {
-  return getCurrentPath() === ARTICLE_PATH ? <ArticlePage /> : <HomePage />
+  const currentPath = getCurrentPath()
+
+  if (currentPath === ARTICLE_PATH) {
+    return <ArticlePage />
+  }
+
+  if (currentPath === AI_SERIES_PATH) {
+    return <AiSeriesPage />
+  }
+
+  if (currentPath === WORKFLOW_ARTICLE_PATH) {
+    return <WorkflowArticlePage />
+  }
+
+  return <HomePage />
 }
 
 export default App

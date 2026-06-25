@@ -119,6 +119,613 @@ export const articleSections = [
   },
 ]
 
+export const aiWorkflowArticleIntro = [
+  "Najveća promjena koju mi je AI donio nije jedan alat.",
+  "Promjena je nastala kada sam nekoliko alata počeo povezivati u jedan workflow.",
+  "Prije sam većinu ideja pretvarao u rad tako da sjednem za računalo, otvorim prazan dokument i počnem tipkati. To je i dalje ponekad potrebno, ali više nije jedini način na koji mogu početi.",
+  "Danas tekst, poglavlje knjige ili nova web stranica često počinju dok hodam.",
+  "Uzmem mobitel, otvorim aplikaciju za transkripciju i govorim. Ne pokušavam odmah proizvesti gotov tekst. Objašnjavam što mi je palo na pamet, zašto mi se čini važno, što želim postići i koje dijelove još nisam razjasnio.",
+  "Dobiveni transkript zatim postaje sirovina za razgovor s AI-em.",
+  "Iz tog razgovora može nastati članak, struktura vodiča, promjena na web stranici, novo poglavlje knjige ili precizan zadatak za Codex.",
+  "Ovo je proces koji trenutačno koristim.",
+]
+
+export const aiWorkflowSteps = [
+  "Ideja",
+  "Diktat",
+  "Transkript",
+  "ChatGPT",
+  "Prompt",
+  "Codex",
+  "Pregled",
+  "Objava",
+]
+
+export const aiWorkflowArticleSections = [
+  {
+    heading: "1. Ideja dolazi prije prompta",
+    blocks: [
+      {
+        type: "p",
+        text: "Dobar AI workflow za mene ne počinje promptom.",
+      },
+      {
+        type: "p",
+        text: "Počinje problemom, opažanjem ili idejom.",
+      },
+      {
+        type: "p",
+        text: "Ponekad znam točno što želim. Ponekad imam samo osjećaj da u postojećem tekstu nešto nedostaje. Ponekad mi tijekom šetnje na pamet padne usporedba koju želim sačuvati. Ponekad vidim da bi neki ručni poslovni proces mogao postati automatiziran.",
+      },
+      {
+        type: "p",
+        text: "U toj fazi ne pokušavam govoriti savršeno.",
+      },
+      {
+        type: "p",
+        text: "Pokušavam izvući ideju iz glave prije nego što nestane.",
+      },
+      {
+        type: "p",
+        text: "To je važno zato što previše strukturiranja na početku može zaustaviti razmišljanje. Ako istodobno pokušavam pronaći ideju, urediti rečenicu i procijeniti konačni rezultat, često postajem sporiji.",
+      },
+      {
+        type: "p",
+        text: "Diktiranje razdvaja stvaranje od uređivanja.",
+      },
+      {
+        type: "p",
+        text: "Prvo govorim.",
+      },
+      {
+        type: "p",
+        text: "Poslije uređujem.",
+      },
+    ],
+  },
+  {
+    heading: "2. Diktat je sirov materijal",
+    blocks: [
+      {
+        type: "p",
+        text: "Za transkripciju trenutačno koristim Soniox, ponajprije zato što mi dobro odgovara za hrvatski jezik i rad u pokretu.",
+      },
+      {
+        type: "p",
+        text: "Sirovi transkript gotovo nikada nije tekst koji bih odmah objavio.",
+      },
+      {
+        type: "p",
+        text: "U njemu ima ponavljanja, nedovršenih rečenica, poštapalica, digresija i mjesta na kojima se predomislim usred rečenice. To nije pogreška procesa. Upravo je to njegova svrha.",
+      },
+      {
+        type: "p",
+        text: "Transkript nije završni proizvod.",
+      },
+      {
+        type: "p",
+        text: "On je zapis razmišljanja.",
+      },
+      {
+        type: "p",
+        text: "Razlika je slična razlici između materijala na radnom stolu i gotovog predmeta. Ne očekujem da prvi komad materijala već izgleda kao konačna verzija. Važno mi je da sam uhvatio dovoljno sadržaja da kasnije mogu vidjeti što sam zapravo pokušavao reći.",
+      },
+      {
+        type: "p",
+        text: "Diktiranje mi zato nije samo brži oblik tipkanja.",
+      },
+      {
+        type: "p",
+        text: "Ono mijenja vrstu misli koju uspijem zabilježiti.",
+      },
+      {
+        type: "p",
+        text: "Dok govorim i hodam, često lakše objašnjavam širi kontekst, povezujem primjere i primjećujem što još nije jasno. Pisana rečenica ponekad prerano traži preciznost. Govor dopušta da do preciznosti dođem postupno.",
+      },
+    ],
+  },
+  {
+    heading: "3. ChatGPT kao sugovornik i urednik",
+    blocks: [
+      {
+        type: "p",
+        text: "Nakon diktiranja transkript stavljam u ChatGPT.",
+      },
+      {
+        type: "p",
+        text: "Ponekad odmah tražim prijedlog strukture. Ponekad prvo želim razgovarati o samoj ideji. Ponekad pitam što nedostaje, gdje je argument slab ili koje bi pitanje postavio skeptičan čitatelj.",
+      },
+      {
+        type: "p",
+        text: "Ovo mi je važnije od jednostavne naredbe “napiši članak”.",
+      },
+      {
+        type: "p",
+        text: "Kada AI odmah pokušava proizvesti gotov tekst, rezultat može zvučati uredno, ali ostati površan. Kada najprije razgovaramo o ideji, mogu jasnije vidjeti što stvarno želim reći.",
+      },
+      {
+        type: "p",
+        text: "U tom dijelu procesa ChatGPT može imati nekoliko uloga:",
+      },
+      {
+        type: "ul",
+        items: [
+          "pomoći mi pronaći glavnu misao",
+          "odvojiti jednu temu od nekoliko sporednih tema",
+          "predložiti logičan redoslijed",
+          "primijetiti nedosljednost",
+          "postaviti pitanje koje sam preskočio",
+          "urediti sirovi diktat",
+          "prilagoditi tekst određenom čitatelju",
+          "pripremiti zadatak za daljnju implementaciju",
+        ],
+      },
+      {
+        type: "p",
+        text: "I dalje ja odlučujem što je važno.",
+      },
+      {
+        type: "p",
+        text: "Ne prihvaćam svaki prijedlog. Često odbacim dijelove koji zvuče generički, previše sigurno ili jednostavno ne zvuče kao ja. AI je vrlo dobar u proizvodnji mogućnosti, ali odabir ostaje ljudski posao.",
+      },
+    ],
+  },
+  {
+    heading: "4. Od razgovora do zadatka za Codex",
+    blocks: [
+      {
+        type: "p",
+        text: "Ako je konačni rezultat samo tekst, posao se može završiti uređivanjem članka.",
+      },
+      {
+        type: "p",
+        text: "Ali često želim da tekst postane dio stvarne stranice.",
+      },
+      {
+        type: "p",
+        text: "Tada od ChatGPT-a tražim da razgovor i zaključke pretvori u precizan prompt za Codex.",
+      },
+      {
+        type: "p",
+        text: "Dobar prompt za Codex ne govori samo:",
+      },
+      {
+        type: "p",
+        text: "“Dodaj ovaj članak.”",
+      },
+      {
+        type: "p",
+        text: "On treba objasniti:",
+      },
+      {
+        type: "ul",
+        items: [
+          "što želimo postići",
+          "gdje se sadržaj treba nalaziti",
+          "što već postoji u repozitoriju",
+          "koji tekst treba koristiti",
+          "kako treba izgledati",
+          "koje postojeće konvencije treba poštovati",
+          "koje SEO podatke treba dodati",
+          "što se ne smije nepotrebno mijenjati",
+          "koje provjere treba pokrenuti",
+        ],
+      },
+      {
+        type: "p",
+        text: "To je trenutak u kojem neformalno razmišljanje postaje izvedbeni zadatak.",
+      },
+      {
+        type: "p",
+        text: "ChatGPT mi pritom pomaže prevesti poslovnu ili sadržajnu namjeru u tehnički precizniju uputu.",
+      },
+      {
+        type: "p",
+        text: "Ne moram znati unaprijed naziv svake datoteke ili komponente. Codex može pregledati repozitorij i pronaći odgovarajući način implementacije. Ali moram jasno znati kakav rezultat želim i koja ograničenja treba poštovati.",
+      },
+    ],
+  },
+  {
+    heading: "5. Codex čita postojeći sustav",
+    blocks: [
+      {
+        type: "p",
+        text: "Kada Codex dobije zadatak, prvo treba pregledati postojeći projekt.",
+      },
+      {
+        type: "p",
+        text: "To je velika razlika između rada na stvarnom proizvodu i generiranja izoliranog komada koda.",
+      },
+      {
+        type: "p",
+        text: "Nova stranica mora se uklopiti u postojeće:",
+      },
+      {
+        type: "ul",
+        items: [
+          "rute",
+          "komponente",
+          "tipografiju",
+          "navigaciju",
+          "SEO",
+          "stilove",
+          "strukturu sadržaja",
+          "način izgradnje i objave",
+        ],
+      },
+      {
+        type: "p",
+        text: "Najkorisniji rezultat nije onaj koji samo radi sam za sebe.",
+      },
+      {
+        type: "p",
+        text: "Najkorisniji rezultat je onaj koji postane prirodan dio postojećeg sustava.",
+      },
+      {
+        type: "p",
+        text: "Codex zatim može kreirati potrebne datoteke, povezati članak, ažurirati index, dodati metadata podatke i pokrenuti provjere projekta.",
+      },
+      {
+        type: "p",
+        text: "Ja za to vrijeme više nisam osoba koja ručno tipka svaki red koda.",
+      },
+      {
+        type: "p",
+        text: "Moja uloga postaje bliža ulozi urednika, vlasnika proizvoda i osobe koja određuje smjer.",
+      },
+    ],
+  },
+  {
+    heading: "6. Pregled je dio rada, a ne formalnost",
+    blocks: [
+      {
+        type: "p",
+        text: "AI output nikada ne smatram automatski završenim.",
+      },
+      {
+        type: "p",
+        text: "Pregledavam tekst.",
+      },
+      {
+        type: "p",
+        text: "Pregledavam stranicu.",
+      },
+      {
+        type: "p",
+        text: "Provjeravam vodi li poveznica na pravo mjesto. Gledam je li naslov predugačak. Čitam zvuči li rečenica kao nešto što bih stvarno rekao. Provjeravam je li Codex nepotrebno promijenio nešto izvan zadatka. Pokrećem ili tražim postojeće provjere projekta.",
+      },
+      {
+        type: "p",
+        text: "To nije znak da AI ne radi.",
+      },
+      {
+        type: "p",
+        text: "To jest rad.",
+      },
+      {
+        type: "p",
+        text: "Automobil ne postaje beskoristan zato što vozač i dalje mora upravljati. Alat povećava sposobnost kretanja, ali ne bira sam odredište.",
+      },
+      {
+        type: "p",
+        text: "Isto vrijedi i ovdje.",
+      },
+      {
+        type: "p",
+        text: "AI može dramatično ubrzati izvedbu, ali odgovornost za rezultat ostaje moja.",
+      },
+    ],
+  },
+  {
+    heading: "7. Iteracija je mjesto gdje nastaje kvaliteta",
+    blocks: [
+      {
+        type: "p",
+        text: "Prva verzija gotovo nikada nije najbolja verzija.",
+      },
+      {
+        type: "p",
+        text: "Prednost novog workflowa nije samo u tome što je prva verzija brža. Još veća prednost je u tome što su sljedeće verzije jeftinije i jednostavnije.",
+      },
+      {
+        type: "p",
+        text: "Mogu pročitati članak i reći:",
+      },
+      {
+        type: "ul",
+        items: [
+          "ovaj uvod je predugačak",
+          "ovdje nedostaje konkretan primjer",
+          "ovaj dio zvuči kao reklama",
+          "ovaj naslov nije dovoljno jasan",
+          "ova stranica treba bolju poveznicu prema prethodnom tekstu",
+          "ovaj dijagram nije čitljiv na mobitelu",
+        ],
+      },
+      {
+        type: "p",
+        text: "Nakon toga nova iteracija može biti spremna vrlo brzo.",
+      },
+      {
+        type: "p",
+        text: "Prije bi svaka veća promjena možda zahtijevala novu razmjenu poruka, novi termin i dodatno vrijeme nekoliko različitih ljudi. Danas mogu napraviti puno više iteracija prije objave.",
+      },
+      {
+        type: "p",
+        text: "To je važno jer kvaliteta rijetko dolazi iz jednog savršenog pokušaja.",
+      },
+      {
+        type: "p",
+        text: "Kvaliteta češće dolazi iz sposobnosti da brzo vidimo rezultat, naučimo iz njega i napravimo sljedeću verziju.",
+      },
+    ],
+  },
+  {
+    heading: "Kako cijeli proces izgleda",
+    blocks: [
+      {
+        type: "p",
+        text: "Moj trenutačni workflow može se sažeti ovako:",
+      },
+      {
+        type: "workflow",
+      },
+      {
+        type: "p",
+        text: "Ponekad preskočim neke korake.",
+      },
+      {
+        type: "p",
+        text: "Ponekad se više puta vratim na prethodni korak.",
+      },
+      {
+        type: "p",
+        text: "Ponekad Codex otkrije tehničko ograničenje zbog kojega moramo promijeniti početnu ideju. Ponekad kroz razgovor shvatim da iz jednog diktata zapravo trebaju nastati tri članka, a ne jedan.",
+      },
+      {
+        type: "p",
+        text: "Workflow nije proizvodna traka koja uvijek radi identično.",
+      },
+      {
+        type: "p",
+        text: "On je okvir koji smanjuje trenje između ideje i izvedbe.",
+      },
+    ],
+  },
+  {
+    heading: "Alati koje trenutačno koristim",
+    blocks: [
+      {
+        type: "p",
+        text: "Moj se izbor alata može s vremenom promijeniti, ali trenutačni sustav uglavnom izgleda ovako:",
+      },
+      {
+        type: "h3",
+        text: "Soniox",
+      },
+      {
+        type: "p",
+        text: "Koristim ga za transkripciju govora, posebno kada hodam i želim brzo zabilježiti dužu ideju na hrvatskom jeziku.",
+      },
+      {
+        type: "h3",
+        text: "ChatGPT",
+      },
+      {
+        type: "p",
+        text: "Koristim ga za razgovor, strukturiranje, uređivanje, istraživanje, propitivanje ideje i pripremu preciznih zadataka.",
+      },
+      {
+        type: "h3",
+        text: "Codex",
+      },
+      {
+        type: "p",
+        text: "Koristim ga za rad s repozitorijima, implementaciju sadržaja, izmjene stranica, kod i tehničke provjere.",
+      },
+      {
+        type: "h3",
+        text: "GitHub",
+      },
+      {
+        type: "p",
+        text: "Koristim ga za spremanje koda, praćenje promjena i objavljivanje različitih projekata.",
+      },
+      {
+        type: "h3",
+        text: "Cloudflare",
+      },
+      {
+        type: "p",
+        text: "Koristim ga u dijelu infrastrukture povezanom s domenama i web stranicama.",
+      },
+      {
+        type: "p",
+        text: "Nijedan od ovih alata sam za sebe nije cijeli workflow.",
+      },
+      {
+        type: "p",
+        text: "Vrijednost nastaje kada se povežu oko jasnog cilja.",
+      },
+    ],
+  },
+  {
+    heading: "Što AI u ovom procesu ne radi",
+    blocks: [
+      {
+        type: "p",
+        text: "AI ne odlučuje što mi je važno.",
+      },
+      {
+        type: "p",
+        text: "Ne stvara moje iskustvo.",
+      },
+      {
+        type: "p",
+        text: "Ne zna automatski koji je kompromis prihvatljiv.",
+      },
+      {
+        type: "p",
+        text: "Ne preuzima odgovornost za objavljeni tekst.",
+      },
+      {
+        type: "p",
+        text: "Ne poznaje moje čitatelje bolje od mene samo zato što može brzo proizvesti uvjerljive rečenice.",
+      },
+      {
+        type: "p",
+        text: "Ne može zamijeniti godine provedene u određenom području.",
+      },
+      {
+        type: "p",
+        text: "Ali može pomoći da iskustvo, znanje i ideje puno brže dobiju oblik.",
+      },
+      {
+        type: "p",
+        text: "To je za mene glavna vrijednost.",
+      },
+      {
+        type: "p",
+        text: "Ne pokušavam ukloniti čovjeka iz procesa.",
+      },
+      {
+        type: "p",
+        text: "Pokušavam ukloniti nepotrebno trenje između čovjekove namjere i izvedbe.",
+      },
+    ],
+  },
+  {
+    heading: "Kako početi bez kompliciranja",
+    blocks: [
+      {
+        type: "p",
+        text: "Osobi koja tek počinje ne bih preporučio da odmah gradi sustav s deset agenata, automatizacijama i nekoliko različitih alata.",
+      },
+      {
+        type: "p",
+        text: "Počeo bih s jednim ponavljajućim problemom.",
+      },
+      {
+        type: "p",
+        text: "Primjerice:",
+      },
+      {
+        type: "ul",
+        items: [
+          "pretvaranje bilješki u članak",
+          "priprema ponude za klijenta",
+          "uređivanje zapisnika sa sastanka",
+          "stvaranje nacrta newslettera",
+          "istraživanje teme",
+          "pretvaranje stručnog objašnjenja u jednostavan vodič",
+          "ažuriranje sadržaja na postojećoj stranici",
+        ],
+      },
+      {
+        type: "p",
+        text: "Zatim bih definirao mali proces:",
+      },
+      {
+        type: "ol",
+        items: [
+          "Kako danas ulazi informacija?",
+          "Gdje nastaje najveće usporavanje?",
+          "Što AI može pripremiti?",
+          "Što čovjek mora pregledati i odlučiti?",
+          "Kako izgleda završni rezultat?",
+          "Kako ćemo znati da je workflow koristan?",
+        ],
+      },
+      {
+        type: "p",
+        text: "Tek nakon što jedan mali proces stvarno radi, dodavao bih sljedeći.",
+      },
+      {
+        type: "p",
+        text: "Najveća opasnost nije samo da ljudi ne koriste AI.",
+      },
+      {
+        type: "p",
+        text: "Opasnost je i da počnu koristiti previše alata bez jasnog problema koji pokušavaju riješiti.",
+      },
+    ],
+  },
+  {
+    heading: "Ovaj članak je primjer vlastitog procesa",
+    blocks: [
+      {
+        type: "p",
+        text: "I ovaj tekst nastao je tim putem.",
+      },
+      {
+        type: "p",
+        text: "Ideja je najprije izgovorena.",
+      },
+      {
+        type: "p",
+        text: "Sirovi diktat zatim je postao materijal za razgovor. Iz razgovora je nastala odluka da ne trebam odmah graditi zaseban AI posao, nego polako objavljivati praktične tekstove na vlastitoj stranici.",
+      },
+      {
+        type: "p",
+        text: "Nakon prvog članka nastala je potreba za jasnijim prikazom samog workflowa.",
+      },
+      {
+        type: "p",
+        text: "Taj sadržaj zatim je pretvoren u zadatak za Codex, implementiran u postojeću stranicu, pregledan i objavljen.",
+      },
+      {
+        type: "p",
+        text: "Drugim riječima, članak ne opisuje samo proces.",
+      },
+      {
+        type: "p",
+        text: "On je i rezultat tog procesa.",
+      },
+    ],
+  },
+  {
+    heading: "Vrijednost nije u tome da proizvodimo više svega",
+    blocks: [
+      {
+        type: "p",
+        text: "AI može povećati količinu outputa.",
+      },
+      {
+        type: "p",
+        text: "To ne znači da je svaki dodatni output vrijedan.",
+      },
+      {
+        type: "p",
+        text: "Možemo proizvesti više tekstova koje nitko ne želi čitati. Više stranica koje ne rješavaju problem. Više koda koji nitko ne želi održavati. Više automatizacija procesa koji možda uopće ne bi trebali postojati.",
+      },
+      {
+        type: "p",
+        text: "Zato je važnije pitanje:",
+      },
+      {
+        type: "p",
+        text: "Što vrijedi napraviti?",
+      },
+      {
+        type: "p",
+        text: "AI dramatično smanjuje trošak izvedbe. Zbog toga ljudska procjena, ukus i sposobnost odabira postaju još važniji.",
+      },
+      {
+        type: "p",
+        text: "Kada možemo napraviti gotovo bilo što, moramo bolje odlučivati što nećemo napraviti.",
+      },
+      {
+        type: "p",
+        text: "Moj cilj zato nije automatizirati život radi automatizacije.",
+      },
+      {
+        type: "p",
+        text: "Cilj je koristiti bolji alat da ono što je zaista vrijedno lakše prijeđe put od ideje do stvarnosti.",
+      },
+    ],
+  },
+]
+
 export const websiteScreenshots = [
   {
     src: "/bitcoin-savjetovanje-screenshot.png",
