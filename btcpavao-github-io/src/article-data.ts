@@ -505,7 +505,7 @@ export const aiWorkflowArticleSections = [
       },
       {
         type: "p",
-        text: "Koristim ga za transkripciju govora, posebno kada hodam i želim brzo zabilježiti dužu ideju na hrvatskom jeziku.",
+        text: "Koristim ga za transkripciju govora, posebno kada hodam i želim brzo zabilježiti dužu ideju na hrvatskom jeziku. Službena stranica: https://soniox.com/.",
       },
       {
         type: "note",
@@ -517,7 +517,7 @@ export const aiWorkflowArticleSections = [
       },
       {
         type: "p",
-        text: "Koristim ga za razgovor, strukturiranje, uređivanje, istraživanje, propitivanje ideje i pripremu preciznih zadataka.",
+        text: "Koristim ga za razgovor, strukturiranje, uređivanje, istraživanje, propitivanje ideje i pripremu preciznih zadataka. Službena stranica: https://chatgpt.com/.",
       },
       {
         type: "h3",
@@ -525,7 +525,7 @@ export const aiWorkflowArticleSections = [
       },
       {
         type: "p",
-        text: "Koristim ga za rad s repozitorijima, implementaciju sadržaja, izmjene stranica, kod i tehničke provjere.",
+        text: "Koristim ga za rad s repozitorijima, implementaciju sadržaja, izmjene stranica, kod i tehničke provjere. Službena stranica: https://chatgpt.com/codex/.",
       },
       {
         type: "h3",
@@ -533,7 +533,7 @@ export const aiWorkflowArticleSections = [
       },
       {
         type: "p",
-        text: "Setapp nije AI alat u užem smislu, nego pretplata na katalog Mac aplikacija. Kod mene služi kao praktični sloj oko workflowa: Antinote za brze bilješke i računanje, CleanShot X za screenshotove i GIF-ove, Paste za clipboard povijest i Nitro PDF Pro za rad s PDF-ovima.",
+        text: "Setapp nije AI alat u užem smislu, nego pretplata na katalog Mac aplikacija. Kod mene služi kao praktični sloj oko workflowa: Antinote za brze bilješke i računanje, CleanShot X za screenshotove i GIF-ove, Paste za clipboard povijest i Nitro PDF Pro za rad s PDF-ovima. Linkovi: https://setapp.com/, https://antinote.io/, https://cleanshot.com/, https://pasteapp.io/ i https://www.gonitro.com/pdf-pro.",
       },
       {
         type: "note",
@@ -545,7 +545,7 @@ export const aiWorkflowArticleSections = [
       },
       {
         type: "p",
-        text: "Koristim ga za spremanje koda, praćenje promjena i objavljivanje različitih projekata.",
+        text: "Koristim ga za spremanje koda, praćenje promjena i objavljivanje različitih projekata. Službena stranica: https://github.com/.",
       },
       {
         type: "h3",
@@ -553,7 +553,7 @@ export const aiWorkflowArticleSections = [
       },
       {
         type: "p",
-        text: "Koristim ga u dijelu infrastrukture povezanom s domenama i web stranicama.",
+        text: "Koristim ga u dijelu infrastrukture povezanom s domenama i web stranicama. Službena stranica: https://www.cloudflare.com/.",
       },
       {
         type: "p",
