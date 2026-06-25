@@ -508,6 +508,10 @@ export const aiWorkflowArticleSections = [
         text: "Koristim ga za transkripciju govora, posebno kada hodam i želim brzo zabilježiti dužu ideju na hrvatskom jeziku.",
       },
       {
+        type: "note",
+        text: "Napomena: imam i Soniox referral link. Ako ga želiš isprobati preko tog linka, dobivaš 50 kredita za početak, a isti bonus dobivam i ja. Link ću dodati ovdje čim posložim detalje.",
+      },
+      {
         type: "h3",
         text: "ChatGPT",
       },

@@ -525,9 +525,15 @@
       );
   }
 
+  .article-hero-background {
+    inset: auto 0 0;
+    height: 40%;
+    width: 100%;
+  }
+
   .article-hero-background img {
     opacity: 0.22;
-    object-position: 64% center;
+    object-position: 62% center;
   }
 
   .article-hero-content {

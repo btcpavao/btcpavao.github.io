@@ -1016,6 +1016,7 @@ function AiSeriesPage() {
 
 type WorkflowBlock =
   | { type: "p"; text: string }
+  | { type: "note"; text: string }
   | { type: "h3"; text: string }
   | { type: "ul"; items: string[] }
   | { type: "ol"; items: string[] }
@@ -1060,6 +1061,14 @@ function WorkflowArticleBlock({
       <h3 className="pt-2 font-display text-2xl font-bold tracking-[-0.04em] text-balance text-foreground">
         {block.text}
       </h3>
+    )
+  }
+
+  if (block.type === "note") {
+    return (
+      <aside className="rounded-[22px] bg-card/82 p-4 text-base leading-7 text-muted-foreground shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_14px_36px_hsl(var(--hero-shadow)/0.07)]">
+        {renderLinkedText(block.text)}
+      </aside>
     )
   }
 
