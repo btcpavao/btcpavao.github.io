@@ -43,6 +43,13 @@
     --hero-shadow: 0.34 0.025 60;
     --reading-progress: 0;
     --image-outline: rgba(0, 0, 0, 0.1);
+    --article-hero-veil-solid: rgb(250 248 240 / 1);
+    --article-hero-veil-strong: rgb(250 248 240 / 0.98);
+    --article-hero-veil-mid: rgb(250 248 240 / 0.86);
+    --article-hero-veil-soft: rgb(250 248 240 / 0.42);
+    --article-hero-veil-top: rgb(250 248 240 / 0.2);
+    --article-hero-veil-bottom: rgb(250 248 240 / 0.62);
+    --article-hero-border: rgb(44 38 30 / 0.1);
     --shadow-border: 0 0 0 1px rgba(0, 0, 0, 0.06),
       0 1px 2px -1px rgba(0, 0, 0, 0.06),
       0 2px 4px rgba(0, 0, 0, 0.04);
@@ -87,6 +94,13 @@
     --hero-ember: 0.65 0.1 52;
     --hero-shadow: 0.06 0.01 56;
     --image-outline: rgba(255, 255, 255, 0.1);
+    --article-hero-veil-solid: rgb(32 29 25 / 0.98);
+    --article-hero-veil-strong: rgb(32 29 25 / 0.94);
+    --article-hero-veil-mid: rgb(32 29 25 / 0.78);
+    --article-hero-veil-soft: rgb(32 29 25 / 0.46);
+    --article-hero-veil-top: rgb(32 29 25 / 0.28);
+    --article-hero-veil-bottom: rgb(32 29 25 / 0.72);
+    --article-hero-border: rgb(255 255 255 / 0.1);
     --shadow-border: 0 0 0 1px rgba(255, 255, 255, 0.08);
     --shadow-border-hover: 0 0 0 1px rgba(255, 255, 255, 0.13);
 }
@@ -327,8 +341,8 @@
     min-height: clamp(38rem, calc(100svh - 4.5rem), 54rem);
     margin: 0;
     overflow: hidden;
-    border-bottom: 1px solid hsl(var(--border) / 0.68);
-    background: hsl(var(--background));
+    border-bottom: 1px solid var(--article-hero-border);
+    background: var(--background);
     isolation: isolate;
   }
 
@@ -341,30 +355,30 @@
   }
 
   .article-hero-bleed::before {
-    z-index: -1;
+    z-index: 1;
     background: linear-gradient(
       90deg,
-      hsl(var(--background) / 1) 0%,
-      hsl(var(--background) / 0.995) 34%,
-      hsl(var(--background) / 0.96) 48%,
-      hsl(var(--background) / 0.72) 61%,
-      hsl(var(--background) / 0.22) 78%,
-      transparent 100%
+      var(--article-hero-veil-solid) 0%,
+      var(--article-hero-veil-solid) 44%,
+      var(--article-hero-veil-strong) 55%,
+      var(--article-hero-veil-mid) 65%,
+      var(--article-hero-veil-soft) 76%,
+      transparent 90%
     );
   }
 
   .article-hero-bleed::after {
-    z-index: -1;
+    z-index: 1;
     background:
-      linear-gradient(180deg, hsl(var(--background) / 0.18), transparent 36%),
-      linear-gradient(0deg, hsl(var(--background) / 0.42), transparent 28%);
+      linear-gradient(180deg, var(--article-hero-veil-top), transparent 32%),
+      linear-gradient(0deg, var(--article-hero-veil-bottom), transparent 34%);
   }
 
   .article-hero-background {
     display: block;
     position: absolute;
     inset: 0;
-    z-index: -2;
+    z-index: 0;
     height: 100%;
     width: 100%;
   }
@@ -379,7 +393,7 @@
 
   .article-hero-content {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     align-items: center;
     width: min(100%, 72rem);
@@ -395,16 +409,18 @@
 
   .article-hero-copy::before {
     position: absolute;
-    inset: -2.5rem -8rem -3rem -100vw;
+    inset: -2.75rem -12rem -3.25rem -100vw;
     z-index: -1;
     content: "";
+    border-radius: 0 2.25rem 2.25rem 0;
     background: linear-gradient(
       90deg,
-      hsl(var(--background) / 1) 0%,
-      hsl(var(--background) / 0.99) calc(100% - 14rem),
-      hsl(var(--background) / 0.6) calc(100% - 6rem),
+      var(--article-hero-veil-solid) 0%,
+      var(--article-hero-veil-solid) calc(100% - 10rem),
+      var(--article-hero-veil-strong) calc(100% - 5rem),
       transparent 100%
     );
+    box-shadow: 36px 0 80px var(--article-hero-veil-soft);
   }
 
   .article-toc a {
@@ -507,14 +523,14 @@
     background:
       linear-gradient(
         180deg,
-        hsl(var(--background) / 0.98) 0%,
-        hsl(var(--background) / 0.9) 46%,
-        hsl(var(--background) / 0.56) 100%
+        var(--article-hero-veil-solid) 0%,
+        var(--article-hero-veil-strong) 52%,
+        var(--article-hero-veil-mid) 100%
       ),
       linear-gradient(
         90deg,
-        hsl(var(--background) / 0.9) 0%,
-        hsl(var(--background) / 0.2) 100%
+        var(--article-hero-veil-strong) 0%,
+        var(--article-hero-veil-soft) 100%
       );
   }
 
