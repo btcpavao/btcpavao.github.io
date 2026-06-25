@@ -529,6 +529,18 @@ export const aiWorkflowArticleSections = [
       },
       {
         type: "h3",
+        text: "Setapp",
+      },
+      {
+        type: "p",
+        text: "Setapp nije AI alat u užem smislu, nego pretplata na katalog Mac aplikacija. Kod mene služi kao praktični sloj oko workflowa: Antinote za brze bilješke i računanje, CleanShot X za screenshotove i GIF-ove, Paste za clipboard povijest i Nitro PDF Pro za rad s PDF-ovima.",
+      },
+      {
+        type: "note",
+        text: "Napomena: moj Setapp referral link je https://go.setapp.com/invite/pavao2. Ako se preko njega prijaviš i pokreneš plaćenu pretplatu, prema Setapp referral programu oboje dobivamo po jedan besplatni mjesec Setappa.",
+      },
+      {
+        type: "h3",
         text: "GitHub",
       },
       {
