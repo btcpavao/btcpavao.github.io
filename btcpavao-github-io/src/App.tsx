@@ -72,6 +72,55 @@ const socialLinks = [
   },
 ]
 
+const workflowSectionVisuals = [
+  {
+    heading: "1. Ideja dolazi prije prompta",
+    src: "/ai-workflow-step-1-idea.png",
+    webp: "/ai-workflow-step-1-idea.webp",
+    alt: "Radni stol uz prozor s pogledom na obalu, otvorenom bilježnicom, laptopom, mobitelom i šalicom kave.",
+  },
+  {
+    heading: "2. Diktat je sirov materijal",
+    src: "/ai-workflow-step-2-dictation.png",
+    webp: "/ai-workflow-step-2-dictation.webp",
+    alt: "Mobitel s otvorenom glasovnom snimkom leži kraj bilježnice, papira, laptopa i šalice kave na drvenom stolu.",
+  },
+  {
+    heading: "3. ChatGPT kao sugovornik i urednik",
+    src: "/ai-workflow-step-3-chatgpt-editor.png",
+    webp: "/ai-workflow-step-3-chatgpt-editor.webp",
+    alt: "Laptop s nečitljivim razgovorom na ekranu, otvorena bilježnica i označeni papiri na radnom stolu.",
+  },
+  {
+    heading: "4. Od razgovora do zadatka za Codex",
+    src: "/ai-workflow-step-4-codex-task.png",
+    webp: "/ai-workflow-step-4-codex-task.webp",
+    alt: "Laptop s nečitljivim kodom, bilježnica s kratkom listom provjere, mobitel i šalica kave na stolu uz prozor.",
+  },
+  {
+    heading: "5. Codex čita postojeći sustav",
+    src: "/ai-workflow-step-5-system-reading.png",
+    webp: "/ai-workflow-step-5-system-reading.webp",
+    alt: "Laptop s nečitljivim kodom i papiri sa skicama stranice na drvenom stolu pokraj prozora.",
+  },
+  {
+    heading: "6. Pregled je dio rada, a ne formalnost",
+    src: "/ai-workflow-step-6-review.png",
+    webp: "/ai-workflow-step-6-review.webp",
+    alt: "Radni stol s laptopom, papirima za pregled, bilježnicom, mobitelom i olovkom tijekom provjere članka.",
+  },
+  {
+    heading: "7. Iteracija je mjesto gdje nastaje kvaliteta",
+    src: "/ai-workflow-step-7-iteration.png",
+    webp: "/ai-workflow-step-7-iteration.webp",
+    alt: "Nekoliko verzija nacrta stranice, bilježnica, laptop i mobitel prikazuju proces uređivanja i ponavljanja.",
+  },
+] as const
+
+function getWorkflowSectionVisual(heading: string) {
+  return workflowSectionVisuals.find((visual) => visual.heading === heading)
+}
+
 const aiSeriesPosts = [
   {
     category: "AI u praksi",
@@ -1045,6 +1094,29 @@ function WorkflowSteps({ steps }: { steps: string[] }) {
   )
 }
 
+function WorkflowSectionVisual({
+  visual,
+}: {
+  visual: (typeof workflowSectionVisuals)[number]
+}) {
+  return (
+    <figure className="my-7 overflow-hidden rounded-[28px] bg-card/82 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)]">
+      <picture>
+        <source srcSet={visual.webp} type="image/webp" />
+        <img
+          src={visual.src}
+          alt={visual.alt}
+          width={1672}
+          height={941}
+          loading="lazy"
+          decoding="async"
+          className="block aspect-[16/9] w-full object-cover"
+        />
+      </picture>
+    </figure>
+  )
+}
+
 function WorkflowArticleBlock({
   block,
   steps,
@@ -1194,26 +1266,33 @@ function WorkflowArticlePage() {
             </nav>
 
             <div className="article-shell mt-10 space-y-10 text-lg leading-8 text-muted-foreground">
-              {sections.map((section) => (
-                <section key={section.heading} className="space-y-6">
-                  <h2
-                    id={section.heading
-                      .toLowerCase()
-                      .replaceAll(" ", "-")
-                      .replaceAll("?", "")}
-                    className="pt-4 font-display text-3xl font-bold text-balance text-foreground"
-                  >
-                    {section.heading}
-                  </h2>
-                  {section.blocks.map((block, index) => (
-                    <WorkflowArticleBlock
-                      key={`${section.heading}-${index}`}
-                      block={block as WorkflowBlock}
-                      steps={steps}
-                    />
-                  ))}
-                </section>
-              ))}
+              {sections.map((section) => {
+                const sectionVisual = getWorkflowSectionVisual(section.heading)
+
+                return (
+                  <section key={section.heading} className="space-y-6">
+                    <h2
+                      id={section.heading
+                        .toLowerCase()
+                        .replaceAll(" ", "-")
+                        .replaceAll("?", "")}
+                      className="pt-4 font-display text-3xl font-bold text-balance text-foreground"
+                    >
+                      {section.heading}
+                    </h2>
+                    {sectionVisual ? (
+                      <WorkflowSectionVisual visual={sectionVisual} />
+                    ) : null}
+                    {section.blocks.map((block, index) => (
+                      <WorkflowArticleBlock
+                        key={`${section.heading}-${index}`}
+                        block={block as WorkflowBlock}
+                        steps={steps}
+                      />
+                    ))}
+                  </section>
+                )
+              })}
             </div>
 
             <nav
