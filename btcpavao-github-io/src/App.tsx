@@ -453,68 +453,64 @@ function ArticlePage() {
         </div>
       </header>
 
-      <main
-        id="top"
-        className="relative mx-auto max-w-5xl px-4 pt-10 pb-20 sm:px-6 lg:px-8 lg:pt-14"
-      >
-        <article className="article-layout mx-auto max-w-5xl">
-          <a
-            href="/"
-            className="article-shell glimmer-button inline-flex rounded-full border border-border/70 bg-card/72 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:bg-card hover:text-foreground"
-          >
-            Natrag na početnu
-          </a>
+      <main id="top" className="relative pb-20">
+        <article className="article-layout">
+          <header className="article-hero-bleed">
+            <picture className="article-hero-background">
+              <source srcSet={ARTICLE_HERO_IMAGE_WEBP} type="image/webp" />
+              <img
+                src={ARTICLE_HERO_IMAGE}
+                alt="Laptop, mobitel, bilježnica, kava i rukopis knjige na radnom stolu"
+                width={1672}
+                height={941}
+                decoding="async"
+                fetchPriority="high"
+              />
+            </picture>
 
-          <div className="article-shell mt-8 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase">
-            <span className="rounded-full border border-border/70 bg-card/80 px-3 py-1">
-              AI u praksi
-            </span>
-            <span className="rounded-full border border-border/70 bg-card/80 px-3 py-1">
-              Hrvatski
-            </span>
-            <time
-              className="rounded-full border border-border/70 bg-card/80 px-3 py-1"
-              dateTime={ARTICLE_DATE}
-            >
-              {ARTICLE_DISPLAY_DATE}
-            </time>
-          </div>
+            <div className="article-hero-content">
+              <div className="article-hero-copy">
+                <a
+                  href="/"
+                  className="glimmer-button inline-flex rounded-full border border-border/70 bg-background/82 px-4 py-2 text-sm font-medium text-muted-foreground backdrop-blur transition hover:bg-card hover:text-foreground"
+                >
+                  Natrag na početnu
+                </a>
 
-          <header className="mt-8">
-            <div className="article-hero-grid">
-              <div>
-                <h1 className="font-display text-4xl leading-[1.04] font-bold text-balance text-foreground sm:text-6xl">
+                <div className="mt-12 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase">
+                  <span className="rounded-full border border-border/70 bg-background/78 px-3 py-1 backdrop-blur">
+                    AI u praksi
+                  </span>
+                  <span className="rounded-full border border-border/70 bg-background/78 px-3 py-1 backdrop-blur">
+                    Hrvatski
+                  </span>
+                  <time
+                    className="rounded-full border border-border/70 bg-background/78 px-3 py-1 backdrop-blur"
+                    dateTime={ARTICLE_DATE}
+                  >
+                    {ARTICLE_DISPLAY_DATE}
+                  </time>
+                </div>
+
+                <h1 className="mt-8 max-w-[11ch] font-display text-5xl leading-[0.96] font-bold text-balance text-foreground sm:text-6xl lg:text-7xl">
                   {ARTICLE_TITLE}
                 </h1>
-                <p className="mt-5 max-w-2xl text-xl leading-8 text-pretty text-muted-foreground">
+                <p className="mt-6 max-w-2xl text-xl leading-8 text-pretty text-muted-foreground sm:text-2xl sm:leading-9">
                   Kako sam uz diktiranje, ChatGPT i Codex počeo raditi kao da
                   imam mali tim oko sebe.
                 </p>
               </div>
-
-              <figure className="article-hero-media">
-                <picture>
-                  <source srcSet={ARTICLE_HERO_IMAGE_WEBP} type="image/webp" />
-                  <img
-                    src={ARTICLE_HERO_IMAGE}
-                    alt="Laptop, mobitel, bilježnica, kava i rukopis knjige na radnom stolu"
-                    width={1672}
-                    height={941}
-                    decoding="async"
-                    fetchPriority="high"
-                  />
-                </picture>
-              </figure>
             </div>
           </header>
 
-          <div className="article-shell mt-10 border-y border-border/70 py-8">
+          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <div className="article-shell mt-12 border-y border-border/70 py-8">
             <p className="max-w-2xl text-base leading-8 text-muted-foreground">
               Ovo je prvi tekst u serijalu o praktičnom korištenju AI-a. Nije
               manifest ni prodajna stranica, nego osobni zapis o tome kako se
               promijenio moj svakodnevni ritam rada.
             </p>
-          </div>
+            </div>
 
           <nav
             aria-label="Sadržaj članka"
@@ -672,7 +668,7 @@ function ArticlePage() {
             ))}
           </div>
 
-          <Card className="article-shell mt-14 rounded-[30px] border-border/70 bg-card/86 py-0 shadow-float">
+            <Card className="article-shell mt-14 rounded-[30px] border-border/70 bg-card/86 py-0 shadow-float">
             <CardContent className="p-6 sm:p-8">
               <p className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
                 AI u praksi
@@ -697,7 +693,8 @@ function ArticlePage() {
                 </a>
               </Button>
             </CardContent>
-          </Card>
+            </Card>
+          </div>
         </article>
       </main>
 
