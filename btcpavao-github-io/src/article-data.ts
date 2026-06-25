@@ -509,7 +509,7 @@ export const aiWorkflowArticleSections = [
       },
       {
         type: "note",
-        text: "Napomena: imam i Soniox referral link. Ako ga želiš isprobati preko tog linka, dobivaš 50 kredita za početak, a isti bonus dobivam i ja. Link ću dodati ovdje čim posložim detalje.",
+        text: "Napomena: imam i Soniox referral link: https://app.soniox.com/claim-referral?code=3DTFSKOE5. Ako ga želiš isprobati preko tog linka, dobivaš 50 kredita za početak, a isti bonus dobivam i ja.",
       },
       {
         type: "h3",
