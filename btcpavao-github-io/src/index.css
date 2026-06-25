@@ -45,10 +45,10 @@
     --image-outline: rgba(0, 0, 0, 0.1);
     --article-hero-veil-solid: rgb(250 248 240 / 1);
     --article-hero-veil-strong: rgb(250 248 240 / 0.98);
-    --article-hero-veil-mid: rgb(250 248 240 / 0.86);
-    --article-hero-veil-soft: rgb(250 248 240 / 0.42);
-    --article-hero-veil-top: rgb(250 248 240 / 0.2);
-    --article-hero-veil-bottom: rgb(250 248 240 / 0.62);
+    --article-hero-veil-mid: rgb(250 248 240 / 0.74);
+    --article-hero-veil-soft: rgb(250 248 240 / 0.26);
+    --article-hero-veil-top: rgb(250 248 240 / 0.12);
+    --article-hero-veil-bottom: rgb(250 248 240 / 0.18);
     --article-hero-border: rgb(44 38 30 / 0.1);
     --shadow-border: 0 0 0 1px rgba(0, 0, 0, 0.06),
       0 1px 2px -1px rgba(0, 0, 0, 0.06),
@@ -96,10 +96,10 @@
     --image-outline: rgba(255, 255, 255, 0.1);
     --article-hero-veil-solid: rgb(32 29 25 / 0.98);
     --article-hero-veil-strong: rgb(32 29 25 / 0.94);
-    --article-hero-veil-mid: rgb(32 29 25 / 0.78);
-    --article-hero-veil-soft: rgb(32 29 25 / 0.46);
-    --article-hero-veil-top: rgb(32 29 25 / 0.28);
-    --article-hero-veil-bottom: rgb(32 29 25 / 0.72);
+    --article-hero-veil-mid: rgb(32 29 25 / 0.68);
+    --article-hero-veil-soft: rgb(32 29 25 / 0.28);
+    --article-hero-veil-top: rgb(32 29 25 / 0.14);
+    --article-hero-veil-bottom: rgb(32 29 25 / 0.28);
     --article-hero-border: rgb(255 255 255 / 0.1);
     --shadow-border: 0 0 0 1px rgba(255, 255, 255, 0.08);
     --shadow-border-hover: 0 0 0 1px rgba(255, 255, 255, 0.13);
@@ -356,31 +356,32 @@
 
   .article-hero-bleed::before {
     z-index: 1;
+    right: auto;
+    width: min(70rem, 60vw);
     background: linear-gradient(
       90deg,
       var(--article-hero-veil-solid) 0%,
-      var(--article-hero-veil-solid) 44%,
-      var(--article-hero-veil-strong) 55%,
-      var(--article-hero-veil-mid) 65%,
-      var(--article-hero-veil-soft) 76%,
-      transparent 90%
+      var(--article-hero-veil-solid) calc(100% - 13rem),
+      var(--article-hero-veil-strong) calc(100% - 7rem),
+      var(--article-hero-veil-soft) calc(100% - 2rem),
+      transparent 100%
     );
   }
 
   .article-hero-bleed::after {
     z-index: 1;
     background:
-      linear-gradient(180deg, var(--article-hero-veil-top), transparent 32%),
-      linear-gradient(0deg, var(--article-hero-veil-bottom), transparent 34%);
+      linear-gradient(180deg, var(--article-hero-veil-top), transparent 28%),
+      linear-gradient(0deg, var(--article-hero-veil-bottom), transparent 26%);
   }
 
   .article-hero-background {
     display: block;
     position: absolute;
-    inset: 0;
+    inset: 0 0 0 max(42rem, 56vw);
     z-index: 0;
     height: 100%;
-    width: 100%;
+    width: auto;
   }
 
   .article-hero-background img {
@@ -408,19 +409,7 @@
   }
 
   .article-hero-copy::before {
-    position: absolute;
-    inset: -2.75rem -12rem -3.25rem -100vw;
-    z-index: -1;
-    content: "";
-    border-radius: 0 2.25rem 2.25rem 0;
-    background: linear-gradient(
-      90deg,
-      var(--article-hero-veil-solid) 0%,
-      var(--article-hero-veil-solid) calc(100% - 10rem),
-      var(--article-hero-veil-strong) calc(100% - 5rem),
-      transparent 100%
-    );
-    box-shadow: 36px 0 80px var(--article-hero-veil-soft);
+    display: none;
   }
 
   .article-toc a {
@@ -520,11 +509,13 @@
   }
 
   .article-hero-bleed::before {
+    right: 0;
+    width: auto;
     background:
       linear-gradient(
         180deg,
         var(--article-hero-veil-solid) 0%,
-        var(--article-hero-veil-strong) 52%,
+        var(--article-hero-veil-strong) 58%,
         var(--article-hero-veil-mid) 100%
       ),
       linear-gradient(
@@ -535,6 +526,7 @@
   }
 
   .article-hero-background img {
+    opacity: 0.22;
     object-position: 64% center;
   }
 

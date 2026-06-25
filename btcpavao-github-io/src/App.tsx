@@ -1142,7 +1142,7 @@ function WorkflowArticlePage() {
                   </time>
                 </div>
 
-                <h1 className="mt-8 max-w-[12ch] font-display text-5xl leading-[0.96] font-bold text-balance text-foreground sm:text-6xl xl:text-7xl">
+                <h1 className="mt-8 max-w-[14ch] font-display text-5xl leading-[0.98] font-bold text-balance text-foreground sm:text-6xl">
                   {WORKFLOW_ARTICLE_TITLE}
                 </h1>
                 <p className="mt-6 max-w-xl text-xl leading-8 text-pretty text-muted-foreground sm:text-2xl sm:leading-9">
