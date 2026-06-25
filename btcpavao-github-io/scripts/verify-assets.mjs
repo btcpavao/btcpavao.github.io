@@ -114,18 +114,25 @@ for (const asset of movedPublicAssets) {
 }
 
 assert(
-  indexHtml.includes('rel="icon" type="image/svg+xml" href="/favicon.svg"'),
-  "index.html does not prefer SVG favicon"
+  indexHtml.includes(
+    'rel="icon" type="image/png" sizes="400x400" href="/favicon.png"'
+  ),
+  "index.html does not prefer PNG profile favicon"
 )
 assert(
-  indexHtml.includes('rel="alternate icon" type="image/png" href="/favicon.png"'),
-  "index.html does not retain PNG favicon fallback"
+  !indexHtml.includes("/favicon.svg"),
+  "index.html still references SVG favicon"
 )
 assert(
-  distIndexHtml.includes('rel="icon" type="image/svg+xml" href="/favicon.svg"'),
-  "dist/index.html does not prefer SVG favicon"
+  distIndexHtml.includes(
+    'rel="icon" type="image/png" sizes="400x400" href="/favicon.png"'
+  ),
+  "dist/index.html does not prefer PNG profile favicon"
 )
-
+assert(
+  !distIndexHtml.includes("/favicon.svg"),
+  "dist/index.html still references SVG favicon"
+)
 
 const entryScriptMatch = distIndexHtml.match(
   /<script type="module" crossorigin src="([^"]+)"><\/script>/
