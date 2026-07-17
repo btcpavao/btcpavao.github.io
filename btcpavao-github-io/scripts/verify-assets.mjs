@@ -98,6 +98,10 @@ const appSource = await readFile(
   new URL("../src/App.tsx", import.meta.url),
   "utf8"
 )
+const cssSource = await readFile(
+  new URL("../src/index.css", import.meta.url),
+  "utf8"
+)
 const articleDataSource = await readFile(
   new URL("../src/article-data.ts", import.meta.url),
   "utf8"
@@ -328,6 +332,15 @@ assert(
 assert(
   !packageSource.includes("motionwind"),
   "Motionwind remains in package.json"
+)
+assert(
+  (appSource.match(/relative isolate min-h-screen/g) ?? []).length === 3,
+  "A page shell is missing its isolated stacking context"
+)
+assert(
+  /\.page-atmosphere\s*\{\s*z-index:\s*-1;/.test(cssSource) &&
+    /\.page-grid\s*\{\s*z-index:\s*-1;/.test(cssSource),
+  "Decorative page layers can cover page content"
 )
 
 console.log(

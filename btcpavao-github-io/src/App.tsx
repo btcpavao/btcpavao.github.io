@@ -661,7 +661,7 @@ function ArticlePage({
     : null
 
   return (
-    <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
+    <div className="relative isolate min-h-screen overflow-x-clip bg-background text-foreground">
       <SkipLink label="Preskoči na sadržaj" />
       <div className="reading-progress" aria-hidden="true" />
       <div
@@ -1003,7 +1003,7 @@ function PageChrome({
   active?: "home" | "series"
 }) {
   return (
-    <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
+    <div className="relative isolate min-h-screen overflow-x-clip bg-background text-foreground">
       <SkipLink label="Preskoči na sadržaj" />
       <div
         aria-hidden="true"
@@ -1706,7 +1706,7 @@ function HomePage() {
   return (
     <div
       id="top"
-      className="relative min-h-screen overflow-x-clip bg-background text-foreground"
+      className="relative isolate min-h-screen overflow-x-clip bg-background text-foreground"
     >
       <SkipLink label="Skip to content" />
       <div
