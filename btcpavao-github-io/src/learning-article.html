@@ -1,0 +1,162 @@
+          <p>Nedavno sam otvorio PDF od 24 stranice o Bitcoin Wave Modelu.</p>
+<p>U njemu su bili potencijski zakon, logaritamska regresija, sinus, fazni pomak, prigušene oscilacije, cjenovni pojasevi i nekoliko formula koje na prvi pogled nisu izgledale kao nešto što ću brzo razumjeti.</p>
+<p>Mogao sam od ChatGPT-a tražiti sažetak ili ga pitati koja je konačna formula i dobiti objašnjenje u nekoliko odlomaka. Vjerojatno bih nakon toga znao ponoviti glavnu ideju modela, ali ne bih znao što pojedini dijelovi formule stvarno rade.</p>
+<p>Zato sam mu dao drukčiji zadatak:</p>
+<blockquote><p>Pročitaj ovaj PDF i onda me, kao potpunoga početnika, nauči koncepte iz njega jedan po jedan, korak po korak.</p></blockquote>
+<p>Ta razlika bila je važna.</p>
+<p>Nisam tražio odgovor.</p>
+<p>Tražio sam proces učenja.</p>
+<p>Na kraju tog procesa nisam samo bolje razumio matematiku iz rada, nego sam počeo propitivati sam model, tražiti nove izračune, uspoređivati ga s drugim modelima i provjeravati što se događa kada mu dodamo podatke koji nisu postojali u trenutku pisanja PDF-a.</p>
+<p>Iz razgovora je zatim nastao prototip, iz prototipa zadatak za Codex, a iz tog zadatka javna stranica s interaktivnim grafom i H-time kalkulatorom.</p>
+<p>Ovako je izgledao cijeli put.</p>
+<h2 id="nisam-trazio-da-mi-objasni-sve-odjednom">Nisam tražio da mi objasni sve odjednom</h2>
+<p>Prva dobra odluka bila je usporiti.</p>
+<p>ChatGPT je nakon čitanja PDF-a predložio redoslijed kojim ćemo prolaziti gradivo:</p>
+<p>Bitcoinov sat, potencijski zakon, logaritmi, regresija, odstupanje od trenda, sinusni val, fazni pomak, prigušenje, spajanje modela, cjenovni pojasevi i na kraju provjera pouzdanosti.</p>
+<p>Drugim riječima, nije krenuo od završne formule.</p>
+<p>Krenuo je od prve varijable.</p>
+<p>U modelu se vrijeme ne mjeri kalendarskim datumom, nego visinom Bitcoinova bloka podijeljenom s 210.000, brojem blokova između dvaju prepolovljenja:</p>
+<p><em>h = visina bloka / 210.000</em></p>
+<p>Ako je visina bloka 735.000, tada je <em>h = 3,5</em>. To znači da su završena tri puna ciklusa prepolovljenja i da smo na polovici puta prema četvrtome.</p>
+<p>Nakon objašnjenja nisam odmah dobio sljedeću lekciju, nego pitanje. Morao sam vlastitim riječima objasniti što broj 3,5 znači i tek kada sam odgovorio, prešli smo na potencije.</p>
+<p>Taj se obrazac ponavljao kroz cijeli razgovor.</p>
+<ol class="learning-loop" aria-label="Petlja učenja uz AI"><li class="learning-loop__step"><span class="learning-loop__index" aria-hidden="true">01</span><strong>Objašnjenje</strong><span>AI izolira jedan koncept i objašnjava ga bez preskakanja.</span></li><li class="learning-loop__step"><span class="learning-loop__index" aria-hidden="true">02</span><strong>Pitanje</strong><span>Na kraju lekcije postavlja jedan mali, konkretan zadatak.</span></li><li class="learning-loop__step"><span class="learning-loop__index" aria-hidden="true">03</span><strong>Moj odgovor</strong><span>Moram izračunati ili svojim riječima objasniti što sam razumio.</span></li><li class="learning-loop__step"><span class="learning-loop__index" aria-hidden="true">04</span><strong>Korekcija</strong><span>AI potvrđuje odgovor ili pokazuje točno mjesto pogreške.</span></li><li class="learning-loop__step"><span class="learning-loop__index" aria-hidden="true">05</span><strong>Prijenos</strong><span>Dobivam sličan primjer prije prelaska na sljedeći koncept.</span></li></ol>
+<p>To je puno bliže radu s tutorom nego traženju gotovih odgovora na internetu. AI je mogao prilagoditi svaki sljedeći korak mojem prethodnom odgovoru, a upravo je u tome bila njegova vrijednost.</p>
+<h2 id="najkorisniji-trenutak-bio-je-kada-sam-pogrijesio">Najkorisniji trenutak bio je kada sam pogriješio</h2>
+<p>Kod potencijskog zakona dobio sam jednostavan primjer:</p>
+<p><em>y = 5x²</em></p>
+<p>Pitanje je bilo koliko će puta nova vrijednost <em>y</em> biti veća od početne ako <em>x</em> poraste s 2 na 4.</p>
+<p>Odgovorio sam: tri puta. Bio je to pogrešan odgovor.</p>
+<p>ChatGPT nije samo napisao da nije točno. Izračunao je obje vrijednosti. Kada je <em>x = 2</em>, rezultat je 20. Kada je <em>x = 4</em>, rezultat je 80. Omjer nije tri, nego četiri.</p>
+<p>Zatim mi je odmah dao gotovo isti zadatak, ali s trećom potencijom.</p>
+<p>Ovaj put odgovorio sam osam.</p>
+<p>Točno.</p>
+<figure class="dialogue"><figcaption>Jedan mali trenutak iz razgovora</figcaption><div class="dialogue__message dialogue__message--user"><span class="dialogue__speaker">Ja</span><p>3</p></div><div class="dialogue__message dialogue__message--assistant"><span class="dialogue__speaker">AI</span><p>Nije 3, nego 4 puta. Pogledajmo obje vrijednosti, bez preskakanja.</p></div><div class="dialogue__message dialogue__message--user"><span class="dialogue__speaker">Ja</span><p>8</p></div><div class="dialogue__message dialogue__message--assistant"><span class="dialogue__speaker">AI</span><p>Točno. Sada si isto pravilo prenio na novi primjer.</p></div></figure>
+<p>Ta mala razmjena možda najbolje pokazuje razliku između dobivanja objašnjenja i stvarnog učenja.</p>
+<p>Da sam samo pročitao gotovu formulu, vjerojatno bih nastavio dalje s lažnim osjećajem da razumijem potencijski rast. Pogrešan odgovor pokazao je gdje se moje intuitivno razumijevanje raspada.</p>
+<p>AI je odmah mogao usporiti, promijeniti primjer i provjeriti jesam li ispravak stvarno usvojio.</p>
+<p>Učenje nije nastalo zato što nisam griješio.</p>
+<p>Nastalo je zato što pogreška nije bila kraj razgovora.</p>
+<h2 id="jedna-zastrasujuca-formula-postala-je-niz-malih-ideja">Jedna zastrašujuća formula postala je niz malih ideja</h2>
+<p>Središnji dio modela izgleda prilično neugodno ako ga vidiš prije nego što razumiješ njegove dijelove.</p>
+<p>U jednoj jednadžbi nalaze se logaritam cijene, dugoročni potencijski trend, sinusni val, fazni pomak i prigušenje amplitude.</p>
+<p>Ali svaki od tih dijelova zasebno je puno manje strašan.</p>
+<p>Potencijski zakon opisuje dugoročnu putanju, a logaritam tu zakrivljenu putanju pretvara u pravac koji možemo analizirati regresijom. Sinus dodaje ponavljajuće oscilacije oko trenda, fazni pomak pokušava uskladiti vrijeme vrhova i dna, a prigušenje smanjuje amplitudu svakog sljedećeg ciklusa.</p>
+<p>Kada se model rastavi, više ne gledam jednu veliku formulu.</p>
+<p>Gledam pet manjih odluka.</p>
+<figure class="formula-map"><figcaption>Jedna velika formula postala je pet manjih ideja</figcaption><ol class="formula-map__grid"><li class="formula-map__card"><span class="formula-map__label">Bitcoinov sat</span><code>h = visina bloka / 210.000</code><p>Pretvara visinu blockchaina u broj ciklusa prepolovljenja.</p></li><li class="formula-map__card"><span class="formula-map__label">Dugoročni trend</span><code>BTC(h) ≈ 30 · h^5,44</code><p>Opisuje glatku potencijsku putanju cijene kroz vrijeme.</p></li><li class="formula-map__card"><span class="formula-map__label">Logaritamski pravac</span><code>log10(BTC) = 1,48 + 5,44 · log10(h)</code><p>Omogućuje da se potencijska krivulja analizira kao pravac.</p></li><li class="formula-map__card"><span class="formula-map__label">Ciklički val</span><code>sin(2πh - h^-1,4)</code><p>Dodaje približno jedan val po ciklusu prepolovljenja.</p></li><li class="formula-map__card"><span class="formula-map__label">Prigušenje</span><code>0,8^(h+1)</code><p>Smanjuje amplitudu oscilacija kako vrijeme prolazi.</p></li></ol></figure>
+<p>Najvažnije je bilo to što se sinus ne dodaje izravno cijeni u dolarima. Dodaje se logaritmu cijene. Kada se rezultat vrati iz logaritamske skale, taj dodatak postaje multiplikativni faktor.</p>
+<p>To je detalj koji sam prije razgovora vrlo lako mogao preskočiti.</p>
+<p>Matematika je u PDF-u bila ista prije i poslije. Promijenio se redoslijed kojim sam joj pristupio.</p>
+<h2 id="u-jednom-trenutku-prestao-sam-uciti-model-i-poceo-ga-testirati">U jednom trenutku prestao sam učiti model i počeo ga testirati</h2>
+<p>Nakon potencija došli su logaritmi, pravila zbrajanja logaritama, nagib pravca i regresija.</p>
+<p>Zatim smo došli do broja koji se često koristi kao dokaz kvalitete modela: R².</p>
+<p>PDF za osnovnu potencijsku regresiju navodi R² od 95,23 posto. Broj zvuči impresivno, ali pitanje je što zapravo znači.</p>
+<p>ChatGPT me pitao znači li R² od 0,95 da će 95 posto budućih predviđanja biti točno.</p>
+<p>Odgovorio sam: ne.</p>
+<p>Taj mi je odgovor bio važniji od pamćenja same vrijednosti.</p>
+<p>Visok povijesni R² pokazuje koliko se model dobro uklapa u podatke na kojima je mjeren. Ne dokazuje da će jednako dobro predvidjeti podatke koje još nije vidio.</p>
+<p>Tu se razgovor počeo mijenjati.</p>
+<p>Više nisam pitao samo što formula znači, nego i navodi li PDF negdje R² od 97,2 posto, do kojeg je datuma model kalibriran i možemo li mu dodati novije podatke.</p>
+<p>Odgovor na prvo pitanje bio je ne: rad navodi 95,23 posto za osnovni trend. Model je bio kalibriran podacima otprilike do travnja 2024., kada se dogodilo četvrto prepolovljenje.</p>
+<p>Na treće pitanje odgovor više nije mogao biti samo objašnjenje.</p>
+<p>Trebao je novi izračun.</p>
+<h2 id="lijep-graf-nije-bio-dovoljan">Lijep graf nije bio dovoljan</h2>
+<p>Tražio sam da se originalni model provjeri na podacima nakon razdoblja u kojem je nastao.</p>
+<p>To je otvorilo razliku između nekoliko vrsta analize:</p>
+<ul><li>originalni model sa zamrznutim parametrima</li><li>provjera samo na novim podacima</li><li>ponovno prilagođavanje parametara cijeloj povijesti</li><li>usporedba s drugim dugoročnim modelima</li></ul>
+<p>Ukupni R² ostao je visok i nakon dodavanja novijih podataka, ali kada smo izdvojili samo novo razdoblje koje model nije vidio, slika je bila puno lošija.</p>
+<p>Model je, dakle, i dalje mogao izgledati uvjerljivo na cijelom povijesnom grafu, a istodobno loše opisivati novi dio putanje.</p>
+<p>Takav detalj jedna velika brojka lako sakrije.</p>
+<p>U tom je dijelu razgovora AI postao istraživački pomoćnik: tražio je podatke, računao više verzija i uspoređivao modele. Nije, međutim, bio nepogrešiv.</p>
+<p>U jednoj ranijoj usporedbi naveo je rezultat od približno 97,65 posto za ažurirani valni model. Kada sam zatražio da cijelu usporedbu ponovi od nule i uključi pošteniji walk-forward test, ispravio je vrijednost na 97,50 posto.</p>
+<p>Tu korekciju ne želim sakriti jer je važan dio lekcije.</p>
+<p>AI može vrlo uvjerljivo izračunati pogrešan broj. Zato su ponavljanje analize, provjera izvora i jasno razdvajanje povijesnog uklapanja od buduće prediktivne moći dio posla, a ne dodatna formalnost.</p>
+<h2 id="nesklad-od-desetak-tisuca-dolara-pokrenuo-je-novo-pitanje">Nesklad od desetak tisuća dolara pokrenuo je novo pitanje</h2>
+<p>Prema jednoj ponovno prilagođenoj formuli dobili smo dugoročni trend od približno 114.000 dolara.</p>
+<p>Zatim sam otvorio tada aktualnu stranicu autora modela. Na njoj je PL0, središnja linija potencijskog trenda, iznosio oko 103.569 dolara.</p>
+<p>Nisam mogao istodobno prihvatiti oba broja bez objašnjenja.</p>
+<p>Napravio sam snimku zaslona i pitao: odakle dolazi ova cijena?</p>
+<p>ChatGPT je iz prikazane vrijednosti i tadašnjeg <em>h</em> rekonstruirao da stranica više ne koristi iste parametre kao izvorni PDF. Umjesto približno 1,48 i 5,44, ta je verzija koristila vrijednosti bliže 1,47 i 5,38.</p>
+<p>U tom je trenutku učenje postalo istraživanje. Više nisam pokušavao samo razumjeti tuđi rad, nego sam počeo uspoređivati verzije, tražiti promjene parametara i pitati kako one utječu na rezultat.</p>
+<p>Dobro objašnjenje nije zatvorilo temu.</p>
+<p>Otvorilo je bolje pitanje.</p>
+<h2 id="od-ucenika-preko-istrazivaca-do-graditelja">Od učenika preko istraživača do graditelja</h2>
+<p>Pred kraj razgovora postavio sam drukčiju vrstu pitanja.</p>
+<p>Ako želimo model s najvećim povijesnim R², što bismo napravili? A ako želimo model s najvećom budućom prediktivnom moći, bi li odgovor bio isti?</p>
+<p>Nije.</p>
+<p>Model koji najbolje opisuje prošlost možemo učiniti sve složenijim dok ne počne pratiti gotovo svaki stari vrh i svako dno. No što se više prilagođava detaljima prošlosti, to je veća opasnost da uči slučajnost umjesto obrasca.</p>
+<p>Za buduću provjeru važniji su jednostavnija struktura, zamrznuti parametri i test u kojem model na svakom datumu smije koristiti samo podatke koji su tada postojali.</p>
+<p>Razgovor je zato završio prijedlogom novog postupka: tjedni podaci, walk-forward provjera, odvojeni trend i val, korekcija trenutačnog odstupanja te pojasevi dobiveni iz stvarnih povijesnih pogrešaka umjesto ručno nacrtanih pojaseva oko linije.</p>
+<p>Nakon toga napisao sam najkraću moguću uputu:</p>
+<blockquote><p>U redu, napravi to sve. I pripremi prompt za Codex koji će napraviti interaktivni graf.</p></blockquote>
+<p>AI je izradio istraživački paket i prototip koji je radio bez mrežne veze. Iz razgovora je nastala specifikacija: koje podatke koristiti, koje linije prikazati, kako računati H-time, što korisnik može uključivati i isključivati te koje provjere produkcijska verzija mora proći.</p>
+<p>Taj sam materijal zatim dao Codexu i kroz dodatne iteracije pretvorio u javnu stranicu.</p>
+<ol class="workflow" aria-label="Workflow od ideje do objave"><li class="workflow__step"><span class="workflow__index" aria-hidden="true">1</span><span>PDF</span></li><li class="workflow__step"><span class="workflow__index" aria-hidden="true">2</span><span>Lekcije</span></li><li class="workflow__step"><span class="workflow__index" aria-hidden="true">3</span><span>Moji odgovori</span></li><li class="workflow__step"><span class="workflow__index" aria-hidden="true">4</span><span>Provjera modela</span></li><li class="workflow__step"><span class="workflow__index" aria-hidden="true">5</span><span>Novi izračuni</span></li><li class="workflow__step"><span class="workflow__index" aria-hidden="true">6</span><span>Prototip</span></li><li class="workflow__step"><span class="workflow__index" aria-hidden="true">7</span><span>Codex</span></li><li class="workflow__step"><span class="workflow__index" aria-hidden="true">8</span><span>Javna stranica</span></li></ol>
+<p>To je isti obrazac o kojem sam pisao u tekstu <a href="/hr/ai-u-praksi/od-diktata-do-objavljene-stranice/">Moj AI workflow: od diktata do objavljene stranice</a>, samo primijenjen na učenje matematike.</p>
+<p>Najprije razumijevanje.</p>
+<p>Zatim izvedba.</p>
+<h2 id="sto-danas-postoji-na-stranici">Što danas postoji na stranici</h2>
+<p>Na stranici <a href="https://bitcoin-savjetovanje.com/dugorocni-trend/" target="_blank" rel="noopener noreferrer">Dugoročni trend Bitcoina</a> mogu se istraživati povijesna cijena, središnja PL0 putanja i ciklusi prepolovljenja na istom interaktivnom grafu.</p>
+<p>Graf se može zumirati i pomicati, a dodatne se linije uključuju kroz legendu. Korijenska skala ublažava velike razlike između ranih i današnjih cijena, pa se više tržišnih ciklusa može gledati u istom prikazu, a da prve godine ne nestanu pri dnu grafa.</p>
+<p>Ispod grafa nalazi se H-time kalkulator.</p>
+<p>Promjenom datuma, broja dana od geneze, <em>h</em>-vrijednosti ili visine bloka ostale se vrijednosti međusobno usklađuju. Kalkulator prikazuje i približan blok, posljednje prepolovljenje, nagradu po bloku, količinu bitcoina u optjecaju i središnju vrijednost modela.</p>
+<p>Koncept koji sam počeo učiti jednom podjelom s 210.000 sada se može istraživati bez ručnog računanja.</p>
+<aside class="tool-preview" aria-labelledby="tool-preview-title">
+      <div class="tool-preview__chart" aria-hidden="true">
+        <div class="tool-preview__chart-meta"><span>BTC cijena</span><span>PL0</span><span>halving</span></div>
+        <svg viewBox="0 0 640 260" role="img">
+          <defs>
+            <linearGradient id="chart-fill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#0f7c7e" stop-opacity="0.24" />
+              <stop offset="1" stop-color="#0f7c7e" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <path class="tool-preview__grid" d="M0 52H640M0 104H640M0 156H640M0 208H640" />
+          <path class="tool-preview__halvings" d="M128 0V260M256 0V260M384 0V260M512 0V260" />
+          <path class="tool-preview__area" d="M0 238 C48 232 72 219 108 205 S176 190 202 166 S254 143 286 151 S342 121 372 105 S424 92 452 70 S512 72 544 43 S604 26 640 18 V260 H0Z" />
+          <path class="tool-preview__trend" d="M0 236 C116 215 202 178 286 142 S454 74 640 20" />
+          <path class="tool-preview__price" d="M0 241 C28 235 47 244 69 225 S101 205 123 218 S157 204 177 178 S215 154 235 174 S268 159 289 133 S330 143 348 118 S387 91 410 111 S447 88 468 62 S504 79 526 48 S567 53 588 30 S618 36 640 16" />
+        </svg>
+      </div>
+      <div class="tool-preview__calculator">
+        <p class="tool-preview__eyebrow">Interaktivni izračun</p>
+        <h3 id="tool-preview-title">H-time kalkulator</h3>
+        <dl>
+          <div><dt>Datum</dt><dd>17. srpnja 2026.</dd></div>
+          <div><dt>Visina bloka</dt><dd>958.388</dd></div>
+          <div><dt>h-vrijednost</dt><dd>4,56375</dd></div>
+          <div><dt>Posljednji halving</dt><dd>Halving 4</dd></div>
+        </dl>
+        <a class="tool-preview__link" href="https://bitcoin-savjetovanje.com/dugorocni-trend/" target="_blank" rel="noopener noreferrer">Pogledaj graf i isprobaj kalkulator</a>
+      </div>
+    </aside>
+<p>Stranica nije dokaz da model zna buduću cijenu Bitcoina, nego alat za promatranje odnosa između vremena, visine bloka, ciklusa prepolovljenja, povijesne cijene i jedne matematičke hipoteze o dugoročnom trendu. Važno je ne zamijeniti jedno s drugim.</p>
+<h2 id="sto-sam-iz-ovoga-naucio-o-ucenju-uz-ai">Što sam iz ovoga naučio o učenju uz AI</h2>
+<p>Najveća vrijednost AI-a u ovom primjeru nije bila brzina kojom je mogao sažeti 24 stranice, nego mogućnost da sam odredim tempo.</p>
+<p>Mogao sam reći da sam potpuni početnik. Mogao sam tražiti jedan koncept odjednom. Mogao sam odgovoriti pogrešno bez neugode, dobiti novi primjer i nastaviti točno od mjesta na kojem sam zapeo.</p>
+<p>Zatim sam mogao promijeniti njegovu ulogu. U prvom dijelu bio je učitelj, u drugom istraživački pomoćnik, a u trećem mi je pomogao pripremiti podatke, prototip i tehnički zadatak iz kojega je nastao stvaran proizvod.</p>
+<ol class="learning-loop" aria-label="Petlja učenja uz AI"><li class="learning-loop__step"><span class="learning-loop__index" aria-hidden="true">01</span><strong>Izvor</strong><span>Daj AI-u stvarni rad, knjigu, podatke ili dokument koji želiš razumjeti.</span></li><li class="learning-loop__step"><span class="learning-loop__index" aria-hidden="true">02</span><strong>Tempo</strong><span>Traži samo jedan novi koncept i zabrani preskakanje koraka.</span></li><li class="learning-loop__step"><span class="learning-loop__index" aria-hidden="true">03</span><strong>Aktivno prisjećanje</strong><span>Odgovori prije nego što pročitaš sljedeće objašnjenje.</span></li><li class="learning-loop__step"><span class="learning-loop__index" aria-hidden="true">04</span><strong>Propitivanje</strong><span>Pitaj što broj ne dokazuje, gdje model prestaje vrijediti i kako je testiran.</span></li><li class="learning-loop__step"><span class="learning-loop__index" aria-hidden="true">05</span><strong>Primjena</strong><span>Pretvori naučeno u kalkulator, graf, tekst, skriptu ili vlastiti mali projekt.</span></li></ol>
+<p>AI često koristimo kao stroj za gotove odgovore, ali meni je u ovom slučaju bio puno korisniji kao strpljiv osobni tutor. Dao sam mu dobar izvor, objasnio vlastitu razinu, tražio da me ispituje i nisam mu dopuštao da prijeđe dalje dok ne razumijem prethodni korak.</p>
+<p>Kada sam počeo provjeravati njegove odgovore, postao je i partner u istraživanju. A kada sam naučeno pretvorio u nešto što drugi mogu koristiti, učenje više nije bilo samo privatna vježba, nego polazište za stvaranje.</p>
+<h2 id="ai-nije-uklonio-potrebu-za-razumijevanjem">AI nije uklonio potrebu za razumijevanjem</h2>
+<p>Ovaj primjer lako je ispričati kao priču o tome kako AI omogućuje da svatko nauči složenu matematiku.</p>
+<p>To bi bilo prejednostavno.</p>
+<p>AI zna pogriješiti. U ovom je razgovoru jedan rezultat morao biti ponovno izračunan i ispravljen. PDF također sadrži pretpostavke koje nisu isto što i matematički dokazi: da <em>h</em> predstavlja usvajanje, da određeni fazni pomak opisuje učenje tržišta ili da će budući ciklusi nastaviti nalikovati prethodnima.</p>
+<p>Bitcoin Wave Model zato ne doživljavam kao zakon cijene.</p>
+<p>Doživljavam ga kao izračunljivu hipotezu o povijesnom obrascu.</p>
+<p>Graf i kalkulator služe učenju i istraživanju. Nisu financijski savjet, prognoza zajamčenog prinosa ni obećanje buduće cijene.</p>
+<p>Upravo zato razumijevanje ostaje važno.</p>
+<p>Kada ne razumijem model, mogu samo vjerovati liniji na ekranu. Kada razumijem njegove dijelove, mogu pitati odakle dolazi broj, koji su podaci korišteni, jesu li parametri naknadno mijenjani i što se događa izvan uzorka na kojem je model nastao.</p>
+<p>AI mi nije uklonio potrebu za tim pitanjima, nego mi je pomogao da do njih dođem.</p>
+<h2 id="od-teskog-pdf-a-do-stranice-koju-svatko-moze-otvoriti">Od teškog PDF-a do stranice koju svatko može otvoriti</h2>
+<p>Na početku sam imao dokument pun formula koje nisam znao čitati.</p>
+<p>Na kraju sam imao dovoljno razumijevanja da ne prihvatim prvi rezultat, da primijetim nesklad između dviju verzija modela, da tražim pošteniju provjeru i da jasno opišem alat koji želim izgraditi.</p>
+<p>Iz toga su nastali graf i kalkulator.</p>
+<p>Ne zato što sam preko noći postao matematičar.</p>
+<p>Nisam.</p>
+<p>Nego zato što je AI smanjio udaljenost između pitanja koje sam se usudio postaviti i sljedećeg koraka koji sam mogao napraviti.</p>
+<p>Ako želite vidjeti cijeli proces, možete pročitati <a href="https://chatgpt.com/share/6a59fdc7-68f4-83eb-aa07-8f02384448b4" target="_blank" rel="noopener noreferrer">podijeljeni razgovor s 26 mojih pitanja i odgovora</a>.</p>
+<p>A ako želite odmah vidjeti rezultat, otvorite <a href="https://bitcoin-savjetovanje.com/dugorocni-trend/" target="_blank" rel="noopener noreferrer">interaktivni graf i H-time kalkulator</a>.</p>
+<p>Jedan pokazuje kako je izgledalo učenje.</p>
+<p>Drugi pokazuje što se s naučenim može napraviti.</p>

@@ -35,6 +35,24 @@ const routes = [
     type: "article",
     publishedDate: "2026-06-25",
   },
+  {
+    routePath:
+      "hr/ai-u-praksi/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda",
+    routeUrl:
+      "https://btcpavao.com/hr/ai-u-praksi/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda/",
+    title: "Kako sam uz AI naučio matematiku Bitcoinova dugoročnog trenda",
+    description:
+      "Kako sam uz AI korak po korak naučio matematiku Bitcoin Wave Modela, provjerio njegove granice i znanje pretvorio u graf i H-time kalkulator.",
+    ogDescription:
+      "Od PDF-a koji nisam razumio do javnog grafa i H-time kalkulatora: konkretan primjer AI-a kao učitelja, istraživača i alata za izgradnju.",
+    type: "article",
+    publishedDate: "2026-07-17",
+    ogImage: "https://btcpavao.com/ai-ucenje-bitcoin-model-hero.png",
+    ogImageWidth: "1672",
+    ogImageHeight: "941",
+    ogImageAlt:
+      "Radni stol s matematičkim bilješkama, grafovima, bilježnicom i laptopom s prikazom Bitcoinove cijene",
+  },
 ]
 
 const distIndexUrl = new URL("../dist/index.html", import.meta.url)
@@ -67,6 +85,7 @@ function structuredData(route) {
       dateModified: route.publishedDate,
       articleSection: "AI u praksi",
       mainEntityOfPage: route.routeUrl,
+      ...(route.ogImage ? { image: route.ogImage } : {}),
       author: {
         "@type": "Person",
         name: "Pavao Pahljina",
@@ -160,6 +179,38 @@ for (const route of routes) {
     /<meta\s+name="twitter:description"[^>]*>/,
     `<meta name="twitter:description" content="${escapeHtml(route.ogDescription)}" />`
   )
+  if (route.ogImage) {
+    html = replaceFirst(
+      html,
+      /<meta\s+property="og:image"[^>]*>/,
+      `<meta property="og:image" content="${route.ogImage}" />`
+    )
+    html = replaceFirst(
+      html,
+      /<meta\s+property="og:image:width"[^>]*>/,
+      `<meta property="og:image:width" content="${route.ogImageWidth}" />`
+    )
+    html = replaceFirst(
+      html,
+      /<meta\s+property="og:image:height"[^>]*>/,
+      `<meta property="og:image:height" content="${route.ogImageHeight}" />`
+    )
+    html = replaceFirst(
+      html,
+      /<meta\s+property="og:image:alt"[^>]*>/,
+      `<meta property="og:image:alt" content="${escapeHtml(route.ogImageAlt)}" />`
+    )
+    html = replaceFirst(
+      html,
+      /<meta\s+name="twitter:image"[^>]*>/,
+      `<meta name="twitter:image" content="${route.ogImage}" />`
+    )
+    html = replaceFirst(
+      html,
+      /<meta\s+name="twitter:image:alt"[^>]*>/,
+      `<meta name="twitter:image:alt" content="${escapeHtml(route.ogImageAlt)}" />`
+    )
+  }
   html = replaceFirst(html, /<\/head>/, `${routeHeadMeta(route)}  </head>`)
 
   await mkdir(routeDirectoryUrl, { recursive: true })

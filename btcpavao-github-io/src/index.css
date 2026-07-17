@@ -646,3 +646,579 @@
   animation: shimmer-light 3.5s ease-in-out infinite;
   will-change: filter;
 }
+
+/* Scoped article content for the Bitcoin Wave Model learning story. */
+.learning-article-body {
+  --learning-surface: color-mix(in oklab, var(--card) 95%, var(--primary) 5%);
+  --learning-divider: color-mix(in oklab, var(--border) 82%, transparent);
+  box-sizing: border-box;
+  width: min(100%, 52rem);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 3.5vw, 1.5rem);
+  color: var(--foreground);
+  font-size: clamp(1.02rem, 0.98rem + 0.2vw, 1.1rem);
+  line-height: 1.78;
+}
+
+.learning-article-body > p {
+  margin-block: 1.1rem;
+  text-wrap: pretty;
+}
+
+.learning-article-body > p:first-child {
+  margin-top: 0;
+  font-size: clamp(1.18rem, 1.08rem + 0.45vw, 1.38rem);
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.learning-article-body h2 {
+  max-width: 24ch;
+  margin: clamp(3.75rem, 8vw, 5.5rem) 0 1.35rem;
+  scroll-margin-top: 6.5rem;
+  color: var(--foreground);
+  font-size: clamp(1.8rem, 1.42rem + 1.45vw, 2.7rem);
+  font-weight: 760;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.learning-article-body a {
+  color: color-mix(in oklab, var(--primary) 84%, var(--foreground));
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--primary) 45%, transparent);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+  transition:
+    color 160ms ease-out,
+    text-decoration-color 160ms ease-out;
+}
+
+.learning-article-body a:hover {
+  color: var(--primary);
+  text-decoration-color: currentColor;
+}
+
+.learning-article-body a:focus-visible {
+  border-radius: 0.25rem;
+  outline: 3px solid color-mix(in oklab, var(--ring) 42%, transparent);
+  outline-offset: 3px;
+}
+
+.learning-article-body em {
+  color: color-mix(in oklab, var(--foreground) 84%, var(--primary));
+}
+
+.learning-article-body > ul {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1.5rem 0;
+  padding-left: 1.4rem;
+}
+
+.learning-article-body > ul li {
+  padding-left: 0.25rem;
+}
+
+.learning-article-body > ul li::marker {
+  color: var(--primary);
+}
+
+.learning-article-body blockquote {
+  margin: clamp(2.25rem, 6vw, 3.5rem) 0;
+  padding: 1.5rem;
+  border: 0;
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--primary) 12%, transparent),
+      color-mix(in oklab, var(--chart-2) 8%, transparent)
+    ),
+    var(--card);
+  box-shadow: var(--shadow-border);
+}
+
+.learning-article-body blockquote p {
+  margin: 0;
+  color: var(--card-foreground);
+  font-size: clamp(1.25rem, 1.08rem + 0.72vw, 1.65rem);
+  font-weight: 690;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+.learning-article-body .learning-loop,
+.learning-article-body .formula-map__grid,
+.learning-article-body .workflow {
+  padding: 0;
+  list-style: none;
+}
+
+.learning-article-body .learning-loop {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.875rem;
+  margin: clamp(2.25rem, 6vw, 3.5rem) 0;
+}
+
+.learning-article-body .learning-loop__step {
+  position: relative;
+  display: grid;
+  grid-column: span 2;
+  gap: 0.65rem;
+  min-width: 0;
+  min-height: 10.5rem;
+  align-content: start;
+  padding: 1.5rem;
+  border-radius: 1.35rem;
+  background: var(--learning-surface);
+  box-shadow: var(--shadow-border);
+}
+
+.learning-article-body .learning-loop__step:nth-child(n + 4) {
+  grid-column: span 3;
+}
+
+.learning-article-body .learning-loop__index {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--primary) 14%, transparent);
+  color: color-mix(in oklab, var(--primary) 80%, var(--foreground));
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+.learning-article-body .learning-loop__step strong {
+  color: var(--card-foreground);
+  font-size: 1rem;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.learning-article-body .learning-loop__step > span:last-child {
+  color: var(--muted-foreground);
+  font-size: 0.88rem;
+  font-weight: 520;
+  line-height: 1.52;
+  text-wrap: pretty;
+}
+
+.learning-article-body .dialogue,
+.learning-article-body .formula-map {
+  margin: clamp(2.5rem, 7vw, 4rem) 0;
+  padding: 1.5rem;
+  border-radius: 1.65rem;
+  background: var(--learning-surface);
+  box-shadow: var(--shadow-border);
+}
+
+.learning-article-body .dialogue {
+  display: grid;
+  gap: 0.875rem;
+}
+
+.learning-article-body .dialogue figcaption,
+.learning-article-body .formula-map figcaption {
+  margin-bottom: 0.35rem;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 750;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.learning-article-body .dialogue__message {
+  width: fit-content;
+  max-width: 82%;
+  padding: 1.125rem 1.5rem;
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-border);
+}
+
+.learning-article-body .dialogue__message--user {
+  justify-self: end;
+  border-bottom-right-radius: 0.35rem;
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.learning-article-body .dialogue__message--assistant {
+  justify-self: start;
+  border-bottom-left-radius: 0.35rem;
+  background: var(--card);
+  color: var(--card-foreground);
+}
+
+.learning-article-body .dialogue__speaker {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--primary);
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.learning-article-body .dialogue__message--user .dialogue__speaker {
+  color: color-mix(in oklab, var(--primary) 68%, var(--background));
+}
+
+.learning-article-body .dialogue__message p {
+  margin: 0;
+  color: inherit;
+  font-size: 0.98rem;
+  font-weight: 570;
+  line-height: 1.5;
+}
+
+.learning-article-body .formula-map {
+  overflow: hidden;
+}
+
+.learning-article-body .formula-map__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.875rem;
+  margin: 1.1rem 0 0;
+}
+
+.learning-article-body .formula-map__card {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+  align-content: start;
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+  background: var(--card);
+  box-shadow: var(--shadow-border);
+}
+
+.learning-article-body .formula-map__card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.learning-article-body .formula-map__label {
+  color: color-mix(in oklab, var(--primary) 82%, var(--foreground));
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.learning-article-body .formula-map code {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  color: var(--card-foreground);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: clamp(0.8rem, 0.73rem + 0.28vw, 0.94rem);
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.learning-article-body .formula-map__card p {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.learning-article-body .workflow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.875rem;
+  margin: clamp(2.25rem, 6vw, 3.5rem) 0;
+}
+
+.learning-article-body .workflow__step {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+  min-height: 8.75rem;
+  align-content: center;
+  padding: 1.5rem;
+  border-radius: 1.35rem;
+  background: var(--learning-surface);
+  color: var(--card-foreground);
+  font-size: 0.92rem;
+  font-weight: 680;
+  line-height: 1.3;
+  box-shadow: var(--shadow-border);
+}
+
+.learning-article-body .workflow__index {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--primary) 14%, transparent);
+  color: color-mix(in oklab, var(--primary) 82%, var(--foreground));
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+.learning-article-body .tool-preview {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(15rem, 0.8fr);
+  margin: clamp(2.75rem, 7vw, 4.5rem) 0;
+  overflow: hidden;
+  border-radius: 1.75rem;
+  background: var(--card);
+  box-shadow:
+    var(--shadow-border),
+    0 1.75rem 5rem color-mix(in oklab, var(--foreground) 10%, transparent);
+}
+
+.learning-article-body .tool-preview__chart {
+  display: grid;
+  min-width: 0;
+  min-height: 23rem;
+  align-content: center;
+  padding: 1.5rem;
+  background:
+    radial-gradient(circle at 72% 12%, rgb(15 124 126 / 0.28), transparent 40%),
+    oklch(0.19 0.018 220);
+}
+
+.learning-article-body .tool-preview__chart-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.learning-article-body .tool-preview__chart-meta span {
+  padding: 0.45rem 0.65rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.08);
+  color: rgb(236 244 244 / 0.86);
+  font-size: 0.7rem;
+  font-weight: 680;
+  line-height: 1;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.07);
+}
+
+.learning-article-body .tool-preview__chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.learning-article-body .tool-preview__grid,
+.learning-article-body .tool-preview__halvings,
+.learning-article-body .tool-preview__trend,
+.learning-article-body .tool-preview__price {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.learning-article-body .tool-preview__grid {
+  stroke: rgb(255 255 255 / 0.08);
+}
+
+.learning-article-body .tool-preview__halvings {
+  stroke: rgb(255 255 255 / 0.14);
+  stroke-dasharray: 4 6;
+}
+
+.learning-article-body .tool-preview__area {
+  fill: url("#chart-fill");
+}
+
+.learning-article-body .tool-preview__trend {
+  stroke: #d8a24b;
+  stroke-width: 2.5;
+}
+
+.learning-article-body .tool-preview__price {
+  stroke: #65ced0;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.learning-article-body .tool-preview__calculator {
+  display: grid;
+  min-width: 0;
+  align-content: center;
+  padding: 1.5rem;
+  background: var(--card);
+  color: var(--card-foreground);
+}
+
+.learning-article-body .tool-preview__eyebrow {
+  margin: 0 0 0.5rem;
+  color: color-mix(in oklab, var(--primary) 82%, var(--foreground));
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.learning-article-body .tool-preview__calculator h3 {
+  margin: 0;
+  color: var(--card-foreground);
+  font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2rem);
+  font-weight: 760;
+  line-height: 1.1;
+}
+
+.learning-article-body .tool-preview__calculator dl {
+  display: grid;
+  margin: 1.4rem 0;
+}
+
+.learning-article-body .tool-preview__calculator dl > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.72rem 0;
+  border-bottom: 1px solid var(--learning-divider);
+}
+
+.learning-article-body .tool-preview__calculator dt {
+  color: var(--muted-foreground);
+  font-size: 0.78rem;
+  font-weight: 580;
+}
+
+.learning-article-body .tool-preview__calculator dd {
+  min-width: 0;
+  margin: 0;
+  color: var(--card-foreground);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 720;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.learning-article-body .tool-preview__link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  border-radius: 0.9rem;
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 0.84rem;
+  font-weight: 720;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  transform: translateY(0) scale(1);
+  transition:
+    background-color 170ms ease-out,
+    color 170ms ease-out,
+    box-shadow 170ms ease-out,
+    transform 170ms ease-out;
+}
+
+.learning-article-body .tool-preview__link:hover {
+  background: color-mix(in oklab, var(--foreground) 88%, var(--primary));
+  color: var(--background);
+  box-shadow: var(--shadow-border-hover);
+  transform: translateY(-1px);
+}
+
+.learning-article-body .tool-preview__link:active {
+  transform: translateY(1px) scale(0.96);
+}
+
+.learning-article-body .tool-preview__link:focus-visible {
+  outline: 3px solid color-mix(in oklab, var(--ring) 44%, transparent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 48rem) {
+  .learning-article-body .learning-loop {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .learning-article-body .learning-loop__step,
+  .learning-article-body .learning-loop__step:nth-child(n + 4) {
+    grid-column: auto;
+  }
+
+  .learning-article-body .learning-loop__step:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .learning-article-body .workflow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .learning-article-body .tool-preview {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-article-body .tool-preview__chart {
+    min-height: 18rem;
+  }
+}
+
+@media (max-width: 34rem) {
+  .learning-article-body {
+    padding-inline: 1rem;
+  }
+
+  .learning-article-body blockquote,
+  .learning-article-body .dialogue,
+  .learning-article-body .formula-map,
+  .learning-article-body .learning-loop__step,
+  .learning-article-body .formula-map__card,
+  .learning-article-body .workflow__step,
+  .learning-article-body .tool-preview__chart,
+  .learning-article-body .tool-preview__calculator {
+    padding: 1rem;
+  }
+
+  .learning-article-body .learning-loop,
+  .learning-article-body .formula-map__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-article-body .learning-loop__step,
+  .learning-article-body .learning-loop__step:nth-child(n + 4),
+  .learning-article-body .learning-loop__step:last-child:nth-child(odd),
+  .learning-article-body .formula-map__card:last-child:nth-child(odd) {
+    grid-column: auto;
+  }
+
+  .learning-article-body .learning-loop__step {
+    min-height: 0;
+  }
+
+  .learning-article-body .dialogue__message {
+    max-width: 92%;
+    padding: 1rem;
+  }
+
+  .learning-article-body .workflow__step {
+    min-height: 7.5rem;
+    text-align: left;
+  }
+
+  .learning-article-body .tool-preview__chart {
+    min-height: 15rem;
+  }
+
+  .learning-article-body .tool-preview__calculator dl > div {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+
+  .learning-article-body .tool-preview__calculator dd {
+    text-align: left;
+  }
+}

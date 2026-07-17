@@ -49,6 +49,20 @@ const WORKFLOW_ARTICLE_OG_DESCRIPTION =
   "Praktičan prikaz procesa od ideje izgovorene u šetnji do sadržaja ili stranice spremne za objavu."
 const WORKFLOW_ARTICLE_DATE = "2026-06-25"
 const WORKFLOW_ARTICLE_DISPLAY_DATE = "25. lipnja 2026."
+const LEARNING_ARTICLE_PATH =
+  "/hr/ai-u-praksi/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda/"
+const LEARNING_ARTICLE_URL = `${SITE_URL}${LEARNING_ARTICLE_PATH}`
+const LEARNING_ARTICLE_TITLE =
+  "Kako sam uz AI naučio matematiku Bitcoinova dugoročnog trenda"
+const LEARNING_ARTICLE_DESCRIPTION =
+  "Kako sam uz AI korak po korak naučio matematiku Bitcoin Wave Modela, provjerio njegove granice i znanje pretvorio u graf i H-time kalkulator."
+const LEARNING_ARTICLE_OG_DESCRIPTION =
+  "Od PDF-a koji nisam razumio do javnog grafa i H-time kalkulatora: konkretan primjer AI-a kao učitelja, istraživača i alata za izgradnju."
+const LEARNING_ARTICLE_DATE = "2026-07-17"
+const LEARNING_ARTICLE_DISPLAY_DATE = "17. srpnja 2026."
+const LEARNING_ARTICLE_HERO_IMAGE = "/ai-ucenje-bitcoin-model-hero.png"
+const LEARNING_ARTICLE_HERO_IMAGE_WEBP =
+  "/ai-ucenje-bitcoin-model-hero.webp"
 const BOOK_SECTION_HEADING = "Knjiga koja je godinama čekala red"
 const AGENTS_SECTION_HEADING = "Agenti kao probni čitatelji"
 const WEB_SECTION_HEADING = "Web stranice kroz razgovor"
@@ -139,6 +153,56 @@ const aiSeriesPosts = [
     href: WORKFLOW_ARTICLE_PATH,
     language: "HR",
     date: WORKFLOW_ARTICLE_DISPLAY_DATE,
+  },
+  {
+    category: "AI u praksi",
+    title: LEARNING_ARTICLE_TITLE,
+    description:
+      "Kako sam uz AI naučio matematiku Bitcoin Wave Modela i znanje pretvorio u graf i H-time kalkulator.",
+    href: LEARNING_ARTICLE_PATH,
+    language: "HR",
+    date: LEARNING_ARTICLE_DISPLAY_DATE,
+  },
+]
+
+const learningArticleHeadings = [
+  {
+    id: "nisam-trazio-da-mi-objasni-sve-odjednom",
+    title: "Nisam tražio da mi objasni sve odjednom",
+  },
+  {
+    id: "najkorisniji-trenutak-bio-je-kada-sam-pogrijesio",
+    title: "Najkorisniji trenutak bio je kada sam pogriješio",
+  },
+  {
+    id: "jedna-zastrasujuca-formula-postala-je-niz-malih-ideja",
+    title: "Jedna zastrašujuća formula postala je niz malih ideja",
+  },
+  {
+    id: "u-jednom-trenutku-prestao-sam-uciti-model-i-poceo-ga-testirati",
+    title: "U jednom trenutku prestao sam učiti model i počeo ga testirati",
+  },
+  { id: "lijep-graf-nije-bio-dovoljan", title: "Lijep graf nije bio dovoljan" },
+  {
+    id: "nesklad-od-desetak-tisuca-dolara-pokrenuo-je-novo-pitanje",
+    title: "Nesklad od desetak tisuća dolara pokrenuo je novo pitanje",
+  },
+  {
+    id: "od-ucenika-preko-istrazivaca-do-graditelja",
+    title: "Od učenika preko istraživača do graditelja",
+  },
+  { id: "sto-danas-postoji-na-stranici", title: "Što danas postoji na stranici" },
+  {
+    id: "sto-sam-iz-ovoga-naucio-o-ucenju-uz-ai",
+    title: "Što sam iz ovoga naučio o učenju uz AI",
+  },
+  {
+    id: "ai-nije-uklonio-potrebu-za-razumijevanjem",
+    title: "AI nije uklonio potrebu za razumijevanjem",
+  },
+  {
+    id: "od-teskog-pdf-a-do-stranice-koju-svatko-moze-otvoriti",
+    title: "Od teškog PDF-a do stranice koju svatko može otvoriti",
   },
 ]
 
@@ -495,6 +559,17 @@ function useWorkflowArticleMetadata() {
     url: WORKFLOW_ARTICLE_URL,
     type: "article",
     publishedDate: WORKFLOW_ARTICLE_DATE,
+  })
+}
+
+function useLearningArticleMetadata() {
+  usePageMetadata({
+    title: LEARNING_ARTICLE_TITLE,
+    description: LEARNING_ARTICLE_DESCRIPTION,
+    ogDescription: LEARNING_ARTICLE_OG_DESCRIPTION,
+    url: LEARNING_ARTICLE_URL,
+    type: "article",
+    publishedDate: LEARNING_ARTICLE_DATE,
   })
 }
 
@@ -1244,7 +1319,7 @@ function WorkflowArticlePage() {
 
             <nav
               aria-label="Sadržaj članka"
-              className="article-shell article-toc mt-10 rounded-[24px] bg-card/78 p-4 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)]"
+              className="article-shell article-toc mt-10 rounded-[24px] bg-card/78 p-4 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)] sm:p-6"
             >
               <p className="text-[11px] font-semibold text-muted-foreground uppercase">
                 Sadržaj
@@ -1311,8 +1386,153 @@ function WorkflowArticlePage() {
                 </span>
               </a>
               <a
-                href={AI_SERIES_PATH}
+                href={LEARNING_ARTICLE_PATH}
                 className={`glimmer-button rounded-[24px] bg-card/82 p-5 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)] hover:bg-card ${liftHover}`}
+              >
+                <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+                  Sljedeći tekst
+                </span>
+                <span className="mt-3 block font-display text-xl font-bold tracking-[-0.04em] text-balance text-foreground">
+                  {LEARNING_ARTICLE_TITLE}
+                </span>
+              </a>
+            </nav>
+          </div>
+        </article>
+      </main>
+    </PageChrome>
+  )
+}
+
+function LearningArticlePage() {
+  useLearningArticleMetadata()
+  useReadingProgress()
+  const [articleHtml, setArticleHtml] = useState("")
+
+  useEffect(() => {
+    let isMounted = true
+
+    import("./learning-article.html?raw").then((module) => {
+      if (isMounted) {
+        setArticleHtml(module.default)
+      }
+    })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  return (
+    <PageChrome>
+      <div className="reading-progress" aria-hidden="true" />
+      <main className="relative pb-20">
+        <article>
+          <header className="article-hero-bleed">
+            <picture className="article-hero-background">
+              <source
+                srcSet={LEARNING_ARTICLE_HERO_IMAGE_WEBP}
+                type="image/webp"
+              />
+              <img
+                src={LEARNING_ARTICLE_HERO_IMAGE}
+                alt="Radni stol s matematičkim bilješkama, grafovima, bilježnicom i laptopom s prikazom Bitcoinove cijene"
+                width={1672}
+                height={941}
+                decoding="async"
+                fetchPriority="high"
+              />
+            </picture>
+
+            <div className="article-hero-content">
+              <div className="article-hero-copy">
+                <a
+                  href={AI_SERIES_PATH}
+                  className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
+                >
+                  AI u praksi
+                </a>
+
+                <div className="mt-12 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase">
+                  <span className="rounded-full bg-background/78 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)] backdrop-blur">
+                    AI u praksi
+                  </span>
+                  <span className="rounded-full bg-background/78 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)] backdrop-blur">
+                    Hrvatski
+                  </span>
+                  <time
+                    className="rounded-full bg-background/78 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)] backdrop-blur"
+                    dateTime={LEARNING_ARTICLE_DATE}
+                  >
+                    {LEARNING_ARTICLE_DISPLAY_DATE}
+                  </time>
+                  <span className="rounded-full bg-background/78 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)] backdrop-blur">
+                    15 min čitanja
+                  </span>
+                </div>
+
+                <h1 className="mt-8 max-w-[16ch] font-display text-5xl leading-[0.96] font-bold text-balance text-foreground sm:text-6xl">
+                  {LEARNING_ARTICLE_TITLE}
+                </h1>
+                <p className="mt-6 max-w-xl text-xl leading-8 text-pretty text-muted-foreground sm:text-2xl sm:leading-9">
+                  Od pogrešnog odgovora o potencijama do interaktivnog grafa i
+                  H-time kalkulatora: kako sam AI koristio kao učitelja,
+                  istraživačkog pomoćnika i alat za izgradnju.
+                </p>
+              </div>
+            </div>
+          </header>
+
+          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <nav
+              aria-label="Sadržaj članka"
+              className="article-shell article-toc mt-10 rounded-[24px] bg-card/78 p-4 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)] sm:p-6"
+            >
+              <p className="text-[11px] font-semibold text-muted-foreground uppercase">
+                Sadržaj
+              </p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {learningArticleHeadings.map((heading) => (
+                  <a
+                    key={heading.id}
+                    href={`#${heading.id}`}
+                    className={`glimmer-button rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground shadow-[0_0_0_1px_hsl(var(--border)/0.6)] hover:bg-card hover:text-foreground ${liftHover}`}
+                  >
+                    {heading.title}
+                  </a>
+                ))}
+              </div>
+            </nav>
+
+            {articleHtml ? (
+              <div
+                className="article-shell learning-article-body mt-10"
+                dangerouslySetInnerHTML={{ __html: articleHtml }}
+              />
+            ) : (
+              <p className="article-shell mt-10 text-lg text-muted-foreground">
+                Učitavanje članka…
+              </p>
+            )}
+
+            <nav
+              aria-label="Povezani članci"
+              className="article-shell mt-14 grid gap-3 sm:grid-cols-2"
+            >
+              <a
+                href={WORKFLOW_ARTICLE_PATH}
+                className={`glimmer-button rounded-[24px] bg-card/82 p-4 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)] hover:bg-card sm:p-6 ${liftHover}`}
+              >
+                <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+                  Prethodni tekst
+                </span>
+                <span className="mt-3 block font-display text-xl font-bold tracking-[-0.04em] text-balance text-foreground">
+                  {WORKFLOW_ARTICLE_TITLE}
+                </span>
+              </a>
+              <a
+                href={AI_SERIES_PATH}
+                className={`glimmer-button rounded-[24px] bg-card/82 p-4 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)] hover:bg-card sm:p-6 ${liftHover}`}
               >
                 <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
                   Serijal
@@ -2117,6 +2337,10 @@ export function App() {
 
   if (currentPath === WORKFLOW_ARTICLE_PATH) {
     return <WorkflowArticlePage />
+  }
+
+  if (currentPath === LEARNING_ARTICLE_PATH) {
+    return <LearningArticlePage />
   }
 
   return <HomePage />

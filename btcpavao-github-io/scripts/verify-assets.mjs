@@ -9,6 +9,10 @@ const distIndexPath = new URL("../dist/index.html", import.meta.url)
 
 const imagePairs = [
   {
+    fallback: "public/ai-ucenje-bitcoin-model-hero.png",
+    webp: "public/ai-ucenje-bitcoin-model-hero.webp",
+  },
+  {
     fallback: "public/ai-workflow-hero.png",
     webp: "public/ai-workflow-hero.webp",
   },
