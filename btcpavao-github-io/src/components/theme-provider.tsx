@@ -18,6 +18,8 @@ type ThemeProviderState = {
 
 const COLOR_SCHEME_QUERY = "(prefers-color-scheme: dark)"
 const THEME_VALUES: Theme[] = ["dark", "light", "system"]
+const useIsomorphicLayoutEffect =
+  typeof window === "undefined" ? React.useEffect : React.useLayoutEffect
 
 const ThemeProviderContext = React.createContext<
   ThemeProviderState | undefined
@@ -65,14 +67,8 @@ export function ThemeProvider({
   disableTransitionOnChange = true,
   ...props
 }: ThemeProviderProps) {
-  const [theme, setThemeState] = React.useState<Theme>(() => {
-    const storedTheme = localStorage.getItem(storageKey)
-    if (isTheme(storedTheme)) {
-      return storedTheme
-    }
-
-    return defaultTheme
-  })
+  const [theme, setThemeState] = React.useState<Theme>(defaultTheme)
+  const skipFirstThemeEffect = React.useRef(true)
 
   const setTheme = React.useCallback(
     (nextTheme: Theme) => {
@@ -101,7 +97,20 @@ export function ThemeProvider({
     [disableTransitionOnChange]
   )
 
+  useIsomorphicLayoutEffect(() => {
+    const storedTheme = localStorage.getItem(storageKey)
+    const initialTheme = isTheme(storedTheme) ? storedTheme : defaultTheme
+
+    applyTheme(initialTheme)
+    setThemeState(initialTheme)
+  }, [applyTheme, defaultTheme, storageKey])
+
   React.useEffect(() => {
+    if (skipFirstThemeEffect.current) {
+      skipFirstThemeEffect.current = false
+      return undefined
+    }
+
     applyTheme(theme)
 
     if (theme !== "system") {

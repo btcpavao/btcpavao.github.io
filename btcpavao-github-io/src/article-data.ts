@@ -744,16 +744,22 @@ export const aiWorkflowArticleSections = [
 
 export const websiteScreenshots = [
   {
-    src: "/bitcoin-savjetovanje-screenshot.png",
-    webpSrc: "/bitcoin-savjetovanje-screenshot.webp",
+    src: "/bitcoin-savjetovanje-screenshot.webp",
+    mediumSrc: "/bitcoin-savjetovanje-screenshot-1600.webp",
+    smallSrc: "/bitcoin-savjetovanje-screenshot-800.webp",
+    width: 2876,
+    height: 1618,
     alt: "Screenshot web stranice Bitcoin Savjetovanje",
     title: "Bitcoin Savjetovanje",
     caption:
       "Savjetodavna stranica za ljude koji žele Bitcoin pretvoriti u uređen sustav odluka.",
   },
   {
-    src: "/dvadesetjedan-screenshot.png",
-    webpSrc: "/dvadesetjedan-screenshot.webp",
+    src: "/dvadesetjedan-screenshot.webp",
+    mediumSrc: "/dvadesetjedan-screenshot-1600.webp",
+    smallSrc: "/dvadesetjedan-screenshot-800.webp",
+    width: 2848,
+    height: 1614,
     alt: "Screenshot web stranice DvadesetJedan",
     title: "DvadesetJedan",
     caption:

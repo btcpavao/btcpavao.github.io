@@ -1,7 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-import { Slot } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 
@@ -32,18 +31,36 @@ function Badge({
   className,
   variant = "default",
   asChild = false,
+  children,
   ...props
 }: React.ComponentProps<"span"> &
   VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
-  const Comp = asChild ? Slot.Root : "span"
+  const classes = cn(badgeVariants({ variant }), className)
+
+  if (asChild) {
+    const child = React.Children.only(children) as React.ReactElement<{
+      className?: string
+      [key: string]: unknown
+    }>
+
+    return React.cloneElement(child, {
+      ...props,
+      ...child.props,
+      "data-slot": "badge",
+      "data-variant": variant,
+      className: cn(classes, child.props.className),
+    })
+  }
 
   return (
-    <Comp
+    <span
       data-slot="badge"
       data-variant={variant}
-      className={cn(badgeVariants({ variant }), className)}
+      className={classes}
       {...props}
-    />
+    >
+      {children}
+    </span>
   )
 }
 

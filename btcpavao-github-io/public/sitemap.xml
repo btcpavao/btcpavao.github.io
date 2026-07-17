@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+>
   <url>
     <loc>https://btcpavao.com/</loc>
+    <lastmod>2026-07-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -13,20 +17,72 @@
   </url>
   <url>
     <loc>https://btcpavao.com/hr/ai-u-praksi/jedan-covjek-ai-i-dva-mjeseca-rada/</loc>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-07-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://btcpavao.com/ai-workflow-hero.webp</image:loc>
+      <image:title>AI workflow na radnom stolu</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-kao-novac-cover.webp</image:loc>
+      <image:title>Naslovnica knjige Bitcoin kao novac</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-savjetovanje-screenshot.webp</image:loc>
+      <image:title>Bitcoin Savjetovanje</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/dvadesetjedan-screenshot.webp</image:loc>
+      <image:title>DvadesetJedan</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://btcpavao.com/hr/ai-u-praksi/od-diktata-do-objavljene-stranice/</loc>
-    <lastmod>2026-06-25</lastmod>
+    <lastmod>2026-07-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://btcpavao.com/ai-workflow-hero.webp</image:loc>
+      <image:title>Moj AI workflow od diktata do objavljene stranice</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/ai-workflow-step-1-idea.webp</image:loc>
+      <image:title>Ideja dolazi prije prompta</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/ai-workflow-step-2-dictation.webp</image:loc>
+      <image:title>Diktat je sirov materijal</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/ai-workflow-step-3-chatgpt-editor.webp</image:loc>
+      <image:title>ChatGPT kao sugovornik i urednik</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/ai-workflow-step-4-codex-task.webp</image:loc>
+      <image:title>Od razgovora do zadatka za Codex</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/ai-workflow-step-5-system-reading.webp</image:loc>
+      <image:title>Codex čita postojeći sustav</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/ai-workflow-step-6-review.webp</image:loc>
+      <image:title>Pregled je dio rada</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/ai-workflow-step-7-iteration.webp</image:loc>
+      <image:title>Iteracija stvara kvalitetu</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://btcpavao.com/hr/ai-u-praksi/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda/</loc>
     <lastmod>2026-07-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://btcpavao.com/ai-ucenje-bitcoin-model-hero.webp</image:loc>
+      <image:title>Učenje matematike Bitcoinova dugoročnog trenda uz AI</image:title>
+    </image:image>
   </url>
 </urlset>

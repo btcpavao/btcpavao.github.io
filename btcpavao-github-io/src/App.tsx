@@ -17,17 +17,22 @@ import { useTheme } from "@/components/theme-provider"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import {
+  AI_SERIES_PATH,
+  ARTICLE_PATH,
+  LEARNING_ARTICLE_PATH,
+  normalizePath,
+  WORKFLOW_ARTICLE_PATH,
+} from "@/routes"
 
 const SITE_URL = "https://btcpavao.com"
 const CONTACT_EMAIL = "mailto:pavao@hey.com"
-const AI_SERIES_PATH = "/hr/ai-u-praksi/"
 const AI_SERIES_URL = `${SITE_URL}${AI_SERIES_PATH}`
 const AI_SERIES_TITLE = "AI u praksi"
 const AI_SERIES_DESCRIPTION =
   "Osobne bilješke o tome kako koristim AI za pisanje, knjige, web stranice, agente, automatizaciju i svakodnevni rad."
 const AI_SERIES_OG_DESCRIPTION =
   "Kako jedan generalist koristi AI da ideje pretvori u tekstove, knjige, web stranice i stvarne poslovne sustave."
-const ARTICLE_PATH = "/hr/ai-u-praksi/jedan-covjek-ai-i-dva-mjeseca-rada/"
 const ARTICLE_URL = `${SITE_URL}${ARTICLE_PATH}`
 const ARTICLE_TITLE = "Jedan čovjek, AI i dva mjeseca rada"
 const ARTICLE_DESCRIPTION =
@@ -36,10 +41,8 @@ const ARTICLE_OG_DESCRIPTION =
   "Kako AI u praksi mijenja rad jednog generalista: od diktiranja u šetnji do knjige, web stranica, agenata i automatizacije."
 const ARTICLE_DATE = "2026-06-12"
 const ARTICLE_DISPLAY_DATE = "12. lipnja 2026."
-const ARTICLE_HERO_IMAGE = "/ai-workflow-hero.png"
-const ARTICLE_HERO_IMAGE_WEBP = "/ai-workflow-hero.webp"
-const WORKFLOW_ARTICLE_PATH =
-  "/hr/ai-u-praksi/od-diktata-do-objavljene-stranice/"
+const ARTICLE_HERO_IMAGE = "/ai-workflow-hero.webp"
+const ARTICLE_HERO_IMAGE_SMALL = "/ai-workflow-hero-840.webp"
 const WORKFLOW_ARTICLE_URL = `${SITE_URL}${WORKFLOW_ARTICLE_PATH}`
 const WORKFLOW_ARTICLE_TITLE =
   "Moj AI workflow: od diktata do objavljene stranice"
@@ -49,8 +52,6 @@ const WORKFLOW_ARTICLE_OG_DESCRIPTION =
   "Praktičan prikaz procesa od ideje izgovorene u šetnji do sadržaja ili stranice spremne za objavu."
 const WORKFLOW_ARTICLE_DATE = "2026-06-25"
 const WORKFLOW_ARTICLE_DISPLAY_DATE = "25. lipnja 2026."
-const LEARNING_ARTICLE_PATH =
-  "/hr/ai-u-praksi/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda/"
 const LEARNING_ARTICLE_URL = `${SITE_URL}${LEARNING_ARTICLE_PATH}`
 const LEARNING_ARTICLE_TITLE =
   "Kako sam uz AI naučio matematiku Bitcoinova dugoročnog trenda"
@@ -60,13 +61,13 @@ const LEARNING_ARTICLE_OG_DESCRIPTION =
   "Od PDF-a koji nisam razumio do javnog grafa i H-time kalkulatora: konkretan primjer AI-a kao učitelja, istraživača i alata za izgradnju."
 const LEARNING_ARTICLE_DATE = "2026-07-17"
 const LEARNING_ARTICLE_DISPLAY_DATE = "17. srpnja 2026."
-const LEARNING_ARTICLE_HERO_IMAGE = "/ai-ucenje-bitcoin-model-hero.png"
-const LEARNING_ARTICLE_HERO_IMAGE_WEBP =
-  "/ai-ucenje-bitcoin-model-hero.webp"
+const LEARNING_ARTICLE_HERO_IMAGE = "/ai-ucenje-bitcoin-model-hero.webp"
+const LEARNING_ARTICLE_HERO_IMAGE_SMALL =
+  "/ai-ucenje-bitcoin-model-hero-840.webp"
 const BOOK_SECTION_HEADING = "Knjiga koja je godinama čekala red"
 const AGENTS_SECTION_HEADING = "Agenti kao probni čitatelji"
 const WEB_SECTION_HEADING = "Web stranice kroz razgovor"
-type ArticleDataModule = typeof import("./article-data")
+export type ArticleDataModule = typeof import("./article-data")
 
 const sectionLinks = [
   { label: "About", href: "#about" },
@@ -89,44 +90,44 @@ const socialLinks = [
 const workflowSectionVisuals = [
   {
     heading: "1. Ideja dolazi prije prompta",
-    src: "/ai-workflow-step-1-idea.png",
-    webp: "/ai-workflow-step-1-idea.webp",
+    src: "/ai-workflow-step-1-idea.webp",
+    smallSrc: "/ai-workflow-step-1-idea-840.webp",
     alt: "Radni stol uz prozor s pogledom na obalu, otvorenom bilježnicom, laptopom, mobitelom i šalicom kave.",
   },
   {
     heading: "2. Diktat je sirov materijal",
-    src: "/ai-workflow-step-2-dictation.png",
-    webp: "/ai-workflow-step-2-dictation.webp",
+    src: "/ai-workflow-step-2-dictation.webp",
+    smallSrc: "/ai-workflow-step-2-dictation-840.webp",
     alt: "Mobitel s otvorenom glasovnom snimkom leži kraj bilježnice, papira, laptopa i šalice kave na drvenom stolu.",
   },
   {
     heading: "3. ChatGPT kao sugovornik i urednik",
-    src: "/ai-workflow-step-3-chatgpt-editor.png",
-    webp: "/ai-workflow-step-3-chatgpt-editor.webp",
+    src: "/ai-workflow-step-3-chatgpt-editor.webp",
+    smallSrc: "/ai-workflow-step-3-chatgpt-editor-840.webp",
     alt: "Laptop s nečitljivim razgovorom na ekranu, otvorena bilježnica i označeni papiri na radnom stolu.",
   },
   {
     heading: "4. Od razgovora do zadatka za Codex",
-    src: "/ai-workflow-step-4-codex-task.png",
-    webp: "/ai-workflow-step-4-codex-task.webp",
+    src: "/ai-workflow-step-4-codex-task.webp",
+    smallSrc: "/ai-workflow-step-4-codex-task-840.webp",
     alt: "Laptop s nečitljivim kodom, bilježnica s kratkom listom provjere, mobitel i šalica kave na stolu uz prozor.",
   },
   {
     heading: "5. Codex čita postojeći sustav",
-    src: "/ai-workflow-step-5-system-reading.png",
-    webp: "/ai-workflow-step-5-system-reading.webp",
+    src: "/ai-workflow-step-5-system-reading.webp",
+    smallSrc: "/ai-workflow-step-5-system-reading-840.webp",
     alt: "Laptop s nečitljivim kodom i papiri sa skicama stranice na drvenom stolu pokraj prozora.",
   },
   {
     heading: "6. Pregled je dio rada, a ne formalnost",
-    src: "/ai-workflow-step-6-review.png",
-    webp: "/ai-workflow-step-6-review.webp",
+    src: "/ai-workflow-step-6-review.webp",
+    smallSrc: "/ai-workflow-step-6-review-840.webp",
     alt: "Radni stol s laptopom, papirima za pregled, bilježnicom, mobitelom i olovkom tijekom provjere članka.",
   },
   {
     heading: "7. Iteracija je mjesto gdje nastaje kvaliteta",
-    src: "/ai-workflow-step-7-iteration.png",
-    webp: "/ai-workflow-step-7-iteration.webp",
+    src: "/ai-workflow-step-7-iteration.webp",
+    smallSrc: "/ai-workflow-step-7-iteration-840.webp",
     alt: "Nekoliko verzija nacrta stranice, bilježnica, laptop i mobitel prikazuju proces uređivanja i ponavljanja.",
   },
 ] as const
@@ -191,7 +192,10 @@ const learningArticleHeadings = [
     id: "od-ucenika-preko-istrazivaca-do-graditelja",
     title: "Od učenika preko istraživača do graditelja",
   },
-  { id: "sto-danas-postoji-na-stranici", title: "Što danas postoji na stranici" },
+  {
+    id: "sto-danas-postoji-na-stranici",
+    title: "Što danas postoji na stranici",
+  },
   {
     id: "sto-sam-iz-ovoga-naucio-o-ucenju-uz-ai",
     title: "Što sam iz ovoga naučio o učenju uz AI",
@@ -299,20 +303,12 @@ const proofPoints = [
   },
 ]
 
-const sectionReveal =
-  "animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-8 animate-inview:y-0 animate-duration-700 animate-ease-out animate-once"
-const itemReveal =
-  "animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-6 animate-inview:y-0 animate-duration-600 animate-ease-out animate-once"
-const subtleReveal =
-  "animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-4 animate-inview:y-0 animate-duration-500 animate-ease-out animate-once"
+const sectionReveal = ""
+const itemReveal = ""
+const subtleReveal = ""
 const liftHover =
   "transition-[background-color,color,border-color,box-shadow,transform] duration-300 active:translate-y-px active:scale-[0.96]"
-const staggerDelays = [
-  "animate-delay-0",
-  "animate-delay-100",
-  "animate-delay-200",
-  "animate-delay-300",
-]
+const staggerDelays = ["", "", "", ""]
 
 const projectGroups = [
   {
@@ -369,9 +365,16 @@ const projectGroups = [
   },
 ]
 
-function ThemeToggle() {
+function ThemeToggle({ language = "en" }: { language?: "en" | "hr" }) {
   const { theme, setTheme } = useTheme()
   const isDark = theme === "dark"
+  const label = isDark
+    ? language === "hr"
+      ? "Uključi svijetlu temu"
+      : "Switch to light theme"
+    : language === "hr"
+      ? "Uključi tamnu temu"
+      : "Switch to dark theme"
 
   return (
     <Button
@@ -379,8 +382,8 @@ function ThemeToggle() {
       size="icon"
       className="glimmer-button inline-flex size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border-border/70 bg-background/85 p-0 leading-none backdrop-blur"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-      title={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      aria-label={label}
+      title={label}
     >
       <span className="theme-toggle-icon-stack" aria-hidden="true">
         <SunMedium
@@ -422,18 +425,35 @@ function SectionHeader({
   )
 }
 
+function SkipLink({ label }: { label: string }) {
+  return (
+    <a className="skip-link" href="#main-content">
+      {label}
+    </a>
+  )
+}
+
 function getCurrentPath() {
   if (typeof window === "undefined") {
     return "/"
   }
 
-  const { pathname } = window.location
+  return normalizePath(window.location.pathname)
+}
 
-  if (pathname === "/") {
-    return pathname
-  }
+function estimateReadingMinutes(parts: string[]) {
+  const words = parts.join(" ").trim().split(/\s+/).filter(Boolean).length
 
-  return pathname.endsWith("/") ? pathname : `${pathname}/`
+  return Math.max(1, Math.ceil(words / 210))
+}
+
+function toSectionId(heading: string) {
+  return heading
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")
 }
 
 function setMetaContent(
@@ -596,12 +616,22 @@ function useReadingProgress() {
   }, [])
 }
 
-function ArticlePage() {
+function ArticlePage({
+  initialArticleData = null,
+}: {
+  initialArticleData?: ArticleDataModule | null
+}) {
   useArticleMetadata()
   useReadingProgress()
-  const [articleData, setArticleData] = useState<ArticleDataModule | null>(null)
+  const [articleData, setArticleData] = useState<ArticleDataModule | null>(
+    initialArticleData
+  )
 
   useEffect(() => {
+    if (articleData) {
+      return undefined
+    }
+
     let isMounted = true
 
     import("./article-data").then((data) => {
@@ -613,28 +643,35 @@ function ArticlePage() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [articleData])
 
   const articleIntro = articleData?.articleIntro ?? []
   const articleSections = articleData?.articleSections ?? []
   const websiteScreenshots = articleData?.websiteScreenshots ?? []
   const bookAgentGroups = articleData?.bookAgentGroups ?? []
   const articleHeadings = articleSections.map((section) => section.heading)
+  const readingMinutes = articleData
+    ? estimateReadingMinutes([
+        ...articleIntro,
+        ...articleSections.flatMap((section) => [
+          section.heading,
+          ...section.paragraphs,
+        ]),
+      ])
+    : null
 
   return (
     <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
+      <SkipLink label="Preskoči na sadržaj" />
       <div className="reading-progress" aria-hidden="true" />
       <div
         aria-hidden="true"
-        className="page-atmosphere pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,hsl(var(--hero-glow)/0.18)_0%,transparent_30%),radial-gradient(circle_at_85%_10%,hsl(var(--hero-ember)/0.16)_0%,transparent_18%),linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--background))_42%,hsl(var(--muted)/0.72)_150%)]"
+        className="page-atmosphere pointer-events-none absolute inset-0"
       />
       <div
         aria-hidden="true"
-        className="page-grid pointer-events-none absolute inset-0 [background-image:linear-gradient(hsl(var(--border)/0.28)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--border)/0.28)_1px,transparent_1px)] [mask-image:linear-gradient(180deg,black,transparent_84%)] [background-size:68px_68px] opacity-55"
+        className="page-grid pointer-events-none absolute inset-0"
       />
-      <div aria-hidden="true" className="ambient-orb ambient-orb-left" />
-      <div aria-hidden="true" className="ambient-orb ambient-orb-right" />
-
       <header className="z-40 border-b border-border/60 bg-background/92 md:sticky md:top-0 md:bg-background/78 md:backdrop-blur-xl">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
           <a
@@ -649,26 +686,27 @@ function ArticlePage() {
               href="/"
               className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
             >
-              Home
+              Početna
             </a>
             <a
               href={CONTACT_EMAIL}
               className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
             >
-              Contact
+              Kontakt
             </a>
-            <ThemeToggle />
+            <ThemeToggle language="hr" />
           </div>
         </div>
       </header>
 
-      <main id="top" className="relative pb-20">
+      <main id="main-content" className="relative pb-20">
         <article className="article-layout">
           <header className="article-hero-bleed">
             <picture className="article-hero-background">
-              <source srcSet={ARTICLE_HERO_IMAGE_WEBP} type="image/webp" />
               <img
                 src={ARTICLE_HERO_IMAGE}
+                srcSet={`${ARTICLE_HERO_IMAGE_SMALL} 840w, ${ARTICLE_HERO_IMAGE} 1672w`}
+                sizes="(max-width: 760px) 100vw, 60vw"
                 alt="Laptop, mobitel, bilježnica, kava i rukopis knjige na radnom stolu"
                 width={1672}
                 height={941}
@@ -693,12 +731,24 @@ function ArticlePage() {
                   <span className="rounded-full border border-border/70 bg-background/78 px-3 py-1 backdrop-blur">
                     Hrvatski
                   </span>
+                  <a
+                    href="/"
+                    rel="author"
+                    className="rounded-full border border-border/70 bg-background/78 px-3 py-1 backdrop-blur hover:bg-card hover:text-foreground"
+                  >
+                    Pavao Pahljina
+                  </a>
                   <time
                     className="rounded-full border border-border/70 bg-background/78 px-3 py-1 backdrop-blur"
                     dateTime={ARTICLE_DATE}
                   >
                     {ARTICLE_DISPLAY_DATE}
                   </time>
+                  {readingMinutes ? (
+                    <span className="rounded-full border border-border/70 bg-background/78 px-3 py-1 backdrop-blur">
+                      {readingMinutes} min čitanja
+                    </span>
+                  ) : null}
                 </div>
 
                 <h1 className="mt-8 max-w-[10ch] font-display text-5xl leading-[0.96] font-bold text-balance text-foreground sm:text-6xl xl:text-7xl">
@@ -732,10 +782,7 @@ function ArticlePage() {
                 {articleHeadings.map((heading) => (
                   <a
                     key={heading}
-                    href={`#${heading
-                      .toLowerCase()
-                      .replaceAll(" ", "-")
-                      .replaceAll("?", "")}`}
+                    href={`#${toSectionId(heading)}`}
                     className={`glimmer-button rounded-2xl border border-border/60 bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
                   >
                     {heading}
@@ -754,10 +801,7 @@ function ArticlePage() {
               {articleSections.map((section) => (
                 <section key={section.heading} className="space-y-6">
                   <h2
-                    id={section.heading
-                      .toLowerCase()
-                      .replaceAll(" ", "-")
-                      .replaceAll("?", "")}
+                    id={toSectionId(section.heading)}
                     className="pt-4 font-display text-3xl font-bold text-balance text-foreground"
                   >
                     {section.heading}
@@ -765,12 +809,10 @@ function ArticlePage() {
                   {section.heading === BOOK_SECTION_HEADING ? (
                     <figure className="space-y-3">
                       <picture>
-                        <source
-                          srcSet="/bitcoin-kao-novac-cover.webp"
-                          type="image/webp"
-                        />
                         <img
-                          src="/bitcoin-kao-novac-cover.png"
+                          src="/bitcoin-kao-novac-cover.webp"
+                          srcSet="/bitcoin-kao-novac-cover-724.webp 724w, /bitcoin-kao-novac-cover.webp 1448w"
+                          sizes="(max-width: 768px) calc(100vw - 2rem), 48rem"
                           alt='Naslovnica knjige "Bitcoin kao novac"'
                           width={1448}
                           height={1086}
@@ -799,12 +841,13 @@ function ArticlePage() {
                           className="space-y-3 rounded-[28px] border border-border/70 bg-card/78 p-3 shadow-soft sm:p-4"
                         >
                           <picture>
-                            <source srcSet={site.webpSrc} type="image/webp" />
                             <img
                               src={site.src}
+                              srcSet={`${site.smallSrc} 800w, ${site.mediumSrc} 1600w, ${site.src} ${site.width}w`}
+                              sizes="(max-width: 768px) calc(100vw - 3.5rem), 44rem"
                               alt={site.alt}
-                              width={2048}
-                              height={1153}
+                              width={site.width}
+                              height={site.height}
                               loading="lazy"
                               decoding="async"
                               className="w-full rounded-2xl border border-border/70 bg-background/80"
@@ -895,7 +938,7 @@ function ArticlePage() {
                   <Button
                     asChild
                     size="lg"
-                    className="glimmer-button rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
+                    className="glimmer-button cta-shadow rounded-full px-6"
                   >
                     <a href={AI_SERIES_PATH}>Svi tekstovi iz serijala</a>
                   </Button>
@@ -961,17 +1004,15 @@ function PageChrome({
 }) {
   return (
     <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
+      <SkipLink label="Preskoči na sadržaj" />
       <div
         aria-hidden="true"
-        className="page-atmosphere pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,hsl(var(--hero-glow)/0.18)_0%,transparent_30%),radial-gradient(circle_at_85%_10%,hsl(var(--hero-ember)/0.16)_0%,transparent_18%),linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--background))_42%,hsl(var(--muted)/0.72)_150%)]"
+        className="page-atmosphere pointer-events-none absolute inset-0"
       />
       <div
         aria-hidden="true"
-        className="page-grid pointer-events-none absolute inset-0 [background-image:linear-gradient(hsl(var(--border)/0.28)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--border)/0.28)_1px,transparent_1px)] [mask-image:linear-gradient(180deg,black,transparent_84%)] [background-size:68px_68px] opacity-55"
+        className="page-grid pointer-events-none absolute inset-0"
       />
-      <div aria-hidden="true" className="ambient-orb ambient-orb-left" />
-      <div aria-hidden="true" className="ambient-orb ambient-orb-right" />
-
       <header className="z-40 border-b border-border/60 bg-background/92 md:sticky md:top-0 md:bg-background/78 md:backdrop-blur-xl">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
           <a
@@ -994,9 +1035,9 @@ function PageChrome({
               href="/#contact"
               className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
             >
-              Contact
+              Kontakt
             </a>
-            <ThemeToggle />
+            <ThemeToggle language="hr" />
           </div>
         </div>
       </header>
@@ -1013,13 +1054,13 @@ function SeriesCard({ post }: { post: (typeof aiSeriesPosts)[number] }) {
       className={`glimmer-button grid rounded-[28px] border border-border/70 bg-card/82 p-6 shadow-soft hover:bg-card ${liftHover}`}
     >
       <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
-        <span className="rounded-full bg-background/70 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)]">
+        <span className="surface-ring rounded-full bg-background/70 px-3 py-1">
           {post.category}
         </span>
-        <span className="rounded-full bg-background/70 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)]">
+        <span className="surface-ring rounded-full bg-background/70 px-3 py-1">
           {post.language}
         </span>
-        <span className="rounded-full bg-background/70 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)]">
+        <span className="surface-ring rounded-full bg-background/70 px-3 py-1">
           {post.date}
         </span>
       </div>
@@ -1048,7 +1089,10 @@ function AiSeriesPage() {
 
   return (
     <PageChrome>
-      <main className="relative mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <main
+        id="main-content"
+        className="relative mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
+      >
         <section>
           <a
             href="/"
@@ -1100,7 +1144,7 @@ function AiSeriesPage() {
             {topics.map((topic) => (
               <li
                 key={topic}
-                className="rounded-2xl bg-card/82 px-4 py-3 text-sm font-medium text-muted-foreground shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_10px_26px_hsl(var(--hero-shadow)/0.06)]"
+                className="surface-shadow-subtle rounded-2xl bg-card/82 px-4 py-3 text-sm font-medium text-muted-foreground"
               >
                 {topic}
               </li>
@@ -1124,7 +1168,7 @@ function AiSeriesPage() {
             <Button
               asChild
               size="lg"
-              className="glimmer-button mt-6 rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
+              className="glimmer-button cta-shadow mt-6 rounded-full px-6"
             >
               <a href={CONTACT_EMAIL}>
                 Kontakt
@@ -1155,7 +1199,7 @@ function WorkflowSteps({ steps }: { steps: string[] }) {
       {steps.map((step, index) => (
         <li
           key={step}
-          className="grid min-h-24 content-center rounded-[20px] bg-card/86 p-4 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_12px_30px_hsl(var(--hero-shadow)/0.07)]"
+          className="surface-shadow-subtle grid min-h-24 content-center rounded-[20px] bg-card/86 p-4"
         >
           <span className="grid size-7 place-items-center rounded-full bg-primary/12 text-xs font-bold text-primary">
             {index + 1}
@@ -1175,11 +1219,12 @@ function WorkflowSectionVisual({
   visual: (typeof workflowSectionVisuals)[number]
 }) {
   return (
-    <figure className="my-7 overflow-hidden rounded-[28px] bg-card/82 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)]">
+    <figure className="surface-shadow-soft my-7 overflow-hidden rounded-[28px] bg-card/82">
       <picture>
-        <source srcSet={visual.webp} type="image/webp" />
         <img
           src={visual.src}
+          srcSet={`${visual.smallSrc} 840w, ${visual.src} 1672w`}
+          sizes="(max-width: 768px) calc(100vw - 2rem), 48rem"
           alt={visual.alt}
           width={1672}
           height={941}
@@ -1213,7 +1258,7 @@ function WorkflowArticleBlock({
 
   if (block.type === "note") {
     return (
-      <aside className="rounded-[22px] bg-card/82 p-4 text-base leading-7 text-muted-foreground shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_14px_36px_hsl(var(--hero-shadow)/0.07)]">
+      <aside className="surface-shadow-subtle rounded-[22px] bg-card/82 p-4 text-base leading-7 text-muted-foreground">
         {renderLinkedText(block.text)}
       </aside>
     )
@@ -1233,12 +1278,22 @@ function WorkflowArticleBlock({
   return <p>{renderLinkedText(block.text)}</p>
 }
 
-function WorkflowArticlePage() {
+function WorkflowArticlePage({
+  initialArticleData = null,
+}: {
+  initialArticleData?: ArticleDataModule | null
+}) {
   useWorkflowArticleMetadata()
   useReadingProgress()
-  const [articleData, setArticleData] = useState<ArticleDataModule | null>(null)
+  const [articleData, setArticleData] = useState<ArticleDataModule | null>(
+    initialArticleData
+  )
 
   useEffect(() => {
+    if (articleData) {
+      return undefined
+    }
+
     let isMounted = true
 
     import("./article-data").then((data) => {
@@ -1250,22 +1305,42 @@ function WorkflowArticlePage() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [articleData])
 
   const intro = articleData?.aiWorkflowArticleIntro ?? []
   const sections = articleData?.aiWorkflowArticleSections ?? []
   const steps = articleData?.aiWorkflowSteps ?? []
+  const readingMinutes = articleData
+    ? estimateReadingMinutes([
+        ...intro,
+        ...sections.flatMap((section) => [
+          section.heading,
+          ...section.blocks.flatMap((block) => {
+            if ("text" in block && typeof block.text === "string") {
+              return [block.text]
+            }
+
+            if ("items" in block && Array.isArray(block.items)) {
+              return block.items
+            }
+
+            return []
+          }),
+        ]),
+      ])
+    : null
 
   return (
     <PageChrome>
       <div className="reading-progress" aria-hidden="true" />
-      <main className="relative pb-20">
+      <main id="main-content" className="relative pb-20">
         <article>
           <header className="article-hero-bleed">
             <picture className="article-hero-background">
-              <source srcSet={ARTICLE_HERO_IMAGE_WEBP} type="image/webp" />
               <img
                 src={ARTICLE_HERO_IMAGE}
+                srcSet={`${ARTICLE_HERO_IMAGE_SMALL} 840w, ${ARTICLE_HERO_IMAGE} 1672w`}
+                sizes="(max-width: 760px) 100vw, 60vw"
                 alt="Laptop, mobitel, bilježnica, kava i rukopis knjige na radnom stolu"
                 width={1672}
                 height={941}
@@ -1284,18 +1359,30 @@ function WorkflowArticlePage() {
                 </a>
 
                 <div className="mt-12 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase">
-                  <span className="rounded-full bg-background/78 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)] backdrop-blur">
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
                     AI u praksi
                   </span>
-                  <span className="rounded-full bg-background/78 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)] backdrop-blur">
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
                     Hrvatski
                   </span>
+                  <a
+                    href="/"
+                    rel="author"
+                    className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur hover:bg-card hover:text-foreground"
+                  >
+                    Pavao Pahljina
+                  </a>
                   <time
-                    className="rounded-full bg-background/78 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)] backdrop-blur"
+                    className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
                     dateTime={WORKFLOW_ARTICLE_DATE}
                   >
                     {WORKFLOW_ARTICLE_DISPLAY_DATE}
                   </time>
+                  {readingMinutes ? (
+                    <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
+                      {readingMinutes} min čitanja
+                    </span>
+                  ) : null}
                 </div>
 
                 <h1 className="mt-8 max-w-[14ch] font-display text-5xl leading-[0.98] font-bold text-balance text-foreground sm:text-6xl">
@@ -1319,7 +1406,7 @@ function WorkflowArticlePage() {
 
             <nav
               aria-label="Sadržaj članka"
-              className="article-shell article-toc mt-10 rounded-[24px] bg-card/78 p-4 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)] sm:p-6"
+              className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
             >
               <p className="text-[11px] font-semibold text-muted-foreground uppercase">
                 Sadržaj
@@ -1328,11 +1415,8 @@ function WorkflowArticlePage() {
                 {sections.map((section) => (
                   <a
                     key={section.heading}
-                    href={`#${section.heading
-                      .toLowerCase()
-                      .replaceAll(" ", "-")
-                      .replaceAll("?", "")}`}
-                    className={`glimmer-button rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground shadow-[0_0_0_1px_hsl(var(--border)/0.6)] hover:bg-card hover:text-foreground ${liftHover}`}
+                    href={`#${toSectionId(section.heading)}`}
+                    className={`glimmer-button surface-ring rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
                   >
                     {section.heading}
                   </a>
@@ -1347,10 +1431,7 @@ function WorkflowArticlePage() {
                 return (
                   <section key={section.heading} className="space-y-6">
                     <h2
-                      id={section.heading
-                        .toLowerCase()
-                        .replaceAll(" ", "-")
-                        .replaceAll("?", "")}
+                      id={toSectionId(section.heading)}
                       className="pt-4 font-display text-3xl font-bold text-balance text-foreground"
                     >
                       {section.heading}
@@ -1376,7 +1457,7 @@ function WorkflowArticlePage() {
             >
               <a
                 href={ARTICLE_PATH}
-                className={`glimmer-button rounded-[24px] bg-card/82 p-5 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)] hover:bg-card ${liftHover}`}
+                className={`glimmer-button surface-shadow-soft rounded-[24px] bg-card/82 p-5 hover:bg-card ${liftHover}`}
               >
                 <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
                   Prethodni tekst
@@ -1387,7 +1468,7 @@ function WorkflowArticlePage() {
               </a>
               <a
                 href={LEARNING_ARTICLE_PATH}
-                className={`glimmer-button rounded-[24px] bg-card/82 p-5 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)] hover:bg-card ${liftHover}`}
+                className={`glimmer-button surface-shadow-soft rounded-[24px] bg-card/82 p-5 hover:bg-card ${liftHover}`}
               >
                 <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
                   Sljedeći tekst
@@ -1404,12 +1485,20 @@ function WorkflowArticlePage() {
   )
 }
 
-function LearningArticlePage() {
+function LearningArticlePage({
+  initialArticleHtml = "",
+}: {
+  initialArticleHtml?: string
+}) {
   useLearningArticleMetadata()
   useReadingProgress()
-  const [articleHtml, setArticleHtml] = useState("")
+  const [articleHtml, setArticleHtml] = useState(initialArticleHtml)
 
   useEffect(() => {
+    if (articleHtml) {
+      return undefined
+    }
+
     let isMounted = true
 
     import("./learning-article.html?raw").then((module) => {
@@ -1421,21 +1510,19 @@ function LearningArticlePage() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [articleHtml])
 
   return (
     <PageChrome>
       <div className="reading-progress" aria-hidden="true" />
-      <main className="relative pb-20">
+      <main id="main-content" className="relative pb-20">
         <article>
           <header className="article-hero-bleed">
             <picture className="article-hero-background">
-              <source
-                srcSet={LEARNING_ARTICLE_HERO_IMAGE_WEBP}
-                type="image/webp"
-              />
               <img
                 src={LEARNING_ARTICLE_HERO_IMAGE}
+                srcSet={`${LEARNING_ARTICLE_HERO_IMAGE_SMALL} 840w, ${LEARNING_ARTICLE_HERO_IMAGE} 1672w`}
+                sizes="(max-width: 760px) 100vw, 60vw"
                 alt="Radni stol s matematičkim bilješkama, grafovima, bilježnicom i laptopom s prikazom Bitcoinove cijene"
                 width={1672}
                 height={941}
@@ -1454,19 +1541,26 @@ function LearningArticlePage() {
                 </a>
 
                 <div className="mt-12 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase">
-                  <span className="rounded-full bg-background/78 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)] backdrop-blur">
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
                     AI u praksi
                   </span>
-                  <span className="rounded-full bg-background/78 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)] backdrop-blur">
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
                     Hrvatski
                   </span>
+                  <a
+                    href="/"
+                    rel="author"
+                    className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur hover:bg-card hover:text-foreground"
+                  >
+                    Pavao Pahljina
+                  </a>
                   <time
-                    className="rounded-full bg-background/78 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)] backdrop-blur"
+                    className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
                     dateTime={LEARNING_ARTICLE_DATE}
                   >
                     {LEARNING_ARTICLE_DISPLAY_DATE}
                   </time>
-                  <span className="rounded-full bg-background/78 px-3 py-1 shadow-[0_0_0_1px_hsl(var(--border)/0.7)] backdrop-blur">
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
                     15 min čitanja
                   </span>
                 </div>
@@ -1486,7 +1580,7 @@ function LearningArticlePage() {
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <nav
               aria-label="Sadržaj članka"
-              className="article-shell article-toc mt-10 rounded-[24px] bg-card/78 p-4 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)] sm:p-6"
+              className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
             >
               <p className="text-[11px] font-semibold text-muted-foreground uppercase">
                 Sadržaj
@@ -1496,7 +1590,7 @@ function LearningArticlePage() {
                   <a
                     key={heading.id}
                     href={`#${heading.id}`}
-                    className={`glimmer-button rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground shadow-[0_0_0_1px_hsl(var(--border)/0.6)] hover:bg-card hover:text-foreground ${liftHover}`}
+                    className={`glimmer-button surface-ring rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
                   >
                     {heading.title}
                   </a>
@@ -1521,7 +1615,7 @@ function LearningArticlePage() {
             >
               <a
                 href={WORKFLOW_ARTICLE_PATH}
-                className={`glimmer-button rounded-[24px] bg-card/82 p-4 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)] hover:bg-card sm:p-6 ${liftHover}`}
+                className={`glimmer-button surface-shadow-soft rounded-[24px] bg-card/82 p-4 hover:bg-card sm:p-6 ${liftHover}`}
               >
                 <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
                   Prethodni tekst
@@ -1532,7 +1626,7 @@ function LearningArticlePage() {
               </a>
               <a
                 href={AI_SERIES_PATH}
-                className={`glimmer-button rounded-[24px] bg-card/82 p-4 shadow-[0_0_0_1px_hsl(var(--border)/0.7),0_18px_52px_hsl(var(--hero-shadow)/0.08)] hover:bg-card sm:p-6 ${liftHover}`}
+                className={`glimmer-button surface-shadow-soft rounded-[24px] bg-card/82 p-4 hover:bg-card sm:p-6 ${liftHover}`}
               >
                 <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
                   Serijal
@@ -1553,11 +1647,18 @@ function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [showBackToTop, setShowBackToTop] = useState(false)
   const firstMobileLinkRef = useRef<HTMLAnchorElement | null>(null)
+  const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
     function handleKeydown(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setMobileMenuOpen(false)
+        setMobileMenuOpen((isOpen) => {
+          if (isOpen) {
+            mobileMenuButtonRef.current?.focus()
+          }
+
+          return false
+        })
       }
     }
 
@@ -1603,18 +1704,19 @@ function HomePage() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
+    <div
+      id="top"
+      className="relative min-h-screen overflow-x-clip bg-background text-foreground"
+    >
+      <SkipLink label="Skip to content" />
       <div
         aria-hidden="true"
-        className="page-atmosphere pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,hsl(var(--hero-glow)/0.18)_0%,transparent_30%),radial-gradient(circle_at_85%_10%,hsl(var(--hero-ember)/0.16)_0%,transparent_18%),linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--background))_42%,hsl(var(--muted)/0.72)_150%)]"
+        className="page-atmosphere pointer-events-none absolute inset-0"
       />
       <div
         aria-hidden="true"
-        className="page-grid pointer-events-none absolute inset-0 [background-image:linear-gradient(hsl(var(--border)/0.28)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--border)/0.28)_1px,transparent_1px)] [mask-image:linear-gradient(180deg,black,transparent_84%)] [background-size:68px_68px] opacity-55"
+        className="page-grid pointer-events-none absolute inset-0"
       />
-      <div aria-hidden="true" className="ambient-orb ambient-orb-left" />
-      <div aria-hidden="true" className="ambient-orb ambient-orb-right" />
-
       <header className="z-40 border-b border-border/60 bg-background/92 md:sticky md:top-0 md:bg-background/78 md:backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <a
@@ -1654,6 +1756,7 @@ function HomePage() {
             <ThemeToggle />
 
             <Button
+              ref={mobileMenuButtonRef}
               variant="outline"
               size="icon"
               className={`glimmer-button inline-flex size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border-border/70 bg-background/85 p-0 leading-none lg:hidden ${liftHover}`}
@@ -1664,18 +1767,30 @@ function HomePage() {
                 mobileMenuOpen ? "Close navigation" : "Open navigation"
               }
             >
-              {mobileMenuOpen ? (
-                <X className="size-4" />
-              ) : (
-                <Menu className="size-4" />
-              )}
+              <span className="theme-toggle-icon-stack" aria-hidden="true">
+                <X
+                  className={`theme-toggle-icon ${
+                    mobileMenuOpen
+                      ? "theme-toggle-icon-active"
+                      : "theme-toggle-icon-inactive"
+                  }`}
+                />
+                <Menu
+                  className={`theme-toggle-icon ${
+                    mobileMenuOpen
+                      ? "theme-toggle-icon-inactive"
+                      : "theme-toggle-icon-active"
+                  }`}
+                />
+              </span>
             </Button>
           </div>
         </div>
 
         {mobileMenuOpen ? (
-          <div
+          <nav
             id="mobile-nav"
+            aria-label="Mobile navigation"
             className="mx-auto max-w-6xl px-4 pb-4 lg:hidden"
           >
             <Card
@@ -1715,12 +1830,12 @@ function HomePage() {
                 </div>
               </CardContent>
             </Card>
-          </div>
+          </nav>
         ) : null}
       </header>
 
       <main
-        id="top"
+        id="main-content"
         className="mx-auto max-w-6xl px-4 pt-8 pb-20 sm:px-6 lg:px-8 lg:pt-12"
       >
         <section className="flex flex-col gap-8">
@@ -1753,7 +1868,7 @@ function HomePage() {
                 <Button
                   asChild
                   size="lg"
-                  className="rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
+                  className="cta-shadow rounded-full px-6"
                 >
                   <a
                     href="https://cal.com/btcpavao/introductory-call"
@@ -1793,12 +1908,11 @@ function HomePage() {
             <Card className="overflow-hidden rounded-[36px] border-border/70 bg-card/84 py-0 shadow-float backdrop-blur">
               <CardContent className="p-6 sm:p-7">
                 <div className="relative mx-auto mb-6 w-full max-w-[220px]">
-                  <div className="absolute inset-4 -z-10 rounded-full bg-[radial-gradient(circle,hsl(var(--hero-glow)/0.35),transparent_72%)] blur-2xl" />
-                  <Avatar className="size-full rounded-full border-4 border-background shadow-[0_30px_80px_hsl(var(--hero-shadow)/0.16)]">
+                  <div className="profile-glow absolute inset-4 -z-10 rounded-full blur-2xl" />
+                  <Avatar className="profile-shadow size-full rounded-full border-4 border-background">
                     <AvatarImage
-                      src="https://avatars.githubusercontent.com/u/109140795?v=4"
-                      alt="Pavao GitHub profile image"
-                      className="avatar-shimmer"
+                      src="/pavao-profile.webp"
+                      alt="Pavao Pahljina"
                     />
                     <AvatarFallback>PP</AvatarFallback>
                   </Avatar>
@@ -1957,7 +2071,7 @@ function HomePage() {
             <Button
               asChild
               size="lg"
-              className="glimmer-button shrink-0 rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)]"
+              className="glimmer-button cta-shadow shrink-0 rounded-full px-6"
             >
               <a
                 href="https://cal.com/btcpavao/introductory-call"
@@ -2189,7 +2303,7 @@ function HomePage() {
                   <Button
                     asChild
                     size="lg"
-                    className="glimmer-button rounded-full px-6 shadow-[0_20px_40px_hsl(var(--primary)/0.22)] transition-[background-color,border-color,color] duration-300"
+                    className="glimmer-button cta-shadow rounded-full px-6 transition-[background-color,border-color,color] duration-300"
                   >
                     <a href="mailto:pavao@hey.com">
                       <Mail className="size-4" />
@@ -2229,9 +2343,7 @@ function HomePage() {
                 </div>
               </div>
 
-              <div
-                className={`animate-initial:opacity-0 animate-inview:opacity-100 animate-initial:y-6 animate-inview:y-0 animate-duration-600 animate-ease-out animate-once animate-delay-100 animate-initial:x-6 animate-inview:x-0 rounded-[30px] border border-border/70 bg-background/76 p-6`}
-              >
+              <div className="rounded-[30px] border border-border/70 bg-background/76 p-6">
                 <p className="text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
                   Need a starting point?
                 </p>
@@ -2324,11 +2436,21 @@ function HomePage() {
   )
 }
 
-export function App() {
-  const currentPath = getCurrentPath()
+export function App({
+  initialPath,
+  initialArticleData = null,
+  initialLearningArticleHtml = "",
+}: {
+  initialPath?: string
+  initialArticleData?: ArticleDataModule | null
+  initialLearningArticleHtml?: string
+} = {}) {
+  const currentPath = initialPath
+    ? normalizePath(initialPath)
+    : getCurrentPath()
 
   if (currentPath === ARTICLE_PATH) {
-    return <ArticlePage />
+    return <ArticlePage initialArticleData={initialArticleData} />
   }
 
   if (currentPath === AI_SERIES_PATH) {
@@ -2336,11 +2458,13 @@ export function App() {
   }
 
   if (currentPath === WORKFLOW_ARTICLE_PATH) {
-    return <WorkflowArticlePage />
+    return <WorkflowArticlePage initialArticleData={initialArticleData} />
   }
 
   if (currentPath === LEARNING_ARTICLE_PATH) {
-    return <LearningArticlePage />
+    return (
+      <LearningArticlePage initialArticleHtml={initialLearningArticleHtml} />
+    )
   }
 
   return <HomePage />

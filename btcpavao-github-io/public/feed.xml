@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pavao Pahljina — AI u praksi</title>
+    <link>https://btcpavao.com/hr/ai-u-praksi/</link>
+    <description>Osobne bilješke o praktičnom korištenju AI-a za pisanje, knjige, web stranice, agente i automatizaciju.</description>
+    <language>hr-HR</language>
+    <lastBuildDate>Fri, 17 Jul 2026 12:00:00 +0200</lastBuildDate>
+    <atom:link href="https://btcpavao.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kako sam uz AI naučio matematiku Bitcoinova dugoročnog trenda</title>
+      <link>https://btcpavao.com/hr/ai-u-praksi/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda/</link>
+      <guid isPermaLink="true">https://btcpavao.com/hr/ai-u-praksi/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda/</guid>
+      <pubDate>Fri, 17 Jul 2026 12:00:00 +0200</pubDate>
+      <description>Kako sam uz AI korak po korak naučio matematiku Bitcoin Wave Modela, provjerio njegove granice i znanje pretvorio u graf i H-time kalkulator.</description>
+    </item>
+    <item>
+      <title>Moj AI workflow: od diktata do objavljene stranice</title>
+      <link>https://btcpavao.com/hr/ai-u-praksi/od-diktata-do-objavljene-stranice/</link>
+      <guid isPermaLink="true">https://btcpavao.com/hr/ai-u-praksi/od-diktata-do-objavljene-stranice/</guid>
+      <pubDate>Thu, 25 Jun 2026 15:00:00 +0200</pubDate>
+      <description>Kako koristim diktiranje, transkripciju, ChatGPT i Codex da ideju pretvorim u članak, vodič, knjigu ili web stranicu.</description>
+    </item>
+    <item>
+      <title>Jedan čovjek, AI i dva mjeseca rada</title>
+      <link>https://btcpavao.com/hr/ai-u-praksi/jedan-covjek-ai-i-dva-mjeseca-rada/</link>
+      <guid isPermaLink="true">https://btcpavao.com/hr/ai-u-praksi/jedan-covjek-ai-i-dva-mjeseca-rada/</guid>
+      <pubDate>Fri, 12 Jun 2026 12:00:00 +0200</pubDate>
+      <description>Kako mi je diktiranje, ChatGPT i Codex promijenilo svakodnevni rad.</description>
+    </item>
+  </channel>
+</rss>
