@@ -369,6 +369,17 @@ assert(
     appSource.includes("text-foreground shadow-soft hover:bg-card"),
   "Back-to-top control is missing a visible foreground icon"
 )
+assert(
+  appSource.includes("project-logo-image") &&
+    /\.project-logo-image\s*\{\s*outline:\s*none;/.test(cssSource),
+  "Project logos still inherit the rectangular global image outline"
+)
+assert(
+  appSource.includes("profile-light-pulse") &&
+    /@keyframes profile-lights-breathe/.test(cssSource) &&
+    /\.profile-light-pulse\s*\{[\s\S]*mix-blend-mode:\s*screen;/.test(cssSource),
+  "Profile light animation is missing"
+)
 
 console.log(
   `Verified crawlable routes, ${responsiveImages.length} responsive image sets, and a ${entryScriptBytes}-byte entry bundle. Small image variants save up to ${responsiveSavings} bytes per matching viewport.`

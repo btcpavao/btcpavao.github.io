@@ -552,16 +552,82 @@
       0 18px 52px oklch(var(--hero-shadow) / 0.08);
   }
 
+  .project-logo-image {
+    outline: none;
+  }
+
   .profile-glow {
+    opacity: 0.7;
     background: radial-gradient(
       circle,
       oklch(var(--hero-glow) / 0.35),
       transparent 72%
     );
+    transform: scale(0.98);
+    animation: profile-ambient-breathe 5.8s ease-in-out infinite;
+  }
+
+  .profile-light-pulse {
+    opacity: 0.16;
+    background:
+      radial-gradient(
+        circle at 56% 39%,
+        rgb(255 255 255 / 0.95) 0 2%,
+        rgb(255 248 200 / 0.5) 7%,
+        transparent 19%
+      ),
+      radial-gradient(
+        circle at 43% 50%,
+        rgb(255 255 255 / 0.9) 0 2%,
+        rgb(255 244 180 / 0.42) 7%,
+        transparent 17%
+      ),
+      radial-gradient(
+        circle at 69% 50%,
+        rgb(255 255 255 / 0.9) 0 2%,
+        rgb(255 244 180 / 0.42) 7%,
+        transparent 17%
+      ),
+      radial-gradient(
+        circle at 15% 73%,
+        rgb(255 220 92 / 0.68) 0 3%,
+        rgb(255 135 32 / 0.38) 10%,
+        transparent 23%
+      );
+    mix-blend-mode: screen;
+    transform: scale(0.985);
+    transform-origin: 56% 47%;
+    animation: profile-lights-breathe 5.8s ease-in-out infinite;
   }
 
   .profile-shadow {
     box-shadow: 0 30px 80px oklch(var(--hero-shadow) / 0.16);
+  }
+}
+
+@keyframes profile-lights-breathe {
+  0%,
+  100% {
+    opacity: 0.16;
+    transform: scale(0.985);
+  }
+
+  50% {
+    opacity: 0.54;
+    transform: scale(1.025);
+  }
+}
+
+@keyframes profile-ambient-breathe {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
   }
 }
 
@@ -636,6 +702,20 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .profile-glow,
+  .profile-light-pulse {
+    animation: none !important;
+    transform: none;
+  }
+
+  .profile-glow {
+    opacity: 0.8;
+  }
+
+  .profile-light-pulse {
+    opacity: 0.22;
   }
 
   *,

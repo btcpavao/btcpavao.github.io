@@ -1913,6 +1913,10 @@ function HomePage() {
                       alt="Pavao Pahljina"
                     />
                     <AvatarFallback>PP</AvatarFallback>
+                    <span
+                      className="profile-light-pulse pointer-events-none absolute inset-0 z-10 rounded-full"
+                      aria-hidden="true"
+                    />
                   </Avatar>
                 </div>
 
@@ -2199,7 +2203,7 @@ function HomePage() {
                       >
                         <CardContent className="p-6">
                           <div className="flex items-start justify-between gap-4">
-                            <div className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-lg border border-border/70 bg-white p-1.5 shadow-sm">
+                            <div className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-full border border-border/70 bg-white p-1.5 shadow-sm">
                               <img
                                 src={item.logo}
                                 alt=""
@@ -2207,7 +2211,7 @@ function HomePage() {
                                 height={36}
                                 loading="lazy"
                                 decoding="async"
-                                className="size-9 object-contain"
+                                className="project-logo-image size-9 object-contain"
                               />
                             </div>
                             <span className="h-px flex-1 bg-border/70" />
