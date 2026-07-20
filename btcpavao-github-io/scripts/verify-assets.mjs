@@ -109,6 +109,10 @@ const cssSource = await readFile(
   new URL("../src/index.css", import.meta.url),
   "utf8"
 )
+const twentyOneLogoSource = await readFile(
+  new URL("../public/project-logos/twentyone-world.svg", import.meta.url),
+  "utf8"
+)
 const articleDataSource = await readFile(
   new URL("../src/article-data.ts", import.meta.url),
   "utf8"
@@ -373,6 +377,10 @@ assert(
   appSource.includes("project-logo-image") &&
     /\.project-logo-image\s*\{\s*outline:\s*none;/.test(cssSource),
   "Project logos still inherit the rectangular global image outline"
+)
+assert(
+  !/<rect\b/.test(twentyOneLogoSource),
+  "TwentyOne logo still contains its rectangular canvas"
 )
 assert(
   appSource.includes("profile-light-pulse") &&
