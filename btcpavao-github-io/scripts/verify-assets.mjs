@@ -52,6 +52,13 @@ const additionalPublicAssets = [
   "public/manifest.webmanifest",
 ]
 
+const projectLogoAssets = [
+  "public/project-logos/saifedean.avif",
+  "public/project-logos/the-saif-house.png",
+  "public/project-logos/practical-bitcoin-standard.png",
+  "public/project-logos/twentyone-world.svg",
+]
+
 const movedSourceAssets = [
   "ai-ucenje-bitcoin-model-hero.png",
   "ai-workflow-hero.png",
@@ -192,6 +199,21 @@ for (const asset of additionalPublicAssets) {
     await exists(`dist/${path.basename(asset)}`),
     `Missing dist asset: ${asset}`
   )
+}
+
+for (const asset of projectLogoAssets) {
+  const deployedPath = asset.replace(/^public\//, "")
+
+  assert(await exists(asset), `Missing project logo: ${asset}`)
+  assert(
+    await exists(`dist/${deployedPath}`),
+    `Missing project logo in dist: ${asset}`
+  )
+  assert(
+    sourceText.includes(`/${deployedPath}`),
+    `Source does not reference project logo: /${deployedPath}`
+  )
+  assert((await size(asset)) < 50_000, `Project logo exceeds 50 KB: ${asset}`)
 }
 
 for (const name of movedSourceAssets) {
@@ -341,6 +363,11 @@ assert(
   /\.page-atmosphere\s*\{\s*z-index:\s*-1;/.test(cssSource) &&
     /\.page-grid\s*\{\s*z-index:\s*-1;/.test(cssSource),
   "Decorative page layers can cover page content"
+)
+assert(
+  /aria-label="Back to top"[\s\S]{0,220}<ArrowUp/.test(appSource) &&
+    appSource.includes("text-foreground shadow-soft hover:bg-card"),
+  "Back-to-top control is missing a visible foreground icon"
 )
 
 console.log(

@@ -4,12 +4,10 @@ import {
   ArrowUpRight,
   BookOpen,
   CalendarDays,
-  Globe2,
   Mail,
   Menu,
   MoonStar,
   SunMedium,
-  Users,
   X,
 } from "lucide-react"
 
@@ -322,7 +320,7 @@ const projectGroups = [
         description:
           "Work around Bitcoin education, Austrian economics, and high-signal learning infrastructure.",
         href: "https://saifedean.com",
-        icon: BookOpen,
+        logo: "/project-logos/saifedean.avif",
         cta: "Visit site",
       },
       {
@@ -332,7 +330,7 @@ const projectGroups = [
         description:
           "Bitcoin books delivered worldwide with a strong checkout and customer experience across bitcoin and fiat rails.",
         href: "https://thesaifhouse.com",
-        icon: Globe2,
+        logo: "/project-logos/the-saif-house.png",
         cta: "Visit site",
       },
     ],
@@ -348,7 +346,7 @@ const projectGroups = [
         description:
           "My open-source guide for turning Bitcoin conviction into everyday monetary habits.",
         href: "https://btcpavao.gitbook.io/practical-bitcoin-standard/",
-        icon: BookOpen,
+        logo: "/project-logos/practical-bitcoin-standard.png",
         cta: "Read guide",
       },
       {
@@ -358,7 +356,7 @@ const projectGroups = [
         description:
           "A global network of local Bitcoin communities helping people find signal, events, and peers.",
         href: "https://twentyone.world",
-        icon: Users,
+        logo: "/project-logos/twentyone-world.svg",
         cta: "Visit site",
       },
     ],
@@ -2194,8 +2192,6 @@ function HomePage() {
 
                 <div className="grid gap-4 md:grid-cols-2">
                   {group.items.map((item, index) => {
-                    const Icon = item.icon
-
                     return (
                       <Card
                         key={item.title}
@@ -2203,8 +2199,16 @@ function HomePage() {
                       >
                         <CardContent className="p-6">
                           <div className="flex items-start justify-between gap-4">
-                            <div className="rounded-2xl border border-border/70 bg-background/70 p-3 text-primary">
-                              <Icon className="size-5" />
+                            <div className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-lg border border-border/70 bg-white p-1.5 shadow-sm">
+                              <img
+                                src={item.logo}
+                                alt=""
+                                width={36}
+                                height={36}
+                                loading="lazy"
+                                decoding="async"
+                                className="size-9 object-contain"
+                              />
                             </div>
                             <span className="h-px flex-1 bg-border/70" />
                           </div>
@@ -2423,13 +2427,19 @@ function HomePage() {
       {showBackToTop ? (
         <Button
           type="button"
+          variant="outline"
           size="icon"
-          className="glimmer-button floating-top-button fixed right-4 bottom-4 z-50 inline-flex size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border border-border/70 bg-background/94 p-0 leading-none shadow-soft md:right-6 md:bottom-6"
+          className="glimmer-button floating-top-button fixed right-4 bottom-4 z-50 inline-flex size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border border-border/70 bg-background/94 p-0 leading-none text-foreground shadow-soft hover:bg-card hover:text-foreground md:right-6 md:bottom-6"
           style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}
           onClick={scrollToTop}
           aria-label="Back to top"
+          title="Back to top"
         >
-          <ArrowUp className="size-4" />
+          <ArrowUp
+            aria-hidden="true"
+            className="relative z-10 size-4 shrink-0"
+            strokeWidth={2.25}
+          />
         </Button>
       ) : null}
     </div>
