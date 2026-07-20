@@ -356,7 +356,7 @@ const projectGroups = [
         description:
           "A global network of local Bitcoin communities helping people find signal, events, and peers.",
         href: "https://twentyone.world",
-        logo: "/project-logos/twentyone-world.svg",
+        logo: "/project-logos/twentyone-world-v2.svg",
         cta: "Visit site",
       },
     ],

@@ -56,7 +56,7 @@ const projectLogoAssets = [
   "public/project-logos/saifedean.avif",
   "public/project-logos/the-saif-house.png",
   "public/project-logos/practical-bitcoin-standard.png",
-  "public/project-logos/twentyone-world.svg",
+  "public/project-logos/twentyone-world-v2.svg",
 ]
 
 const movedSourceAssets = [
@@ -110,7 +110,7 @@ const cssSource = await readFile(
   "utf8"
 )
 const twentyOneLogoSource = await readFile(
-  new URL("../public/project-logos/twentyone-world.svg", import.meta.url),
+  new URL("../public/project-logos/twentyone-world-v2.svg", import.meta.url),
   "utf8"
 )
 const articleDataSource = await readFile(
@@ -375,7 +375,7 @@ assert(
 )
 assert(
   appSource.includes("project-logo-image") &&
-    /\.project-logo-image\s*\{\s*outline:\s*none;/.test(cssSource),
+    /\.project-logo-image\s*\{[^}]*outline:\s*none;/.test(cssSource),
   "Project logos still inherit the rectangular global image outline"
 )
 assert(

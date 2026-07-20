@@ -553,6 +553,9 @@
   }
 
   .project-logo-image {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
     outline: none;
   }
 
