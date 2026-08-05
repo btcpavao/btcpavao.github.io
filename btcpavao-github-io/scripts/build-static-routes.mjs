@@ -13,6 +13,7 @@ const bitcoinCoreSeriesId = `${bitcoinCoreSeriesUrl}#collection`
 const enBitcoinCoreSeriesUrl = `${siteUrl}/en/bitcoin-core/`
 const enBitcoinCoreSeriesId = `${enBitcoinCoreSeriesUrl}#collection`
 const enBitcoinCoreArticleUrl = `${enBitcoinCoreSeriesUrl}how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/`
+const longRoadArticleUrl = `${enBitcoinCoreSeriesUrl}the-long-road-back-to-bitcoin-core/`
 
 const homeRoute = {
   appPath: "/",
@@ -278,6 +279,39 @@ const routes = [
       xDefault: enBitcoinCoreArticleUrl,
     },
   },
+  {
+    appPath: "/en/bitcoin-core/the-long-road-back-to-bitcoin-core/",
+    routePath: "en/bitcoin-core/the-long-road-back-to-bitcoin-core",
+    routeUrl: longRoadArticleUrl,
+    title: "The Long Road Back to Bitcoin Core",
+    headline: "The Long Road Back to Bitcoin Core",
+    description:
+      "How a hardware-wallet controversy, an entropy rabbit hole, and a few simple restore tests ended my search for the \u201cperfect\u201d Bitcoin wallet",
+    ogDescription:
+      "How a hardware-wallet controversy, an entropy rabbit hole, and a few simple restore tests ended my search for the \u201cperfect\u201d Bitcoin wallet",
+    type: "article",
+    language: "en-US",
+    publishedDate: "2026-08-05",
+    sectionName: "Bitcoin Core",
+    sectionId: enBitcoinCoreSeriesId,
+    articleTag: "Bitcoin Core wallet security",
+    breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
+    image: `${siteUrl}/long-road-bitcoin-core-og.jpg`,
+    imageAlt:
+      "A person stands in a Mediterranean maze of Bitcoin wallets and backups, facing a simple illuminated doorway.",
+    imageWidth: 1200,
+    imageHeight: 630,
+    textHero: true,
+    keywords: [
+      "Bitcoin Core",
+      "Bitcoin wallet",
+      "hardware wallet",
+      "BIP39",
+      "descriptor wallet",
+      "pruned node",
+      "offline signing",
+    ],
+  },
 ]
 
 const distIndexUrl = new URL("../dist/index.html", import.meta.url)
@@ -395,14 +429,17 @@ function routeHeadMeta(route) {
   const heroImageSrcSet =
     route.heroImageSrcSet ??
     "/ai-workflow-hero-840.webp 840w, /ai-workflow-hero.webp 1672w"
+  const heroPreload = route.textHero
+    ? ""
+    : `    <link rel="preload" as="image" href="${heroImage}" type="image/webp" imagesrcset="${heroImageSrcSet}" imagesizes="(max-width: 760px) 100vw, 60vw" fetchpriority="high" />
+`
   const articleMeta =
     route.type === "article"
       ? `    <meta property="article:published_time" content="${route.publishedDate}" />
     <meta property="article:modified_time" content="${route.publishedDate}" />
     <meta property="article:section" content="${escapeHtml(route.sectionName)}" />
     <meta property="article:tag" content="${escapeHtml(route.articleTag)}" />
-    <link rel="preload" as="image" href="${heroImage}" type="image/webp" imagesrcset="${heroImageSrcSet}" imagesizes="(max-width: 760px) 100vw, 60vw" fetchpriority="high" />
-`
+${heroPreload}`
       : ""
   const alternateLinks = route.alternates
     ? `    <link rel="alternate" hreflang="hr" href="${route.alternates.hr}" />

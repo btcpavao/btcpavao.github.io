@@ -7,11 +7,13 @@ import bitcoinCoreArticleEnglishSource from "./bitcoin-core-article-en.txt?raw"
 import bitcoinCoreArticleSource from "./bitcoin-core-article.txt?raw"
 import { ThemeProvider } from "./components/theme-provider.tsx"
 import learningArticleHtml from "./learning-article.html?raw"
+import longRoadArticleSource from "./long-road-back-to-bitcoin-core.md?raw"
 import {
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   needsBitcoinCoreArticleSource,
   needsArticleData,
   needsLearningArticleHtml,
+  needsLongRoadArticleSource,
   normalizePath,
 } from "./routes.ts"
 
@@ -35,6 +37,9 @@ export function renderPage(pathname: string) {
                 ? bitcoinCoreArticleEnglishSource
                 : bitcoinCoreArticleSource
               : ""
+          }
+          initialLongRoadArticleSource={
+            needsLongRoadArticleSource(initialPath) ? longRoadArticleSource : ""
           }
         />
       </ThemeProvider>

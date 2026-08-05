@@ -13,6 +13,14 @@ const responsiveImages = [
       small: `public/bitcoin-core-entropija-${number}-840.webp`,
     }
   }),
+  ...Array.from({ length: 13 }, (_, index) => {
+    const number = String(index + 1).padStart(2, "0")
+
+    return {
+      full: `public/long-road-bitcoin-core-${number}.webp`,
+      small: `public/long-road-bitcoin-core-${number}-840.webp`,
+    }
+  }),
   {
     full: "public/bitcoin-core-entropija-hero.webp",
     small: "public/bitcoin-core-entropija-hero-840.webp",
@@ -54,6 +62,7 @@ const responsiveImages = [
 const additionalPublicAssets = [
   "public/bitcoin-logo.svg",
   "public/bitcoin-core-entropija-og.jpg",
+  "public/long-road-bitcoin-core-og.jpg",
   "public/bitcoin-savjetovanje-screenshot-1600.webp",
   "public/dvadesetjedan-screenshot-1600.webp",
   "public/pavao-profile.webp",
@@ -97,6 +106,22 @@ const bitcoinCoreSourceAssets = Array.from({ length: 11 }, (_, index) => {
   const number = String(index + 1).padStart(2, "0")
   return `asset-sources/image-originals/bitcoin-core-entropija/${number}-`
 })
+
+const longRoadSourceAssets = [
+  "01-the-wallet-maze.png",
+  "02-convenience-versus-simplicity.png",
+  "03-entropy-mixing-chamber.png",
+  "04-glass-cathedral-of-code-review.png",
+  "05-learning-core-one-question-at-a-time.png",
+  "06-one-backup-many-future-addresses.png",
+  "07-one-root-four-script-families.png",
+  "08-two-valid-recovery-philosophies.png",
+  "09-validator-versus-archivist.png",
+  "10-core-as-foundation-of-offline-signing.png",
+  "11-the-backbone.png",
+  "12-from-product-shopping-to-understanding.png",
+  "13-the-anchor.png",
+]
 
 async function exists(relativePath) {
   try {
@@ -143,6 +168,14 @@ const bitcoinCoreArticleSource = await readFile(
 )
 const bitcoinCoreEnglishArticleSource = await readFile(
   new URL("../src/bitcoin-core-article-en.txt", import.meta.url),
+  "utf8"
+)
+const longRoadArticleSource = await readFile(
+  new URL("../src/long-road-back-to-bitcoin-core.md", import.meta.url),
+  "utf8"
+)
+const longRoadModuleSource = await readFile(
+  new URL("../src/long-road-article.tsx", import.meta.url),
   "utf8"
 )
 const packageSource = await readFile(
@@ -208,7 +241,14 @@ const enBitcoinCoreArticleRouteHtml = await readFile(
   ),
   "utf8"
 )
-const sourceText = `${appSource}\n${articleDataSource}\n${bitcoinCoreArticleSource}\n${bitcoinCoreEnglishArticleSource}`
+const longRoadArticleRouteHtml = await readFile(
+  new URL(
+    "../dist/en/bitcoin-core/the-long-road-back-to-bitcoin-core/index.html",
+    import.meta.url
+  ),
+  "utf8"
+)
+const sourceText = `${appSource}\n${articleDataSource}\n${bitcoinCoreArticleSource}\n${bitcoinCoreEnglishArticleSource}\n${longRoadModuleSource}`
 const bitcoinCoreArticleHash = createHash("sha256")
   .update(bitcoinCoreArticleSource)
   .digest("hex")
@@ -227,6 +267,21 @@ assert(
   bitcoinCoreEnglishArticleHash ===
     "25e66995320956fcdaaed4d9c6cc9b4a0064c013bd44bd7caa418f040e931696",
   "English Bitcoin Core article source changed from the approved translation"
+)
+
+const longRoadArticleHash = createHash("sha256")
+  .update(longRoadArticleSource)
+  .digest("hex")
+
+assert(
+  longRoadArticleHash ===
+    "20202cff2cf066b4fc8bb2afce90400484bab5b683f09464bd8a47d786694c0e",
+  "The Long Road article source changed from the approved text"
+)
+assert(
+  (longRoadArticleSource.match(/\[VISUAL PLACEHOLDER \d{2} \u2014/g) ?? [])
+    .length === 13,
+  "The Long Road article source does not contain exactly 13 visual placeholders"
 )
 
 function bitcoinCoreArticleStructure(source) {
@@ -261,6 +316,17 @@ assert(
     "https://btcpavao.com/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"
   ) && sitemapSource.includes("<image:title>The SHA-512 mixer</image:title>"),
   "Sitemap is missing the English Bitcoin Core article or its translated image titles"
+)
+assert(
+  sitemapSource.includes(
+    "https://btcpavao.com/en/bitcoin-core/the-long-road-back-to-bitcoin-core/"
+  ) &&
+    Array.from({ length: 13 }, (_, index) =>
+      sitemapSource.includes(
+        `https://btcpavao.com/long-road-bitcoin-core-${String(index + 1).padStart(2, "0")}.webp`
+      )
+    ).every(Boolean),
+  "Sitemap is missing The Long Road article or one of its 13 images"
 )
 
 function assertStructuredDataIsValid(html, label) {
@@ -364,6 +430,23 @@ for (const prefix of bitcoinCoreSourceAssets) {
   )
 }
 
+const longRoadSourceNames = await readdir(
+  new URL(
+    "../asset-sources/image-originals/long-road-back-to-bitcoin-core/",
+    import.meta.url
+  )
+)
+assert(
+  longRoadSourceNames.filter((name) => name.endsWith(".png")).length === 13,
+  "The Long Road source image count is not 13"
+)
+for (const name of longRoadSourceAssets) {
+  assert(
+    longRoadSourceNames.includes(name),
+    `Missing The Long Road source image: ${name}`
+  )
+}
+
 assert((await size("public/favicon.png")) < 100_000, "Favicon exceeds 100 KB")
 assert(
   (await size("public/pavao-profile.webp")) < 50_000,
@@ -400,6 +483,10 @@ assert(
   "Homepage is missing the latest Bitcoin Core article"
 )
 assert(
+  distIndexHtml.includes("The Long Road Back to Bitcoin Core"),
+  "Homepage is missing The Long Road article"
+)
+assert(
   articleRouteHtml.includes("Postoji trenutak kada nova tehnologija"),
   "First article body was not prerendered"
 )
@@ -433,8 +520,13 @@ assert(
     "How Bitcoin Core Generates Entropy When You Create a New Wallet"
   ) &&
     enBitcoinCoreSeriesRouteHtml.includes('src="/bitcoin-logo.svg"') &&
-    !enBitcoinCoreSeriesRouteHtml.includes("The Long Road Back to Bitcoin Core"),
-  "English Bitcoin Core series page is incomplete or exposes unpublished writing"
+    enBitcoinCoreSeriesRouteHtml.includes(
+      "The Long Road Back to Bitcoin Core"
+    ) &&
+    enBitcoinCoreSeriesRouteHtml.includes(
+      "English essays about Bitcoin Core, wallets, validation, and the security foundations of the Bitcoin system."
+    ),
+  "English Bitcoin Core series page is incomplete"
 )
 assert(
   enBitcoinCoreArticleRouteHtml.includes(
@@ -444,6 +536,31 @@ assert(
       "How Bitcoin Core Generates Entropy When You Create a New Wallet"
     ),
   "English Bitcoin Core article or homepage card was not prerendered"
+)
+assert(
+  longRoadArticleRouteHtml.includes(
+    "For years, I was quietly searching for a better Bitcoin wallet."
+  ) &&
+    longRoadArticleRouteHtml.includes('aria-label="Back to top"') &&
+    longRoadArticleRouteHtml.includes(">Contents</p>"),
+  "The Long Road article body or English navigation was not prerendered"
+)
+assert(
+  !longRoadArticleRouteHtml.includes("VISUAL PLACEHOLDER") &&
+    !longRoadArticleRouteHtml.includes("Image-generation prompt") &&
+    !longRoadArticleRouteHtml.includes("Concept:"),
+  "The Long Road article exposes editorial visual instructions"
+)
+assert(
+  (longRoadArticleRouteHtml.match(/bitcoin-core-section-pictogram/g) ?? [])
+    .length === 17 &&
+    (longRoadArticleRouteHtml.match(/bitcoin-core-list/g) ?? []).length === 5 &&
+    (longRoadArticleRouteHtml.match(/long-road-article-quote/g) ?? [])
+      .length === 2 &&
+    (longRoadArticleRouteHtml.match(/long-road-article-separator/g) ?? [])
+      .length === 25 &&
+    (longRoadArticleRouteHtml.match(/<strong>/g) ?? []).length === 2,
+  "The Long Road article headings, lists, quotes, separators, or bold text were not rendered completely"
 )
 assert(
   (bitcoinCoreArticleRouteHtml.match(/bitcoin-core-section-pictogram/g) ?? [])
@@ -490,6 +607,20 @@ for (let index = 1; index <= 11; index += 1) {
       `/bitcoin-core-entropija-${number}.webp`
     ),
     `English Bitcoin Core article is missing visual ${number}`
+  )
+}
+for (let index = 1; index <= 13; index += 1) {
+  const number = String(index).padStart(2, "0")
+  assert(
+    (
+      longRoadArticleRouteHtml.match(
+        new RegExp(`/long-road-bitcoin-core-${number}\\.webp`, "g")
+      ) ?? []
+    ).length === 2 &&
+      longRoadArticleRouteHtml.includes(
+        `/long-road-bitcoin-core-${number}-840.webp`
+      ),
+    `The Long Road article is missing responsive visual ${number} or repeats it`
   )
 }
 assert(
@@ -544,6 +675,19 @@ assert(
   "English Bitcoin Core article language metadata or reciprocal links are incomplete"
 )
 assert(
+  longRoadArticleRouteHtml.includes('<html lang="en">') &&
+    longRoadArticleRouteHtml.includes(
+      'rel="canonical" href="https://btcpavao.com/en/bitcoin-core/the-long-road-back-to-bitcoin-core/"'
+    ) &&
+    longRoadArticleRouteHtml.includes('property="og:locale" content="en_US"') &&
+    longRoadArticleRouteHtml.includes('"inLanguage": "en-US"') &&
+    longRoadArticleRouteHtml.includes('"@type": "BlogPosting"') &&
+    longRoadArticleRouteHtml.includes('"@type": "BreadcrumbList"') &&
+    longRoadArticleRouteHtml.includes("/long-road-bitcoin-core-og.jpg") &&
+    !longRoadArticleRouteHtml.includes('rel="alternate" hreflang='),
+  "The Long Road article metadata is incomplete or has an incorrect hreflang link"
+)
+assert(
   (workflowRouteHtml.match(/property="og:locale"/g) ?? []).length === 1 &&
     workflowRouteHtml.includes('property="og:locale" content="hr_HR"'),
   "Workflow route has incorrect or duplicate Open Graph locale metadata"
@@ -564,6 +708,7 @@ assertStructuredDataIsValid(
   enBitcoinCoreArticleRouteHtml,
   "English Bitcoin Core article"
 )
+assertStructuredDataIsValid(longRoadArticleRouteHtml, "The Long Road article")
 
 const entryScriptMatch = distIndexHtml.match(
   /<script type="module" crossorigin src="([^"]+)"><\/script>/
@@ -591,9 +736,11 @@ const learningArticleBodyProbe = "Nedavno sam otvorio PDF od 24 stranice"
 const bitcoinCoreArticleBodyProbe = "Kad u Bitcoin Coreu napraviš novi wallet"
 const bitcoinCoreEnglishArticleBodyProbe =
   "When you create a new wallet in Bitcoin Core"
+const longRoadArticleBodyProbe =
+  "For years, I was quietly searching for a better Bitcoin wallet."
 
 assert(
-  entryScriptBytes < 318_000,
+  entryScriptBytes < 335_000,
   `Entry bundle is too large: ${entryScriptBytes} bytes`
 )
 assert(
@@ -611,6 +758,10 @@ assert(
 assert(
   !entryScript.includes(bitcoinCoreEnglishArticleBodyProbe),
   "Entry chunk includes the English Bitcoin Core article body"
+)
+assert(
+  !entryScript.includes(longRoadArticleBodyProbe),
+  "Entry chunk includes The Long Road article body"
 )
 assert(
   lazyChunkSources.some((source) => source.includes(articleBodyProbe)),
@@ -631,6 +782,10 @@ assert(
     source.includes(bitcoinCoreEnglishArticleBodyProbe)
   ),
   "English Bitcoin Core article body was not found in a lazy chunk"
+)
+assert(
+  lazyChunkSources.some((source) => source.includes(longRoadArticleBodyProbe)),
+  "The Long Road article body was not found in a lazy chunk"
 )
 assert(
   !packageSource.includes('"motion"'),

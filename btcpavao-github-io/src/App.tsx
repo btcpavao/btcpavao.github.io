@@ -31,6 +31,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
+  longRoadVisuals,
+  parseLongRoadArticle,
+  renderLongRoadInline,
+  type LongRoadArticleBlock,
+} from "@/long-road-article"
+import {
   AI_SERIES_PATH,
   ARTICLE_PATH,
   BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
@@ -39,6 +45,7 @@ import {
   EN_BITCOIN_CORE_SERIES_PATH,
   HR_HOME_PATH,
   LEARNING_ARTICLE_PATH,
+  LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH,
   normalizePath,
   WORKFLOW_ARTICLE_PATH,
 } from "@/routes"
@@ -113,6 +120,13 @@ const EN_BITCOIN_CORE_ARTICLE_SUBTITLE =
 const EN_BITCOIN_CORE_ARTICLE_DESCRIPTION =
   "How Bitcoin Core gathers and cryptographically mixes entropy, validates a private key, and builds a BIP32 wallet from it."
 const EN_BITCOIN_CORE_ARTICLE_DISPLAY_DATE = "August 5, 2026"
+const LONG_ROAD_ARTICLE_URL = `${SITE_URL}${LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH}`
+const LONG_ROAD_ARTICLE_TITLE = "The Long Road Back to Bitcoin Core"
+const LONG_ROAD_ARTICLE_SUBTITLE =
+  "How a hardware-wallet controversy, an entropy rabbit hole, and a few simple restore tests ended my search for the \u201cperfect\u201d Bitcoin wallet"
+const LONG_ROAD_ARTICLE_DATE = "2026-08-05"
+const LONG_ROAD_ARTICLE_DISPLAY_DATE = "August 5, 2026"
+const LONG_ROAD_ARTICLE_OG_IMAGE = `${SITE_URL}/long-road-bitcoin-core-og.jpg`
 const BOOK_SECTION_HEADING = "Knjiga koja je godinama čekala red"
 const AGENTS_SECTION_HEADING = "Agenti kao probni čitatelji"
 const WEB_SECTION_HEADING = "Web stranice kroz razgovor"
@@ -236,6 +250,14 @@ const hrBitcoinCorePosts: SeriesPost[] = [
 ]
 
 const enBitcoinCorePosts: SeriesPost[] = [
+  {
+    category: BITCOIN_CORE_SERIES_TITLE,
+    title: LONG_ROAD_ARTICLE_TITLE,
+    description: LONG_ROAD_ARTICLE_SUBTITLE,
+    href: LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH,
+    language: "EN",
+    date: LONG_ROAD_ARTICLE_DISPLAY_DATE,
+  },
   {
     category: BITCOIN_CORE_SERIES_TITLE,
     title: EN_BITCOIN_CORE_ARTICLE_TITLE,
@@ -1054,6 +1076,20 @@ function useBitcoinCoreArticleMetadata(language: BitcoinCoreLanguage = "hr") {
   })
 }
 
+function useLongRoadArticleMetadata() {
+  usePageMetadata({
+    title: LONG_ROAD_ARTICLE_TITLE,
+    description: LONG_ROAD_ARTICLE_SUBTITLE,
+    ogDescription: LONG_ROAD_ARTICLE_SUBTITLE,
+    url: LONG_ROAD_ARTICLE_URL,
+    type: "article",
+    publishedDate: LONG_ROAD_ARTICLE_DATE,
+    articleSection: BITCOIN_CORE_SERIES_TITLE,
+    image: LONG_ROAD_ARTICLE_OG_IMAGE,
+    language: "en",
+  })
+}
+
 function useReadingProgress() {
   useEffect(() => {
     function updateProgress() {
@@ -1754,6 +1790,11 @@ function BitcoinCoreSeriesPage({
             <h1 className="mt-4 max-w-[12ch] font-display text-5xl leading-[0.94] font-bold tracking-[-0.06em] text-balance text-foreground sm:text-6xl">
               {BITCOIN_CORE_SERIES_TITLE}
             </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-pretty text-muted-foreground">
+              {isEnglish
+                ? EN_BITCOIN_CORE_SERIES_DESCRIPTION
+                : BITCOIN_CORE_SERIES_DESCRIPTION}
+            </p>
           </div>
 
           <div className="bitcoin-core-series-logo">
@@ -2206,6 +2247,286 @@ function BitcoinCoreArticlePage({
   )
 }
 
+function LongRoadArticleVisual({ number }: { number: number }) {
+  const visual = longRoadVisuals[number - 1]
+
+  if (!visual) {
+    throw new Error(`Missing The Long Road visual ${number}.`)
+  }
+
+  return (
+    <figure className="long-road-article-visual">
+      <picture>
+        <source
+          media="(max-width: 840px)"
+          srcSet={visual.smallSrc}
+          type="image/webp"
+        />
+        <img
+          src={visual.src}
+          srcSet={`${visual.smallSrc} 840w, ${visual.src} ${visual.width}w`}
+          sizes="(max-width: 840px) calc(100vw - 32px), 1152px"
+          alt={visual.alt}
+          width={visual.width}
+          height={visual.height}
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
+    </figure>
+  )
+}
+
+function LongRoadSectionHeading({
+  heading,
+  index,
+}: {
+  heading: Extract<LongRoadArticleBlock, { type: "heading" }>
+  index: number
+}) {
+  const icon =
+    bitcoinCoreHeadingIcons[index % bitcoinCoreHeadingIcons.length] ??
+    bitcoinCoreFallbackIcon
+
+  return (
+    <div className="bitcoin-core-section-heading">
+      <span className="bitcoin-core-section-pictogram" aria-hidden="true">
+        {icon}
+      </span>
+      <h2 id={heading.id}>{heading.text}</h2>
+    </div>
+  )
+}
+
+function LongRoadArticlePage({
+  initialArticleSource = "",
+}: {
+  initialArticleSource?: string
+}) {
+  useLongRoadArticleMetadata()
+  useReadingProgress()
+  const [articleSource, setArticleSource] = useState(initialArticleSource)
+
+  useEffect(() => {
+    if (articleSource) {
+      return undefined
+    }
+
+    let isMounted = true
+
+    import("./long-road-back-to-bitcoin-core.md?raw").then((module) => {
+      if (isMounted) {
+        setArticleSource(module.default)
+      }
+    })
+
+    return () => {
+      isMounted = false
+    }
+  }, [articleSource])
+
+  const article = articleSource
+    ? parseLongRoadArticle(articleSource)
+    : {
+        title: LONG_ROAD_ARTICLE_TITLE,
+        subtitle: LONG_ROAD_ARTICLE_SUBTITLE,
+        blocks: [] as LongRoadArticleBlock[],
+      }
+
+  if (
+    article.title !== LONG_ROAD_ARTICLE_TITLE ||
+    article.subtitle !== LONG_ROAD_ARTICLE_SUBTITLE
+  ) {
+    throw new Error(
+      "The Long Road article title or subtitle does not match its approved copy."
+    )
+  }
+
+  const headings = article.blocks.filter(
+    (block): block is Extract<LongRoadArticleBlock, { type: "heading" }> =>
+      block.type === "heading"
+  )
+  const readingMinutes = estimateReadingMinutes([
+    article.title,
+    article.subtitle,
+    ...article.blocks.flatMap((block) => {
+      if (block.type === "visual" || block.type === "separator") return []
+      if (block.type === "list") return block.items
+      return [block.text]
+    }),
+  ])
+
+  return (
+    <PageChrome
+      sectionHref={EN_BITCOIN_CORE_SERIES_PATH}
+      sectionLabel={BITCOIN_CORE_SERIES_TITLE}
+      language="en"
+    >
+      <div className="reading-progress" aria-hidden="true" />
+      <main id="main-content" className="relative pb-20">
+        <article>
+          <header className="long-road-article-hero border-b border-border/60">
+            <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+              <a
+                href={EN_BITCOIN_CORE_SERIES_PATH}
+                className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
+              >
+                Bitcoin Core
+              </a>
+
+              <div className="mt-12 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase">
+                <span className="surface-ring rounded-full bg-background/78 px-3 py-1">
+                  Bitcoin Core
+                </span>
+                <span className="surface-ring rounded-full bg-background/78 px-3 py-1">
+                  English
+                </span>
+                <a
+                  href="/"
+                  rel="author"
+                  className="surface-ring inline-flex min-h-10 items-center rounded-full bg-background/78 px-3 py-1 transition-[background-color,color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground active:scale-[0.96]"
+                >
+                  Pavao Pahljina
+                </a>
+                <time
+                  className="surface-ring rounded-full bg-background/78 px-3 py-1"
+                  dateTime={LONG_ROAD_ARTICLE_DATE}
+                >
+                  {LONG_ROAD_ARTICLE_DISPLAY_DATE}
+                </time>
+                <span className="surface-ring rounded-full bg-background/78 px-3 py-1">
+                  {readingMinutes} min read
+                </span>
+              </div>
+
+              <h1 className="mt-9 max-w-[17ch] font-display text-5xl leading-[0.94] font-bold tracking-[-0.06em] text-balance text-foreground sm:text-7xl">
+                {article.title}
+              </h1>
+              <p className="mt-7 max-w-3xl text-xl leading-8 text-pretty text-muted-foreground sm:text-2xl sm:leading-9">
+                {article.subtitle}
+              </p>
+            </div>
+          </header>
+
+          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <nav
+              aria-label="Article contents"
+              className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
+            >
+              <p className="text-[11px] font-semibold text-muted-foreground uppercase">
+                Contents
+              </p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {headings.map((heading) => (
+                  <a
+                    key={heading.id}
+                    href={`#${heading.id}`}
+                    className={`glimmer-button surface-ring rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
+                  >
+                    {heading.text}
+                  </a>
+                ))}
+              </div>
+            </nav>
+
+            <div className="article-shell learning-article-body bitcoin-core-article-body long-road-article-body mt-10">
+              {article.blocks.map((block, index) => {
+                if (block.type === "heading") {
+                  return (
+                    <LongRoadSectionHeading
+                      key={`${block.id}-${index}`}
+                      heading={block}
+                      index={headings.findIndex(
+                        (heading) => heading.id === block.id
+                      )}
+                    />
+                  )
+                }
+
+                if (block.type === "list") {
+                  return (
+                    <ul className="bitcoin-core-list" key={`list-${index}`}>
+                      {block.items.map((item, itemIndex) => (
+                        <li key={`${item}-${itemIndex}`}>
+                          {renderLongRoadInline(item)}
+                        </li>
+                      ))}
+                    </ul>
+                  )
+                }
+
+                if (block.type === "quote") {
+                  return (
+                    <blockquote
+                      className="long-road-article-quote"
+                      key={`quote-${index}`}
+                    >
+                      <p>{renderLongRoadInline(block.text)}</p>
+                    </blockquote>
+                  )
+                }
+
+                if (block.type === "visual") {
+                  return (
+                    <LongRoadArticleVisual
+                      key={`visual-${block.number}`}
+                      number={block.number}
+                    />
+                  )
+                }
+
+                if (block.type === "separator") {
+                  return (
+                    <hr
+                      className="long-road-article-separator"
+                      key={`separator-${index}`}
+                    />
+                  )
+                }
+
+                return (
+                  <p key={`paragraph-${index}`}>
+                    {renderLongRoadInline(block.text)}
+                  </p>
+                )
+              })}
+              {!articleSource ? <p>Loading article…</p> : null}
+            </div>
+
+            <nav
+              aria-label="Related content"
+              className="article-shell mt-14 grid gap-3 sm:grid-cols-2"
+            >
+              <a
+                href={EN_BITCOIN_CORE_SERIES_PATH}
+                className={`glimmer-button surface-shadow-soft rounded-[24px] bg-card/82 p-5 hover:bg-card sm:p-6 ${liftHover}`}
+              >
+                <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+                  Section
+                </span>
+                <span className="mt-3 block font-display text-xl font-bold tracking-[-0.04em] text-balance text-foreground">
+                  Bitcoin Core
+                </span>
+              </a>
+              <a
+                href="/"
+                className={`glimmer-button surface-shadow-soft rounded-[24px] bg-card/82 p-5 hover:bg-card sm:p-6 ${liftHover}`}
+              >
+                <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+                  English
+                </span>
+                <span className="mt-3 block font-display text-xl font-bold tracking-[-0.04em] text-balance text-foreground">
+                  Back to the homepage
+                </span>
+              </a>
+            </nav>
+          </div>
+        </article>
+      </main>
+      <BitcoinCoreBackToTop language="en" />
+    </PageChrome>
+  )
+}
 
 type WorkflowBlock =
   | { type: "p"; text: string }
@@ -3482,11 +3803,13 @@ export function App({
   initialArticleData = null,
   initialLearningArticleHtml = "",
   initialBitcoinCoreArticleSource = "",
+  initialLongRoadArticleSource = "",
 }: {
   initialPath?: string
   initialArticleData?: ArticleDataModule | null
   initialLearningArticleHtml?: string
   initialBitcoinCoreArticleSource?: string
+  initialLongRoadArticleSource?: string
 } = {}) {
   const currentPath = initialPath
     ? normalizePath(initialPath)
@@ -3521,6 +3844,14 @@ export function App({
       <BitcoinCoreArticlePage
         initialArticleSource={initialBitcoinCoreArticleSource}
         language="en"
+      />
+    )
+  }
+
+  if (currentPath === LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH) {
+    return (
+      <LongRoadArticlePage
+        initialArticleSource={initialLongRoadArticleSource}
       />
     )
   }

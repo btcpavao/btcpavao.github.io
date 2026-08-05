@@ -6,6 +6,8 @@ export const BITCOIN_CORE_ENTROPY_ARTICLE_PATH =
   "/hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/"
 export const EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH =
   "/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"
+export const LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH =
+  "/en/bitcoin-core/the-long-road-back-to-bitcoin-core/"
 export const ARTICLE_PATH =
   "/hr/ai-u-praksi/jedan-covjek-ai-i-dva-mjeseca-rada/"
 export const WORKFLOW_ARTICLE_PATH =
@@ -39,4 +41,8 @@ export function needsBitcoinCoreArticleSource(pathname: string) {
     normalizedPath === BITCOIN_CORE_ENTROPY_ARTICLE_PATH ||
     normalizedPath === EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH
   )
+}
+
+export function needsLongRoadArticleSource(pathname: string) {
+  return normalizePath(pathname) === LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH
 }

@@ -203,4 +203,62 @@
       <image:title>Bitcoin Core as the backbone</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://btcpavao.com/en/bitcoin-core/the-long-road-back-to-bitcoin-core/</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://btcpavao.com/long-road-bitcoin-core-01.webp</image:loc>
+      <image:title>The wallet maze</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/long-road-bitcoin-core-02.webp</image:loc>
+      <image:title>Convenience versus simplicity</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/long-road-bitcoin-core-03.webp</image:loc>
+      <image:title>The entropy mixing chamber</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/long-road-bitcoin-core-04.webp</image:loc>
+      <image:title>The glass cathedral of code review</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/long-road-bitcoin-core-05.webp</image:loc>
+      <image:title>Learning Core one question at a time</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/long-road-bitcoin-core-06.webp</image:loc>
+      <image:title>One backup, many future addresses</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/long-road-bitcoin-core-07.webp</image:loc>
+      <image:title>One root, four script families</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/long-road-bitcoin-core-08.webp</image:loc>
+      <image:title>Two valid recovery philosophies</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/long-road-bitcoin-core-09.webp</image:loc>
+      <image:title>Validator versus archivist</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/long-road-bitcoin-core-10.webp</image:loc>
+      <image:title>Core as the foundation of an offline signing system</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/long-road-bitcoin-core-11.webp</image:loc>
+      <image:title>The backbone</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/long-road-bitcoin-core-12.webp</image:loc>
+      <image:title>From product shopping to understanding</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/long-road-bitcoin-core-13.webp</image:loc>
+      <image:title>The anchor</image:title>
+    </image:image>
+  </url>
 </urlset>

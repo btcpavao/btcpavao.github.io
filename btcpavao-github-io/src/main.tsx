@@ -9,6 +9,7 @@ import {
   needsBitcoinCoreArticleSource,
   needsArticleData,
   needsLearningArticleHtml,
+  needsLongRoadArticleSource,
   normalizePath,
 } from "@/routes"
 
@@ -18,6 +19,7 @@ async function startApp() {
   let initialArticleData: ArticleDataModule | null = null
   let initialLearningArticleHtml = ""
   let initialBitcoinCoreArticleSource = ""
+  let initialLongRoadArticleSource = ""
 
   if (needsArticleData(initialPath)) {
     initialArticleData = await import("./article-data")
@@ -36,6 +38,12 @@ async function startApp() {
     ).default
   }
 
+  if (needsLongRoadArticleSource(initialPath)) {
+    initialLongRoadArticleSource = (
+      await import("./long-road-back-to-bitcoin-core.md?raw")
+    ).default
+  }
+
   const app = (
     <StrictMode>
       <ThemeProvider>
@@ -44,6 +52,7 @@ async function startApp() {
           initialArticleData={initialArticleData}
           initialLearningArticleHtml={initialLearningArticleHtml}
           initialBitcoinCoreArticleSource={initialBitcoinCoreArticleSource}
+          initialLongRoadArticleSource={initialLongRoadArticleSource}
         />
       </ThemeProvider>
     </StrictMode>
