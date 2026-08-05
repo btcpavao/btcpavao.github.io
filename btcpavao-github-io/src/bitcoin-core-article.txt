@@ -672,19 +672,3 @@ To je upravo onaj tip dizajna koji želiš vidjeti kod softvera koji treba čuva
 A to je i razlog zašto je Bitcoin Core puno više od običnog wallet programa.
 
 On je jedan od najvažnijih tehničkih temelja cijelog Bitcoin sustava.
-
-Kratki popis svih vizuala za članak
-
-Ako želiš, iz ovoga možeš raditi seriju vizuala:
-
-Što je entropija
-Od klika do walleta
-Operacijski sustav kao glavni izvor
-Vrijeme i mikrorazlike
-Živi otisak računala
-SHA-512 miješalica
-Od slučajnosti do valjanog ključa
-BIP32 korijen
-Jedan korijen, mnogo adresa
-Dobar RNG nije cijela sigurnost
-Bitcoin Core kao okosnica

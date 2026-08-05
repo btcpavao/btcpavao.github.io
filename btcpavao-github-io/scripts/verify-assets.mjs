@@ -196,8 +196,8 @@ const bitcoinCoreArticleHash = createHash("sha256")
 
 assert(
   bitcoinCoreArticleHash ===
-    "cdf525a19388cc385ad5af1805edc4ed4cc86eb0a342ed0fb44c374a4a4fcccc",
-  "Bitcoin Core article source changed from the approved verbatim text"
+    "fe05d12e74b074d0576da5880edddfdf863890c7455fc0bebccb9b6f4c27568f",
+  "Bitcoin Core article source changed from the approved text with the requested visual list removed"
 )
 
 function assertStructuredDataIsValid(html, label) {
@@ -364,6 +364,13 @@ assert(
     "Kad u Bitcoin Coreu napraviš novi wallet"
   ),
   "Bitcoin Core article body was not prerendered"
+)
+assert(
+  (bitcoinCoreArticleRouteHtml.match(/bitcoin-core-section-pictogram/g) ?? [])
+    .length === 24 &&
+    bitcoinCoreArticleRouteHtml.includes("bitcoin-core-list") &&
+    bitcoinCoreArticleRouteHtml.includes('aria-label="Natrag na vrh"'),
+  "Bitcoin Core article formatting or navigation controls are incomplete"
 )
 assert(
   (bitcoinCoreArticleSource.match(/\[\[VIZUAL \d+\]\]/g) ?? []).length === 11 &&

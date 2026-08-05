@@ -1,14 +1,29 @@
-import { type ReactNode, useEffect, useRef, useState } from "react"
+import {
+  createElement,
+  type ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import {
   ArrowUp,
   ArrowUpRight,
   BookOpen,
   CalendarDays,
+  CircleCheckBig,
+  Cpu,
+  Dice5,
+  GitBranch,
+  KeyRound,
   Mail,
   Menu,
   MoonStar,
+  ShieldCheck,
+  Shuffle,
   SunMedium,
+  TriangleAlert,
   X,
+  type LucideIcon,
 } from "lucide-react"
 
 import { useTheme } from "@/components/theme-provider"
@@ -563,6 +578,79 @@ const bitcoinCoreVisuals = [
   },
 ] as const
 
+function createBitcoinCorePictogram(Icon: LucideIcon) {
+  return createElement(Icon, { className: "size-5", strokeWidth: 1.85 })
+}
+
+const bitcoinCoreHeadingIcons: ReactNode[] = [
+  Dice5,
+  KeyRound,
+  GitBranch,
+  Shuffle,
+  Cpu,
+  Cpu,
+  Dice5,
+  Shuffle,
+  Cpu,
+  Shuffle,
+  Shuffle,
+  ShieldCheck,
+  KeyRound,
+  KeyRound,
+  KeyRound,
+  GitBranch,
+  GitBranch,
+  GitBranch,
+  ShieldCheck,
+  ShieldCheck,
+  TriangleAlert,
+  ShieldCheck,
+  ShieldCheck,
+].map(createBitcoinCorePictogram)
+
+const bitcoinCoreConclusionIcon = createBitcoinCorePictogram(CircleCheckBig)
+const bitcoinCoreFallbackIcon = createBitcoinCorePictogram(Dice5)
+
+const bitcoinCoreBoldStatements = new Set([
+  "Kako stvoriti privatni ključ koji nitko drugi ne može pogoditi?",
+  "Entropija je mjera nepredvidivosti.",
+  "Bitcoin Core radi izravno s kriptografskim materijalom, bez “riječi” kao korisničkog sloja.",
+  "To je srž cijele priče.",
+  "Hardverska slučajnost je dodatni izvor, ne jedini temelj.",
+  "Core akumulira i održava svoj vlastiti kvalitetni RNG state, a ne samo “uzima broj i gotovo”.",
+  "Za to koristi SHA-512.",
+  "To se zove rejection sampling.",
+  "Ta dva dijela zajedno postaju temelj HD walleta.",
+  "To je keypool.",
+  "Dobar RNG je nužan, ali nije dovoljan za cijeli cold storage sustav.",
+  "Bitcoin Core je softver koji ozbiljno pristupa temeljnim sigurnosnim problemima Bitcoina.",
+  "On je jedan od najvažnijih tehničkih temelja cijelog Bitcoin sustava.",
+  "Seed",
+  "Passphrase za wallet",
+])
+
+function isBitcoinCoreLead(text: string) {
+  return (
+    text.endsWith(":") ||
+    text === "Jednostavan primjer" ||
+    text === "Još jednostavnije" ||
+    text === "Najjednostavnije:" ||
+    text === "Zašto?" ||
+    bitcoinCoreBoldStatements.has(text)
+  )
+}
+
+function getBitcoinCoreHeadingIcon(
+  heading: Extract<BitcoinCoreArticleBlock, { type: "heading" }>
+) {
+  if (heading.numbered) {
+    const number = Number.parseInt(heading.text, 10)
+    return bitcoinCoreHeadingIcons[number - 1] ?? bitcoinCoreFallbackIcon
+  }
+
+  return bitcoinCoreConclusionIcon
+}
+
 function parseBitcoinCoreArticle(source: string) {
   const normalized = source.replace(/\r\n?/g, "\n").trim()
   const [title, subtitle, ...bodyLines] = normalized.split("\n")
@@ -584,9 +672,7 @@ function parseBitcoinCoreArticle(source: string) {
       const lines = chunk.split("\n").map((line) => line.trim())
       const isNumberedHeading = /^\d+\.\s/.test(chunk)
       const isHeading =
-        isNumberedHeading ||
-        chunk === "Zaključak" ||
-        chunk === "Kratki popis svih vizuala za članak"
+        isNumberedHeading || chunk === "Zaključak"
 
       if (isHeading) {
         return [
@@ -1551,6 +1637,118 @@ function BitcoinCoreArticleVisual({ number }: { number: number }) {
   )
 }
 
+function BitcoinCoreSectionHeading({
+  heading,
+  index,
+}: {
+  heading: Extract<BitcoinCoreArticleBlock, { type: "heading" }>
+  index: number
+}) {
+  const icon = getBitcoinCoreHeadingIcon(heading)
+
+  return (
+    <div
+      className="bitcoin-core-section-heading"
+      key={`${heading.id}-${index}`}
+    >
+      <span className="bitcoin-core-section-pictogram" aria-hidden="true">
+        {icon}
+      </span>
+      <h2 id={heading.id}>{heading.text}</h2>
+    </div>
+  )
+}
+
+function BitcoinCoreParagraph({ text }: { text: string }) {
+  const isQuote = /^“.+”$/.test(text)
+
+  return (
+    <p
+      className={
+        isQuote
+          ? "bitcoin-core-article-quote"
+          : isBitcoinCoreLead(text)
+            ? "bitcoin-core-article-lead"
+            : undefined
+      }
+    >
+      {isQuote ? (
+        <em>{renderLinkedText(text)}</em>
+      ) : isBitcoinCoreLead(text) ? (
+        <strong>{renderLinkedText(text)}</strong>
+      ) : (
+        renderLinkedText(text)
+      )}
+    </p>
+  )
+}
+
+function BitcoinCoreListItem({ text }: { text: string }) {
+  const definitionParts = text.split(" = ")
+
+  if (definitionParts.length === 2) {
+    return (
+      <>
+        <strong>{definitionParts[0]}</strong>
+        {` = ${definitionParts[1]}`}
+      </>
+    )
+  }
+
+  return renderLinkedText(text)
+}
+
+function BitcoinCoreBackToTop() {
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    function updateVisibility() {
+      setIsVisible(window.scrollY > 640)
+    }
+
+    updateVisibility()
+    window.addEventListener("scroll", updateVisibility, { passive: true })
+
+    return () => window.removeEventListener("scroll", updateVisibility)
+  }, [])
+
+  function scrollToTop() {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches
+
+    window.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+    })
+  }
+
+  return (
+    <Button
+      type="button"
+      variant="outline"
+      size="icon"
+      className={`glimmer-button floating-top-button fixed right-4 bottom-4 z-50 inline-flex size-11 min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full border border-border/70 bg-background/94 p-0 leading-none text-foreground shadow-soft transition-[opacity,transform,background-color,color,border-color,box-shadow] duration-300 ease-out hover:bg-card hover:text-foreground active:scale-[0.96] md:right-6 md:bottom-6 ${
+        isVisible
+          ? "translate-y-0 opacity-100"
+          : "pointer-events-none translate-y-3 opacity-0"
+      }`}
+      style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}
+      onClick={scrollToTop}
+      aria-label="Natrag na vrh"
+      title="Natrag na vrh"
+      aria-hidden={!isVisible}
+      tabIndex={isVisible ? 0 : -1}
+    >
+      <ArrowUp
+        aria-hidden="true"
+        className="relative z-10 size-4 shrink-0"
+        strokeWidth={2.25}
+      />
+    </Button>
+  )
+}
+
 function BitcoinCoreArticlePage({
   initialArticleSource = "",
 }: {
@@ -1700,18 +1898,20 @@ function BitcoinCoreArticlePage({
               {bitcoinCoreArticle.blocks.map((block, index) => {
                 if (block.type === "heading") {
                   return (
-                    <h2 id={block.id} key={`${block.id}-${index}`}>
-                      {block.text}
-                    </h2>
+                    <BitcoinCoreSectionHeading
+                      key={`${block.id}-${index}`}
+                      heading={block}
+                      index={index}
+                    />
                   )
                 }
 
                 if (block.type === "list") {
                   return (
-                    <ul key={`list-${index}`}>
+                    <ul className="bitcoin-core-list" key={`list-${index}`}>
                       {block.items.map((item, itemIndex) => (
                         <li key={`${item}-${itemIndex}`}>
-                          {renderLinkedText(item)}
+                          <BitcoinCoreListItem text={item} />
                         </li>
                       ))}
                     </ul>
@@ -1728,9 +1928,10 @@ function BitcoinCoreArticlePage({
                 }
 
                 return (
-                  <p key={`paragraph-${index}`}>
-                    {renderLinkedText(block.text)}
-                  </p>
+                  <BitcoinCoreParagraph
+                    key={`paragraph-${index}`}
+                    text={block.text}
+                  />
                 )
               })}
               {!articleSource ? <p>Učitavanje članka…</p> : null}
@@ -1766,6 +1967,7 @@ function BitcoinCoreArticlePage({
           </div>
         </article>
       </main>
+      <BitcoinCoreBackToTop />
     </PageChrome>
   )
 }

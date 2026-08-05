@@ -813,6 +813,112 @@
   width: min(100%, 52rem);
 }
 
+.bitcoin-core-section-heading {
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+  margin: clamp(3.75rem, 8vw, 5.5rem) 0 1.35rem;
+  scroll-margin-top: 6.5rem;
+}
+
+.bitcoin-core-section-heading h2 {
+  margin: 0;
+  scroll-margin-top: 0;
+}
+
+.bitcoin-core-section-pictogram {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-top: 0.1rem;
+  place-items: center;
+  border-radius: 1rem;
+  background:
+    radial-gradient(
+      circle at 76% 20%,
+      color-mix(in oklab, var(--primary) 28%, transparent),
+      transparent 48%
+    ),
+    linear-gradient(
+      145deg,
+      color-mix(in oklab, var(--primary) 13%, var(--card)),
+      color-mix(in oklab, var(--chart-3) 12%, var(--card))
+    );
+  box-shadow:
+    var(--shadow-border),
+    0 0.8rem 2rem oklch(var(--hero-shadow) / 0.1);
+  color: color-mix(in oklab, var(--primary) 82%, var(--foreground));
+}
+
+.bitcoin-core-article-body > .bitcoin-core-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.75rem 0;
+  padding: 1.1rem;
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in oklab, var(--primary) 5%, transparent),
+      color-mix(in oklab, var(--chart-3) 4%, transparent)
+    ),
+    var(--card);
+  box-shadow: var(--shadow-border);
+  list-style: none;
+}
+
+.bitcoin-core-article-body > .bitcoin-core-list li {
+  position: relative;
+  min-width: 0;
+  padding-left: 1.45rem;
+  text-wrap: pretty;
+}
+
+.bitcoin-core-article-body > .bitcoin-core-list li::before {
+  position: absolute;
+  top: 0.7em;
+  left: 0.1rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--primary), var(--chart-3));
+  box-shadow: 0 0 0 0.22rem color-mix(in oklab, var(--primary) 10%, transparent);
+  content: "";
+}
+
+.bitcoin-core-article-body > .bitcoin-core-list li::marker {
+  content: none;
+}
+
+.bitcoin-core-article-body > .bitcoin-core-list strong,
+.bitcoin-core-article-lead strong {
+  color: var(--foreground);
+  font-weight: 760;
+}
+
+.bitcoin-core-article-lead {
+  text-wrap: balance;
+}
+
+.bitcoin-core-article-quote {
+  margin-block: 1.6rem !important;
+  padding-left: 1.15rem;
+  border-left: 3px solid color-mix(in oklab, var(--primary) 68%, var(--chart-3));
+  color: color-mix(in oklab, var(--foreground) 82%, var(--primary));
+  font-size: 1.06em;
+}
+
+.bitcoin-core-article-quote em {
+  font-weight: 570;
+}
+
+@media (min-width: 768px) {
+  .bitcoin-core-article-body > .bitcoin-core-list {
+    padding: 1.5rem;
+  }
+}
+
 .bitcoin-core-series-intro {
   display: grid;
   gap: 2.5rem;
