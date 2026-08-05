@@ -5,9 +5,15 @@
 >
   <url>
     <loc>https://btcpavao.com/</loc>
-    <lastmod>2026-07-17</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://btcpavao.com/hr/</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://btcpavao.com/hr/ai-u-praksi/</loc>
@@ -83,6 +89,62 @@
     <image:image>
       <image:loc>https://btcpavao.com/ai-ucenje-bitcoin-model-hero.webp</image:loc>
       <image:title>Učenje matematike Bitcoinova dugoročnog trenda uz AI</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://btcpavao.com/hr/bitcoin-core/</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://btcpavao.com/hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-01.webp</image:loc>
+      <image:title>Što je entropija</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-02.webp</image:loc>
+      <image:title>Od klika do walleta</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-03.webp</image:loc>
+      <image:title>Operacijski sustav kao glavni izvor</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-04.webp</image:loc>
+      <image:title>Vrijeme i mikrorazlike</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-05.webp</image:loc>
+      <image:title>Živi otisak računala</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-06.webp</image:loc>
+      <image:title>SHA-512 miješalica</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-07.webp</image:loc>
+      <image:title>Od slučajnosti do valjanog ključa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-08.webp</image:loc>
+      <image:title>BIP32 korijen</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-09.webp</image:loc>
+      <image:title>Jedan korijen, mnogo adresa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-10.webp</image:loc>
+      <image:title>Dobar RNG nije cijela sigurnost</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-11.webp</image:loc>
+      <image:title>Bitcoin Core kao okosnica</image:title>
     </image:image>
   </url>
 </urlset>

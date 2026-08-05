@@ -1,0 +1,690 @@
+Kako Bitcoin Core generira entropiju kada napravimo novi wallet
+Zašto je to važno i zašto je Bitcoin Core toliko bitan
+
+Kad u Bitcoin Coreu napraviš novi wallet, iza tog jednostavnog klika događa se dosta ozbiljna kriptografija.
+
+Na površini to izgleda banalno: klikneš Create Wallet, i wallet je tu.
+
+Ali ispod haube Bitcoin Core mora riješiti jedno od najvažnijih pitanja u cijeloj Bitcoin sigurnosti:
+
+Kako stvoriti privatni ključ koji nitko drugi ne može pogoditi?
+
+Ako je taj prvi broj — tajna iz koje nastaje tvoj wallet — loš, predvidiv ili na bilo koji način slab, cijela sigurnost walleta pada u vodu.
+
+Zato je tema entropije toliko važna.
+
+A upravo tu Bitcoin Core pokazuje zašto ga mnogi smatraju okosnicom Bitcoin ekonomije: ne zato što je “lijep” ili “moderan”, nego zato što je to softver koji je godinama detaljno proučavan, testiran i korišten kao temelj stvarnog Bitcoin sustava, uključujući i ozbiljne profesionalne i institucionalne stackove.
+
+1. Što je entropija, najjednostavnije rečeno
+
+Najjednostavnije:
+
+Entropija je mjera nepredvidivosti.
+
+Ako nešto možeš lako pogoditi, onda tu nema puno entropije.
+
+Ako nešto ne možeš pogoditi ni približno, onda ima puno entropije.
+
+Jednostavan primjer
+
+Zamisli da bacimo pošten novčić.
+
+Postoje samo dvije mogućnosti:
+
+glava
+pismo
+
+To znači da postoji mala količina neizvjesnosti.
+
+Ako bacimo novčić 10 puta, broj mogućih kombinacija naglo raste.
+
+Ako bacimo novčić 256 puta, broj mogućih kombinacija postaje ogroman.
+
+Kod privatnih ključeva upravo to želimo:
+nešto što je toliko nepredvidivo da ga je praktički nemoguće pogoditi.
+
+Još jednostavnije
+Datum rođenja ima malu entropiju.
+Lozinka 123456 ima malu entropiju.
+32 bajta kvalitetne kriptografske slučajnosti imaju vrlo veliku entropiju.
+
+Kod Bitcoina je bitno da privatni ključ ne izgleda samo nasumično, nego da stvarno bude nepredvidiv za napadača.
+
+[[VIZUAL 1]]
+
+2. Bitcoin Core ne stvara 12 ili 24 riječi
+
+Ovo je važno odmah raščistiti.
+
+Kad napraviš novi standardni wallet u Bitcoin Coreu, Core ne generira BIP39 seed riječi kao neki drugi walleti.
+
+Dakle, ne događa se ono poznato:
+
+12 riječi
+24 riječi
+zapiši ih na papir
+
+Bitcoin Core radi nešto drugo.
+
+On generira binarni seed, odnosno vrlo kvalitetnu slučajnu vrijednost u pozadini, i iz nje zatim gradi BIP32 HD wallet strukturu.
+
+Drugim riječima:
+
+Bitcoin Core radi izravno s kriptografskim materijalom, bez “riječi” kao korisničkog sloja.
+
+To ne znači da je manje siguran.
+To samo znači da koristi drukčiji model backupa i drukčiji pristup walletu.
+
+3. Što se događa kada kliknemo “Create Wallet”
+
+Ako pojednostavimo cijeli proces, događa se otprilike ovo:
+
+Bitcoin Core treba stvoriti novi privatni korijen walleta.
+Za to mora dobiti vrlo kvalitetnu slučajnost.
+Tu slučajnost uzima iz više izvora.
+Sve te izvore kriptografski miješa.
+Iz toga dobiva 32 bajta vrlo kvalitetne slučajnosti.
+Provjerava je li ta vrijednost valjan privatni ključ.
+Iz nje stvara BIP32 master ključ.
+Iz master ključa stvara grane walleta i adrese.
+
+To je srž cijele priče.
+
+[[VIZUAL 2]]
+
+4. Odakle Bitcoin Core uzima entropiju
+
+Ovo je središnji dio članka.
+
+Bitcoin Core ne kaže: “Uzet ću jedan broj i vjerovati da je dobar.”
+
+Umjesto toga koristi više slojeva.
+
+To je jako bitno.
+
+Jer ako bi se oslonio samo na jedan izvor, onda bi kvar ili slabost tog jednog izvora bila veliki problem.
+
+Zato Core radi nešto puno pametnije:
+
+uzima više različitih izvora, miješa ih i gradi robustan interni generator slučajnosti.
+
+Glavni izvori koje koristi su:
+
+operacijski sustav
+hardverski RNG procesora (kad postoji)
+vrijeme visoke preciznosti
+eventi / događaji unutar procesa
+dinamičko i statičko okruženje računala
+vlastito prethodno interno RNG stanje
+
+Idemo redom.
+
+5. Operacijski sustav je glavni izvor
+
+Najvažniji izvor za stvaranje jakog privatnog ključa je generator slučajnosti operacijskog sustava.
+
+To znači da Bitcoin Core traži od sustava:
+
+na Linuxu npr. getrandom()
+na macOS-u getentropy()
+na Windowsima odgovarajući sistemski RNG
+na nekim BSD sustavima druge sistemske metode
+
+Kad Core želi jaku slučajnost za nešto važno poput wallet ključa, koristi funkciju GetStrongRandBytes().
+
+Ta funkcija traži od operacijskog sustava svježih 32 bajta kriptografske slučajnosti.
+
+Ovo je jako važno:
+
+Ako taj OS izvor ne radi kako treba, Core ne nastavlja “na silu”, nego prekida.
+
+To je dobra stvar.
+
+Jer je daleko bolje ne stvoriti wallet nego stvoriti wallet sa slabim ključem.
+
+Zašto je OS toliko važan?
+
+Zato što operacijski sustav ima najbolji pregled nad cijelim računalom:
+
+vidi hardver
+vidi procese
+vidi prekide
+vidi razne fizičke i sistemske događaje
+sam održava svoj CSPRNG
+
+Bitcoin Core zato ne izmišlja svoj fizički generator iz nule, nego koristi najbolje što operacijski sustav nudi — i onda to još dodatno miješa.
+
+[[VIZUAL 3]]
+
+6. Hardverska slučajnost iz procesora
+
+Ako procesor podržava određene instrukcije poput RDRAND ili RDSEED, Bitcoin Core može uzeti i dio slučajnosti iz CPU-a.
+
+Ali tu je bitna jedna stvar:
+
+Core ne tretira CPU kao jedini izvor istine.
+
+Hardverska slučajnost je dodatni izvor, ne jedini temelj.
+
+To je vrlo zdrava sigurnosna filozofija.
+
+Ako hardverski izvor radi dobro — odlično, pomaže.
+
+Ako ga nema — wallet se i dalje može napraviti sigurno.
+
+Ako je loš — nije jedini faktor koji određuje konačni ključ.
+
+Drugim riječima, Bitcoin Core ne kaže:
+
+“vjerujem samo procesoru”
+
+nego:
+
+“uzet ću i to, ali ću ga pomiješati s ostalim izvorima”
+
+To je puno bolji pristup.
+
+7. Vrijeme i sitne razlike u izvršavanju
+
+Core također koristi:
+
+vrlo precizno vrijeme
+neke informacije vezane uz izvršavanje koda
+sitne razlike u memorijskom rasporedu i procesu
+
+To nisu glavni izvori na koje se oslanja samostalno, ali su korisni kao dodatni sloj.
+
+Zašto?
+
+Zato što pomažu da se različita pokretanja programa još više međusobno razlikuju.
+
+Na primjer, čak i kad bi dva sustava bila vrlo slična, male razlike u:
+
+trenutku izvršavanja
+rasporedu memorije
+brzini izvođenja
+kontekstu procesa
+
+mogu pomoći da se njihova stanja dodatno razdvoje.
+
+Važno: to ne znači da je “vrijeme dovoljno” za sigurnost. Nije.
+
+Ovo je samo još jedan pomoćni ulaz u širu mješavinu.
+
+[[VIZUAL 4]]
+
+8. Događaji unutar procesa
+
+Bitcoin Core prikuplja i određene “evente”, odnosno događaje koji se zbivaju tijekom rada procesa.
+
+To mogu biti razne sitne stvari koje se događaju u programu i čije se vrijeme također može koristiti kao dodatni signal.
+
+Poanta nije u tome da svaki event sam po sebi nosi veliku entropiju, nego da:
+
+unosi dodatne male nepredvidivosti
+doprinosi raznolikosti stanja
+pomaže u obrani u dubinu
+
+Ovo je opet pomoćni sloj, ne glavni.
+
+Bitcoin Core ne govori: “moji eventi su dovoljni.”
+
+Nego: “i to ću dodati u mješavinu.”
+
+9. Dinamičko i statičko okruženje računala
+
+Bitcoin Core pri inicijalizaciji i povremeno u radu može u RNG uključiti i razne informacije o okruženju računala.
+
+Pojednostavljeno rečeno, to uključuje stvari poput:
+
+određenih karakteristika sustava
+podataka o procesu
+informacijama o memoriji
+mrežnim sučeljima
+nekim sistemskim parametrima
+određenim podacima o filesystemu i okruženju
+
+To ne znači da su svi ti podaci “tajni”.
+
+Mnogi od njih možda nisu posebno osjetljivi.
+
+Ali njihova uloga nije da pojedinačno “garantiraju” sigurnost, nego da:
+
+dodatno razlikuju jedno pokretanje od drugoga
+daju još više materijala za miješanje
+povećaju robustnost cijelog sustava
+
+Opet, jako važno:
+
+Bitcoin Core ne zbraja naivno te izvore i ne tvrdi da svaki bajt automatski znači jedan bit entropije.
+
+To bi bilo loše i površno razmišljanje.
+
+Umjesto toga koristi ih kao dodatni ulaz u kriptografski mikser.
+
+[[VIZUAL 5]]
+
+10. Interno RNG stanje: Core pamti prethodno stanje
+
+Još jedna bitna stvar:
+
+Bitcoin Core ne kreće svaki put “od nule”.
+
+On održava i vlastito interno stanje generatora slučajnosti.
+
+To znači da postoji interni kriptografski state koji se stalno:
+
+hrani novim ulazima
+miješa
+obnavlja
+koristi kao dio sljedećeg koraka
+
+To je važno jer sustav tada nije ovisan samo o jednom trenutnom pozivu operacijskom sustavu.
+
+Drugim riječima:
+
+Core akumulira i održava svoj vlastiti kvalitetni RNG state, a ne samo “uzima broj i gotovo”.
+
+To mu daje dodatnu robusnost.
+
+11. Kako se svi ti izvori spajaju
+
+Sad dolazimo do srca stvari.
+
+Bitcoin Core sve te ulaze ne koristi odvojeno, nego ih kriptografski miješa.
+
+Za to koristi SHA-512.
+
+Pojednostavljeno:
+
+uzme nove ulaze
+doda staro interno stanje
+doda brojač
+sve to prođe kroz SHA-512
+dio rezultata koristi kao izlaz
+dio rezultata sprema kao novo interno stanje
+
+To je jako elegantan dizajn.
+
+Zašto?
+
+Zato što:
+
+svaki novi ulaz utječe na rezultat
+napadač ne može lako “razdvojiti” koji je dio odakle došao
+stanje se stalno osvježava
+izlaz i novo stanje su međusobno povezani, ali odvojeni
+
+To nije “magija”, nego dobra kriptografska praksa.
+
+[[VIZUAL 6]]
+
+12. Dodatno “jačanje” stanja
+
+Bitcoin Core pri prvoj uporabi generatora radi i dodatno “jačanje” stanja.
+
+Pojednostavljeno rečeno, određeno kratko vrijeme ponavlja kriptografsko miješanje kako bi dodatno učvrstio seedano stanje.
+
+Često se to opisuje kao:
+
+jačanje pri pokretanju
+povremeno dodatno osvježavanje stanja kasnije
+
+To ne znači da iz ničega stvara entropiju.
+
+To je važno razumjeti.
+
+Ako svi ulazi nečim čudom ne bi imali nikakvu stvarnu nepredvidivost, samo dodatno hashanje ne bi moglo magično stvoriti sigurnost.
+
+Ali ako već imaš dobre ulaze, onda ovaj korak pomaže:
+
+dodatno izmiješati materijal
+otežati neke napade
+učiniti stanje robusnijim
+
+Dakle: ne stvara čudo, nego pojačava već dobar proces.
+
+13. Iz toga nastaje 32-bajtni privatni ključ
+
+Nakon što je Core prikupio i izmiješao sve relevantne ulaze, dolazi do trenutka kad treba izvući konkretan rezultat.
+
+Tu dobiva 32 bajta koji će biti kandidat za privatni ključ.
+
+Ali tu posao još nije gotov.
+
+Jer ne vrijedi baš svaki 32-bajtni niz kao valjan Bitcoin privatni ključ.
+
+Zato Core radi provjeru.
+
+14. Provjera je li broj valjan secp256k1 privatni ključ
+
+Bitcoin koristi eliptičku krivulju secp256k1.
+
+Privatni ključ mora biti u točno određenom rasponu.
+
+Ako bi se dobila vrijednost koja nije valjana, Core je ne prihvaća.
+
+Umjesto toga:
+
+odbaci je
+generira novu
+
+To se zove rejection sampling.
+
+U praksi je šansa da dobije nevaljanu vrijednost astronomski mala, ali sigurnosno je važno da provjera postoji.
+
+To je još jedan znak ozbiljnosti sustava:
+
+ne pretpostavlja se da je “svaki rezultat valjan”, nego se to stvarno provjerava.
+
+[[VIZUAL 7]]
+
+15. Core zatim provjerava da privatni i javni ključ odgovaraju jedan drugome
+
+Kad dobije valjan privatni ključ, Bitcoin Core iz njega izračuna pripadajući javni ključ.
+
+Ali ni tu ne staje.
+
+Radi dodatnu provjeru da privatni i javni ključ stvarno čine ispravan par.
+
+Pojednostavljeno:
+
+izvede javni ključ
+napravi malu internu provjeru potpisa
+provjeri da sve radi kako treba
+
+To je još jedna razina “sanity checka”.
+
+Poanta je da sustav ne kaže samo:
+
+“evo nekog broja, valjda je dobar”
+
+nego:
+
+“dobio sam broj, provjerio sam da je valjan, izveo sam javni ključ i provjerio da taj par stvarno radi”
+
+To je vrlo dobar sigurnosni obrazac.
+
+16. Iz privatnog ključa nastaje BIP32 master ključ
+
+Nakon što je Core dobio dobar početni ključni materijal, od njega stvara BIP32 master ključ.
+
+Tu dolazi HD wallet logika.
+
+Umjesto da wallet svaki put iznova nasumično generira novu potpuno nepovezanu adresu, on stvara jedan korijen, a iz njega deterministički izvodi cijelo stablo budućih ključeva i adresa.
+
+To se radi pomoću BIP32 mehanizma.
+
+Bitcoin Core uzima seed i prolazi ga kroz HMAC-SHA512 s oznakom "Bitcoin seed".
+
+Rezultat se dijeli na:
+
+master privatni ključ
+chain code
+
+Ta dva dijela zajedno postaju temelj HD walleta.
+
+Zašto je to korisno?
+
+Jer onda iz jednog korijena možeš dobiti:
+
+puno adresa
+receive i change grane
+urednu strukturu walleta
+deterministički oporavak
+
+Dakle, dobra entropija na početku omogućuje cijelu buduću strukturu walleta.
+
+[[VIZUAL 8]]
+
+17. Bitcoin Core zatim stvara grane walleta
+
+Kad postoji BIP32 korijen, Core iz njega gradi konkretne wallet grane.
+
+Kod modernog descriptor walleta to znači da Core postavlja više standardnih grana za različite vrste izlaza, npr.:
+
+legacy
+nested segwit
+native segwit
+taproot
+
+i za svaku od tih vrsta ima:
+
+vanjsku granu za primanje
+unutarnju granu za change
+
+To je praktično zato što wallet dobije urednu strukturu i može unaprijed znati:
+
+kako generirati adrese
+kako pratiti sredstva
+kako organizirati različite tipove izlaza
+
+To sve dolazi iz istog korijena.
+
+Dakle:
+
+nije svaki novi receive address rezultat nove fizičke entropije, nego rezultat determinističke derivacije iz već stvorenog korijena.
+
+To je vrlo bitna razlika.
+
+18. Keypool: unaprijed pripremljene buduće adrese
+
+Bitcoin Core ne čeka da svaki put “izmisli” novu adresu od nule kad korisnik klikne Receive.
+
+On unaprijed priprema niz budućih izvedenih ključeva i skripti.
+
+To je keypool.
+
+Poanta keypoola nije nova entropija za svaku adresu.
+
+Poanta je:
+
+brži rad walleta
+spremne buduće adrese
+uredno upravljanje derivacijom
+
+Drugim riječima, prava “kritična entropija” bila je potrebna na početku, kod stvaranja korijena walleta.
+
+Kasnije većinom radiš s derivacijom.
+
+[[VIZUAL 9]]
+
+19. Što ako wallet šifriramo lozinkom?
+
+Ovdje je jako važno razlikovati dvije stvari:
+
+seed / privatni ključevi
+wallet passphrase
+
+To nije isto.
+
+Seed
+
+Seed je ono iz čega nastaje wallet i privatni ključevi.
+
+Passphrase za wallet
+
+To je lozinka kojom štitiš podatke walleta na disku.
+
+Kada enkriptiraš wallet, Bitcoin Core generira još jedan zaseban nasumični ključ koji služi za šifriranje wallet sadržaja.
+
+Taj ključ je različit od samog wallet seeda.
+
+Passphrase služi da zaključa taj enkripcijski sloj.
+
+Drugim riječima:
+
+seed = temelj ključeva
+passphrase = zaštita pohranjenih podataka walleta
+
+To znači da enkripcija walleta ne stvara seed i ne popravlja lošu entropiju, nego štiti već postojeće ključeve na disku.
+
+To je korisno i važno, ali to je drugi sloj.
+
+20. Što sve ovaj dizajn štiti
+
+Bitcoin Coreov pristup entropiji vrlo je dobar jer štiti od mnogo realnih problema:
+
+ne oslanja se samo na jedan izvor
+koristi svježu OS slučajnost
+dodaje dodatne izvore
+ima vlastito interno stanje
+sve miješa kriptografski
+provjerava valjanost ključa
+provjerava da privatni i javni ključ odgovaraju
+može periodički osvježavati stanje
+faila “zatvoreno”, ne nastavlja ako OS RNG ne radi
+
+To je ozbiljan sigurnosni dizajn.
+
+21. Što ovaj dizajn ne može riješiti
+
+Ipak, treba biti pošten i reći što sve ni najbolji RNG ne može riješiti.
+
+Ako je računalo kompromitirano, to je drugi problem.
+
+Na primjer:
+
+ako imaš malware koji čita memoriju
+ako netko kontrolira kernel
+ako ti netko snima tipkovnicu ili ekran
+ako je cijeli OS zlonamjerno kompromitiran
+ako izgubiš backup
+
+onda sama kvaliteta entropije ne može spasiti cijeli sustav.
+
+To je jako važno razumjeti.
+
+Dobar RNG je nužan, ali nije dovoljan za cijeli cold storage sustav.
+
+Zato ozbiljan custody uvijek uključuje i druge slojeve:
+
+odvojen uređaj
+offline potpisivanje
+dobar backup
+enkripciju
+proceduru
+fizičku sigurnost
+
+[[VIZUAL 10]]
+
+22. Zašto je sve to važno za sliku Bitcoin Corea
+
+Sad dolazimo do šire poante.
+
+Poanta ovog članka nije samo reći:
+
+“Bitcoin Core ima dobar RNG”
+
+nego pokazati nešto veće:
+
+Bitcoin Core je softver koji ozbiljno pristupa temeljnim sigurnosnim problemima Bitcoina.
+
+To nije igračka.
+
+To nije marketinški proizvod koji prodaje “magičnu sigurnost”.
+
+To je sustav koji:
+
+validira Bitcoin mrežu
+koristi pažljivo građen kriptografski RNG
+stvara wallet korijene kroz ozbiljan proces
+podržava descriptor wallet model
+može sudjelovati u PSBT i offline workflowovima
+godinama je javno proučavan
+
+Zato ga mnogi vide kao backbone Bitcoin ekonomije.
+
+Ne zato što svi moraju koristiti baš njegov wallet na isti način.
+
+Nego zato što Bitcoin Core često čini temeljni sloj koji:
+
+govori što je valjan blok
+govori što je valjana transakcija
+prati UTXO-e
+pruža pouzdanu validaciju
+omogućuje ozbiljne custody arhitekture
+
+U institucionalnom svijetu često nije slučaj da je “sve” unutar Core walleta.
+
+Često postoji širi stack:
+
+Bitcoin Core node
+indeksiranje i računovodstvo
+PSBT workflow
+HSM, multisig ili drugi signer
+offline potpisivanje
+broadcast preko Corea
+
+Ali Core je i dalje vrlo često u središtu validacijskog dijela sustava.
+
+23. Zašto je Bitcoin Core toliko pregledan i pouzdan
+
+Još jedna važna poanta.
+
+Snaga Bitcoin Corea nije samo u “dobroj ideji”, nego u tome što je to:
+
+open-source kod
+javno pregledavan
+testiran
+korišten godinama u stvarnom okruženju
+analiziran od vrlo jakih tehničkih ljudi
+
+To ne znači da je nepogrešiv.
+
+Ali znači da je riječ o vrlo ozbiljno proučavanom sustavu.
+
+Kad je riječ o stvarima poput:
+
+RNG-a
+wallet logike
+secp256k1 biblioteke
+BIP32 derivacije
+descriptor walleta
+
+tu se ne radi o površnom kodu.
+
+Radi se o dijelovima Bitcoin stacka koji su među najvažnijima u cijelom ekosustavu.
+
+[[VIZUAL 11]]
+
+Zaključak
+
+Ako sve pojednostavimo u jednu rečenicu, mogli bismo reći ovako:
+
+Kada Bitcoin Core stvara novi wallet, on ne “smisli neki nasumičan broj”, nego kroz vrlo ozbiljan i višeslojan postupak stvara visokokvalitetan privatni korijen iz kojeg kasnije nastaje cijeli wallet.
+
+Taj postupak uključuje:
+
+operacijski sustav kao glavni izvor slučajnosti
+hardversku slučajnost kad je dostupna
+vrijeme i događaje
+informacije o okruženju
+interno stanje generatora
+kriptografsko miješanje preko SHA-512
+provjeru valjanog privatnog ključa
+provjeru privatno-javnog para
+BIP32 stvaranje master ključa
+postavljanje descriptor wallet grana
+
+To je upravo onaj tip dizajna koji želiš vidjeti kod softvera koji treba čuvati ozbiljnu količinu bitcoina.
+
+A to je i razlog zašto je Bitcoin Core puno više od običnog wallet programa.
+
+On je jedan od najvažnijih tehničkih temelja cijelog Bitcoin sustava.
+
+Kratki popis svih vizuala za članak
+
+Ako želiš, iz ovoga možeš raditi seriju vizuala:
+
+Što je entropija
+Od klika do walleta
+Operacijski sustav kao glavni izvor
+Vrijeme i mikrorazlike
+Živi otisak računala
+SHA-512 miješalica
+Od slučajnosti do valjanog ključa
+BIP32 korijen
+Jedan korijen, mnogo adresa
+Dobar RNG nije cijela sigurnost
+Bitcoin Core kao okosnica

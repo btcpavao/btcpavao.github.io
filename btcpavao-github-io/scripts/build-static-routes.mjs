@@ -5,8 +5,11 @@ import { renderPage } from "../dist-ssr/entry-server.js"
 const siteUrl = "https://btcpavao.com"
 const personId = `${siteUrl}/#person`
 const websiteId = `${siteUrl}/#website`
+const hrUrl = `${siteUrl}/hr/`
 const seriesUrl = `${siteUrl}/hr/ai-u-praksi/`
 const seriesId = `${seriesUrl}#collection`
+const bitcoinCoreSeriesUrl = `${siteUrl}/hr/bitcoin-core/`
+const bitcoinCoreSeriesId = `${bitcoinCoreSeriesUrl}#collection`
 
 const homeRoute = {
   appPath: "/",
@@ -14,6 +17,24 @@ const homeRoute = {
 }
 
 const routes = [
+  {
+    appPath: "/hr/",
+    routePath: "hr",
+    routeUrl: hrUrl,
+    title: "Hrvatski tekstovi | Pavao Pahljina",
+    collectionName: "Hrvatski tekstovi",
+    description:
+      "Hrvatski tekstovi Pavaoa Pahljine o Bitcoinu, Bitcoin Coreu i praktičnoj primjeni umjetne inteligencije.",
+    ogDescription:
+      "Hrvatski tekstovi o Bitcoinu, Bitcoin Coreu i praktičnoj primjeni umjetne inteligencije.",
+    type: "website",
+    image: `${siteUrl}/og-image-v2.jpg`,
+    imageAlt: "Pavao Pahljina, Bitcoin Standard Advisor",
+    imageWidth: 1200,
+    imageHeight: 630,
+    breadcrumbParents: [],
+    about: ["Bitcoin", "Bitcoin Core", "Umjetna inteligencija"],
+  },
   {
     appPath: "/hr/ai-u-praksi/",
     routePath: "hr/ai-u-praksi",
@@ -28,6 +49,9 @@ const routes = [
     imageAlt: "Pavao Pahljina, Bitcoin Standard Advisor",
     imageWidth: 1200,
     imageHeight: 630,
+    collectionName: "AI u praksi",
+    breadcrumbParents: [{ name: "Hrvatski tekstovi", item: hrUrl }],
+    about: ["Umjetna inteligencija", "AI workflow", "Codex", "ChatGPT"],
   },
   {
     appPath: "/hr/ai-u-praksi/jedan-covjek-ai-i-dva-mjeseca-rada/",
@@ -41,6 +65,13 @@ const routes = [
       "Kako AI u praksi mijenja rad jednog generalista: od diktiranja u šetnji do knjige, web stranica, agenata i automatizacije.",
     type: "article",
     publishedDate: "2026-06-12",
+    sectionName: "AI u praksi",
+    sectionId: seriesId,
+    articleTag: "AI workflow",
+    breadcrumbParents: [
+      { name: "Hrvatski tekstovi", item: hrUrl },
+      { name: "AI u praksi", item: seriesUrl },
+    ],
     image: `${siteUrl}/ai-workflow-og.jpg`,
     imageAlt:
       "Laptop, mobitel, bilježnica i rukopis na radnom stolu prikazuju AI workflow.",
@@ -59,6 +90,13 @@ const routes = [
       "Praktičan prikaz procesa od ideje izgovorene u šetnji do sadržaja ili stranice spremne za objavu.",
     type: "article",
     publishedDate: "2026-06-25",
+    sectionName: "AI u praksi",
+    sectionId: seriesId,
+    articleTag: "AI workflow",
+    breadcrumbParents: [
+      { name: "Hrvatski tekstovi", item: hrUrl },
+      { name: "AI u praksi", item: seriesUrl },
+    ],
     image: `${siteUrl}/ai-workflow-og.jpg`,
     imageAlt:
       "Laptop, mobitel, bilježnica i rukopis na radnom stolu prikazuju AI workflow.",
@@ -77,6 +115,13 @@ const routes = [
       "Od PDF-a koji nisam razumio do javnog grafa i H-time kalkulatora: konkretan primjer AI-a kao učitelja, istraživača i alata za izgradnju.",
     type: "article",
     publishedDate: "2026-07-17",
+    sectionName: "AI u praksi",
+    sectionId: seriesId,
+    articleTag: "AI učenje",
+    breadcrumbParents: [
+      { name: "Hrvatski tekstovi", item: hrUrl },
+      { name: "AI u praksi", item: seriesUrl },
+    ],
     image: `${siteUrl}/ai-ucenje-bitcoin-model-hero.webp`,
     imageType: "image/webp",
     imageWidth: 1672,
@@ -92,6 +137,63 @@ const routes = [
       "Bitcoin matematika",
       "ChatGPT",
       "Codex",
+    ],
+  },
+  {
+    appPath: "/hr/bitcoin-core/",
+    routePath: "hr/bitcoin-core",
+    routeUrl: bitcoinCoreSeriesUrl,
+    title: "Bitcoin Core | Pavao Pahljina",
+    collectionName: "Bitcoin Core",
+    description:
+      "Hrvatski tekstovi o Bitcoin Coreu, walletima, validaciji i sigurnosnim temeljima Bitcoin sustava.",
+    ogDescription:
+      "Hrvatski tekstovi o Bitcoin Coreu, walletima, validaciji i sigurnosnim temeljima Bitcoin sustava.",
+    type: "website",
+    image: `${siteUrl}/bitcoin-core-entropija-og.jpg`,
+    imageAlt:
+      "Kriptografski proces nastanka Bitcoin Core walleta u mediteranskom okruženju.",
+    imageWidth: 1200,
+    imageHeight: 630,
+    breadcrumbParents: [{ name: "Hrvatski tekstovi", item: hrUrl }],
+    about: ["Bitcoin Core", "Bitcoin wallet", "Bitcoin sigurnost"],
+  },
+  {
+    appPath:
+      "/hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/",
+    routePath:
+      "hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet",
+    routeUrl: `${bitcoinCoreSeriesUrl}kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/`,
+    title: "Kako Bitcoin Core generira entropiju kada napravimo novi wallet",
+    headline: "Kako Bitcoin Core generira entropiju kada napravimo novi wallet",
+    description:
+      "Kako Bitcoin Core prikuplja i kriptografski miješa entropiju, provjerava privatni ključ i iz njega gradi BIP32 wallet.",
+    ogDescription:
+      "Kako Bitcoin Core stvara visokokvalitetan privatni korijen iz više izvora entropije i iz njega gradi cijeli wallet.",
+    type: "article",
+    publishedDate: "2026-08-05",
+    sectionName: "Bitcoin Core",
+    sectionId: bitcoinCoreSeriesId,
+    articleTag: "Bitcoin Core entropija",
+    breadcrumbParents: [
+      { name: "Hrvatski tekstovi", item: hrUrl },
+      { name: "Bitcoin Core", item: bitcoinCoreSeriesUrl },
+    ],
+    image: `${siteUrl}/bitcoin-core-entropija-og.jpg`,
+    imageAlt:
+      "Kriptografski proces nastanka Bitcoin Core walleta u mediteranskom okruženju.",
+    imageWidth: 1200,
+    imageHeight: 630,
+    heroImage: "/bitcoin-core-entropija-hero.webp",
+    heroImageSrcSet:
+      "/bitcoin-core-entropija-hero-840.webp 840w, /bitcoin-core-entropija-hero.webp 1200w",
+    keywords: [
+      "Bitcoin Core",
+      "entropija",
+      "privatni ključ",
+      "BIP32",
+      "kriptografski RNG",
+      "Bitcoin wallet",
     ],
   },
 ]
@@ -122,22 +224,23 @@ function breadcrumbItems(route) {
       name: "Pavao Pahljina",
       item: `${siteUrl}/`,
     },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "AI u praksi",
-      item: seriesUrl,
-    },
   ]
 
-  if (route.type === "article") {
+  for (const parent of route.breadcrumbParents ?? []) {
     items.push({
       "@type": "ListItem",
-      position: 3,
-      name: route.headline,
-      item: route.routeUrl,
+      position: items.length + 1,
+      name: parent.name,
+      item: parent.item,
     })
   }
+
+  items.push({
+    "@type": "ListItem",
+    position: items.length + 1,
+    name: route.headline ?? route.collectionName ?? route.title,
+    item: route.routeUrl,
+  })
 
   return items
 }
@@ -162,7 +265,7 @@ function structuredData(route) {
           inLanguage: "hr-HR",
           datePublished: route.publishedDate,
           dateModified: route.publishedDate,
-          articleSection: "AI u praksi",
+          articleSection: route.sectionName,
           isAccessibleForFree: true,
           image: {
             "@type": "ImageObject",
@@ -177,14 +280,8 @@ function structuredData(route) {
           },
           author: { "@id": personId },
           publisher: { "@id": personId },
-          isPartOf: { "@id": seriesId },
-          keywords: route.keywords ?? [
-            "AI workflow",
-            "diktiranje",
-            "ChatGPT",
-            "Codex",
-            "AI u praksi",
-          ],
+          isPartOf: { "@id": route.sectionId },
+          keywords: route.keywords ?? [route.sectionName],
         },
         breadcrumb,
       ],
@@ -196,14 +293,14 @@ function structuredData(route) {
     "@graph": [
       {
         "@type": "CollectionPage",
-        "@id": seriesId,
-        name: "AI u praksi",
+        "@id": `${route.routeUrl}#collection`,
+        name: route.collectionName,
         description: route.description,
         inLanguage: "hr-HR",
         url: route.routeUrl,
         isPartOf: { "@id": websiteId },
         author: { "@id": personId },
-        about: ["Umjetna inteligencija", "AI workflow", "Codex", "ChatGPT"],
+        about: route.about,
       },
       breadcrumb,
     ],
@@ -219,8 +316,8 @@ function routeHeadMeta(route) {
     route.type === "article"
       ? `    <meta property="article:published_time" content="${route.publishedDate}" />
     <meta property="article:modified_time" content="${route.publishedDate}" />
-    <meta property="article:section" content="AI u praksi" />
-    <meta property="article:tag" content="AI workflow" />
+    <meta property="article:section" content="${escapeHtml(route.sectionName)}" />
+    <meta property="article:tag" content="${escapeHtml(route.articleTag)}" />
     <link rel="preload" as="image" href="${heroImage}" type="image/webp" imagesrcset="${heroImageSrcSet}" imagesizes="(max-width: 760px) 100vw, 60vw" fetchpriority="high" />
 `
       : ""

@@ -18,6 +18,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import {
   AI_SERIES_PATH,
   ARTICLE_PATH,
+  BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
+  BITCOIN_CORE_SERIES_PATH,
+  HR_HOME_PATH,
   LEARNING_ARTICLE_PATH,
   normalizePath,
   WORKFLOW_ARTICLE_PATH,
@@ -25,6 +28,10 @@ import {
 
 const SITE_URL = "https://btcpavao.com"
 const CONTACT_EMAIL = "mailto:pavao@hey.com"
+const HR_HOME_URL = `${SITE_URL}${HR_HOME_PATH}`
+const HR_HOME_TITLE = "Hrvatski tekstovi"
+const HR_HOME_DESCRIPTION =
+  "Hrvatski tekstovi Pavaoa Pahljine o Bitcoinu, Bitcoin Coreu i praktičnoj primjeni umjetne inteligencije."
 const AI_SERIES_URL = `${SITE_URL}${AI_SERIES_PATH}`
 const AI_SERIES_TITLE = "AI u praksi"
 const AI_SERIES_DESCRIPTION =
@@ -62,10 +69,35 @@ const LEARNING_ARTICLE_DISPLAY_DATE = "17. srpnja 2026."
 const LEARNING_ARTICLE_HERO_IMAGE = "/ai-ucenje-bitcoin-model-hero.webp"
 const LEARNING_ARTICLE_HERO_IMAGE_SMALL =
   "/ai-ucenje-bitcoin-model-hero-840.webp"
+const BITCOIN_CORE_SERIES_URL = `${SITE_URL}${BITCOIN_CORE_SERIES_PATH}`
+const BITCOIN_CORE_SERIES_TITLE = "Bitcoin Core"
+const BITCOIN_CORE_SERIES_DESCRIPTION =
+  "Hrvatski tekstovi o Bitcoin Coreu, walletima, validaciji i sigurnosnim temeljima Bitcoin sustava."
+const BITCOIN_CORE_ARTICLE_URL = `${SITE_URL}${BITCOIN_CORE_ENTROPY_ARTICLE_PATH}`
+const BITCOIN_CORE_ARTICLE_TITLE =
+  "Kako Bitcoin Core generira entropiju kada napravimo novi wallet"
+const BITCOIN_CORE_ARTICLE_SUBTITLE =
+  "Zašto je to važno i zašto je Bitcoin Core toliko bitan"
+const BITCOIN_CORE_ARTICLE_DESCRIPTION =
+  "Kako Bitcoin Core prikuplja i kriptografski miješa entropiju, provjerava privatni ključ i iz njega gradi BIP32 wallet."
+const BITCOIN_CORE_ARTICLE_DATE = "2026-08-05"
+const BITCOIN_CORE_ARTICLE_DISPLAY_DATE = "5. kolovoza 2026."
+const BITCOIN_CORE_ARTICLE_HERO_IMAGE = "/bitcoin-core-entropija-hero.webp"
+const BITCOIN_CORE_ARTICLE_HERO_IMAGE_SMALL =
+  "/bitcoin-core-entropija-hero-840.webp"
 const BOOK_SECTION_HEADING = "Knjiga koja je godinama čekala red"
 const AGENTS_SECTION_HEADING = "Agenti kao probni čitatelji"
 const WEB_SECTION_HEADING = "Web stranice kroz razgovor"
 export type ArticleDataModule = typeof import("./article-data")
+
+type SeriesPost = {
+  category: string
+  title: string
+  description: string
+  href: string
+  language: string
+  date: string
+}
 
 const sectionLinks = [
   { label: "About", href: "#about" },
@@ -134,7 +166,7 @@ function getWorkflowSectionVisual(heading: string) {
   return workflowSectionVisuals.find((visual) => visual.heading === heading)
 }
 
-const aiSeriesPosts = [
+const aiSeriesPosts: SeriesPost[] = [
   {
     category: "AI u praksi",
     title: ARTICLE_TITLE,
@@ -161,6 +193,17 @@ const aiSeriesPosts = [
     href: LEARNING_ARTICLE_PATH,
     language: "HR",
     date: LEARNING_ARTICLE_DISPLAY_DATE,
+  },
+]
+
+const bitcoinCorePosts: SeriesPost[] = [
+  {
+    category: BITCOIN_CORE_SERIES_TITLE,
+    title: BITCOIN_CORE_ARTICLE_TITLE,
+    description: BITCOIN_CORE_ARTICLE_SUBTITLE,
+    href: BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
+    language: "HR",
+    date: BITCOIN_CORE_ARTICLE_DISPLAY_DATE,
   },
 ]
 
@@ -454,6 +497,131 @@ function toSectionId(heading: string) {
     .replace(/(^-|-$)/g, "")
 }
 
+type BitcoinCoreArticleBlock =
+  | { type: "heading"; text: string; id: string; numbered: boolean }
+  | { type: "paragraph"; text: string }
+  | { type: "list"; items: string[] }
+  | { type: "visual"; number: number }
+
+const bitcoinCoreVisuals = [
+  {
+    src: "/bitcoin-core-entropija-01.webp",
+    smallSrc: "/bitcoin-core-entropija-01-840.webp",
+    alt: "Novčić, dvije kocke, PIN uređaj i svjetleća 32-bajtna kapsula prikazuju rast entropije.",
+  },
+  {
+    src: "/bitcoin-core-entropija-02.webp",
+    smallSrc: "/bitcoin-core-entropija-02-840.webp",
+    alt: "Klik na laptopu pokreće tok od izvora slučajnosti preko kriptografske jezgre do HD wallet stabla.",
+  },
+  {
+    src: "/bitcoin-core-entropija-03.webp",
+    smallSrc: "/bitcoin-core-entropija-03-840.webp",
+    alt: "Sistemski izvori šalju plave blokove slučajnosti u središnju kriptografsku komoru.",
+  },
+  {
+    src: "/bitcoin-core-entropija-04.webp",
+    smallSrc: "/bitcoin-core-entropija-04-840.webp",
+    alt: "Dva slična računalna modula proizvode različite izlaze zbog sitnih vremenskih i izvršnih razlika.",
+  },
+  {
+    src: "/bitcoin-core-entropija-05.webp",
+    smallSrc: "/bitcoin-core-entropija-05-840.webp",
+    alt: "Komponente računala tvore jedinstveni svjetleći otisak koji ulazi u kriptografsku komoru.",
+  },
+  {
+    src: "/bitcoin-core-entropija-06.webp",
+    smallSrc: "/bitcoin-core-entropija-06-840.webp",
+    alt: "Plavi i zlatni tokovi miješaju se u komori, a dio izlaza vraća se kao obnovljeno interno stanje.",
+  },
+  {
+    src: "/bitcoin-core-entropija-07.webp",
+    smallSrc: "/bitcoin-core-entropija-07-840.webp",
+    alt: "Nasumična vrijednost ulazi u golemo zlatno polje valjanih privatnih ključeva uz vrlo tanak crveni rub.",
+  },
+  {
+    src: "/bitcoin-core-entropija-08.webp",
+    smallSrc: "/bitcoin-core-entropija-08-840.webp",
+    alt: "Zlatni seed postaje dvije povezane linije iz kojih raste razgranato BIP32 stablo.",
+  },
+  {
+    src: "/bitcoin-core-entropija-09.webp",
+    smallSrc: "/bitcoin-core-entropija-09-840.webp",
+    alt: "Jedan zlatni korijen deterministički se grana prema mnogim pripremljenim adresama.",
+  },
+  {
+    src: "/bitcoin-core-entropija-10.webp",
+    smallSrc: "/bitcoin-core-entropija-10-840.webp",
+    alt: "Kriptografska jezgra zaštićena je koncentričnim slojevima operacijske, uređajne i fizičke sigurnosti.",
+  },
+  {
+    src: "/bitcoin-core-entropija-11.webp",
+    smallSrc: "/bitcoin-core-entropija-11-840.webp",
+    alt: "Robustan Bitcoin Core modul ugrađen je u temelje sustava koji podupire širu Bitcoin infrastrukturu.",
+  },
+] as const
+
+function parseBitcoinCoreArticle(source: string) {
+  const normalized = source.replace(/\r\n?/g, "\n").trim()
+  const [title, subtitle, ...bodyLines] = normalized.split("\n")
+  const chunks = bodyLines
+    .join("\n")
+    .trim()
+    .split(/\n\s*\n/)
+    .map((chunk) => chunk.trim())
+    .filter(Boolean)
+
+  const blocks: BitcoinCoreArticleBlock[] = chunks.flatMap(
+    (chunk): BitcoinCoreArticleBlock[] => {
+      const visualMatch = chunk.match(/^\[\[VIZUAL (\d+)\]\]$/)
+
+      if (visualMatch) {
+        return [{ type: "visual", number: Number(visualMatch[1]) }]
+      }
+
+      const lines = chunk.split("\n").map((line) => line.trim())
+      const isNumberedHeading = /^\d+\.\s/.test(chunk)
+      const isHeading =
+        isNumberedHeading ||
+        chunk === "Zaključak" ||
+        chunk === "Kratki popis svih vizuala za članak"
+
+      if (isHeading) {
+        return [
+          {
+            type: "heading",
+            text: chunk,
+            id: toSectionId(chunk),
+            numbered: isNumberedHeading,
+          },
+        ]
+      }
+
+      if (lines[0] === "Još jednostavnije") {
+        return [
+          { type: "paragraph", text: lines[0] },
+          { type: "list", items: lines.slice(1) },
+        ]
+      }
+
+      if (
+        lines[0] === "Kod privatnih ključeva upravo to želimo:" ||
+        lines[0] === "To ne znači da je manje siguran."
+      ) {
+        return lines.map((line) => ({ type: "paragraph", text: line }))
+      }
+
+      if (lines.length > 1) {
+        return [{ type: "list", items: lines }]
+      }
+
+      return [{ type: "paragraph", text: chunk }]
+    }
+  )
+
+  return { title, subtitle, blocks }
+}
+
 function setMetaContent(
   attribute: "name" | "property",
   key: string,
@@ -520,6 +688,8 @@ type MetadataOptions = {
   url: string
   type?: "website" | "article"
   publishedDate?: string
+  articleSection?: string
+  image?: string
 }
 
 function usePageMetadata({
@@ -529,6 +699,8 @@ function usePageMetadata({
   url,
   type = "website",
   publishedDate,
+  articleSection = "AI u praksi",
+  image,
 }: MetadataOptions) {
   useEffect(() => {
     document.documentElement.lang = "hr"
@@ -542,11 +714,25 @@ function usePageMetadata({
     setMetaContent("name", "twitter:title", title)
     setMetaContent("name", "twitter:description", ogDescription)
 
+    if (image) {
+      setMetaContent("property", "og:image", image)
+      setMetaContent("name", "twitter:image", image)
+    }
+
     if (type === "article" && publishedDate) {
-      setMetaContent("property", "article:section", "AI u praksi")
+      setMetaContent("property", "article:section", articleSection)
       setMetaContent("property", "article:published_time", publishedDate)
     }
-  }, [description, ogDescription, publishedDate, title, type, url])
+  }, [
+    articleSection,
+    description,
+    image,
+    ogDescription,
+    publishedDate,
+    title,
+    type,
+    url,
+  ])
 }
 
 function useArticleMetadata() {
@@ -588,6 +774,37 @@ function useLearningArticleMetadata() {
     url: LEARNING_ARTICLE_URL,
     type: "article",
     publishedDate: LEARNING_ARTICLE_DATE,
+  })
+}
+
+function useHrHomeMetadata() {
+  usePageMetadata({
+    title: `${HR_HOME_TITLE} | Pavao Pahljina`,
+    description: HR_HOME_DESCRIPTION,
+    ogDescription: HR_HOME_DESCRIPTION,
+    url: HR_HOME_URL,
+  })
+}
+
+function useBitcoinCoreSeriesMetadata() {
+  usePageMetadata({
+    title: `${BITCOIN_CORE_SERIES_TITLE} | Pavao Pahljina`,
+    description: BITCOIN_CORE_SERIES_DESCRIPTION,
+    ogDescription: BITCOIN_CORE_SERIES_DESCRIPTION,
+    url: BITCOIN_CORE_SERIES_URL,
+  })
+}
+
+function useBitcoinCoreArticleMetadata() {
+  usePageMetadata({
+    title: BITCOIN_CORE_ARTICLE_TITLE,
+    description: BITCOIN_CORE_ARTICLE_DESCRIPTION,
+    ogDescription: BITCOIN_CORE_ARTICLE_DESCRIPTION,
+    url: BITCOIN_CORE_ARTICLE_URL,
+    type: "article",
+    publishedDate: BITCOIN_CORE_ARTICLE_DATE,
+    articleSection: BITCOIN_CORE_SERIES_TITLE,
+    image: `${SITE_URL}/bitcoin-core-entropija-og.jpg`,
   })
 }
 
@@ -996,9 +1213,13 @@ function ArticlePage({
 function PageChrome({
   children,
   active = "series",
+  sectionHref = AI_SERIES_PATH,
+  sectionLabel = AI_SERIES_TITLE,
 }: {
   children: ReactNode
   active?: "home" | "series"
+  sectionHref?: string
+  sectionLabel?: string
 }) {
   return (
     <div className="relative isolate min-h-screen overflow-x-clip bg-background text-foreground">
@@ -1023,11 +1244,11 @@ function PageChrome({
 
           <div className="flex items-center gap-2">
             <a
-              href={AI_SERIES_PATH}
+              href={sectionHref}
               aria-current={active === "series" ? "page" : undefined}
               className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
             >
-              AI u praksi
+              {sectionLabel}
             </a>
             <a
               href="/#contact"
@@ -1045,7 +1266,7 @@ function PageChrome({
   )
 }
 
-function SeriesCard({ post }: { post: (typeof aiSeriesPosts)[number] }) {
+function SeriesCard({ post }: { post: SeriesPost }) {
   return (
     <a
       href={post.href}
@@ -1175,6 +1396,361 @@ function AiSeriesPage() {
             </Button>
           </CardContent>
         </Card>
+      </main>
+    </PageChrome>
+  )
+}
+
+function HrHomePage() {
+  useHrHomeMetadata()
+
+  const sections = [
+    {
+      title: AI_SERIES_TITLE,
+      description: AI_SERIES_DESCRIPTION,
+      href: AI_SERIES_PATH,
+      count: `${aiSeriesPosts.length} teksta`,
+    },
+    {
+      title: BITCOIN_CORE_SERIES_TITLE,
+      description: BITCOIN_CORE_SERIES_DESCRIPTION,
+      href: BITCOIN_CORE_SERIES_PATH,
+      count: `${bitcoinCorePosts.length} tekst`,
+    },
+  ]
+
+  return (
+    <PageChrome sectionHref={HR_HOME_PATH} sectionLabel={HR_HOME_TITLE}>
+      <main
+        id="main-content"
+        className="relative mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
+      >
+        <section>
+          <a
+            href="/"
+            className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
+          >
+            Početna
+          </a>
+          <p className="mt-12 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
+            btcpavao.com/hr
+          </p>
+          <h1 className="mt-4 max-w-[14ch] font-display text-5xl leading-[0.94] font-bold tracking-[-0.06em] text-balance text-foreground sm:text-6xl">
+            {HR_HOME_TITLE}
+          </h1>
+        </section>
+
+        <section className="mt-16 border-t border-border/60 pt-16">
+          <SectionHeader eyebrow="Sekcije" title="Odaberi temu" />
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {sections.map((section) => (
+              <a
+                key={section.href}
+                href={section.href}
+                className={`glimmer-button surface-shadow-soft rounded-[28px] bg-card/82 p-6 hover:bg-card sm:p-8 ${liftHover}`}
+              >
+                <span className="surface-ring inline-flex rounded-full bg-background/70 px-3 py-1 text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+                  {section.count}
+                </span>
+                <h2 className="mt-5 font-display text-3xl font-bold tracking-[-0.04em] text-balance text-foreground">
+                  {section.title}
+                </h2>
+                <p className="mt-4 text-base leading-8 text-pretty text-muted-foreground">
+                  {section.description}
+                </p>
+              </a>
+            ))}
+          </div>
+        </section>
+      </main>
+    </PageChrome>
+  )
+}
+
+function BitcoinCoreSeriesPage() {
+  useBitcoinCoreSeriesMetadata()
+
+  return (
+    <PageChrome
+      sectionHref={BITCOIN_CORE_SERIES_PATH}
+      sectionLabel={BITCOIN_CORE_SERIES_TITLE}
+    >
+      <main
+        id="main-content"
+        className="relative mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
+      >
+        <section>
+          <a
+            href={HR_HOME_PATH}
+            className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
+          >
+            Hrvatski tekstovi
+          </a>
+          <p className="mt-12 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
+            Bitcoin
+          </p>
+          <h1 className="mt-4 max-w-[12ch] font-display text-5xl leading-[0.94] font-bold tracking-[-0.06em] text-balance text-foreground sm:text-6xl">
+            {BITCOIN_CORE_SERIES_TITLE}
+          </h1>
+        </section>
+
+        <section className="mt-16 border-t border-border/60 pt-16">
+          <SectionHeader eyebrow="Objavljeni tekstovi" title="Bitcoin Core" />
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {bitcoinCorePosts.map((post) => (
+              <SeriesCard key={post.href} post={post} />
+            ))}
+          </div>
+        </section>
+      </main>
+    </PageChrome>
+  )
+}
+
+function BitcoinCoreArticleVisual({ number }: { number: number }) {
+  const visual = bitcoinCoreVisuals[number - 1]
+
+  if (!visual) {
+    throw new Error(`Nedostaje Bitcoin Core vizual ${number}.`)
+  }
+
+  return (
+    <figure className="bitcoin-core-article-visual">
+      <picture>
+        <source
+          media="(max-width: 840px)"
+          srcSet={visual.smallSrc}
+          type="image/webp"
+        />
+        <img
+          src={visual.src}
+          srcSet={`${visual.smallSrc} 840w, ${visual.src} 1122w`}
+          sizes="(max-width: 840px) calc(100vw - 32px), 832px"
+          alt={visual.alt}
+          width={1122}
+          height={1402}
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
+    </figure>
+  )
+}
+
+function BitcoinCoreArticlePage({
+  initialArticleSource = "",
+}: {
+  initialArticleSource?: string
+}) {
+  useBitcoinCoreArticleMetadata()
+  useReadingProgress()
+  const [articleSource, setArticleSource] = useState(initialArticleSource)
+
+  useEffect(() => {
+    if (articleSource) {
+      return undefined
+    }
+
+    let isMounted = true
+
+    import("./bitcoin-core-article.txt?raw").then((module) => {
+      if (isMounted) {
+        setArticleSource(module.default)
+      }
+    })
+
+    return () => {
+      isMounted = false
+    }
+  }, [articleSource])
+
+  const bitcoinCoreArticle = articleSource
+    ? parseBitcoinCoreArticle(articleSource)
+    : {
+        title: BITCOIN_CORE_ARTICLE_TITLE,
+        subtitle: BITCOIN_CORE_ARTICLE_SUBTITLE,
+        blocks: [] as BitcoinCoreArticleBlock[],
+      }
+
+  if (
+    bitcoinCoreArticle.title !== BITCOIN_CORE_ARTICLE_TITLE ||
+    bitcoinCoreArticle.subtitle !== BITCOIN_CORE_ARTICLE_SUBTITLE
+  ) {
+    throw new Error(
+      "Naslov ili podnaslov Bitcoin Core članka nije nepromijenjen."
+    )
+  }
+
+  const bitcoinCoreArticleHeadings = bitcoinCoreArticle.blocks.filter(
+    (block): block is Extract<BitcoinCoreArticleBlock, { type: "heading" }> =>
+      block.type === "heading" && block.numbered
+  )
+  const bitcoinCoreArticleReadingMinutes = estimateReadingMinutes([
+    bitcoinCoreArticle.title,
+    bitcoinCoreArticle.subtitle,
+    ...bitcoinCoreArticle.blocks.flatMap((block) => {
+      if (block.type === "visual") return []
+      if (block.type === "list") return block.items
+      return [block.text]
+    }),
+  ])
+
+  return (
+    <PageChrome
+      sectionHref={BITCOIN_CORE_SERIES_PATH}
+      sectionLabel={BITCOIN_CORE_SERIES_TITLE}
+    >
+      <div className="reading-progress" aria-hidden="true" />
+      <main id="main-content" className="relative pb-20">
+        <article>
+          <header className="article-hero-bleed bitcoin-core-article-hero">
+            <picture className="article-hero-background">
+              <img
+                src={BITCOIN_CORE_ARTICLE_HERO_IMAGE}
+                srcSet={`${BITCOIN_CORE_ARTICLE_HERO_IMAGE_SMALL} 840w, ${BITCOIN_CORE_ARTICLE_HERO_IMAGE} 1200w`}
+                sizes="(max-width: 760px) 100vw, 60vw"
+                alt="Klik na laptopu pokreće stvaranje Bitcoin Core walleta iz više izvora slučajnosti."
+                width={1200}
+                height={900}
+                decoding="async"
+                fetchPriority="high"
+              />
+            </picture>
+
+            <div className="article-hero-content">
+              <div className="article-hero-copy">
+                <a
+                  href={BITCOIN_CORE_SERIES_PATH}
+                  className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
+                >
+                  Bitcoin Core
+                </a>
+
+                <div className="mt-12 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase">
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
+                    Bitcoin Core
+                  </span>
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
+                    Hrvatski
+                  </span>
+                  <a
+                    href="/"
+                    rel="author"
+                    className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur hover:bg-card hover:text-foreground"
+                  >
+                    Pavao Pahljina
+                  </a>
+                  <time
+                    className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
+                    dateTime={BITCOIN_CORE_ARTICLE_DATE}
+                  >
+                    {BITCOIN_CORE_ARTICLE_DISPLAY_DATE}
+                  </time>
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
+                    {bitcoinCoreArticleReadingMinutes} min čitanja
+                  </span>
+                </div>
+
+                <h1 className="mt-8 max-w-[18ch] font-display text-4xl leading-[0.98] font-bold text-balance text-foreground sm:text-6xl">
+                  {bitcoinCoreArticle.title}
+                </h1>
+                <p className="mt-6 max-w-xl text-xl leading-8 text-pretty text-muted-foreground sm:text-2xl sm:leading-9">
+                  {bitcoinCoreArticle.subtitle}
+                </p>
+              </div>
+            </div>
+          </header>
+
+          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <nav
+              aria-label="Sadržaj članka"
+              className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
+            >
+              <p className="text-[11px] font-semibold text-muted-foreground uppercase">
+                Sadržaj
+              </p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {bitcoinCoreArticleHeadings.map((heading) => (
+                  <a
+                    key={heading.id}
+                    href={`#${heading.id}`}
+                    className={`glimmer-button surface-ring rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
+                  >
+                    {heading.text}
+                  </a>
+                ))}
+              </div>
+            </nav>
+
+            <div className="article-shell learning-article-body bitcoin-core-article-body mt-10">
+              {bitcoinCoreArticle.blocks.map((block, index) => {
+                if (block.type === "heading") {
+                  return (
+                    <h2 id={block.id} key={`${block.id}-${index}`}>
+                      {block.text}
+                    </h2>
+                  )
+                }
+
+                if (block.type === "list") {
+                  return (
+                    <ul key={`list-${index}`}>
+                      {block.items.map((item, itemIndex) => (
+                        <li key={`${item}-${itemIndex}`}>
+                          {renderLinkedText(item)}
+                        </li>
+                      ))}
+                    </ul>
+                  )
+                }
+
+                if (block.type === "visual") {
+                  return (
+                    <BitcoinCoreArticleVisual
+                      key={`visual-${block.number}`}
+                      number={block.number}
+                    />
+                  )
+                }
+
+                return (
+                  <p key={`paragraph-${index}`}>
+                    {renderLinkedText(block.text)}
+                  </p>
+                )
+              })}
+              {!articleSource ? <p>Učitavanje članka…</p> : null}
+            </div>
+
+            <nav
+              aria-label="Povezani sadržaj"
+              className="article-shell mt-14 grid gap-3 sm:grid-cols-2"
+            >
+              <a
+                href={BITCOIN_CORE_SERIES_PATH}
+                className={`glimmer-button surface-shadow-soft rounded-[24px] bg-card/82 p-5 hover:bg-card sm:p-6 ${liftHover}`}
+              >
+                <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+                  Sekcija
+                </span>
+                <span className="mt-3 block font-display text-xl font-bold tracking-[-0.04em] text-balance text-foreground">
+                  Bitcoin Core
+                </span>
+              </a>
+              <a
+                href={HR_HOME_PATH}
+                className={`glimmer-button surface-shadow-soft rounded-[24px] bg-card/82 p-5 hover:bg-card sm:p-6 ${liftHover}`}
+              >
+                <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+                  Hrvatski
+                </span>
+                <span className="mt-3 block font-display text-xl font-bold tracking-[-0.04em] text-balance text-foreground">
+                  Svi hrvatski tekstovi
+                </span>
+              </a>
+            </nav>
+          </div>
+        </article>
       </main>
     </PageChrome>
   )
@@ -2454,10 +3030,12 @@ export function App({
   initialPath,
   initialArticleData = null,
   initialLearningArticleHtml = "",
+  initialBitcoinCoreArticleSource = "",
 }: {
   initialPath?: string
   initialArticleData?: ArticleDataModule | null
   initialLearningArticleHtml?: string
+  initialBitcoinCoreArticleSource?: string
 } = {}) {
   const currentPath = initialPath
     ? normalizePath(initialPath)
@@ -2465,6 +3043,22 @@ export function App({
 
   if (currentPath === ARTICLE_PATH) {
     return <ArticlePage initialArticleData={initialArticleData} />
+  }
+
+  if (currentPath === HR_HOME_PATH) {
+    return <HrHomePage />
+  }
+
+  if (currentPath === BITCOIN_CORE_SERIES_PATH) {
+    return <BitcoinCoreSeriesPage />
+  }
+
+  if (currentPath === BITCOIN_CORE_ENTROPY_ARTICLE_PATH) {
+    return (
+      <BitcoinCoreArticlePage
+        initialArticleSource={initialBitcoinCoreArticleSource}
+      />
+    )
   }
 
   if (currentPath === AI_SERIES_PATH) {

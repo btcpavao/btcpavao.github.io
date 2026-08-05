@@ -5,6 +5,7 @@ import "./index.css"
 import App, { type ArticleDataModule } from "./App.tsx"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
 import {
+  needsBitcoinCoreArticleSource,
   needsArticleData,
   needsLearningArticleHtml,
   normalizePath,
@@ -15,6 +16,7 @@ async function startApp() {
   const initialPath = normalizePath(window.location.pathname)
   let initialArticleData: ArticleDataModule | null = null
   let initialLearningArticleHtml = ""
+  let initialBitcoinCoreArticleSource = ""
 
   if (needsArticleData(initialPath)) {
     initialArticleData = await import("./article-data")
@@ -25,6 +27,12 @@ async function startApp() {
       .default
   }
 
+  if (needsBitcoinCoreArticleSource(initialPath)) {
+    initialBitcoinCoreArticleSource = (
+      await import("./bitcoin-core-article.txt?raw")
+    ).default
+  }
+
   const app = (
     <StrictMode>
       <ThemeProvider>
@@ -32,6 +40,7 @@ async function startApp() {
           initialPath={initialPath}
           initialArticleData={initialArticleData}
           initialLearningArticleHtml={initialLearningArticleHtml}
+          initialBitcoinCoreArticleSource={initialBitcoinCoreArticleSource}
         />
       </ThemeProvider>
     </StrictMode>

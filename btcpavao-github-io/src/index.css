@@ -809,6 +809,35 @@
   color: var(--primary);
 }
 
+.bitcoin-core-article-body {
+  width: min(100%, 52rem);
+}
+
+.bitcoin-core-article-visual {
+  display: block;
+  margin: clamp(2.5rem, 7vw, 4.5rem) 0;
+  overflow: hidden;
+  border-radius: clamp(1.25rem, 3vw, 2rem);
+  background: var(--card);
+  box-shadow:
+    0 0 0 1px var(--image-outline),
+    0 24px 70px oklch(var(--hero-shadow) / 0.12);
+}
+
+.bitcoin-core-article-visual picture,
+.bitcoin-core-article-visual img {
+  display: block;
+  width: 100%;
+}
+
+.bitcoin-core-article-visual img {
+  height: auto;
+}
+
+.bitcoin-core-article-hero .article-hero-background img {
+  object-position: 58% center;
+}
+
 .learning-article-body blockquote {
   margin: clamp(2.25rem, 6vw, 3.5rem) 0;
   padding: 1.5rem;

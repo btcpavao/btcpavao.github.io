@@ -1,9 +1,22 @@
+import { createHash } from "node:crypto"
 import { access, readFile, readdir, stat } from "node:fs/promises"
 import path from "node:path"
 
 const root = new URL("../", import.meta.url)
 
 const responsiveImages = [
+  ...Array.from({ length: 11 }, (_, index) => {
+    const number = String(index + 1).padStart(2, "0")
+
+    return {
+      full: `public/bitcoin-core-entropija-${number}.webp`,
+      small: `public/bitcoin-core-entropija-${number}-840.webp`,
+    }
+  }),
+  {
+    full: "public/bitcoin-core-entropija-hero.webp",
+    small: "public/bitcoin-core-entropija-hero-840.webp",
+  },
   {
     full: "public/ai-ucenje-bitcoin-model-hero.webp",
     small: "public/ai-ucenje-bitcoin-model-hero-840.webp",
@@ -39,6 +52,7 @@ const responsiveImages = [
 ]
 
 const additionalPublicAssets = [
+  "public/bitcoin-core-entropija-og.jpg",
   "public/bitcoin-savjetovanje-screenshot-1600.webp",
   "public/dvadesetjedan-screenshot-1600.webp",
   "public/pavao-profile.webp",
@@ -77,6 +91,11 @@ const movedSourceAssets = [
   "og-image.png",
   "ai-workflow-og.png",
 ]
+
+const bitcoinCoreSourceAssets = Array.from({ length: 11 }, (_, index) => {
+  const number = String(index + 1).padStart(2, "0")
+  return `asset-sources/image-originals/bitcoin-core-entropija/${number}-`
+})
 
 async function exists(relativePath) {
   try {
@@ -117,6 +136,10 @@ const articleDataSource = await readFile(
   new URL("../src/article-data.ts", import.meta.url),
   "utf8"
 )
+const bitcoinCoreArticleSource = await readFile(
+  new URL("../src/bitcoin-core-article.txt", import.meta.url),
+  "utf8"
+)
 const packageSource = await readFile(
   new URL("../package.json", import.meta.url),
   "utf8"
@@ -150,7 +173,31 @@ const learningRouteHtml = await readFile(
   ),
   "utf8"
 )
-const sourceText = `${appSource}\n${articleDataSource}`
+const hrHomeRouteHtml = await readFile(
+  new URL("../dist/hr/index.html", import.meta.url),
+  "utf8"
+)
+const bitcoinCoreSeriesRouteHtml = await readFile(
+  new URL("../dist/hr/bitcoin-core/index.html", import.meta.url),
+  "utf8"
+)
+const bitcoinCoreArticleRouteHtml = await readFile(
+  new URL(
+    "../dist/hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/index.html",
+    import.meta.url
+  ),
+  "utf8"
+)
+const sourceText = `${appSource}\n${articleDataSource}\n${bitcoinCoreArticleSource}`
+const bitcoinCoreArticleHash = createHash("sha256")
+  .update(bitcoinCoreArticleSource)
+  .digest("hex")
+
+assert(
+  bitcoinCoreArticleHash ===
+    "cdf525a19388cc385ad5af1805edc4ed4cc86eb0a342ed0fb44c374a4a4fcccc",
+  "Bitcoin Core article source changed from the approved verbatim text"
+)
 
 function assertStructuredDataIsValid(html, label) {
   const blocks = [
@@ -235,6 +282,24 @@ for (const name of movedSourceAssets) {
   )
 }
 
+const bitcoinCoreSourceNames = await readdir(
+  new URL(
+    "../asset-sources/image-originals/bitcoin-core-entropija/",
+    import.meta.url
+  )
+)
+assert(
+  bitcoinCoreSourceNames.filter((name) => name.endsWith(".png")).length === 11,
+  "Bitcoin Core source image count is not 11"
+)
+for (const prefix of bitcoinCoreSourceAssets) {
+  const filePrefix = path.basename(prefix)
+  assert(
+    bitcoinCoreSourceNames.some((name) => name.startsWith(filePrefix)),
+    `Missing Bitcoin Core source image: ${filePrefix}`
+  )
+}
+
 assert((await size("public/favicon.png")) < 100_000, "Favicon exceeds 100 KB")
 assert(
   (await size("public/pavao-profile.webp")) < 50_000,
@@ -277,6 +342,38 @@ assert(
   "Learning article body was not prerendered"
 )
 assert(
+  hrHomeRouteHtml.includes("Hrvatski tekstovi") &&
+    hrHomeRouteHtml.includes("Bitcoin Core"),
+  "Croatian hub was not prerendered"
+)
+assert(
+  bitcoinCoreSeriesRouteHtml.includes(
+    "Kako Bitcoin Core generira entropiju kada napravimo novi wallet"
+  ),
+  "Bitcoin Core series page was not prerendered"
+)
+assert(
+  bitcoinCoreArticleRouteHtml.includes(
+    "Kad u Bitcoin Coreu napraviš novi wallet"
+  ),
+  "Bitcoin Core article body was not prerendered"
+)
+assert(
+  (bitcoinCoreArticleSource.match(/\[\[VIZUAL \d+\]\]/g) ?? []).length === 11 &&
+    !bitcoinCoreArticleSource.includes("— prompt]") &&
+    !bitcoinCoreArticleSource.includes("Prompt:"),
+  "Bitcoin Core article source does not contain exactly 11 clean visual markers"
+)
+for (let index = 1; index <= 11; index += 1) {
+  const number = String(index).padStart(2, "0")
+  assert(
+    bitcoinCoreArticleRouteHtml.includes(
+      `/bitcoin-core-entropija-${number}.webp`
+    ),
+    `Bitcoin Core article is missing visual ${number}`
+  )
+}
+assert(
   workflowRouteHtml.includes('"@type": "BlogPosting"'),
   "Workflow route is missing BlogPosting structured data"
 )
@@ -297,6 +394,16 @@ assert(
   "Learning route has the wrong social image type"
 )
 assert(
+  bitcoinCoreArticleRouteHtml.includes(
+    'rel="canonical" href="https://btcpavao.com/hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/"'
+  ) &&
+    bitcoinCoreArticleRouteHtml.includes(
+      'property="article:section" content="Bitcoin Core"'
+    ) &&
+    bitcoinCoreArticleRouteHtml.includes("/bitcoin-core-entropija-og.jpg"),
+  "Bitcoin Core article metadata is incomplete"
+)
+assert(
   (workflowRouteHtml.match(/property="og:locale"/g) ?? []).length === 1 &&
     workflowRouteHtml.includes('property="og:locale" content="hr_HR"'),
   "Workflow route has incorrect or duplicate Open Graph locale metadata"
@@ -306,6 +413,9 @@ assertStructuredDataIsValid(distIndexHtml, "Homepage")
 assertStructuredDataIsValid(articleRouteHtml, "First article")
 assertStructuredDataIsValid(workflowRouteHtml, "Workflow article")
 assertStructuredDataIsValid(learningRouteHtml, "Learning article")
+assertStructuredDataIsValid(hrHomeRouteHtml, "Croatian hub")
+assertStructuredDataIsValid(bitcoinCoreSeriesRouteHtml, "Bitcoin Core series")
+assertStructuredDataIsValid(bitcoinCoreArticleRouteHtml, "Bitcoin Core article")
 
 const entryScriptMatch = distIndexHtml.match(
   /<script type="module" crossorigin src="([^"]+)"><\/script>/
@@ -330,9 +440,10 @@ const lazyChunkSources = await Promise.all(
 )
 const articleBodyProbe = "Postoji trenutak kada nova tehnologija"
 const learningArticleBodyProbe = "Nedavno sam otvorio PDF od 24 stranice"
+const bitcoinCoreArticleBodyProbe = "Kad u Bitcoin Coreu napraviš novi wallet"
 
 assert(
-  entryScriptBytes < 300_000,
+  entryScriptBytes < 315_000,
   `Entry bundle is too large: ${entryScriptBytes} bytes`
 )
 assert(
@@ -344,12 +455,22 @@ assert(
   "Entry chunk includes the learning article body"
 )
 assert(
+  !entryScript.includes(bitcoinCoreArticleBodyProbe),
+  "Entry chunk includes the Bitcoin Core article body"
+)
+assert(
   lazyChunkSources.some((source) => source.includes(articleBodyProbe)),
   "Article body was not found in a lazy chunk"
 )
 assert(
   lazyChunkSources.some((source) => source.includes(learningArticleBodyProbe)),
   "Learning article body was not found in a lazy chunk"
+)
+assert(
+  lazyChunkSources.some((source) =>
+    source.includes(bitcoinCoreArticleBodyProbe)
+  ),
+  "Bitcoin Core article body was not found in a lazy chunk"
 )
 assert(
   !packageSource.includes('"motion"'),
@@ -385,7 +506,9 @@ assert(
 assert(
   appSource.includes("profile-light-pulse") &&
     /@keyframes profile-lights-breathe/.test(cssSource) &&
-    /\.profile-light-pulse\s*\{[\s\S]*mix-blend-mode:\s*screen;/.test(cssSource),
+    /\.profile-light-pulse\s*\{[\s\S]*mix-blend-mode:\s*screen;/.test(
+      cssSource
+    ),
   "Profile light animation is missing"
 )
 
