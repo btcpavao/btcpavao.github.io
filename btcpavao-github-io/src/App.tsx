@@ -207,6 +207,8 @@ const bitcoinCorePosts: SeriesPost[] = [
   },
 ]
 
+const latestWritingPosts = [...aiSeriesPosts, ...bitcoinCorePosts]
+
 const learningArticleHeadings = [
   {
     id: "nisam-trazio-da-mi-objasni-sve-odjednom",
@@ -1479,19 +1481,31 @@ function BitcoinCoreSeriesPage() {
         id="main-content"
         className="relative mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
       >
-        <section>
-          <a
-            href={HR_HOME_PATH}
-            className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
-          >
-            Hrvatski tekstovi
-          </a>
-          <p className="mt-12 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
-            Bitcoin
-          </p>
-          <h1 className="mt-4 max-w-[12ch] font-display text-5xl leading-[0.94] font-bold tracking-[-0.06em] text-balance text-foreground sm:text-6xl">
-            {BITCOIN_CORE_SERIES_TITLE}
-          </h1>
+        <section className="bitcoin-core-series-intro">
+          <div>
+            <a
+              href={HR_HOME_PATH}
+              className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
+            >
+              Hrvatski tekstovi
+            </a>
+            <p className="mt-12 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
+              Bitcoin
+            </p>
+            <h1 className="mt-4 max-w-[12ch] font-display text-5xl leading-[0.94] font-bold tracking-[-0.06em] text-balance text-foreground sm:text-6xl">
+              {BITCOIN_CORE_SERIES_TITLE}
+            </h1>
+          </div>
+
+          <div className="bitcoin-core-series-logo">
+            <img
+              src="/bitcoin-logo.svg"
+              alt="Bitcoin"
+              width={160}
+              height={160}
+              decoding="async"
+            />
+          </div>
         </section>
 
         <section className="mt-16 border-t border-border/60 pt-16">
@@ -2726,7 +2740,7 @@ function HomePage() {
           />
 
           <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {aiSeriesPosts.map((post) => (
+            {latestWritingPosts.map((post) => (
               <SeriesCard key={post.href} post={post} />
             ))}
           </div>
@@ -2736,7 +2750,7 @@ function HomePage() {
             size="lg"
             className="glimmer-button mt-6 rounded-full border-border/70 bg-background/82 px-6 transition-[background-color,border-color,box-shadow,color,transform] duration-300 hover:bg-card"
           >
-            <a href={AI_SERIES_PATH}>
+            <a href={HR_HOME_PATH}>
               Svi tekstovi
               <ArrowUpRight className="size-4" />
             </a>

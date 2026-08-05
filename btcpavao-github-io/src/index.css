@@ -813,6 +813,25 @@
   width: min(100%, 52rem);
 }
 
+.bitcoin-core-series-intro {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.bitcoin-core-series-logo {
+  width: 7rem;
+  filter: drop-shadow(0 1.25rem 2.5rem rgb(247 147 26 / 0.2));
+}
+
+.bitcoin-core-series-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 999px;
+  outline: 1px solid var(--image-outline);
+  outline-offset: -1px;
+}
+
 .bitcoin-core-article-visual {
   display: block;
   margin: clamp(2.5rem, 7vw, 4.5rem) 0;
@@ -834,8 +853,102 @@
   height: auto;
 }
 
-.bitcoin-core-article-hero .article-hero-background img {
-  object-position: 58% center;
+@media (min-width: 761px) {
+  .bitcoin-core-series-intro {
+    grid-template-columns: minmax(0, 1fr) 10rem;
+    align-items: end;
+  }
+
+  .bitcoin-core-series-logo {
+    width: 10rem;
+    justify-self: end;
+  }
+
+  .bitcoin-core-article-hero {
+    min-height: calc(100svh - 4.5rem);
+  }
+
+  .bitcoin-core-article-hero::before {
+    width: min(52rem, 56vw);
+    background: linear-gradient(
+      90deg,
+      var(--article-hero-veil-solid) 0%,
+      var(--article-hero-veil-solid) 28%,
+      var(--article-hero-veil-strong) 48%,
+      var(--article-hero-veil-mid) 66%,
+      var(--article-hero-veil-soft) 84%,
+      transparent 100%
+    );
+  }
+
+  .bitcoin-core-article-hero .article-hero-background {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .bitcoin-core-article-hero .article-hero-background img {
+    object-fit: contain;
+    object-position: right center;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgb(0 0 0 / 0.16) 22%,
+      rgb(0 0 0 / 0.72) 40%,
+      #000 54%,
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgb(0 0 0 / 0.16) 22%,
+      rgb(0 0 0 / 0.72) 40%,
+      #000 54%,
+      #000 100%
+    );
+  }
+}
+
+@media (max-width: 760px) {
+  .bitcoin-core-article-hero::before {
+    right: 0;
+    width: auto;
+    background: linear-gradient(
+      180deg,
+      var(--article-hero-veil-solid) 0%,
+      var(--article-hero-veil-solid) 56%,
+      var(--article-hero-veil-strong) 66%,
+      var(--article-hero-veil-mid) 78%,
+      var(--article-hero-veil-soft) 90%,
+      transparent 100%
+    );
+  }
+
+  .bitcoin-core-article-hero .article-hero-background {
+    inset: auto 0 0;
+    width: 100%;
+    height: 44%;
+  }
+
+  .bitcoin-core-article-hero .article-hero-background img {
+    object-fit: contain;
+    object-position: center bottom;
+    opacity: 0.72;
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgb(0 0 0 / 0.5) 24%,
+      #000 48%,
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgb(0 0 0 / 0.5) 24%,
+      #000 48%,
+      #000 100%
+    );
+  }
 }
 
 .learning-article-body blockquote {

@@ -52,6 +52,7 @@ const responsiveImages = [
 ]
 
 const additionalPublicAssets = [
+  "public/bitcoin-logo.svg",
   "public/bitcoin-core-entropija-og.jpg",
   "public/bitcoin-savjetovanje-screenshot-1600.webp",
   "public/dvadesetjedan-screenshot-1600.webp",
@@ -330,6 +331,12 @@ assert(
   "Homepage was not prerendered"
 )
 assert(
+  distIndexHtml.includes(
+    "Kako Bitcoin Core generira entropiju kada napravimo novi wallet"
+  ),
+  "Homepage is missing the latest Bitcoin Core article"
+)
+assert(
   articleRouteHtml.includes("Postoji trenutak kada nova tehnologija"),
   "First article body was not prerendered"
 )
@@ -349,7 +356,7 @@ assert(
 assert(
   bitcoinCoreSeriesRouteHtml.includes(
     "Kako Bitcoin Core generira entropiju kada napravimo novi wallet"
-  ),
+  ) && bitcoinCoreSeriesRouteHtml.includes('src="/bitcoin-logo.svg"'),
   "Bitcoin Core series page was not prerendered"
 )
 assert(
