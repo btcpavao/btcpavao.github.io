@@ -209,6 +209,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
+      <image:loc>https://btcpavao.com/long-road-bitcoin-core-cover.webp</image:loc>
+      <image:title>The long road back to Bitcoin Core</image:title>
+    </image:image>
+    <image:image>
       <image:loc>https://btcpavao.com/long-road-bitcoin-core-01.webp</image:loc>
       <image:title>The wallet maze</image:title>
     </image:image>

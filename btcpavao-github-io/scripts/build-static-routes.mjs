@@ -301,7 +301,9 @@ const routes = [
       "A person stands in a Mediterranean maze of Bitcoin wallets and backups, facing a simple illuminated doorway.",
     imageWidth: 1200,
     imageHeight: 630,
-    textHero: true,
+    heroImage: "/long-road-bitcoin-core-cover.webp",
+    heroImageSrcSet:
+      "/long-road-bitcoin-core-cover-840.webp 840w, /long-road-bitcoin-core-cover.webp 1774w",
     keywords: [
       "Bitcoin Core",
       "Bitcoin wallet",

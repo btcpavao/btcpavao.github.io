@@ -127,6 +127,9 @@ const LONG_ROAD_ARTICLE_SUBTITLE =
 const LONG_ROAD_ARTICLE_DATE = "2026-08-05"
 const LONG_ROAD_ARTICLE_DISPLAY_DATE = "August 5, 2026"
 const LONG_ROAD_ARTICLE_OG_IMAGE = `${SITE_URL}/long-road-bitcoin-core-og.jpg`
+const LONG_ROAD_ARTICLE_HERO_IMAGE = "/long-road-bitcoin-core-cover.webp"
+const LONG_ROAD_ARTICLE_HERO_IMAGE_SMALL =
+  "/long-road-bitcoin-core-cover-840.webp"
 const BOOK_SECTION_HEADING = "Knjiga koja je godinama čekala red"
 const AGENTS_SECTION_HEADING = "Agenti kao probni čitatelji"
 const WEB_SECTION_HEADING = "Web stranice kroz razgovor"
@@ -2365,46 +2368,66 @@ function LongRoadArticlePage({
       <div className="reading-progress" aria-hidden="true" />
       <main id="main-content" className="relative pb-20">
         <article>
-          <header className="long-road-article-hero border-b border-border/60">
-            <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
-              <a
-                href={EN_BITCOIN_CORE_SERIES_PATH}
-                className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
-              >
-                Bitcoin Core
-              </a>
+          <header className="article-hero-bleed bitcoin-core-article-hero long-road-cover-hero">
+            <picture className="article-hero-background">
+              <source
+                media="(max-width: 840px)"
+                srcSet={LONG_ROAD_ARTICLE_HERO_IMAGE_SMALL}
+                type="image/webp"
+              />
+              <img
+                src={LONG_ROAD_ARTICLE_HERO_IMAGE}
+                srcSet={`${LONG_ROAD_ARTICLE_HERO_IMAGE_SMALL} 840w, ${LONG_ROAD_ARTICLE_HERO_IMAGE} 1774w`}
+                sizes="(max-width: 760px) 100vw, 100vw"
+                alt="A traveler leaves a limestone maze for a transparent Bitcoin Core machine overlooking the Adriatic Sea."
+                width={1774}
+                height={887}
+                decoding="async"
+                fetchPriority="high"
+              />
+            </picture>
 
-              <div className="mt-12 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase">
-                <span className="surface-ring rounded-full bg-background/78 px-3 py-1">
-                  Bitcoin Core
-                </span>
-                <span className="surface-ring rounded-full bg-background/78 px-3 py-1">
-                  English
-                </span>
+            <div className="article-hero-content">
+              <div className="article-hero-copy">
                 <a
-                  href="/"
-                  rel="author"
-                  className="surface-ring inline-flex min-h-10 items-center rounded-full bg-background/78 px-3 py-1 transition-[background-color,color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground active:scale-[0.96]"
+                  href={EN_BITCOIN_CORE_SERIES_PATH}
+                  className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
                 >
-                  Pavao Pahljina
+                  Bitcoin Core
                 </a>
-                <time
-                  className="surface-ring rounded-full bg-background/78 px-3 py-1"
-                  dateTime={LONG_ROAD_ARTICLE_DATE}
-                >
-                  {LONG_ROAD_ARTICLE_DISPLAY_DATE}
-                </time>
-                <span className="surface-ring rounded-full bg-background/78 px-3 py-1">
-                  {readingMinutes} min read
-                </span>
-              </div>
 
-              <h1 className="mt-9 max-w-[17ch] font-display text-5xl leading-[0.94] font-bold tracking-[-0.06em] text-balance text-foreground sm:text-7xl">
-                {article.title}
-              </h1>
-              <p className="mt-7 max-w-3xl text-xl leading-8 text-pretty text-muted-foreground sm:text-2xl sm:leading-9">
-                {article.subtitle}
-              </p>
+                <div className="mt-12 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase">
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
+                    Bitcoin Core
+                  </span>
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
+                    English
+                  </span>
+                  <a
+                    href="/"
+                    rel="author"
+                    className="surface-ring inline-flex min-h-10 items-center rounded-full bg-background/78 px-3 py-1 backdrop-blur transition-[background-color,color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground active:scale-[0.96]"
+                  >
+                    Pavao Pahljina
+                  </a>
+                  <time
+                    className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
+                    dateTime={LONG_ROAD_ARTICLE_DATE}
+                  >
+                    {LONG_ROAD_ARTICLE_DISPLAY_DATE}
+                  </time>
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
+                    {readingMinutes} min read
+                  </span>
+                </div>
+
+                <h1 className="mt-8 max-w-[12ch] font-display text-5xl leading-[0.94] font-bold tracking-[-0.06em] text-balance text-foreground sm:text-7xl">
+                  {article.title}
+                </h1>
+                <p className="mt-7 max-w-xl text-xl leading-8 text-pretty text-muted-foreground sm:text-2xl sm:leading-9">
+                  {article.subtitle}
+                </p>
+              </div>
             </div>
           </header>
 

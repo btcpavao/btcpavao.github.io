@@ -22,6 +22,10 @@ const responsiveImages = [
     }
   }),
   {
+    full: "public/long-road-bitcoin-core-cover.webp",
+    small: "public/long-road-bitcoin-core-cover-840.webp",
+  },
+  {
     full: "public/bitcoin-core-entropija-hero.webp",
     small: "public/bitcoin-core-entropija-hero-840.webp",
   },
@@ -121,6 +125,7 @@ const longRoadSourceAssets = [
   "11-the-backbone.png",
   "12-from-product-shopping-to-understanding.png",
   "13-the-anchor.png",
+  "cover-the-long-road-back-to-bitcoin-core.png",
 ]
 
 async function exists(relativePath) {
@@ -321,12 +326,15 @@ assert(
   sitemapSource.includes(
     "https://btcpavao.com/en/bitcoin-core/the-long-road-back-to-bitcoin-core/"
   ) &&
+    sitemapSource.includes(
+      "https://btcpavao.com/long-road-bitcoin-core-cover.webp"
+    ) &&
     Array.from({ length: 13 }, (_, index) =>
       sitemapSource.includes(
         `https://btcpavao.com/long-road-bitcoin-core-${String(index + 1).padStart(2, "0")}.webp`
       )
     ).every(Boolean),
-  "Sitemap is missing The Long Road article or one of its 13 images"
+  "Sitemap is missing The Long Road article, cover, or one of its 13 inline images"
 )
 
 function assertStructuredDataIsValid(html, label) {
@@ -437,8 +445,8 @@ const longRoadSourceNames = await readdir(
   )
 )
 assert(
-  longRoadSourceNames.filter((name) => name.endsWith(".png")).length === 13,
-  "The Long Road source image count is not 13"
+  longRoadSourceNames.filter((name) => name.endsWith(".png")).length === 14,
+  "The Long Road source image count is not 14"
 )
 for (const name of longRoadSourceAssets) {
   assert(
@@ -544,6 +552,18 @@ assert(
     longRoadArticleRouteHtml.includes('aria-label="Back to top"') &&
     longRoadArticleRouteHtml.includes(">Contents</p>"),
   "The Long Road article body or English navigation was not prerendered"
+)
+assert(
+  longRoadArticleRouteHtml.includes(
+    'src="/long-road-bitcoin-core-cover.webp"'
+  ) &&
+    longRoadArticleRouteHtml.includes(
+      "/long-road-bitcoin-core-cover-840.webp"
+    ) &&
+    longRoadArticleRouteHtml.includes(
+      'href="/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/">Bitcoin Core’s entropy generation</a>'
+    ),
+  "The Long Road cover or its contextual entropy article link is missing"
 )
 assert(
   !longRoadArticleRouteHtml.includes("VISUAL PLACEHOLDER") &&

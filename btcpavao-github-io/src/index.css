@@ -959,37 +959,9 @@
   height: auto;
 }
 
-.long-road-article-hero {
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(
-      circle at 78% 18%,
-      color-mix(in oklab, var(--primary) 14%, transparent),
-      transparent 34%
-    ),
-    radial-gradient(
-      circle at 12% 88%,
-      color-mix(in oklab, var(--chart-3) 9%, transparent),
-      transparent 38%
-    );
-}
-
-.long-road-article-hero::before {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(
-    120deg,
-    transparent,
-    color-mix(in oklab, var(--primary) 5%, transparent),
-    transparent
-  );
-  pointer-events: none;
-  content: "";
-}
-
-.long-road-article-hero > div {
-  position: relative;
+.bitcoin-core-article-hero.long-road-cover-hero .article-hero-background img {
+  object-fit: cover;
+  object-position: center right;
 }
 
 .long-road-article-body strong {
@@ -1086,6 +1058,13 @@
       #000 54%,
       #000 100%
     );
+  }
+
+  .bitcoin-core-article-hero.long-road-cover-hero
+    .article-hero-background
+    img {
+    object-position: 72% center;
+    opacity: 0.78;
   }
 }
 

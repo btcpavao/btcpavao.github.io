@@ -1,5 +1,7 @@
 import { Fragment, type ReactNode } from "react"
 
+import { EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH } from "@/routes"
+
 export type LongRoadArticleBlock =
   | { type: "heading"; text: string; id: string }
   | { type: "paragraph"; text: string }
@@ -214,9 +216,23 @@ export function parseLongRoadArticle(source: string) {
 }
 
 export function renderLongRoadInline(text: string): ReactNode {
-  const parts = text.split(/(\*\*.+?\*\*)/g)
+  const entropyArticleLinkText = "Bitcoin Core’s entropy generation"
+  const parts = text.split(
+    /(\*\*.+?\*\*|Bitcoin Core’s entropy generation)/g
+  )
 
   return parts.map((part, index) => {
+    if (part === entropyArticleLinkText) {
+      return (
+        <a
+          href={EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH}
+          key={`${part}-${index}`}
+        >
+          {part}
+        </a>
+      )
+    }
+
     if (part.startsWith("**") && part.endsWith("**")) {
       return <strong key={`${part}-${index}`}>{part.slice(2, -2)}</strong>
     }
