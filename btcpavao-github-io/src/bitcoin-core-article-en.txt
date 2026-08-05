@@ -1,0 +1,674 @@
+How Bitcoin Core Generates Entropy When You Create a New Wallet
+Why It Matters and Why Bitcoin Core Is So Important
+
+When you create a new wallet in Bitcoin Core, some serious cryptography takes place behind that simple click.
+
+On the surface, it looks trivial: you click Create Wallet, and the wallet is there.
+
+But under the hood, Bitcoin Core has to solve one of the most important questions in all of Bitcoin security:
+
+How do you create a private key that no one else can guess?
+
+If that first number—the secret from which your wallet is created—is poor, predictable, or weak in any way, the wallet’s entire security falls apart.
+
+That is why entropy matters so much.
+
+And this is precisely where Bitcoin Core shows why many people consider it the backbone of the Bitcoin economy: not because it is “beautiful” or “modern,” but because it is software that has been studied in detail, tested, and used for years as a foundation of the real Bitcoin system, including serious professional and institutional stacks.
+
+1. What Entropy Is, in the Simplest Terms
+
+The simplest explanation:
+
+Entropy is a measure of unpredictability.
+
+If something is easy to guess, it does not have much entropy.
+
+If you cannot even come close to guessing it, it has a lot of entropy.
+
+A simple example
+
+Imagine flipping a fair coin.
+
+There are only two possibilities:
+
+heads
+tails
+
+That means there is a small amount of uncertainty.
+
+If we flip the coin 10 times, the number of possible combinations rises sharply.
+
+If we flip it 256 times, the number of possible combinations becomes enormous.
+
+With private keys, that is exactly what we want:
+something so unpredictable that guessing it is practically impossible.
+
+Even simpler
+A date of birth has low entropy.
+The password 123456 has low entropy.
+Thirty-two bytes of high-quality cryptographic randomness have very high entropy.
+
+In Bitcoin, a private key must not merely look random. It must actually be unpredictable to an attacker.
+
+[[VIZUAL 1]]
+
+2. Bitcoin Core Does Not Create 12 or 24 Words
+
+It is important to clear this up immediately.
+
+When you create a new standard wallet in Bitcoin Core, Core does not generate BIP39 seed words the way some other wallets do.
+
+In other words, the familiar process does not happen:
+
+12 words
+24 words
+write them down on paper
+
+Bitcoin Core does something different.
+
+It generates a binary seed—a very high-quality random value in the background—and then uses it to build a BIP32 HD wallet structure.
+
+In other words:
+
+Bitcoin Core works directly with cryptographic material, without “words” as a user-facing layer.
+
+That does not make it less secure.
+It simply means that it uses a different backup model and a different approach to the wallet.
+
+3. What Happens When We Click “Create Wallet”
+
+If we simplify the entire process, this is roughly what happens:
+
+Bitcoin Core needs to create a new private root for the wallet.
+To do that, it needs very high-quality randomness.
+It obtains that randomness from multiple sources.
+It mixes all those sources cryptographically.
+From that, it obtains 32 bytes of very high-quality randomness.
+It checks whether that value is a valid private key.
+It creates a BIP32 master key from it.
+From the master key, it creates the wallet’s branches and addresses.
+
+That is the heart of the whole story.
+
+[[VIZUAL 2]]
+
+4. Where Bitcoin Core Gets Entropy
+
+This is the central part of the article.
+
+Bitcoin Core does not say, “I’ll take one number and trust that it is good.”
+
+Instead, it uses multiple layers.
+
+That matters a great deal.
+
+If it relied on only one source, a failure or weakness in that single source would be a major problem.
+
+So Core does something much smarter:
+
+it takes several different sources, mixes them, and builds a robust internal random number generator.
+
+The main sources it uses are:
+
+the operating system
+the processor’s hardware RNG, when available
+high-precision time
+events within the process
+the computer’s dynamic and static environment
+its own previous internal RNG state
+
+Let’s go through them one by one.
+
+5. The Operating System Is the Main Source
+
+The most important source for creating a strong private key is the operating system’s random number generator.
+
+That means Bitcoin Core asks the system for randomness through:
+
+getrandom() on Linux, for example
+getentropy() on macOS
+the corresponding system RNG on Windows
+other system methods on some BSD systems
+
+When Core needs strong randomness for something important such as a wallet key, it uses the GetStrongRandBytes() function.
+
+That function asks the operating system for 32 fresh bytes of cryptographic randomness.
+
+This is extremely important:
+
+If that operating system source does not work properly, Core does not force its way forward. It stops.
+
+That is a good thing.
+
+It is far better not to create a wallet than to create one with a weak key.
+
+Why is the operating system so important?
+
+Because the operating system has the best view of the entire computer:
+
+it sees the hardware
+it sees the processes
+it sees interrupts
+it sees various physical and system events
+it maintains its own CSPRNG
+
+Bitcoin Core therefore does not invent a physical random number generator from scratch. It uses the best source the operating system provides—and then mixes it further.
+
+[[VIZUAL 3]]
+
+6. Hardware Randomness from the Processor
+
+If the processor supports certain instructions such as RDRAND or RDSEED, Bitcoin Core can also take some randomness from the CPU.
+
+But one point matters here:
+
+Core does not treat the CPU as the sole source of truth.
+
+Hardware randomness is an additional source, not the only foundation.
+
+That is a very sound security philosophy.
+
+If the hardware source works well—excellent, it helps.
+
+If it is unavailable—the wallet can still be created securely.
+
+If it is poor—it is not the only factor determining the final key.
+
+In other words, Bitcoin Core does not say:
+
+“I trust only the processor”
+
+but rather:
+
+“I’ll take that too, but I’ll mix it with the other sources”
+
+That is a much better approach.
+
+7. Time and Tiny Differences in Execution
+
+Core also uses:
+
+very precise time
+certain information related to code execution
+small differences in memory layout and the process
+
+These are not primary sources that it relies on independently, but they are useful as an additional layer.
+
+Why?
+
+Because they help make separate runs of the program differ from one another even more.
+
+For example, even if two systems were very similar, small differences in:
+
+execution time
+memory layout
+execution speed
+process context
+
+can help separate their states further.
+
+Important: this does not mean that “time is enough” for security. It is not.
+
+This is simply another supporting input in the broader mixture.
+
+[[VIZUAL 4]]
+
+8. Events Within the Process
+
+Bitcoin Core also collects certain “events”—things that happen while the process is running.
+
+These can be various small occurrences within the program whose timing can also serve as an additional signal.
+
+The point is not that every event carries a large amount of entropy on its own, but that it:
+
+introduces additional small unpredictabilities
+contributes to diversity in the state
+supports defense in depth
+
+Again, this is a supporting layer, not the primary one.
+
+Bitcoin Core does not say, “My events are enough.”
+
+It says, “I’ll add that to the mix as well.”
+
+9. The Computer’s Dynamic and Static Environment
+
+During initialization, and occasionally while running, Bitcoin Core can also include various details about the computer’s environment in its RNG.
+
+In simplified terms, that includes things such as:
+
+certain system characteristics
+process data
+information about memory
+network interfaces
+certain system parameters
+particular filesystem and environment data
+
+That does not mean all this data is “secret.”
+
+Much of it may not be especially sensitive.
+
+But its role is not to “guarantee” security on its own. Its role is to:
+
+further distinguish one run from another
+provide more material for mixing
+increase the robustness of the entire system
+
+Again, this is very important:
+
+Bitcoin Core does not naively add these sources together and claim that every byte automatically represents one bit of entropy.
+
+That would be poor and superficial reasoning.
+
+Instead, it uses them as additional input to a cryptographic mixer.
+
+[[VIZUAL 5]]
+
+10. Internal RNG State: Core Remembers Its Previous State
+
+One more important point:
+
+Bitcoin Core does not start “from zero” every time.
+
+It maintains its own internal state for the random number generator.
+
+That means there is an internal cryptographic state that is continually:
+
+fed with new inputs
+mixed
+refreshed
+used as part of the next step
+
+This matters because the system is not dependent only on one current call to the operating system.
+
+In other words:
+
+Core accumulates and maintains its own high-quality RNG state rather than merely “taking a number and calling it done.”
+
+That gives it additional robustness.
+
+11. How All These Sources Come Together
+
+Now we reach the heart of the matter.
+
+Bitcoin Core does not use all these inputs separately. It mixes them cryptographically.
+
+It uses SHA-512 for that.
+
+In simplified terms:
+
+it takes the new inputs
+it adds the old internal state
+it adds a counter
+it passes everything through SHA-512
+it uses part of the result as output
+it stores part of the result as the new internal state
+
+That is a very elegant design.
+
+Why?
+
+Because:
+
+every new input affects the result
+an attacker cannot easily “separate” which part came from which source
+the state is continually refreshed
+the output and the new state are related but separate
+
+This is not “magic.” It is good cryptographic practice.
+
+[[VIZUAL 6]]
+
+12. Additional “Strengthening” of the State
+
+When the generator is first used, Bitcoin Core also performs additional “strengthening” of the state.
+
+In simplified terms, it repeats the cryptographic mixing for a short period to reinforce the seeded state further.
+
+This is often described as:
+
+strengthening at startup
+occasional additional state refreshes later
+
+That does not mean it creates entropy from nothing.
+
+This is important to understand.
+
+If, by some miracle, none of the inputs contained any real unpredictability, additional hashing alone could not magically create security.
+
+But if you already have good inputs, this step helps to:
+
+mix the material further
+make certain attacks more difficult
+make the state more robust
+
+So it does not perform a miracle. It strengthens an already sound process.
+
+13. From This Comes a 32-Byte Private Key
+
+After Core has collected and mixed all the relevant inputs, the moment comes to draw a concrete result.
+
+It obtains 32 bytes that will serve as a candidate private key.
+
+But the job is not finished yet.
+
+Not every possible 32-byte string is a valid Bitcoin private key.
+
+So Core performs a check.
+
+14. Checking Whether the Number Is a Valid secp256k1 Private Key
+
+Bitcoin uses the secp256k1 elliptic curve.
+
+A private key must fall within a precisely defined range.
+
+If the resulting value is not valid, Core does not accept it.
+
+Instead, it:
+
+discards it
+generates a new one
+
+This is called rejection sampling.
+
+In practice, the chance of obtaining an invalid value is astronomically small, but the existence of the check is important for security.
+
+It is another sign of the system’s seriousness:
+
+it does not assume that “every result is valid.” It actually verifies it.
+
+[[VIZUAL 7]]
+
+15. Core Then Checks That the Private and Public Keys Match
+
+Once it has a valid private key, Bitcoin Core calculates the corresponding public key.
+
+But it does not stop there either.
+
+It performs an additional check that the private and public keys really form a valid pair.
+
+In simplified terms:
+
+it derives the public key
+it performs a small internal signature check
+it verifies that everything works as expected
+
+This is another level of sanity checking.
+
+The point is that the system does not simply say:
+
+“Here is some number; it is probably good”
+
+but rather:
+
+“I obtained a number, verified that it is valid, derived the public key, and confirmed that the pair actually works”
+
+That is a very good security pattern.
+
+16. The Private Key Becomes a BIP32 Master Key
+
+After Core obtains sound initial key material, it uses that material to create a BIP32 master key.
+
+This is where HD wallet logic enters the picture.
+
+Instead of randomly generating a completely unrelated new address each time, the wallet creates a single root and deterministically derives an entire tree of future keys and addresses from it.
+
+It does this through the BIP32 mechanism.
+
+Bitcoin Core takes the seed and passes it through HMAC-SHA512 with the label “Bitcoin seed.”
+
+The result is divided into:
+
+the master private key
+the chain code
+
+Together, these two parts form the foundation of the HD wallet.
+
+Why is that useful?
+
+Because one root can then produce:
+
+many addresses
+receive and change branches
+an orderly wallet structure
+deterministic recovery
+
+Good entropy at the beginning therefore makes the wallet’s entire future structure possible.
+
+[[VIZUAL 8]]
+
+17. Bitcoin Core Then Creates the Wallet Branches
+
+Once the BIP32 root exists, Core builds concrete wallet branches from it.
+
+For a modern descriptor wallet, this means that Core sets up several standard branches for different output types, for example:
+
+legacy
+nested SegWit
+native SegWit
+Taproot
+
+and for each of these types, it has:
+
+an external branch for receiving
+an internal branch for change
+
+This is practical because the wallet gains an orderly structure and can know in advance:
+
+how to generate addresses
+how to track funds
+how to organize different output types
+
+All of it comes from the same root.
+
+So:
+
+each new receive address is not the result of new physical entropy. It is the result of deterministic derivation from the root that has already been created.
+
+That is a very important distinction.
+
+18. Keypool: Future Addresses Prepared in Advance
+
+Bitcoin Core does not wait to “invent” a new address from scratch every time the user clicks Receive.
+
+It prepares a set of future derived keys and scripts in advance.
+
+That is the keypool.
+
+The purpose of the keypool is not to provide new entropy for every address.
+
+Its purpose is:
+
+faster wallet operation
+future addresses ready to use
+orderly management of derivation
+
+In other words, the truly “critical entropy” was needed at the beginning, when the wallet root was created.
+
+Later, you are mostly working with derivation.
+
+[[VIZUAL 9]]
+
+19. What If We Encrypt the Wallet with a Passphrase?
+
+It is very important to distinguish two things here:
+
+seed / private keys
+wallet passphrase
+
+They are not the same.
+
+Seed
+
+The seed is what the wallet and its private keys are created from.
+
+Wallet passphrase
+
+This is the password used to protect the wallet data on disk.
+
+When you encrypt the wallet, Bitcoin Core generates another, separate random key that is used to encrypt the wallet’s contents.
+
+That key is different from the wallet seed itself.
+
+The passphrase is used to lock that encryption layer.
+
+In other words:
+
+seed = the foundation of the keys
+passphrase = protection for the wallet data stored on disk
+
+This means wallet encryption does not create the seed or repair poor entropy. It protects the existing keys on disk.
+
+That is useful and important, but it is a different layer.
+
+20. What This Design Protects Against
+
+Bitcoin Core’s approach to entropy is very strong because it protects against many real-world problems:
+
+it does not rely on only one source
+it uses fresh operating system randomness
+it adds additional sources
+it maintains its own internal state
+it mixes everything cryptographically
+it checks the key’s validity
+it checks that the private and public keys match
+it can refresh the state periodically
+it fails closed rather than continuing when the operating system RNG does not work
+
+This is serious security engineering.
+
+21. What This Design Cannot Solve
+
+Still, we should be honest about what even the best RNG cannot solve.
+
+If the computer is compromised, that is a different problem.
+
+For example:
+
+if malware can read memory
+if someone controls the kernel
+if someone is recording your keyboard or screen
+if the entire operating system is maliciously compromised
+if you lose your backup
+
+then the quality of the entropy alone cannot save the entire system.
+
+This is extremely important to understand.
+
+A good RNG is necessary, but it is not sufficient for an entire cold storage system.
+
+That is why serious custody always includes other layers as well:
+
+a separate device
+offline signing
+a sound backup
+encryption
+procedures
+physical security
+
+[[VIZUAL 10]]
+
+22. Why This Matters for the Bigger Picture of Bitcoin Core
+
+Now we come to the broader point.
+
+The point of this article is not merely to say:
+
+“Bitcoin Core has a good RNG”
+
+but to show something larger:
+
+Bitcoin Core is software that takes Bitcoin’s fundamental security problems seriously.
+
+It is not a toy.
+
+It is not a marketing product selling “magical security.”
+
+It is a system that:
+
+validates the Bitcoin network
+uses a carefully constructed cryptographic RNG
+creates wallet roots through a rigorous process
+supports the descriptor wallet model
+can participate in PSBT and offline workflows
+has been studied publicly for years
+
+That is why many people see it as the backbone of the Bitcoin economy.
+
+Not because everyone must use its wallet in exactly the same way.
+
+But because Bitcoin Core often provides the foundational layer that:
+
+determines what constitutes a valid block
+determines what constitutes a valid transaction
+tracks UTXOs
+provides reliable validation
+enables serious custody architectures
+
+In the institutional world, it is often not the case that “everything” lives inside the Core wallet.
+
+There is often a broader stack:
+
+a Bitcoin Core node
+indexing and accounting
+a PSBT workflow
+an HSM, multisig, or another signer
+offline signing
+broadcasting through Core
+
+But Core still very often sits at the center of the validation side of the system.
+
+23. Why Bitcoin Core Is So Transparent and Trustworthy
+
+One more important point.
+
+Bitcoin Core’s strength is not merely that it is a “good idea.” It is also:
+
+open-source code
+publicly reviewed
+tested
+used for years in real-world environments
+analyzed by highly capable technical people
+
+That does not mean it is infallible.
+
+But it does mean that this is an extremely well-studied system.
+
+When it comes to things such as:
+
+the RNG
+wallet logic
+the secp256k1 library
+BIP32 derivation
+descriptor wallets
+
+this is not superficial code.
+
+These are parts of the Bitcoin stack that rank among the most important in the entire ecosystem.
+
+[[VIZUAL 11]]
+
+Conclusion
+
+If we simplify everything into one sentence, we could put it like this:
+
+When Bitcoin Core creates a new wallet, it does not “come up with some random number.” Through a rigorous, multilayered process, it creates a high-quality private root from which the entire wallet is later derived.
+
+That process includes:
+
+the operating system as the main source of randomness
+hardware randomness when available
+time and events
+information about the environment
+the generator’s internal state
+cryptographic mixing through SHA-512
+validation of the private key
+validation of the private-public key pair
+creation of the BIP32 master key
+setup of descriptor wallet branches
+
+That is exactly the kind of design you want to see in software intended to protect a serious amount of bitcoin.
+
+And that is why Bitcoin Core is much more than an ordinary wallet application.
+
+It is one of the most important technical foundations of the entire Bitcoin system.

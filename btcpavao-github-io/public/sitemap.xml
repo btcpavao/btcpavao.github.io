@@ -147,4 +147,60 @@
       <image:title>Bitcoin Core kao okosnica</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://btcpavao.com/en/bitcoin-core/</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://btcpavao.com/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/</loc>
+    <lastmod>2026-08-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-01.webp</image:loc>
+      <image:title>What entropy is</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-02.webp</image:loc>
+      <image:title>From a click to a wallet</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-03.webp</image:loc>
+      <image:title>The operating system as the main source</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-04.webp</image:loc>
+      <image:title>Time and tiny differences</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-05.webp</image:loc>
+      <image:title>The computer's living fingerprint</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-06.webp</image:loc>
+      <image:title>The SHA-512 mixer</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-07.webp</image:loc>
+      <image:title>From randomness to a valid key</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-08.webp</image:loc>
+      <image:title>The BIP32 root</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-09.webp</image:loc>
+      <image:title>One root, many addresses</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-10.webp</image:loc>
+      <image:title>A good RNG is not the whole of security</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bitcoin-core-entropija-11.webp</image:loc>
+      <image:title>Bitcoin Core as the backbone</image:title>
+    </image:image>
+  </url>
 </urlset>

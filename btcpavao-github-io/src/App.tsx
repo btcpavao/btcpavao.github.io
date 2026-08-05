@@ -35,6 +35,8 @@ import {
   ARTICLE_PATH,
   BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   BITCOIN_CORE_SERIES_PATH,
+  EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
+  EN_BITCOIN_CORE_SERIES_PATH,
   HR_HOME_PATH,
   LEARNING_ARTICLE_PATH,
   normalizePath,
@@ -100,6 +102,17 @@ const BITCOIN_CORE_ARTICLE_DISPLAY_DATE = "5. kolovoza 2026."
 const BITCOIN_CORE_ARTICLE_HERO_IMAGE = "/bitcoin-core-entropija-hero.webp"
 const BITCOIN_CORE_ARTICLE_HERO_IMAGE_SMALL =
   "/bitcoin-core-entropija-hero-840.webp"
+const EN_BITCOIN_CORE_SERIES_URL = `${SITE_URL}${EN_BITCOIN_CORE_SERIES_PATH}`
+const EN_BITCOIN_CORE_SERIES_DESCRIPTION =
+  "English essays about Bitcoin Core, wallets, validation, and the security foundations of the Bitcoin system."
+const EN_BITCOIN_CORE_ARTICLE_URL = `${SITE_URL}${EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH}`
+const EN_BITCOIN_CORE_ARTICLE_TITLE =
+  "How Bitcoin Core Generates Entropy When You Create a New Wallet"
+const EN_BITCOIN_CORE_ARTICLE_SUBTITLE =
+  "Why It Matters and Why Bitcoin Core Is So Important"
+const EN_BITCOIN_CORE_ARTICLE_DESCRIPTION =
+  "How Bitcoin Core gathers and cryptographically mixes entropy, validates a private key, and builds a BIP32 wallet from it."
+const EN_BITCOIN_CORE_ARTICLE_DISPLAY_DATE = "August 5, 2026"
 const BOOK_SECTION_HEADING = "Knjiga koja je godinama čekala red"
 const AGENTS_SECTION_HEADING = "Agenti kao probni čitatelji"
 const WEB_SECTION_HEADING = "Web stranice kroz razgovor"
@@ -211,7 +224,7 @@ const aiSeriesPosts: SeriesPost[] = [
   },
 ]
 
-const bitcoinCorePosts: SeriesPost[] = [
+const hrBitcoinCorePosts: SeriesPost[] = [
   {
     category: BITCOIN_CORE_SERIES_TITLE,
     title: BITCOIN_CORE_ARTICLE_TITLE,
@@ -222,7 +235,22 @@ const bitcoinCorePosts: SeriesPost[] = [
   },
 ]
 
-const latestWritingPosts = [...aiSeriesPosts, ...bitcoinCorePosts]
+const enBitcoinCorePosts: SeriesPost[] = [
+  {
+    category: BITCOIN_CORE_SERIES_TITLE,
+    title: EN_BITCOIN_CORE_ARTICLE_TITLE,
+    description: EN_BITCOIN_CORE_ARTICLE_SUBTITLE,
+    href: EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
+    language: "EN",
+    date: EN_BITCOIN_CORE_ARTICLE_DISPLAY_DATE,
+  },
+]
+
+const latestWritingPosts = [
+  ...enBitcoinCorePosts,
+  ...aiSeriesPosts,
+  ...hrBitcoinCorePosts,
+]
 
 const learningArticleHeadings = [
   {
@@ -520,61 +548,85 @@ type BitcoinCoreArticleBlock =
   | { type: "list"; items: string[] }
   | { type: "visual"; number: number }
 
+type BitcoinCoreLanguage = "hr" | "en"
+
 const bitcoinCoreVisuals = [
   {
     src: "/bitcoin-core-entropija-01.webp",
     smallSrc: "/bitcoin-core-entropija-01-840.webp",
     alt: "Novčić, dvije kocke, PIN uređaj i svjetleća 32-bajtna kapsula prikazuju rast entropije.",
+    enAlt:
+      "A coin, two dice, a PIN device, and a glowing 32-byte capsule illustrate increasing entropy.",
   },
   {
     src: "/bitcoin-core-entropija-02.webp",
     smallSrc: "/bitcoin-core-entropija-02-840.webp",
     alt: "Klik na laptopu pokreće tok od izvora slučajnosti preko kriptografske jezgre do HD wallet stabla.",
+    enAlt:
+      "A click on a laptop starts a flow from randomness sources through a cryptographic core to an HD wallet tree.",
   },
   {
     src: "/bitcoin-core-entropija-03.webp",
     smallSrc: "/bitcoin-core-entropija-03-840.webp",
     alt: "Sistemski izvori šalju plave blokove slučajnosti u središnju kriptografsku komoru.",
+    enAlt:
+      "System sources send blue blocks of randomness into a central cryptographic chamber.",
   },
   {
     src: "/bitcoin-core-entropija-04.webp",
     smallSrc: "/bitcoin-core-entropija-04-840.webp",
     alt: "Dva slična računalna modula proizvode različite izlaze zbog sitnih vremenskih i izvršnih razlika.",
+    enAlt:
+      "Two similar computer modules produce different outputs because of tiny timing and execution differences.",
   },
   {
     src: "/bitcoin-core-entropija-05.webp",
     smallSrc: "/bitcoin-core-entropija-05-840.webp",
     alt: "Komponente računala tvore jedinstveni svjetleći otisak koji ulazi u kriptografsku komoru.",
+    enAlt:
+      "Computer components form a unique glowing fingerprint that enters a cryptographic chamber.",
   },
   {
     src: "/bitcoin-core-entropija-06.webp",
     smallSrc: "/bitcoin-core-entropija-06-840.webp",
     alt: "Plavi i zlatni tokovi miješaju se u komori, a dio izlaza vraća se kao obnovljeno interno stanje.",
+    enAlt:
+      "Blue and golden streams mix inside a chamber while part of the output returns as refreshed internal state.",
   },
   {
     src: "/bitcoin-core-entropija-07.webp",
     smallSrc: "/bitcoin-core-entropija-07-840.webp",
     alt: "Nasumična vrijednost ulazi u golemo zlatno polje valjanih privatnih ključeva uz vrlo tanak crveni rub.",
+    enAlt:
+      "A random value enters a vast golden field of valid private keys bordered by a very thin red edge.",
   },
   {
     src: "/bitcoin-core-entropija-08.webp",
     smallSrc: "/bitcoin-core-entropija-08-840.webp",
     alt: "Zlatni seed postaje dvije povezane linije iz kojih raste razgranato BIP32 stablo.",
+    enAlt:
+      "A golden seed becomes two connected lines from which a branching BIP32 tree grows.",
   },
   {
     src: "/bitcoin-core-entropija-09.webp",
     smallSrc: "/bitcoin-core-entropija-09-840.webp",
     alt: "Jedan zlatni korijen deterministički se grana prema mnogim pripremljenim adresama.",
+    enAlt:
+      "A single golden root branches deterministically into many prepared addresses.",
   },
   {
     src: "/bitcoin-core-entropija-10.webp",
     smallSrc: "/bitcoin-core-entropija-10-840.webp",
     alt: "Kriptografska jezgra zaštićena je koncentričnim slojevima operacijske, uređajne i fizičke sigurnosti.",
+    enAlt:
+      "A cryptographic core is protected by concentric layers of operating system, device, and physical security.",
   },
   {
     src: "/bitcoin-core-entropija-11.webp",
     smallSrc: "/bitcoin-core-entropija-11-840.webp",
     alt: "Robustan Bitcoin Core modul ugrađen je u temelje sustava koji podupire širu Bitcoin infrastrukturu.",
+    enAlt:
+      "A robust Bitcoin Core module is embedded in the foundation of a system supporting broader Bitcoin infrastructure.",
   },
 ] as const
 
@@ -611,7 +663,7 @@ const bitcoinCoreHeadingIcons: ReactNode[] = [
 const bitcoinCoreConclusionIcon = createBitcoinCorePictogram(CircleCheckBig)
 const bitcoinCoreFallbackIcon = createBitcoinCorePictogram(Dice5)
 
-const bitcoinCoreBoldStatements = new Set([
+const hrBitcoinCoreBoldStatements = new Set([
   "Kako stvoriti privatni ključ koji nitko drugi ne može pogoditi?",
   "Entropija je mjera nepredvidivosti.",
   "Bitcoin Core radi izravno s kriptografskim materijalom, bez “riječi” kao korisničkog sloja.",
@@ -629,14 +681,41 @@ const bitcoinCoreBoldStatements = new Set([
   "Passphrase za wallet",
 ])
 
-function isBitcoinCoreLead(text: string) {
+const enBitcoinCoreBoldStatements = new Set([
+  "How do you create a private key that no one else can guess?",
+  "Entropy is a measure of unpredictability.",
+  "Bitcoin Core works directly with cryptographic material, without “words” as a user-facing layer.",
+  "That is the heart of the whole story.",
+  "Hardware randomness is an additional source, not the only foundation.",
+  "Core accumulates and maintains its own high-quality RNG state rather than merely “taking a number and calling it done.”",
+  "It uses SHA-512 for that.",
+  "This is called rejection sampling.",
+  "Together, these two parts form the foundation of the HD wallet.",
+  "That is the keypool.",
+  "A good RNG is necessary, but it is not sufficient for an entire cold storage system.",
+  "Bitcoin Core is software that takes Bitcoin’s fundamental security problems seriously.",
+  "It is one of the most important technical foundations of the entire Bitcoin system.",
+  "Seed",
+  "Wallet passphrase",
+])
+
+function isBitcoinCoreLead(text: string, language: BitcoinCoreLanguage) {
+  const boldStatements =
+    language === "en"
+      ? enBitcoinCoreBoldStatements
+      : hrBitcoinCoreBoldStatements
+
   return (
     text.endsWith(":") ||
-    text === "Jednostavan primjer" ||
-    text === "Još jednostavnije" ||
-    text === "Najjednostavnije:" ||
+    ["Jednostavan primjer", "Još jednostavnije", "Najjednostavnije:"].includes(
+      text
+    ) ||
+    ["A simple example", "Even simpler", "The simplest explanation:"].includes(
+      text
+    ) ||
     text === "Zašto?" ||
-    bitcoinCoreBoldStatements.has(text)
+    text === "Why?" ||
+    boldStatements.has(text)
   )
 }
 
@@ -651,7 +730,10 @@ function getBitcoinCoreHeadingIcon(
   return bitcoinCoreConclusionIcon
 }
 
-function parseBitcoinCoreArticle(source: string) {
+function parseBitcoinCoreArticle(
+  source: string,
+  language: BitcoinCoreLanguage
+) {
   const normalized = source.replace(/\r\n?/g, "\n").trim()
   const [title, subtitle, ...bodyLines] = normalized.split("\n")
   const chunks = bodyLines
@@ -672,7 +754,8 @@ function parseBitcoinCoreArticle(source: string) {
       const lines = chunk.split("\n").map((line) => line.trim())
       const isNumberedHeading = /^\d+\.\s/.test(chunk)
       const isHeading =
-        isNumberedHeading || chunk === "Zaključak"
+        isNumberedHeading ||
+        chunk === (language === "en" ? "Conclusion" : "Zaključak")
 
       if (isHeading) {
         return [
@@ -685,7 +768,10 @@ function parseBitcoinCoreArticle(source: string) {
         ]
       }
 
-      if (lines[0] === "Još jednostavnije") {
+      if (
+        lines[0] ===
+        (language === "en" ? "Even simpler" : "Još jednostavnije")
+      ) {
         return [
           { type: "paragraph", text: lines[0] },
           { type: "list", items: lines.slice(1) },
@@ -694,7 +780,9 @@ function parseBitcoinCoreArticle(source: string) {
 
       if (
         lines[0] === "Kod privatnih ključeva upravo to želimo:" ||
-        lines[0] === "To ne znači da je manje siguran."
+        lines[0] === "To ne znači da je manje siguran." ||
+        lines[0] === "With private keys, that is exactly what we want:" ||
+        lines[0] === "That does not make it less secure."
       ) {
         return lines.map((line) => ({ type: "paragraph", text: line }))
       }
@@ -742,6 +830,37 @@ function setCanonicalUrl(href: string) {
   link.href = href
 }
 
+type LanguageAlternates = {
+  hr: string
+  en: string
+  xDefault: string
+}
+
+function setLanguageAlternates(alternates?: LanguageAlternates) {
+  document.head
+    .querySelectorAll('link[data-language-alternate="true"]')
+    .forEach((link) => link.remove())
+
+  if (!alternates) {
+    return
+  }
+
+  const entries = [
+    ["hr", alternates.hr],
+    ["en", alternates.en],
+    ["x-default", alternates.xDefault],
+  ] as const
+
+  for (const [language, href] of entries) {
+    const link = document.createElement("link")
+    link.rel = "alternate"
+    link.hreflang = language
+    link.href = href
+    link.dataset.languageAlternate = "true"
+    document.head.append(link)
+  }
+}
+
 function renderLinkedText(text: string) {
   return text.split(/(https?:\/\/[^\s]+)/g).map((part, index) => {
     if (!part.startsWith("http")) {
@@ -778,6 +897,8 @@ type MetadataOptions = {
   publishedDate?: string
   articleSection?: string
   image?: string
+  language?: "hr" | "en"
+  alternates?: LanguageAlternates
 }
 
 function usePageMetadata({
@@ -789,16 +910,25 @@ function usePageMetadata({
   publishedDate,
   articleSection = "AI u praksi",
   image,
+  language = "hr",
+  alternates,
 }: MetadataOptions) {
   useEffect(() => {
-    document.documentElement.lang = "hr"
+    document.documentElement.lang = language
     document.title = title
     setCanonicalUrl(url)
+    setLanguageAlternates(alternates)
     setMetaContent("name", "description", description)
     setMetaContent("property", "og:type", type)
     setMetaContent("property", "og:title", title)
     setMetaContent("property", "og:description", ogDescription)
     setMetaContent("property", "og:url", url)
+    setMetaContent("property", "og:locale", language === "en" ? "en_US" : "hr_HR")
+    setMetaContent(
+      "property",
+      "og:locale:alternate",
+      language === "en" ? "hr_HR" : "en_US"
+    )
     setMetaContent("name", "twitter:title", title)
     setMetaContent("name", "twitter:description", ogDescription)
 
@@ -813,8 +943,10 @@ function usePageMetadata({
     }
   }, [
     articleSection,
+    alternates,
     description,
     image,
+    language,
     ogDescription,
     publishedDate,
     title,
@@ -874,25 +1006,51 @@ function useHrHomeMetadata() {
   })
 }
 
-function useBitcoinCoreSeriesMetadata() {
+function useBitcoinCoreSeriesMetadata(language: BitcoinCoreLanguage = "hr") {
+  const isEnglish = language === "en"
+
   usePageMetadata({
     title: `${BITCOIN_CORE_SERIES_TITLE} | Pavao Pahljina`,
-    description: BITCOIN_CORE_SERIES_DESCRIPTION,
-    ogDescription: BITCOIN_CORE_SERIES_DESCRIPTION,
-    url: BITCOIN_CORE_SERIES_URL,
+    description: isEnglish
+      ? EN_BITCOIN_CORE_SERIES_DESCRIPTION
+      : BITCOIN_CORE_SERIES_DESCRIPTION,
+    ogDescription: isEnglish
+      ? EN_BITCOIN_CORE_SERIES_DESCRIPTION
+      : BITCOIN_CORE_SERIES_DESCRIPTION,
+    url: isEnglish ? EN_BITCOIN_CORE_SERIES_URL : BITCOIN_CORE_SERIES_URL,
+    language,
+    alternates: {
+      hr: BITCOIN_CORE_SERIES_URL,
+      en: EN_BITCOIN_CORE_SERIES_URL,
+      xDefault: EN_BITCOIN_CORE_SERIES_URL,
+    },
   })
 }
 
-function useBitcoinCoreArticleMetadata() {
+function useBitcoinCoreArticleMetadata(language: BitcoinCoreLanguage = "hr") {
+  const isEnglish = language === "en"
+
   usePageMetadata({
-    title: BITCOIN_CORE_ARTICLE_TITLE,
-    description: BITCOIN_CORE_ARTICLE_DESCRIPTION,
-    ogDescription: BITCOIN_CORE_ARTICLE_DESCRIPTION,
-    url: BITCOIN_CORE_ARTICLE_URL,
+    title: isEnglish
+      ? EN_BITCOIN_CORE_ARTICLE_TITLE
+      : BITCOIN_CORE_ARTICLE_TITLE,
+    description: isEnglish
+      ? EN_BITCOIN_CORE_ARTICLE_DESCRIPTION
+      : BITCOIN_CORE_ARTICLE_DESCRIPTION,
+    ogDescription: isEnglish
+      ? "How Bitcoin Core creates a high-quality private root from multiple entropy sources and uses it to build an entire wallet."
+      : BITCOIN_CORE_ARTICLE_DESCRIPTION,
+    url: isEnglish ? EN_BITCOIN_CORE_ARTICLE_URL : BITCOIN_CORE_ARTICLE_URL,
     type: "article",
     publishedDate: BITCOIN_CORE_ARTICLE_DATE,
     articleSection: BITCOIN_CORE_SERIES_TITLE,
     image: `${SITE_URL}/bitcoin-core-entropija-og.jpg`,
+    language,
+    alternates: {
+      hr: BITCOIN_CORE_ARTICLE_URL,
+      en: EN_BITCOIN_CORE_ARTICLE_URL,
+      xDefault: EN_BITCOIN_CORE_ARTICLE_URL,
+    },
   })
 }
 
@@ -1303,15 +1461,19 @@ function PageChrome({
   active = "series",
   sectionHref = AI_SERIES_PATH,
   sectionLabel = AI_SERIES_TITLE,
+  language = "hr",
 }: {
   children: ReactNode
   active?: "home" | "series"
   sectionHref?: string
   sectionLabel?: string
+  language?: "hr" | "en"
 }) {
+  const isEnglish = language === "en"
+
   return (
     <div className="relative isolate min-h-screen overflow-x-clip bg-background text-foreground">
-      <SkipLink label="Preskoči na sadržaj" />
+      <SkipLink label={isEnglish ? "Skip to content" : "Preskoči na sadržaj"} />
       <div
         aria-hidden="true"
         className="page-atmosphere pointer-events-none absolute inset-0"
@@ -1342,9 +1504,9 @@ function PageChrome({
               href="/#contact"
               className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
             >
-              Kontakt
+              {isEnglish ? "Contact" : "Kontakt"}
             </a>
-            <ThemeToggle language="hr" />
+            <ThemeToggle language={language} />
           </div>
         </div>
       </header>
@@ -1503,7 +1665,7 @@ function HrHomePage() {
       title: BITCOIN_CORE_SERIES_TITLE,
       description: BITCOIN_CORE_SERIES_DESCRIPTION,
       href: BITCOIN_CORE_SERIES_PATH,
-      count: `${bitcoinCorePosts.length} tekst`,
+      count: `${hrBitcoinCorePosts.length} tekst`,
     },
   ]
 
@@ -1555,13 +1717,24 @@ function HrHomePage() {
   )
 }
 
-function BitcoinCoreSeriesPage() {
-  useBitcoinCoreSeriesMetadata()
+function BitcoinCoreSeriesPage({
+  language = "hr",
+}: {
+  language?: BitcoinCoreLanguage
+}) {
+  const isEnglish = language === "en"
+  const posts = isEnglish ? enBitcoinCorePosts : hrBitcoinCorePosts
+  const seriesPath = isEnglish
+    ? EN_BITCOIN_CORE_SERIES_PATH
+    : BITCOIN_CORE_SERIES_PATH
+
+  useBitcoinCoreSeriesMetadata(language)
 
   return (
     <PageChrome
-      sectionHref={BITCOIN_CORE_SERIES_PATH}
+      sectionHref={seriesPath}
       sectionLabel={BITCOIN_CORE_SERIES_TITLE}
+      language={language}
     >
       <main
         id="main-content"
@@ -1570,10 +1743,10 @@ function BitcoinCoreSeriesPage() {
         <section className="bitcoin-core-series-intro">
           <div>
             <a
-              href={HR_HOME_PATH}
+              href={isEnglish ? "/" : HR_HOME_PATH}
               className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
             >
-              Hrvatski tekstovi
+              {isEnglish ? "Home" : "Hrvatski tekstovi"}
             </a>
             <p className="mt-12 text-[11px] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
               Bitcoin
@@ -1595,9 +1768,12 @@ function BitcoinCoreSeriesPage() {
         </section>
 
         <section className="mt-16 border-t border-border/60 pt-16">
-          <SectionHeader eyebrow="Objavljeni tekstovi" title="Bitcoin Core" />
+          <SectionHeader
+            eyebrow={isEnglish ? "Published writing" : "Objavljeni tekstovi"}
+            title="Bitcoin Core"
+          />
           <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {bitcoinCorePosts.map((post) => (
+            {posts.map((post) => (
               <SeriesCard key={post.href} post={post} />
             ))}
           </div>
@@ -1607,7 +1783,13 @@ function BitcoinCoreSeriesPage() {
   )
 }
 
-function BitcoinCoreArticleVisual({ number }: { number: number }) {
+function BitcoinCoreArticleVisual({
+  number,
+  language,
+}: {
+  number: number
+  language: BitcoinCoreLanguage
+}) {
   const visual = bitcoinCoreVisuals[number - 1]
 
   if (!visual) {
@@ -1626,7 +1808,7 @@ function BitcoinCoreArticleVisual({ number }: { number: number }) {
           src={visual.src}
           srcSet={`${visual.smallSrc} 840w, ${visual.src} 1122w`}
           sizes="(max-width: 840px) calc(100vw - 32px), 832px"
-          alt={visual.alt}
+          alt={language === "en" ? visual.enAlt : visual.alt}
           width={1122}
           height={1402}
           loading="lazy"
@@ -1659,7 +1841,13 @@ function BitcoinCoreSectionHeading({
   )
 }
 
-function BitcoinCoreParagraph({ text }: { text: string }) {
+function BitcoinCoreParagraph({
+  text,
+  language,
+}: {
+  text: string
+  language: BitcoinCoreLanguage
+}) {
   const isQuote = /^“.+”$/.test(text)
 
   return (
@@ -1667,14 +1855,14 @@ function BitcoinCoreParagraph({ text }: { text: string }) {
       className={
         isQuote
           ? "bitcoin-core-article-quote"
-          : isBitcoinCoreLead(text)
+          : isBitcoinCoreLead(text, language)
             ? "bitcoin-core-article-lead"
             : undefined
       }
     >
       {isQuote ? (
         <em>{renderLinkedText(text)}</em>
-      ) : isBitcoinCoreLead(text) ? (
+      ) : isBitcoinCoreLead(text, language) ? (
         <strong>{renderLinkedText(text)}</strong>
       ) : (
         renderLinkedText(text)
@@ -1698,7 +1886,11 @@ function BitcoinCoreListItem({ text }: { text: string }) {
   return renderLinkedText(text)
 }
 
-function BitcoinCoreBackToTop() {
+function BitcoinCoreBackToTop({
+  language,
+}: {
+  language: BitcoinCoreLanguage
+}) {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -1735,8 +1927,8 @@ function BitcoinCoreBackToTop() {
       }`}
       style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}
       onClick={scrollToTop}
-      aria-label="Natrag na vrh"
-      title="Natrag na vrh"
+      aria-label={language === "en" ? "Back to top" : "Natrag na vrh"}
+      title={language === "en" ? "Back to top" : "Natrag na vrh"}
       aria-hidden={!isVisible}
       tabIndex={isVisible ? 0 : -1}
     >
@@ -1751,10 +1943,29 @@ function BitcoinCoreBackToTop() {
 
 function BitcoinCoreArticlePage({
   initialArticleSource = "",
+  language = "hr",
 }: {
   initialArticleSource?: string
+  language?: BitcoinCoreLanguage
 }) {
-  useBitcoinCoreArticleMetadata()
+  const isEnglish = language === "en"
+  const articleTitle = isEnglish
+    ? EN_BITCOIN_CORE_ARTICLE_TITLE
+    : BITCOIN_CORE_ARTICLE_TITLE
+  const articleSubtitle = isEnglish
+    ? EN_BITCOIN_CORE_ARTICLE_SUBTITLE
+    : BITCOIN_CORE_ARTICLE_SUBTITLE
+  const articleDisplayDate = isEnglish
+    ? EN_BITCOIN_CORE_ARTICLE_DISPLAY_DATE
+    : BITCOIN_CORE_ARTICLE_DISPLAY_DATE
+  const seriesPath = isEnglish
+    ? EN_BITCOIN_CORE_SERIES_PATH
+    : BITCOIN_CORE_SERIES_PATH
+  const counterpartPath = isEnglish
+    ? BITCOIN_CORE_ENTROPY_ARTICLE_PATH
+    : EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH
+
+  useBitcoinCoreArticleMetadata(language)
   useReadingProgress()
   const [articleSource, setArticleSource] = useState(initialArticleSource)
 
@@ -1765,7 +1976,11 @@ function BitcoinCoreArticlePage({
 
     let isMounted = true
 
-    import("./bitcoin-core-article.txt?raw").then((module) => {
+    const sourcePromise = isEnglish
+      ? import("./bitcoin-core-article-en.txt?raw")
+      : import("./bitcoin-core-article.txt?raw")
+
+    sourcePromise.then((module) => {
       if (isMounted) {
         setArticleSource(module.default)
       }
@@ -1774,22 +1989,24 @@ function BitcoinCoreArticlePage({
     return () => {
       isMounted = false
     }
-  }, [articleSource])
+  }, [articleSource, isEnglish])
 
   const bitcoinCoreArticle = articleSource
-    ? parseBitcoinCoreArticle(articleSource)
+    ? parseBitcoinCoreArticle(articleSource, language)
     : {
-        title: BITCOIN_CORE_ARTICLE_TITLE,
-        subtitle: BITCOIN_CORE_ARTICLE_SUBTITLE,
+        title: articleTitle,
+        subtitle: articleSubtitle,
         blocks: [] as BitcoinCoreArticleBlock[],
       }
 
   if (
-    bitcoinCoreArticle.title !== BITCOIN_CORE_ARTICLE_TITLE ||
-    bitcoinCoreArticle.subtitle !== BITCOIN_CORE_ARTICLE_SUBTITLE
+    bitcoinCoreArticle.title !== articleTitle ||
+    bitcoinCoreArticle.subtitle !== articleSubtitle
   ) {
     throw new Error(
-      "Naslov ili podnaslov Bitcoin Core članka nije nepromijenjen."
+      isEnglish
+        ? "The Bitcoin Core article title or subtitle does not match its approved copy."
+        : "Naslov ili podnaslov Bitcoin Core članka nije nepromijenjen."
     )
   }
 
@@ -1809,8 +2026,9 @@ function BitcoinCoreArticlePage({
 
   return (
     <PageChrome
-      sectionHref={BITCOIN_CORE_SERIES_PATH}
+      sectionHref={seriesPath}
       sectionLabel={BITCOIN_CORE_SERIES_TITLE}
+      language={language}
     >
       <div className="reading-progress" aria-hidden="true" />
       <main id="main-content" className="relative pb-20">
@@ -1821,7 +2039,11 @@ function BitcoinCoreArticlePage({
                 src={BITCOIN_CORE_ARTICLE_HERO_IMAGE}
                 srcSet={`${BITCOIN_CORE_ARTICLE_HERO_IMAGE_SMALL} 840w, ${BITCOIN_CORE_ARTICLE_HERO_IMAGE} 1200w`}
                 sizes="(max-width: 760px) 100vw, 60vw"
-                alt="Klik na laptopu pokreće stvaranje Bitcoin Core walleta iz više izvora slučajnosti."
+                alt={
+                  isEnglish
+                    ? "A click on a laptop starts the creation of a Bitcoin Core wallet from multiple sources of randomness."
+                    : "Klik na laptopu pokreće stvaranje Bitcoin Core walleta iz više izvora slučajnosti."
+                }
                 width={1200}
                 height={900}
                 decoding="async"
@@ -1832,7 +2054,7 @@ function BitcoinCoreArticlePage({
             <div className="article-hero-content">
               <div className="article-hero-copy">
                 <a
-                  href={BITCOIN_CORE_SERIES_PATH}
+                  href={seriesPath}
                   className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
                 >
                   Bitcoin Core
@@ -1843,8 +2065,15 @@ function BitcoinCoreArticlePage({
                     Bitcoin Core
                   </span>
                   <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
-                    Hrvatski
+                    {isEnglish ? "English" : "Hrvatski"}
                   </span>
+                  <a
+                    href={counterpartPath}
+                    className="surface-ring inline-flex min-h-10 items-center rounded-full bg-background/78 px-3 py-1 backdrop-blur transition-[background-color,color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground active:scale-[0.96]"
+                    hrefLang={isEnglish ? "hr" : "en"}
+                  >
+                    {isEnglish ? "Croatian version" : "English version"}
+                  </a>
                   <a
                     href="/"
                     rel="author"
@@ -1856,10 +2085,11 @@ function BitcoinCoreArticlePage({
                     className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
                     dateTime={BITCOIN_CORE_ARTICLE_DATE}
                   >
-                    {BITCOIN_CORE_ARTICLE_DISPLAY_DATE}
+                    {articleDisplayDate}
                   </time>
                   <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
-                    {bitcoinCoreArticleReadingMinutes} min čitanja
+                    {bitcoinCoreArticleReadingMinutes}{" "}
+                    {isEnglish ? "min read" : "min čitanja"}
                   </span>
                 </div>
 
@@ -1875,11 +2105,11 @@ function BitcoinCoreArticlePage({
 
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <nav
-              aria-label="Sadržaj članka"
+              aria-label={isEnglish ? "Article contents" : "Sadržaj članka"}
               className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
             >
               <p className="text-[11px] font-semibold text-muted-foreground uppercase">
-                Sadržaj
+                {isEnglish ? "Contents" : "Sadržaj"}
               </p>
               <div className="mt-3 grid gap-2 sm:grid-cols-2">
                 {bitcoinCoreArticleHeadings.map((heading) => (
@@ -1923,6 +2153,7 @@ function BitcoinCoreArticlePage({
                     <BitcoinCoreArticleVisual
                       key={`visual-${block.number}`}
                       number={block.number}
+                      language={language}
                     />
                   )
                 }
@@ -1931,46 +2162,50 @@ function BitcoinCoreArticlePage({
                   <BitcoinCoreParagraph
                     key={`paragraph-${index}`}
                     text={block.text}
+                    language={language}
                   />
                 )
               })}
-              {!articleSource ? <p>Učitavanje članka…</p> : null}
+              {!articleSource ? (
+                <p>{isEnglish ? "Loading article…" : "Učitavanje članka…"}</p>
+              ) : null}
             </div>
 
             <nav
-              aria-label="Povezani sadržaj"
+              aria-label={isEnglish ? "Related content" : "Povezani sadržaj"}
               className="article-shell mt-14 grid gap-3 sm:grid-cols-2"
             >
               <a
-                href={BITCOIN_CORE_SERIES_PATH}
+                href={seriesPath}
                 className={`glimmer-button surface-shadow-soft rounded-[24px] bg-card/82 p-5 hover:bg-card sm:p-6 ${liftHover}`}
               >
                 <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
-                  Sekcija
+                  {isEnglish ? "Section" : "Sekcija"}
                 </span>
                 <span className="mt-3 block font-display text-xl font-bold tracking-[-0.04em] text-balance text-foreground">
                   Bitcoin Core
                 </span>
               </a>
               <a
-                href={HR_HOME_PATH}
+                href={isEnglish ? "/" : HR_HOME_PATH}
                 className={`glimmer-button surface-shadow-soft rounded-[24px] bg-card/82 p-5 hover:bg-card sm:p-6 ${liftHover}`}
               >
                 <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
-                  Hrvatski
+                  {isEnglish ? "English" : "Hrvatski"}
                 </span>
                 <span className="mt-3 block font-display text-xl font-bold tracking-[-0.04em] text-balance text-foreground">
-                  Svi hrvatski tekstovi
+                  {isEnglish ? "All English writing" : "Svi hrvatski tekstovi"}
                 </span>
               </a>
             </nav>
           </div>
         </article>
       </main>
-      <BitcoinCoreBackToTop />
+      <BitcoinCoreBackToTop language={language} />
     </PageChrome>
   )
 }
+
 
 type WorkflowBlock =
   | { type: "p"; text: string }
@@ -3269,10 +3504,23 @@ export function App({
     return <BitcoinCoreSeriesPage />
   }
 
+  if (currentPath === EN_BITCOIN_CORE_SERIES_PATH) {
+    return <BitcoinCoreSeriesPage language="en" />
+  }
+
   if (currentPath === BITCOIN_CORE_ENTROPY_ARTICLE_PATH) {
     return (
       <BitcoinCoreArticlePage
         initialArticleSource={initialBitcoinCoreArticleSource}
+      />
+    )
+  }
+
+  if (currentPath === EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH) {
+    return (
+      <BitcoinCoreArticlePage
+        initialArticleSource={initialBitcoinCoreArticleSource}
+        language="en"
       />
     )
   }

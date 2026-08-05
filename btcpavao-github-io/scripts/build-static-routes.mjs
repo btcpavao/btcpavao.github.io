@@ -10,6 +10,9 @@ const seriesUrl = `${siteUrl}/hr/ai-u-praksi/`
 const seriesId = `${seriesUrl}#collection`
 const bitcoinCoreSeriesUrl = `${siteUrl}/hr/bitcoin-core/`
 const bitcoinCoreSeriesId = `${bitcoinCoreSeriesUrl}#collection`
+const enBitcoinCoreSeriesUrl = `${siteUrl}/en/bitcoin-core/`
+const enBitcoinCoreSeriesId = `${enBitcoinCoreSeriesUrl}#collection`
+const enBitcoinCoreArticleUrl = `${enBitcoinCoreSeriesUrl}how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/`
 
 const homeRoute = {
   appPath: "/",
@@ -157,6 +160,11 @@ const routes = [
     imageHeight: 630,
     breadcrumbParents: [{ name: "Hrvatski tekstovi", item: hrUrl }],
     about: ["Bitcoin Core", "Bitcoin wallet", "Bitcoin sigurnost"],
+    alternates: {
+      hr: bitcoinCoreSeriesUrl,
+      en: enBitcoinCoreSeriesUrl,
+      xDefault: enBitcoinCoreSeriesUrl,
+    },
   },
   {
     appPath:
@@ -195,6 +203,80 @@ const routes = [
       "kriptografski RNG",
       "Bitcoin wallet",
     ],
+    alternates: {
+      hr: `${bitcoinCoreSeriesUrl}kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/`,
+      en: enBitcoinCoreArticleUrl,
+      xDefault: enBitcoinCoreArticleUrl,
+    },
+  },
+  {
+    appPath: "/en/bitcoin-core/",
+    routePath: "en/bitcoin-core",
+    routeUrl: enBitcoinCoreSeriesUrl,
+    title: "Bitcoin Core | Pavao Pahljina",
+    collectionName: "Bitcoin Core",
+    description:
+      "English essays about Bitcoin Core, wallets, validation, and the security foundations of the Bitcoin system.",
+    ogDescription:
+      "English essays about Bitcoin Core, wallets, validation, and the security foundations of the Bitcoin system.",
+    type: "website",
+    language: "en-US",
+    image: `${siteUrl}/bitcoin-core-entropija-og.jpg`,
+    imageAlt:
+      "The cryptographic process of creating a Bitcoin Core wallet in a Mediterranean setting.",
+    imageWidth: 1200,
+    imageHeight: 630,
+    breadcrumbParents: [],
+    about: ["Bitcoin Core", "Bitcoin wallet", "Bitcoin security"],
+    alternates: {
+      hr: bitcoinCoreSeriesUrl,
+      en: enBitcoinCoreSeriesUrl,
+      xDefault: enBitcoinCoreSeriesUrl,
+    },
+  },
+  {
+    appPath:
+      "/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/",
+    routePath:
+      "en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet",
+    routeUrl: enBitcoinCoreArticleUrl,
+    title: "How Bitcoin Core Generates Entropy When You Create a New Wallet",
+    headline:
+      "How Bitcoin Core Generates Entropy When You Create a New Wallet",
+    description:
+      "How Bitcoin Core gathers and cryptographically mixes entropy, validates a private key, and builds a BIP32 wallet from it.",
+    ogDescription:
+      "How Bitcoin Core creates a high-quality private root from multiple entropy sources and uses it to build an entire wallet.",
+    type: "article",
+    language: "en-US",
+    publishedDate: "2026-08-05",
+    sectionName: "Bitcoin Core",
+    sectionId: enBitcoinCoreSeriesId,
+    articleTag: "Bitcoin Core entropy",
+    breadcrumbParents: [
+      { name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl },
+    ],
+    image: `${siteUrl}/bitcoin-core-entropija-og.jpg`,
+    imageAlt:
+      "The cryptographic process of creating a Bitcoin Core wallet in a Mediterranean setting.",
+    imageWidth: 1200,
+    imageHeight: 630,
+    heroImage: "/bitcoin-core-entropija-hero.webp",
+    heroImageSrcSet:
+      "/bitcoin-core-entropija-hero-840.webp 840w, /bitcoin-core-entropija-hero.webp 1200w",
+    keywords: [
+      "Bitcoin Core",
+      "entropy",
+      "private key",
+      "BIP32",
+      "cryptographic RNG",
+      "Bitcoin wallet",
+    ],
+    alternates: {
+      hr: `${bitcoinCoreSeriesUrl}kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/`,
+      en: enBitcoinCoreArticleUrl,
+      xDefault: enBitcoinCoreArticleUrl,
+    },
   },
 ]
 
@@ -246,6 +328,7 @@ function breadcrumbItems(route) {
 }
 
 function structuredData(route) {
+  const language = route.language ?? "hr-HR"
   const breadcrumb = {
     "@type": "BreadcrumbList",
     "@id": `${route.routeUrl}#breadcrumb`,
@@ -262,7 +345,7 @@ function structuredData(route) {
           url: route.routeUrl,
           headline: route.headline,
           description: route.description,
-          inLanguage: "hr-HR",
+          inLanguage: language,
           datePublished: route.publishedDate,
           dateModified: route.publishedDate,
           articleSection: route.sectionName,
@@ -296,7 +379,7 @@ function structuredData(route) {
         "@id": `${route.routeUrl}#collection`,
         name: route.collectionName,
         description: route.description,
-        inLanguage: "hr-HR",
+        inLanguage: language,
         url: route.routeUrl,
         isPartOf: { "@id": websiteId },
         author: { "@id": personId },
@@ -321,8 +404,14 @@ function routeHeadMeta(route) {
     <link rel="preload" as="image" href="${heroImage}" type="image/webp" imagesrcset="${heroImageSrcSet}" imagesizes="(max-width: 760px) 100vw, 60vw" fetchpriority="high" />
 `
       : ""
+  const alternateLinks = route.alternates
+    ? `    <link rel="alternate" hreflang="hr" href="${route.alternates.hr}" />
+    <link rel="alternate" hreflang="en" href="${route.alternates.en}" />
+    <link rel="alternate" hreflang="x-default" href="${route.alternates.xDefault}" />
+`
+    : ""
 
-  return `${articleMeta}    <script type="application/ld+json">
+  return `${articleMeta}${alternateLinks}    <script type="application/ld+json">
       ${JSON.stringify(structuredData(route), null, 8)}
     </script>
 `
@@ -338,8 +427,13 @@ function renderRoot(html, appPath) {
 
 function renderRoute(baseHtml, route) {
   let html = baseHtml
+  const isEnglish = (route.language ?? "hr-HR").startsWith("en")
 
-  html = replaceFirst(html, /<html lang="en">/, '<html lang="hr">')
+  html = replaceFirst(
+    html,
+    /<html lang="en">/,
+    `<html lang="${isEnglish ? "en" : "hr"}">`
+  )
   html = replaceFirst(
     html,
     /<title>.*?<\/title>/,
@@ -363,12 +457,12 @@ function renderRoute(baseHtml, route) {
   html = replaceFirst(
     html,
     /<meta\s+property="og:locale"[^>]*>/,
-    '<meta property="og:locale" content="hr_HR" />'
+    `<meta property="og:locale" content="${isEnglish ? "en_US" : "hr_HR"}" />`
   )
   html = replaceFirst(
     html,
     /<meta\s+property="og:locale:alternate"[^>]*>/,
-    '<meta property="og:locale:alternate" content="en_US" />'
+    `<meta property="og:locale:alternate" content="${isEnglish ? "hr_HR" : "en_US"}" />`
   )
   html = replaceFirst(
     html,

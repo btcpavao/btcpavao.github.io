@@ -5,6 +5,7 @@ import "./index.css"
 import App, { type ArticleDataModule } from "./App.tsx"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
 import {
+  EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   needsBitcoinCoreArticleSource,
   needsArticleData,
   needsLearningArticleHtml,
@@ -29,7 +30,9 @@ async function startApp() {
 
   if (needsBitcoinCoreArticleSource(initialPath)) {
     initialBitcoinCoreArticleSource = (
-      await import("./bitcoin-core-article.txt?raw")
+      initialPath === EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH
+        ? await import("./bitcoin-core-article-en.txt?raw")
+        : await import("./bitcoin-core-article.txt?raw")
     ).default
   }
 

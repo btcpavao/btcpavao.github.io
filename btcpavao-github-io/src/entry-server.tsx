@@ -3,10 +3,12 @@ import { renderToString } from "react-dom/server"
 
 import App from "./App.tsx"
 import * as articleData from "./article-data.ts"
+import bitcoinCoreArticleEnglishSource from "./bitcoin-core-article-en.txt?raw"
 import bitcoinCoreArticleSource from "./bitcoin-core-article.txt?raw"
 import { ThemeProvider } from "./components/theme-provider.tsx"
 import learningArticleHtml from "./learning-article.html?raw"
 import {
+  EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   needsBitcoinCoreArticleSource,
   needsArticleData,
   needsLearningArticleHtml,
@@ -29,7 +31,9 @@ export function renderPage(pathname: string) {
           }
           initialBitcoinCoreArticleSource={
             needsBitcoinCoreArticleSource(initialPath)
-              ? bitcoinCoreArticleSource
+              ? initialPath === EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH
+                ? bitcoinCoreArticleEnglishSource
+                : bitcoinCoreArticleSource
               : ""
           }
         />

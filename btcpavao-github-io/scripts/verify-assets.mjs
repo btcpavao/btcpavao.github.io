@@ -141,12 +141,20 @@ const bitcoinCoreArticleSource = await readFile(
   new URL("../src/bitcoin-core-article.txt", import.meta.url),
   "utf8"
 )
+const bitcoinCoreEnglishArticleSource = await readFile(
+  new URL("../src/bitcoin-core-article-en.txt", import.meta.url),
+  "utf8"
+)
 const packageSource = await readFile(
   new URL("../package.json", import.meta.url),
   "utf8"
 )
 const indexHtml = await readFile(
   new URL("../index.html", import.meta.url),
+  "utf8"
+)
+const sitemapSource = await readFile(
+  new URL("../public/sitemap.xml", import.meta.url),
   "utf8"
 )
 const distIndexHtml = await readFile(
@@ -189,7 +197,18 @@ const bitcoinCoreArticleRouteHtml = await readFile(
   ),
   "utf8"
 )
-const sourceText = `${appSource}\n${articleDataSource}\n${bitcoinCoreArticleSource}`
+const enBitcoinCoreSeriesRouteHtml = await readFile(
+  new URL("../dist/en/bitcoin-core/index.html", import.meta.url),
+  "utf8"
+)
+const enBitcoinCoreArticleRouteHtml = await readFile(
+  new URL(
+    "../dist/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/index.html",
+    import.meta.url
+  ),
+  "utf8"
+)
+const sourceText = `${appSource}\n${articleDataSource}\n${bitcoinCoreArticleSource}\n${bitcoinCoreEnglishArticleSource}`
 const bitcoinCoreArticleHash = createHash("sha256")
   .update(bitcoinCoreArticleSource)
   .digest("hex")
@@ -198,6 +217,50 @@ assert(
   bitcoinCoreArticleHash ===
     "fe05d12e74b074d0576da5880edddfdf863890c7455fc0bebccb9b6f4c27568f",
   "Bitcoin Core article source changed from the approved text with the requested visual list removed"
+)
+
+const bitcoinCoreEnglishArticleHash = createHash("sha256")
+  .update(bitcoinCoreEnglishArticleSource)
+  .digest("hex")
+
+assert(
+  bitcoinCoreEnglishArticleHash ===
+    "25e66995320956fcdaaed4d9c6cc9b4a0064c013bd44bd7caa418f040e931696",
+  "English Bitcoin Core article source changed from the approved translation"
+)
+
+function bitcoinCoreArticleStructure(source) {
+  const [, , ...bodyLines] = source.replace(/\r\n?/g, "\n").trim().split("\n")
+
+  return bodyLines
+    .join("\n")
+    .trim()
+    .split(/\n\s*\n/)
+    .map((chunk) => chunk.trim())
+    .filter(Boolean)
+    .map((chunk) => {
+      const visualMatch = chunk.match(/^\[\[VIZUAL (\d+)\]\]$/)
+
+      if (visualMatch) return `visual:${visualMatch[1]}`
+      if (/^\d+\.\s/.test(chunk)) return `heading:${chunk.match(/^\d+/)[0]}`
+      if (chunk === "Zaključak" || chunk === "Conclusion") return "conclusion"
+
+      return `copy:${chunk.split("\n").length}`
+    })
+}
+
+assert(
+  JSON.stringify(bitcoinCoreArticleStructure(bitcoinCoreArticleSource)) ===
+    JSON.stringify(
+      bitcoinCoreArticleStructure(bitcoinCoreEnglishArticleSource)
+    ),
+  "English and Croatian Bitcoin Core articles do not share the same block structure"
+)
+assert(
+  sitemapSource.includes(
+    "https://btcpavao.com/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"
+  ) && sitemapSource.includes("<image:title>The SHA-512 mixer</image:title>"),
+  "Sitemap is missing the English Bitcoin Core article or its translated image titles"
 )
 
 function assertStructuredDataIsValid(html, label) {
@@ -366,6 +429,23 @@ assert(
   "Bitcoin Core article body was not prerendered"
 )
 assert(
+  enBitcoinCoreSeriesRouteHtml.includes(
+    "How Bitcoin Core Generates Entropy When You Create a New Wallet"
+  ) &&
+    enBitcoinCoreSeriesRouteHtml.includes('src="/bitcoin-logo.svg"') &&
+    !enBitcoinCoreSeriesRouteHtml.includes("The Long Road Back to Bitcoin Core"),
+  "English Bitcoin Core series page is incomplete or exposes unpublished writing"
+)
+assert(
+  enBitcoinCoreArticleRouteHtml.includes(
+    "When you create a new wallet in Bitcoin Core"
+  ) &&
+    distIndexHtml.includes(
+      "How Bitcoin Core Generates Entropy When You Create a New Wallet"
+    ),
+  "English Bitcoin Core article or homepage card was not prerendered"
+)
+assert(
   (bitcoinCoreArticleRouteHtml.match(/bitcoin-core-section-pictogram/g) ?? [])
     .length === 24 &&
     bitcoinCoreArticleRouteHtml.includes("bitcoin-core-list") &&
@@ -373,10 +453,29 @@ assert(
   "Bitcoin Core article formatting or navigation controls are incomplete"
 )
 assert(
+  (enBitcoinCoreArticleRouteHtml.match(/bitcoin-core-section-pictogram/g) ?? [])
+    .length === 24 &&
+    enBitcoinCoreArticleRouteHtml.includes("bitcoin-core-list") &&
+    enBitcoinCoreArticleRouteHtml.includes('aria-label="Back to top"') &&
+    enBitcoinCoreArticleRouteHtml.includes("Croatian version") &&
+    !enBitcoinCoreArticleRouteHtml.includes(
+      "Kratki popis svih vizuala za članak"
+    ),
+  "English Bitcoin Core article formatting, translation link, or navigation controls are incomplete"
+)
+assert(
   (bitcoinCoreArticleSource.match(/\[\[VIZUAL \d+\]\]/g) ?? []).length === 11 &&
     !bitcoinCoreArticleSource.includes("— prompt]") &&
     !bitcoinCoreArticleSource.includes("Prompt:"),
   "Bitcoin Core article source does not contain exactly 11 clean visual markers"
+)
+assert(
+  (bitcoinCoreEnglishArticleSource.match(/\[\[VIZUAL \d+\]\]/g) ?? [])
+    .length === 11 &&
+    (bitcoinCoreEnglishArticleSource.match(/^\d+\.\s/gm) ?? []).length === 23 &&
+    bitcoinCoreEnglishArticleSource.includes("\nConclusion\n") &&
+    !bitcoinCoreEnglishArticleSource.includes("VISUAL PLACEHOLDER"),
+  "English Bitcoin Core article source does not preserve the approved structure"
 )
 for (let index = 1; index <= 11; index += 1) {
   const number = String(index).padStart(2, "0")
@@ -385,6 +484,12 @@ for (let index = 1; index <= 11; index += 1) {
       `/bitcoin-core-entropija-${number}.webp`
     ),
     `Bitcoin Core article is missing visual ${number}`
+  )
+  assert(
+    enBitcoinCoreArticleRouteHtml.includes(
+      `/bitcoin-core-entropija-${number}.webp`
+    ),
+    `English Bitcoin Core article is missing visual ${number}`
   )
 }
 assert(
@@ -418,6 +523,27 @@ assert(
   "Bitcoin Core article metadata is incomplete"
 )
 assert(
+  enBitcoinCoreArticleRouteHtml.includes('<html lang="en">') &&
+    enBitcoinCoreArticleRouteHtml.includes(
+      'rel="canonical" href="https://btcpavao.com/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"'
+    ) &&
+    enBitcoinCoreArticleRouteHtml.includes(
+      'property="og:locale" content="en_US"'
+    ) &&
+    enBitcoinCoreArticleRouteHtml.includes('"inLanguage": "en-US"') &&
+    enBitcoinCoreArticleRouteHtml.includes(
+      'hreflang="hr" href="https://btcpavao.com/hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/"'
+    ) &&
+    enBitcoinCoreArticleRouteHtml.includes(
+      'hreflang="en" href="https://btcpavao.com/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"'
+    ) &&
+    enBitcoinCoreArticleRouteHtml.includes(
+      'hreflang="x-default" href="https://btcpavao.com/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"'
+    ) &&
+    bitcoinCoreArticleRouteHtml.includes("English version"),
+  "English Bitcoin Core article language metadata or reciprocal links are incomplete"
+)
+assert(
   (workflowRouteHtml.match(/property="og:locale"/g) ?? []).length === 1 &&
     workflowRouteHtml.includes('property="og:locale" content="hr_HR"'),
   "Workflow route has incorrect or duplicate Open Graph locale metadata"
@@ -430,6 +556,14 @@ assertStructuredDataIsValid(learningRouteHtml, "Learning article")
 assertStructuredDataIsValid(hrHomeRouteHtml, "Croatian hub")
 assertStructuredDataIsValid(bitcoinCoreSeriesRouteHtml, "Bitcoin Core series")
 assertStructuredDataIsValid(bitcoinCoreArticleRouteHtml, "Bitcoin Core article")
+assertStructuredDataIsValid(
+  enBitcoinCoreSeriesRouteHtml,
+  "English Bitcoin Core series"
+)
+assertStructuredDataIsValid(
+  enBitcoinCoreArticleRouteHtml,
+  "English Bitcoin Core article"
+)
 
 const entryScriptMatch = distIndexHtml.match(
   /<script type="module" crossorigin src="([^"]+)"><\/script>/
@@ -455,9 +589,11 @@ const lazyChunkSources = await Promise.all(
 const articleBodyProbe = "Postoji trenutak kada nova tehnologija"
 const learningArticleBodyProbe = "Nedavno sam otvorio PDF od 24 stranice"
 const bitcoinCoreArticleBodyProbe = "Kad u Bitcoin Coreu napraviš novi wallet"
+const bitcoinCoreEnglishArticleBodyProbe =
+  "When you create a new wallet in Bitcoin Core"
 
 assert(
-  entryScriptBytes < 315_000,
+  entryScriptBytes < 318_000,
   `Entry bundle is too large: ${entryScriptBytes} bytes`
 )
 assert(
@@ -473,6 +609,10 @@ assert(
   "Entry chunk includes the Bitcoin Core article body"
 )
 assert(
+  !entryScript.includes(bitcoinCoreEnglishArticleBodyProbe),
+  "Entry chunk includes the English Bitcoin Core article body"
+)
+assert(
   lazyChunkSources.some((source) => source.includes(articleBodyProbe)),
   "Article body was not found in a lazy chunk"
 )
@@ -485,6 +625,12 @@ assert(
     source.includes(bitcoinCoreArticleBodyProbe)
   ),
   "Bitcoin Core article body was not found in a lazy chunk"
+)
+assert(
+  lazyChunkSources.some((source) =>
+    source.includes(bitcoinCoreEnglishArticleBodyProbe)
+  ),
+  "English Bitcoin Core article body was not found in a lazy chunk"
 )
 assert(
   !packageSource.includes('"motion"'),
