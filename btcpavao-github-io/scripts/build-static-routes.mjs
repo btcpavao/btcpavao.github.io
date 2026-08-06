@@ -237,6 +237,30 @@ const routes = [
     },
   },
   {
+    appPath: "/en/bitcoin-core/start-here/",
+    routePath: "en/bitcoin-core/start-here",
+    routeUrl: `${enBitcoinCoreSeriesUrl}start-here/`,
+    title: "Start Here with Bitcoin Core | Pavao Pahljina",
+    collectionName: "Start Here with Bitcoin Core",
+    description:
+      "A calm first Bitcoin Core exercise for non-developers: prepare a practice environment, verify the software, create an empty test wallet, and document the backup plan.",
+    ogDescription:
+      "A first Bitcoin Core exercise using no real bitcoin: verify the software, create an empty test wallet, and map the backup process.",
+    type: "website",
+    language: "en-US",
+    image: `${siteUrl}/long-road-bitcoin-core-cover-share.jpg`,
+    imageAlt:
+      "A traveler leaves a limestone maze for a transparent Bitcoin Core machine overlooking the Adriatic Sea.",
+    imageWidth: 1774,
+    imageHeight: 887,
+    breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
+    about: [
+      "Bitcoin Core",
+      "Bitcoin wallet backup",
+      "Bitcoin wallet recovery",
+    ],
+  },
+  {
     appPath:
       "/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/",
     routePath:
@@ -469,7 +493,10 @@ function renderRoot(html, appPath) {
 }
 
 function renderRoute(baseHtml, route) {
-  let html = baseHtml
+  let html = baseHtml.replace(
+    /\s*<link rel="alternate" hreflang="(?:en|hr|x-default)" href="[^"]*" \/>/g,
+    ""
+  )
   const isEnglish = (route.language ?? "hr-HR").startsWith("en")
 
   html = replaceFirst(

@@ -2,6 +2,7 @@ export const AI_SERIES_PATH = "/hr/ai-u-praksi/"
 export const HR_HOME_PATH = "/hr/"
 export const BITCOIN_CORE_SERIES_PATH = "/hr/bitcoin-core/"
 export const EN_BITCOIN_CORE_SERIES_PATH = "/en/bitcoin-core/"
+export const START_HERE_PATH = "/en/bitcoin-core/start-here/"
 export const BITCOIN_CORE_ENTROPY_ARTICLE_PATH =
   "/hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/"
 export const EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH =

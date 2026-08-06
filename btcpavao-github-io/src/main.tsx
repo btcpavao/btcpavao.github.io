@@ -1,4 +1,4 @@
-import { StrictMode } from "react"
+import { StrictMode, type ReactNode } from "react"
 import { createRoot, hydrateRoot } from "react-dom/client"
 
 import "./index.css"
@@ -11,6 +11,7 @@ import {
   needsLearningArticleHtml,
   needsLongRoadArticleSource,
   normalizePath,
+  START_HERE_PATH,
 } from "@/routes"
 
 async function startApp() {
@@ -44,17 +45,28 @@ async function startApp() {
     ).default
   }
 
+  let routedPage: ReactNode
+  if (initialPath === "/") {
+    const { Homepage } = await import("./homepage")
+    routedPage = <Homepage />
+  } else if (initialPath === START_HERE_PATH) {
+    const { BitcoinCoreStartPage } = await import("./bitcoin-core-start")
+    routedPage = <BitcoinCoreStartPage />
+  } else {
+    routedPage = (
+      <App
+        initialPath={initialPath}
+        initialArticleData={initialArticleData}
+        initialLearningArticleHtml={initialLearningArticleHtml}
+        initialBitcoinCoreArticleSource={initialBitcoinCoreArticleSource}
+        initialLongRoadArticleSource={initialLongRoadArticleSource}
+      />
+    )
+  }
+
   const app = (
     <StrictMode>
-      <ThemeProvider>
-        <App
-          initialPath={initialPath}
-          initialArticleData={initialArticleData}
-          initialLearningArticleHtml={initialLearningArticleHtml}
-          initialBitcoinCoreArticleSource={initialBitcoinCoreArticleSource}
-          initialLongRoadArticleSource={initialLongRoadArticleSource}
-        />
-      </ThemeProvider>
+      <ThemeProvider>{routedPage}</ThemeProvider>
     </StrictMode>
   )
 

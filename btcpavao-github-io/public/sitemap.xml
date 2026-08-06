@@ -5,7 +5,7 @@
 >
   <url>
     <loc>https://btcpavao.com/</loc>
-    <lastmod>2026-08-05</lastmod>
+    <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -152,6 +152,16 @@
     <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://btcpavao.com/en/bitcoin-core/start-here/</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://btcpavao.com/long-road-bitcoin-core-cover.webp</image:loc>
+      <image:title>Start here with Bitcoin Core</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://btcpavao.com/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/</loc>

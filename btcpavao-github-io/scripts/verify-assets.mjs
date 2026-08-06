@@ -155,6 +155,14 @@ const appSource = await readFile(
   new URL("../src/App.tsx", import.meta.url),
   "utf8"
 )
+const homepageSource = await readFile(
+  new URL("../src/homepage.tsx", import.meta.url),
+  "utf8"
+)
+const bitcoinCoreStartSource = await readFile(
+  new URL("../src/bitcoin-core-start.tsx", import.meta.url),
+  "utf8"
+)
 const cssSource = await readFile(
   new URL("../src/index.css", import.meta.url),
   "utf8"
@@ -239,6 +247,10 @@ const enBitcoinCoreSeriesRouteHtml = await readFile(
   new URL("../dist/en/bitcoin-core/index.html", import.meta.url),
   "utf8"
 )
+const bitcoinCoreStartRouteHtml = await readFile(
+  new URL("../dist/en/bitcoin-core/start-here/index.html", import.meta.url),
+  "utf8"
+)
 const enBitcoinCoreArticleRouteHtml = await readFile(
   new URL(
     "../dist/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/index.html",
@@ -253,7 +265,7 @@ const longRoadArticleRouteHtml = await readFile(
   ),
   "utf8"
 )
-const sourceText = `${appSource}\n${articleDataSource}\n${bitcoinCoreArticleSource}\n${bitcoinCoreEnglishArticleSource}\n${longRoadModuleSource}`
+const sourceText = `${appSource}\n${homepageSource}\n${bitcoinCoreStartSource}\n${articleDataSource}\n${bitcoinCoreArticleSource}\n${bitcoinCoreEnglishArticleSource}\n${longRoadModuleSource}`
 const bitcoinCoreArticleHash = createHash("sha256")
   .update(bitcoinCoreArticleSource)
   .digest("hex")
@@ -484,7 +496,7 @@ for (const html of [indexHtml, distIndexHtml]) {
 
 assert(
   distIndexHtml.includes(
-    "Practical guidance for living on a Bitcoin standard."
+    "Build your Bitcoin life from first principles."
   ),
   "Homepage was not prerendered"
 )
@@ -539,6 +551,18 @@ assert(
       "English essays about Bitcoin Core, wallets, validation, and the security foundations of the Bitcoin system."
     ),
   "English Bitcoin Core series page is incomplete"
+)
+assert(
+  bitcoinCoreStartRouteHtml.includes(
+    "Your first exercise uses no real bitcoin."
+  ) &&
+    bitcoinCoreStartRouteHtml.includes(
+      "Official download and verification"
+    ) &&
+    bitcoinCoreStartRouteHtml.includes(
+      'rel="canonical" href="https://btcpavao.com/en/bitcoin-core/start-here/"'
+    ),
+  "Bitcoin Core start page was not prerendered or has incomplete metadata"
 )
 assert(
   enBitcoinCoreArticleRouteHtml.includes(
@@ -741,6 +765,7 @@ assertStructuredDataIsValid(
   enBitcoinCoreSeriesRouteHtml,
   "English Bitcoin Core series"
 )
+assertStructuredDataIsValid(bitcoinCoreStartRouteHtml, "Bitcoin Core start page")
 assertStructuredDataIsValid(
   enBitcoinCoreArticleRouteHtml,
   "English Bitcoin Core article"
@@ -833,7 +858,9 @@ assert(
   "Motionwind remains in package.json"
 )
 assert(
-  (appSource.match(/relative isolate min-h-screen/g) ?? []).length === 3,
+  (appSource.match(/relative isolate min-h-screen/g) ?? []).length === 2 &&
+    homepageSource.includes("home-page min-h-screen") &&
+    bitcoinCoreStartSource.includes("min-h-screen bg-background"),
   "A page shell is missing its isolated stacking context"
 )
 assert(
@@ -842,26 +869,22 @@ assert(
   "Decorative page layers can cover page content"
 )
 assert(
-  /aria-label="Back to top"[\s\S]{0,220}<ArrowUp/.test(appSource) &&
-    appSource.includes("text-foreground shadow-soft hover:bg-card"),
+  /aria-label="Back to top"[\s\S]{0,240}<ArrowUp/.test(sourceText),
   "Back-to-top control is missing a visible foreground icon"
 )
 assert(
-  appSource.includes("project-logo-image") &&
-    /\.project-logo-image\s*\{[^}]*outline:\s*none;/.test(cssSource),
-  "Project logos still inherit the rectangular global image outline"
+  homepageSource.includes("project-logos/saifedean.avif") &&
+    homepageSource.includes("project-logos/twentyone-world-v2.svg"),
+  "Homepage project logos are missing"
 )
 assert(
   !/<rect\b/.test(twentyOneLogoSource),
   "TwentyOne logo still contains its rectangular canvas"
 )
 assert(
-  appSource.includes("profile-light-pulse") &&
-    /@keyframes profile-lights-breathe/.test(cssSource) &&
-    /\.profile-light-pulse\s*\{[\s\S]*mix-blend-mode:\s*screen;/.test(
-      cssSource
-    ),
-  "Profile light animation is missing"
+  homepageSource.includes('src="/pavao-profile.webp"') &&
+    homepageSource.includes('alt="Pavao Pahljina"'),
+  "Homepage profile image or alt text is missing"
 )
 
 console.log(
