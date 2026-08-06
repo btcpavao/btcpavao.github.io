@@ -154,7 +154,7 @@ const routes = [
     ogDescription:
       "Hrvatski tekstovi o Bitcoin Coreu, walletima, validaciji i sigurnosnim temeljima Bitcoin sustava.",
     type: "website",
-    image: `${siteUrl}/bitcoin-core-entropija-og.jpg`,
+    image: `${siteUrl}/bitcoin-core-entropija-cover-v2-share.jpg`,
     imageAlt:
       "Kriptografski proces nastanka Bitcoin Core walleta u mediteranskom okruženju.",
     imageWidth: 1200,
@@ -188,14 +188,15 @@ const routes = [
       { name: "Hrvatski tekstovi", item: hrUrl },
       { name: "Bitcoin Core", item: bitcoinCoreSeriesUrl },
     ],
-    image: `${siteUrl}/bitcoin-core-entropija-og.jpg`,
+    image: `${siteUrl}/bitcoin-core-entropija-cover-v2-share.jpg`,
     imageAlt:
       "Kriptografski proces nastanka Bitcoin Core walleta u mediteranskom okruženju.",
     imageWidth: 1200,
     imageHeight: 630,
-    heroImage: "/bitcoin-core-entropija-hero.webp",
+    heroImage: "/bitcoin-core-entropija-cover-v2.webp",
     heroImageSrcSet:
-      "/bitcoin-core-entropija-hero-840.webp 840w, /bitcoin-core-entropija-hero.webp 1200w",
+      "/bitcoin-core-entropija-cover-v2-840.webp 840w, /bitcoin-core-entropija-cover-v2.webp 1672w",
+    heroImageSizes: "100vw",
     keywords: [
       "Bitcoin Core",
       "entropija",
@@ -222,7 +223,7 @@ const routes = [
       "English essays about Bitcoin Core, wallets, validation, and the security foundations of the Bitcoin system.",
     type: "website",
     language: "en-US",
-    image: `${siteUrl}/bitcoin-core-entropija-og.jpg`,
+    image: `${siteUrl}/bitcoin-core-entropija-cover-v2-share.jpg`,
     imageAlt:
       "The cryptographic process of creating a Bitcoin Core wallet in a Mediterranean setting.",
     imageWidth: 1200,
@@ -257,14 +258,15 @@ const routes = [
     breadcrumbParents: [
       { name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl },
     ],
-    image: `${siteUrl}/bitcoin-core-entropija-og.jpg`,
+    image: `${siteUrl}/bitcoin-core-entropija-cover-v2-share.jpg`,
     imageAlt:
       "The cryptographic process of creating a Bitcoin Core wallet in a Mediterranean setting.",
     imageWidth: 1200,
     imageHeight: 630,
-    heroImage: "/bitcoin-core-entropija-hero.webp",
+    heroImage: "/bitcoin-core-entropija-cover-v2.webp",
     heroImageSrcSet:
-      "/bitcoin-core-entropija-hero-840.webp 840w, /bitcoin-core-entropija-hero.webp 1200w",
+      "/bitcoin-core-entropija-cover-v2-840.webp 840w, /bitcoin-core-entropija-cover-v2.webp 1672w",
+    heroImageSizes: "100vw",
     keywords: [
       "Bitcoin Core",
       "entropy",
@@ -431,9 +433,11 @@ function routeHeadMeta(route) {
   const heroImageSrcSet =
     route.heroImageSrcSet ??
     "/ai-workflow-hero-840.webp 840w, /ai-workflow-hero.webp 1672w"
+  const heroImageSizes =
+    route.heroImageSizes ?? "(max-width: 760px) 100vw, 60vw"
   const heroPreload = route.textHero
     ? ""
-    : `    <link rel="preload" as="image" href="${heroImage}" type="image/webp" imagesrcset="${heroImageSrcSet}" imagesizes="(max-width: 760px) 100vw, 60vw" fetchpriority="high" />
+    : `    <link rel="preload" as="image" href="${heroImage}" type="image/webp" imagesrcset="${heroImageSrcSet}" imagesizes="${heroImageSizes}" fetchpriority="high" />
 `
   const articleMeta =
     route.type === "article"

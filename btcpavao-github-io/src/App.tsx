@@ -106,9 +106,9 @@ const BITCOIN_CORE_ARTICLE_DESCRIPTION =
   "Kako Bitcoin Core prikuplja i kriptografski miješa entropiju, provjerava privatni ključ i iz njega gradi BIP32 wallet."
 const BITCOIN_CORE_ARTICLE_DATE = "2026-08-05"
 const BITCOIN_CORE_ARTICLE_DISPLAY_DATE = "5. kolovoza 2026."
-const BITCOIN_CORE_ARTICLE_HERO_IMAGE = "/bitcoin-core-entropija-hero.webp"
+const BITCOIN_CORE_ARTICLE_HERO_IMAGE = "/bitcoin-core-entropija-cover-v2.webp"
 const BITCOIN_CORE_ARTICLE_HERO_IMAGE_SMALL =
-  "/bitcoin-core-entropija-hero-840.webp"
+  "/bitcoin-core-entropija-cover-v2-840.webp"
 const EN_BITCOIN_CORE_SERIES_URL = `${SITE_URL}${EN_BITCOIN_CORE_SERIES_PATH}`
 const EN_BITCOIN_CORE_SERIES_DESCRIPTION =
   "English essays about Bitcoin Core, wallets, validation, and the security foundations of the Bitcoin system."
@@ -1069,7 +1069,7 @@ function useBitcoinCoreArticleMetadata(language: BitcoinCoreLanguage = "hr") {
     type: "article",
     publishedDate: BITCOIN_CORE_ARTICLE_DATE,
     articleSection: BITCOIN_CORE_SERIES_TITLE,
-    image: `${SITE_URL}/bitcoin-core-entropija-og.jpg`,
+    image: `${SITE_URL}/bitcoin-core-entropija-cover-v2-share.jpg`,
     language,
     alternates: {
       hr: BITCOIN_CORE_ARTICLE_URL,
@@ -2077,19 +2077,19 @@ function BitcoinCoreArticlePage({
       <div className="reading-progress" aria-hidden="true" />
       <main id="main-content" className="relative pb-20">
         <article>
-          <header className="article-hero-bleed bitcoin-core-article-hero">
+          <header className="article-hero-bleed bitcoin-core-article-hero entropy-cover-hero">
             <picture className="article-hero-background">
               <img
                 src={BITCOIN_CORE_ARTICLE_HERO_IMAGE}
-                srcSet={`${BITCOIN_CORE_ARTICLE_HERO_IMAGE_SMALL} 840w, ${BITCOIN_CORE_ARTICLE_HERO_IMAGE} 1200w`}
-                sizes="(max-width: 760px) 100vw, 60vw"
+                srcSet={`${BITCOIN_CORE_ARTICLE_HERO_IMAGE_SMALL} 840w, ${BITCOIN_CORE_ARTICLE_HERO_IMAGE} 1672w`}
+                sizes="100vw"
                 alt={
                   isEnglish
                     ? "A click on a laptop starts the creation of a Bitcoin Core wallet from multiple sources of randomness."
                     : "Klik na laptopu pokreće stvaranje Bitcoin Core walleta iz više izvora slučajnosti."
                 }
-                width={1200}
-                height={900}
+                width={1672}
+                height={941}
                 decoding="async"
                 fetchPriority="high"
               />
@@ -2121,7 +2121,7 @@ function BitcoinCoreArticlePage({
                   <a
                     href="/"
                     rel="author"
-                    className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur hover:bg-card hover:text-foreground"
+                    className="surface-ring inline-flex min-h-10 items-center rounded-full bg-background/78 px-3 py-1 backdrop-blur hover:bg-card hover:text-foreground"
                   >
                     Pavao Pahljina
                   </a>

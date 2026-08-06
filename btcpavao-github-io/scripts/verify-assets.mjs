@@ -26,8 +26,8 @@ const responsiveImages = [
     small: "public/long-road-bitcoin-core-cover-840.webp",
   },
   {
-    full: "public/bitcoin-core-entropija-hero.webp",
-    small: "public/bitcoin-core-entropija-hero-840.webp",
+    full: "public/bitcoin-core-entropija-cover-v2.webp",
+    small: "public/bitcoin-core-entropija-cover-v2-840.webp",
   },
   {
     full: "public/ai-ucenje-bitcoin-model-hero.webp",
@@ -65,7 +65,7 @@ const responsiveImages = [
 
 const additionalPublicAssets = [
   "public/bitcoin-logo.svg",
-  "public/bitcoin-core-entropija-og.jpg",
+  "public/bitcoin-core-entropija-cover-v2-share.jpg",
   "public/long-road-bitcoin-core-cover-share.jpg",
   "public/bitcoin-savjetovanje-screenshot-1600.webp",
   "public/dvadesetjedan-screenshot-1600.webp",
@@ -427,8 +427,8 @@ const bitcoinCoreSourceNames = await readdir(
   )
 )
 assert(
-  bitcoinCoreSourceNames.filter((name) => name.endsWith(".png")).length === 11,
-  "Bitcoin Core source image count is not 11"
+  bitcoinCoreSourceNames.filter((name) => name.endsWith(".png")).length === 12,
+  "Bitcoin Core source image count is not 12"
 )
 for (const prefix of bitcoinCoreSourceAssets) {
   const filePrefix = path.basename(prefix)
@@ -437,6 +437,10 @@ for (const prefix of bitcoinCoreSourceAssets) {
     `Missing Bitcoin Core source image: ${filePrefix}`
   )
 }
+assert(
+  bitcoinCoreSourceNames.includes("cover-hero-v2.png"),
+  "Missing Bitcoin Core entropy cover source image"
+)
 
 const longRoadSourceNames = await readdir(
   new URL(
@@ -670,7 +674,12 @@ assert(
     bitcoinCoreArticleRouteHtml.includes(
       'property="article:section" content="Bitcoin Core"'
     ) &&
-    bitcoinCoreArticleRouteHtml.includes("/bitcoin-core-entropija-og.jpg"),
+    bitcoinCoreArticleRouteHtml.includes(
+      "/bitcoin-core-entropija-cover-v2-share.jpg"
+    ) &&
+    bitcoinCoreArticleRouteHtml.includes(
+      "/bitcoin-core-entropija-cover-v2.webp"
+    ),
   "Bitcoin Core article metadata is incomplete"
 )
 assert(
