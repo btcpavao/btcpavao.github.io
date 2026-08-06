@@ -459,71 +459,76 @@ export function Homepage() {
       </header>
 
       <main id="main-content">
-        <section className="home-hero mx-auto grid max-w-7xl gap-10 px-4 pt-12 pb-16 sm:px-6 sm:pt-20 lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.9fr)] lg:items-center lg:px-8 lg:pt-24 lg:pb-24">
-          <div className="max-w-3xl">
-            <Eyebrow>
-              Bitcoin Standard advisory · Bitcoin Core education
-            </Eyebrow>
-            <h1 className="mt-5 max-w-[12ch] font-display text-5xl leading-[0.94] font-bold tracking-[-0.065em] text-balance sm:text-7xl lg:text-[5.5rem]">
-              Build your Bitcoin life from first principles.
-            </h1>
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-muted-foreground sm:text-xl sm:leading-9">
-              Practical guidance for individuals, families, and businesses who
-              want to organize their money around Bitcoin, and learn
-              self-custody with Bitcoin Core when they are ready.
-            </p>
-            <p className="mt-5 max-w-xl text-base leading-7 font-semibold text-foreground">
-              Fewer assumptions. Fewer moving parts. More clarity for the
-              decades ahead.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Button asChild size="lg" className="min-h-12 rounded-full px-6">
-                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                  Book an advisory call
-                  <CalendarDays className="size-4" aria-hidden="true" />
-                </a>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="min-h-12 rounded-full bg-background/80 px-6"
-              >
-                <a href={START_HERE_PATH}>
-                  Start learning Bitcoin Core
-                  <ArrowRight className="size-4" aria-hidden="true" />
-                </a>
-              </Button>
-              <Button asChild variant="link" className="min-h-12 px-2">
-                <a href="#writing">Read the latest writing</a>
-              </Button>
+        <section className="home-hero relative isolate overflow-hidden">
+          <picture className="home-hero-background absolute inset-0 -z-20">
+            <source
+              srcSet="/homepage-hero-v2-840.webp 840w, /homepage-hero-v2.webp 1774w"
+              sizes="100vw"
+              type="image/webp"
+            />
+            <img
+              src="/homepage-hero-v2.webp"
+              alt="A person reviews a plan beside a transparent blue-and-gold computing structure on a sunlit Adriatic terrace."
+              width="1774"
+              height="887"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </picture>
+          <div
+            className="home-hero-fade absolute inset-0 -z-10"
+            aria-hidden="true"
+          />
+
+          <div className="mx-auto flex min-h-[43rem] max-w-7xl items-center px-4 py-16 sm:min-h-[47rem] sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+            <div className="home-hero-copy max-w-3xl">
+              <Eyebrow>
+                Bitcoin Standard advisory · Bitcoin Core education
+              </Eyebrow>
+              <h1 className="mt-5 max-w-[12ch] font-display text-5xl leading-[0.94] font-bold tracking-[-0.065em] text-balance sm:text-7xl lg:text-[5.5rem]">
+                Build your Bitcoin life from first principles.
+              </h1>
+              <p className="mt-7 max-w-2xl text-lg leading-8 text-muted-foreground sm:text-xl sm:leading-9">
+                Practical guidance for individuals, families, and businesses who
+                want to organize their money around Bitcoin, and learn
+                self-custody with Bitcoin Core when they are ready.
+              </p>
+              <p className="mt-5 max-w-xl text-base leading-7 font-semibold text-foreground">
+                Fewer assumptions. Fewer moving parts. More clarity for the
+                decades ahead.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Button
+                  asChild
+                  size="lg"
+                  className="min-h-12 rounded-full px-6"
+                >
+                  <a
+                    href={BOOKING_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Book an advisory call
+                    <CalendarDays className="size-4" aria-hidden="true" />
+                  </a>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="min-h-12 rounded-full bg-background/80 px-6 backdrop-blur-sm"
+                >
+                  <a href={START_HERE_PATH}>
+                    Start learning Bitcoin Core
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </a>
+                </Button>
+                <Button asChild variant="link" className="min-h-12 px-2">
+                  <a href="#writing">Read the latest writing</a>
+                </Button>
+              </div>
             </div>
           </div>
-
-          <figure className="home-hero-visual rounded-[36px] bg-card p-2 shadow-[var(--shadow-border),0_30px_90px_color-mix(in_oklab,var(--foreground)_14%,transparent)]">
-            <picture>
-              <source
-                srcSet="/long-road-bitcoin-core-cover-840.webp 840w, /long-road-bitcoin-core-cover.webp 1774w"
-                sizes="(max-width: 1023px) calc(100vw - 2rem), 44vw"
-                type="image/webp"
-              />
-              <img
-                src="/long-road-bitcoin-core-cover.webp"
-                alt="A person walks through a limestone maze toward a transparent blue-and-gold machine above the Adriatic Sea."
-                width="1774"
-                height="887"
-                fetchPriority="high"
-                decoding="async"
-                className="h-full min-h-[360px] w-full rounded-[28px] object-cover sm:min-h-[460px]"
-              />
-            </picture>
-            <figcaption className="flex items-center justify-between gap-4 px-4 py-3 text-xs leading-5 text-muted-foreground">
-              <span>Ancient permanence. Transparent computation.</span>
-              <span className="hidden font-semibold text-primary sm:inline">
-                The work is understanding the path.
-              </span>
-            </figcaption>
-          </figure>
         </section>
 
         <section className="px-4 sm:px-6 lg:px-8">
@@ -971,15 +976,15 @@ export function Homepage() {
                 rel="noopener noreferrer"
                 className="home-project group flex min-h-[260px] flex-col rounded-[28px] bg-card p-6 shadow-[var(--shadow-border)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
               >
-                <span className="grid size-12 place-items-center overflow-hidden rounded-full bg-white p-1.5 shadow-[var(--shadow-border)]">
+                <span className="flex h-12 items-center">
                   <img
                     src={project.logo}
                     alt=""
-                    width="36"
-                    height="36"
+                    width="48"
+                    height="48"
                     loading="lazy"
                     decoding="async"
-                    className="size-9 object-contain"
+                    className="project-logo-image size-12 object-contain"
                   />
                 </span>
                 <p className="mt-6 text-[11px] font-semibold text-primary uppercase">

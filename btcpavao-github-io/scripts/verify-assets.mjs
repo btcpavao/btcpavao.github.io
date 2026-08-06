@@ -26,6 +26,10 @@ const responsiveImages = [
     small: "public/long-road-bitcoin-core-cover-840.webp",
   },
   {
+    full: "public/homepage-hero-v2.webp",
+    small: "public/homepage-hero-v2-840.webp",
+  },
+  {
     full: "public/bitcoin-core-entropija-cover-v2.webp",
     small: "public/bitcoin-core-entropija-cover-v2-840.webp",
   },
@@ -495,9 +499,9 @@ for (const html of [indexHtml, distIndexHtml]) {
 }
 
 assert(
-  distIndexHtml.includes(
-    "Build your Bitcoin life from first principles."
-  ),
+  distIndexHtml.includes("Build your Bitcoin life from first principles.") &&
+    distIndexHtml.includes('src="/homepage-hero-v2.webp"') &&
+    distIndexHtml.includes("/homepage-hero-v2-840.webp"),
   "Homepage was not prerendered"
 )
 assert(
@@ -556,9 +560,7 @@ assert(
   bitcoinCoreStartRouteHtml.includes(
     "Your first exercise uses no real bitcoin."
   ) &&
-    bitcoinCoreStartRouteHtml.includes(
-      "Official download and verification"
-    ) &&
+    bitcoinCoreStartRouteHtml.includes("Official download and verification") &&
     bitcoinCoreStartRouteHtml.includes(
       'rel="canonical" href="https://btcpavao.com/en/bitcoin-core/start-here/"'
     ),
@@ -765,7 +767,10 @@ assertStructuredDataIsValid(
   enBitcoinCoreSeriesRouteHtml,
   "English Bitcoin Core series"
 )
-assertStructuredDataIsValid(bitcoinCoreStartRouteHtml, "Bitcoin Core start page")
+assertStructuredDataIsValid(
+  bitcoinCoreStartRouteHtml,
+  "Bitcoin Core start page"
+)
 assertStructuredDataIsValid(
   enBitcoinCoreArticleRouteHtml,
   "English Bitcoin Core article"

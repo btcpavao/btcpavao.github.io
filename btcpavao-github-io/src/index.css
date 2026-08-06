@@ -1098,9 +1098,7 @@
     );
   }
 
-  .bitcoin-core-article-hero.long-road-cover-hero
-    .article-hero-background
-    img {
+  .bitcoin-core-article-hero.long-road-cover-hero .article-hero-background img {
     object-position: 72% center;
     opacity: 0.78;
   }
@@ -1725,13 +1723,49 @@
   transform: translateY(1px) scale(0.96);
 }
 
-.home-hero-visual {
-  min-width: 0;
-  isolation: isolate;
+.home-hero {
+  min-height: min(54rem, calc(100svh - 4.75rem));
+  background: var(--background);
+  box-shadow: 0 1px 0 color-mix(in oklab, var(--foreground) 6%, transparent);
 }
 
-.home-hero-visual img {
-  object-position: 67% center;
+.home-hero-background,
+.home-hero-background img {
+  width: 100%;
+  height: 100%;
+}
+
+.home-hero-background img {
+  object-fit: cover;
+  object-position: center center;
+  outline: 0;
+}
+
+.home-hero-fade {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--background) 34%, transparent) 0%,
+      transparent 24%,
+      transparent 74%,
+      color-mix(in oklab, var(--background) 40%, transparent) 100%
+    ),
+    linear-gradient(
+      90deg,
+      var(--background) 0%,
+      color-mix(in oklab, var(--background) 98%, transparent) 24%,
+      color-mix(in oklab, var(--background) 90%, transparent) 42%,
+      color-mix(in oklab, var(--background) 48%, transparent) 59%,
+      transparent 76%
+    );
+}
+
+.home-hero-copy {
+  text-shadow: 0 1px 1px color-mix(in oklab, var(--background) 72%, transparent);
+}
+
+.dark .home-hero-background img {
+  filter: brightness(0.68) saturate(0.86);
 }
 
 .home-path-card {
@@ -1761,7 +1795,11 @@
 .final-cta {
   position: relative;
   background:
-    radial-gradient(circle at 92% 12%, rgb(72 174 235 / 0.28), transparent 28rem),
+    radial-gradient(
+      circle at 92% 12%,
+      rgb(72 174 235 / 0.28),
+      transparent 28rem
+    ),
     linear-gradient(135deg, #0d3153, #0a2743 72%);
   box-shadow:
     0 0 0 1px rgb(255 255 255 / 0.08),
@@ -1807,14 +1845,35 @@
 }
 
 @media (max-width: 63.9375rem) {
-  .home-hero-visual img {
-    object-position: 70% center;
+  .home-hero-background img {
+    object-position: 64% center;
+  }
+
+  .home-hero-fade {
+    background:
+      linear-gradient(
+        180deg,
+        var(--background) 0%,
+        color-mix(in oklab, var(--background) 95%, transparent) 42%,
+        color-mix(in oklab, var(--background) 74%, transparent) 72%,
+        color-mix(in oklab, var(--background) 28%, transparent) 100%
+      ),
+      linear-gradient(
+        90deg,
+        var(--background) 0%,
+        color-mix(in oklab, var(--background) 90%, transparent) 54%,
+        color-mix(in oklab, var(--background) 34%, transparent) 100%
+      );
   }
 }
 
 @media (max-width: 39.9375rem) {
-  .home-hero-visual img {
-    min-height: 22rem;
+  .home-hero {
+    min-height: 43rem;
+  }
+
+  .home-hero-background img {
+    object-position: 71% center;
   }
 
   .principles-panel,
