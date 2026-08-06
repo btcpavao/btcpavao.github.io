@@ -66,7 +66,7 @@ const responsiveImages = [
 const additionalPublicAssets = [
   "public/bitcoin-logo.svg",
   "public/bitcoin-core-entropija-og.jpg",
-  "public/long-road-bitcoin-core-cover-og.jpg",
+  "public/long-road-bitcoin-core-cover-share.jpg",
   "public/bitcoin-savjetovanje-screenshot-1600.webp",
   "public/dvadesetjedan-screenshot-1600.webp",
   "public/pavao-profile.webp",
@@ -704,7 +704,13 @@ assert(
     longRoadArticleRouteHtml.includes('"@type": "BlogPosting"') &&
     longRoadArticleRouteHtml.includes('"@type": "BreadcrumbList"') &&
     longRoadArticleRouteHtml.includes(
-      "/long-road-bitcoin-core-cover-og.jpg"
+      "/long-road-bitcoin-core-cover-share.jpg"
+    ) &&
+    longRoadArticleRouteHtml.includes(
+      'property="og:image:width" content="1774"'
+    ) &&
+    longRoadArticleRouteHtml.includes(
+      'property="og:image:height" content="887"'
     ) &&
     !longRoadArticleRouteHtml.includes('rel="alternate" hreflang='),
   "The Long Road article metadata is incomplete or has an incorrect hreflang link"
