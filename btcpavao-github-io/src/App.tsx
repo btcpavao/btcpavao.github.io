@@ -126,7 +126,7 @@ const LONG_ROAD_ARTICLE_SUBTITLE =
   "How a hardware-wallet controversy, an entropy rabbit hole, and a few simple restore tests ended my search for the \u201cperfect\u201d Bitcoin wallet"
 const LONG_ROAD_ARTICLE_DATE = "2026-08-05"
 const LONG_ROAD_ARTICLE_DISPLAY_DATE = "August 5, 2026"
-const LONG_ROAD_ARTICLE_OG_IMAGE = `${SITE_URL}/long-road-bitcoin-core-og.jpg`
+const LONG_ROAD_ARTICLE_OG_IMAGE = `${SITE_URL}/long-road-bitcoin-core-cover-og.jpg`
 const LONG_ROAD_ARTICLE_HERO_IMAGE = "/long-road-bitcoin-core-cover.webp"
 const LONG_ROAD_ARTICLE_HERO_IMAGE_SMALL =
   "/long-road-bitcoin-core-cover-840.webp"

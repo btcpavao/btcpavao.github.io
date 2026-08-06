@@ -296,9 +296,9 @@ const routes = [
     sectionId: enBitcoinCoreSeriesId,
     articleTag: "Bitcoin Core wallet security",
     breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
-    image: `${siteUrl}/long-road-bitcoin-core-og.jpg`,
+    image: `${siteUrl}/long-road-bitcoin-core-cover-og.jpg`,
     imageAlt:
-      "A person stands in a Mediterranean maze of Bitcoin wallets and backups, facing a simple illuminated doorway.",
+      "A traveler leaves a limestone maze for a transparent Bitcoin Core machine overlooking the Adriatic Sea.",
     imageWidth: 1200,
     imageHeight: 630,
     heroImage: "/long-road-bitcoin-core-cover.webp",
