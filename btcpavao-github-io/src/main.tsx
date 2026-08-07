@@ -5,6 +5,7 @@ import "./index.css"
 import App, { type ArticleDataModule } from "./App.tsx"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
 import {
+  BITCOIN_CORE_CURRICULUM_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   needsBitcoinCoreArticleSource,
   needsArticleData,
@@ -49,6 +50,10 @@ async function startApp() {
   if (initialPath === "/") {
     const { Homepage } = await import("./homepage")
     routedPage = <Homepage />
+  } else if (initialPath === BITCOIN_CORE_CURRICULUM_PATH) {
+    const { BitcoinCoreCurriculumPage } =
+      await import("./bitcoin-core-curriculum")
+    routedPage = <BitcoinCoreCurriculumPage />
   } else if (initialPath === START_HERE_PATH) {
     const { BitcoinCoreStartPage } = await import("./bitcoin-core-start")
     routedPage = <BitcoinCoreStartPage />

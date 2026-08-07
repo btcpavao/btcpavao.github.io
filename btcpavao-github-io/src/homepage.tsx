@@ -20,6 +20,7 @@ import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
+  BITCOIN_CORE_CURRICULUM_PATH,
   BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   EN_BITCOIN_CORE_SERIES_PATH,
@@ -125,6 +126,14 @@ const audiences: Array<{
 ]
 
 const latestPosts = [
+  {
+    category: "Bitcoin Core",
+    language: "HR",
+    date: "7. kolovoza 2026.",
+    title: "Bitcoin Core — od prvog walleta do naprednog self-custodyja",
+    copy: "Interaktivni living curriculum od threat modela i testnog walleta do offline signinga, multisiga i naprednih politika.",
+    href: BITCOIN_CORE_CURRICULUM_PATH,
+  },
   {
     category: "Bitcoin Core",
     language: "EN",

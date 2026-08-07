@@ -34,6 +34,7 @@ import {
 import {
   AI_SERIES_PATH,
   ARTICLE_PATH,
+  BITCOIN_CORE_CURRICULUM_PATH,
   BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   BITCOIN_CORE_SERIES_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
@@ -54,6 +55,11 @@ const Homepage = lazy(() =>
 const BitcoinCoreStartPage = lazy(() =>
   import("@/bitcoin-core-start").then((module) => ({
     default: module.BitcoinCoreStartPage,
+  }))
+)
+const BitcoinCoreCurriculumPage = lazy(() =>
+  import("@/bitcoin-core-curriculum").then((module) => ({
+    default: module.BitcoinCoreCurriculumPage,
   }))
 )
 const HR_HOME_URL = `${SITE_URL}${HR_HOME_PATH}`
@@ -238,6 +244,15 @@ const aiSeriesPosts: SeriesPost[] = [
 ]
 
 const hrBitcoinCorePosts: SeriesPost[] = [
+  {
+    category: "Living curriculum",
+    title: "Bitcoin Core — od prvog walleta do naprednog self-custodyja",
+    description:
+      "Interaktivni kurikulum s lokalnim praćenjem napretka, testnim zadacima i jasnim roadmapom od threat modela do multisiga.",
+    href: BITCOIN_CORE_CURRICULUM_PATH,
+    language: "HR",
+    date: "Ažurirano 7. kolovoza 2026.",
+  },
   {
     category: BITCOIN_CORE_SERIES_TITLE,
     title: BITCOIN_CORE_ARTICLE_TITLE,
@@ -1545,7 +1560,7 @@ function HrHomePage() {
       title: BITCOIN_CORE_SERIES_TITLE,
       description: BITCOIN_CORE_SERIES_DESCRIPTION,
       href: BITCOIN_CORE_SERIES_PATH,
-      count: `${hrBitcoinCorePosts.length} tekst`,
+      count: `${hrBitcoinCorePosts.length} teksta`,
     },
   ]
 
@@ -1654,7 +1669,7 @@ function BitcoinCoreSeriesPage({
 
         <section className="mt-16 border-t border-border/60 pt-16">
           <SectionHeader
-            eyebrow={isEnglish ? "Published writing" : "Objavljeni tekstovi"}
+            eyebrow={isEnglish ? "Published writing" : "Objavljeni sadržaj"}
             title="Bitcoin Core"
           />
           <div className="mt-8 grid gap-4 md:grid-cols-2">
@@ -2884,6 +2899,14 @@ export function App({
 
   if (currentPath === BITCOIN_CORE_SERIES_PATH) {
     return <BitcoinCoreSeriesPage />
+  }
+
+  if (currentPath === BITCOIN_CORE_CURRICULUM_PATH) {
+    return (
+      <Suspense fallback={null}>
+        <BitcoinCoreCurriculumPage />
+      </Suspense>
+    )
   }
 
   if (currentPath === EN_BITCOIN_CORE_SERIES_PATH) {

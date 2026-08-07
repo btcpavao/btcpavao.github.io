@@ -10,6 +10,7 @@ const seriesUrl = `${siteUrl}/hr/ai-u-praksi/`
 const seriesId = `${seriesUrl}#collection`
 const bitcoinCoreSeriesUrl = `${siteUrl}/hr/bitcoin-core/`
 const bitcoinCoreSeriesId = `${bitcoinCoreSeriesUrl}#collection`
+const bitcoinCoreCurriculumUrl = `${bitcoinCoreSeriesUrl}self-custody/`
 const enBitcoinCoreSeriesUrl = `${siteUrl}/en/bitcoin-core/`
 const enBitcoinCoreSeriesId = `${enBitcoinCoreSeriesUrl}#collection`
 const enBitcoinCoreArticleUrl = `${enBitcoinCoreSeriesUrl}how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/`
@@ -168,6 +169,38 @@ const routes = [
     },
   },
   {
+    appPath: "/hr/bitcoin-core/self-custody/",
+    routePath: "hr/bitcoin-core/self-custody",
+    routeUrl: bitcoinCoreCurriculumUrl,
+    title: "Bitcoin Core — od prvog walleta do naprednog self-custodyja",
+    collectionName:
+      "Bitcoin Core — od prvog walleta do naprednog self-custodyja",
+    description:
+      "Interaktivni i kontinuirano nadogradivi Bitcoin Core kurikulum: threat model, wallet, backup, recovery, offline signing, PSBT, multisig i napredne politike.",
+    ogDescription:
+      "Praktičan vodič za izgradnju Bitcoin sustava koji razumiješ od početka do kraja.",
+    type: "website",
+    image: `${siteUrl}/bitcoin-core-entropija-cover-v2-share.jpg`,
+    imageAlt:
+      "Kriptografski proces nastanka Bitcoin Core walleta u mediteranskom okruženju.",
+    imageWidth: 1200,
+    imageHeight: 630,
+    textHero: true,
+    breadcrumbParents: [
+      { name: "Hrvatski tekstovi", item: hrUrl },
+      { name: "Bitcoin Core", item: bitcoinCoreSeriesUrl },
+    ],
+    about: [
+      "Bitcoin Core",
+      "Bitcoin self-custody",
+      "Wallet backup",
+      "Wallet recovery",
+      "Offline signing",
+      "PSBT",
+      "Bitcoin multisig",
+    ],
+  },
+  {
     appPath:
       "/hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/",
     routePath:
@@ -254,11 +287,7 @@ const routes = [
     imageWidth: 1774,
     imageHeight: 887,
     breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
-    about: [
-      "Bitcoin Core",
-      "Bitcoin wallet backup",
-      "Bitcoin wallet recovery",
-    ],
+    about: ["Bitcoin Core", "Bitcoin wallet backup", "Bitcoin wallet recovery"],
   },
   {
     appPath:
@@ -267,8 +296,7 @@ const routes = [
       "en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet",
     routeUrl: enBitcoinCoreArticleUrl,
     title: "How Bitcoin Core Generates Entropy When You Create a New Wallet",
-    headline:
-      "How Bitcoin Core Generates Entropy When You Create a New Wallet",
+    headline: "How Bitcoin Core Generates Entropy When You Create a New Wallet",
     description:
       "How Bitcoin Core gathers and cryptographically mixes entropy, validates a private key, and builds a BIP32 wallet from it.",
     ogDescription:
@@ -279,9 +307,7 @@ const routes = [
     sectionName: "Bitcoin Core",
     sectionId: enBitcoinCoreSeriesId,
     articleTag: "Bitcoin Core entropy",
-    breadcrumbParents: [
-      { name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl },
-    ],
+    breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
     image: `${siteUrl}/bitcoin-core-entropija-cover-v2-share.jpg`,
     imageAlt:
       "The cryptographic process of creating a Bitcoin Core wallet in a Mediterranean setting.",
