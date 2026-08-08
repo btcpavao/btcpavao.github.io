@@ -1952,17 +1952,20 @@
   letter-spacing: 0.08em;
 }
 
-.curriculum-brand > span {
-  display: grid;
+.curriculum-brand > img {
+  display: block;
   width: 2rem;
   height: 2rem;
-  place-items: center;
-  border-radius: 0.62rem;
-  color: white;
-  background: var(--curriculum-blue);
-  box-shadow:
-    0 0 0 1px rgb(255 255 255 / 0.1),
-    0 0.45rem 1.2rem rgb(13 49 83 / 0.18);
+  flex: 0 0 auto;
+  border-radius: 50%;
+  outline: 1px solid rgb(0 0 0 / 0.1);
+  outline-offset: -1px;
+  box-shadow: 0 0.45rem 1.2rem rgb(247 147 26 / 0.18);
+  user-select: none;
+}
+
+.dark .curriculum-brand > img {
+  outline-color: rgb(255 255 255 / 0.1);
 }
 
 .curriculum-header__divider {
@@ -2068,6 +2071,29 @@
   align-items: end;
   gap: clamp(3rem, 7vw, 8rem);
   margin-inline: auto;
+}
+
+.curriculum-hero__intro {
+  display: flex;
+  max-width: 43rem;
+  align-items: center;
+  gap: 1.15rem;
+}
+
+.curriculum-hero__bitcoin-logo {
+  display: block;
+  width: clamp(4.25rem, 6vw, 5.75rem);
+  height: clamp(4.25rem, 6vw, 5.75rem);
+  flex: 0 0 auto;
+  border-radius: 50%;
+  outline: 1px solid rgb(0 0 0 / 0.1);
+  outline-offset: -1px;
+  filter: drop-shadow(0 1rem 1.8rem rgb(247 147 26 / 0.18));
+  user-select: none;
+}
+
+.dark .curriculum-hero__bitcoin-logo {
+  outline-color: rgb(255 255 255 / 0.1);
 }
 
 .curriculum-kicker {
@@ -4006,6 +4032,15 @@ input:focus-visible + .curriculum-checkbox {
   .curriculum-hero {
     padding-top: 4rem;
     padding-bottom: 3.5rem;
+  }
+
+  .curriculum-hero__intro {
+    max-width: none;
+  }
+
+  .curriculum-hero__bitcoin-logo {
+    width: 3.5rem;
+    height: 3.5rem;
   }
 
   .curriculum-hero h1 {

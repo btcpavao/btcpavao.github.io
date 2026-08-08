@@ -981,7 +981,16 @@ export function BitcoinCoreCurriculumPage() {
       <header className="curriculum-header">
         <div>
           <a href="/" className="curriculum-brand">
-            <span aria-hidden="true">B</span>
+            <img
+              src="/bitcoin-logo-official.png"
+              alt=""
+              width="1920"
+              height="1920"
+              decoding="async"
+              fetchPriority="high"
+              draggable="false"
+              aria-hidden="true"
+            />
             <strong>BTCPAVAO</strong>
           </a>
           <span className="curriculum-header__divider" aria-hidden="true" />
@@ -1005,9 +1014,22 @@ export function BitcoinCoreCurriculumPage() {
         <section className="curriculum-hero" aria-labelledby="curriculum-title">
           <div className="curriculum-hero__grid">
             <div className="curriculum-hero__copy">
-              <div className="curriculum-kicker">
-                <span aria-hidden="true" />
-                Living curriculum · v1
+              <div className="curriculum-hero__intro">
+                <img
+                  className="curriculum-hero__bitcoin-logo"
+                  src="/bitcoin-logo-official.png"
+                  alt=""
+                  width="1920"
+                  height="1920"
+                  decoding="async"
+                  fetchPriority="high"
+                  draggable="false"
+                  aria-hidden="true"
+                />
+                <div className="curriculum-kicker">
+                  <span aria-hidden="true" />
+                  Living curriculum · v1
+                </div>
               </div>
               <h1 id="curriculum-title">
                 Bitcoin Core
