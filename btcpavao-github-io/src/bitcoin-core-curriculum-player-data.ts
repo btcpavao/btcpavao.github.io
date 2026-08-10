@@ -6,7 +6,7 @@ import {
   type CurriculumStatus,
 } from "@/bitcoin-core-curriculum-data"
 
-export const CURRICULUM_VERSION = "2.0"
+export const CURRICULUM_VERSION = "2.1"
 export const CORE_REFERENCE_VERSION = "Bitcoin Core 31.1"
 export const SPARROW_REFERENCE_VERSION = "Sparrow 2.5.2"
 export const ELECTRUM_REFERENCE_VERSION = "Electrum 4.8.0"
@@ -32,7 +32,8 @@ export type PlayerLesson = Omit<CurriculumLesson, "status"> & {
   estimatedTime: string
   verification: LessonVerification
   referenceVersion: string
-  lastReviewed: string
+  lastReviewed?: string
+  optional?: boolean
   reviewNote?: string
   explanation?: string[]
   walkthrough?: {
@@ -63,6 +64,11 @@ export type { CurriculumCodeBlock, CurriculumSource, CurriculumStatus }
 const coreRelease: CurriculumSource = {
   label: "Bitcoin Core 31.1 — release notes",
   url: "https://bitcoincore.org/en/releases/31.1/",
+}
+
+const coreDownload: CurriculumSource = {
+  label: "Bitcoin Core 31.1 — službeni download i verifikacija",
+  url: "https://bitcoincore.org/en/download/",
 }
 
 const coreRepository: CurriculumSource = {
@@ -110,6 +116,16 @@ const bip325: CurriculumSource = {
   url: "https://github.com/bitcoin/bips/blob/master/bip-0325.mediawiki",
 }
 
+const coreRandom: CurriculumSource = {
+  label: "Bitcoin Core 31.1 — RNG implementacija",
+  url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/random.cpp",
+}
+
+const coreKeyGeneration: CurriculumSource = {
+  label: "Bitcoin Core 31.1 — generiranje privatnog ključa",
+  url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/key.cpp#L162-L168",
+}
+
 const sparrowQuickStart: CurriculumSource = {
   label: "Sparrow Wallet — službeni Quick Start Guide",
   url: "https://www.sparrowwallet.com/docs/quick-start.html",
@@ -155,6 +171,8 @@ function retainLesson(
     explanation?: string[]
     callouts?: LessonCallout[]
     origin?: string
+    optional?: boolean
+    lastReviewed?: string
   }
 ): PlayerLesson {
   const legacy = legacyLessons.get(id)
@@ -170,12 +188,18 @@ function retainLesson(
       config.verification ??
       (legacy.status === "published" ? "verified" : "review-required"),
     referenceVersion: config.referenceVersion ?? CORE_REFERENCE_VERSION,
-    lastReviewed: LAST_TECHNICAL_REVIEW,
+    lastReviewed:
+      (config.verification ??
+        (legacy.status === "published" ? "verified" : "review-required")) ===
+      "verified"
+        ? (config.lastReviewed ?? LAST_TECHNICAL_REVIEW)
+        : undefined,
     reviewNote: config.reviewNote,
     sources: config.sources ?? legacy.sources,
     explanation: config.explanation,
     callouts: config.callouts,
     origin: config.origin ?? `Premješteno iz starog modula ${id.split(".")[0]}`,
+    optional: config.optional,
   }
 }
 
@@ -195,9 +219,12 @@ function outlineLesson(config: {
   warnings?: string[]
   checklist?: string[]
   sources?: CurriculumSource[]
+  codeBlocks?: CurriculumCodeBlock[]
   callouts?: LessonCallout[]
   walkthrough?: PlayerLesson["walkthrough"]
   origin?: string
+  optional?: boolean
+  lastReviewed?: string
 }): PlayerLesson {
   return {
     id: config.id,
@@ -209,24 +236,29 @@ function outlineLesson(config: {
     status: config.status ?? "in-progress",
     verification: config.verification ?? "review-required",
     referenceVersion: config.referenceVersion ?? CORE_REFERENCE_VERSION,
-    lastReviewed: LAST_TECHNICAL_REVIEW,
+    lastReviewed:
+      (config.verification ?? "review-required") === "verified"
+        ? (config.lastReviewed ?? LAST_TECHNICAL_REVIEW)
+        : undefined,
     reviewNote: config.reviewNote,
     explanation: config.explanation,
     concepts: config.concepts,
     warnings: config.warnings,
     checklist: config.checklist,
     sources: config.sources,
+    codeBlocks: config.codeBlocks,
     callouts: config.callouts,
     walkthrough: config.walkthrough,
     videoUrl: null,
     origin: config.origin ?? "Nova lekcija u curriculum v2",
+    optional: config.optional,
   }
 }
 
 const standardReviewNote =
   "Operativni koraci i screenshotovi moraju se ponovno reproducirati na navedenoj verziji prije nego što lekcija postane objavljena."
 
-export const curriculumPhases: CurriculumPhase[] = [
+const curriculumPhasesV2: CurriculumPhase[] = [
   {
     id: "0",
     slug: "zasto-self-custody",
@@ -998,6 +1030,742 @@ export const curriculumPhases: CurriculumPhase[] = [
   },
 ]
 
+const v2Lessons = new Map(
+  curriculumPhasesV2.flatMap((phase) =>
+    phase.lessons.map((lesson) => [lesson.id, lesson] as const)
+  )
+)
+
+function reuseV2Lesson(
+  id: string,
+  overrides: Partial<PlayerLesson> = {}
+): PlayerLesson {
+  const lesson = v2Lessons.get(id)
+  if (!lesson) throw new Error(`Nedostaje v2 lekcija ${id}`)
+  return { ...lesson, ...overrides }
+}
+
+const newBackupAfterEncryption = outlineLesson({
+  id: "signet-encrypt-new-backup",
+  slug: "enkriptiraj-signet-wallet-i-napravi-novi-backup",
+  title: "Enkriptiraj wallet i napravi novi backup",
+  summary:
+    "Enkripcija mijenja wallet stanje: stari backup više nije recovery artefakt na koji se želiš osloniti za nove primitke.",
+  objective:
+    "Enkriptirati očito testni wallet, odmah izraditi novi backup i objasniti zašto redoslijed koraka nije proizvoljan.",
+  status: "published",
+  verification: "verified",
+  referenceVersion: CORE_REFERENCE_VERSION,
+  estimatedTime: "15–20 min",
+  explanation: [
+    "Wallet enkripcija štiti privatne ključeve u wallet datoteci, ali uvodi passphrase koji se ne može resetirati ako ga izgubiš. Ne štiti od keyloggera na kompromitiranom računalu i ne skriva sve javne wallet podatke.",
+    "Bitcoin Core 31.1 nakon enkripcije prazni keypool i generira novi HD seed. Zato backup napravljen prije enkripcije ne može obnoviti bitcoine primljene na ključeve izvedene iz novog seeda. Novi backup nije administrativna urednost, nego novi recovery temelj.",
+  ],
+  walkthrough: {
+    title: "Create → encrypt → novi backup",
+    intro:
+      "Koristi isključivo `signet-training-wallet` i testni passphrase koji se nigdje drugdje ne koristi.",
+    steps: [
+      "Potvrdi da je aktivni chain `signet` i da je učitan `signet-training-wallet`.",
+      "Enkriptiraj wallet testnim passphraseom.",
+      "Pročitaj Coreovu poruku o ispražnjenom keypoolu, novom HD seedu i obaveznom novom backupu.",
+      "Odmah napravi novi backup kroz `backupwallet` ili odgovarajuću GUI akciju.",
+      "Označi backup mrežom, walletom, datumom i verzijom Corea — bez zapisivanja passphrasea na isti artefakt.",
+    ],
+  },
+  codeBlocks: [
+    {
+      id: "signet-encrypt-wallet",
+      title: "Enkriptiraj testni wallet",
+      code: 'bitcoin-cli -signet -rpcwallet="signet-training-wallet" encryptwallet "UNESI-TESTNI-PASSPHRASE"',
+      explanation:
+        "Literal iz primjera nije passphrase. U vježbi koristi zaseban testni passphrase koji nikada neće štititi stvarna sredstva.",
+      warning:
+        "Nakon ovog koraka nemoj nastaviti s receive adresama dok ne napraviš novi backup.",
+    },
+    {
+      id: "signet-backup-after-encryption",
+      title: "Napravi novi backup nakon enkripcije",
+      code: 'bitcoin-cli -signet -rpcwallet="signet-training-wallet" backupwallet "/SIGURNA-PUTANJA/signet-training-after-encryption.dat"',
+      explanation:
+        "Koristi ugrađeni `backupwallet` kako bi Core pripremio i zaključao wallet u sigurnom stanju za kopiranje.",
+    },
+  ],
+  callouts: [
+    {
+      kind: "warning",
+      title: "Nakon enkripcije napravi novi backup",
+      body: "Core 31.1 nakon enkripcije prazni keypool i stvara novi HD seed. Sredstva primljena na ključeve novog seeda ne mogu se vratiti iz starog, pre-encryption backupa. Isto pravilo dokumentacija navodi nakon promjene wallet passphrasea; nakon migracije legacy walleta također treba backupirati sve nastale wallete.",
+    },
+    {
+      kind: "important",
+      title: "Enkripcija nije potpuna privatnost",
+      body: "Enkriptiraju se privatni ključevi. Transakcije, javni ključevi i drugi wallet podaci mogu ostati vidljivi osobi koja dođe do datoteke.",
+    },
+  ],
+  checklist: [
+    "Wallet je očito testni i radi na Signetu",
+    "Wallet je enkriptiran testnim passphraseom",
+    "Novi backup napravljen je nakon enkripcije",
+    "Mogu objasniti zašto stari backup nije dovoljan za novi seed",
+  ],
+  sources: [managingWallets, coreFiles],
+  origin: "Novi praktični milestone u curriculum v2.1",
+})
+
+const entropyDeepDive = outlineLesson({
+  id: "signet-entropy-deep-dive",
+  slug: "odakle-dolazi-privatni-kljuc",
+  title: "Odakle dolazi privatni ključ?",
+  summary:
+    "Dobar key-generation flow uklanja čovjeka iz posla stvaranja nasumičnosti.",
+  objective:
+    "Objasniti entropiju, OS CSPRNG i Bitcoin Core RNG na visokoj razini bez ručnog 'poboljšavanja' procesa.",
+  status: "published",
+  verification: "verified",
+  referenceVersion: CORE_REFERENCE_VERSION,
+  estimatedTime: "12–18 min",
+  optional: true,
+  explanation: [
+    "Entropija je nepredvidljivost iz koje nastaje tajni broj. Čovjek je loš generator takve nepredvidljivosti: obrasci, omiljene riječi, tipkovničke putanje i pokušaji da nešto izgleda slučajno često su predvidljivi.",
+    "Bitcoin Core pri stvaranju ključa poziva svoj jaki RNG. U Coreu 31.1 taj se tok oslanja na kriptografski generator operacijskog sustava, interno stanje RNG-a i dodatne izvore koje Core miješa i pojačava prije nego što dobivene bajtove provjeri kao valjani secp256k1 privatni ključ.",
+    "Korisnikov posao nije smišljati riječi, bacati nekoliko nasumičnih znakova u input ili dodavati 'kreativnost'. Korisnikov posao je koristiti provjeren software na zdravom sustavu i zatim zaštititi nastali recovery model.",
+  ],
+  concepts: [
+    "OS CSPRNG je sustavski izvor kriptografski prikladne nasumičnosti.",
+    "Coreov `GetStrongRandBytes` pri svakom pozivu miješa svježu OS nasumičnost s internim stanjem i drugim izvorima.",
+    "`CKey::MakeNewKey` ponavlja generiranje dok dobiveni 32-bajtni broj nije valjan secp256k1 privatni ključ.",
+  ],
+  callouts: [
+    {
+      kind: "mental-model",
+      title: "Ne pomaži RNG-u intuicijom",
+      body: "Ako software već koristi kvalitetan CSPRNG, ručno biranje 'nasumičnih' riječi ili znakova najčešće uvodi predvidljivost, a ne dodatnu sigurnost.",
+    },
+  ],
+  checklist: [
+    "Mogu objasniti zašto čovjek nije dobar RNG",
+    "Razlikujem generiranje ključa od kasnijeg backupa",
+    "Neću ručno smišljati seed riječi ili privatni ključ",
+  ],
+  sources: [coreRandom, coreKeyGeneration, coreRepository],
+  origin: "Vraćena i proširena tema iz starog curriculuma",
+})
+
+const backupFreshnessLesson = outlineLesson({
+  id: "backup-redundancy-freshness",
+  slug: "vise-kopija-nije-isto-sto-i-noviji-backup",
+  title: "Više kopija nije isto što i noviji backup",
+  summary:
+    "Redundancija odgovara na pitanje koliko kvarova možeš preživjeti; freshness odgovara imaš li pravu verziju wallet stanja.",
+  objective:
+    "Razlikovati broj kopija od trenutka nakon kojeg Core izričito traži novi backup.",
+  status: "published",
+  verification: "verified",
+  referenceVersion: CORE_REFERENCE_VERSION,
+  estimatedTime: "12–16 min",
+  explanation: [
+    "Redundancija znači više pouzdanih kopija na različitim medijima ili lokacijama. Ona štiti od gubitka uređaja, kvara medija, požara, krađe ili nedostupnosti jedne lokacije.",
+    "Freshness znači da backup odgovara aktualnom recovery stanju. Za moderni HD wallet nije potreban novi backup nakon svake receive adrese samo kako bi privatni ključevi ostali izvedivi. Ipak, Core 31.1 traži novi backup odmah nakon enkripcije ili promjene passphrasea, a novi backup svih nastalih walleta i nakon migracije legacy walleta.",
+    "Noviji backup čuva i novije metapodatke, primjerice labele. Ti podaci ne mogu se rekonstruirati običnim blockchain rescanom, pa stari backup može vratiti sredstva, ali izgubiti važan operativni kontekst.",
+  ],
+  callouts: [
+    {
+      kind: "important",
+      title: "Dvije odvojene provjere",
+      body: "Pitaj: imam li dovoljno neovisnih kopija — i jesu li te kopije verzija walleta koju sada trebam vratiti? Tri zastarjele kopije nisu svjež backup.",
+    },
+  ],
+  concepts: [
+    "Redundancija: broj, mediji, lokacije i failure modeovi.",
+    "Freshness: je li se nakon backupa dogodila operacija koja traži novu verziju.",
+    "Metadata freshness: labele i drugi wallet podaci mogu biti noviji od posljednje kopije.",
+  ],
+  checklist: [
+    "Znam koliko neovisnih kopija želim održavati",
+    "Znam kada enkripcija i promjena passphrasea traže novi backup",
+    "Nakon migracije backupirat ću svaki nastali wallet",
+    "U recovery drillu provjeravam i metadata state, ne samo balance",
+  ],
+  sources: [managingWallets, coreFiles],
+  origin: "Novi backup mentalni model u curriculum v2.1",
+})
+
+const cloudPrivacyLesson = outlineLesson({
+  id: "encrypted-backup-privacy",
+  slug: "digitalni-i-cloud-backup-privacy-model",
+  title: "Digitalni i cloud backup: privacy model",
+  summary:
+    "Enkripcija može otežati krađu privatnih ključeva, ali ne pretvara wallet backup u datoteku bez privatnosnog rizika.",
+  objective:
+    "Procijeniti digitalni ili cloud backup kroz krađu sredstava, curenje javnih wallet podataka i sigurnost passphrasea.",
+  status: "published",
+  verification: "verified",
+  referenceVersion: CORE_REFERENCE_VERSION,
+  estimatedTime: "10–14 min",
+  explanation: [
+    "Bitcoin Core wallet enkripcija prvenstveno štiti privatne ključeve. Dokumentacija izričito navodi da transakcije, javni ključevi i drugi wallet podaci nisu nužno skriveni.",
+    "Napadač koji dođe do enkriptiranog backupa možda ne može odmah potrošiti sredstva, ali može dobiti public wallet metadata, povezati adrese i transakcije ili naučiti nešto o financijskoj aktivnosti. Slab ili ponovno korišten passphrase dodatno smanjuje zaštitu.",
+    "Cloud je zato tradeoff: može pomoći redundanciji i dostupnosti, ali dodaje treću stranu, online exposure i privacy leak u threat model. Nije univerzalna preporuka.",
+  ],
+  callouts: [
+    {
+      kind: "warning",
+      title: "Enkriptirano ne znači privatno",
+      body: "Odvojeno procijeni može li napadač potrošiti sredstva, što može vidjeti o walletu i koliko je siguran passphrase. Tek tada odluči je li online pohrana prihvatljiva za tvoj threat model.",
+    },
+  ],
+  checklist: [
+    "Razlikujem rizik krađe ključeva od privacy leaka",
+    "Cloud backup ne tretiram kao univerzalni best practice",
+    "Wallet backup i njegov passphrase nisu pohranjeni u istom trust domainu",
+  ],
+  sources: [managingWallets, coreFiles],
+  origin: "Novi privacy sloj backup modela u curriculum v2.1",
+})
+
+const signetReadinessChecklist = [
+  "Kreirao sam `signet-training-wallet`",
+  "Enkriptirao sam wallet testnim passphraseom",
+  "Napravio sam novi backup nakon enkripcije",
+  "Primio sam Signet coinove",
+  "Poslao sam Signet transakciju",
+  "Razumijem fee i change barem na osnovnoj razini",
+  "Namjerno sam uklonio aktivni testni wallet iz kontroliranog okruženja",
+  "Restorirao sam wallet iz novog backupa",
+  "Unlockao sam wallet ispravnim testnim passphraseom",
+  "Provjerio sam očekivane adrese i wallet state",
+  "Nakon recoveryja ponovno sam potpisao i poslao Signet transakciju",
+]
+
+const curriculumPhasesV21Draft: CurriculumPhase[] = [
+  {
+    id: "0",
+    slug: "razumij-self-custody",
+    shortTitle: "Razumij self-custody",
+    title: "Razumij što zapravo štitiš",
+    summary:
+      "Ključevi su početak; threat model, provjera i recovery čine sustav.",
+    outcome:
+      "Moći ćeš imenovati komponente custody sustava i rizik koji svaka zaštita pokušava smanjiti.",
+    status: "published",
+    estimatedTime: "25–35 min",
+    lessons: [
+      reuseV2Lesson("0.1"),
+      reuseV2Lesson("0.2"),
+      reuseV2Lesson("0.3", { optional: true }),
+    ],
+  },
+  {
+    id: "1",
+    slug: "bitcoin-core-mentalni-model",
+    shortTitle: "Bitcoin Core mentalni model",
+    title: "Bitcoin Core kao alat, ne kao identitet",
+    summary:
+      "Kratki mentalni model Corea i vlastitog nodea prije prve testne radnje.",
+    outcome:
+      "Razumjet ćeš zašto koristiš Core i zašto vlastiti node služi prvenstveno tvojoj provjeri.",
+    status: "published",
+    estimatedTime: "25 min + deep dives",
+    lessons: [
+      reuseV2Lesson("1.5", {
+        title: "Bitcoin Core kao alat, ne kao identitet",
+      }),
+      reuseV2Lesson("2.1"),
+      reuseV2Lesson("own-node"),
+      reuseV2Lesson("core-development", { optional: true }),
+      reuseV2Lesson("1.2", { optional: true }),
+      reuseV2Lesson("1.3", { optional: true }),
+      reuseV2Lesson("1.1", { optional: true }),
+      reuseV2Lesson("1.4", {
+        optional: true,
+        title: "BIP39 i portable mnemonic recovery",
+        summary:
+          "BIP39 s kvalitetno generiranom entropijom može imati vrlo visoku kriptografsku sigurnost; tradeoff je cijeli portable recovery model, ne standard sam po sebi.",
+        objective:
+          "Usporediti file-based i mnemonic recovery bez tvrdnje da jedan univerzalno ima manje tajni.",
+        explanation: [
+          "Ovaj curriculum bira file-based recovery model s manjim brojem user-facing odluka tijekom kreiranja walleta, umjesto portable mnemonic recovery modela. To nije tvrdnja da file-based model nužno ima manje tajni.",
+          "BIP39 bez dodatnog passphrasea može imati jedan kritičan secret — mnemonic. Enkriptirani Core wallet tipično uključuje wallet backup i wallet encryption passphrase. Sigurnost zato procjenjujemo kroz generiranje, backup, metapodatke, kompatibilnost, derivacijske pretpostavke, fizičku pohranu i ljudsku pogrešku.",
+          "Problem nije BIP39 sam po sebi. Problem nastaje kada je entropija loša, čovjek sam smišlja riječi ili recovery procedura ne čuva sve što drugi kompatibilni alat treba znati.",
+        ],
+        callouts: [
+          {
+            kind: "important",
+            title: "Uspoređujemo recovery modele, ne tabore",
+            body: "Kvalitetno generiran BIP39 mnemonic može biti kriptografski vrlo siguran. Pitanje je koji model korisnik može ispravno generirati, pohraniti, dokumentirati i obnoviti.",
+          },
+        ],
+      }),
+    ],
+  },
+  {
+    id: "2",
+    slug: "signet-training-cycle",
+    shortTitle: "Signet training cycle",
+    title: "Vježbaj cijeli ciklus bez stvarnog novca",
+    summary:
+      "Create → encrypt → backup → transact → destroy → restore → transact again.",
+    outcome:
+      "Napravit ćeš wallet, enkriptirati ga, backupirati, koristiti, ukloniti, restorirati i ponovno koristiti na Signetu.",
+    status: "in-progress",
+    estimatedTime: "2–3 h",
+    lessons: [
+      reuseV2Lesson("signet-why"),
+      reuseV2Lesson("signet-vs-mainnet"),
+      outlineLesson({
+        id: "signet-install-verify",
+        slug: "instaliraj-i-provjeri-bitcoin-core",
+        title: "Instaliraj i provjeri Bitcoin Core",
+        summary: "Službeni paket, checksum i potpis dolaze prije walleta.",
+        objective:
+          "Preuzeti Core iz službenog izvora i provjeriti paket prije pokretanja.",
+        status: "published",
+        verification: "verified",
+        referenceVersion: CORE_REFERENCE_VERSION,
+        estimatedTime: "15–25 min",
+        explanation: [
+          "Provjera paketa ne dokazuje da je cijelo računalo zdravo, ali uklanja važnu klasu pogreške: pokretanje binarija koji nije onaj koji je projekt objavio.",
+          "Točne datoteke, hash vrijednosti i potpisnici mijenjaju se s izdanjem. Zato ova lekcija vodi na aktualnu službenu download stranicu umjesto hardcodeanog hasha u tekstu.",
+        ],
+        walkthrough: {
+          title: "Službeni paket prije walleta",
+          steps: [
+            "Potvrdi da preuzimaš Bitcoin Core sa službene bitcoincore.org stranice.",
+            "Odaberi paket za svoj operacijski sustav i arhitekturu.",
+            "Preuzmi aktualni `SHA256SUMS` i pripadajuće potpise.",
+            "Usporedi lokalni SHA-256 paketa sa službenim popisom.",
+            "Provjeri potpise prema službenim uputama prije instalacije.",
+          ],
+        },
+        checklist: [
+          "Verzija i platforma paketa odgovaraju mojem uređaju",
+          "SHA-256 odgovara službenom popisu",
+          "Razumijem što checksum provjerava, a što ne provjerava",
+        ],
+        sources: [coreDownload, coreRelease],
+        origin: "Provjereno na službenom Core 31.1 arm64 macOS paketu",
+      }),
+      reuseV2Lesson("signet-start", {
+        status: "published",
+        verification: "verified",
+        lastReviewed: LAST_TECHNICAL_REVIEW,
+        explanation: [
+          "Signet ima zaseban chain context i zaseban poddirektorij podataka. To smanjuje rizik da testne radnje pomiješaš s mainnet walletom, ali naziv walleta i dalje treba biti očito testni.",
+        ],
+        walkthrough: {
+          title: "Pokreni odvojeni Signet context",
+          steps: [
+            "Pokreni Bitcoin Core s `-signet` ili odaberi Signet prije wallet operacija.",
+            "Provjeri `getblockchaininfo` i potvrdi da polje `chain` kaže `signet`.",
+            "Zabilježi da Signet koristi odvojeni `signet/` poddirektorij unutar odabranog data directoryja.",
+          ],
+        },
+        codeBlocks: [
+          {
+            id: "verify-signet-chain",
+            title: "Provjeri aktivnu mrežu",
+            code: "bitcoin-cli -signet getblockchaininfo",
+            explanation:
+              'Prije svake praktične vježbe provjeri da izlaz sadrži `"chain": "signet"`.',
+          },
+        ],
+        sources: [bip325, coreFiles],
+      }),
+      reuseV2Lesson("signet-first-wallet", {
+        status: "published",
+        verification: "verified",
+        lastReviewed: LAST_TECHNICAL_REVIEW,
+        title: "Kreiraj prvi Signet training wallet",
+        summary:
+          "Kreiraj očito testni descriptor wallet, provjeri njegovo stanje i zaustavi se prije prve receive adrese.",
+        objective:
+          "Kreirati očito testni descriptor wallet bez ikakvog miješanja s budućim mainnet setupom.",
+        explanation: [
+          "Naziv `signet-training-wallet` namjerno opisuje mrežu i svrhu. Ovaj wallet postoji samo za trening i nikada se ne pretvara u mainnet wallet.",
+        ],
+        walkthrough: {
+          title: "Kreiraj očito testni wallet",
+          steps: [
+            "Još jednom potvrdi da je chain `signet`.",
+            "Kreiraj wallet naziva `signet-training-wallet`.",
+            "Provjeri `getwalletinfo`: descriptor wallet, private keys enabled i format koji prijavljuje aktualna verzija.",
+            "Ne generiraj receive adresu prije lekcije o enkripciji i novom backupu.",
+          ],
+        },
+        codeBlocks: [
+          {
+            id: "create-signet-training-wallet",
+            title: "Kreiraj Signet training wallet",
+            code: 'bitcoin-cli -signet createwallet "signet-training-wallet"',
+            explanation:
+              "Očito testno ime smanjuje mogućnost zamjene mreže i recovery artefakata.",
+          },
+        ],
+        callouts: [
+          {
+            kind: "warning",
+            title: "Ne pretvaraj Signet wallet u mainnet wallet",
+            body: "Mainnet dobiva novi network context, novi wallet i nove recovery artefakte. Signet služi učenju procedure, ne kasnijoj prenamjeni.",
+          },
+        ],
+        sources: [managingWallets, coreFiles],
+      }),
+      newBackupAfterEncryption,
+      entropyDeepDive,
+      reuseV2Lesson("signet-receive-send", {
+        title: "Receive, send, fee i change na Signetu",
+        summary:
+          "Nakon novog backupa primi testne coinove, pošalji transakciju i pregledaj destination, amount, fee i change.",
+        objective:
+          "Dovršiti transakcijski dio trening ciklusa bez stvarne vrijednosti.",
+        reviewNote:
+          "Faucet i aktualni send/coin-selection flow treba reproducirati na Coreu 31.1 prije oznake Testirano na.",
+      }),
+      reuseV2Lesson("signet-restore", {
+        status: "published",
+        verification: "verified",
+        lastReviewed: LAST_TECHNICAL_REVIEW,
+        title: "Ukloni aktivni wallet, restoreaj i unlockaj",
+        summary:
+          "Kontrolirano ukloni učitani testni wallet, vrati ga iz post-encryption backupa i provjeri passphrase i očekivani state.",
+        objective:
+          "Dokazati da novi backup nakon enkripcije vraća wallet koji možeš unlockati i provjeriti.",
+        explanation: [
+          "Destruktivna vježba radi se samo nad očito testnim Signet walletom. Prvo unload, zatim kontrolirano premještanje aktivnog wallet direktorija na privremenu lokaciju; tek nakon uspješnog restora odlučuješ o čišćenju.",
+          "Nakon restora provjeri wallet format, descriptore, očekivane adrese i unlock testnim passphraseom. Balance sam po sebi nije dovoljan dokaz da je recovery dokumentiran i razumljiv.",
+        ],
+        walkthrough: {
+          title: "Destroy → restore → unlock → verify",
+          steps: [
+            "Zapiši jednu ili više očekivanih Signet adresa i aktualni wallet state.",
+            "Unloaduj `signet-training-wallet`.",
+            "Premjesti njegov aktivni testni direktorij na kontroliranu privremenu lokaciju; ne diraj druge wallete ni node podatke.",
+            "Restoreaj novi backup napravljen nakon enkripcije pod nazivom `signet-training-restored`.",
+            "Unlockaj restored wallet testnim passphraseom.",
+            "Provjeri očekivane adrese, descriptore i `getwalletinfo`.",
+          ],
+        },
+        codeBlocks: [
+          {
+            id: "restore-signet-wallet",
+            title: "Restoreaj novi backup",
+            code: 'bitcoin-cli -signet restorewallet "signet-training-restored" "/SIGURNA-PUTANJA/signet-training-after-encryption.dat"',
+            explanation:
+              "Restore dobiva novo očito testno ime kako bi rezultat ostao odvojen od uklonjenog aktivnog walleta.",
+          },
+          {
+            id: "unlock-restored-signet-wallet",
+            title: "Privremeno unlockaj restored wallet",
+            code: 'bitcoin-cli -signet -rpcwallet="signet-training-restored" walletpassphrase "UNESI-TESTNI-PASSPHRASE" 120',
+            explanation:
+              "Timeout ograničava koliko dugo decryption key ostaje u memoriji.",
+          },
+        ],
+        sources: [managingWallets, coreFiles],
+        origin:
+          "Create/encrypt/backup/unload/restore/unlock flow reproduciran na Coreu 31.1",
+      }),
+      outlineLesson({
+        id: "signet-transact-again",
+        slug: "ponovno-poslaji-nakon-signet-recoveryja",
+        title: "Ponovno pošalji nakon recoveryja",
+        summary:
+          "Recovery je dovršen tek kada restored wallet ponovno može autorizirati i poslati Signet transakciju.",
+        objective:
+          "Ponoviti pregled destinationa, amounta, feeja i changea nakon restora.",
+        reviewNote:
+          "Puni funded Signet send-after-restore treba reproducirati na Coreu 31.1 prije oznake Testirano na.",
+        sources: [managingWallets, bip325],
+      }),
+      outlineLesson({
+        id: "signet-readiness",
+        slug: "mainnet-readiness-signet-checkpoint",
+        title: "Mainnet readiness checkpoint",
+        summary:
+          "Soft gate prije ozbiljnog mainnet setupa: cijeli Signet ciklus moraš moći ponoviti bez nagađanja.",
+        objective:
+          "Iskreno potvrditi operativnu spremnost bez tehničkog zaključavanja sljedećih faza.",
+        status: "published",
+        verification: "verified",
+        referenceVersion: CORE_REFERENCE_VERSION,
+        estimatedTime: "5–10 min",
+        explanation: [
+          "Ovaj checkpoint ne otključava sadržaj i ne dodjeljuje certifikat. Samo odvaja pročitanu teoriju od postupka koji si doista izveo.",
+          "Ako ovo još ne možeš ponoviti bez nagađanja, ostani na Signetu. Nema potrebe žuriti.",
+        ],
+        checklist: signetReadinessChecklist,
+        callouts: [
+          {
+            kind: "mental-model",
+            title: "Prvi veliki milestone",
+            body: "Napravio sam wallet, enkriptirao ga, backupirao, koristio, namjerno uklonio, restorirao i ponovno koristio — bez stvarnog novca.",
+          },
+        ],
+        sources: [managingWallets, bip325],
+        origin: "Novi soft gate u curriculum v2.1",
+      }),
+    ],
+  },
+  {
+    id: "3",
+    slug: "node-bez-mitologije",
+    shortTitle: "Node bez mitologije",
+    title: "Minimalni node model prije mainneta",
+    summary:
+      "IBD, pruning i razlika nodea i walleta — bez mita o obaveznom velikom serveru.",
+    outcome:
+      "Znat ćeš što Core validira, što pruning briše i koji dio sustava stvarno treba tvojem setupu.",
+    status: "in-progress",
+    estimatedTime: "45–60 min",
+    lessons: [
+      reuseV2Lesson("2.2"),
+      reuseV2Lesson("ibd-separation"),
+      reuseV2Lesson("2.3"),
+      reuseV2Lesson("core-not-server"),
+      reuseV2Lesson("2.6", { optional: true }),
+      reuseV2Lesson("node-migration", { optional: true }),
+    ],
+  },
+  {
+    id: "4",
+    slug: "odaberi-custody-arhitekturu",
+    shortTitle: "Odaberi arhitekturu",
+    title: "Odaberi arhitekturu prema threat modelu",
+    summary:
+      "Jednostavni online wallet i offline signer dva su legitimna odgovora na različite rizike.",
+    outcome:
+      "Moći ćeš izabrati najmanju arhitekturu koja rješava tvoj stvarni failure mode.",
+    status: "in-progress",
+    estimatedTime: "45 min + praksa",
+    lessons: [
+      outlineLesson({
+        id: "architecture-choice",
+        slug: "jednostavni-wallet-ili-offline-signer",
+        title: "Jednostavni wallet ili offline signer?",
+        summary:
+          "Operativna jednostavnost i izolacija signing ključeva rješavaju različite probleme.",
+        objective:
+          "Odabrati Path A ili Path B prema iznosu, namjeni, uređajima i vlastitoj sposobnosti održavanja.",
+        status: "published",
+        verification: "verified",
+        referenceVersion: CORE_REFERENCE_VERSION,
+        estimatedTime: "12–16 min",
+        explanation: [
+          "Path A je jednostavni online, enkriptirani Core wallet. Razuman je za manje iznose, spending wallet ili situaciju u kojoj bi dodatni uređaji i transferi povećali vjerojatnost ljudske pogreške.",
+          "Path B je online Core s watch-only walletom i odvojenim offline Core signerom. Rješava konkretan failure mode: kompromitaciju mrežno povezanog uređaja koji bi inače držao privatne ključeve.",
+          "Path B nije automatski sigurniji za svakoga. Ako ne možeš održavati dva uređaja, descriptore, PSBT transport i recovery svake uloge, složenost može poništiti dio koristi.",
+        ],
+        callouts: [
+          {
+            kind: "mental-model",
+            title: "Arhitektura mora imati posao",
+            body: "Ne pitaj koji je setup najnapredniji. Pitaj koji failure mode smanjuje i koju novu obvezu oporavka uvodi.",
+          },
+        ],
+        checklist: [
+          "Znam koji iznos i namjenu wallet treba podržati",
+          "Mogu imenovati failure mode koji bi offline signer smanjio",
+          "Ne biram dodatnu složenost samo zato što izgleda naprednije",
+        ],
+        sources: [offlineSigning, managingWallets],
+        origin: "Novi arhitekturni checkpoint u curriculum v2.1",
+      }),
+      outlineLesson({
+        id: "architecture-path-a",
+        slug: "path-a-online-encrypted-core-wallet",
+        title: "Path A — online enkriptirani Core wallet",
+        summary:
+          "Jedan uređaj, jasan backup i manji broj operativnih prijelaza.",
+        objective:
+          "Prepoznati kada jednostavniji hot wallet može biti sigurniji ukupni sustav.",
+        status: "published",
+        verification: "verified",
+        referenceVersion: CORE_REFERENCE_VERSION,
+        estimatedTime: "8–12 min",
+        explanation: [
+          "Path A drži privatne ključeve na mrežno povezanom uređaju. Enkripcija štiti ključeve u mirovanju, ali ne uklanja malware, keylogger ili kompromitaciju aktivnog sustava.",
+          "Njegova prednost je manji broj komponenti, transporta i recovery artefakata. Za threat model u kojem operativna jednostavnost smanjuje ukupnu vjerojatnost pogreške, to je legitiman izbor.",
+        ],
+        sources: [managingWallets],
+      }),
+      reuseV2Lesson("2.4", {
+        title: "Path B — online node i offline signer",
+        explanation: [
+          "Online host ima sinkronizirani node i watch-only wallet. Vidi stanje, prati primitke, priprema PSBT te finalizira i broadcasta potpisanu transakciju.",
+          "Offline host ima wallet s privatnim ključevima, nema mrežu i ne treba kopiju blockchaina. Njegov posao je pregledati PSBT i potpisati ono s čime se korisnik slaže.",
+        ],
+        callouts: [
+          {
+            kind: "warning",
+            title: "Javni podaci i dalje mogu biti osjetljivi",
+            body: "Watch-only descriptori nisu privatni ključevi, ali mogu otkriti skup adresa, derivacije i financijske veze. Tretiraj ih kao privacy-sensitive podatke.",
+          },
+        ],
+        sources: [offlineSigning, descriptors, psbt],
+      }),
+      reuseV2Lesson("2.5"),
+      reuseV2Lesson("2.8", {
+        explanation: [
+          "Watch-only wallet koordinira i prati bez privatnih ključeva. Offline wallet potpisuje. PSBT prenosi transakciju i potrebne metapodatke između uloga.",
+          "USB ili drugi transport nije automatski trusted samo zato što povezuje air-gapped sustav. Datoteke se pregledavaju, medij se kontrolira, a signer potvrđuje destination, amount, fee i change.",
+        ],
+        sources: [offlineSigning, descriptors, psbt],
+      }),
+      reuseV2Lesson("offline-device", {
+        explanation: [
+          "Primarni model je dedicated function, verificiran software, minimalan attack surface i dokumentiran recovery. Stari laptop, određena Linux distribucija ili fizičko uklanjanje Wi-Fi kartice samo su implementacijske opcije.",
+          "Svaka hardening mjera mora odgovoriti na pitanje koji failure mode smanjuje. ThinkPad, Debian ili Fedora nisu sigurnosni cilj sami po sebi.",
+        ],
+        callouts: [
+          {
+            kind: "mental-model",
+            title: "Dedicated funkcija prije brenda hardvera",
+            body: "Važnije je da signer ima jednu jasnu ulogu, provjeren software i recovery plan nego da odgovara određenoj internet estetici hardeninga.",
+          },
+        ],
+      }),
+      reuseV2Lesson("offline-psbt"),
+      reuseV2Lesson("offline-recovery"),
+    ],
+  },
+  {
+    id: "5",
+    slug: "mainnet-odvojeni-setup",
+    shortTitle: "Mainnet i mali test",
+    title: "Novi mainnet setup i mali operativni test",
+    summary:
+      "Signet dokazuje proceduru; mali mainnet test dokazuje stvarni network i configuration setup.",
+    outcome:
+      "Odvojit ćeš mainnet wallet od treninga i testirati primitak i spend iznosom koji ti je očito ne-kritičan.",
+    status: "in-progress",
+    estimatedTime: "2–4 h",
+    lessons: [
+      outlineLesson({
+        id: "mainnet-separate-wallet",
+        slug: "ne-pretvaraj-signet-wallet-u-mainnet-wallet",
+        title: "Ne pretvaraj Signet wallet u mainnet wallet",
+        summary:
+          "Mainnet je novi svjesni setup: drugi chain context, novi wallet i novi recovery artefakti.",
+        objective:
+          "Odvojiti naučenu proceduru od testnih ključeva, naziva i datoteka.",
+        status: "published",
+        verification: "verified",
+        referenceVersion: CORE_REFERENCE_VERSION,
+        estimatedTime: "6–10 min",
+        explanation: [
+          "Signet wallet služi učenju redoslijeda koraka. Mainnet setup ne nastaje promjenom zastavice ili prenamjenom testnog walleta, nego svjesnim stvaranjem novih ključeva i novog recovery sustava u odabranoj arhitekturi.",
+          "Očito različiti nazivi, lokacije i dokumentacija smanjuju mogućnost da testni artefakt zamijeniš za stvarni ili obrnuto.",
+        ],
+        checklist: [
+          "Signet i mainnet wallet imaju različita imena",
+          "Mainnet dobiva nove ključeve i novi backup",
+          "Testni passphrase nikada se ne koristi za stvarna sredstva",
+        ],
+        sources: [coreFiles, managingWallets, bip325],
+      }),
+      reuseV2Lesson("real-device"),
+      reuseV2Lesson("real-encryption", {
+        reviewNote:
+          "Mainnet create/encrypt flow treba proći na odabranoj stvarnoj arhitekturi; novi backup nakon enkripcije obavezan je prema Core 31.1 dokumentaciji.",
+        sources: [managingWallets],
+      }),
+      backupFreshnessLesson,
+      cloudPrivacyLesson,
+      reuseV2Lesson("real-restore"),
+      outlineLesson({
+        id: "mainnet-readiness",
+        slug: "mainnet-readiness-prije-prvog-deposita",
+        title: "Mainnet readiness prije prvog deposita",
+        summary:
+          "Novi wallet još ne prima ozbiljan iznos dok backup, passphrase, restore i odabrana arhitektura nisu jasni.",
+        objective:
+          "Potvrditi da isti proces možeš ponoviti i znaš zašto svaki korak postoji.",
+        status: "published",
+        verification: "verified",
+        referenceVersion: CORE_REFERENCE_VERSION,
+        estimatedTime: "8–12 min",
+        explanation: [
+          "Signet checkpoint dokazuje da poznaješ postupak. Ovaj checkpoint provjerava da novi mainnet wallet ima odvojene artefakte, da njegov backup odgovara stanju nakon enkripcije i da je arhitektura stvarno ona koju želiš održavati.",
+          "Ako neki odgovor ovisi o nagađanju, vrati se korak unatrag. Mainnet sadržaj ostaje otvoren; soft gate služi odluci, ne prisili.",
+        ],
+        checklist: [
+          "Završio sam puni Signet training cycle",
+          "Mainnet wallet i recovery artefakti potpuno su odvojeni od Signeta",
+          "Novi backup napravljen je nakon enkripcije",
+          "Znam vraća li backup sve ključeve, labele i potrebne metapodatke",
+          "Mogu objasniti zašto sam odabrao Path A ili Path B",
+          "Recovery mogu izvesti bez originalnog aktivnog walleta",
+        ],
+        callouts: [
+          {
+            kind: "verify",
+            title: "Rezultat koji tražimo",
+            body: "Isti proces mogu ponoviti i znam zašto svaki korak postoji.",
+          },
+        ],
+        sources: [managingWallets, offlineSigning],
+        origin: "Novi mainnet soft gate u curriculum v2.1",
+      }),
+      outlineLesson({
+        id: "mainnet-small-test",
+        slug: "prvi-mali-mainnet-test",
+        title: "Prvi mali mainnet test",
+        summary:
+          "Mali primitak i mali spend potvrđuju da je stvarni network i configuration setup ispravno složen.",
+        objective:
+          "Testirati cijeli mainnet operativni tok iznosom koji je korisniku očito ne-kritičan.",
+        estimatedTime: "30–60 min + potvrde",
+        walkthrough: {
+          title: "Prvi stvarni, ali mali ciklus",
+          steps: [
+            "Provjeri da aktivni chain kaže `main` i da je učitan novi mainnet wallet.",
+            "Generiraj receive adresu i provjeri je prema svojoj proceduri.",
+            "Pošalji iznos koji ti je očito ne-kritičan; curriculum ne propisuje broj satsa ili eura.",
+            "Provjeri primitak preko vlastitog nodea.",
+            "Napravi mali spend i provjeri destination, amount, fee i change.",
+            "Ponovno provjeri odgovara li backup/recovery plan aktualnom wallet stateu.",
+            "Tek nakon toga razmišljaj o većem iznosu.",
+          ],
+        },
+        callouts: [
+          {
+            kind: "mental-model",
+            title: "Signet i mainnet dokazuju različite stvari",
+            body: "Signet dokazuje postupak. Mali mainnet test dokazuje da je stvarni network i configuration setup ispravno složen.",
+          },
+        ],
+        reviewNote:
+          "Mainnet send/fee/change flow treba reproducirati na Coreu 31.1 i odabranoj arhitekturi prije oznake Testirano na.",
+        sources: [managingWallets, psbt],
+        origin: "Novi operativni test u curriculum v2.1",
+      }),
+    ],
+  },
+  {
+    ...curriculumPhasesV2[6],
+    id: "6",
+    slug: "odrzavanje-kroz-vrijeme",
+    shortTitle: "Održavanje",
+    title: "Održavanje, recovery drill i nasljeđivanje",
+  },
+  curriculumPhasesV2[7],
+  curriculumPhasesV2[8],
+  curriculumPhasesV2[9],
+]
+
+const curriculumPhaseOrder = ["0", "1", "2", "4", "3", "5", "6", "7", "8", "9"]
+
+export const curriculumPhases: CurriculumPhase[] = curriculumPhaseOrder.map(
+  (originalId, index) => {
+    const phase = curriculumPhasesV21Draft.find(
+      (candidate) => candidate.id === originalId
+    )
+    if (!phase) throw new Error(`Nedostaje curriculum faza ${originalId}`)
+    return { ...phase, id: String(index) }
+  }
+)
+
 export const curriculumLessons = curriculumPhases.flatMap((phase) =>
   phase.lessons.map((lesson, index) => ({
     phase,
@@ -1015,10 +1783,21 @@ export const publishedCurriculumLessons = curriculumLessons.filter(
   ({ lesson }) => lesson.status === "published"
 )
 
+export function isAvailableLesson(lesson: PlayerLesson) {
+  return lesson.status === "published" && lesson.verification === "verified"
+}
+
+export const primaryCurriculumLessons = curriculumLessons.filter(
+  ({ lesson }) => isAvailableLesson(lesson) && !lesson.optional
+)
+
 export const curriculumSources = {
   bip39,
   bip325,
+  coreDownload,
   coreFiles,
+  coreKeyGeneration,
+  coreRandom,
   coreRelease,
   descriptors,
   electrumDocs,

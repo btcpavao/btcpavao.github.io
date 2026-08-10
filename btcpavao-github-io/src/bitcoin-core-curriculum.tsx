@@ -39,6 +39,8 @@ import {
   curriculumLessons,
   curriculumPhases,
   findLessonBySlug,
+  isAvailableLesson,
+  primaryCurriculumLessons,
   type CurriculumCodeBlock,
   type CurriculumPhase,
   type CurriculumStatus,
@@ -54,7 +56,10 @@ import {
 const SITE_URL = "https://btcpavao.com"
 const PROGRESS_STORAGE_KEY = "btcpavao-core-curriculum-progress-v1"
 const CHECKLIST_STORAGE_KEY = "btcpavao-core-curriculum-checklists-v1"
-const LAST_LESSON_STORAGE_KEY = "btcpavao-core-curriculum-last-lesson-v2"
+const LAST_LESSON_STORAGE_KEY =
+  "btcpavao-core-curriculum-last-available-lesson-v3"
+
+type CurriculumEntry = (typeof curriculumLessons)[number]
 
 const statusLabels: Record<CurriculumStatus, string> = {
   published: "Objavljeno",
@@ -139,7 +144,8 @@ function getHashLessonSlug() {
   return match ? decodeURIComponent(match[1]) : null
 }
 
-function formatReviewDate(date: string) {
+function formatReviewDate(date: string | undefined) {
+  if (!date) return "Nije dovršena"
   return new Intl.DateTimeFormat("hr-HR", {
     day: "2-digit",
     month: "2-digit",
@@ -181,6 +187,31 @@ function StatusBadge({ status }: { status: CurriculumStatus }) {
     <span className={`curriculum-status curriculum-status--${status}`}>
       <span aria-hidden="true" />
       {statusLabels[status]}
+    </span>
+  )
+}
+
+function PhaseAvailability({ phase }: { phase: CurriculumPhase }) {
+  const available = phase.lessons.filter(isAvailableLesson).length
+  const inReview = phase.lessons.filter(
+    (lesson) => lesson.verification === "review-required"
+  ).length
+  const total = phase.lessons.length
+  const state =
+    available === total ? "available" : available > 0 ? "partial" : "planned"
+
+  return (
+    <span
+      className={`course-phase-availability course-phase-availability--${state}`}
+    >
+      <span aria-hidden="true" />
+      {available === total
+        ? `${available} od ${total} dostupno`
+        : available > 0
+          ? `${available} od ${total} trenutno dostupno${inReview ? ` · ${inReview} u provjeri` : ""}`
+          : inReview
+            ? `${inReview} u tehničkoj provjeri`
+            : "Planirano"}
     </span>
   )
 }
@@ -361,6 +392,10 @@ function PhaseNavigator({
   const activePhase = curriculumPhases.find((phase) =>
     phase.lessons.some((lesson) => lesson.id === activeLesson.id)
   )
+  const availableCount = primaryCurriculumLessons.length
+  const completedCount = primaryCurriculumLessons.filter(({ lesson }) =>
+    completedLessons.has(lesson.id)
+  ).length
 
   return (
     <nav className="course-outline" aria-label="Faze i lekcije kurikuluma">
@@ -374,25 +409,11 @@ function PhaseNavigator({
         Pregled kurikuluma
       </button>
       <div className="course-outline__progress">
-        <span>Tvoj napredak</span>
-        <strong>
-          {
-            curriculumLessons.filter(
-              ({ lesson }) =>
-                lesson.status === "published" &&
-                lesson.verification === "verified" &&
-                completedLessons.has(lesson.id)
-            ).length
-          }
-          /
-          {
-            curriculumLessons.filter(
-              ({ lesson }) =>
-                lesson.status === "published" &&
-                lesson.verification === "verified"
-            ).length
-          }
-        </strong>
+        <span>
+          Tvoj napredak
+          <small>{availableCount} trenutno dostupno</small>
+        </span>
+        <strong>{completedCount} završeno</strong>
       </div>
       <ol className="course-outline__phases">
         {curriculumPhases.map((phase) => {
@@ -430,7 +451,18 @@ function PhaseNavigator({
                           <span>
                             {phase.id}.{index + 1}
                           </span>
-                          <span>{lesson.title}</span>
+                          <span className="course-outline__lesson-title">
+                            <span>{lesson.title}</span>
+                            {lesson.optional ? (
+                              <small>Neobavezni deep dive</small>
+                            ) : !isAvailableLesson(lesson) ? (
+                              <small>
+                                {lesson.status === "planned"
+                                  ? "Planirano"
+                                  : "U tehničkoj provjeri"}
+                              </small>
+                            ) : null}
+                          </span>
                           {completedLessons.has(lesson.id) ? (
                             <Check aria-label="Dovršeno" />
                           ) : null}
@@ -452,19 +484,21 @@ function CourseLanding({
   completedLessons,
   onStart,
   onContinue,
+  continueEntry,
+  returning,
   onSelectPhase,
   onReset,
 }: {
   completedLessons: Set<string>
   onStart: () => void
   onContinue: () => void
+  continueEntry: CurriculumEntry | null
+  returning: boolean
   onSelectPhase: (phase: CurriculumPhase) => void
   onReset: () => void
 }) {
-  const completableLessons = curriculumLessons.filter(
-    ({ lesson }) =>
-      lesson.status === "published" && lesson.verification === "verified"
-  )
+  const [roadmapOpen, setRoadmapOpen] = useState(false)
+  const completableLessons = primaryCurriculumLessons
   const completedCount = completableLessons.filter(({ lesson }) =>
     completedLessons.has(lesson.id)
   ).length
@@ -499,21 +533,13 @@ function CourseLanding({
             <button
               type="button"
               className="course-action course-action--primary"
-              onClick={onStart}
+              onClick={returning ? onContinue : onStart}
             >
-              Kreni od prvog koraka
+              {returning && continueEntry
+                ? `Nastavi: ${continueEntry.lesson.title}`
+                : "Kreni od prvog koraka"}
               <ArrowRight aria-hidden="true" />
             </button>
-            {completedCount > 0 ? (
-              <button
-                type="button"
-                className="course-action course-action--secondary"
-                onClick={onContinue}
-              >
-                Nastavi gdje si stao
-                <ArrowRight aria-hidden="true" />
-              </button>
-            ) : null}
           </div>
           <blockquote>
             Tvoj node je prije svega važan tebi: njime sam provjeravaš pravila,
@@ -526,11 +552,21 @@ function CourseLanding({
           aria-label="Napredak i verzija sadržaja"
         >
           <div className="course-progress-card__heading">
-            <span>Tvoj napredak</span>
+            <span>
+              {returning ? "Tvoja sljedeća točka" : "Living curriculum"}
+            </span>
             <strong aria-live="polite">
-              {completedCount} / {completableLessons.length}
+              {returning && continueEntry
+                ? continueEntry.lesson.title
+                : `${completableLessons.length} provjerenih lekcija`}
             </strong>
           </div>
+          {continueEntry ? (
+            <p className="course-progress-card__location">
+              Faza {Number(continueEntry.phase.id) + 1} · Lekcija{" "}
+              {continueEntry.lessonNumber}
+            </p>
+          ) : null}
           <div
             className="course-progress-track"
             role="progressbar"
@@ -542,8 +578,9 @@ function CourseLanding({
             <span style={{ width: `${progress}%` }} />
           </div>
           <p>
-            Napredak se sprema samo u ovom browseru. Lekcije koje još nisu
-            tehnički provjerene ne ulaze u rezultat.
+            {completedCount} završeno · {completableLessons.length} trenutno
+            dostupno. Napredak se sprema samo u ovom browseru; deep diveovi i
+            lekcije u provjeri ne blokiraju glavni put.
           </p>
           <dl>
             <div>
@@ -551,7 +588,7 @@ function CourseLanding({
               <dd>{CORE_REFERENCE_VERSION}</dd>
             </div>
             <div>
-              <dt>Tehnička provjera</dt>
+              <dt>Zadnja dovršena tehnička provjera</dt>
               <dd>{formatReviewDate(LAST_TECHNICAL_REVIEW)}</dd>
             </div>
             <div>
@@ -581,42 +618,97 @@ function CourseLanding({
       </section>
 
       <section
+        className="course-stage-map"
+        aria-labelledby="course-stages-title"
+      >
+        <div className="course-section-heading">
+          <span>Put bez prečaca</span>
+          <h2 id="course-stages-title">Tri etape do prvog stvarnog setupa</h2>
+          <p>
+            Najprije razumiješ sustav, zatim cijeli recovery ciklus vježbaš bez
+            stvarnog novca, a tek onda biraš i testiraš mainnet arhitekturu.
+          </p>
+        </div>
+        <ol>
+          <li>
+            <span>01</span>
+            <div>
+              <strong>Razumij</strong>
+              <p>
+                Threat model, Bitcoin Core i vlastita provjera bez mitologije.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span>02</span>
+            <div>
+              <strong>Vježbaj</strong>
+              <p>
+                Create → encrypt → novi backup → transact → restore → transact
+                again na Signetu.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span>03</span>
+            <div>
+              <strong>Primijeni</strong>
+              <p>
+                Odaberi arhitekturu, složi odvojeni mainnet setup i napravi mali
+                operativni test.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section
         className="course-roadmap"
         aria-labelledby="course-roadmap-title"
       >
         <div className="course-section-heading">
-          <span>Put u deset faza</span>
-          <h2 id="course-roadmap-title">
-            Od mentalnog modela do provjerenog recoveryja
-          </h2>
+          <span>Detaljni plan</span>
+          <h2 id="course-roadmap-title">Cijeli roadmap kad ti zatreba</h2>
           <p>
-            Svaka faza ima jasan ishod. Složenost dolazi tek nakon što
-            jednostavniji sustav možeš objasniti i obnoviti.
+            Statusi opisuju što je trenutno dostupno, što je u tehničkoj
+            provjeri i što je još planirano.
           </p>
         </div>
-        <ol className="course-roadmap__grid">
-          {curriculumPhases.map((phase, index) => (
-            <li key={phase.id}>
-              <button type="button" onClick={() => onSelectPhase(phase)}>
-                <span className="course-roadmap__number">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="course-roadmap__copy">
-                  <span className="course-roadmap__meta">
-                    <StatusBadge status={phase.status} />
-                    <small>{phase.estimatedTime}</small>
+        <button
+          type="button"
+          className="course-roadmap-toggle"
+          aria-expanded={roadmapOpen}
+          aria-controls="course-full-roadmap"
+          onClick={() => setRoadmapOpen((current) => !current)}
+        >
+          {roadmapOpen ? "Sakrij cijeli roadmap" : "Pogledaj cijeli roadmap"}
+          <ChevronRight aria-hidden="true" />
+        </button>
+        <div id="course-full-roadmap" hidden={!roadmapOpen}>
+          <ol className="course-roadmap__grid">
+            {curriculumPhases.map((phase, index) => (
+              <li key={phase.id}>
+                <button type="button" onClick={() => onSelectPhase(phase)}>
+                  <span className="course-roadmap__number">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
-                  <strong>{phase.title}</strong>
-                  <p>{phase.summary}</p>
-                  <span className="course-roadmap__outcome">
-                    Ishod: {phase.outcome}
+                  <span className="course-roadmap__copy">
+                    <span className="course-roadmap__meta">
+                      <PhaseAvailability phase={phase} />
+                      <small>{phase.estimatedTime}</small>
+                    </span>
+                    <strong>{phase.title}</strong>
+                    <p>{phase.summary}</p>
+                    <span className="course-roadmap__outcome">
+                      Ishod: {phase.outcome}
+                    </span>
                   </span>
-                </span>
-                <ArrowRight aria-hidden="true" />
-              </button>
-            </li>
-          ))}
-        </ol>
+                  <ArrowRight aria-hidden="true" />
+                </button>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
 
       <section
@@ -667,8 +759,11 @@ function LessonArticle({
   copiedLink: boolean
   onToggleComplete: () => void
 }) {
-  const isCompletable =
-    lesson.status === "published" && lesson.verification === "verified"
+  const isCompletable = isAvailableLesson(lesson)
+  const showConsultingBridge = [
+    "mainnet-readiness-prije-prvog-deposita",
+    "prvi-mali-mainnet-test",
+  ].includes(lesson.slug)
 
   return (
     <article className="course-lesson" aria-labelledby="lesson-title">
@@ -682,6 +777,9 @@ function LessonArticle({
         <p className="course-lesson__objective">{lesson.objective}</p>
         <div className="course-lesson__meta">
           <StatusBadge status={lesson.status} />
+          {lesson.optional ? (
+            <span className="course-optional-label">Neobavezni deep dive</span>
+          ) : null}
           <span>
             <Clock3 aria-hidden="true" /> {lesson.estimatedTime}
           </span>
@@ -694,12 +792,22 @@ function LessonArticle({
         </div>
         <dl className="course-lesson__version">
           <div>
-            <dt>Referentna verzija</dt>
+            <dt>
+              {lesson.verification === "verified"
+                ? "Testirano na"
+                : "Referentna verzija"}
+            </dt>
             <dd>{lesson.referenceVersion}</dd>
           </div>
           <div>
-            <dt>Zadnja provjera</dt>
-            <dd>{formatReviewDate(lesson.lastReviewed)}</dd>
+            <dt>Tehnička provjera</dt>
+            <dd>
+              {lesson.verification === "verified"
+                ? formatReviewDate(lesson.lastReviewed)
+                : lesson.verification === "planned"
+                  ? "Planirano"
+                  : "Nije dovršena"}
+            </dd>
           </div>
           <div>
             <dt>Porijeklo</dt>
@@ -714,7 +822,11 @@ function LessonArticle({
         <aside className="course-review-state">
           <ShieldAlert aria-hidden="true" />
           <div>
-            <strong>Ova lekcija još nije operativno objavljena.</strong>
+            <strong>
+              {lesson.verification === "planned"
+                ? "Ova lekcija je planirana."
+                : "Ova lekcija još nije operativno objavljena."}
+            </strong>
             <p>
               {lesson.reviewNote ??
                 "Struktura i izvori postoje, ali postupak treba reproducirati na navedenoj verziji prije objave."}
@@ -886,6 +998,28 @@ function LessonArticle({
         </section>
       ) : null}
 
+      {showConsultingBridge ? (
+        <aside className="course-consulting-bridge">
+          <div>
+            <span>Prije većeg iznosa</span>
+            <strong>Želiš još jedan par očiju na svom setupu?</strong>
+            <p>
+              Individualno savjetovanje može pomoći provjeriti threat model,
+              recovery i operativne korake. Nikada ne tražim tvoje privatne
+              ključeve, seed riječi ni wallet passphrase.
+            </p>
+          </div>
+          <a
+            href="https://bitcoin-savjetovanje.com/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Provjeri odgovara li ti savjetovanje
+            <ExternalLink aria-hidden="true" />
+          </a>
+        </aside>
+      ) : null}
+
       <footer className="course-lesson__completion">
         <div>
           <strong>
@@ -933,6 +1067,9 @@ export function BitcoinCoreCurriculumPage() {
   const [mobileOutlineOpen, setMobileOutlineOpen] = useState(false)
   const [copiedId, setCopiedId] = useState<string | null>(null)
   const [copiedLink, setCopiedLink] = useState(false)
+  const [lastAvailableSlug, setLastAvailableSlug] = useState<string | null>(
+    null
+  )
   const mobileCloseRef = useRef<HTMLButtonElement>(null)
 
   const activeEntry = useMemo(() => findLessonBySlug(activeSlug), [activeSlug])
@@ -942,13 +1079,77 @@ export function BitcoinCoreCurriculumPage() {
       )
     : -1
   const previousEntry =
-    activeIndex > 0 ? curriculumLessons[activeIndex - 1] : null
-  const nextEntry = activeIndex >= 0 ? curriculumLessons[activeIndex + 1] : null
+    activeIndex > 0
+      ? ([...primaryCurriculumLessons]
+          .reverse()
+          .find(
+            (entry) =>
+              curriculumLessons.findIndex(
+                ({ lesson }) => lesson.id === entry.lesson.id
+              ) < activeIndex
+          ) ?? null)
+      : null
+  const nextEntry =
+    activeIndex >= 0
+      ? (primaryCurriculumLessons.find(
+          (entry) =>
+            curriculumLessons.findIndex(
+              ({ lesson }) => lesson.id === entry.lesson.id
+            ) > activeIndex
+        ) ?? null)
+      : null
+  const nextEntryIndex = nextEntry
+    ? curriculumLessons.findIndex(
+        ({ lesson }) => lesson.id === nextEntry.lesson.id
+      )
+    : curriculumLessons.length
+  const skippedEntries =
+    activeIndex >= 0
+      ? curriculumLessons
+          .slice(activeIndex + 1, nextEntryIndex)
+          .filter(({ lesson }) => lesson.optional || !isAvailableLesson(lesson))
+      : []
+  const skippedReviewEntry =
+    skippedEntries.find(
+      ({ lesson }) => !lesson.optional && !isAvailableLesson(lesson)
+    ) ?? null
+  const skippedOptionalEntry =
+    skippedEntries.find(({ lesson }) => lesson.optional) ?? null
+  const continueEntry = useMemo<CurriculumEntry | null>(() => {
+    const storedIndex = primaryCurriculumLessons.findIndex(
+      ({ lesson }) => lesson.slug === lastAvailableSlug
+    )
+
+    if (storedIndex >= 0) {
+      const stored = primaryCurriculumLessons[storedIndex]
+      if (stored && !completedLessons.has(stored.lesson.id)) return stored
+
+      const laterIncomplete = primaryCurriculumLessons
+        .slice(storedIndex + 1)
+        .find(({ lesson }) => !completedLessons.has(lesson.id))
+      if (laterIncomplete) return laterIncomplete
+    }
+
+    return (
+      primaryCurriculumLessons.find(
+        ({ lesson }) => !completedLessons.has(lesson.id)
+      ) ??
+      primaryCurriculumLessons.at(-1) ??
+      null
+    )
+  }, [completedLessons, lastAvailableSlug])
+  const hasLearningHistory =
+    Boolean(lastAvailableSlug) || completedLessons.size > 0
 
   useEffect(() => {
     const storageTimer = window.setTimeout(() => {
       setCompletedLessons(readStoredSet(PROGRESS_STORAGE_KEY))
       setChecklistItems(readStoredSet(CHECKLIST_STORAGE_KEY))
+      try {
+        setLastAvailableSlug(localStorage.getItem(LAST_LESSON_STORAGE_KEY))
+      } catch {
+        setLastAvailableSlug(null)
+      }
       setStorageReady(true)
     }, 0)
 
@@ -972,14 +1173,23 @@ export function BitcoinCoreCurriculumPage() {
   }, [checklistItems, storageReady])
 
   useEffect(() => {
-    if (!activeEntry) return
-    try {
-      localStorage.setItem(LAST_LESSON_STORAGE_KEY, activeEntry.lesson.slug)
-    } catch {
-      // Zadnja lekcija nije kritičan podatak.
-    }
+    if (
+      !activeEntry ||
+      !isAvailableLesson(activeEntry.lesson) ||
+      activeEntry.lesson.optional
+    )
+      return
+    const rememberTimer = window.setTimeout(() => {
+      try {
+        localStorage.setItem(LAST_LESSON_STORAGE_KEY, activeEntry.lesson.slug)
+        setLastAvailableSlug(activeEntry.lesson.slug)
+      } catch {
+        // Zadnja lekcija nije kritičan podatak.
+      }
+    }, 0)
     document.title = `${activeEntry.lesson.title} | BTCPAVAO`
     window.scrollTo({ top: 0, behavior: "auto" })
+    return () => window.clearTimeout(rememberTimer)
   }, [activeEntry])
 
   useEffect(() => {
@@ -1021,21 +1231,7 @@ export function BitcoinCoreCurriculumPage() {
   }
 
   function continueLearning() {
-    let storedSlug: string | null = null
-    try {
-      storedSlug = localStorage.getItem(LAST_LESSON_STORAGE_KEY)
-    } catch {
-      storedSlug = null
-    }
-    const stored = findLessonBySlug(storedSlug)
-    const nextIncomplete = curriculumLessons.find(
-      ({ lesson }) =>
-        lesson.status === "published" &&
-        lesson.verification === "verified" &&
-        !completedLessons.has(lesson.id)
-    )
-    const target = stored ?? nextIncomplete ?? curriculumLessons[0]
-    if (target) openLesson(target.lesson)
+    if (continueEntry) openLesson(continueEntry.lesson)
   }
 
   async function copyCode(block: CurriculumCodeBlock) {
@@ -1065,6 +1261,7 @@ export function BitcoinCoreCurriculumPage() {
       return
     setCompletedLessons(new Set())
     setChecklistItems(new Set())
+    setLastAvailableSlug(null)
     try {
       localStorage.removeItem(LAST_LESSON_STORAGE_KEY)
     } catch {
@@ -1158,6 +1355,24 @@ export function BitcoinCoreCurriculumPage() {
                 }
               />
 
+              {skippedReviewEntry || skippedOptionalEntry ? (
+                <aside className="course-next-notice">
+                  <ShieldAlert aria-hidden="true" />
+                  <div>
+                    <strong>
+                      {skippedReviewEntry
+                        ? `Lekcija „${skippedReviewEntry.lesson.title}” još je u tehničkoj provjeri.`
+                        : "Sljedeći deep dive je neobavezan."}
+                    </strong>
+                    <p>
+                      {skippedReviewEntry
+                        ? "Otvori je ručno iz pregleda faze ako želiš vidjeti što dolazi. Gumb ispod nudi drugu objavljenu i provjerenu lekciju, a ne nepotvrđeni placeholder."
+                        : "Možeš ga otvoriti ručno iz pregleda faze; ne blokira glavni put."}
+                    </p>
+                  </div>
+                </aside>
+              ) : null}
+
               <nav
                 className="course-prev-next"
                 aria-label="Prethodna i sljedeća lekcija"
@@ -1169,7 +1384,7 @@ export function BitcoinCoreCurriculumPage() {
                   >
                     <ArrowLeft aria-hidden="true" />
                     <span>
-                      <small>Prethodna lekcija</small>
+                      <small>Prethodna na glavnom putu</small>
                       <strong>{previousEntry.lesson.title}</strong>
                     </span>
                   </button>
@@ -1182,7 +1397,11 @@ export function BitcoinCoreCurriculumPage() {
                     onClick={() => openLesson(nextEntry.lesson)}
                   >
                     <span>
-                      <small>Sljedeća lekcija</small>
+                      <small>
+                        {skippedReviewEntry
+                          ? "Druga provjerena lekcija"
+                          : "Nastavi glavnim putem"}
+                      </small>
                       <strong>{nextEntry.lesson.title}</strong>
                     </span>
                     <ArrowRight aria-hidden="true" />
@@ -1226,12 +1445,17 @@ export function BitcoinCoreCurriculumPage() {
           <CourseLanding
             completedLessons={completedLessons}
             onStart={() => {
-              const first = curriculumLessons[0]
+              const first = primaryCurriculumLessons[0]
               if (first) openLesson(first.lesson)
             }}
             onContinue={continueLearning}
+            continueEntry={continueEntry}
+            returning={hasLearningHistory}
             onSelectPhase={(phase) => {
-              const first = phase.lessons[0]
+              const first =
+                phase.lessons.find(
+                  (lesson) => isAvailableLesson(lesson) && !lesson.optional
+                ) ?? phase.lessons[0]
               if (first) openLesson(first)
             }}
             onReset={resetProgress}

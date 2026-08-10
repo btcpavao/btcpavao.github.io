@@ -942,10 +942,8 @@
 
 .course-progress-card__heading {
   position: relative;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
+  display: grid;
+  gap: 0.55rem;
 }
 
 .course-progress-card__heading span {
@@ -957,8 +955,17 @@
 }
 
 .course-progress-card__heading strong {
-  font-size: 1.55rem;
-  font-variant-numeric: tabular-nums;
+  max-width: 25ch;
+  font-size: 1.35rem;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.course-progress-card > .course-progress-card__location {
+  margin-top: 0.65rem;
+  color: var(--foreground);
+  font-size: 0.88rem;
+  font-weight: 700;
 }
 
 .course-progress-track {
@@ -1080,10 +1087,129 @@
   line-height: 1.62;
 }
 
+.course-stage-map {
+  max-width: 90rem;
+  margin-inline: auto;
+  padding: clamp(5rem, 9vw, 8rem) 1.5rem 0;
+}
+
+.course-stage-map > ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+.course-stage-map li {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 1.4rem;
+  background: color-mix(in oklab, var(--card) 82%, transparent);
+}
+
+.course-stage-map li > span {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--course-ink);
+  background: var(--course-sky-soft);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.dark .course-stage-map li > span {
+  color: #a8ddf6;
+}
+
+.course-stage-map strong {
+  font-size: 1.2rem;
+}
+
+.course-stage-map p {
+  margin-top: 0.45rem;
+  color: var(--muted-foreground);
+  font-size: 1rem;
+  line-height: 1.58;
+}
+
 .course-roadmap {
   max-width: 90rem;
   margin-inline: auto;
   padding: clamp(5rem, 9vw, 8rem) 1.5rem;
+}
+
+.course-roadmap-toggle {
+  display: inline-flex;
+  min-height: 3.1rem;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 2rem;
+  padding-inline: 1.15rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
+  font-size: 1rem;
+  font-weight: 720;
+  transition-property: border-color, background-color, scale;
+  transition-duration: 160ms;
+  transition-timing-function: ease-out;
+}
+
+.course-roadmap-toggle:hover {
+  border-color: color-mix(in oklab, var(--course-sky) 45%, var(--border));
+  background: color-mix(in oklab, var(--course-sky) 5%, var(--card));
+}
+
+.course-roadmap-toggle:active {
+  scale: 0.98;
+}
+
+.course-roadmap-toggle svg {
+  width: 1rem;
+  height: 1rem;
+  rotate: 0deg;
+  transition: rotate 160ms ease-out;
+}
+
+.course-roadmap-toggle[aria-expanded="true"] svg {
+  rotate: 90deg;
+}
+
+.course-phase-availability {
+  display: inline-flex;
+  min-height: 1.8rem;
+  align-items: center;
+  gap: 0.4rem;
+  padding-inline: 0.62rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted-foreground);
+  background: var(--background);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.course-phase-availability > span {
+  width: 0.45rem;
+  height: 0.45rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--muted-foreground);
+}
+
+.course-phase-availability--available > span {
+  background: #20a36a;
+}
+
+.course-phase-availability--partial > span {
+  background: #d88a15;
 }
 
 .course-section-heading > span,
@@ -1335,13 +1461,26 @@
   padding: 0.9rem 0.75rem;
   border-block: 1px solid var(--border);
   color: var(--muted-foreground);
-  font-size: 0.82rem;
+  font-size: 0.86rem;
+}
+
+.course-outline__progress > span,
+.course-outline__progress small {
+  display: block;
+}
+
+.course-outline__progress small {
+  margin-top: 0.2rem;
+  color: var(--muted-foreground);
+  font-size: 0.76rem;
+  line-height: 1.3;
 }
 
 .course-outline__progress strong {
   color: var(--foreground);
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 
 .course-outline__phases {
@@ -1433,12 +1572,35 @@
   padding: 0.45rem 0.55rem;
   border-radius: 0.65rem;
   color: var(--muted-foreground);
-  font-size: 0.82rem;
+  font-size: 0.86rem;
   line-height: 1.3;
   text-align: left;
   transition-property: color, background-color, scale;
   transition-duration: 150ms;
   transition-timing-function: ease-out;
+}
+
+.course-outline__lesson-title > span,
+.course-outline__lesson-title > small {
+  display: block;
+}
+
+.course-outline__lesson-title > small {
+  margin-top: 0.22rem;
+  color: var(--muted-foreground);
+  font-size: 0.72rem;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.course-optional-label {
+  min-height: 1.7rem;
+  padding-inline: 0.62rem;
+  border: 1px solid color-mix(in oklab, var(--course-sky) 35%, var(--border));
+  border-radius: 999px;
+  color: var(--course-sky) !important;
+  background: color-mix(in oklab, var(--course-sky) 6%, var(--card));
+  font-size: 0.78rem !important;
 }
 
 .course-outline__lessons button:hover,
@@ -2180,6 +2342,101 @@
   margin-top: 0.75rem;
 }
 
+.course-consulting-bridge {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  padding: 1.5rem;
+  border: 1px solid color-mix(in oklab, var(--primary) 28%, var(--border));
+  border-radius: 1.25rem;
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--primary) 7%, var(--card)),
+    var(--card)
+  );
+}
+
+.course-consulting-bridge span,
+.course-consulting-bridge strong,
+.course-consulting-bridge p {
+  display: block;
+}
+
+.course-consulting-bridge span {
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 780;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.course-consulting-bridge strong {
+  margin-top: 0.35rem;
+  font-size: 1.15rem;
+}
+
+.course-consulting-bridge p {
+  max-width: 38rem;
+  margin-top: 0.45rem;
+  color: var(--muted-foreground);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.course-consulting-bridge a {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  color: var(--primary-foreground);
+  background: var(--primary);
+  font-size: 0.92rem;
+  font-weight: 720;
+  text-align: center;
+}
+
+.course-consulting-bridge a svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
+.course-next-notice {
+  display: grid;
+  width: 100%;
+  max-width: 52rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem;
+  margin: 3rem auto -1.5rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid color-mix(in oklab, #c77a11 32%, var(--border));
+  border-radius: 1rem;
+  background: color-mix(in oklab, #f5a623 7%, var(--card));
+}
+
+.course-next-notice > svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 0.2rem;
+  color: #c77a11;
+}
+
+.course-next-notice strong {
+  font-size: 0.98rem;
+}
+
+.course-next-notice p {
+  margin-top: 0.3rem;
+  color: var(--muted-foreground);
+  font-size: 0.93rem;
+  line-height: 1.55;
+}
+
 .course-prev-next {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2289,6 +2546,10 @@
 
   .course-progress-card {
     max-width: 42rem;
+  }
+
+  .course-stage-map > ol {
+    grid-template-columns: 1fr;
   }
 
   .course-player {
@@ -2439,6 +2700,7 @@
   }
 
   .course-hero,
+  .course-stage-map,
   .course-roadmap {
     padding-inline: 1rem;
   }
@@ -2485,6 +2747,14 @@
     padding: 1.2rem 0;
   }
 
+  .course-stage-map {
+    padding-top: 5rem;
+  }
+
+  .course-stage-map li {
+    padding: 1.15rem;
+  }
+
   .course-roadmap {
     padding-top: 5rem;
     padding-bottom: 5rem;
@@ -2508,6 +2778,10 @@
     gap: 0.8rem;
     padding: 1.1rem;
     border-radius: 1.1rem;
+  }
+
+  .course-roadmap__meta {
+    flex-wrap: wrap;
   }
 
   .course-roadmap__number {
@@ -2612,6 +2886,15 @@
     display: grid;
   }
 
+  .course-consulting-bridge {
+    grid-template-columns: 1fr;
+    padding: 1.25rem;
+  }
+
+  .course-consulting-bridge a {
+    width: 100%;
+  }
+
   .course-lesson__completion button {
     width: 100%;
   }
@@ -2644,6 +2927,10 @@
 
   .course-roadmap__number {
     display: none;
+  }
+
+  .course-stage-map li {
+    grid-template-columns: 1fr;
   }
 
   .course-progress-card dl > div {
