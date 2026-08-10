@@ -246,12 +246,12 @@ const aiSeriesPosts: SeriesPost[] = [
 const hrBitcoinCorePosts: SeriesPost[] = [
   {
     category: "Living curriculum",
-    title: "Bitcoin Core — od prvog walleta do naprednog self-custodyja",
+    title: "Praktičan Bitcoin self-custody uz Bitcoin Core",
     description:
-      "Interaktivni kurikulum s lokalnim praćenjem napretka, testnim zadacima i jasnim roadmapom od threat modela do multisiga.",
+      "Deset faza s lokalnim napretkom: od threat modela i Signet vježbi do recoveryja, offline signinga i multisiga.",
     href: BITCOIN_CORE_CURRICULUM_PATH,
     language: "HR",
-    date: "Ažurirano 7. kolovoza 2026.",
+    date: "Ažurirano 10. kolovoza 2026.",
   },
   {
     category: BITCOIN_CORE_SERIES_TITLE,

@@ -157,7 +157,7 @@ const routes = [
     type: "website",
     image: `${siteUrl}/bitcoin-core-entropija-cover-v2-share.jpg`,
     imageAlt:
-      "Kriptografski proces nastanka Bitcoin Core walleta u mediteranskom okruženju.",
+      "Bitcoin Core self-custody kurikulum od Signet vježbe do provjerenog recoveryja.",
     imageWidth: 1200,
     imageHeight: 630,
     breadcrumbParents: [{ name: "Hrvatski tekstovi", item: hrUrl }],
@@ -172,13 +172,12 @@ const routes = [
     appPath: "/hr/bitcoin-core/self-custody/",
     routePath: "hr/bitcoin-core/self-custody",
     routeUrl: bitcoinCoreCurriculumUrl,
-    title: "Bitcoin Core — od prvog walleta do naprednog self-custodyja",
-    collectionName:
-      "Bitcoin Core — od prvog walleta do naprednog self-custodyja",
+    title: "Praktičan Bitcoin self-custody uz Bitcoin Core | BTCPAVAO",
+    collectionName: "Praktičan Bitcoin self-custody uz Bitcoin Core",
     description:
-      "Interaktivni i kontinuirano nadogradivi Bitcoin Core kurikulum: threat model, wallet, backup, recovery, offline signing, PSBT, multisig i napredne politike.",
+      "Dugoročni vodič za Bitcoin self-custody: Signet vježba, vlastiti node, backup i restore, offline signing, PSBT, multisig i operativna sigurnost.",
     ogDescription:
-      "Praktičan vodič za izgradnju Bitcoin sustava koji razumiješ od početka do kraja.",
+      "Nauči držati svoj Bitcoin tako da razumiješ cijeli sustav — od prvog Signet testa do provjerenog recoveryja.",
     type: "website",
     image: `${siteUrl}/bitcoin-core-entropija-cover-v2-share.jpg`,
     imageAlt:

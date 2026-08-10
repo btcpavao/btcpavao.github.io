@@ -129,9 +129,9 @@ const latestPosts = [
   {
     category: "Bitcoin Core",
     language: "HR",
-    date: "7. kolovoza 2026.",
-    title: "Bitcoin Core — od prvog walleta do naprednog self-custodyja",
-    copy: "Interaktivni living curriculum od threat modela i testnog walleta do offline signinga, multisiga i naprednih politika.",
+    date: "10. kolovoza 2026.",
+    title: "Praktičan Bitcoin self-custody uz Bitcoin Core",
+    copy: "Deset faza od threat modela i ranih Signet vježbi do provjerenog recoveryja, offline signinga i multisiga.",
     href: BITCOIN_CORE_CURRICULUM_PATH,
   },
   {

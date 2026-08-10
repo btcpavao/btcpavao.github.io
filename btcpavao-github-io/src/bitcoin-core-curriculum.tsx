@@ -1,6 +1,7 @@
 import {
   useEffect,
   useMemo,
+  useRef,
   useState,
   type Dispatch,
   type SetStateAction,
@@ -12,39 +13,39 @@ import {
   BookOpen,
   Check,
   CheckCircle2,
-  ChevronDown,
+  ChevronRight,
   Clipboard,
   Clock3,
   Code2,
   ExternalLink,
   FileText,
-  Filter,
   KeyRound,
+  Lightbulb,
+  Link2,
   Menu,
-  MonitorUp,
   MoonStar,
-  Network,
   Play,
   RefreshCcw,
-  Search,
   ShieldAlert,
   SunMedium,
   Terminal,
-  Unplug,
   X,
 } from "lucide-react"
 
-import { useTheme } from "@/components/theme-provider"
-import { Button } from "@/components/ui/button"
 import {
-  curriculumModules,
-  roadmapStages,
+  CORE_REFERENCE_VERSION,
+  CURRICULUM_VERSION,
+  LAST_TECHNICAL_REVIEW,
+  curriculumLessons,
+  curriculumPhases,
+  findLessonBySlug,
   type CurriculumCodeBlock,
-  type CurriculumLesson,
-  type CurriculumLevel,
-  type CurriculumModule,
+  type CurriculumPhase,
   type CurriculumStatus,
-} from "@/bitcoin-core-curriculum-data"
+  type LessonCallout,
+  type PlayerLesson,
+} from "@/bitcoin-core-curriculum-player-data"
+import { useTheme } from "@/components/theme-provider"
 import {
   BITCOIN_CORE_CURRICULUM_PATH,
   BITCOIN_CORE_SERIES_PATH,
@@ -53,28 +54,19 @@ import {
 const SITE_URL = "https://btcpavao.com"
 const PROGRESS_STORAGE_KEY = "btcpavao-core-curriculum-progress-v1"
 const CHECKLIST_STORAGE_KEY = "btcpavao-core-curriculum-checklists-v1"
+const LAST_LESSON_STORAGE_KEY = "btcpavao-core-curriculum-last-lesson-v2"
 
 const statusLabels: Record<CurriculumStatus, string> = {
   published: "Objavljeno",
-  "in-progress": "U izradi",
+  "in-progress": "U provjeri",
   planned: "Planirano",
 }
 
-const levelLabels: Record<CurriculumLevel, string> = {
-  beginner: "Beginner",
-  intermediate: "Intermediate",
-  advanced: "Advanced",
+const verificationLabels = {
+  verified: "Provjereno",
+  "review-required": "Treba ponovnu provjeru",
+  planned: "Planirano",
 }
-
-const levelOptions: Array<{
-  value: "all" | CurriculumLevel
-  label: string
-}> = [
-  { value: "all", label: "Sve razine" },
-  { value: "beginner", label: "Beginner" },
-  { value: "intermediate", label: "Intermediate" },
-  { value: "advanced", label: "Advanced" },
-]
 
 function setMetaContent(
   attribute: "name" | "property",
@@ -96,9 +88,9 @@ function setMetaContent(
 
 function useCurriculumMetadata() {
   useEffect(() => {
-    const title = "Bitcoin Core — od prvog walleta do naprednog self-custodyja"
+    const title = "Praktičan Bitcoin self-custody uz Bitcoin Core | BTCPAVAO"
     const description =
-      "Interaktivni i kontinuirano nadogradivi Bitcoin Core kurikulum: threat model, wallet, backup, recovery, offline signing, PSBT, multisig i napredne politike."
+      "Dugoročni vodič za Bitcoin self-custody: Signet vježba, vlastiti node, backup i restore, offline signing, PSBT, multisig i operativna sigurnost."
     const url = `${SITE_URL}${BITCOIN_CORE_CURRICULUM_PATH}`
 
     document.documentElement.lang = "hr"
@@ -137,8 +129,22 @@ function writeStoredSet(key: string, value: Set<string>) {
   try {
     localStorage.setItem(key, JSON.stringify([...value]))
   } catch {
-    // Progress still works for the current session if storage is unavailable.
+    // Napredak ostaje u trenutnoj sesiji ako browser blokira localStorage.
   }
+}
+
+function getHashLessonSlug() {
+  if (typeof window === "undefined") return null
+  const match = window.location.hash.match(/^#lesson\/(.+)$/)
+  return match ? decodeURIComponent(match[1]) : null
+}
+
+function formatReviewDate(date: string) {
+  return new Intl.DateTimeFormat("hr-HR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(new Date(`${date}T12:00:00`))
 }
 
 function ThemeToggle() {
@@ -179,13 +185,13 @@ function StatusBadge({ status }: { status: CurriculumStatus }) {
   )
 }
 
-function VideoBlock({ url }: { url?: string | null }) {
-  if (url) {
+function VideoBlock({ lesson }: { lesson: PlayerLesson }) {
+  if (lesson.videoUrl) {
     return (
-      <div className="curriculum-video curriculum-video--embed">
+      <div className="course-video course-video--embed">
         <iframe
-          src={url}
-          title="Video lekcija"
+          src={lesson.videoUrl}
+          title={`Video: ${lesson.title}`}
           loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
@@ -195,13 +201,13 @@ function VideoBlock({ url }: { url?: string | null }) {
   }
 
   return (
-    <div className="curriculum-video" aria-label="Video uskoro">
-      <span className="curriculum-video__icon">
+    <div className="course-video" aria-label="Video u pripremi">
+      <span className="course-video__icon">
         <Play aria-hidden="true" />
       </span>
       <span>
-        <strong>Video uskoro</strong>
-        <small>Komponenta je spremna za dodavanje video URL-a.</small>
+        <strong>Video u pripremi</strong>
+        <small>Tekst lekcije mora biti potpun i upotrebljiv i bez videa.</small>
       </span>
     </div>
   )
@@ -219,30 +225,25 @@ function CodeBlock({
   const copied = copiedId === block.id
 
   return (
-    <section className="curriculum-code" aria-labelledby={`code-${block.id}`}>
-      <div className="curriculum-code__header">
+    <section className="course-code" aria-labelledby={`code-${block.id}`}>
+      <div className="course-code__header">
         <div>
-          <span className="curriculum-code__label">
+          <span className="course-code__label">
             <Terminal aria-hidden="true" /> RPC / CLI
           </span>
-          <h5 id={`code-${block.id}`}>{block.title}</h5>
+          <h3 id={`code-${block.id}`}>{block.title}</h3>
         </div>
         <button
           type="button"
-          className="curriculum-copy-button"
+          className="course-copy-button"
           onClick={() => onCopy(block)}
           aria-label={`Kopiraj naredbu: ${block.title}`}
         >
-          <span
-            className={`curriculum-copy-icon ${copied ? "curriculum-copy-icon--visible" : ""}`}
-          >
+          {copied ? (
             <Check aria-hidden="true" />
-          </span>
-          <span
-            className={`curriculum-copy-icon ${!copied ? "curriculum-copy-icon--visible" : ""}`}
-          >
+          ) : (
             <Clipboard aria-hidden="true" />
-          </span>
+          )}
           <span>{copied ? "Kopirano" : "Kopiraj"}</span>
         </button>
       </div>
@@ -251,7 +252,7 @@ function CodeBlock({
       </pre>
       <p>{block.explanation}</p>
       {block.parameters?.length ? (
-        <dl className="curriculum-parameters">
+        <dl className="course-code__parameters">
           {block.parameters.map((parameter) => (
             <div key={parameter.name}>
               <dt>{parameter.name}</dt>
@@ -261,7 +262,7 @@ function CodeBlock({
         </dl>
       ) : null}
       {block.warning ? (
-        <div className="curriculum-inline-warning">
+        <div className="course-inline-message course-inline-message--warning">
           <AlertTriangle aria-hidden="true" />
           <p>{block.warning}</p>
         </div>
@@ -271,32 +272,31 @@ function CodeBlock({
 }
 
 function Checklist({
-  title,
-  items,
-  scope,
+  lesson,
   checkedItems,
   setCheckedItems,
 }: {
-  title: string
-  items: string[]
-  scope: string
+  lesson: PlayerLesson
   checkedItems: Set<string>
   setCheckedItems: Dispatch<SetStateAction<Set<string>>>
 }) {
-  if (!items.length) return null
+  if (!lesson.checklist?.length) return null
 
   return (
     <section
-      className="curriculum-checklist"
-      aria-labelledby={`${scope}-title`}
+      className="course-checklist"
+      aria-labelledby="lesson-checklist-title"
     >
-      <div className="curriculum-checklist__heading">
+      <div className="course-section-heading course-section-heading--compact">
         <CheckCircle2 aria-hidden="true" />
-        <h4 id={`${scope}-title`}>{title}</h4>
+        <div>
+          <span>Primijeni</span>
+          <h2 id="lesson-checklist-title">Praktični zadaci</h2>
+        </div>
       </div>
-      <div className="curriculum-checklist__items">
-        {items.map((item, index) => {
-          const key = `${scope}:${index}`
+      <div className="course-checklist__items">
+        {lesson.checklist.map((item, index) => {
+          const key = `lesson-${lesson.id}:${index}`
           const checked = checkedItems.has(key)
           return (
             <label key={key} className={checked ? "is-checked" : undefined}>
@@ -312,7 +312,7 @@ function Checklist({
                   })
                 }
               />
-              <span className="curriculum-checkbox" aria-hidden="true">
+              <span className="course-checkbox" aria-hidden="true">
                 <Check />
               </span>
               <span>{item}</span>
@@ -324,164 +324,513 @@ function Checklist({
   )
 }
 
-function ArchitectureDiagram({ moduleId }: { moduleId: string }) {
-  if (moduleId === "2") {
-    return (
-      <figure className="curriculum-architecture">
-        <figcaption>Arhitektura koju ćemo graditi</figcaption>
-        <div className="curriculum-architecture__node">
-          <span className="curriculum-architecture__icon">
-            <Network aria-hidden="true" />
-          </span>
-          <div>
-            <strong>Online node</strong>
-            <span>Blockchain · UTXO · provjera · broadcast</span>
-          </div>
-        </div>
-        <div className="curriculum-architecture__bridge">
-          <span>PSBT</span>
-          <ArrowRight aria-hidden="true" />
-        </div>
-        <div className="curriculum-architecture__node curriculum-architecture__node--offline">
-          <span className="curriculum-architecture__icon">
-            <Unplug aria-hidden="true" />
-          </span>
-          <div>
-            <strong>Offline signer</strong>
-            <span>Privatni ključevi · pregled · signing · bez mreže</span>
-          </div>
-        </div>
-      </figure>
-    )
-  }
-
-  if (moduleId === "7") {
-    return (
-      <figure className="curriculum-address-map">
-        <figcaption>
-          Vizualni orijentir — prefiks nije potpuna provjera
-        </figcaption>
-        {[
-          ["Legacy", "1…"],
-          ["Nested SegWit", "3…"],
-          ["Native SegWit", "bc1q…"],
-          ["Taproot", "bc1p…"],
-        ].map(([label, prefix]) => (
-          <div key={label}>
-            <span>{label}</span>
-            <code>{prefix}</code>
-          </div>
-        ))}
-      </figure>
-    )
-  }
-
-  if (moduleId === "9") {
-    return (
-      <figure className="curriculum-psbt-flow">
-        <figcaption>PSBT tok — privatni ključ ostaje offline</figcaption>
-        <div>
-          <span>1</span>
-          <strong>Online Core</strong>
-          <small>Kreiraj unsigned PSBT</small>
-        </div>
-        <ArrowRight aria-hidden="true" />
-        <div>
-          <span>2</span>
-          <strong>Offline Core</strong>
-          <small>Pregledaj i potpiši</small>
-        </div>
-        <ArrowRight aria-hidden="true" />
-        <div>
-          <span>3</span>
-          <strong>Online Core</strong>
-          <small>Finalize · provjera · broadcast</small>
-        </div>
-      </figure>
-    )
-  }
-
-  return null
-}
-
-function LessonBody({
-  lesson,
-  copiedId,
-  onCopy,
-  checklistItems,
-  setChecklistItems,
-}: {
-  lesson: CurriculumLesson
-  copiedId: string | null
-  onCopy: (block: CurriculumCodeBlock) => void
-  checklistItems: Set<string>
-  setChecklistItems: Dispatch<SetStateAction<Set<string>>>
-}) {
-  const hasThreeQuestions = lesson.what || lesson.why || lesson.risk
+function Callout({ callout }: { callout: LessonCallout }) {
+  const Icon =
+    callout.kind === "warning"
+      ? ShieldAlert
+      : callout.kind === "verify"
+        ? CheckCircle2
+        : callout.kind === "mental-model"
+          ? Lightbulb
+          : FileText
 
   return (
-    <div className="curriculum-lesson__body">
-      {hasThreeQuestions ? (
-        <div className="curriculum-three-questions">
-          {lesson.what ? (
-            <div>
-              <span>Što radimo?</span>
-              <p>{lesson.what}</p>
-            </div>
-          ) : null}
-          {lesson.why ? (
-            <div>
-              <span>Zašto?</span>
-              <p>{lesson.why}</p>
-            </div>
-          ) : null}
-          {lesson.risk ? (
-            <div>
-              <span>Što može poći po zlu?</span>
-              <p>{lesson.risk}</p>
-            </div>
-          ) : null}
-        </div>
-      ) : null}
+    <aside className={`course-callout course-callout--${callout.kind}`}>
+      <Icon aria-hidden="true" />
+      <div>
+        <strong>{callout.title}</strong>
+        <p>{callout.body}</p>
+      </div>
+    </aside>
+  )
+}
 
-      {lesson.badges?.length ? (
-        <div className="curriculum-badges" aria-label="Oznake lekcije">
-          {lesson.badges.map((badge) => (
-            <span key={badge}>{badge}</span>
-          ))}
-        </div>
-      ) : null}
+function PhaseNavigator({
+  activeLesson,
+  completedLessons,
+  onSelectLesson,
+  onOverview,
+  mobile = false,
+}: {
+  activeLesson: PlayerLesson
+  completedLessons: Set<string>
+  onSelectLesson: (lesson: PlayerLesson) => void
+  onOverview: () => void
+  mobile?: boolean
+}) {
+  const activePhase = curriculumPhases.find((phase) =>
+    phase.lessons.some((lesson) => lesson.id === activeLesson.id)
+  )
 
-      {lesson.concepts?.length ? (
-        <ul className="curriculum-concepts">
-          {lesson.concepts.map((concept) => (
-            <li key={concept}>
-              <Check aria-hidden="true" />
-              <span>{concept}</span>
+  return (
+    <nav className="course-outline" aria-label="Faze i lekcije kurikuluma">
+      <button
+        type="button"
+        className="course-outline__overview"
+        onClick={onOverview}
+        tabIndex={mobile ? 0 : undefined}
+      >
+        <BookOpen aria-hidden="true" />
+        Pregled kurikuluma
+      </button>
+      <div className="course-outline__progress">
+        <span>Tvoj napredak</span>
+        <strong>
+          {
+            curriculumLessons.filter(
+              ({ lesson }) =>
+                lesson.status === "published" &&
+                lesson.verification === "verified" &&
+                completedLessons.has(lesson.id)
+            ).length
+          }
+          /
+          {
+            curriculumLessons.filter(
+              ({ lesson }) =>
+                lesson.status === "published" &&
+                lesson.verification === "verified"
+            ).length
+          }
+        </strong>
+      </div>
+      <ol className="course-outline__phases">
+        {curriculumPhases.map((phase) => {
+          const isActive = phase.id === activePhase?.id
+          return (
+            <li key={phase.id} className={isActive ? "is-active" : undefined}>
+              <button
+                type="button"
+                className="course-outline__phase"
+                onClick={() => {
+                  const lesson = phase.lessons[0]
+                  if (lesson) onSelectLesson(lesson)
+                }}
+                aria-current={isActive ? "step" : undefined}
+              >
+                <span>{String(Number(phase.id) + 1).padStart(2, "0")}</span>
+                <span>
+                  <strong>{phase.shortTitle}</strong>
+                  <small>{phase.estimatedTime}</small>
+                </span>
+                <ChevronRight aria-hidden="true" />
+              </button>
+              {isActive ? (
+                <ol className="course-outline__lessons">
+                  {phase.lessons.map((lesson, index) => {
+                    const isCurrent = lesson.id === activeLesson.id
+                    return (
+                      <li key={lesson.id}>
+                        <button
+                          type="button"
+                          className={isCurrent ? "is-current" : undefined}
+                          onClick={() => onSelectLesson(lesson)}
+                          aria-current={isCurrent ? "page" : undefined}
+                        >
+                          <span>
+                            {phase.id}.{index + 1}
+                          </span>
+                          <span>{lesson.title}</span>
+                          {completedLessons.has(lesson.id) ? (
+                            <Check aria-label="Dovršeno" />
+                          ) : null}
+                        </button>
+                      </li>
+                    )
+                  })}
+                </ol>
+              ) : null}
+            </li>
+          )
+        })}
+      </ol>
+    </nav>
+  )
+}
+
+function CourseLanding({
+  completedLessons,
+  onStart,
+  onContinue,
+  onSelectPhase,
+  onReset,
+}: {
+  completedLessons: Set<string>
+  onStart: () => void
+  onContinue: () => void
+  onSelectPhase: (phase: CurriculumPhase) => void
+  onReset: () => void
+}) {
+  const completableLessons = curriculumLessons.filter(
+    ({ lesson }) =>
+      lesson.status === "published" && lesson.verification === "verified"
+  )
+  const completedCount = completableLessons.filter(({ lesson }) =>
+    completedLessons.has(lesson.id)
+  ).length
+  const progress = completableLessons.length
+    ? (completedCount / completableLessons.length) * 100
+    : 0
+
+  return (
+    <>
+      <section className="course-hero" aria-labelledby="course-title">
+        <div className="course-hero__copy">
+          <div className="course-eyebrow">
+            <img
+              src="/bitcoin-logo-official.png"
+              alt=""
+              width="1920"
+              height="1920"
+              aria-hidden="true"
+              draggable="false"
+            />
+            <span>Living curriculum · v{CURRICULUM_VERSION}</span>
+          </div>
+          <h1 id="course-title">
+            Nauči držati svoj Bitcoin tako da razumiješ cijeli sustav.
+          </h1>
+          <p className="course-hero__lede">
+            Praktičan put kroz dugoročni self-custody uz Bitcoin Core. Privatni
+            ključevi su početak; pouzdan sustav uključuje provjeru, backup,
+            restore, potpisivanje i rutinu koju možeš ponoviti pod stresom.
+          </p>
+          <div className="course-hero__actions">
+            <button
+              type="button"
+              className="course-action course-action--primary"
+              onClick={onStart}
+            >
+              Kreni od prvog koraka
+              <ArrowRight aria-hidden="true" />
+            </button>
+            {completedCount > 0 ? (
+              <button
+                type="button"
+                className="course-action course-action--secondary"
+                onClick={onContinue}
+              >
+                Nastavi gdje si stao
+                <ArrowRight aria-hidden="true" />
+              </button>
+            ) : null}
+          </div>
+          <blockquote>
+            Tvoj node je prije svega važan tebi: njime sam provjeravaš pravila,
+            stanje i transakcije na koje se oslanjaš.
+          </blockquote>
+        </div>
+
+        <aside
+          className="course-progress-card"
+          aria-label="Napredak i verzija sadržaja"
+        >
+          <div className="course-progress-card__heading">
+            <span>Tvoj napredak</span>
+            <strong aria-live="polite">
+              {completedCount} / {completableLessons.length}
+            </strong>
+          </div>
+          <div
+            className="course-progress-track"
+            role="progressbar"
+            aria-label="Napredak kroz provjerene i objavljene lekcije"
+            aria-valuemin={0}
+            aria-valuemax={completableLessons.length}
+            aria-valuenow={completedCount}
+          >
+            <span style={{ width: `${progress}%` }} />
+          </div>
+          <p>
+            Napredak se sprema samo u ovom browseru. Lekcije koje još nisu
+            tehnički provjerene ne ulaze u rezultat.
+          </p>
+          <dl>
+            <div>
+              <dt>Referentna verzija</dt>
+              <dd>{CORE_REFERENCE_VERSION}</dd>
+            </div>
+            <div>
+              <dt>Tehnička provjera</dt>
+              <dd>{formatReviewDate(LAST_TECHNICAL_REVIEW)}</dd>
+            </div>
+            <div>
+              <dt>Sadržaj</dt>
+              <dd>v{CURRICULUM_VERSION}</dd>
+            </div>
+          </dl>
+          {completedCount ? (
+            <button type="button" className="course-reset" onClick={onReset}>
+              <RefreshCcw aria-hidden="true" />
+              Resetiraj napredak
+            </button>
+          ) : null}
+        </aside>
+      </section>
+
+      <section className="course-safety" aria-label="Sigurnosno pravilo">
+        <KeyRound aria-hidden="true" />
+        <div>
+          <strong>Ova stranica nikada ne traži tvoje tajne.</strong>
+          <p>
+            Ne upisuj stvarne privatne ključeve, seed riječi, passphrase ili
+            xpriv. Početne operativne vježbe namjerno se rade na Signetu, bez
+            stvarnog novca.
+          </p>
+        </div>
+      </section>
+
+      <section
+        className="course-roadmap"
+        aria-labelledby="course-roadmap-title"
+      >
+        <div className="course-section-heading">
+          <span>Put u deset faza</span>
+          <h2 id="course-roadmap-title">
+            Od mentalnog modela do provjerenog recoveryja
+          </h2>
+          <p>
+            Svaka faza ima jasan ishod. Složenost dolazi tek nakon što
+            jednostavniji sustav možeš objasniti i obnoviti.
+          </p>
+        </div>
+        <ol className="course-roadmap__grid">
+          {curriculumPhases.map((phase, index) => (
+            <li key={phase.id}>
+              <button type="button" onClick={() => onSelectPhase(phase)}>
+                <span className="course-roadmap__number">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="course-roadmap__copy">
+                  <span className="course-roadmap__meta">
+                    <StatusBadge status={phase.status} />
+                    <small>{phase.estimatedTime}</small>
+                  </span>
+                  <strong>{phase.title}</strong>
+                  <p>{phase.summary}</p>
+                  <span className="course-roadmap__outcome">
+                    Ishod: {phase.outcome}
+                  </span>
+                </span>
+                <ArrowRight aria-hidden="true" />
+              </button>
             </li>
           ))}
+        </ol>
+      </section>
+
+      <section
+        className="course-principles"
+        aria-labelledby="course-principles-title"
+      >
+        <div>
+          <span>Četiri pravila za cijeli put</span>
+          <h2 id="course-principles-title">Sigurnost je cijeli sustav.</h2>
+        </div>
+        <ul>
+          <li>
+            Ne dodaj složenost prije nego što razumiješ jednostavniji sustav.
+          </li>
+          <li>Backup nije backup dok recovery nije testiran.</li>
+          <li>
+            Privatni ključ ne mora biti online da bi Bitcoin bio upotrebljiv.
+          </li>
+          <li>Kriptografija ne može popraviti nejasnu operativnu proceduru.</li>
         </ul>
+      </section>
+    </>
+  )
+}
+
+function LessonArticle({
+  lesson,
+  phase,
+  lessonNumber,
+  completed,
+  copiedId,
+  checklistItems,
+  setChecklistItems,
+  onCopyCode,
+  onCopyLink,
+  copiedLink,
+  onToggleComplete,
+}: {
+  lesson: PlayerLesson
+  phase: CurriculumPhase
+  lessonNumber: string
+  completed: boolean
+  copiedId: string | null
+  checklistItems: Set<string>
+  setChecklistItems: Dispatch<SetStateAction<Set<string>>>
+  onCopyCode: (block: CurriculumCodeBlock) => void
+  onCopyLink: () => void
+  copiedLink: boolean
+  onToggleComplete: () => void
+}) {
+  const isCompletable =
+    lesson.status === "published" && lesson.verification === "verified"
+
+  return (
+    <article className="course-lesson" aria-labelledby="lesson-title">
+      <header className="course-lesson__header">
+        <div className="course-lesson__kicker">
+          <span>Faza {Number(phase.id) + 1}</span>
+          <span aria-hidden="true">/</span>
+          <span>Lekcija {lessonNumber}</span>
+        </div>
+        <h1 id="lesson-title">{lesson.title}</h1>
+        <p className="course-lesson__objective">{lesson.objective}</p>
+        <div className="course-lesson__meta">
+          <StatusBadge status={lesson.status} />
+          <span>
+            <Clock3 aria-hidden="true" /> {lesson.estimatedTime}
+          </span>
+          <span
+            className={`course-verification course-verification--${lesson.verification}`}
+          >
+            <CheckCircle2 aria-hidden="true" />
+            {verificationLabels[lesson.verification]}
+          </span>
+        </div>
+        <dl className="course-lesson__version">
+          <div>
+            <dt>Referentna verzija</dt>
+            <dd>{lesson.referenceVersion}</dd>
+          </div>
+          <div>
+            <dt>Zadnja provjera</dt>
+            <dd>{formatReviewDate(lesson.lastReviewed)}</dd>
+          </div>
+          <div>
+            <dt>Porijeklo</dt>
+            <dd>{lesson.origin}</dd>
+          </div>
+        </dl>
+      </header>
+
+      <VideoBlock lesson={lesson} />
+
+      {lesson.verification !== "verified" ? (
+        <aside className="course-review-state">
+          <ShieldAlert aria-hidden="true" />
+          <div>
+            <strong>Ova lekcija još nije operativno objavljena.</strong>
+            <p>
+              {lesson.reviewNote ??
+                "Struktura i izvori postoje, ali postupak treba reproducirati na navedenoj verziji prije objave."}
+            </p>
+          </div>
+        </aside>
+      ) : null}
+
+      <section
+        className="course-reading"
+        aria-labelledby="lesson-explanation-title"
+      >
+        <div className="course-section-heading course-section-heading--compact">
+          <BookOpen aria-hidden="true" />
+          <div>
+            <span>Razumij</span>
+            <h2 id="lesson-explanation-title">Objašnjenje</h2>
+          </div>
+        </div>
+        {(lesson.explanation?.length
+          ? lesson.explanation
+          : [lesson.summary]
+        ).map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
+
+        {lesson.what || lesson.why || lesson.risk ? (
+          <dl className="course-three-questions">
+            {lesson.what ? (
+              <div>
+                <dt>Što radimo?</dt>
+                <dd>{lesson.what}</dd>
+              </div>
+            ) : null}
+            {lesson.why ? (
+              <div>
+                <dt>Zašto?</dt>
+                <dd>{lesson.why}</dd>
+              </div>
+            ) : null}
+            {lesson.risk ? (
+              <div>
+                <dt>Što može poći po zlu?</dt>
+                <dd>{lesson.risk}</dd>
+              </div>
+            ) : null}
+          </dl>
+        ) : null}
+      </section>
+
+      {lesson.walkthrough ? (
+        <section
+          className="course-walkthrough"
+          aria-labelledby="lesson-walkthrough-title"
+        >
+          <div className="course-section-heading course-section-heading--compact">
+            <ArrowRight aria-hidden="true" />
+            <div>
+              <span>Izvedi</span>
+              <h2 id="lesson-walkthrough-title">{lesson.walkthrough.title}</h2>
+            </div>
+          </div>
+          {lesson.walkthrough.intro ? <p>{lesson.walkthrough.intro}</p> : null}
+          <ol>
+            {lesson.walkthrough.steps.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
+        </section>
+      ) : null}
+
+      {lesson.callouts?.map((callout) => (
+        <Callout key={`${callout.kind}-${callout.title}`} callout={callout} />
+      ))}
+
+      {lesson.concepts?.length ? (
+        <section
+          className="course-concepts"
+          aria-labelledby="lesson-concepts-title"
+        >
+          <div className="course-section-heading course-section-heading--compact">
+            <Lightbulb aria-hidden="true" />
+            <div>
+              <span>Zadrži</span>
+              <h2 id="lesson-concepts-title">Ključni pojmovi</h2>
+            </div>
+          </div>
+          <ul>
+            {lesson.concepts.map((concept) => (
+              <li key={concept}>
+                <Check aria-hidden="true" />
+                <span>{concept}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
       ) : null}
 
       {lesson.warnings?.map((warning) => (
-        <div className="curriculum-inline-warning" key={warning}>
-          <ShieldAlert aria-hidden="true" />
+        <aside
+          className="course-inline-message course-inline-message--warning"
+          key={warning}
+        >
+          <AlertTriangle aria-hidden="true" />
           <p>{warning}</p>
-        </div>
+        </aside>
       ))}
-
       {lesson.notes?.map((note) => (
-        <aside className="curriculum-note" key={note}>
+        <aside className="course-inline-message" key={note}>
           <FileText aria-hidden="true" />
-          <div>
-            <strong>Napomena</strong>
-            <p>{note}</p>
-          </div>
+          <p>{note}</p>
         </aside>
       ))}
 
       {lesson.image ? (
-        <figure className="curriculum-lesson-image">
+        <figure className="course-lesson-image">
           <img src={lesson.image.src} alt={lesson.image.alt} loading="lazy" />
         </figure>
       ) : null}
@@ -491,394 +840,126 @@ function LessonBody({
           key={block.id}
           block={block}
           copiedId={copiedId}
-          onCopy={onCopy}
+          onCopy={onCopyCode}
         />
       ))}
 
       {lesson.technicalDetails ? (
-        <details className="curriculum-technical-details">
+        <details className="course-technical-details">
           <summary>
             <Code2 aria-hidden="true" />
             <span>Tehnički detalji</span>
-            <ChevronDown aria-hidden="true" />
+            <ChevronRight aria-hidden="true" />
           </summary>
           <p>{lesson.technicalDetails}</p>
         </details>
       ) : null}
 
-      {lesson.status === "published" ? (
-        <VideoBlock url={lesson.videoUrl} />
-      ) : null}
-
       <Checklist
-        title="Praktični zadaci"
-        items={lesson.checklist ?? []}
-        scope={`lesson-${lesson.id}`}
+        lesson={lesson}
         checkedItems={checklistItems}
         setCheckedItems={setChecklistItems}
       />
 
       {lesson.sources?.length ? (
-        <section className="curriculum-sources">
-          <h5>Primarni izvori</h5>
-          <div>
-            {lesson.sources.map((source) => (
-              <a
-                key={source.url}
-                href={source.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {source.label}
-                <ExternalLink aria-hidden="true" />
-              </a>
-            ))}
+        <section
+          className="course-sources"
+          aria-labelledby="lesson-sources-title"
+        >
+          <div className="course-section-heading course-section-heading--compact">
+            <ExternalLink aria-hidden="true" />
+            <div>
+              <span>Primarni izvori</span>
+              <h2 id="lesson-sources-title">Provjeri sam</h2>
+            </div>
           </div>
+          <ul>
+            {lesson.sources.map((source) => (
+              <li key={source.url}>
+                <a href={source.url} target="_blank" rel="noreferrer">
+                  <span>{source.label}</span>
+                  <ExternalLink aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </ul>
         </section>
       ) : null}
-    </div>
-  )
-}
 
-function LessonCard({
-  lesson,
-  isOpen,
-  onToggle,
-  completed,
-  onComplete,
-  copiedId,
-  onCopy,
-  checklistItems,
-  setChecklistItems,
-}: {
-  lesson: CurriculumLesson
-  isOpen: boolean
-  onToggle: () => void
-  completed: boolean
-  onComplete: () => void
-  copiedId: string | null
-  onCopy: (block: CurriculumCodeBlock) => void
-  checklistItems: Set<string>
-  setChecklistItems: Dispatch<SetStateAction<Set<string>>>
-}) {
-  const available = lesson.status === "published"
-  const hasDetails = Boolean(
-    lesson.what ||
-    lesson.why ||
-    lesson.risk ||
-    lesson.concepts?.length ||
-    lesson.warnings?.length ||
-    lesson.notes?.length ||
-    lesson.technicalDetails ||
-    lesson.checklist?.length ||
-    lesson.codeBlocks?.length ||
-    lesson.sources?.length
-  )
-
-  return (
-    <article
-      id={`lesson-${lesson.id}`}
-      className={`curriculum-lesson ${completed ? "is-complete" : ""}`}
-    >
-      <div className="curriculum-lesson__header">
+      <footer className="course-lesson__completion">
+        <div>
+          <strong>
+            {isCompletable
+              ? "Jesi li završio ovu lekciju?"
+              : "Lekcija nije dostupna za dovršavanje."}
+          </strong>
+          <p>
+            {isCompletable
+              ? "Oznaka se sprema lokalno u ovom browseru."
+              : "Dovršavanje će biti uključeno nakon tehničke provjere i objave."}
+          </p>
+        </div>
         <button
           type="button"
-          className="curriculum-lesson__toggle"
-          onClick={onToggle}
-          aria-expanded={isOpen}
-          disabled={!hasDetails}
+          className={completed ? "is-complete" : undefined}
+          onClick={onToggleComplete}
+          disabled={!isCompletable}
         >
-          <span className="curriculum-lesson__number">{lesson.id}</span>
-          <span>
-            <strong>{lesson.title}</strong>
-            <small>{lesson.summary}</small>
-          </span>
-          {hasDetails ? (
-            <ChevronDown
-              className={isOpen ? "is-open" : undefined}
-              aria-hidden="true"
-            />
-          ) : null}
+          <CheckCircle2 aria-hidden="true" />
+          {completed ? "Dovršeno" : "Označi kao dovršeno"}
         </button>
+      </footer>
 
-        <label
-          className={`curriculum-lesson__completion ${!available ? "is-disabled" : ""}`}
-        >
-          <input
-            type="checkbox"
-            checked={completed}
-            onChange={onComplete}
-            disabled={!available}
-          />
-          <span className="curriculum-checkbox" aria-hidden="true">
-            <Check />
-          </span>
-          <span>
-            {available
-              ? "Završio sam ovaj korak"
-              : "Lekcija još nije objavljena"}
-          </span>
-        </label>
-      </div>
-
-      {isOpen && hasDetails ? (
-        <LessonBody
-          lesson={lesson}
-          copiedId={copiedId}
-          onCopy={onCopy}
-          checklistItems={checklistItems}
-          setChecklistItems={setChecklistItems}
-        />
-      ) : null}
-    </article>
-  )
-}
-
-function ModuleCard({
-  module,
-  isOpen,
-  onToggle,
-  openLessons,
-  setOpenLessons,
-  completedLessons,
-  setCompletedLessons,
-  copiedId,
-  onCopy,
-  checklistItems,
-  setChecklistItems,
-}: {
-  module: CurriculumModule
-  isOpen: boolean
-  onToggle: () => void
-  openLessons: Set<string>
-  setOpenLessons: Dispatch<SetStateAction<Set<string>>>
-  completedLessons: Set<string>
-  setCompletedLessons: Dispatch<SetStateAction<Set<string>>>
-  copiedId: string | null
-  onCopy: (block: CurriculumCodeBlock) => void
-  checklistItems: Set<string>
-  setChecklistItems: Dispatch<SetStateAction<Set<string>>>
-}) {
-  const publishedLessons = module.lessons.filter(
-    (lesson) => lesson.status === "published"
-  )
-  const completedCount = publishedLessons.filter((lesson) =>
-    completedLessons.has(lesson.id)
-  ).length
-  const moduleComplete =
-    publishedLessons.length > 0 && completedCount === publishedLessons.length
-
-  return (
-    <section
-      id={`module-${module.id}`}
-      className={`curriculum-module ${isOpen ? "is-open" : ""}`}
-    >
-      <button
-        type="button"
-        className="curriculum-module__toggle"
-        onClick={onToggle}
-        aria-expanded={isOpen}
-        aria-controls={`module-${module.id}-content`}
-      >
-        <span className="curriculum-module__index">
-          <small>Modul</small>
-          {module.id.padStart(2, "0")}
-        </span>
-        <span className="curriculum-module__title">
-          <span className="curriculum-module__meta">
-            <StatusBadge status={module.status} />
-            <span>{levelLabels[module.level]}</span>
-            <span>
-              <Clock3 aria-hidden="true" /> {module.estimatedTime}
-            </span>
-          </span>
-          <strong>{module.title}</strong>
-          <small>{module.subtitle}</small>
-        </span>
-        <span className="curriculum-module__right">
-          {moduleComplete ? (
-            <span className="curriculum-module__complete">
-              Modul završen <Check aria-hidden="true" />
-            </span>
-          ) : publishedLessons.length ? (
-            <span className="curriculum-module__count">
-              {completedCount} / {publishedLessons.length}
-            </span>
-          ) : null}
-          <ChevronDown aria-hidden="true" />
-        </span>
+      <button type="button" className="course-copy-link" onClick={onCopyLink}>
+        {copiedLink ? (
+          <Check aria-hidden="true" />
+        ) : (
+          <Link2 aria-hidden="true" />
+        )}
+        {copiedLink ? "Poveznica kopirana" : "Kopiraj poveznicu na lekciju"}
       </button>
-
-      {isOpen ? (
-        <div
-          id={`module-${module.id}-content`}
-          className="curriculum-module__body"
-        >
-          <div className="curriculum-module__overview">
-            <div>
-              <span>Preduvjeti</span>
-              <p>{module.prerequisites.join(" · ")}</p>
-            </div>
-            <div>
-              <span>Lekcije</span>
-              <p>{module.lessons.length}</p>
-            </div>
-            <div>
-              <span>Procjena</span>
-              <p>{module.estimatedTime}</p>
-            </div>
-          </div>
-
-          {module.status !== "published" ? (
-            <div className="curriculum-content-state">
-              <MonitorUp aria-hidden="true" />
-              <div>
-                <strong>
-                  {module.status === "planned"
-                    ? "Ovaj modul je na roadmapu."
-                    : "Sadržaj se gradi i testira."}
-                </strong>
-                <p>
-                  Naslovi pokazuju plan kurikuluma, ali checkboxi lekcija postat
-                  će aktivni tek kada je sadržaj objavljen i postupak provjeren.
-                </p>
-              </div>
-            </div>
-          ) : null}
-
-          {module.warnings.map((warning) => (
-            <div className="curriculum-inline-warning" key={warning}>
-              <AlertTriangle aria-hidden="true" />
-              <p>{warning}</p>
-            </div>
-          ))}
-
-          <ArchitectureDiagram moduleId={module.id} />
-
-          <Checklist
-            title={
-              module.id === "5"
-                ? "Moj backup plan"
-                : module.id === "6"
-                  ? "Godišnji recovery drill"
-                  : "Checklist modula"
-            }
-            items={module.checklist}
-            scope={`module-${module.id}`}
-            checkedItems={checklistItems}
-            setCheckedItems={setChecklistItems}
-          />
-
-          <div className="curriculum-lessons">
-            {module.lessons.map((lesson) => (
-              <LessonCard
-                key={lesson.id}
-                lesson={lesson}
-                isOpen={openLessons.has(lesson.id)}
-                onToggle={() =>
-                  setOpenLessons((current) => {
-                    const next = new Set(current)
-                    if (next.has(lesson.id)) next.delete(lesson.id)
-                    else next.add(lesson.id)
-                    return next
-                  })
-                }
-                completed={completedLessons.has(lesson.id)}
-                onComplete={() =>
-                  setCompletedLessons((current) => {
-                    const next = new Set(current)
-                    if (next.has(lesson.id)) next.delete(lesson.id)
-                    else next.add(lesson.id)
-                    return next
-                  })
-                }
-                copiedId={copiedId}
-                onCopy={onCopy}
-                checklistItems={checklistItems}
-                setChecklistItems={setChecklistItems}
-              />
-            ))}
-          </div>
-        </div>
-      ) : null}
-    </section>
-  )
-}
-
-function CurriculumNavigator({
-  modules,
-  completedLessons,
-  onSelect,
-}: {
-  modules: CurriculumModule[]
-  completedLessons: Set<string>
-  onSelect: (module: CurriculumModule) => void
-}) {
-  return (
-    <nav className="curriculum-navigator" aria-label="Navigator kurikuluma">
-      <div className="curriculum-navigator__heading">
-        <BookOpen aria-hidden="true" />
-        <span>Kurikulum</span>
-      </div>
-      <ol>
-        {modules.map((module) => {
-          const available = module.lessons.filter(
-            (lesson) => lesson.status === "published"
-          )
-          const complete =
-            available.length > 0 &&
-            available.every((lesson) => completedLessons.has(lesson.id))
-          return (
-            <li key={module.id}>
-              <button type="button" onClick={() => onSelect(module)}>
-                <span
-                  className={`curriculum-navigator__dot curriculum-navigator__dot--${module.status} ${complete ? "is-complete" : ""}`}
-                  aria-hidden="true"
-                >
-                  {complete ? <Check /> : module.id}
-                </span>
-                <span>
-                  <strong>{module.title}</strong>
-                  <small>{statusLabels[module.status]}</small>
-                </span>
-              </button>
-            </li>
-          )
-        })}
-      </ol>
-    </nav>
+    </article>
   )
 }
 
 export function BitcoinCoreCurriculumPage() {
   useCurriculumMetadata()
+  const [activeSlug, setActiveSlug] = useState<string | null>(null)
   const [completedLessons, setCompletedLessons] = useState<Set<string>>(
-    () => new Set()
+    new Set()
   )
-  const [checklistItems, setChecklistItems] = useState<Set<string>>(
-    () => new Set()
-  )
+  const [checklistItems, setChecklistItems] = useState<Set<string>>(new Set())
   const [storageReady, setStorageReady] = useState(false)
-  const [openModules, setOpenModules] = useState<Set<string>>(
-    () => new Set(["0"])
-  )
-  const [openLessons, setOpenLessons] = useState<Set<string>>(() => new Set())
-  const [query, setQuery] = useState("")
-  const [level, setLevel] = useState<"all" | CurriculumLevel>("all")
-  const [mobileNavigatorOpen, setMobileNavigatorOpen] = useState(false)
+  const [mobileOutlineOpen, setMobileOutlineOpen] = useState(false)
   const [copiedId, setCopiedId] = useState<string | null>(null)
+  const [copiedLink, setCopiedLink] = useState(false)
+  const mobileCloseRef = useRef<HTMLButtonElement>(null)
+
+  const activeEntry = useMemo(() => findLessonBySlug(activeSlug), [activeSlug])
+  const activeIndex = activeEntry
+    ? curriculumLessons.findIndex(
+        ({ lesson }) => lesson.id === activeEntry.lesson.id
+      )
+    : -1
+  const previousEntry =
+    activeIndex > 0 ? curriculumLessons[activeIndex - 1] : null
+  const nextEntry = activeIndex >= 0 ? curriculumLessons[activeIndex + 1] : null
 
   useEffect(() => {
-    let active = true
-    queueMicrotask(() => {
-      if (!active) return
+    const storageTimer = window.setTimeout(() => {
       setCompletedLessons(readStoredSet(PROGRESS_STORAGE_KEY))
       setChecklistItems(readStoredSet(CHECKLIST_STORAGE_KEY))
       setStorageReady(true)
-    })
+    }, 0)
 
+    const syncFromUrl = () => setActiveSlug(getHashLessonSlug())
+    syncFromUrl()
+    window.addEventListener("hashchange", syncFromUrl)
+    window.addEventListener("popstate", syncFromUrl)
     return () => {
-      active = false
+      window.clearTimeout(storageTimer)
+      window.removeEventListener("hashchange", syncFromUrl)
+      window.removeEventListener("popstate", syncFromUrl)
     }
   }, [])
 
@@ -890,67 +971,71 @@ export function BitcoinCoreCurriculumPage() {
     if (storageReady) writeStoredSet(CHECKLIST_STORAGE_KEY, checklistItems)
   }, [checklistItems, storageReady])
 
-  const publishedLessons = useMemo(
-    () =>
-      curriculumModules.flatMap((module) =>
-        module.lessons
-          .filter((lesson) => lesson.status === "published")
-          .map((lesson) => ({ module, lesson }))
-      ),
-    []
-  )
+  useEffect(() => {
+    if (!activeEntry) return
+    try {
+      localStorage.setItem(LAST_LESSON_STORAGE_KEY, activeEntry.lesson.slug)
+    } catch {
+      // Zadnja lekcija nije kritičan podatak.
+    }
+    document.title = `${activeEntry.lesson.title} | BTCPAVAO`
+    window.scrollTo({ top: 0, behavior: "auto" })
+  }, [activeEntry])
 
-  const completedPublishedCount = publishedLessons.filter(({ lesson }) =>
-    completedLessons.has(lesson.id)
-  ).length
-  const progress = publishedLessons.length
-    ? (completedPublishedCount / publishedLessons.length) * 100
-    : 0
+  useEffect(() => {
+    if (!mobileOutlineOpen) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    const focusTimer = window.setTimeout(
+      () => mobileCloseRef.current?.focus(),
+      280
+    )
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileOutlineOpen(false)
+    }
+    window.addEventListener("keydown", closeOnEscape)
+    return () => {
+      window.clearTimeout(focusTimer)
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener("keydown", closeOnEscape)
+    }
+  }, [mobileOutlineOpen])
 
-  const filteredModules = useMemo(() => {
-    const normalizedQuery = query.trim().toLocaleLowerCase("hr")
-    return curriculumModules.filter((module) => {
-      if (level !== "all" && module.level !== level) return false
-      if (!normalizedQuery) return true
-
-      return [
-        module.title,
-        module.subtitle,
-        ...module.lessons.flatMap((lesson) => [lesson.title, lesson.summary]),
-      ]
-        .join(" ")
-        .toLocaleLowerCase("hr")
-        .includes(normalizedQuery)
-    })
-  }, [level, query])
-
-  function scrollToModule(module: CurriculumModule) {
-    setOpenModules((current) => new Set(current).add(module.id))
-    setMobileNavigatorOpen(false)
-    requestAnimationFrame(() => {
-      document
-        .getElementById(`module-${module.id}`)
-        ?.scrollIntoView({ behavior: "smooth", block: "start" })
-    })
+  function openLesson(lesson: PlayerLesson, replace = false) {
+    const url = `${window.location.pathname}${window.location.search}#lesson/${encodeURIComponent(lesson.slug)}`
+    window.history[replace ? "replaceState" : "pushState"]({}, "", url)
+    setActiveSlug(lesson.slug)
+    setMobileOutlineOpen(false)
   }
 
-  function scrollToLesson(module: CurriculumModule, lesson: CurriculumLesson) {
-    setOpenModules((current) => new Set(current).add(module.id))
-    setOpenLessons((current) => new Set(current).add(lesson.id))
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        document
-          .getElementById(`lesson-${lesson.id}`)
-          ?.scrollIntoView({ behavior: "smooth", block: "center" })
-      })
-    })
+  function showOverview() {
+    window.history.pushState(
+      {},
+      "",
+      `${window.location.pathname}${window.location.search}`
+    )
+    setActiveSlug(null)
+    setMobileOutlineOpen(false)
+    document.title = "Praktičan Bitcoin self-custody uz Bitcoin Core | BTCPAVAO"
+    window.scrollTo({ top: 0, behavior: "auto" })
   }
 
   function continueLearning() {
-    const next =
-      publishedLessons.find(({ lesson }) => !completedLessons.has(lesson.id)) ??
-      publishedLessons.at(-1)
-    if (next) scrollToLesson(next.module, next.lesson)
+    let storedSlug: string | null = null
+    try {
+      storedSlug = localStorage.getItem(LAST_LESSON_STORAGE_KEY)
+    } catch {
+      storedSlug = null
+    }
+    const stored = findLessonBySlug(storedSlug)
+    const nextIncomplete = curriculumLessons.find(
+      ({ lesson }) =>
+        lesson.status === "published" &&
+        lesson.verification === "verified" &&
+        !completedLessons.has(lesson.id)
+    )
+    const target = stored ?? nextIncomplete ?? curriculumLessons[0]
+    if (target) openLesson(target.lesson)
   }
 
   async function copyCode(block: CurriculumCodeBlock) {
@@ -963,19 +1048,36 @@ export function BitcoinCoreCurriculumPage() {
     }
   }
 
-  function resetProgress() {
-    const confirmed = window.confirm(
-      "Resetirati sav spremljeni napredak i praktične checkliste za ovaj kurikulum?"
-    )
-    if (!confirmed) return
-    setCompletedLessons(new Set())
-    setChecklistItems(new Set())
+  async function copyLessonLink() {
+    try {
+      await navigator.clipboard.writeText(window.location.href)
+      setCopiedLink(true)
+      window.setTimeout(() => setCopiedLink(false), 1800)
+    } catch {
+      setCopiedLink(false)
+    }
   }
 
+  function resetProgress() {
+    if (
+      !window.confirm("Resetirati spremljeni napredak i praktične checkliste?")
+    )
+      return
+    setCompletedLessons(new Set())
+    setChecklistItems(new Set())
+    try {
+      localStorage.removeItem(LAST_LESSON_STORAGE_KEY)
+    } catch {
+      // Reset je svejedno dovršen u trenutnoj sesiji.
+    }
+  }
+
+  const activeLesson = activeEntry?.lesson
+
   return (
-    <div className="curriculum-page min-h-screen bg-background text-foreground">
+    <div className="curriculum-page course-page min-h-screen bg-background text-foreground">
       <a className="skip-link" href="#curriculum-content">
-        Preskoči na kurikulum
+        Preskoči na sadržaj
       </a>
 
       <header className="curriculum-header">
@@ -994,12 +1096,13 @@ export function BitcoinCoreCurriculumPage() {
             <strong>BTCPAVAO</strong>
           </a>
           <span className="curriculum-header__divider" aria-hidden="true" />
-          <a
-            href={BITCOIN_CORE_SERIES_PATH}
-            className="curriculum-section-link"
+          <button
+            type="button"
+            className="course-header-title"
+            onClick={showOverview}
           >
-            Bitcoin Core
-          </a>
+            Bitcoin self-custody
+          </button>
           <div className="curriculum-header__actions">
             <a href={BITCOIN_CORE_SERIES_PATH} className="curriculum-back-link">
               <ArrowLeft aria-hidden="true" />
@@ -1011,275 +1114,132 @@ export function BitcoinCoreCurriculumPage() {
       </header>
 
       <main id="curriculum-content">
-        <section className="curriculum-hero" aria-labelledby="curriculum-title">
-          <div className="curriculum-hero__grid">
-            <div className="curriculum-hero__copy">
-              <div className="curriculum-hero__intro">
-                <img
-                  className="curriculum-hero__bitcoin-logo"
-                  src="/bitcoin-logo-official.png"
-                  alt=""
-                  width="1920"
-                  height="1920"
-                  decoding="async"
-                  fetchPriority="high"
-                  draggable="false"
-                  aria-hidden="true"
-                />
-                <div className="curriculum-kicker">
-                  <span aria-hidden="true" />
-                  Living curriculum · v1
-                </div>
-              </div>
-              <h1 id="curriculum-title">
-                Bitcoin Core
-                <span>od prvog walleta do naprednog self-custodyja</span>
-              </h1>
-              <p className="curriculum-hero__lede">
-                Praktičan vodič za izgradnju Bitcoin sustava koji razumiješ od
-                početka do kraja. Počni s threat modelom, dokaži da recovery
-                radi i dodaj složenost tek kada za nju postoji stvaran razlog.
-              </p>
-              <div className="curriculum-hero__actions">
-                <Button
-                  size="lg"
-                  className="curriculum-action curriculum-action--primary min-h-12 rounded-full px-6"
-                  onClick={() => {
-                    const first = publishedLessons[0]
-                    if (first) scrollToLesson(first.module, first.lesson)
-                  }}
-                >
-                  Kreni od početka
-                  <ArrowRight aria-hidden="true" />
-                </Button>
-                <button
-                  type="button"
-                  className="curriculum-action curriculum-action--secondary"
-                  onClick={continueLearning}
-                >
-                  Nastavi gdje si stao
-                  <ArrowRight aria-hidden="true" />
-                </button>
-              </div>
-              <blockquote>
-                “Ne dodaj složenost prije nego što razumiješ jednostavniji
-                sustav.”
-              </blockquote>
+        {activeEntry && activeLesson ? (
+          <div className="course-player">
+            <aside className="course-player__sidebar">
+              <PhaseNavigator
+                activeLesson={activeLesson}
+                completedLessons={completedLessons}
+                onSelectLesson={openLesson}
+                onOverview={showOverview}
+              />
+            </aside>
+
+            <div className="course-player__main">
+              <button
+                type="button"
+                className="course-mobile-outline-trigger"
+                onClick={() => setMobileOutlineOpen(true)}
+                aria-expanded={mobileOutlineOpen}
+              >
+                <Menu aria-hidden="true" />
+                <span>Faze i lekcije</span>
+                <small>{activeEntry.lessonNumber}</small>
+              </button>
+
+              <LessonArticle
+                lesson={activeLesson}
+                phase={activeEntry.phase}
+                lessonNumber={activeEntry.lessonNumber}
+                completed={completedLessons.has(activeLesson.id)}
+                copiedId={copiedId}
+                checklistItems={checklistItems}
+                setChecklistItems={setChecklistItems}
+                onCopyCode={copyCode}
+                onCopyLink={copyLessonLink}
+                copiedLink={copiedLink}
+                onToggleComplete={() =>
+                  setCompletedLessons((current) => {
+                    const next = new Set(current)
+                    if (next.has(activeLesson.id)) next.delete(activeLesson.id)
+                    else next.add(activeLesson.id)
+                    return next
+                  })
+                }
+              />
+
+              <nav
+                className="course-prev-next"
+                aria-label="Prethodna i sljedeća lekcija"
+              >
+                {previousEntry ? (
+                  <button
+                    type="button"
+                    onClick={() => openLesson(previousEntry.lesson)}
+                  >
+                    <ArrowLeft aria-hidden="true" />
+                    <span>
+                      <small>Prethodna lekcija</small>
+                      <strong>{previousEntry.lesson.title}</strong>
+                    </span>
+                  </button>
+                ) : (
+                  <span />
+                )}
+                {nextEntry ? (
+                  <button
+                    type="button"
+                    onClick={() => openLesson(nextEntry.lesson)}
+                  >
+                    <span>
+                      <small>Sljedeća lekcija</small>
+                      <strong>{nextEntry.lesson.title}</strong>
+                    </span>
+                    <ArrowRight aria-hidden="true" />
+                  </button>
+                ) : null}
+              </nav>
             </div>
 
+            <button
+              type="button"
+              className={`course-drawer-backdrop ${mobileOutlineOpen ? "is-open" : ""}`}
+              onClick={() => setMobileOutlineOpen(false)}
+              aria-label="Zatvori navigaciju"
+              tabIndex={mobileOutlineOpen ? 0 : -1}
+            />
             <aside
-              className="curriculum-progress-card"
-              aria-label="Tvoj napredak"
+              className={`course-drawer ${mobileOutlineOpen ? "is-open" : ""}`}
+              aria-hidden={!mobileOutlineOpen}
             >
-              <div className="curriculum-progress-card__top">
-                <span>Tvoj napredak</span>
-                <strong aria-live="polite">
-                  {completedPublishedCount} / {publishedLessons.length} lekcija
-                </strong>
+              <div className="course-drawer__header">
+                <strong>Faze i lekcije</strong>
+                <button
+                  ref={mobileCloseRef}
+                  type="button"
+                  onClick={() => setMobileOutlineOpen(false)}
+                  aria-label="Zatvori navigaciju"
+                >
+                  <X aria-hidden="true" />
+                </button>
               </div>
-              <div
-                className="curriculum-progress-track"
-                role="progressbar"
-                aria-label="Napredak kroz objavljene lekcije"
-                aria-valuemin={0}
-                aria-valuemax={publishedLessons.length}
-                aria-valuenow={completedPublishedCount}
-              >
-                <span style={{ width: `${progress}%` }} />
-              </div>
-              <p>
-                Napredak se sprema samo u ovom browseru. Planirane lekcije ne
-                ulaze u ukupan broj dok ne budu objavljene.
-              </p>
-              <dl>
-                <div>
-                  <dt>Objavljeno</dt>
-                  <dd>
-                    {
-                      curriculumModules.filter(
-                        (module) => module.status === "published"
-                      ).length
-                    }{" "}
-                    modula
-                  </dd>
-                </div>
-                <div>
-                  <dt>Ukupni roadmap</dt>
-                  <dd>{curriculumModules.length} modula</dd>
-                </div>
-              </dl>
-              <button type="button" onClick={resetProgress}>
-                <RefreshCcw aria-hidden="true" />
-                Resetiraj napredak
-              </button>
+              <PhaseNavigator
+                activeLesson={activeLesson}
+                completedLessons={completedLessons}
+                onSelectLesson={openLesson}
+                onOverview={showOverview}
+                mobile
+              />
             </aside>
           </div>
-        </section>
-
-        <section className="curriculum-safety" aria-label="Sigurnosno pravilo">
-          <div>
-            <span className="curriculum-safety__icon">
-              <KeyRound aria-hidden="true" />
-            </span>
-            <div>
-              <strong>Ova stranica nikada ne traži tvoje tajne.</strong>
-              <p>
-                Nikada ne unosite stvarne privatne ključeve, seed, wallet
-                passphrase, KeePassXC master password ili xpriv na ovu web
-                stranicu. Svi primjeri koriste očito testne podatke.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="curriculum-roadmap" aria-labelledby="roadmap-title">
-          <div className="curriculum-section-heading">
-            <span>Put kroz kurikulum</span>
-            <h2 id="roadmap-title">Od mentalnog modela do vlastite politike</h2>
-          </div>
-          <ol>
-            {roadmapStages.map((stage, index) => (
-              <li key={stage.label}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <strong>{stage.label}</strong>
-                <small>Moduli {stage.modules}</small>
-                {index < roadmapStages.length - 1 ? (
-                  <ArrowRight aria-hidden="true" />
-                ) : null}
-              </li>
-            ))}
-          </ol>
-        </section>
-
-        <section className="curriculum-controls" aria-label="Pretraga i filtri">
-          <label className="curriculum-search">
-            <Search aria-hidden="true" />
-            <span className="sr-only">Pretraži lekcije</span>
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Pretraži module i lekcije…"
-            />
-            {query ? (
-              <button
-                type="button"
-                onClick={() => setQuery("")}
-                aria-label="Očisti pretragu"
-              >
-                <X aria-hidden="true" />
-              </button>
-            ) : null}
-          </label>
-          <div className="curriculum-filter" role="group" aria-label="Razina">
-            <Filter aria-hidden="true" />
-            {levelOptions.map((option) => (
-              <button
-                type="button"
-                key={option.value}
-                className={level === option.value ? "is-active" : undefined}
-                onClick={() => setLevel(option.value)}
-                aria-pressed={level === option.value}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        </section>
-
-        <div className="curriculum-mobile-nav">
-          <button
-            type="button"
-            onClick={() => setMobileNavigatorOpen((open) => !open)}
-            aria-expanded={mobileNavigatorOpen}
-          >
-            <Menu aria-hidden="true" />
-            Kurikulum: {filteredModules.length} modula
-            <ChevronDown aria-hidden="true" />
-          </button>
-          {mobileNavigatorOpen ? (
-            <CurriculumNavigator
-              modules={filteredModules}
-              completedLessons={completedLessons}
-              onSelect={scrollToModule}
-            />
-          ) : null}
-        </div>
-
-        <div className="curriculum-layout">
-          <aside className="curriculum-desktop-nav">
-            <CurriculumNavigator
-              modules={filteredModules}
-              completedLessons={completedLessons}
-              onSelect={scrollToModule}
-            />
-          </aside>
-
-          <div className="curriculum-modules">
-            {filteredModules.length ? (
-              filteredModules.map((module) => (
-                <ModuleCard
-                  key={module.id}
-                  module={module}
-                  isOpen={openModules.has(module.id) || Boolean(query)}
-                  onToggle={() =>
-                    setOpenModules((current) => {
-                      const next = new Set(current)
-                      if (next.has(module.id)) next.delete(module.id)
-                      else next.add(module.id)
-                      return next
-                    })
-                  }
-                  openLessons={openLessons}
-                  setOpenLessons={setOpenLessons}
-                  completedLessons={completedLessons}
-                  setCompletedLessons={setCompletedLessons}
-                  copiedId={copiedId}
-                  onCopy={copyCode}
-                  checklistItems={checklistItems}
-                  setChecklistItems={setChecklistItems}
-                />
-              ))
-            ) : (
-              <div className="curriculum-empty-state">
-                <Search aria-hidden="true" />
-                <h2>Nema rezultata za ovu pretragu.</h2>
-                <p>Promijeni pojam ili ukloni filter razine.</p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setQuery("")
-                    setLevel("all")
-                  }}
-                >
-                  Prikaži sve module
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <section className="curriculum-closing">
-          <div>
-            <span>Četiri pravila za cijeli put</span>
-            <h2>Sigurnost je cijeli sustav.</h2>
-          </div>
-          <ul>
-            <li>
-              Ne dodaj složenost prije nego što razumiješ jednostavniji sustav.
-            </li>
-            <li>Backup nije backup dok recovery nije testiran.</li>
-            <li>
-              Privatni ključ ne mora biti online da bi Bitcoin bio upotrebljiv.
-            </li>
-            <li>
-              Kriptografija ne može popraviti nejasnu operativnu proceduru.
-            </li>
-          </ul>
-        </section>
+        ) : (
+          <CourseLanding
+            completedLessons={completedLessons}
+            onStart={() => {
+              const first = curriculumLessons[0]
+              if (first) openLesson(first.lesson)
+            }}
+            onContinue={continueLearning}
+            onSelectPhase={(phase) => {
+              const first = phase.lessons[0]
+              if (first) openLesson(first)
+            }}
+            onReset={resetProgress}
+          />
+        )}
       </main>
 
-      <footer className="curriculum-footer">
+      <footer className="curriculum-footer course-footer">
         <p>
           Edukativni sadržaj za testno i postupno učenje. Nije financijski,
           pravni ni porezni savjet.
