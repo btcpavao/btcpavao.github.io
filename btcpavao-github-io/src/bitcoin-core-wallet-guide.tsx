@@ -24,6 +24,7 @@ import {
 } from "lucide-react"
 
 import { useTheme } from "@/components/theme-provider"
+import { SiteBrandLink } from "@/components/site-brand"
 import {
   BITCOIN_CORE_WALLET_GUIDE_PATH,
   EN_BITCOIN_CORE_SERIES_PATH,
@@ -1154,9 +1155,7 @@ export function BitcoinCoreWalletGuidePage() {
 
       <header className="sticky top-0 z-30 bg-background/92 shadow-[0_1px_0_rgba(0,0,0,0.08)] backdrop-blur-xl dark:shadow-[0_1px_0_rgba(255,255,255,0.09)]">
         <div className="mx-auto flex min-h-[72px] max-w-5xl items-center justify-between gap-3 px-4 sm:px-6">
-          <a href="/" className="font-display text-base font-bold">
-            BTC Pavao
-          </a>
+          <SiteBrandLink />
           <div className="flex items-center gap-2">
             <HeaderProgress completed={completedCount} total={steps.length} />
             <a

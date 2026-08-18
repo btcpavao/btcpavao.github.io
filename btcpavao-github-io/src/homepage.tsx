@@ -17,6 +17,7 @@ import {
 } from "lucide-react"
 
 import { useTheme } from "@/components/theme-provider"
+import { SiteBrandLink } from "@/components/site-brand"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
@@ -286,7 +287,7 @@ export function Homepage() {
 
   useEffect(() => {
     const title =
-      "Bitcoin Standard Advisory and Bitcoin Core Education | Pavao Pahljina"
+      "Bitcoin Standard Advisory and Bitcoin Core Education | BTC Pavao"
     const description =
       "Practical guidance for individuals, families, and businesses building a life on a Bitcoin standard, with beginner-friendly education on Bitcoin Core, custody, backup, and recovery."
 
@@ -343,12 +344,7 @@ export function Homepage() {
 
       <header className="home-header sticky top-0 z-50 border-b border-border/60 bg-background/88 backdrop-blur-xl">
         <div className="mx-auto flex min-h-[72px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          <a
-            href="#top"
-            className="font-display text-base font-bold tracking-[-0.035em] text-foreground"
-          >
-            Pavao Pahljina
-          </a>
+          <SiteBrandLink />
 
           <nav
             aria-label="Main navigation"
@@ -932,7 +928,7 @@ export function Homepage() {
             <figure className="mx-auto w-full max-w-[240px] rounded-full bg-background p-2 shadow-[var(--shadow-border)] lg:mx-0">
               <img
                 src="/pavao-profile.webp"
-                alt="Pavao Pahljina"
+                alt="Pavao"
                 width="400"
                 height="400"
                 loading="lazy"
@@ -1071,7 +1067,7 @@ export function Homepage() {
       <footer className="border-t border-border/60 bg-card/44">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
           <div>
-            <p className="font-display text-base font-bold">Pavao Pahljina</p>
+            <SiteBrandLink />
             <p className="mt-1 text-xs text-muted-foreground">
               Bitcoin Standard advisory · Bitcoin Core education
             </p>

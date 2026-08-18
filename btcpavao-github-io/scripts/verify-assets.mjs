@@ -888,7 +888,7 @@ assert(
 )
 assert(
   homepageSource.includes('src="/pavao-profile.webp"') &&
-    homepageSource.includes('alt="Pavao Pahljina"'),
+    homepageSource.includes('alt="Pavao"'),
   "Homepage profile image or alt text is missing"
 )
 

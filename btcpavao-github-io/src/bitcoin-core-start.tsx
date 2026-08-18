@@ -12,6 +12,7 @@ import {
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { SiteBrandLink } from "@/components/site-brand"
 import {
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   EN_BITCOIN_CORE_SERIES_PATH,
@@ -52,7 +53,7 @@ function setMeta(name: string, content: string) {
 
 export function BitcoinCoreStartPage() {
   useEffect(() => {
-    const title = "Start Here with Bitcoin Core | Pavao Pahljina"
+    const title = "Start Here with Bitcoin Core | BTC Pavao"
     const description =
       "A calm first Bitcoin Core exercise for non-developers: prepare a practice environment, verify the software, create an empty test wallet, and document the backup plan."
 
@@ -70,9 +71,7 @@ export function BitcoinCoreStartPage() {
       </a>
       <header className="border-b border-border/60 bg-background/92">
         <div className="mx-auto flex min-h-[72px] max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
-          <a href="/" className="font-display text-base font-bold">
-            Pavao Pahljina
-          </a>
+          <SiteBrandLink />
           <div className="flex items-center gap-2">
             <a
               href={EN_BITCOIN_CORE_SERIES_PATH}

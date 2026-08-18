@@ -27,7 +27,7 @@ const routes = [
     appPath: "/hr/",
     routePath: "hr",
     routeUrl: hrUrl,
-    title: "Hrvatski tekstovi | Pavao Pahljina",
+    title: "Hrvatski tekstovi | BTC Pavao",
     collectionName: "Hrvatski tekstovi",
     description:
       "Hrvatski tekstovi Pavaoa Pahljine o Bitcoinu, Bitcoin Coreu i praktičnoj primjeni umjetne inteligencije.",
@@ -35,7 +35,7 @@ const routes = [
       "Hrvatski tekstovi o Bitcoinu, Bitcoin Coreu i praktičnoj primjeni umjetne inteligencije.",
     type: "website",
     image: `${siteUrl}/og-image-v2.jpg`,
-    imageAlt: "Pavao Pahljina, Bitcoin Standard Advisor",
+    imageAlt: "BTC Pavao, Bitcoin Standard Advisor",
     imageWidth: 1200,
     imageHeight: 630,
     breadcrumbParents: [],
@@ -45,14 +45,14 @@ const routes = [
     appPath: "/hr/ai-u-praksi/",
     routePath: "hr/ai-u-praksi",
     routeUrl: seriesUrl,
-    title: "AI u praksi | Pavao Pahljina",
+    title: "AI u praksi | BTC Pavao",
     description:
       "Osobne bilješke o tome kako koristim AI za pisanje, knjige, web stranice, agente, automatizaciju i svakodnevni rad.",
     ogDescription:
       "Kako jedan generalist koristi AI da ideje pretvori u tekstove, knjige, web stranice i stvarne poslovne sustave.",
     type: "website",
     image: `${siteUrl}/og-image-v2.jpg`,
-    imageAlt: "Pavao Pahljina, Bitcoin Standard Advisor",
+    imageAlt: "BTC Pavao, Bitcoin Standard Advisor",
     imageWidth: 1200,
     imageHeight: 630,
     collectionName: "AI u praksi",
@@ -149,7 +149,7 @@ const routes = [
     appPath: "/hr/bitcoin-core/",
     routePath: "hr/bitcoin-core",
     routeUrl: bitcoinCoreSeriesUrl,
-    title: "Bitcoin Core | Pavao Pahljina",
+    title: "Bitcoin Core | BTC Pavao",
     collectionName: "Bitcoin Core",
     description:
       "Hrvatski tekstovi o Bitcoin Coreu, walletima, validaciji i sigurnosnim temeljima Bitcoin sustava.",
@@ -248,7 +248,7 @@ const routes = [
     appPath: "/en/bitcoin-core/",
     routePath: "en/bitcoin-core",
     routeUrl: enBitcoinCoreSeriesUrl,
-    title: "Bitcoin Core | Pavao Pahljina",
+    title: "Bitcoin Core | BTC Pavao",
     collectionName: "Bitcoin Core",
     description:
       "English essays about Bitcoin Core, wallets, validation, and the security foundations of the Bitcoin system.",
@@ -273,7 +273,7 @@ const routes = [
     appPath: "/en/bitcoin-core/start-here/",
     routePath: "en/bitcoin-core/start-here",
     routeUrl: `${enBitcoinCoreSeriesUrl}start-here/`,
-    title: "Start Here with Bitcoin Core | Pavao Pahljina",
+    title: "Start Here with Bitcoin Core | BTC Pavao",
     collectionName: "Start Here with Bitcoin Core",
     description:
       "A calm first Bitcoin Core exercise for non-developers: prepare a practice environment, verify the software, create an empty test wallet, and document the backup plan.",
@@ -423,7 +423,7 @@ function breadcrumbItems(route) {
     {
       "@type": "ListItem",
       position: 1,
-      name: "Pavao Pahljina",
+      name: "BTC Pavao",
       item: `${siteUrl}/`,
     },
   ]

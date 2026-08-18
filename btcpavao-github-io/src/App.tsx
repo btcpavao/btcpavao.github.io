@@ -23,6 +23,10 @@ import {
 } from "lucide-react"
 
 import { useTheme } from "@/components/theme-provider"
+import {
+  BitcoinPavaoMark,
+  SiteBrandLink,
+} from "@/components/site-brand"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
@@ -864,7 +868,7 @@ function useArticleMetadata() {
 
 function useSeriesMetadata() {
   usePageMetadata({
-    title: `${AI_SERIES_TITLE} | Pavao Pahljina`,
+    title: `${AI_SERIES_TITLE} | BTC Pavao`,
     description: AI_SERIES_DESCRIPTION,
     ogDescription: AI_SERIES_OG_DESCRIPTION,
     url: AI_SERIES_URL,
@@ -895,7 +899,7 @@ function useLearningArticleMetadata() {
 
 function useHrHomeMetadata() {
   usePageMetadata({
-    title: `${HR_HOME_TITLE} | Pavao Pahljina`,
+    title: `${HR_HOME_TITLE} | BTC Pavao`,
     description: HR_HOME_DESCRIPTION,
     ogDescription: HR_HOME_DESCRIPTION,
     url: HR_HOME_URL,
@@ -906,7 +910,7 @@ function useBitcoinCoreSeriesMetadata(language: BitcoinCoreLanguage = "hr") {
   const isEnglish = language === "en"
 
   usePageMetadata({
-    title: `${BITCOIN_CORE_SERIES_TITLE} | Pavao Pahljina`,
+    title: `${BITCOIN_CORE_SERIES_TITLE} | BTC Pavao`,
     description: isEnglish
       ? EN_BITCOIN_CORE_SERIES_DESCRIPTION
       : BITCOIN_CORE_SERIES_DESCRIPTION,
@@ -1045,12 +1049,7 @@ function ArticlePage({
       />
       <header className="z-40 border-b border-border/60 bg-background/92 md:sticky md:top-0 md:bg-background/78 md:backdrop-blur-xl">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
-          <a
-            className="font-display text-base font-bold tracking-[-0.04em]"
-            href="/"
-          >
-            Pavao Pahljina
-          </a>
+          <SiteBrandLink />
 
           <div className="flex items-center gap-2">
             <a
@@ -1107,7 +1106,7 @@ function ArticlePage({
                     rel="author"
                     className="rounded-full border border-border/70 bg-background/78 px-3 py-1 backdrop-blur hover:bg-card hover:text-foreground"
                   >
-                    Pavao Pahljina
+                    <BitcoinPavaoMark iconClassName="size-4" />
                   </a>
                   <time
                     className="rounded-full border border-border/70 bg-background/78 px-3 py-1 backdrop-blur"
@@ -1340,12 +1339,7 @@ function ArticlePage({
 
       <footer className="border-t border-border/60 bg-background/92 backdrop-blur-xl">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-          <a
-            className="font-display text-base font-bold tracking-[-0.04em]"
-            href="/"
-          >
-            Pavao Pahljina
-          </a>
+          <SiteBrandLink />
 
           <div className="flex items-center gap-2">
             {socialLinks.map((link) => (
@@ -1394,13 +1388,7 @@ function PageChrome({
       />
       <header className="z-40 border-b border-border/60 bg-background/92 md:sticky md:top-0 md:bg-background/78 md:backdrop-blur-xl">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
-          <a
-            className="font-display text-base font-bold tracking-[-0.04em]"
-            href="/"
-            aria-current={active === "home" ? "page" : undefined}
-          >
-            Pavao Pahljina
-          </a>
+          <SiteBrandLink ariaCurrent={active === "home" ? "page" : undefined} />
 
           <div className="flex items-center gap-2">
             <a
@@ -1990,7 +1978,7 @@ function BitcoinCoreArticlePage({
                     rel="author"
                     className="surface-ring inline-flex min-h-10 items-center rounded-full bg-background/78 px-3 py-1 backdrop-blur hover:bg-card hover:text-foreground"
                   >
-                    Pavao Pahljina
+                    <BitcoinPavaoMark iconClassName="size-4" />
                   </a>
                   <time
                     className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
@@ -2275,7 +2263,7 @@ function LongRoadArticlePage({
                     rel="author"
                     className="surface-ring inline-flex min-h-10 items-center rounded-full bg-background/78 px-3 py-1 backdrop-blur transition-[background-color,color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground active:scale-[0.96]"
                   >
-                    Pavao Pahljina
+                    <BitcoinPavaoMark iconClassName="size-4" />
                   </a>
                   <time
                     className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
@@ -2606,7 +2594,7 @@ function WorkflowArticlePage({
                     rel="author"
                     className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur hover:bg-card hover:text-foreground"
                   >
-                    Pavao Pahljina
+                    <BitcoinPavaoMark iconClassName="size-4" />
                   </a>
                   <time
                     className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
@@ -2788,7 +2776,7 @@ function LearningArticlePage({
                     rel="author"
                     className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur hover:bg-card hover:text-foreground"
                   >
-                    Pavao Pahljina
+                    <BitcoinPavaoMark iconClassName="size-4" />
                   </a>
                   <time
                     className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
