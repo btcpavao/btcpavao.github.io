@@ -6,6 +6,7 @@ import App, { type ArticleDataModule } from "./App.tsx"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
 import {
   BITCOIN_CORE_CURRICULUM_PATH,
+  BITCOIN_CORE_WALLET_GUIDE_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   needsBitcoinCoreArticleSource,
   needsArticleData,
@@ -57,6 +58,10 @@ async function startApp() {
   } else if (initialPath === START_HERE_PATH) {
     const { BitcoinCoreStartPage } = await import("./bitcoin-core-start")
     routedPage = <BitcoinCoreStartPage />
+  } else if (initialPath === BITCOIN_CORE_WALLET_GUIDE_PATH) {
+    const { BitcoinCoreWalletGuidePage } =
+      await import("./bitcoin-core-wallet-guide")
+    routedPage = <BitcoinCoreWalletGuidePage />
   } else {
     routedPage = (
       <App

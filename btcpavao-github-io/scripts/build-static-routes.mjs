@@ -13,6 +13,7 @@ const bitcoinCoreSeriesId = `${bitcoinCoreSeriesUrl}#collection`
 const bitcoinCoreCurriculumUrl = `${bitcoinCoreSeriesUrl}self-custody/`
 const enBitcoinCoreSeriesUrl = `${siteUrl}/en/bitcoin-core/`
 const enBitcoinCoreSeriesId = `${enBitcoinCoreSeriesUrl}#collection`
+const walletGuideUrl = `${enBitcoinCoreSeriesUrl}wallet-setup-backup-recovery/`
 const enBitcoinCoreArticleUrl = `${enBitcoinCoreSeriesUrl}how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/`
 const longRoadArticleUrl = `${enBitcoinCoreSeriesUrl}the-long-road-back-to-bitcoin-core/`
 
@@ -287,6 +288,38 @@ const routes = [
     imageHeight: 887,
     breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
     about: ["Bitcoin Core", "Bitcoin wallet backup", "Bitcoin wallet recovery"],
+  },
+  {
+    appPath: "/en/bitcoin-core/wallet-setup-backup-recovery/",
+    routePath: "en/bitcoin-core/wallet-setup-backup-recovery",
+    routeUrl: walletGuideUrl,
+    title: "Bitcoin Core Wallet: Basic Setup, Encryption, Backup & Recovery",
+    headline: "Bitcoin Core Wallet: Basic Setup, Encryption, Backup & Recovery",
+    description:
+      "A step-by-step guide to creating a basic encrypted Bitcoin Core wallet, making redundant backups, and testing recovery.",
+    ogDescription:
+      "Create an encrypted Bitcoin Core wallet, make redundant backups, and prove that recovery works before using meaningful funds.",
+    type: "article",
+    language: "en-US",
+    publishedDate: "2026-08-18",
+    sectionName: "Bitcoin Core",
+    sectionId: enBitcoinCoreSeriesId,
+    articleTag: "Bitcoin Core wallet recovery",
+    breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
+    image: `${siteUrl}/bitcoin-core-wallet-guide/10-backup-wallet-menu.webp`,
+    imageType: "image/webp",
+    imageAlt: "Bitcoin Core File menu with Backup Wallet selected.",
+    imageWidth: 1800,
+    imageHeight: 1125,
+    textHero: true,
+    keywords: [
+      "Bitcoin Core wallet",
+      "Bitcoin wallet encryption",
+      "Bitcoin wallet backup",
+      "Bitcoin wallet recovery",
+      "offline signing",
+      "PSBT",
+    ],
   },
   {
     appPath:

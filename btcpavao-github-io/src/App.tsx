@@ -37,6 +37,7 @@ import {
   BITCOIN_CORE_CURRICULUM_PATH,
   BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   BITCOIN_CORE_SERIES_PATH,
+  BITCOIN_CORE_WALLET_GUIDE_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   EN_BITCOIN_CORE_SERIES_PATH,
   HR_HOME_PATH,
@@ -55,6 +56,11 @@ const Homepage = lazy(() =>
 const BitcoinCoreStartPage = lazy(() =>
   import("@/bitcoin-core-start").then((module) => ({
     default: module.BitcoinCoreStartPage,
+  }))
+)
+const BitcoinCoreWalletGuidePage = lazy(() =>
+  import("@/bitcoin-core-wallet-guide").then((module) => ({
+    default: module.BitcoinCoreWalletGuidePage,
   }))
 )
 const BitcoinCoreCurriculumPage = lazy(() =>
@@ -264,6 +270,15 @@ const hrBitcoinCorePosts: SeriesPost[] = [
 ]
 
 const enBitcoinCorePosts: SeriesPost[] = [
+  {
+    category: "Interactive guide",
+    title: "Bitcoin Core Wallet: Basic Setup, Encryption, Backup & Recovery",
+    description:
+      "Create an encrypted Bitcoin Core wallet, make redundant backups, and prove that recovery works before using meaningful funds.",
+    href: BITCOIN_CORE_WALLET_GUIDE_PATH,
+    language: "EN",
+    date: "Updated August 18, 2026",
+  },
   {
     category: BITCOIN_CORE_SERIES_TITLE,
     title: LONG_ROAD_ARTICLE_TITLE,
@@ -2917,6 +2932,14 @@ export function App({
     return (
       <Suspense fallback={null}>
         <BitcoinCoreStartPage />
+      </Suspense>
+    )
+  }
+
+  if (currentPath === BITCOIN_CORE_WALLET_GUIDE_PATH) {
+    return (
+      <Suspense fallback={null}>
+        <BitcoinCoreWalletGuidePage />
       </Suspense>
     )
   }
