@@ -103,8 +103,10 @@ const steps: GuideStep[] = [
     summary: "Begin from a clean Bitcoin Core wallet state.",
     images: [
       image(
-        "01-no-wallet-loaded",
-        "Bitcoin Core showing that no wallet has been loaded"
+        "01-no-wallet-loaded-crisp",
+        "Bitcoin Core showing that no wallet has been loaded",
+        992,
+        1586
       ),
     ],
     content: (
@@ -192,8 +194,10 @@ const steps: GuideStep[] = [
     summary: "Use a password manager to generate random words.",
     images: [
       image(
-        "04-keepass-passphrase-generator",
-        "KeePassXC Passphrase tab configured for eight random lower-case words"
+        "04-keepass-passphrase-generator-crisp",
+        "KeePassXC Passphrase tab configured for eight random lower-case words",
+        991,
+        1587
       ),
     ],
     content: (
@@ -228,9 +232,10 @@ const steps: GuideStep[] = [
     summary: "Enter the generated phrase twice and verify the match.",
     images: [
       image(
-        "05-enter-passphrase-empty",
+        "05-enter-passphrase-empty-crisp",
         "Bitcoin Core Encrypt wallet dialog with fields for entering and repeating a new passphrase",
-        753
+        811,
+        1940
       ),
     ],
     content: (
@@ -361,8 +366,10 @@ const steps: GuideStep[] = [
     summary: "The new encrypted wallet is now loaded.",
     images: [
       image(
-        "08-wallet-created",
-        "Bitcoin Core overview for a newly created encrypted test wallet"
+        "08-wallet-created-crisp",
+        "Bitcoin Core overview for a newly created encrypted test wallet",
+        992,
+        1586
       ),
     ],
     content: (
@@ -380,8 +387,10 @@ const steps: GuideStep[] = [
     summary: "Create and label an address for the recovery test.",
     images: [
       image(
-        "09-receive-screen",
-        "Bitcoin Core Receive tab with a Test Transaction request in payment history"
+        "09-receive-screen-crisp",
+        "Bitcoin Core Receive tab with a Test Transaction request in payment history",
+        992,
+        1586
       ),
     ],
     content: (
@@ -553,8 +562,10 @@ const steps: GuideStep[] = [
         "Bitcoin Core restore dialog with archive.dat selected"
       ),
       image(
-        "08-wallet-created",
-        "Bitcoin Core overview after an encrypted test wallet is loaded"
+        "08-wallet-created-crisp",
+        "Bitcoin Core overview after an encrypted test wallet is loaded",
+        992,
+        1586
       ),
     ],
     content: (
