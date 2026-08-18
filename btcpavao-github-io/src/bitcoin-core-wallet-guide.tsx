@@ -686,16 +686,16 @@ function HeaderProgress({
 
   return (
     <div
-      className="inline-flex min-h-11 items-center gap-2 rounded-full bg-card py-1 pr-3 pl-1 shadow-[var(--shadow-border)]"
+      className="inline-flex min-h-11 items-center gap-2.5 rounded-full bg-card py-1.5 pr-3.5 pl-1.5 shadow-[var(--shadow-border)]"
       role="progressbar"
       aria-valuemin={0}
       aria-valuemax={total}
       aria-valuenow={completed}
       aria-valuetext={`${completed} of ${total} tutorial steps completed; ${remaining} remaining`}
     >
-      <span className="relative grid size-9 shrink-0 place-items-center">
+      <span className="relative grid size-10 shrink-0 place-items-center">
         <svg
-          className="size-9 -rotate-90"
+          className="absolute inset-0 size-10 -rotate-90"
           viewBox="0 0 40 40"
           aria-hidden="true"
         >
@@ -715,18 +715,18 @@ function HeaderProgress({
             pathLength="100"
             fill="none"
             stroke="currentColor"
-            strokeWidth="4"
+            strokeWidth="3.5"
             strokeLinecap="round"
             strokeDasharray="100"
             strokeDashoffset={100 - percentage}
             className="text-primary"
           />
         </svg>
-        <span className="absolute text-[9px] leading-none font-bold text-foreground tabular-nums">
+        <span className="relative grid size-8 place-items-center rounded-full bg-primary text-[10px] leading-none font-extrabold text-primary-foreground shadow-[0_1px_2px_rgba(0,0,0,0.16)] tabular-nums">
           {completed}/{total}
         </span>
       </span>
-      <span className="hidden text-xs font-semibold whitespace-nowrap text-muted-foreground tabular-nums lg:inline">
+      <span className="hidden border-l border-border/70 pl-2.5 text-xs font-semibold whitespace-nowrap text-muted-foreground tabular-nums lg:inline">
         {remaining === 0 ? "Complete" : `${remaining} remaining`}
       </span>
     </div>
@@ -1155,7 +1155,7 @@ export function BitcoinCoreWalletGuidePage() {
       <header className="sticky top-0 z-30 bg-background/92 shadow-[0_1px_0_rgba(0,0,0,0.08)] backdrop-blur-xl dark:shadow-[0_1px_0_rgba(255,255,255,0.09)]">
         <div className="mx-auto flex min-h-[72px] max-w-5xl items-center justify-between gap-3 px-4 sm:px-6">
           <a href="/" className="font-display text-base font-bold">
-            Pavao Pahljina
+            BTC Pavao
           </a>
           <div className="flex items-center gap-2">
             <HeaderProgress completed={completedCount} total={steps.length} />
