@@ -14,7 +14,7 @@ export function BitcoinPavaoMark({
         alt=""
         width="28"
         height="28"
-        className={`shrink-0 ${iconClassName}`}
+        className={`site-brand__bitcoin-logo block shrink-0 ${iconClassName}`}
         aria-hidden="true"
       />
       <span className={labelClassName}>Pavao</span>

@@ -244,6 +244,12 @@
     outline-offset: -1px;
   }
 
+  .site-brand__bitcoin-logo {
+    border: 0;
+    outline: 0;
+    box-shadow: none;
+  }
+
   time,
   .font-mono,
   [data-slot="button"] {

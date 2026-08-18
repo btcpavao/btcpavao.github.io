@@ -84,10 +84,15 @@ function ResourceLink({
   )
 }
 
-const image = (name: string, alt: string, height = 1125): GuideImage => ({
+const image = (
+  name: string,
+  alt: string,
+  height = 1125,
+  width = 1800
+): GuideImage => ({
   src: `${IMAGE_ROOT}/${name}.webp`,
   alt,
-  width: 1800,
+  width,
   height,
 })
 
@@ -116,14 +121,16 @@ const steps: GuideStep[] = [
     summary: "Give the wallet a local, non-identifying name.",
     images: [
       image(
-        "02-create-wallet-blank",
+        "02-create-wallet-dialog",
         "Bitcoin Core Create Wallet dialog before a wallet name is entered",
-        1307
+        1069,
+        1472
       ),
       image(
-        "02-name-wallet",
+        "02-name-wallet-crisp",
         "Bitcoin Core Create Wallet dialog with Tutorial Wallet entered as the wallet name",
-        1307
+        1068,
+        1472
       ),
     ],
     content: (
@@ -149,9 +156,10 @@ const steps: GuideStep[] = [
     summary: "Protect private-key use with a wallet passphrase.",
     images: [
       image(
-        "03-enable-encryption",
+        "03-enable-wallet-encryption",
         "Bitcoin Core Create Wallet dialog with Encrypt Wallet enabled",
-        1307
+        1068,
+        1472
       ),
     ],
     content: (
