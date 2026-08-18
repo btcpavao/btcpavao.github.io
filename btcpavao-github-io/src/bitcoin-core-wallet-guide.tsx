@@ -33,6 +33,13 @@ const SITE_URL = "https://btcpavao.com"
 const STEP_STORAGE_KEY = "btcpavao-core-wallet-guide-steps-v1"
 const CHECKLIST_STORAGE_KEY = "btcpavao-core-wallet-guide-checklist-v1"
 const IMAGE_ROOT = "/bitcoin-core-wallet-guide"
+const BITCOIN_CORE_DOWNLOAD_URL = "https://bitcoincore.org/en/download/"
+const KEEPASSXC_DOWNLOAD_URL = "https://keepassxc.org/download/"
+const FEDORA_WORKSTATION_DOWNLOAD_URL =
+  "https://fedoraproject.org/workstation/download/"
+const FEDORA_XFCE_DOWNLOAD_URL =
+  "https://fedoraproject.org/spins/xfce/download/"
+const GNUPG_DOWNLOAD_URL = "https://gnupg.org/download/"
 
 type GuideImage = {
   src: string
@@ -51,11 +58,32 @@ type GuideStep = {
   noteKind?: "note" | "warning" | "critical"
 }
 
-const image = (
-  name: string,
-  alt: string,
-  height = 1125
-): GuideImage => ({
+function ResourceLink({
+  href,
+  children,
+  inverse = false,
+}: {
+  href: string
+  children: ReactNode
+  inverse?: boolean
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className={`font-semibold underline decoration-1 underline-offset-4 transition-[color,text-decoration-color] duration-200 ${
+        inverse
+          ? "text-white decoration-white/45 hover:text-[#7cc9ff] hover:decoration-[#7cc9ff]"
+          : "text-foreground decoration-primary/45 hover:text-primary hover:decoration-primary"
+      }`}
+    >
+      {children}
+    </a>
+  )
+}
+
+const image = (name: string, alt: string, height = 1125): GuideImage => ({
   src: `${IMAGE_ROOT}/${name}.webp`,
   alt,
   width: 1800,
@@ -107,8 +135,9 @@ const steps: GuideStep[] = [
           purpose of the funds.
         </p>
         <p>
-          Leave <strong>Disable Private Keys</strong>, <strong>Make Blank Wallet</strong>,
-          and <strong>External signer</strong> unchanged for this basic setup.
+          Leave <strong>Disable Private Keys</strong>,{" "}
+          <strong>Make Blank Wallet</strong>, and{" "}
+          <strong>External signer</strong> unchanged for this basic setup.
         </p>
       </>
     ),
@@ -161,9 +190,10 @@ const steps: GuideStep[] = [
     content: (
       <>
         <p>
-          Bitcoin Core recommends ten or more random characters or eight or
-          more words. For this exercise, use a password manager such as
-          KeePassXC to generate at least eight randomly selected words.
+          Bitcoin Core recommends ten or more random characters or eight or more
+          words. For this exercise, use a password manager such as{" "}
+          <ResourceLink href={KEEPASSXC_DOWNLOAD_URL}>KeePassXC</ResourceLink>{" "}
+          to generate at least eight randomly selected words.
         </p>
         <ul>
           <li>Do not invent a memorable sentence yourself.</li>
@@ -177,9 +207,9 @@ const steps: GuideStep[] = [
     note: (
       <>
         <strong>TEST WALLET / EXAMPLE PASSPHRASE.</strong> The phrase visible in
-        these screenshots belongs only to a disposable test wallet. Never use
-        it for real funds, and never publish screenshots containing the
-        passphrase of a real wallet.
+        these screenshots belongs only to a disposable test wallet. Never use it
+        for real funds, and never publish screenshots containing the passphrase
+        of a real wallet.
       </>
     ),
   },
@@ -216,9 +246,9 @@ const steps: GuideStep[] = [
     summary: "Bitcoin Core cannot recover a forgotten passphrase.",
     images: [
       image(
-        "05-enter-passphrase-empty",
-        "Bitcoin Core passphrase dialog shown immediately before the irreversible passphrase warning",
-        753
+        "06-loss-warning",
+        "Bitcoin Core warning that losing the wallet passphrase means losing access to the bitcoin",
+        801
       ),
     ],
     content: (
@@ -234,11 +264,10 @@ const steps: GuideStep[] = [
       <>
         <strong>Separate the two recovery components.</strong> Keep redundant
         passphrase copies if your threat model calls for them, and optionally
-        memorize the phrase as an additional recovery method. Memory must not
-        be the only copy. Never intentionally store the passphrase with a
-        wallet backup on the same medium or in the same location; compromise or
-        loss of one component should not automatically compromise or destroy
-        the other.
+        memorize the phrase as an additional recovery method. Memory must not be
+        the only copy. Never intentionally store the passphrase with a wallet
+        backup on the same medium or in the same location; compromise or loss of
+        one component should not automatically compromise or destroy the other.
       </>
     ),
   },
@@ -248,19 +277,66 @@ const steps: GuideStep[] = [
     summary: "Encryption protects data at rest, not a compromised signer.",
     images: [
       image(
-        "03-enable-encryption",
-        "Bitcoin Core wallet creation dialog with encryption enabled before the malware warning",
-        1307
+        "07-malware-warning",
+        "Bitcoin Core warning that wallet encryption cannot fully protect bitcoin from malware",
+        801
       ),
     ],
     content: (
-      <p>
-        Bitcoin Core warns that wallet encryption cannot fully protect bitcoin
-        from malware. The passphrase protects encrypted keys at rest. If the
-        signing computer is malicious while the wallet is unlocked, the
-        environment can observe secrets, alter transaction details, or misuse
-        the keys. Encryption cannot make a compromised signer trustworthy.
-      </p>
+      <>
+        <p>
+          Bitcoin Core warns that wallet encryption cannot fully protect bitcoin
+          from malware. The passphrase protects encrypted keys at rest. If the
+          signing computer is malicious while the wallet is unlocked, the
+          environment can observe secrets, alter transaction details, or misuse
+          the keys. Encryption cannot make a compromised signer trustworthy.
+        </p>
+        <p>
+          <strong>
+            Before continuing, choose the environment deliberately.
+          </strong>{" "}
+          On a general-purpose computer, first install pending operating-system
+          and security updates, then run a trusted antivirus or anti-malware
+          scan. If the scan finds anything suspicious, stop, clean or replace
+          the environment, and begin the wallet procedure again. A clean scan
+          reduces obvious risk, but it is not proof that the computer is free of
+          malware.
+        </p>
+        <p>
+          For serious cold storage, the stronger approach is a dedicated signing
+          computer with a clean{" "}
+          <ResourceLink href={FEDORA_WORKSTATION_DOWNLOAD_URL}>
+            Fedora Linux
+          </ResourceLink>{" "}
+          installation. Obtain and verify{" "}
+          <ResourceLink href={BITCOIN_CORE_DOWNLOAD_URL}>
+            Bitcoin Core
+          </ResourceLink>{" "}
+          before taking the computer offline, then keep that machine offline for
+          wallet creation, key generation, and signing. Bitcoin Core does not
+          need to synchronize a node on the signing computer for those
+          private-key operations.
+        </p>
+        <ul>
+          <li>Use the machine only for key generation and signing.</li>
+          <li>Do not use it for browsing, email, messaging, or daily work.</li>
+          <li>
+            Keep the synchronized online node on a separate computer and move
+            unsigned and signed PSBTs between the two environments carefully.
+          </li>
+          <li>
+            Verify transaction details on the offline signer before approving a
+            signature.
+          </li>
+        </ul>
+        <p>
+          This does not make the environment magically sterile, but it removes
+          many common infection paths and sharply limits exposure. Pause here
+          before Step 8: continue only after deciding whether this practice
+          wallet belongs on the current computer or whether your intended cold
+          storage warrants a clean, dedicated offline signer.
+        </p>
+      </>
     ),
     noteKind: "warning",
     note: (
@@ -318,8 +394,10 @@ const steps: GuideStep[] = [
     noteKind: "critical",
     note: (
       <>
-        <strong>Do not fund a new cold-storage setup with a meaningful amount</strong>
-        {" "}until you have successfully tested the complete backup and restore
+        <strong>
+          Do not fund a new cold-storage setup with a meaningful amount
+        </strong>{" "}
+        until you have successfully tested the complete backup and restore
         procedure.
       </>
     ),
@@ -350,8 +428,8 @@ const steps: GuideStep[] = [
         <p>
           One digital backup is not enough. Create redundant copies across more
           than one failure domain: USB drives, external drives, optical media,
-          another computer, geographically separated storage, or encrypted
-          cloud storage may all be appropriate depending on the threat model.
+          another computer, geographically separated storage, or encrypted cloud
+          storage may all be appropriate depending on the threat model.
         </p>
       </>
     ),
@@ -475,9 +553,9 @@ const steps: GuideStep[] = [
         Open <strong>Restore Wallet</strong> again, select
         <code> archive.dat</code>, and complete the import. Confirm that the
         expected wallet loads and that its labels, addresses, and history are
-        present. If the backup was encrypted, that encryption remains in
-        effect. Loading the wallet and unlocking its private keys are still two
-        separate operations.
+        present. If the backup was encrypted, that encryption remains in effect.
+        Loading the wallet and unlocking its private keys are still two separate
+        operations.
       </p>
     ),
     noteKind: "critical",
@@ -596,6 +674,65 @@ function ThemeToggle() {
   )
 }
 
+function HeaderProgress({
+  completed,
+  total,
+}: {
+  completed: number
+  total: number
+}) {
+  const percentage = total === 0 ? 0 : (completed / total) * 100
+  const remaining = Math.max(total - completed, 0)
+
+  return (
+    <div
+      className="inline-flex min-h-11 items-center gap-2 rounded-full bg-card py-1 pr-3 pl-1 shadow-[var(--shadow-border)]"
+      role="progressbar"
+      aria-valuemin={0}
+      aria-valuemax={total}
+      aria-valuenow={completed}
+      aria-valuetext={`${completed} of ${total} tutorial steps completed; ${remaining} remaining`}
+    >
+      <span className="relative grid size-9 shrink-0 place-items-center">
+        <svg
+          className="size-9 -rotate-90"
+          viewBox="0 0 40 40"
+          aria-hidden="true"
+        >
+          <circle
+            cx="20"
+            cy="20"
+            r="16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="4"
+            className="text-muted"
+          />
+          <circle
+            cx="20"
+            cy="20"
+            r="16"
+            pathLength="100"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeDasharray="100"
+            strokeDashoffset={100 - percentage}
+            className="text-primary"
+          />
+        </svg>
+        <span className="absolute text-[9px] leading-none font-bold text-foreground tabular-nums">
+          {completed}/{total}
+        </span>
+      </span>
+      <span className="hidden text-xs font-semibold whitespace-nowrap text-muted-foreground tabular-nums lg:inline">
+        {remaining === 0 ? "Complete" : `${remaining} remaining`}
+      </span>
+    </div>
+  )
+}
+
 function StepCheckbox({
   checked,
   number,
@@ -631,7 +768,12 @@ function GuideCallout({
   kind?: "note" | "warning" | "critical"
   children: ReactNode
 }) {
-  const Icon = kind === "note" ? CheckCircle2 : kind === "warning" ? TriangleAlert : ShieldAlert
+  const Icon =
+    kind === "note"
+      ? CheckCircle2
+      : kind === "warning"
+        ? TriangleAlert
+        : ShieldAlert
   const style =
     kind === "critical"
       ? "bg-[#7f1d1d] text-white"
@@ -793,8 +935,12 @@ function OptionalObfuscation({
             <p className="mt-4 text-sm leading-7 text-white/66">
               If the whole backup must remain confidential, place the already
               encrypted Bitcoin Core wallet inside an additional encrypted
-              archive or container, such as GPG/OpenPGP symmetric encryption,
-              an AES-encrypted archive, or an encrypted container.
+              archive or container, such as{" "}
+              <ResourceLink href={GNUPG_DOWNLOAD_URL} inverse>
+                GPG/OpenPGP
+              </ResourceLink>{" "}
+              symmetric encryption, an AES-encrypted archive, or an encrypted
+              container.
             </p>
           </div>
 
@@ -802,7 +948,9 @@ function OptionalObfuscation({
             {screenshots.map((screenshot, index) => (
               <div
                 key={screenshot.src}
-                className={index === screenshots.length - 1 ? "sm:col-span-2" : undefined}
+                className={
+                  index === screenshots.length - 1 ? "sm:col-span-2" : undefined
+                }
               >
                 <ScreenshotButton screenshot={screenshot} onOpen={onOpen} />
               </div>
@@ -835,9 +983,21 @@ function SeriousColdStorage() {
         <p className="mt-6 max-w-3xl text-base leading-8 text-pretty text-muted-foreground">
           For meaningful long-term cold storage, consider a dedicated signing
           computer: an older general-purpose laptop with a clean Linux
-          installation, Bitcoin Core, and KeePassXC if needed. Fedora
-          Workstation is a practical choice for modern hardware; Fedora Xfce
-          Spin or another lightweight desktop may suit older machines.
+          installation,{" "}
+          <ResourceLink href={BITCOIN_CORE_DOWNLOAD_URL}>
+            Bitcoin Core
+          </ResourceLink>
+          , and{" "}
+          <ResourceLink href={KEEPASSXC_DOWNLOAD_URL}>KeePassXC</ResourceLink>{" "}
+          if needed.{" "}
+          <ResourceLink href={FEDORA_WORKSTATION_DOWNLOAD_URL}>
+            Fedora Workstation
+          </ResourceLink>{" "}
+          is a practical choice for modern hardware;{" "}
+          <ResourceLink href={FEDORA_XFCE_DOWNLOAD_URL}>
+            Fedora Xfce Spin
+          </ResourceLink>{" "}
+          or another lightweight desktop may suit older machines.
         </p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -848,7 +1008,9 @@ function SeriousColdStorage() {
             </h3>
             <ul className="mt-4 grid gap-2 text-sm leading-6 text-muted-foreground">
               <li>Dedicated to key generation and signing.</li>
-              <li>Kept offline; not used for browsing, email, or daily work.</li>
+              <li>
+                Kept offline; not used for browsing, email, or daily work.
+              </li>
               <li>Software authenticity verified before installation.</li>
             </ul>
           </div>
@@ -996,12 +1158,14 @@ export function BitcoinCoreWalletGuidePage() {
             Pavao Pahljina
           </a>
           <div className="flex items-center gap-2">
+            <HeaderProgress completed={completedCount} total={steps.length} />
             <a
               href={EN_BITCOIN_CORE_SERIES_PATH}
+              aria-label="Back to Bitcoin Core guides"
               className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 text-sm font-semibold text-muted-foreground transition-[color,background-color,transform] duration-200 hover:bg-card hover:text-foreground active:scale-[0.96] sm:px-4"
             >
               <ArrowLeft className="size-4" aria-hidden="true" />
-              Bitcoin Core
+              <span className="hidden sm:inline">Bitcoin Core</span>
             </a>
             <ThemeToggle />
           </div>
@@ -1137,7 +1301,9 @@ export function BitcoinCoreWalletGuidePage() {
                       {step.content}
                     </div>
                     {step.note ? (
-                      <GuideCallout kind={step.noteKind}>{step.note}</GuideCallout>
+                      <GuideCallout kind={step.noteKind}>
+                        {step.note}
+                      </GuideCallout>
                     ) : null}
                   </div>
                 </div>
@@ -1191,7 +1357,11 @@ export function BitcoinCoreWalletGuidePage() {
                     }
                   />
                   <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-muted text-transparent transition-[background-color,color] duration-200 peer-checked:bg-primary peer-checked:text-primary-foreground peer-focus-visible:outline-2 peer-focus-visible:outline-offset-3 peer-focus-visible:outline-primary">
-                    <Check className="size-3.5" strokeWidth={3} aria-hidden="true" />
+                    <Check
+                      className="size-3.5"
+                      strokeWidth={3}
+                      aria-hidden="true"
+                    />
                   </span>
                   <span>{item}</span>
                 </label>
