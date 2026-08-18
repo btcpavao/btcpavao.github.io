@@ -101,7 +101,7 @@ const steps: GuideStep[] = [
       <>
         <p>
           Select <strong>Create Wallet</strong> and enter a local name. The
-          screenshots in this guide use disposable <strong>Test Wallet</strong>
+          screenshots in this guide use disposable <strong>Test Wallet</strong>{" "}
           and <strong>Tutorial Wallet</strong> examples. A wallet name is only a
           local identifier; it does not need to reveal your identity or the
           purpose of the funds.
