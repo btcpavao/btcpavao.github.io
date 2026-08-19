@@ -12,6 +12,7 @@ const bitcoinCoreSeriesUrl = `${siteUrl}/hr/bitcoin-core/`
 const bitcoinCoreSeriesId = `${bitcoinCoreSeriesUrl}#collection`
 const bitcoinCoreCurriculumUrl = `${bitcoinCoreSeriesUrl}self-custody/`
 const enBitcoinCoreSeriesUrl = `${siteUrl}/en/bitcoin-core/`
+const enBitcoinCoreCurriculumUrl = `${enBitcoinCoreSeriesUrl}self-custody/`
 const enBitcoinCoreSeriesId = `${enBitcoinCoreSeriesUrl}#collection`
 const walletGuideUrl = `${enBitcoinCoreSeriesUrl}wallet-setup-backup-recovery/`
 const enBitcoinCoreArticleUrl = `${enBitcoinCoreSeriesUrl}how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/`
@@ -199,6 +200,11 @@ const routes = [
       "PSBT",
       "Bitcoin multisig",
     ],
+    alternates: {
+      hr: bitcoinCoreCurriculumUrl,
+      en: enBitcoinCoreCurriculumUrl,
+      xDefault: enBitcoinCoreCurriculumUrl,
+    },
   },
   {
     appPath:
@@ -267,6 +273,40 @@ const routes = [
       hr: bitcoinCoreSeriesUrl,
       en: enBitcoinCoreSeriesUrl,
       xDefault: enBitcoinCoreSeriesUrl,
+    },
+  },
+  {
+    appPath: "/en/bitcoin-core/self-custody/",
+    routePath: "en/bitcoin-core/self-custody",
+    routeUrl: enBitcoinCoreCurriculumUrl,
+    title: "Practical Bitcoin Self-Custody with Bitcoin Core | BTC Pavao",
+    collectionName: "Practical Bitcoin Self-Custody with Bitcoin Core",
+    description:
+      "A long-term Bitcoin self-custody curriculum: Signet practice, your own node, backup and recovery, offline signing, PSBT, multisig, and operational security.",
+    ogDescription:
+      "Learn to hold your bitcoin by understanding the whole system — from the first Signet exercise to verified recovery.",
+    type: "website",
+    language: "en-US",
+    image: `${siteUrl}/bitcoin-core-entropija-cover-v2-share.jpg`,
+    imageAlt:
+      "The cryptographic process of creating a Bitcoin Core wallet in a Mediterranean setting.",
+    imageWidth: 1200,
+    imageHeight: 630,
+    textHero: true,
+    breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
+    about: [
+      "Bitcoin Core",
+      "Bitcoin self-custody",
+      "Wallet backup",
+      "Wallet recovery",
+      "Offline signing",
+      "PSBT",
+      "Bitcoin multisig",
+    ],
+    alternates: {
+      hr: bitcoinCoreCurriculumUrl,
+      en: enBitcoinCoreCurriculumUrl,
+      xDefault: enBitcoinCoreCurriculumUrl,
     },
   },
   {

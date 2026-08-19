@@ -42,6 +42,7 @@ import {
   BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   BITCOIN_CORE_SERIES_PATH,
   BITCOIN_CORE_WALLET_GUIDE_PATH,
+  EN_BITCOIN_CORE_CURRICULUM_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   EN_BITCOIN_CORE_SERIES_PATH,
   HR_HOME_PATH,
@@ -70,6 +71,11 @@ const BitcoinCoreWalletGuidePage = lazy(() =>
 const BitcoinCoreCurriculumPage = lazy(() =>
   import("@/bitcoin-core-curriculum").then((module) => ({
     default: module.BitcoinCoreCurriculumPage,
+  }))
+)
+const BitcoinCoreCurriculumEnPage = lazy(() =>
+  import("@/bitcoin-core-curriculum-en").then((module) => ({
+    default: module.BitcoinCoreCurriculumEnPage,
   }))
 )
 const HR_HOME_URL = `${SITE_URL}${HR_HOME_PATH}`
@@ -274,6 +280,15 @@ const hrBitcoinCorePosts: SeriesPost[] = [
 ]
 
 const enBitcoinCorePosts: SeriesPost[] = [
+  {
+    category: "Living curriculum",
+    title: "Practical Bitcoin Self-Custody with Bitcoin Core",
+    description:
+      "Ten phases with local progress tracking: from threat modeling and Signet practice to recovery, offline signing, and multisig.",
+    href: EN_BITCOIN_CORE_CURRICULUM_PATH,
+    language: "EN",
+    date: "Updated August 19, 2026",
+  },
   {
     category: "Interactive guide",
     title: "Bitcoin Core Wallet: Basic Setup, Encryption, Backup & Recovery",
@@ -2908,6 +2923,14 @@ export function App({
     return (
       <Suspense fallback={null}>
         <BitcoinCoreCurriculumPage />
+      </Suspense>
+    )
+  }
+
+  if (currentPath === EN_BITCOIN_CORE_CURRICULUM_PATH) {
+    return (
+      <Suspense fallback={null}>
+        <BitcoinCoreCurriculumEnPage />
       </Suspense>
     )
   }

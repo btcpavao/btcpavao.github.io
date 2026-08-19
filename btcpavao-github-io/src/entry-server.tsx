@@ -4,6 +4,7 @@ import { renderToString } from "react-dom/server"
 import App from "./App.tsx"
 import * as articleData from "./article-data.ts"
 import { BitcoinCoreCurriculumPage } from "./bitcoin-core-curriculum.tsx"
+import { BitcoinCoreCurriculumEnPage } from "./bitcoin-core-curriculum-en.tsx"
 import { BitcoinCoreStartPage } from "./bitcoin-core-start.tsx"
 import { BitcoinCoreWalletGuidePage } from "./bitcoin-core-wallet-guide.tsx"
 import bitcoinCoreArticleEnglishSource from "./bitcoin-core-article-en.txt?raw"
@@ -15,6 +16,7 @@ import longRoadArticleSource from "./long-road-back-to-bitcoin-core.md?raw"
 import {
   BITCOIN_CORE_CURRICULUM_PATH,
   BITCOIN_CORE_WALLET_GUIDE_PATH,
+  EN_BITCOIN_CORE_CURRICULUM_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   needsBitcoinCoreArticleSource,
   needsArticleData,
@@ -31,6 +33,8 @@ export function renderPage(pathname: string) {
       <Homepage />
     ) : initialPath === BITCOIN_CORE_CURRICULUM_PATH ? (
       <BitcoinCoreCurriculumPage />
+    ) : initialPath === EN_BITCOIN_CORE_CURRICULUM_PATH ? (
+      <BitcoinCoreCurriculumEnPage />
     ) : initialPath === START_HERE_PATH ? (
       <BitcoinCoreStartPage />
     ) : initialPath === BITCOIN_CORE_WALLET_GUIDE_PATH ? (
