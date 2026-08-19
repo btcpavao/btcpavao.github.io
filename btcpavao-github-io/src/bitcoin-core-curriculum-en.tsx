@@ -256,7 +256,7 @@ function VideoBlock({ lesson }: { lesson: PlayerLesson }) {
       </span>
       <span>
         <strong>Video coming soon</strong>
-        <small>The written lesson is complete and useful without the video.</small>
+        <small>The written lesson stands on its own.</small>
       </span>
     </div>
   )
@@ -540,13 +540,13 @@ function CourseLanding({
             <span>Living curriculum · v{CURRICULUM_VERSION}</span>
           </div>
           <h1 id="course-title">
-            Learn to hold your own Bitcoin by understanding the whole system.
+            Learn to hold your own bitcoin by understanding the entire system.
           </h1>
           <p className="course-hero__lede">
             A practical path to long-term self-custody with Bitcoin Core.
             Private keys are only the beginning; a dependable setup also
-            includes verification, backup, recovery, signing, and a routine
-            you can repeat under stress.
+            includes verification, backup, recovery, signing, and a routine you
+            can repeat under stress.
           </p>
           <div className="course-hero__actions">
             <button
@@ -571,9 +571,7 @@ function CourseLanding({
           aria-label="Progress and content version"
         >
           <div className="course-progress-card__heading">
-            <span>
-              {returning ? "Your next step" : "Living curriculum"}
-            </span>
+            <span>{returning ? "Your next step" : "Living curriculum"}</span>
             <strong aria-live="polite">
               {returning && continueEntry
                 ? continueEntry.lesson.title
@@ -629,9 +627,9 @@ function CourseLanding({
         <div>
           <strong>This page never asks for your secrets.</strong>
           <p>
-            Never enter real private keys, seed words, a passphrase, or an
-            xpriv here. The first operational exercises deliberately use
-            Signet, without real money.
+            Never enter real private keys, seed words, a passphrase, or an xpriv
+            here. The first hands-on exercises use Signet, so no real money is
+            at risk.
           </p>
         </div>
       </section>
@@ -642,9 +640,11 @@ function CourseLanding({
       >
         <div className="course-section-heading">
           <span>A path without shortcuts</span>
-          <h2 id="course-stages-title">Three stages to your first real setup</h2>
+          <h2 id="course-stages-title">
+            Three stages to your first real setup
+          </h2>
           <p>
-            First understand the system, then practise the complete recovery
+            First understand the system, then practice the complete recovery
             cycle without real money, and only then choose and test a mainnet
             architecture.
           </p>
@@ -655,7 +655,7 @@ function CourseLanding({
             <div>
               <strong>Understand</strong>
               <p>
-                Threat modelling, Bitcoin Core, and independent verification
+                Threat modeling, Bitcoin Core, and independent verification
                 without mythology.
               </p>
             </div>
@@ -663,7 +663,7 @@ function CourseLanding({
           <li>
             <span>02</span>
             <div>
-              <strong>Practise</strong>
+              <strong>Practice</strong>
               <p>
                 Create → encrypt → new backup → transact → restore → transact
                 again on Signet.
@@ -689,7 +689,9 @@ function CourseLanding({
       >
         <div className="course-section-heading">
           <span>Detailed plan</span>
-          <h2 id="course-roadmap-title">The complete roadmap when you need it</h2>
+          <h2 id="course-roadmap-title">
+            The complete roadmap, when you need it
+          </h2>
           <p>
             Statuses show what is currently available, what is under technical
             review, and what is still planned.
@@ -846,7 +848,7 @@ function LessonArticle({
             <strong>
               {lesson.verification === "planned"
                 ? "This lesson is planned."
-                : "This lesson has not yet been operationally published."}
+                : "This lesson is not yet ready for practical use."}
             </strong>
             <p>
               {lesson.reviewNote ??
@@ -1025,9 +1027,9 @@ function LessonArticle({
             <span>Before using a larger amount</span>
             <strong>Would you like another pair of eyes on your setup?</strong>
             <p>
-              Individual consulting can help review your threat model,
-              recovery plan, and operating procedure. I will never ask for
-              your private keys, seed words, or wallet passphrase.
+              Individual consulting can help review your threat model, recovery
+              plan, and operating procedure. I will never ask for your private
+              keys, seed words, or wallet passphrase.
             </p>
           </div>
           <a
@@ -1050,7 +1052,7 @@ function LessonArticle({
           </strong>
           <p>
             {isCompletable
-              ? "The completion mark is stored locally in this browser."
+              ? "Your completion status is stored locally in this browser."
               : "Completion will be enabled after technical review and publication."}
           </p>
         </div>
@@ -1247,7 +1249,8 @@ export function BitcoinCoreCurriculumEnPage() {
     )
     setActiveSlug(null)
     setMobileOutlineOpen(false)
-    document.title = "Practical Bitcoin Self-Custody with Bitcoin Core | BTC Pavao"
+    document.title =
+      "Practical Bitcoin Self-Custody with Bitcoin Core | BTC Pavao"
     window.scrollTo({ top: 0, behavior: "auto" })
   }
 
@@ -1276,9 +1279,7 @@ export function BitcoinCoreCurriculumEnPage() {
   }
 
   function resetProgress() {
-    if (
-      !window.confirm("Reset saved progress and practical checklists?")
-    )
+    if (!window.confirm("Reset saved progress and practical checklists?"))
       return
     setCompletedLessons(new Set())
     setChecklistItems(new Set())
@@ -1322,7 +1323,10 @@ export function BitcoinCoreCurriculumEnPage() {
             Bitcoin self-custody
           </button>
           <div className="curriculum-header__actions">
-            <a href={EN_BITCOIN_CORE_SERIES_PATH} className="curriculum-back-link">
+            <a
+              href={EN_BITCOIN_CORE_SERIES_PATH}
+              className="curriculum-back-link"
+            >
               <ArrowLeft aria-hidden="true" />
               <span>All Bitcoin Core articles</span>
             </a>
@@ -1387,7 +1391,7 @@ export function BitcoinCoreCurriculumEnPage() {
                     </strong>
                     <p>
                       {skippedReviewEntry
-                        ? "Open it manually from the phase overview if you want to see what is coming. The button below offers another published and verified lesson, not an unverified placeholder."
+                        ? "Open it manually from the phase overview if you want to preview what is coming. The button below takes you to another published and verified lesson, not an unverified placeholder."
                         : "You can open it manually from the phase overview; it does not block the main path."}
                     </p>
                   </div>
@@ -1486,8 +1490,8 @@ export function BitcoinCoreCurriculumEnPage() {
 
       <footer className="curriculum-footer course-footer">
         <p>
-          Educational content for testing and gradual learning. This is not
-          financial, legal, or tax advice.
+          Educational content for hands-on testing and step-by-step learning.
+          This is not financial, legal, or tax advice.
         </p>
         <a href={EN_BITCOIN_CORE_SERIES_PATH}>Bitcoin Core on btcpavao.com</a>
       </footer>

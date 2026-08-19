@@ -67,12 +67,12 @@ const coreRelease: CurriculumSource = {
 }
 
 const coreDownload: CurriculumSource = {
-  label: "Bitcoin Core 31.1 — Official download and verification",
+  label: "Bitcoin Core 31.1 — Official Download and Verification Guide",
   url: "https://bitcoincore.org/en/download/",
 }
 
 const coreRepository: CurriculumSource = {
-  label: "Bitcoin Core - Source and Development Process",
+  label: "Bitcoin Core — Source Code and Development Process",
   url: "https://github.com/bitcoin/bitcoin/tree/v31.1",
 }
 
@@ -82,17 +82,17 @@ const managingWallets: CurriculumSource = {
 }
 
 const coreFiles: CurriculumSource = {
-  label: "Bitcoin Core 31.1 - files and data directories",
+  label: "Bitcoin Core 31.1 — Files and Data Directories",
   url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/files.md",
 }
 
 const descriptors: CurriculumSource = {
-  label: "Bitcoin Core 31.1 — output descriptors",
+  label: "Bitcoin Core 31.1 — Output Descriptors",
   url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/descriptors.md",
 }
 
 const offlineSigning: CurriculumSource = {
-  label: "Bitcoin Core 31.1 — Offline signing Tutorial",
+  label: "Bitcoin Core 31.1 — Offline Signing Tutorial",
   url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/offline-signing-tutorial.md",
 }
 
@@ -102,7 +102,7 @@ const psbt: CurriculumSource = {
 }
 
 const multisigTutorial: CurriculumSource = {
-  label: "Bitcoin Core 31.1 — multisig Tutorial",
+  label: "Bitcoin Core 31.1 — Multisig Tutorial",
   url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/multisig-tutorial.md",
 }
 
@@ -122,7 +122,7 @@ const coreRandom: CurriculumSource = {
 }
 
 const coreKeyGeneration: CurriculumSource = {
-  label: "Bitcoin Core 31.1 - Private Key Generation",
+  label: "Bitcoin Core 31.1 — Private Key Generation",
   url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/key.cpp#L162-L168",
 }
 
@@ -132,7 +132,7 @@ const sparrowQuickStart: CurriculumSource = {
 }
 
 const sparrowRelease: CurriculumSource = {
-  label: "Sparrow 2.5.2 — Official edition",
+  label: "Sparrow 2.5.2 — Official Release",
   url: "https://github.com/sparrowwallet/sparrow/releases/tag/2.5.2",
 }
 
@@ -256,7 +256,7 @@ function outlineLesson(config: {
 }
 
 const standardReviewNote =
-  "Operational steps and screenshots must be reproduced in that version before the lesson is published."
+  "Operational steps and screenshots must be reproduced with that version before the lesson is published."
 
 const curriculumPhasesV2: CurriculumPhase[] = [
   {
@@ -265,9 +265,9 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     shortTitle: "Why self-custody?",
     title: "Why self-custody?",
     summary:
-      "First we define what you're protecting, what you're protecting yourself from, and why the keys aren't the whole system.",
+      "First, we define what you are protecting, what you are protecting it from, and why keys are only one part of the system.",
     outcome:
-      "You'll be able to map your own self-custody system and name its actual failure modes.",
+      "You will be able to map your self-custody system and identify its actual failure modes.",
     status: "published",
     estimatedTime: "35 min",
     lessons: [
@@ -301,9 +301,9 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     shortTitle: "Why Bitcoin Core?",
     title: "Why Bitcoin Core for self-custody?",
     summary:
-      "We compare security philosophies and the number of decisions each tool requires — without tribalism.",
+      "We compare security philosophies and the number of decisions each tool requires—without tribalism.",
     outcome:
-      "You'll know why this tutorial uses Bitcoin Core and when another tool or a hardware wallet would be a reasonable choice.",
+      "You will understand why this tutorial uses Bitcoin Core and when another tool or a hardware wallet may be a reasonable choice.",
     status: "published",
     estimatedTime: "90 min",
     lessons: [
@@ -312,15 +312,15 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         objective:
           "Explain why a narrow initial flow can reduce the number of security decisions a beginner must make before understanding them.",
         explanation: [
-          "Bitcoin Core here is not a goal by itself. We use it as a conservative tool for building systems that you can check, back up, restore and gradually upgrade.",
-          "A simpler initial flow does not remove malware, physical risks, or human error. It just leaves more attention to decisions that you really need to understand.",
+          "Bitcoin Core is not an end in itself. We use it as a conservative tool for building systems that you can verify, back up, restore, and gradually improve.",
+          "A simpler initial workflow does not eliminate malware, physical risks, or human error. It gives you more attention for the decisions you genuinely need to understand.",
         ],
         sources: [managingWallets, coreRelease],
       }),
       retainLesson("2.1", {
         slug: "sto-je-bitcoin-core",
         objective:
-          "Separate the node that validates from the wallet that monitors the funds and signs.",
+          "Separate the node that validates the blockchain from the wallet that monitors funds and signs transactions.",
         sources: [coreRepository, coreRelease],
       }),
       outlineLesson({
@@ -328,26 +328,26 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         slug: "tvoj-node-je-prije-svega-vazan-tebi",
         title: "Your node is valuable first and foremost to you",
         summary:
-          "Your own node allows you to check the rules, transactions, and the state of your wallet without relying on someone else's node or service.",
+          "Your own node lets you verify the rules, transactions, and wallet state without relying on someone else's node or service.",
         objective:
-          "Explain the personal security value of your own node without relying on vague claims about helping the network.",
+          "Explain the personal security value of running your own node without relying on vague claims about helping the network.",
         status: "published",
         verification: "verified",
         explanation: [
           "When your wallet uses your node, you do not have to accept a remote service's view of the chain and transaction history.",
-          "This does not mean that every node must be a public server, archive node or computer running 24/7. The function you need determines the resources and mode of operation.",
+          "This does not mean that every node must be a public server, an archival node, or a computer running 24/7. The function you need determines the resources and operating model.",
         ],
         concepts: [
           "Rules validation and storage of private keys are separate functions.",
           "A pruned node still validates blocks, although it does not store the entire history on disk.",
-          "Your own node reduces the need to reveal your wallet queries to a third party or accept that party's view of the chain.",
+          "Your own node reduces the need to reveal wallet queries to a third party or accept that party's view of the chain.",
         ],
         sources: [coreRepository, coreFiles],
         callouts: [
           {
             kind: "mental-model",
             title: "Verify, don't trust.",
-            body: "Bitcoin Core is not the authority you trust because it is popular. The value is that you run a publicly verifiable set of rules and retain the possibility of independent verification.",
+            body: "Bitcoin Core is not an authority you trust simply because it is popular. Its value is that it lets you run a publicly verifiable set of rules and verify the network independently.",
           },
         ],
       }),
@@ -356,21 +356,21 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         slug: "battle-tested-ne-znaci-bez-bugova",
         title: "Battle-tested does not mean without bugs",
         summary:
-          "Its long development history, public review, and economic importance support conservative confidence in the process — not a guarantee of perfection.",
+          "Its long development history, public review, and economic importance support measured confidence in the process—not a guarantee of perfection.",
         objective:
           "Distinguish confidence in a transparent development process from a blind authority argument.",
         status: "published",
         verification: "verified",
         explanation: [
           "Bitcoin Core is developed in public: changes go through review, automated testing, and published release cycles. Its behavior affects important infrastructure, so regressions have serious consequences and attract many motivated reviewers.",
-          "This increases the weight of the process, but does not remove the possibility of bugs, misconfiguration or poor operational decisions of the user.",
+          "This strengthens confidence in the process, but it does not eliminate bugs, misconfiguration, or poor operational decisions.",
         ],
         sources: [coreRepository, coreRelease],
       }),
       retainLesson("1.2", {
         slug: "sparrow-flow-i-sigurnosne-pretpostavke",
         objective:
-          "Analyze which decisions Sparrow presents early and what you need to understand before choosing among them.",
+          "Analyze the decisions Sparrow presents early and what you need to understand before choosing among them.",
         status: "in-progress",
         verification: "review-required",
         referenceVersion: SPARROW_REFERENCE_VERSION,
@@ -392,7 +392,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       retainLesson("1.1", {
         slug: "hardware-wallet-kao-tradeoff",
         objective:
-          "Assess a hardware wallet through specific failure modes, not as an automatic response to complexity.",
+          "Evaluate a hardware wallet against specific failure modes rather than treating it as an automatic response to complexity.",
         sources: [hwi],
       }),
       retainLesson("1.4", {
@@ -414,10 +414,10 @@ const curriculumPhasesV2: CurriculumPhase[] = [
   {
     id: "2",
     slug: "sigurno-igraliste",
-    shortTitle: "Safe Playground",
-    title: "Safe Playground: everything starts on Signet",
+    shortTitle: "Safe playground",
+    title: "Safe playground: everything starts on Signet",
     summary:
-      "Repeat wallet operations with test bitcoin that has no market value until the procedure becomes familiar and routine.",
+      "Repeat wallet operations with test bitcoin that has no market value until the procedure feels familiar and routine.",
     outcome:
       "You will complete the full create → receive → send → back up → remove → restore cycle without real financial risk.",
     status: "in-progress",
@@ -435,8 +435,8 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         verification: "verified",
         referenceVersion: "BIP 325 / Bitcoin Core 31.1",
         explanation: [
-          "Signet is a Bitcoin test network whose coins have no market value. The rules and wallet concepts remain similar enough that you can practice addresses, transactions, fees, backup, restore, and signing without mainnet risk.",
-          "The goal is not to click once through the flow. The goal is to be able to repeat it, explain it and recognize when something deviates from what is expected.",
+          "Signet is a Bitcoin test network whose coins have no real-world monetary value. Its rules and wallet concepts are similar enough to mainnet for you to practice using addresses, making transactions, paying fees, backing up, restoring, and signing without risking real funds.",
+          "The goal is not to click through the workflow once. The goal is to repeat it, explain it, and recognize when something deviates from the expected result.",
         ],
         sources: [bip325, offlineSigning],
         callouts: [
@@ -447,9 +447,9 @@ const curriculumPhasesV2: CurriculumPhase[] = [
           },
         ],
         checklist: [
-          "I understand why Signet coins are not mainnet bitcoin",
-          "I know a test network does not justify introducing real secrets",
-          "I accept that I will repeat recovery before using real funds",
+          "I understand why Signet coins are not mainnet bitcoin.",
+          "I know that a test network does not justify introducing real secrets.",
+          "I accept that I must repeat recovery before using real funds.",
         ],
       }),
       outlineLesson({
@@ -459,13 +459,13 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         summary:
           "The same mental models apply, but the chains, data directories, addresses, and coin values are entirely separate.",
         objective:
-          "Reliably identify which network you work on before any wallet or RPC operation.",
+          "Reliably identify which network you are using before any wallet or RPC operation.",
         status: "published",
         verification: "verified",
         referenceVersion: "BIP 325 / Bitcoin Core 31.1",
         concepts: [
           "Signet uses a separate chain and separate subdirectories of data.",
-          "Signet address and mainnet address are not interchangeable destinations.",
+          "Signet and mainnet addresses are not interchangeable destinations.",
           "The wallet name is not sufficient to prove the network; check the active chain context.",
         ],
         sources: [bip325, coreFiles],
@@ -495,13 +495,13 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       outlineLesson({
         id: "signet-receive-send",
         slug: "prvi-receive-i-send-na-signetu",
-        title: "First receive and send",
+        title: "First Signet receive and send",
         summary:
-          "Get the test coins, check the receipt, select the amount and send the Signet transaction.",
+          "Obtain test coins, confirm receipt, choose an amount, and send a Signet transaction.",
         objective:
-          "Follow the full flow from address to confirmed receipt and controlled dispatch.",
+          "Follow the complete workflow from generating an address to confirming receipt and sending a controlled test transaction.",
         reviewNote:
-          "Faucet, current GUI and fee/coin-selection flow should be checked immediately before publication.",
+          "The faucet, current GUI, and fee and coin-selection workflow should be checked immediately before publication.",
         sources: [bip325],
       }),
       outlineLesson({
@@ -531,9 +531,9 @@ const curriculumPhasesV2: CurriculumPhase[] = [
           "On Signet you can regularly repeat receiving, sending, backup, restore, and signing without moving real savings. Routine reduces psychological friction and reveals outdated instructions before the consequences are financial.",
         ],
         checklist: [
-          "I set a recurring recovery-drill schedule",
+          "I set a recurring recovery-drill schedule.",
           "I know what result to expect after a restore.",
-          "I'll record the version of the software and the date of each drill",
+          "I will record the software version and date of each drill.",
         ],
         callouts: [
           {
@@ -553,7 +553,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     summary:
       "Only after a repeatable Signet restore should you design the computer, encryption, backup, and recovery plan for real funds.",
     outcome:
-      "You'll have a documented single-sig system that you have proven through recovery testing before using mainnet.",
+      "You will have a documented single-sig system that you have proven through recovery testing before using mainnet.",
     status: "in-progress",
     estimatedTime: "3-5 h",
     lessons: [
@@ -564,7 +564,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         summary:
           "General-purpose hardware can be a reasonable signer or wallet device when you understand the risks introduced by combining or separating roles.",
         objective:
-          "Select the role of the device according to threat model, not according to the product label.",
+          "Choose the device's role based on your threat model, not its product label.",
         sources: [offlineSigning],
         reviewNote: standardReviewNote,
       }),
@@ -575,7 +575,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         summary:
           "Create a new descriptor wallet only after the device, network, and recovery plan have been defined.",
         objective:
-          "Create wallet without skipping notes about version, location and purpose.",
+          "Create the wallet and document its version, location, and purpose.",
         sources: [managingWallets],
         reviewNote: standardReviewNote,
       }),
@@ -595,7 +595,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         slug: "wallet-backup-i-redundancija",
         title: "Wallet backup and redundancy",
         summary:
-          "Built-in backup procedure, multiple reliable copies and clear separation of wallet from passphrase.",
+          "Use the built-in backup procedure, maintain multiple reliable copies, and keep the wallet separate from its passphrase.",
         objective:
           "Create a backup system in which losing one medium or location is not the end of recovery.",
         sources: [managingWallets],
@@ -633,7 +633,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     summary:
       "Separate wallets, IBD, pruning, storage, and migration so that a 2 TB drive and a dedicated server do not become false prerequisites.",
     outcome:
-      "You'll know which Bitcoin Core functions your setup needs and what resources each one actually requires.",
+      "You will know which Bitcoin Core functions your setup needs and what resources each one actually requires.",
     status: "in-progress",
     estimatedTime: "70 min",
     lessons: [
@@ -668,15 +668,15 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       retainLesson("2.6", {
         slug: "wallet-backup-vs-node-podaci",
         objective:
-          "Distinguish wallet backup from block, chainstate and other node data and avoid insecure copying of active file.",
+          "Distinguish wallet backups from block, chainstate, and other node data, and avoid copying active files unsafely.",
         sources: [coreFiles, managingWallets],
       }),
       outlineLesson({
         id: "node-migration",
         slug: "migracija-node-podataka-ili-nova-validacija",
-        title: "Migration of node data or new validation",
+        title: "Migrate node data or validate from scratch",
         summary:
-          "Copying verified data may save time, but must follow a secure shutdown and documented procedure.",
+          "Copying verified data may save time, but it requires a clean shutdown and a documented procedure.",
         objective:
           "Assess the tradeoffs between migrating node data and performing a fresh synchronization without confusing either process with wallet recovery.",
         reviewNote: standardReviewNote,
@@ -689,7 +689,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         summary:
           "An archival node, a pruned node, an online coordinator, and an offline signer are different roles with different requirements.",
         objective:
-          "Choose the smallest Core architecture that solves your particular problem.",
+          "Choose the simplest Core architecture that solves your specific problem.",
         status: "published",
         verification: "verified",
         concepts: [
@@ -709,7 +709,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     summary:
       "The online node knows the chain state and prepares the transaction; the offline signer holds the keys and signs the PSBT.",
     outcome:
-      "On Signet you will prepare, review, sign, finalize, and broadcast a transaction without exposing private keys online.",
+      "On Signet, you will prepare, review, sign, finalize, and broadcast a transaction without exposing private keys online.",
     status: "in-progress",
     estimatedTime: "3-4 h",
     lessons: [
@@ -736,7 +736,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         slug: "priprema-offline-signera",
         title: "Preparing an offline signer",
         summary:
-          "The general-purpose computer receives one documented function and remains separate from the network.",
+          "A general-purpose computer is assigned one documented role and remains disconnected from the network.",
         objective:
           "Prepare a signer without treating the air gap as a magical security guarantee.",
         reviewNote: standardReviewNote,
@@ -749,7 +749,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         summary:
           "The unsigned PSBT goes offline; the signed result returns online for finalization and broadcast.",
         objective:
-          "Complete the entire PSBT flow on Signet and check the amount, destination, fee, and change.",
+          "Complete the full PSBT workflow on Signet, verifying the amount, destination, fee, and change.",
         reviewNote:
           "The official tutorial is a reference, but the entire walkthrough should be reproduced from scratch in Bitcoin Core 31.1 before publication.",
         sources: [offlineSigning, psbt],
@@ -771,7 +771,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     id: "6",
     slug: "operativna-sigurnost",
     shortTitle: "Operational security",
-    title: "Operational security through time",
+    title: "Operational security over time",
     summary:
       "A setup remains safe only if its procedures, devices, documentation, and people remain dependable over time.",
     outcome:
@@ -784,9 +784,9 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         slug: "redovni-testovi-i-godisnji-recovery-drill",
         title: "Regular tests and annual recovery drill",
         summary:
-          "You're checking the media, passphrase, software version and recovery score before an emergency occurs.",
+          "Check your backup media, passphrase access, software version, and recovery results before an emergency occurs.",
         objective:
-          "Convert recovery from theory to periodic, measurable procedure.",
+          "Turn recovery from a theory into a periodic, measurable procedure.",
         reviewNote: standardReviewNote,
         sources: [managingWallets],
       }),
@@ -828,7 +828,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         summary:
           "The system must consider who can understand and implement recovery when you are not available.",
         objective:
-          "Include people and a legal context without premature technical complexity.",
+          "Account for people and legal context without introducing technical complexity too early.",
         verification: "planned",
         status: "planned",
         referenceVersion: "Planned with professional legal review",
@@ -843,7 +843,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     summary:
       "A 2-of-3 setup removes some single points of failure but adds descriptors, coordination, and new recovery obligations.",
     outcome:
-      "On Signet you will build and deliberately corrupt the 2-of-3 system before assessing if you need it at all.",
+      "On Signet, you will build and deliberately break a 2-of-3 setup before deciding whether you need one at all.",
     status: "in-progress",
     estimatedTime: "5-7 h",
     lessons: [
@@ -852,7 +852,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         slug: "zasto-i-kada-ne-multisig",
         title: "Why multisig — and when it does not make sense",
         summary:
-          "Multisig is a response to specific failure modes, not a badge for an advanced user.",
+          "Multisig is a response to specific failure modes, not a badge of sophistication.",
         objective:
           "Assess whether 2-of-3 improves your threat model enough to justify the added operational complexity.",
         sources: [multisigTutorial],
@@ -885,7 +885,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         slug: "failure-simulacije",
         title: "Failure simulations",
         summary:
-          "You deliberately lose the coordinator, one signer and one location to prove the limits of the system.",
+          "Deliberately lose access to the coordinator, one signer, and one location to prove the limits of the system.",
         objective:
           "Finish recovery without the original coordinator and with one unavailable signer.",
         sources: [multisigTutorial],
@@ -901,7 +901,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     summary:
       "A more complex spending policy should not automatically produce a chaotic recovery system.",
     outcome:
-      "You'll understand key path, script path and additional recovery artifacts before testing each branch on Signet.",
+      "You'll understand key-path spending, script-path spending, and the additional recovery artifacts before testing each branch on Signet.",
     status: "in-progress",
     estimatedTime: "To be estimated",
     lessons: [
@@ -910,9 +910,9 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         slug: "taproot-mentalni-model",
         title: "Taproot mental model",
         summary:
-          "Key path and script path are different authentication methods, not just new address format.",
+          "Key-path and script-path spending are different authorization methods, not just a new address format.",
         objective:
-          "Explain what Taproot changes without assuming that it is automatically better for each setup.",
+          "Explain what Taproot changes without assuming that it is automatically better for every setup.",
         sources: [descriptors],
         reviewNote: standardReviewNote,
       }),
@@ -942,9 +942,9 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         slug: "testiranje-svakog-recovery-patha",
         title: "Testing each recovery path",
         summary:
-          "The path that exists only in the descriptor, but has never been spent on Signet, has not yet been operationally proven.",
+          "A path that exists only in the descriptor but has never been exercised on Signet has not yet been operationally proven.",
         objective:
-          "Report and document each planned recovery branch before mainnet use.",
+          "Test and document each planned recovery branch before mainnet use.",
         sources: [descriptors, psbt],
         reviewNote: standardReviewNote,
       }),
@@ -958,7 +958,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     summary:
       "Isolated experiments for RPC, descriptors, PSBT, multisig, Taproot, regtest, and failure scenarios.",
     outcome:
-      "You'll be able to form a hypothesis, run an experiment without real funds, and record a verifiable result.",
+      "You'll be able to form a hypothesis, run an experiment without risking real funds, and record a verifiable result.",
     status: "in-progress",
     estimatedTime: "Ongoing",
     lessons: [
@@ -967,7 +967,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         slug: "kako-voditi-self-custody-eksperiment",
         title: "How to run a self-custody experiment",
         summary:
-          "Each experiment has a network, preconditions, expected result, real result and cleaning procedure.",
+          "Each experiment defines a network, preconditions, an expected result, an observed result, and a cleanup procedure.",
         objective:
           "Perform a repeatable test that cannot affect a wallet holding real funds.",
         reviewNote: standardReviewNote,
@@ -979,7 +979,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         summary:
           "Accurate, versioned experiments that show the difference between the node and the wallet context.",
         objective:
-          "Read help for the current version instead of blind copying the old command.",
+          "Read the help for your current version instead of blindly copying an outdated command.",
         sources: [coreRelease, coreRepository],
         reviewNote: standardReviewNote,
       }),
@@ -1000,7 +1000,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         summary:
           "Analysis of missing signatures, UTXO data, fees, and change without real funds.",
         objective:
-          "Recognize what PSBT still needs before signing or finalising.",
+          "Recognize what a PSBT still needs before signing or finalizing.",
         sources: [psbt],
         reviewNote: standardReviewNote,
       }),
@@ -1009,9 +1009,9 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         slug: "regtest-i-failure-scenariji",
         title: "Regtest and failure scenarios",
         summary:
-          "Local chain for quick, repeated tests and deliberate malfunctioning.",
+          "A local chain for quick, repeatable tests and deliberately induced failures.",
         objective:
-          "Isolate the experiment from public networks and control the blocks and test UTXOs themselves.",
+          "Isolate the experiment from public networks and control blocks and test UTXOs directly.",
         reviewNote: standardReviewNote,
       }),
       outlineLesson({
@@ -1019,7 +1019,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         slug: "community-pitanja-i-clarifications",
         title: "Community questions and clarifications",
         summary:
-          "Real user questions become version supplements with a specific lesson.",
+          "Real user questions become versioned clarifications tied to a specific lesson.",
         objective:
           "Distinguish the explanation from changing the procedure and tie it to the version and primary source.",
         verification: "planned",
@@ -1059,7 +1059,7 @@ const newBackupAfterEncryption = outlineLesson({
   estimatedTime: "15-20 min",
   explanation: [
     "Wallet encryption protects private keys in the wallet file, but introduces a passphrase that cannot be reset if you lose it. It does not protect against keyloggers on a compromised computer and does not hide all public wallet data.",
-    "After encryption, Bitcoin Core 31.1 empties the keypool and generates a new HD seed. A backup created before encryption therefore cannot restore bitcoin received to keys derived from the new seed. The new backup is not administrative housekeeping; it is the new recovery foundation.",
+    "After encryption, Bitcoin Core 31.1 empties the keypool and generates a new HD seed. A backup created before encryption therefore cannot recover bitcoin received at addresses derived from the new seed. The new backup is not administrative housekeeping; it is the new recovery foundation.",
   ],
   walkthrough: {
     title: "Create → encrypt → new backup",
@@ -1068,7 +1068,7 @@ const newBackupAfterEncryption = outlineLesson({
     steps: [
       "Confirm that the active chain is `signet` and that `signet-training-wallet` is loaded.",
       "Encrypt the wallet with a dedicated test passphrase.",
-      "Read Core's message about empty keypool, new HD seed and mandatory new backup.",
+      "Read Core's message about the empty keypool, the new HD seed, and the mandatory new backup.",
       "Immediately create a new backup through `backupwallet` or the corresponding GUI action.",
       "Label the backup with the network, wallet, date, and Bitcoin Core version — without storing the passphrase with the same artifact.",
     ],
@@ -1076,7 +1076,7 @@ const newBackupAfterEncryption = outlineLesson({
   codeBlocks: [
     {
       id: "signet-encrypt-wallet",
-      title: "Encrypt Test wallet",
+      title: "Encrypt the test wallet",
       code: 'bitcoin-cli -signet -rpcwallet="signet-training-wallet" encryptwallet "TEST-PASSPHRASE-ONLY"',
       explanation:
         "The placeholder in this example is not a passphrase. Use a separate test passphrase that will never protect real funds.",
@@ -1127,12 +1127,12 @@ const entropyDeepDive = outlineLesson({
   estimatedTime: "12-18 min",
   optional: true,
   explanation: [
-    "Entropy is the unpredictability from which a secret number arises. People are poor generators of such unpredictability: patterns, favorite words, keyboard paths, and attempts to make something look random are often predictable.",
+    "Entropy is the unpredictability used to generate a secret number. People are poor sources of such unpredictability: patterns, favorite words, keyboard paths, and attempts to make something look random are often predictable.",
     "Bitcoin Core calls its strong RNG when creating a key. In Bitcoin Core 31.1, this process uses the operating system's cryptographic generator, Bitcoin Core's internal RNG state, and additional sources that it mixes before validating the resulting bytes as a secp256k1 private key.",
     "Your job is not to invent words, type a few random-looking characters, or add a creative flourish. Your job is to use verified software on a healthy system and then protect the resulting recovery model.",
   ],
   concepts: [
-    "OS CSPRNG is a systemic source of cryptographic randomness.",
+    "The operating system's CSPRNG provides a system-level source of cryptographic randomness.",
     "Core's `GetStrongRandBytes` mixes fresh operating-system randomness with internal and additional sources on every call.",
     "`CKey::MakeNewKey` repeats generation until the resulting 32-byte number is a valid secp256k1 private key.",
   ],
@@ -1178,13 +1178,13 @@ const backupFreshnessLesson = outlineLesson({
   ],
   concepts: [
     "Redundancy: number, media, locations and failure modes.",
-    "Freshness: has there been an operation after the backup that requires a new version.",
+    "Freshness: has an operation since the backup made a new one necessary?",
     "Metadata freshness: labels and other wallet data can be newer than the last copy.",
   ],
   checklist: [
     "I know how many independent copies I want to keep",
     "I know when encryption or a passphrase change requires a new backup",
-    "After the migration, I'll back up any wallet that's created.",
+    "After a migration, I will back up every newly created wallet",
     "In a recovery drill I also check metadata, not just the balance",
   ],
   sources: [managingWallets, coreFiles],
@@ -1194,7 +1194,7 @@ const backupFreshnessLesson = outlineLesson({
 const cloudPrivacyLesson = outlineLesson({
   id: "encrypted-backup-privacy",
   slug: "digitalni-i-cloud-backup-privacy-model",
-  title: "Digital and cloud backups: privacy model",
+  title: "Digital and cloud backups: a privacy model",
   summary:
     "Encryption may make private-key theft harder, but it does not make a wallet backup free of privacy risk.",
   objective:
@@ -1216,9 +1216,9 @@ const cloudPrivacyLesson = outlineLesson({
     },
   ],
   checklist: [
-    "Distinguishing the risk of stealing keys from privacy leaks",
-    "Cloud backup I do not treat as universal best practice",
-    "The wallet backup and its passphrase are not stored in the same trust domain",
+    "I can distinguish the risk of key theft from the risk of privacy leakage",
+    "I do not treat cloud backups as a universal best practice",
+    "I keep the wallet backup and its passphrase in separate trust domains",
   ],
   sources: [managingWallets, coreFiles],
   origin: "New privacy layer backup model in curriculum v2.1",
@@ -1283,9 +1283,9 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         summary:
           "BIP39 with securely generated entropy can have very high cryptographic security; the tradeoff is adopting an entire portable recovery model rather than a single standard in isolation.",
         objective:
-          "Compare file-based and mnemonic recovery without claiming that one universally has less secrets.",
+          "Compare file-based and mnemonic recovery without claiming that one approach always involves fewer secrets.",
         explanation: [
-          "This curriculum uses a file-based recovery model with fewer user-facing decisions during wallet creation, rather than a portable mnemonic recovery model. This is not a claim that a file-based model necessarily has fewer secrets.",
+          "This curriculum uses a file-based recovery model because it presents fewer user-facing decisions during wallet creation. It does not claim that file-based recovery necessarily involves fewer secrets than a portable mnemonic model.",
           "BIP39 without an additional passphrase can have one critical secret: the mnemonic. An encrypted Bitcoin Core wallet typically involves both a wallet backup and an encryption passphrase. Security therefore depends on generation, backup quality, metadata, compatibility, derivation assumptions, physical storage, and human error.",
           "The problem is not BIP39 itself. Problems arise when entropy is weak, users invent words themselves, or the recovery procedure fails to preserve everything a compatible tool needs to reconstruct the wallet.",
         ],
@@ -1317,9 +1317,10 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         id: "signet-install-verify",
         slug: "instaliraj-i-provjeri-bitcoin-core",
         title: "Install and check Bitcoin Core",
-        summary: "Official package, checksum and signature are coming before wallet.",
+        summary:
+          "Verify the official package, checksum, and signatures before creating a wallet.",
         objective:
-          "Download Core from the official source and check the package before starting.",
+          "Download Core from the official source and verify the package before starting.",
         status: "published",
         verification: "verified",
         referenceVersion: CORE_REFERENCE_VERSION,
@@ -1331,11 +1332,11 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         walkthrough: {
           title: "Official package before wallet",
           steps: [
-            "Confirm you're taking Bitcoin Core from the official bitcoincore.org website.",
+            "Confirm that you are downloading Bitcoin Core from the official bitcoincore.org website.",
             "Choose a package for your operating system and architecture.",
             "Download the current `SHA256SUMS` file and its associated signatures.",
             "Compare the package's local SHA-256 hash with the official list.",
-            "Check signatures according to official instructions before installation.",
+            "Verify the signatures by following the official instructions before installation.",
           ],
         },
         checklist: [
@@ -1367,7 +1368,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
             title: "Check Active Network",
             code: "bitcoin-cli -signet getblockchaininfo",
             explanation:
-              "Before each practical exercise, check that the output contains `\"chain\": \"signet\"`.",
+              'Before each practical exercise, check that the output contains `"chain": "signet"`.',
           },
         ],
         sources: [bip325, coreFiles],
@@ -1380,12 +1381,12 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         summary:
           "Create an unmistakably test-only descriptor wallet, check its state, and stop before generating the first receiving address.",
         objective:
-          "Create clearly a test descriptor wallet without any interference with the future mainnet setup.",
+          "Create an unmistakably test-only descriptor wallet, fully separate from any future mainnet setup.",
         explanation: [
           "The name `signet-training-wallet` deliberately describes the network and purpose. This wallet exists only for training and must never become a mainnet wallet.",
         ],
         walkthrough: {
-          title: "Create clearly a test wallet",
+          title: "Create an unmistakably test-only wallet",
           steps: [
             "Confirm once more that the active chain is `signet`.",
             "Create a wallet named `signet-training-wallet`.",
@@ -1399,13 +1400,13 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
             title: "Create Signet training wallet",
             code: 'bitcoin-cli -signet createwallet "signet-training-wallet"',
             explanation:
-              "Obviously, the test name reduces the possibility of replacing the network and recovery artifacts.",
+              "An explicit test-only name reduces the risk of confusing networks or recovery artifacts.",
           },
         ],
         callouts: [
           {
             kind: "warning",
-            title: "Don't turn Signet wallet into mainnet wallet",
+            title: "Do not turn a Signet wallet into a mainnet wallet",
             body: "Mainnet gets a new network context, a new wallet, and new recovery artifacts. Signet exists to teach the procedure, not to become a real-funds wallet later.",
           },
         ],
@@ -1414,7 +1415,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
       newBackupAfterEncryption,
       entropyDeepDive,
       reuseV2Lesson("signet-receive-send", {
-        title: "Receive, send, fee and change to Signet",
+        title: "Receive and send on Signet: fees and change",
         summary:
           "After creating the new backup, receive test coins, send a transaction, and review the destination, amount, fee, and change.",
         objective:
@@ -1428,7 +1429,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         lastReviewed: LAST_TECHNICAL_REVIEW,
         title: "Remove the active wallet, restore it, and unlock it",
         summary:
-          "Controlled removal of the loaded test wallet, restoration from the post-encryption backup, and verification of the passphrase and expected state.",
+          "Safely remove the loaded test wallet, restore it from the post-encryption backup, and verify the passphrase and expected state.",
         objective:
           "Prove that the new post-encryption backup restores a wallet you can unlock and verify.",
         explanation: [
@@ -1452,14 +1453,14 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
             title: "Restoration of the new backup",
             code: 'bitcoin-cli -signet restorewallet "signet-training-restored" "/SAFE-PATH/signet-training-after-encryption.dat"',
             explanation:
-              "The restored wallet gets a new, unmistakably test-only name so the result stays separate from the removed active wallet.",
+              "The restored wallet receives a new, unmistakably test-only name so it remains separate from the wallet you removed.",
           },
           {
             id: "unlock-restored-signet-wallet",
             title: "Temporarily unlock the restored wallet",
             code: 'bitcoin-cli -signet -rpcwallet="signet-training-restored" walletpassphrase "ENTER-TEST-PASSPHRASE" 120',
             explanation:
-              "Timeout limits how long decryption key remains in memory.",
+              "The timeout limits how long the decryption key remains in memory.",
           },
         ],
         sources: [managingWallets, coreFiles],
@@ -1491,7 +1492,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         referenceVersion: CORE_REFERENCE_VERSION,
         estimatedTime: "5-10 min",
         explanation: [
-          "This checkpoint does not unlock the contents and does not assign a certificate. It just separates the read theory from the process you really did.",
+          "This checkpoint does not unlock content or award a certificate. It separates theory you have read from a process you have actually performed.",
           "If you can't do this again without guessing, stay on Signet.",
         ],
         checklist: signetReadinessChecklist,
@@ -1530,8 +1531,8 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
   {
     id: "4",
     slug: "odaberi-custody-arhitekturu",
-    shortTitle: "Select Architecture",
-    title: "Select architecture according to threat model",
+    shortTitle: "Choose an architecture",
+    title: "Choose an architecture that fits your threat model",
     summary:
       "Simple online wallet and offline signer are two legitimate responses to different risks.",
     outcome:
@@ -1546,15 +1547,15 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         summary:
           "Operational simplicity and isolated signing keys address different problems.",
         objective:
-          "Choose Path A or Path B according to the amount, purpose, available devices, and your ability to maintain the setup.",
+          "Choose Path A or Path B based on the amount, purpose, available devices, and your ability to maintain the setup.",
         status: "published",
         verification: "verified",
         referenceVersion: CORE_REFERENCE_VERSION,
         estimatedTime: "12-16 min",
         explanation: [
           "Path A is a simple online, encrypted Bitcoin Core wallet. It is reasonable for smaller amounts, a spending wallet, or a situation in which additional devices and transfers would increase the probability of human error.",
-          "Path B is an online Core with watch-only wallet and separate offline Core signer. It solves the specific failure mode: compromise of a networked device that would otherwise hold private keys.",
-          "Path B is not automatically safer for everyone. If you cannot maintain two devices, descriptor, PSBT transport and recovery of each role, complexity can undo some of the benefits.",
+          "Path B uses an online Bitcoin Core node with a watch-only wallet and a separate offline Core signer. It addresses a specific failure mode: the compromise of a networked device that would otherwise hold private keys.",
+          "Path B is not automatically safer for everyone. If you cannot maintain two devices, descriptors, PSBT transport, and recovery procedures for each role, the added complexity can undo some of the benefits.",
         ],
         callouts: [
           {
@@ -1575,8 +1576,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         id: "architecture-path-a",
         slug: "path-a-online-encrypted-core-wallet",
         title: "Path A — Online encrypted Bitcoin Core wallet",
-        summary:
-          "One device, a clear backup and a smaller number of operational crossings.",
+        summary: "One device, a clear backup, and fewer operational handoffs.",
         objective:
           "Recognize when a simpler hot wallet can be a safer overall system.",
         status: "published",
@@ -1585,7 +1585,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         estimatedTime: "8-12 min",
         explanation: [
           "Path A keeps private keys on a network-connected device. Encryption protects keys at rest, but it does not eliminate malware, keyloggers, or compromise of the active system.",
-          "Its advantage is a smaller number of components, transfers, and recovery artifacts. For a threat model where operational simplicity reduces the overall probability of error, it is a legitimate choice.",
+          "Its advantage is that it requires fewer components, transfers, and recovery artifacts. When operational simplicity reduces the overall risk of error, it is a legitimate choice.",
         ],
         sources: [managingWallets],
       }),
@@ -1608,7 +1608,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
       reuseV2Lesson("2.8", {
         explanation: [
           "The watch-only wallet coordinates and tracks activity without private keys. The offline wallet signs. PSBTs carry the transaction and required metadata between the two roles.",
-          "USB or other transport is not automatically trusted just because it connects the air-gapped system. Files are reviewed, the media is controlled, and signer confirms destination, amount, fee and change.",
+          "A USB drive or other transport medium is not automatically trusted simply because it connects the air-gapped system. Review the files, control the medium, and confirm the destination, amount, fee, and change on the signer.",
         ],
         sources: [offlineSigning, descriptors, psbt],
       }),
@@ -1637,7 +1637,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
     summary:
       "Signet proves the procedure; a small mainnet test proves the real network and the setup's configuration.",
     outcome:
-      "You will separate the mainnet wallet from training and test receiving and spending with an amount that is clearly non-critical for you.",
+      "You will keep the mainnet wallet separate from training, then test receiving and spending with an amount you can afford to lose.",
     status: "in-progress",
     estimatedTime: "2-4 h",
     lessons: [
@@ -1648,7 +1648,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         summary:
           "Mainnet is a deliberately separate setup: a different chain context, a new wallet, and new recovery artifacts.",
         objective:
-          "Separate the learned procedure from test keys, names and files.",
+          "Separate the procedure you learned from all test keys, names, and files.",
         status: "published",
         verification: "verified",
         referenceVersion: CORE_REFERENCE_VERSION,
@@ -1693,7 +1693,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
           "I've finished a full Signet training cycle",
           "The mainnet wallet and recovery artifacts are completely separate from Signet",
           "A new backup was created after encryption",
-          "I know if backup returns all keys, labels and metadata needed",
+          "I know whether the backup restores all the keys, labels, and metadata I need",
           "I can explain why I chose Path A or Path B",
           "Recovery can be performed without the original active wallet",
         ],
@@ -1714,18 +1714,18 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         summary:
           "A small receive-and-spend cycle confirms that the real network and setup configuration work correctly.",
         objective:
-          "Test the entire mainnet operating flow with an amount that is clearly non-critical for you.",
+          "Test the entire mainnet workflow with an amount you can afford to lose.",
         estimatedTime: "30-60 min + confirmations",
         walkthrough: {
-          title: "First real but small cycle",
+          title: "First real, small-value cycle",
           steps: [
             "Check that the active chain says 'main' and that a new mainnet wallet has been loaded.",
-            "Generate a receiving address and check it according to your procedure.",
-            "Send an amount that is clearly non-critical for you; the curriculum does not prescribe a number of sats or euros.",
+            "Generate a receiving address and verify it using your documented procedure.",
+            "Send an amount you can afford to lose; the curriculum does not prescribe a specific value.",
             "Verify the receipt through your own node.",
             "Make a small spend and check the destination, amount, fee, and change.",
             "Check again if the backup/recovery plan corresponds to the current wallet state.",
-            "Only then can you think of a greater amount.",
+            "Only then should you consider using a larger amount.",
           ],
         },
         callouts: [

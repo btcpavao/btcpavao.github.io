@@ -94,28 +94,28 @@ export const curriculumModules: CurriculumModule[] = [
     id: "0",
     title: "Before the software: what are we actually protecting?",
     subtitle:
-      "The safety model comes before the selection of wallet, devices or backup.",
+      "Your security model comes before choosing a wallet, device, or backup method.",
     level: "beginner",
     status: "published",
     estimatedTime: "35 min",
-    prerequisites: ["No preconditions"],
+    prerequisites: ["None"],
     videoUrl: null,
     warnings: [
-      "This module does not require installation or real Bitcoin. The aim is to draw the system and its risks first.",
+      "This module requires no software installation or real bitcoin. The goal is to map the system and its risks first.",
     ],
     checklist: [
-      "I can explain the difference between private key, wallet and node",
+      "I can explain the difference between a private key, a wallet, and a node.",
       "I've written down three risks that are most important to me.",
       "I know which part of the system I still don't understand.",
     ],
     lessons: [
       {
         id: "0.1",
-        title: "What's Bitcoin self-custody?",
+        title: "What is Bitcoin self-custody?",
         summary:
           "Self-custody means that you control the keys that authorize spending, but a reliable system also includes state verification, backup, and recovery.",
         status: "published",
-        what: "We separate the roles of the private key, wallet, node, blockchain, UTXO, signing and publishing the transaction.",
+        what: "We separate the roles of private keys, wallets, nodes, the blockchain, UTXOs, transaction signing, and transaction broadcasting.",
         why: "If you know what each component does, you can change or restore one part without guessing about the whole system.",
         risk: "Confusing a wallet with a node, or a backup with a passphrase, can create a false sense of security and an unusable recovery plan.",
         concepts: [
@@ -128,9 +128,9 @@ export const curriculumModules: CurriculumModule[] = [
         technicalDetails:
           "Holding keys and verifying the blockchain are two different security functions. An offline signer can store and use private keys without a copy of the blockchain, while an online node can verify and broadcast transactions without holding private keys.",
         checklist: [
-          "I can explain in my own words what a private key does",
-          "I can explain why a wallet and a node are not the same thing",
-          "I can distinguish signing from broadcasting",
+          "I can explain in my own words what a private key does.",
+          "I can explain why a wallet and a node are not the same thing.",
+          "I can distinguish signing from broadcasting.",
         ],
         sources: [bitcoinWhitepaper, coreRepository],
         videoUrl: null,
@@ -142,40 +142,40 @@ export const curriculumModules: CurriculumModule[] = [
           "A threat model is not a list of every possible disaster. It is a decision about which risks you will protect against, in what order, and at what cost.",
         status: "published",
         what: "We examine device loss, media failure, a forgotten passphrase, malware, a compromised online computer, supply-chain and firmware risk, physical theft, human error, and inadequate backups.",
-        why: "There is no universally best setup. This curriculum optimizes for long-term savings, understanding, less confidence in third parties and repeatable recovery.",
-        risk: "A system that protects from very rare attacks, but increases the probability of daily human error, can overall be worse.",
+        why: "There is no universally best setup. This curriculum is designed for long-term savings, clear understanding, less reliance on third parties, and repeatable recovery.",
+        risk: "A system that protects against very rare attacks but increases the risk of everyday human error can be worse overall.",
         concepts: [
           "Probability: how realistic is the scenario in your environment?",
           "Consequence: what happens if the scenario occurs?",
-          "Detection: How will you know that the problem occurred?",
-          "Recovery: Which tested procedure returns the system to a usable state?",
+          "Detection: how will you know that the problem occurred?",
+          "Recovery: which tested procedure returns the system to a usable state?",
         ],
         notes: [
           "Your threat model changes with the amount secured, your circumstances and locations, the people involved in recovery, and the technology you use.",
         ],
         checklist: [
-          "I wrote down the risk with the highest probability",
+          "I wrote down the risk with the highest probability.",
           "I wrote down the risk with the greatest consequence.",
-          "For both risks I know how to test recovery",
+          "For both risks, I know how to test recovery.",
         ],
         sources: [managingWallets],
         videoUrl: null,
       },
       {
         id: "0.3",
-        title: "Security Is Not Just Cryptography",
+        title: "Security is not just cryptography",
         summary:
-          "Cryptography can be impeccable and the operating system is still fragile if the user allows unclear, unverified or irreversible steps.",
+          "Cryptography can be impeccable while the overall system remains fragile when users face unclear, unverified, or irreversible steps.",
         status: "published",
-        what: "We look at the whole system: devices, people, procedures, markings, locations, checking habits and decision-making methods.",
-        why: "The most important protection is often not a new cryptographic function but a clear procedure that you can repeat under stress.",
-        risk: "Too many secrets, unlabelled backups, undocumented derivation paths, and recovery procedures that exist only in someone's memory create single points of failure.",
+        what: "We look at the whole system: devices, people, procedures, labels, locations, verification habits, and decision-making methods.",
+        why: "The most important protection is often not a new cryptographic feature, but a clear procedure that you can repeat under stress.",
+        risk: "Too many secrets, unlabeled backups, undocumented derivation paths, and recovery procedures that exist only in someone's memory create single points of failure.",
         notes: [
           "Complexity is a security cost. Add it only when it solves a clearly identified problem.",
         ],
         checklist: [
-          "I can specify an operational error that cryptography does not prevent",
-          "I know who besides me must understand the recovery procedure",
+          "I can identify an operational error that cryptography does not prevent.",
+          "I know who, besides me, must understand the recovery procedure.",
         ],
         sources: [managingWallets],
         videoUrl: null,
@@ -186,7 +186,7 @@ export const curriculumModules: CurriculumModule[] = [
     id: "1",
     title: "Why does this guide start with Bitcoin Core?",
     subtitle:
-      "A fair comparison of security philosophies, number of decisions and operational tradeoffs.",
+      "A fair comparison of security philosophies, decision load, and operational tradeoffs.",
     level: "beginner",
     status: "published",
     estimatedTime: "55 min",
@@ -196,8 +196,8 @@ export const curriculumModules: CurriculumModule[] = [
       "This module does not claim that other wallets are insecure. It compares their user experience and assumptions for a specific threat model.",
     ],
     checklist: [
-      "I understand why a purpose-built device can be part of a threat model",
-      "I can explain the strengths of hardware wallets, Sparrow, and Electrum",
+      "I understand why a purpose-built device can be part of a threat model.",
+      "I can explain the strengths of hardware wallets, Sparrow, and Electrum.",
       "I know why this curriculum begins with fewer decisions.",
     ],
     lessons: [
@@ -207,9 +207,9 @@ export const curriculumModules: CurriculumModule[] = [
         summary:
           "A hardware wallet isolates signing keys and makes self-custody significantly easier for many users. At the same time, it introduces a specialized device, firmware, supply-chain risk, and dependence on the vendor's security practices into the threat model.",
         status: "published",
-        what: "We separate the real advantages of an isolated signer from the risks arising from a targeted, specialized device.",
-        why: "The choice does not begin with which product is 'the safest', but with which risks we want to reduce and which new dependencies we are willing to accept.",
-        risk: "The wrong conclusion would be that hardware wallet is automatically insecure. This is about choosing architecture, not universal judgment.",
+        what: "We separate the real advantages of an isolated signer from the dependencies and risks introduced by a targeted, specialized device.",
+        why: "The choice does not begin with which product is 'the safest,' but with which risks we want to reduce and which new dependencies we are willing to accept.",
+        risk: "The wrong conclusion would be that a hardware wallet is automatically insecure. This is about choosing an architecture, not making a universal judgment.",
         notes: [
           "A hardware wallet can be a very reasonable choice. This tutorial first teaches a system that can be built and restored without depending on a vendor-specific device.",
         ],
@@ -228,11 +228,11 @@ export const curriculumModules: CurriculumModule[] = [
         summary:
           "Sparrow is a powerful coordinator for hardware wallets, PSBTs, multisig, and descriptors. This flexibility gives experienced users control, but exposes beginners to more security-relevant decisions.",
         status: "published",
-        what: "We view policy type, script type, keystore, mnemonic standard and how signer connects as separate decisions.",
-        why: "When you see the number of decisions, you can easily understand why a flexible tool can be excellent at a later stage, but more demanding as an initial mental map.",
+        what: "We treat the policy type, script type, keystore, mnemonic standard, and signer connection as separate decisions.",
+        why: "Seeing each decision separately makes it clear why a flexible tool can be excellent at a later stage yet more demanding as a beginner's first mental model.",
         risk: "Manually choosing mnemonic words is not a reliable source of entropy. A trusted tool should generate the randomness; a person should not invent it.",
         warnings: [
-          "Never enter real seed words into a web page, a message, a note in a cloud or a demonstration.",
+          "Never enter real seed words into a web page, message, cloud note, or demonstration.",
         ],
         sources: [
           {
@@ -248,7 +248,7 @@ export const curriculumModules: CurriculumModule[] = [
         summary:
           "Electrum is a mature lightweight wallet with its own mnemonic system. Its server model, seed backup, and password behavior differ from Bitcoin Core.",
         status: "published",
-        what: "We separate the Electrum seed, the encryption of the local wallet file and the way the lightweight wallet gets the data on blockchain.",
+        what: "We separate the Electrum seed, local wallet-file encryption, and the way a lightweight wallet obtains blockchain data.",
         why: "The comparison shows that two high-quality tools can use different recovery models and require different knowledge from users.",
         risk: "Assuming that all mnemonic formats are inherently the same can complicate recovery. Electrum's seed system is not the same as a standard BIP39 workflow.",
         sources: [
@@ -263,7 +263,7 @@ export const curriculumModules: CurriculumModule[] = [
         id: "1.4",
         title: "Why doesn't this curriculum start with mnemonic words?",
         summary:
-          "BIP39 is a standard for converting computer-generated entropy into mnemonic and then into seed. Its great advantages are portability and broad compatibility.",
+          "BIP39 is a standard for converting computer-generated entropy into a mnemonic phrase and then into a seed. Its main advantages are portability and broad compatibility.",
         status: "published",
         what: "We distinguish entropy, the mnemonic phrase, the optional BIP39 passphrase, and the seed from which the wallet derives keys.",
         why: "A mnemonic is an operational secret that must be stored safely and tested through recovery. This first path uses the Bitcoin Core wallet model instead.",
@@ -286,14 +286,14 @@ export const curriculumModules: CurriculumModule[] = [
           "The initial Core workflow is short: create a wallet, encrypt it, back it up, and restore it. Each step has a clear place in the recovery model.",
         status: "published",
         what: "First, we build a simple test system that we can explain from key creation through a verified restore.",
-        why: "A smaller number of initial decisions leave more attention to what should not be skipped: encryption, backup, recovery and documentation.",
+        why: "Fewer initial decisions leave more room to focus on what should not be skipped: encryption, backup, recovery, and documentation.",
         risk: "Simpler onboarding is not automatically complete security. Malware, compromised OS, physical security and bad procedure remain real risks.",
         technicalDetails:
-          "Bitcoin Core creates descriptor wallets using its own secure RNG process, can encrypt private keys with a passphrase, create a wallet backup, and restore it. File details, the Bitcoin Core version, and descriptors remain part of the documented recovery package.",
+          "Bitcoin Core creates descriptor wallets using its own secure RNG process, can encrypt private keys with a passphrase, create wallet backups, and restore them. File details, the Bitcoin Core version, and descriptors remain part of the documented recovery package.",
         checklist: [
           "I can name all four initial Core steps.",
-          "I can explain what every step protects",
-          "I know I'll only use the test wallet until recovery's checked.",
+          "I can explain what each step protects.",
+          "I know I should use only the test wallet until I have verified recovery.",
         ],
         sources: [managingWallets],
         videoUrl: null,
@@ -302,7 +302,7 @@ export const curriculumModules: CurriculumModule[] = [
   },
   {
     id: "2",
-    title: "Bitcoin Core: A fundamental mental model",
+    title: "Bitcoin Core: a fundamental mental model",
     subtitle:
       "The node, wallet, blockchain, and signer each receive a clear, separate role.",
     level: "beginner",
@@ -311,12 +311,12 @@ export const curriculumModules: CurriculumModule[] = [
     prerequisites: ["Module 0", "Module 1"],
     videoUrl: null,
     warnings: [
-      "RPC examples in this module use Signet and an obviously test-only wallet name. Do not copy commands into a setup that holds real funds without understanding every parameter.",
+      "RPC examples in this module use Signet and a clearly test-only wallet name. Do not copy commands into a setup that holds real funds without understanding every parameter.",
     ],
     checklist: [
-      "I can draw online node and offline signer as two separate roles",
-      "I understand why an offline signer does not need to sync the blockchain",
-      "I can distinguish a hot wallet, a watch-only wallet, and a signing wallet",
+      "I can draw an online node and an offline signer as two separate roles.",
+      "I understand why an offline signer does not need to sync the blockchain.",
+      "I can distinguish a hot wallet, a watch-only wallet, and a signing wallet.",
     ],
     lessons: [
       {
@@ -327,7 +327,7 @@ export const curriculumModules: CurriculumModule[] = [
         status: "published",
         what: "We separate consensus validation from key management.",
         why: "You can use a node without private keys, several wallets with the same node, or an offline wallet without an active node.",
-        risk: "If you call everything 'wallet', it becomes unclear what to back up, what can be online and which component even checks blockchain.",
+        risk: "If you call everything a 'wallet,' it becomes unclear what to back up, what can safely remain online, and which component verifies the blockchain.",
         sources: [coreRepository],
         videoUrl: null,
       },
@@ -337,7 +337,7 @@ export const curriculumModules: CurriculumModule[] = [
         summary:
           "The node answers questions about the chain and network. The wallet answers questions about your own descriptors, addresses, UTXOs, and signing options.",
         status: "published",
-        what: "In the Signet environment we compare node RPC and wallet RPC without using classified data.",
+        what: "In the Signet environment, we compare node RPC and wallet RPC without using sensitive data.",
         why: "The different RPC contexts show that the node and wallet are not simply two views of the same interface, but separate responsibilities.",
         risk: "A command directed at the wrong wallet or network can produce misleading results. Before each action, check the selected network and active wallet.",
         badges: ["SIGN", "RPC", "TEST EXAMPLE"],
@@ -351,32 +351,36 @@ export const curriculumModules: CurriculumModule[] = [
             parameters: [
               {
                 name: "-signet",
-                explanation: "Selects the Signet test network instead of mainnet.",
+                explanation:
+                  "Selects the Signet test network instead of mainnet.",
               },
               {
                 name: "getblockchaininfo",
-                explanation: "Returns the state of the chain and the node's synchronization status.",
+                explanation:
+                  "Returns the state of the chain and the node's synchronization status.",
               },
             ],
           },
           {
             id: "wallet-info",
-            title: "Check clearly test wallet",
+            title: "Check an unmistakably test-only wallet",
             code: 'bitcoin-cli -signet -rpcwallet="test-wallet" getwalletinfo',
             explanation:
               "Reads information from the wallet named test-wallet in a Signet environment.",
             parameters: [
               {
-                name: "-rpcwallet=\"test-wallet\"",
-                explanation: "Select test wallet; name is not a secret.",
+                name: '-rpcwallet="test-wallet"',
+                explanation:
+                  "Selects the test wallet; the wallet name is not a secret.",
               },
               {
                 name: "getwalletinfo",
-                explanation: "Returns status and properties of the selected wallet.",
+                explanation:
+                  "Returns status and properties of the selected wallet.",
               },
             ],
             warning:
-              "If a test-wallet does not exist or is not loaded, the command will cause an error. Do not change or delete the existing wallet.",
+              "If `test-wallet` does not exist or is not loaded, the command will return an error. Do not modify or delete an existing wallet.",
           },
         ],
         sources: [
@@ -394,8 +398,8 @@ export const curriculumModules: CurriculumModule[] = [
           "Both models fully verify Bitcoin's rules. A pruned node deletes older blocks after validation and retains a limited data window.",
         status: "published",
         what: "We choose between long-term storage of entire block history and reduced disk consumption with full validation.",
-        why: "Pruning allows self-checking on a more modest hardware, but limits the re-use of old blocks and some recovery rescanning scenarios.",
-        risk: "Pruned does not mean 'light verification'. The node still downloads and verifies the chain; the difference is how much historical block data remains on disk afterward.",
+        why: "Pruning enables independent verification on more modest hardware, but limits access to older blocks and some recovery rescanning scenarios.",
+        risk: 'Pruned does not mean "light verification." The node still downloads and verifies the chain; the difference is how much historical block data remains on disk afterward.',
         sources: [
           {
             label: "Bitcoin Core: Running a full node",
@@ -406,19 +410,19 @@ export const curriculumModules: CurriculumModule[] = [
       },
       {
         id: "2.4",
-        title: "Online Core vs Full Offline Core",
+        title: "Online Core vs. fully offline Core",
         summary:
           "Online Bitcoin Core receives network data, verifies UTXO state, and broadcasts transactions. Offline Bitcoin Core can hold a descriptor wallet with private keys and sign PSBTs.",
         status: "published",
-        what: "We share the system according to the least necessary powers: the online part knows the state, the offline part can sign.",
-        why: "The private key does not have to be exposed to a networked computer to keep Bitcoin usable.",
+        what: "We split the system using the principle of least privilege: the online component knows the network state, while the offline component can sign.",
+        why: "Private keys do not have to be exposed to a networked computer for you to use bitcoin securely.",
         risk: "An air gap is not magical protection. Malicious removable media, a deceptive PSBT, or an unverified destination address can carry risk across the boundary.",
         sources: [psbt],
         videoUrl: null,
       },
       {
         id: "2.5",
-        title: "Why offline signer does not have to sync blockchain",
+        title: "Why an offline signer does not need to sync the blockchain",
         summary:
           "A PSBT can carry an unsigned transaction and the data required for review and signing. The signer does not need to store the entire blockchain.",
         status: "published",
@@ -454,9 +458,9 @@ export const curriculumModules: CurriculumModule[] = [
         status: "published",
         what: "We treat a descriptor as a description of the spending and derivation model, not as a synonym for a private key.",
         why: "Descriptors make watch-only wallets, multisig, public-configuration backups, and precise recovery easier to manage.",
-        risk: "descriptor can contain sensitive private information if you include xpriv/WIF. This tutorial will never ask you to enter them on the website.",
+        risk: "A descriptor can contain sensitive private information if it includes an xpriv or WIF key. This tutorial will never ask you to enter either one on the website.",
         warnings: [
-          "A public descriptor can reveal all derived wallet addresses and harm privacy. A private descriptor can enable theft. Treat both according to their contents.",
+          "A public descriptor can reveal all derived wallet addresses and harm privacy. A private descriptor can enable theft. Handle each according to its sensitivity.",
         ],
         sources: [descriptors],
         videoUrl: null,
@@ -468,12 +472,12 @@ export const curriculumModules: CurriculumModule[] = [
           "A hot wallet keeps keys online, a watch-only wallet tracks funds without private keys, and an offline signer keeps keys off the network and signs prepared transactions.",
         status: "published",
         what: "We only give each component the information and powers it needs.",
-        why: "The separation reduces the consequences of compromising an individual device and makes the procedure easier for an audit.",
+        why: "This separation limits the consequences of compromising a single device and makes the procedure easier to audit.",
         risk: "A watch-only wallet is not harmless simply because it cannot sign: its xpubs or descriptors can reveal transaction history and future addresses.",
         checklist: [
-          "I can describe what compromise hot wallet allows",
-          "I can describe what compromise watch-only wallet reveals",
-          "I can explain what offline signer must check before signing",
+          "I can describe what a compromised hot wallet allows an attacker to do.",
+          "I can describe what a compromised watch-only wallet reveals.",
+          "I can explain what an offline signer must verify before signing.",
         ],
         sources: [managingWallets, descriptors, psbt],
         videoUrl: null,
@@ -488,9 +492,9 @@ export const curriculumModules: CurriculumModule[] = [
     level: "beginner",
     status: "in-progress",
     estimatedTime: "75 min",
-    prerequisites: ["Modules 0-2", "Exercise computer"],
+    prerequisites: ["Modules 0-2", "Practice computer"],
     videoUrl: null,
-    warnings: ["Don't do this with real bitcoins until you finish the test."],
+    warnings: ["Do not use real bitcoin until you have completed the test."],
     checklist: ["I made a test wallet."],
     lessons: outlineLessons(
       "3",
@@ -498,19 +502,20 @@ export const curriculumModules: CurriculumModule[] = [
         "Bitcoin Core installation and verification",
         "Create wallet",
         "What's going on below the surface?",
-        "Entropy, OS CSPRNG and Core RNG",
-        "Generating First Receive Address",
-        "wallet file understanding",
+        "Entropy, OS CSPRNG, and Bitcoin Core RNG",
+        "Generate your first receiving address",
+        "Understand the wallet file",
         "First test wallet",
       ],
       "in-progress",
-      "It will only be published after a repeated test on supported operating systems."
+      "These lessons will be published only after the workflow has been tested repeatedly on supported operating systems."
     ),
   },
   {
     id: "4",
-    title: "The encryption of wallet and passphrase",
-    subtitle: "What the encryption protects, which does not protect and how to preserve access.",
+    title: "Wallet encryption and passphrases",
+    subtitle:
+      "What encryption protects, what it does not protect, and how to preserve access.",
     level: "beginner",
     status: "in-progress",
     estimatedTime: "85 min",
@@ -540,13 +545,14 @@ export const curriculumModules: CurriculumModule[] = [
         "Back up the KeePassXC database",
       ],
       "in-progress",
-      "The lesson goes through security and recovery check before publication."
+      "The lesson will undergo security and recovery review before publication."
     ),
   },
   {
     id: "5",
     title: "A backup that actually works",
-    subtitle: "Redundancy, separation of secrets and a plan that can survive a malfunction.",
+    subtitle:
+      "Redundancy, separation of secrets, and a plan that can survive a failure.",
     level: "beginner",
     status: "in-progress",
     estimatedTime: "100 min",
@@ -554,23 +560,23 @@ export const curriculumModules: CurriculumModule[] = [
     videoUrl: null,
     warnings: ["One copy on one medium is not a backup system."],
     checklist: [
-      "I have at least two wallet backups",
-      "They are stored on at least two physical media",
-      "They are not all in the same location",
-      "I have a secure backup of the passphrase",
-      "I know where every copy is",
-      "I have actually tested recovery",
+      "I have at least two wallet backups.",
+      "They are stored on at least two physical media.",
+      "They are not all in the same location.",
+      "I have a secure backup of the passphrase.",
+      "I know where every copy is.",
+      "I have actually tested recovery.",
     ],
     lessons: outlineLessons(
       "5",
       [
         "BACKUPWALLET",
-        "What's actually been saved",
-        "Why one copy is not backup",
-        "Redundant backup",
-        "Different Physical Media",
+        "What the backup actually contains",
+        "Why one copy is not a backup",
+        "Redundant backups",
+        "Different physical media",
         "Geographically separated copies",
-        "Encrypted Digital backup",
+        "Encrypted digital backups",
         "Why a wallet backup and passphrase must be stored separately",
         "Back up the KeePassXC database",
         "Documentation of your own recovery procedure",
@@ -594,31 +600,31 @@ export const curriculumModules: CurriculumModule[] = [
     checklist: [
       "I found the backup.",
       "I've opened a copy.",
-      "The wallet loaded successfully",
-      "The corresponding addresses are present",
-      "The passphrase works",
-      "The backup medium is readable",
-      "A new backup was made if necessary",
+      "The wallet loaded successfully.",
+      "The corresponding addresses are present.",
+      "The passphrase works.",
+      "The backup medium is readable.",
+      "I created a new backup if necessary.",
     ],
     lessons: outlineLessons(
       "6",
       [
         "Wallet restoration",
         "Restoring on another computer",
-        "Restoring on a clean environment",
+        "Restoring in a clean environment",
         "Descriptor information check",
         "A restore test without real funds",
         "Annual recovery drill",
       ],
       "in-progress",
-      "recovery procedure is still being tested on multiple platforms."
+      "The recovery procedure is still being tested on multiple platforms."
     ),
   },
   {
     id: "7",
     title: "Bitcoin addresses and script type",
     subtitle:
-      "Recognize the format, compatibility, cost and tradeoff of each address.",
+      "Recognize the format, compatibility, costs, and tradeoffs of each address type.",
     level: "beginner",
     status: "in-progress",
     estimatedTime: "65 min",
@@ -628,13 +634,13 @@ export const curriculumModules: CurriculumModule[] = [
       "Address prefix is not a substitute for validating the destination address.",
     ],
     checklist: [
-      "I can distinguish 1..., 3..., bc1q... and bc1p... addresses",
-      "I know compatibility and fee aren't the only criteria",
+      "I can distinguish 1..., 3..., bc1q..., and bc1p... addresses.",
+      "I know that compatibility and fees are not the only criteria.",
     ],
     lessons: outlineLessons(
       "7",
       [
-        "Legacies",
+        "Legacy addresses",
         "Nested SegWit",
         "Native SegWit",
         "Taproot",
@@ -651,7 +657,7 @@ export const curriculumModules: CurriculumModule[] = [
   {
     id: "8",
     title: "Offline signer",
-    subtitle: "One device, one function and a verifiable data transfer.",
+    subtitle: "One device, one function, and a verifiable data transfer.",
     level: "intermediate",
     status: "in-progress",
     estimatedTime: "120 min",
@@ -661,22 +667,22 @@ export const curriculumModules: CurriculumModule[] = [
       "An air gap is not proof of security if the software, installation, or portable media have not been verified.",
     ],
     checklist: [
-      "The signer was never connected to the network after preparation",
-      "The device has one documented function",
-      "I know how to check data before signing",
+      "The signer was never connected to the network after preparation.",
+      "The device has one documented function.",
+      "I know how to verify data before signing.",
     ],
     lessons: outlineLessons(
       "8",
       [
-        "Why offline computer",
+        "Why use an offline computer",
         "Why a signer does not need the blockchain",
-        "Old laptop as dedicated signing appliance",
+        "An old laptop as a dedicated signing device",
         "Linux",
-        "Fedora/Debian and light desktops",
+        "Fedora, Debian, and lightweight desktops",
         "Install Bitcoin Core before creating the air gap",
         "Software validation",
         "Disconnecting the network",
-        "Optional physical removal of Wi-Fi devices",
+        "Optional physical removal of Wi-Fi hardware",
         "One device, one function",
         "Why an old ThinkPad can be more than enough",
       ],
@@ -687,26 +693,31 @@ export const curriculumModules: CurriculumModule[] = [
   {
     id: "9",
     title: "First offline signed transaction",
-    subtitle: "PSBT from online coordinator to offline signature and back.",
+    subtitle:
+      "A PSBT travels from the online coordinator to the offline signer and back.",
     level: "intermediate",
     status: "in-progress",
     estimatedTime: "120 min",
-    prerequisites: ["Module 8", "Signet test funds", "A prepared offline signer"],
+    prerequisites: [
+      "Module 8",
+      "Signet test funds",
+      "A prepared offline signer",
+    ],
     videoUrl: null,
-    warnings: ["Don't do this with real bitcoins until you finish the test."],
+    warnings: ["Do not use real bitcoin until you have completed the test."],
     checklist: [
-      "I created unsigned PSBT on Signet",
-      "I checked the amounts, the fee and the change before signing",
-      "I finalized and broadcast only a test transaction",
+      "I created an unsigned PSBT on Signet.",
+      "I checked the amount, fee, and change before signing.",
+      "I finalized and broadcast only a test transaction.",
     ],
     lessons: outlineLessons(
       "9",
       [
         "Create an unsigned transaction / PSBT",
-        "Transfer to offline Core",
+        "Transfer the PSBT to offline Core",
         "Transaction review",
         "Signing",
-        "Transfer back to online Core",
+        "Transfer the signed PSBT back to online Core",
         "Finalization",
         "Close or unload the temporary signing wallet",
         "Broadcast",
@@ -725,13 +736,13 @@ export const curriculumModules: CurriculumModule[] = [
     prerequisites: ["Module 9"],
     videoUrl: null,
     warnings: [
-      "Always test a small amount first and define in advance what you're checking out.",
+      "Always test with a small amount first, and define in advance what you will verify.",
     ],
     checklist: [
-      "Checking address on independent display",
-      "Checking change and fee before signing",
+      "I verify the address on an independent display.",
+      "I verify the change and fee before signing.",
       "I have an annual maintenance appointment.",
-      "I know what I'm doing if the device stops working.",
+      "I know what to do if the device stops working.",
     ],
     lessons: outlineLessons(
       "10",
@@ -742,9 +753,9 @@ export const curriculumModules: CurriculumModule[] = [
         "Address verification",
         "Change address",
         "Fee sanity checks",
-        "Small-sum testing",
+        "Testing with a small amount",
         "Documentation of the procedure",
-        "Annual maintenance",
+        "Annual maintenance routine",
         "What to do if the device dies",
       ],
       "in-progress",
@@ -764,9 +775,9 @@ export const curriculumModules: CurriculumModule[] = [
       "Multisig removes some single points of failure, but introduces new metadata, coordination, and recovery obligations.",
     ],
     checklist: [
-      "I can explain 2-of-3 without mentioning the product",
-      "I know what descriptor adds to the recovery package.",
-      "I have a real reason to add multisig",
+      "I can explain 2-of-3 without referring to a specific product.",
+      "I know what a descriptor adds to the recovery package.",
+      "I have a clear reason to add multisig.",
     ],
     lessons: outlineLessons(
       "11",
@@ -798,20 +809,20 @@ export const curriculumModules: CurriculumModule[] = [
       "RPC commands will not be marked as published until the entire recovery walkthrough has been repeated from scratch.",
     ],
     checklist: [
-      "All three coordinators derive the same receiving addresses",
-      "Two SIGNERs can complete a test transaction",
-      "The third signer may be unavailable without loss of funds",
+      "All three coordinators derive the same receiving addresses.",
+      "Two signers can complete a test transaction.",
+      "The third signer can be unavailable without causing a loss of funds.",
     ],
     lessons: outlineLessons(
       "12",
       [
         "Generate three private-key signers",
         "Get the necessary public information",
-        "Build descriptor",
+        "Build the descriptor",
         "Checksum",
         "Descriptor import",
         "Watch-only coordinator",
-        "Receiving address",
+        "Generate a receiving address",
         "Test deposit",
         "Create PSBT",
         "Signer A",
@@ -827,7 +838,8 @@ export const curriculumModules: CurriculumModule[] = [
   {
     id: "13",
     title: "Multisig backup and recovery",
-    subtitle: "Keys are not the whole story: the wallet map must also be restorable.",
+    subtitle:
+      "Keys are not the whole story: the wallet map must also be restorable.",
     level: "advanced",
     status: "in-progress",
     estimatedTime: "3 h",
@@ -837,10 +849,10 @@ export const curriculumModules: CurriculumModule[] = [
       "Private keys without descriptors, derivation information, and documentation can make recovery very difficult or impossible.",
     ],
     checklist: [
-      "I backed up all three test signer wallets",
-      "I backed up the descriptor and derivation information",
-      "Recovery documentation does not depend on my memory",
-      "I completed a recovery drill without the original coordinator",
+      "I backed up all three test signer wallets.",
+      "I backed up the descriptor and derivation information.",
+      "Recovery documentation does not depend on my memory.",
+      "I completed a recovery drill without the original coordinator.",
     ],
     lessons: outlineLessons(
       "13",
@@ -866,15 +878,15 @@ export const curriculumModules: CurriculumModule[] = [
     prerequisites: ["Modules 0-13"],
     videoUrl: null,
     warnings: [
-      "This module is not a finished guide. Don't assume that Taproot is automatically better for each setup.",
+      "This module is not a finished guide. Don't assume that Taproot is automatically better for every setup.",
     ],
     checklist: [],
     lessons: outlineLessons(
       "14",
       [
         "What Taproot changes",
-        "Key path",
-        "Script Path",
+        "Key-path spending",
+        "Script-path spending",
         "Privacy",
         "Efficiency",
         "Taproot descriptors",
@@ -895,9 +907,7 @@ export const curriculumModules: CurriculumModule[] = [
     estimatedTime: "Planned",
     prerequisites: ["Reliable single-sig and multisig recovery"],
     videoUrl: null,
-    warnings: [
-      "Don't add complexity before you understand a simpler system.",
-    ],
+    warnings: ["Don't add complexity before you understand a simpler system."],
     checklist: [],
     lessons: outlineLessons(
       "15",
@@ -907,16 +917,16 @@ export const curriculumModules: CurriculumModule[] = [
         "Recovery paths",
         "Inheritance",
         "Business treasuries",
-        "Family vault",
+        "Family vaults",
         "Multi-location signing",
         "Taproot multisig construction",
         "MuSig2 where applicable",
-        "Advanced spending policy",
+        "Advanced spending policies",
         "Emergency recovery",
         "Geographically distributed signers",
       ],
       "planned",
-      "This lesson is on the roadmap and still has no operating instructions."
+      "This lesson is on the roadmap and does not yet include operational instructions."
     ),
   },
   {
@@ -934,8 +944,8 @@ export const curriculumModules: CurriculumModule[] = [
     ],
     checklist: [
       "I know which network I'm running the experiment on.",
-      "The experiment cannot access a wallet with real funds",
-      "I recorded the input, expected result, and actual result",
+      "The experiment cannot access a wallet with real funds.",
+      "I recorded the input, expected result, and actual result.",
     ],
     lessons: outlineLessons(
       "16",
@@ -948,32 +958,33 @@ export const curriculumModules: CurriculumModule[] = [
         "ADVANCED — New Bitcoin Core features",
       ],
       "in-progress",
-      "The experiment is in preparation; the level will be confirmed with the conditions published."
+      "The experiment is in preparation; its level will be confirmed when the prerequisites and procedure are published."
     ),
   },
   {
     id: "17",
     title: "References and further learning",
     subtitle:
-      "Primary sources before summaries, tutors and other people's interpretations.",
+      "Primary sources before summaries, tutorials, and other people's interpretations.",
     level: "beginner",
     status: "in-progress",
     estimatedTime: "Ongoing",
-    prerequisites: ["No preconditions"],
+    prerequisites: ["None"],
     videoUrl: null,
     warnings: [
-      "Check the documentation version and Bitcoin Core before using an RPC example.",
+      "Confirm that the documentation matches your Bitcoin Core version before using an RPC example.",
     ],
     checklist: [
       "I know how to find RPC documentation for my Bitcoin Core version.",
-      "I know how to find the original BIP instead of relying on a summary",
-      "I record source versions with my recovery documentation",
+      "I know how to find the original BIP instead of relying on a summary.",
+      "I record source versions with my recovery documentation.",
     ],
     lessons: [
       {
         id: "17.1",
         title: "Bitcoin Core documentation and GitHub",
-        summary: "Official instructions, source code, release notes and RPC references.",
+        summary:
+          "Official instructions, source code, release notes, and RPC references.",
         status: "in-progress",
         sources: [
           coreRepository,
@@ -992,7 +1003,7 @@ export const curriculumModules: CurriculumModule[] = [
         id: "17.2",
         title: "BIP repository",
         summary:
-          "Original specifications for BIP39, PSBT, Taproot, descriptor, MuSig2 and related standards.",
+          "Original specifications for BIP39, PSBT, Taproot, descriptors, MuSig2, and related standards.",
         status: "in-progress",
         sources: [
           {
@@ -1028,7 +1039,7 @@ export const roadmapStages = [
   { label: "Basics", modules: "0-2" },
   { label: "Single-sig", modules: "3-7" },
   { label: "Offline signing", modules: "8-10" },
-  { label: "multisig", modules: "11-13" },
+  { label: "Multisig", modules: "11-13" },
   { label: "Taproot", modules: "14" },
   { label: "Advanced policies", modules: "15-17" },
 ]
