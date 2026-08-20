@@ -969,7 +969,7 @@ export function Homepage() {
         <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
           <SectionIntro
             eyebrow="Work and projects"
-            title="The work is active, public, and ongoing."
+            title="Work in the Bitcoin space."
             copy="These projects are where the ideas meet education, publishing, commerce, and community operations."
           />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
