@@ -23,11 +23,9 @@ import {
   Lightbulb,
   Link2,
   Menu,
-  MoonStar,
   Play,
   RefreshCcw,
   ShieldAlert,
-  SunMedium,
   Terminal,
   X,
 } from "lucide-react"
@@ -47,7 +45,7 @@ import {
   type LessonCallout,
   type PlayerLesson,
 } from "@/bitcoin-core-curriculum-player-data"
-import { useTheme } from "@/components/theme-provider"
+import { SiteHeader } from "@/components/site-header"
 import {
   BITCOIN_CORE_CURRICULUM_PATH,
   BITCOIN_CORE_SERIES_PATH,
@@ -151,35 +149,6 @@ function formatReviewDate(date: string | undefined) {
     month: "2-digit",
     year: "numeric",
   }).format(new Date(`${date}T12:00:00`))
-}
-
-function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
-  const isDark = theme === "dark"
-
-  return (
-    <button
-      type="button"
-      className="curriculum-icon-button"
-      aria-label={isDark ? "Uključi svijetlu temu" : "Uključi tamnu temu"}
-      onClick={() =>
-        setTheme(
-          document.documentElement.classList.contains("dark") ? "light" : "dark"
-        )
-      }
-    >
-      <span
-        className={`curriculum-icon-swap ${isDark ? "curriculum-icon-swap--visible" : ""}`}
-      >
-        <SunMedium aria-hidden="true" />
-      </span>
-      <span
-        className={`curriculum-icon-swap ${!isDark ? "curriculum-icon-swap--visible" : ""}`}
-      >
-        <MoonStar aria-hidden="true" />
-      </span>
-    </button>
-  )
 }
 
 function StatusBadge({ status }: { status: CurriculumStatus }) {
@@ -1276,23 +1245,10 @@ export function BitcoinCoreCurriculumPage() {
       <a className="skip-link" href="#curriculum-content">
         Preskoči na sadržaj
       </a>
+      <SiteHeader />
 
-      <header className="curriculum-header">
+      <div className="curriculum-header curriculum-header--course">
         <div>
-          <a href="/" className="curriculum-brand">
-            <img
-              src="/bitcoin-logo-official.png"
-              alt=""
-              width="1920"
-              height="1920"
-              decoding="async"
-              fetchPriority="high"
-              draggable="false"
-              aria-hidden="true"
-            />
-            <strong>BTCPAVAO</strong>
-          </a>
-          <span className="curriculum-header__divider" aria-hidden="true" />
           <button
             type="button"
             className="course-header-title"
@@ -1305,10 +1261,9 @@ export function BitcoinCoreCurriculumPage() {
               <ArrowLeft aria-hidden="true" />
               <span>Svi Bitcoin Core tekstovi</span>
             </a>
-            <ThemeToggle />
           </div>
         </div>
-      </header>
+      </div>
 
       <main id="curriculum-content">
         {activeEntry && activeLesson ? (

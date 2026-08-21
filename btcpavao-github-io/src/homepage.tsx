@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react"
+import { useEffect, useState, type ReactNode } from "react"
 import {
   ArrowRight,
   ArrowUp,
@@ -7,22 +7,20 @@ import {
   CalendarDays,
   Check,
   KeyRound,
-  Menu,
-  MoonStar,
   RefreshCcw,
-  SunMedium,
   Users,
-  X,
   type LucideIcon,
 } from "lucide-react"
 
-import { useTheme } from "@/components/theme-provider"
 import { SiteBrandLink } from "@/components/site-brand"
+import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ValueForValueCard } from "@/components/value-for-value"
 import {
   BIP39_WRONG_THING_ARTICLE_PATH,
+  BITCOIN_CORE_WALLET_GUIDE_PATH,
+  EN_BITCOIN_CORE_CURRICULUM_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   EN_BITCOIN_CORE_SERIES_PATH,
   LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH,
@@ -32,14 +30,6 @@ import {
 const BOOKING_URL = "https://cal.com/btcpavao/introductory-call"
 const PRACTICAL_BITCOIN_STANDARD_URL =
   "https://btcpavao.gitbook.io/practical-bitcoin-standard/"
-
-const navigation = [
-  { label: "Bitcoin Standard", href: "#bitcoin-standard" },
-  { label: "Bitcoin Core", href: "#bitcoin-core" },
-  { label: "Writing", href: "#writing" },
-  { label: "About", href: "#about" },
-  { label: "Work with me", href: "#work-with-me" },
-]
 
 const pathTopics = [
   {
@@ -215,36 +205,6 @@ function SectionIntro({
   )
 }
 
-function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
-  const isDark = theme === "dark"
-
-  return (
-    <Button
-      type="button"
-      variant="outline"
-      size="icon"
-      className="home-icon-button size-11 rounded-full bg-background/88"
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-      title={isDark ? "Switch to light theme" : "Switch to dark theme"}
-    >
-      <span className="theme-toggle-icon-stack" aria-hidden="true">
-        <SunMedium
-          className={`theme-toggle-icon ${
-            isDark ? "theme-toggle-icon-active" : "theme-toggle-icon-inactive"
-          }`}
-        />
-        <MoonStar
-          className={`theme-toggle-icon ${
-            isDark ? "theme-toggle-icon-inactive" : "theme-toggle-icon-active"
-          }`}
-        />
-      </span>
-    </Button>
-  )
-}
-
 function setMeta(name: string, content: string) {
   const element = document.head.querySelector<HTMLMetaElement>(
     `meta[name="${name}"]`
@@ -253,10 +213,7 @@ function setMeta(name: string, content: string) {
 }
 
 export function Homepage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [showBackToTop, setShowBackToTop] = useState(false)
-  const menuButtonRef = useRef<HTMLButtonElement | null>(null)
-  const firstMobileLinkRef = useRef<HTMLAnchorElement | null>(null)
 
   useEffect(() => {
     const title =
@@ -271,33 +228,14 @@ export function Homepage() {
     setMeta("twitter:description", description)
 
     const handleScroll = () => setShowBackToTop(window.scrollY > 480)
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) setMobileMenuOpen(false)
-    }
-    const handleKeydown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setMobileMenuOpen((isOpen) => {
-          if (isOpen) menuButtonRef.current?.focus()
-          return false
-        })
-      }
-    }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
-    window.addEventListener("resize", handleResize)
-    window.addEventListener("keydown", handleKeydown)
     handleScroll()
 
     return () => {
       window.removeEventListener("scroll", handleScroll)
-      window.removeEventListener("resize", handleResize)
-      window.removeEventListener("keydown", handleKeydown)
     }
   }, [])
-
-  useEffect(() => {
-    if (mobileMenuOpen) firstMobileLinkRef.current?.focus()
-  }, [mobileMenuOpen])
 
   function scrollToTop() {
     const reducedMotion = window.matchMedia(
@@ -315,101 +253,7 @@ export function Homepage() {
         Skip to content
       </a>
 
-      <header className="home-header sticky top-0 z-50 border-b border-border/60 bg-background/88 backdrop-blur-xl">
-        <div className="mx-auto flex min-h-[72px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          <SiteBrandLink />
-
-          <nav
-            aria-label="Main navigation"
-            className="hidden lg:flex lg:items-center"
-          >
-            {navigation.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="home-nav-link inline-flex min-h-11 items-center rounded-full px-3 text-sm font-medium text-muted-foreground hover:text-foreground"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <Button
-              asChild
-              className="hidden min-h-11 rounded-full px-5 lg:inline-flex"
-            >
-              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                Book a call
-              </a>
-            </Button>
-            <Button
-              ref={menuButtonRef}
-              type="button"
-              variant="outline"
-              size="icon"
-              className="home-icon-button size-11 rounded-full bg-background/88 lg:hidden"
-              onClick={() => setMobileMenuOpen((open) => !open)}
-              aria-label={
-                mobileMenuOpen ? "Close navigation" : "Open navigation"
-              }
-              aria-controls="mobile-navigation"
-              aria-expanded={mobileMenuOpen}
-            >
-              <span className="theme-toggle-icon-stack" aria-hidden="true">
-                <X
-                  className={`theme-toggle-icon ${
-                    mobileMenuOpen
-                      ? "theme-toggle-icon-active"
-                      : "theme-toggle-icon-inactive"
-                  }`}
-                />
-                <Menu
-                  className={`theme-toggle-icon ${
-                    mobileMenuOpen
-                      ? "theme-toggle-icon-inactive"
-                      : "theme-toggle-icon-active"
-                  }`}
-                />
-              </span>
-            </Button>
-          </div>
-        </div>
-
-        {mobileMenuOpen ? (
-          <nav
-            id="mobile-navigation"
-            aria-label="Mobile navigation"
-            className="border-t border-border/60 bg-background/96 px-4 py-4 lg:hidden"
-          >
-            <div className="mx-auto grid max-w-7xl gap-1">
-              {navigation.map((link, index) => (
-                <a
-                  key={link.href}
-                  ref={index === 0 ? firstMobileLinkRef : undefined}
-                  href={link.href}
-                  className="flex min-h-11 items-center justify-between rounded-2xl px-4 text-sm font-medium hover:bg-card"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                  <ArrowRight className="size-4" aria-hidden="true" />
-                </a>
-              ))}
-              <div className="mt-2">
-                <a
-                  href={BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex min-h-11 items-center justify-center rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground"
-                >
-                  Book a call
-                </a>
-              </div>
-            </div>
-          </nav>
-        ) : null}
-      </header>
+      <SiteHeader />
 
       <main id="main-content">
         <section className="home-hero relative isolate overflow-hidden">
@@ -704,6 +548,73 @@ export function Homepage() {
                 Browse Bitcoin Core writing
               </a>
             </Button>
+          </div>
+        </section>
+
+        <section
+          id="tutorials"
+          className="scroll-mt-24 border-y border-border/60 bg-card/48"
+        >
+          <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+            <SectionIntro
+              eyebrow="Bitcoin Core tutorials"
+              title="Choose the depth that fits your next step."
+              copy="Follow the complete self-custody learning path, or use the focused wallet guide when you need a practical setup, backup, and recovery walkthrough."
+            />
+
+            <div className="mt-10 grid gap-5 lg:grid-cols-2">
+              <a
+                href={EN_BITCOIN_CORE_CURRICULUM_PATH}
+                className="group flex min-h-[20rem] flex-col rounded-[32px] bg-background p-6 shadow-[var(--shadow-border)] transition-[background-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:bg-card hover:shadow-[var(--shadow-border-hover)] active:translate-y-0 active:scale-[0.96] sm:p-9"
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <span className="grid size-12 place-items-center rounded-full bg-primary/12 text-primary">
+                    <KeyRound className="size-5" aria-hidden="true" />
+                  </span>
+                  <span className="rounded-full bg-card px-3 py-2 text-[11px] font-bold tracking-[0.14em] text-muted-foreground uppercase shadow-[var(--shadow-border)]">
+                    Full tutorial
+                  </span>
+                </div>
+                <h3 className="mt-8 max-w-[18ch] font-display text-3xl leading-[1.02] font-bold tracking-[-0.045em] text-balance sm:text-4xl">
+                  Bitcoin self-custody
+                </h3>
+                <p className="mt-4 max-w-xl text-base leading-8 text-pretty text-muted-foreground">
+                  A structured, progress-tracked course for understanding the
+                  model, practicing recovery, and building toward more advanced
+                  custody workflows.
+                </p>
+                <span className="mt-auto inline-flex min-h-11 items-center gap-2 pt-7 text-sm font-semibold group-hover:text-primary">
+                  Open the tutorial
+                  <ArrowUpRight className="size-4" aria-hidden="true" />
+                </span>
+              </a>
+
+              <a
+                href={BITCOIN_CORE_WALLET_GUIDE_PATH}
+                className="group flex min-h-[20rem] flex-col rounded-[32px] bg-background p-6 shadow-[var(--shadow-border)] transition-[background-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:bg-card hover:shadow-[var(--shadow-border-hover)] active:translate-y-0 active:scale-[0.96] sm:p-9"
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <span className="grid size-12 place-items-center rounded-full bg-primary/12 text-primary">
+                    <Check className="size-5" aria-hidden="true" />
+                  </span>
+                  <span className="rounded-full bg-card px-3 py-2 text-[11px] font-bold tracking-[0.14em] text-muted-foreground uppercase shadow-[var(--shadow-border)]">
+                    Quick guide
+                  </span>
+                </div>
+                <h3 className="mt-8 max-w-[20ch] font-display text-3xl leading-[1.02] font-bold tracking-[-0.045em] text-balance sm:text-4xl">
+                  Wallet setup, backup & recovery
+                </h3>
+                <p className="mt-4 max-w-xl text-base leading-8 text-pretty text-muted-foreground">
+                  A focused step-by-step guide to creating an encrypted Bitcoin
+                  Core wallet, making redundant backups, and proving that you
+                  can restore it.
+                </p>
+                <span className="mt-auto inline-flex min-h-11 items-center gap-2 pt-7 text-sm font-semibold group-hover:text-primary">
+                  Open the quick guide
+                  <ArrowUpRight className="size-4" aria-hidden="true" />
+                </span>
+              </a>
+            </div>
           </div>
         </section>
 

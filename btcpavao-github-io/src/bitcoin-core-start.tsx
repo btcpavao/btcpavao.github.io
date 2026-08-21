@@ -1,6 +1,5 @@
 import { useEffect } from "react"
 import {
-  ArrowLeft,
   ArrowRight,
   BookOpen,
   Check,
@@ -12,7 +11,7 @@ import {
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { SiteBrandLink } from "@/components/site-brand"
+import { SiteHeader } from "@/components/site-header"
 import {
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   EN_BITCOIN_CORE_SERIES_PATH,
@@ -69,20 +68,7 @@ export function BitcoinCoreStartPage() {
       <a className="skip-link" href="#lesson">
         Skip to lesson
       </a>
-      <header className="border-b border-border/60 bg-background/92">
-        <div className="mx-auto flex min-h-[72px] max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
-          <SiteBrandLink />
-          <div className="flex items-center gap-2">
-            <a
-              href={EN_BITCOIN_CORE_SERIES_PATH}
-              className="inline-flex min-h-11 items-center gap-2 rounded-full px-4 text-sm font-semibold text-muted-foreground hover:bg-card hover:text-foreground"
-            >
-              <ArrowLeft className="size-4" aria-hidden="true" />
-              Bitcoin Core
-            </a>
-          </div>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main id="lesson">
         <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">

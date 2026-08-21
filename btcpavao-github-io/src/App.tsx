@@ -14,15 +14,12 @@ import {
   GitBranch,
   KeyRound,
   Mail,
-  MoonStar,
   ShieldCheck,
   Shuffle,
-  SunMedium,
   TriangleAlert,
   type LucideIcon,
 } from "lucide-react"
 
-import { useTheme } from "@/components/theme-provider"
 import {
   bip39Visuals,
   parseBip39Article,
@@ -30,6 +27,7 @@ import {
   type Bip39ArticleBlock,
 } from "@/bip39-article"
 import { SiteBrandLink } from "@/components/site-brand"
+import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
@@ -390,42 +388,6 @@ const learningArticleHeadings = [
 
 const liftHover =
   "transition-[background-color,color,border-color,box-shadow,transform] duration-300 active:translate-y-px active:scale-[0.96]"
-
-function ThemeToggle({ language = "en" }: { language?: "en" | "hr" }) {
-  const { theme, setTheme } = useTheme()
-  const isDark = theme === "dark"
-  const label = isDark
-    ? language === "hr"
-      ? "Uključi svijetlu temu"
-      : "Switch to light theme"
-    : language === "hr"
-      ? "Uključi tamnu temu"
-      : "Switch to dark theme"
-
-  return (
-    <Button
-      variant="outline"
-      size="icon"
-      className="glimmer-button inline-flex size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border-border/70 bg-background/85 p-0 leading-none backdrop-blur"
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-      aria-label={label}
-      title={label}
-    >
-      <span className="theme-toggle-icon-stack" aria-hidden="true">
-        <SunMedium
-          className={`theme-toggle-icon ${
-            isDark ? "theme-toggle-icon-active" : "theme-toggle-icon-inactive"
-          }`}
-        />
-        <MoonStar
-          className={`theme-toggle-icon ${
-            isDark ? "theme-toggle-icon-inactive" : "theme-toggle-icon-active"
-          }`}
-        />
-      </span>
-    </Button>
-  )
-}
 
 function SectionHeader({
   eyebrow,
@@ -1105,27 +1067,7 @@ function ArticlePage({
         aria-hidden="true"
         className="page-grid pointer-events-none absolute inset-0"
       />
-      <header className="z-40 border-b border-border/60 bg-background/92 md:sticky md:top-0 md:bg-background/78 md:backdrop-blur-xl">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
-          <SiteBrandLink />
-
-          <div className="flex items-center gap-2">
-            <a
-              href="/"
-              className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
-            >
-              Početna
-            </a>
-            <a
-              href={CONTACT_EMAIL}
-              className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
-            >
-              Kontakt
-            </a>
-            <ThemeToggle language="hr" />
-          </div>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main id="main-content" className="relative pb-20">
         <article className="article-layout">
@@ -1412,9 +1354,6 @@ function ArticlePage({
 
 function PageChrome({
   children,
-  active = "series",
-  sectionHref = AI_SERIES_PATH,
-  sectionLabel = AI_SERIES_TITLE,
   language = "hr",
 }: {
   children: ReactNode
@@ -1436,28 +1375,7 @@ function PageChrome({
         aria-hidden="true"
         className="page-grid pointer-events-none absolute inset-0"
       />
-      <header className="z-40 border-b border-border/60 bg-background/92 md:sticky md:top-0 md:bg-background/78 md:backdrop-blur-xl">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
-          <SiteBrandLink ariaCurrent={active === "home" ? "page" : undefined} />
-
-          <div className="flex items-center gap-2">
-            <a
-              href={sectionHref}
-              aria-current={active === "series" ? "page" : undefined}
-              className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
-            >
-              {sectionLabel}
-            </a>
-            <a
-              href="/#contact"
-              className={`glimmer-button hidden h-10 items-center rounded-full border border-border/70 bg-background/80 px-4 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground sm:inline-flex ${liftHover}`}
-            >
-              {isEnglish ? "Contact" : "Kontakt"}
-            </a>
-            <ThemeToggle language={language} />
-          </div>
-        </div>
-      </header>
+      <SiteHeader />
 
       {children}
     </div>

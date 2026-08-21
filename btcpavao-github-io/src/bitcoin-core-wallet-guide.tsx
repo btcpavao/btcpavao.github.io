@@ -13,18 +13,15 @@ import {
   Check,
   CheckCircle2,
   Maximize2,
-  MoonStar,
   RefreshCcw,
   ShieldAlert,
-  SunMedium,
   TriangleAlert,
   Wifi,
   WifiOff,
   X,
 } from "lucide-react"
 
-import { useTheme } from "@/components/theme-provider"
-import { SiteBrandLink } from "@/components/site-brand"
+import { SiteHeader } from "@/components/site-header"
 import {
   ValueForValueCard,
   ValueForValueRail,
@@ -678,26 +675,6 @@ function useGuideMetadata() {
   }, [])
 }
 
-function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
-  const isDark = theme === "dark"
-
-  return (
-    <button
-      type="button"
-      className="relative grid size-11 place-items-center rounded-full bg-card text-muted-foreground shadow-[var(--shadow-border)] transition-[color,background-color,transform] duration-200 hover:text-foreground active:scale-[0.96]"
-      aria-label={isDark ? "Use light theme" : "Use dark theme"}
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-    >
-      {isDark ? (
-        <SunMedium className="size-4" aria-hidden="true" />
-      ) : (
-        <MoonStar className="size-4" aria-hidden="true" />
-      )}
-    </button>
-  )
-}
-
 function HeaderProgress({
   completed,
   total,
@@ -1177,23 +1154,20 @@ export function BitcoinCoreWalletGuidePage() {
       </a>
       <ValueForValueRail language="en" />
 
-      <header className="sticky top-0 z-30 bg-background/92 shadow-[0_1px_0_rgba(0,0,0,0.08)] backdrop-blur-xl dark:shadow-[0_1px_0_rgba(255,255,255,0.09)]">
-        <div className="mx-auto flex min-h-[72px] max-w-5xl items-center justify-between gap-3 px-4 sm:px-6">
-          <SiteBrandLink />
-          <div className="flex items-center gap-2">
-            <HeaderProgress completed={completedCount} total={steps.length} />
-            <a
-              href={EN_BITCOIN_CORE_SERIES_PATH}
-              aria-label="Back to Bitcoin Core guides"
-              className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 text-sm font-semibold text-muted-foreground transition-[color,background-color,transform] duration-200 hover:bg-card hover:text-foreground active:scale-[0.96] sm:px-4"
-            >
-              <ArrowLeft className="size-4" aria-hidden="true" />
-              <span className="hidden sm:inline">Bitcoin Core</span>
-            </a>
-            <ThemeToggle />
-          </div>
+      <SiteHeader />
+      <div className="border-b border-border/60 bg-background/92">
+        <div className="mx-auto flex min-h-14 max-w-5xl items-center justify-between gap-3 px-4 sm:px-6">
+          <HeaderProgress completed={completedCount} total={steps.length} />
+          <a
+            href={EN_BITCOIN_CORE_SERIES_PATH}
+            aria-label="Back to Bitcoin Core guides"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 text-sm font-semibold text-muted-foreground transition-[color,background-color,transform] duration-200 hover:bg-card hover:text-foreground active:scale-[0.96] sm:px-4"
+          >
+            <ArrowLeft className="size-4" aria-hidden="true" />
+            <span className="hidden sm:inline">Bitcoin Core</span>
+          </a>
         </div>
-      </header>
+      </div>
 
       <main id="guide">
         <section className="mx-auto max-w-5xl px-4 pt-14 pb-10 sm:px-6 sm:pt-20 sm:pb-14">

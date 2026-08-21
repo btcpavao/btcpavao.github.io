@@ -6,6 +6,7 @@ export const OPENNODE_CHECKOUT_URL =
 type ValueForValueProps = {
   language?: "en" | "hr"
   className?: string
+  persistent?: boolean
 }
 
 const copy = {
@@ -27,16 +28,25 @@ const copy = {
   },
 } as const
 
-export function ValueForValueRail({ language = "en" }: ValueForValueProps) {
+export function ValueForValueRail({
+  language = "en",
+  persistent = false,
+}: ValueForValueProps) {
   const labels = copy[language]
 
   return (
-    <aside className="value-for-value-rail" aria-label={labels.railLabel}>
+    <aside
+      className={`value-for-value-rail ${
+        persistent ? "value-for-value-rail--persistent" : ""
+      }`.trim()}
+      aria-label={labels.railLabel}
+    >
       <a
         href={OPENNODE_CHECKOUT_URL}
         target="_blank"
         rel="noopener noreferrer"
         className="value-for-value-rail__link"
+        aria-label={`${labels.railLabel} — value for value`}
       >
         <span className="value-for-value-rail__icon" aria-hidden="true">
           <Zap />
