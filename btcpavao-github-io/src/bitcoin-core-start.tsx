@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { SiteHeader } from "@/components/site-header"
 import {
+  BITCOIN_CORE_WALLET_GUIDE_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   EN_BITCOIN_CORE_SERIES_PATH,
   START_HERE_PATH,
@@ -166,7 +167,7 @@ export function BitcoinCoreStartPage() {
         </section>
 
         <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20">
-          <div className="grid gap-8 rounded-[32px] bg-[#0d3153] p-7 text-white sm:p-10 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-end">
+          <div className="grid gap-8 rounded-[32px] bg-[#0d3153] p-7 text-white sm:p-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-end">
             <div>
               <p className="text-[11px] font-semibold text-white/62 uppercase">
                 Finish line
@@ -192,20 +193,31 @@ export function BitcoinCoreStartPage() {
               </ul>
             </div>
             <div className="flex flex-col gap-3">
+              <p className="text-[11px] font-semibold tracking-[0.16em] text-white/62 uppercase">
+                Next step
+              </p>
+              <h3 className="font-display text-2xl leading-tight font-bold tracking-[-0.035em] text-balance">
+                Set up, back up, and recover a wallet.
+              </h3>
+              <p className="mb-2 text-sm leading-6 text-pretty text-white/72">
+                Continue with the practical walkthrough and prove that your
+                Bitcoin Core backup works before using real funds.
+              </p>
               <Button
                 asChild
-                className="min-h-11 rounded-full bg-white text-[#0d3153] hover:bg-white/90"
+                className="min-h-12 rounded-full bg-white px-5 text-[#0d3153] hover:bg-white/90 active:scale-[0.96]"
               >
-                <a href={EN_BITCOIN_CORE_SERIES_PATH}>
+                <a href={BITCOIN_CORE_WALLET_GUIDE_PATH}>
                   <BookOpen className="size-4" aria-hidden="true" />
-                  Continue learning
+                  Continue to the wallet guide
+                  <ArrowRight className="size-4" aria-hidden="true" />
                 </a>
               </Button>
               <a
-                href="/"
+                href={EN_BITCOIN_CORE_SERIES_PATH}
                 className="inline-flex min-h-11 items-center justify-center text-sm font-semibold text-white/74 hover:text-white"
               >
-                Return to the homepage
+                Browse all Bitcoin Core articles
               </a>
             </div>
           </div>
