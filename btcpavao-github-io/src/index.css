@@ -3252,6 +3252,26 @@
   outline-offset: -1px;
 }
 
+.bip39-article-visual figcaption {
+  padding: 1rem;
+  border-top: 1px solid var(--image-outline);
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+  font-style: italic;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.bip39-hero-caption {
+  margin-top: 0 !important;
+}
+
+@media (min-width: 768px) {
+  .bip39-article-visual figcaption {
+    padding: 1.1rem 1.5rem;
+  }
+}
+
 .long-road-article-separator {
   width: min(9rem, 32vw);
   margin: clamp(2.5rem, 6vw, 4rem) auto;
@@ -3429,6 +3449,19 @@
       #000 64%,
       #000 100%
     );
+  }
+}
+
+@media (min-width: 761px) {
+  .bitcoin-core-article-hero.bip39-cover-hero .article-hero-background img {
+    object-position: 62% center;
+    opacity: 0.74;
+  }
+}
+
+@media (max-width: 760px) {
+  .bitcoin-core-article-hero.bip39-cover-hero .article-hero-background img {
+    object-position: 56% center;
   }
 }
 

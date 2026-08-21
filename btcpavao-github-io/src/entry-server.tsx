@@ -9,6 +9,7 @@ import { BitcoinCoreStartPage } from "./bitcoin-core-start.tsx"
 import { BitcoinCoreWalletGuidePage } from "./bitcoin-core-wallet-guide.tsx"
 import bitcoinCoreArticleEnglishSource from "./bitcoin-core-article-en.txt?raw"
 import bitcoinCoreArticleSource from "./bitcoin-core-article.txt?raw"
+import bip39ArticleSource from "./bip39-wrong-thing-human-readable.md?raw"
 import { ThemeProvider } from "./components/theme-provider.tsx"
 import { Homepage } from "./homepage.tsx"
 import learningArticleHtml from "./learning-article.html?raw"
@@ -22,6 +23,7 @@ import {
   needsArticleData,
   needsLearningArticleHtml,
   needsLongRoadArticleSource,
+  needsBip39ArticleSource,
   normalizePath,
   START_HERE_PATH,
 } from "./routes.ts"
@@ -55,6 +57,9 @@ export function renderPage(pathname: string) {
         }
         initialLongRoadArticleSource={
           needsLongRoadArticleSource(initialPath) ? longRoadArticleSource : ""
+        }
+        initialBip39ArticleSource={
+          needsBip39ArticleSource(initialPath) ? bip39ArticleSource : ""
         }
       />
     )

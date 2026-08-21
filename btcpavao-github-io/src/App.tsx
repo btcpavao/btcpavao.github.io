@@ -24,9 +24,12 @@ import {
 
 import { useTheme } from "@/components/theme-provider"
 import {
-  BitcoinPavaoMark,
-  SiteBrandLink,
-} from "@/components/site-brand"
+  bip39Visuals,
+  parseBip39Article,
+  renderBip39Inline,
+  type Bip39ArticleBlock,
+} from "@/bip39-article"
+import { BitcoinPavaoMark, SiteBrandLink } from "@/components/site-brand"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
@@ -38,6 +41,7 @@ import {
 import {
   AI_SERIES_PATH,
   ARTICLE_PATH,
+  BIP39_WRONG_THING_ARTICLE_PATH,
   BITCOIN_CORE_CURRICULUM_PATH,
   BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   BITCOIN_CORE_SERIES_PATH,
@@ -146,6 +150,19 @@ const EN_BITCOIN_CORE_ARTICLE_SUBTITLE =
 const EN_BITCOIN_CORE_ARTICLE_DESCRIPTION =
   "How Bitcoin Core gathers and cryptographically mixes entropy, validates a private key, and builds a BIP32 wallet from it."
 const EN_BITCOIN_CORE_ARTICLE_DISPLAY_DATE = "August 5, 2026"
+const BIP39_WRONG_THING_ARTICLE_URL = `${SITE_URL}${BIP39_WRONG_THING_ARTICLE_PATH}`
+const BIP39_WRONG_THING_ARTICLE_TITLE =
+  "BIP39 Made the Wrong Thing Human-Readable"
+const BIP39_WRONG_THING_ARTICLE_SUBTITLE =
+  "Why I no longer think the wallet's root secret should be the thing humans are asked to preserve"
+const BIP39_WRONG_THING_ARTICLE_DESCRIPTION =
+  "Why a machine-readable Bitcoin Core wallet backup can preserve more recovery context than a mnemonic root secret, while keeping signing authority separate."
+const BIP39_WRONG_THING_ARTICLE_DATE = "2026-08-21"
+const BIP39_WRONG_THING_ARTICLE_DISPLAY_DATE = "August 21, 2026"
+const BIP39_WRONG_THING_ARTICLE_OG_IMAGE = `${SITE_URL}/bip39-wrong-thing-cover-share.jpg`
+const BIP39_WRONG_THING_ARTICLE_HERO_IMAGE = "/bip39-wrong-thing-cover.webp"
+const BIP39_WRONG_THING_ARTICLE_HERO_IMAGE_SMALL =
+  "/bip39-wrong-thing-cover-840.webp"
 const LONG_ROAD_ARTICLE_URL = `${SITE_URL}${LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH}`
 const LONG_ROAD_ARTICLE_TITLE = "The Long Road Back to Bitcoin Core"
 const LONG_ROAD_ARTICLE_SUBTITLE =
@@ -280,6 +297,14 @@ const hrBitcoinCorePosts: SeriesPost[] = [
 ]
 
 const enBitcoinCorePosts: SeriesPost[] = [
+  {
+    category: BITCOIN_CORE_SERIES_TITLE,
+    title: BIP39_WRONG_THING_ARTICLE_TITLE,
+    description: BIP39_WRONG_THING_ARTICLE_SUBTITLE,
+    href: BIP39_WRONG_THING_ARTICLE_PATH,
+    language: "EN",
+    date: BIP39_WRONG_THING_ARTICLE_DISPLAY_DATE,
+  },
   {
     category: "Living curriculum",
     title: "Practical Bitcoin Self-Custody with Bitcoin Core",
@@ -979,6 +1004,20 @@ function useLongRoadArticleMetadata() {
     publishedDate: LONG_ROAD_ARTICLE_DATE,
     articleSection: BITCOIN_CORE_SERIES_TITLE,
     image: LONG_ROAD_ARTICLE_OG_IMAGE,
+    language: "en",
+  })
+}
+
+function useBip39ArticleMetadata() {
+  usePageMetadata({
+    title: BIP39_WRONG_THING_ARTICLE_TITLE,
+    description: BIP39_WRONG_THING_ARTICLE_DESCRIPTION,
+    ogDescription: BIP39_WRONG_THING_ARTICLE_SUBTITLE,
+    url: BIP39_WRONG_THING_ARTICLE_URL,
+    type: "article",
+    publishedDate: BIP39_WRONG_THING_ARTICLE_DATE,
+    articleSection: BITCOIN_CORE_SERIES_TITLE,
+    image: BIP39_WRONG_THING_ARTICLE_OG_IMAGE,
     language: "en",
   })
 }
@@ -2120,6 +2159,300 @@ function BitcoinCoreArticlePage({
   )
 }
 
+function Bip39ArticleVisual({ number }: { number: number }) {
+  const visual = bip39Visuals[number - 1]
+
+  if (!visual) {
+    throw new Error(`Missing BIP39 article visual ${number}.`)
+  }
+
+  return (
+    <figure className="long-road-article-visual bip39-article-visual">
+      <picture>
+        <source
+          media="(max-width: 840px)"
+          srcSet={visual.smallSrc}
+          type="image/webp"
+        />
+        <img
+          src={visual.src}
+          srcSet={`${visual.smallSrc} 840w, ${visual.src} 1920w`}
+          sizes="(max-width: 840px) calc(100vw - 32px), 1152px"
+          alt={visual.alt}
+          width={1920}
+          height={1080}
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
+      <figcaption>{visual.caption}</figcaption>
+    </figure>
+  )
+}
+
+function Bip39SectionHeading({
+  heading,
+  index,
+}: {
+  heading: Extract<Bip39ArticleBlock, { type: "heading" }>
+  index: number
+}) {
+  const icon =
+    bitcoinCoreHeadingIcons[index % bitcoinCoreHeadingIcons.length] ??
+    bitcoinCoreFallbackIcon
+
+  return (
+    <div className="bitcoin-core-section-heading">
+      <span className="bitcoin-core-section-pictogram" aria-hidden="true">
+        {icon}
+      </span>
+      <h2 id={heading.id}>{heading.text}</h2>
+    </div>
+  )
+}
+
+function Bip39ArticlePage({
+  initialArticleSource = "",
+}: {
+  initialArticleSource?: string
+}) {
+  useBip39ArticleMetadata()
+  useReadingProgress()
+  const [articleSource, setArticleSource] = useState(initialArticleSource)
+
+  useEffect(() => {
+    if (articleSource) return undefined
+
+    let isMounted = true
+
+    import("./bip39-wrong-thing-human-readable.md?raw").then((module) => {
+      if (isMounted) setArticleSource(module.default)
+    })
+
+    return () => {
+      isMounted = false
+    }
+  }, [articleSource])
+
+  const article = articleSource
+    ? parseBip39Article(articleSource)
+    : {
+        title: BIP39_WRONG_THING_ARTICLE_TITLE,
+        subtitle: BIP39_WRONG_THING_ARTICLE_SUBTITLE,
+        heroCaption: bip39Visuals[0].caption,
+        blocks: [] as Bip39ArticleBlock[],
+      }
+
+  if (
+    article.title !== BIP39_WRONG_THING_ARTICLE_TITLE ||
+    article.subtitle !== BIP39_WRONG_THING_ARTICLE_SUBTITLE
+  ) {
+    throw new Error(
+      "The BIP39 article title or subtitle does not match its approved copy."
+    )
+  }
+
+  const headings = article.blocks.filter(
+    (block): block is Extract<Bip39ArticleBlock, { type: "heading" }> =>
+      block.type === "heading"
+  )
+  const readingMinutes = estimateReadingMinutes([
+    article.title,
+    article.subtitle,
+    ...article.blocks.flatMap((block) => {
+      if (block.type === "visual") return []
+      if (block.type === "list") return block.items
+      return [block.text]
+    }),
+  ])
+
+  return (
+    <PageChrome
+      sectionHref={EN_BITCOIN_CORE_SERIES_PATH}
+      sectionLabel={BITCOIN_CORE_SERIES_TITLE}
+      language="en"
+    >
+      <div className="reading-progress" aria-hidden="true" />
+      <main id="main-content" className="relative pb-20">
+        <article>
+          <header className="article-hero-bleed bitcoin-core-article-hero long-road-cover-hero bip39-cover-hero">
+            <picture className="article-hero-background">
+              <source
+                media="(max-width: 840px)"
+                srcSet={BIP39_WRONG_THING_ARTICLE_HERO_IMAGE_SMALL}
+                type="image/webp"
+              />
+              <img
+                src={BIP39_WRONG_THING_ARTICLE_HERO_IMAGE}
+                srcSet={`${BIP39_WRONG_THING_ARTICLE_HERO_IMAGE_SMALL} 840w, ${BIP39_WRONG_THING_ARTICLE_HERO_IMAGE} 1920w`}
+                sizes="100vw"
+                alt={bip39Visuals[0].alt}
+                width={1920}
+                height={1080}
+                decoding="async"
+                fetchPriority="high"
+              />
+            </picture>
+
+            <div className="article-hero-content">
+              <div className="article-hero-copy">
+                <a
+                  href={EN_BITCOIN_CORE_SERIES_PATH}
+                  className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
+                >
+                  Back to Bitcoin Core
+                </a>
+
+                <div className="mt-12 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase">
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
+                    Article 1
+                  </span>
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
+                    English
+                  </span>
+                  <a
+                    href="/"
+                    rel="author"
+                    className="surface-ring inline-flex min-h-10 items-center rounded-full bg-background/78 px-3 py-1 backdrop-blur transition-[background-color,color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground active:scale-[0.96]"
+                  >
+                    <BitcoinPavaoMark iconClassName="size-4" />
+                  </a>
+                  <time
+                    className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
+                    dateTime={BIP39_WRONG_THING_ARTICLE_DATE}
+                  >
+                    {BIP39_WRONG_THING_ARTICLE_DISPLAY_DATE}
+                  </time>
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
+                    {readingMinutes} min read
+                  </span>
+                </div>
+
+                <h1 className="mt-8 max-w-[15ch] font-display text-4xl leading-[0.96] font-bold tracking-[-0.055em] text-balance text-foreground sm:text-6xl">
+                  {article.title}
+                </h1>
+                <p className="mt-7 max-w-2xl text-lg leading-8 text-pretty text-muted-foreground sm:text-2xl sm:leading-9">
+                  {article.subtitle}
+                </p>
+              </div>
+            </div>
+          </header>
+
+          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <nav
+              aria-label="Article contents"
+              className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
+            >
+              <p className="text-[11px] font-semibold text-muted-foreground uppercase">
+                Contents
+              </p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {headings.map((heading) => (
+                  <a
+                    key={heading.id}
+                    href={`#${heading.id}`}
+                    className={`glimmer-button surface-ring rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
+                  >
+                    {heading.text}
+                  </a>
+                ))}
+              </div>
+            </nav>
+
+            <div className="article-shell learning-article-body bitcoin-core-article-body long-road-article-body bip39-article-body mt-10">
+              <blockquote className="long-road-article-quote bip39-hero-caption">
+                <p>{article.heroCaption}</p>
+              </blockquote>
+
+              {article.blocks.map((block, index) => {
+                if (block.type === "heading") {
+                  return (
+                    <Bip39SectionHeading
+                      key={`${block.id}-${index}`}
+                      heading={block}
+                      index={headings.findIndex(
+                        (heading) => heading.id === block.id
+                      )}
+                    />
+                  )
+                }
+
+                if (block.type === "list") {
+                  return (
+                    <ul className="bitcoin-core-list" key={`list-${index}`}>
+                      {block.items.map((item, itemIndex) => (
+                        <li key={`${item}-${itemIndex}`}>
+                          {renderBip39Inline(item)}
+                        </li>
+                      ))}
+                    </ul>
+                  )
+                }
+
+                if (block.type === "quote") {
+                  return (
+                    <blockquote
+                      className="long-road-article-quote"
+                      key={`quote-${index}`}
+                    >
+                      <p>{renderBip39Inline(block.text)}</p>
+                    </blockquote>
+                  )
+                }
+
+                if (block.type === "visual") {
+                  return (
+                    <Bip39ArticleVisual
+                      key={`visual-${block.number}`}
+                      number={block.number}
+                    />
+                  )
+                }
+
+                return (
+                  <p key={`paragraph-${index}`}>
+                    {renderBip39Inline(block.text)}
+                  </p>
+                )
+              })}
+              {!articleSource ? <p>Loading article…</p> : null}
+            </div>
+
+            <nav
+              aria-label="Related content"
+              className="article-shell mt-14 grid gap-3 sm:grid-cols-2"
+            >
+              <a
+                href={EN_BITCOIN_CORE_SERIES_PATH}
+                className={`glimmer-button surface-shadow-soft rounded-[24px] bg-card/82 p-5 hover:bg-card sm:p-6 ${liftHover}`}
+              >
+                <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+                  Series
+                </span>
+                <span className="mt-3 block font-display text-xl font-bold tracking-[-0.04em] text-balance text-foreground">
+                  Back to Bitcoin Core
+                </span>
+              </a>
+              <a
+                href={EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH}
+                className={`glimmer-button surface-shadow-soft rounded-[24px] bg-card/82 p-5 hover:bg-card sm:p-6 ${liftHover}`}
+              >
+                <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+                  Next article
+                </span>
+                <span className="mt-3 block font-display text-xl font-bold tracking-[-0.04em] text-balance text-foreground">
+                  {EN_BITCOIN_CORE_ARTICLE_TITLE}
+                </span>
+              </a>
+            </nav>
+          </div>
+        </article>
+      </main>
+      <BitcoinCoreBackToTop language="en" />
+    </PageChrome>
+  )
+}
+
 function LongRoadArticleVisual({ number }: { number: number }) {
   const visual = longRoadVisuals[number - 1]
 
@@ -2896,12 +3229,14 @@ export function App({
   initialLearningArticleHtml = "",
   initialBitcoinCoreArticleSource = "",
   initialLongRoadArticleSource = "",
+  initialBip39ArticleSource = "",
 }: {
   initialPath?: string
   initialArticleData?: ArticleDataModule | null
   initialLearningArticleHtml?: string
   initialBitcoinCoreArticleSource?: string
   initialLongRoadArticleSource?: string
+  initialBip39ArticleSource?: string
 } = {}) {
   const currentPath = initialPath
     ? normalizePath(initialPath)
@@ -2978,6 +3313,10 @@ export function App({
         initialArticleSource={initialLongRoadArticleSource}
       />
     )
+  }
+
+  if (currentPath === BIP39_WRONG_THING_ARTICLE_PATH) {
+    return <Bip39ArticlePage initialArticleSource={initialBip39ArticleSource} />
   }
 
   if (currentPath === AI_SERIES_PATH) {

@@ -15,6 +15,7 @@ const enBitcoinCoreSeriesUrl = `${siteUrl}/en/bitcoin-core/`
 const enBitcoinCoreCurriculumUrl = `${enBitcoinCoreSeriesUrl}self-custody/`
 const enBitcoinCoreSeriesId = `${enBitcoinCoreSeriesUrl}#collection`
 const walletGuideUrl = `${enBitcoinCoreSeriesUrl}wallet-setup-backup-recovery/`
+const bip39WrongThingArticleUrl = `${enBitcoinCoreSeriesUrl}bip39-made-the-wrong-thing-human-readable/`
 const enBitcoinCoreArticleUrl = `${enBitcoinCoreSeriesUrl}how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/`
 const longRoadArticleUrl = `${enBitcoinCoreSeriesUrl}the-long-road-back-to-bitcoin-core/`
 
@@ -359,6 +360,42 @@ const routes = [
       "Bitcoin wallet recovery",
       "offline signing",
       "PSBT",
+    ],
+  },
+  {
+    appPath: "/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/",
+    routePath: "en/bitcoin-core/bip39-made-the-wrong-thing-human-readable",
+    routeUrl: bip39WrongThingArticleUrl,
+    title: "BIP39 Made the Wrong Thing Human-Readable",
+    headline: "BIP39 Made the Wrong Thing Human-Readable",
+    description:
+      "Why a machine-readable Bitcoin Core wallet backup can preserve more recovery context than a mnemonic root secret, while keeping signing authority separate.",
+    ogDescription:
+      "Why I no longer think the wallet's root secret should be the thing humans are asked to preserve",
+    type: "article",
+    language: "en-US",
+    publishedDate: "2026-08-21",
+    sectionName: "Bitcoin Core",
+    sectionId: enBitcoinCoreSeriesId,
+    articleTag: "Bitcoin Core wallet recovery",
+    breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
+    image: `${siteUrl}/bip39-wrong-thing-cover-share.jpg`,
+    imageAlt:
+      "A person holds mnemonic tiles while a complete wallet remains protected inside a machine.",
+    imageWidth: 1200,
+    imageHeight: 630,
+    heroImage: "/bip39-wrong-thing-cover.webp",
+    heroImageSrcSet:
+      "/bip39-wrong-thing-cover-840.webp 840w, /bip39-wrong-thing-cover.webp 1920w",
+    heroImageSizes: "100vw",
+    keywords: [
+      "BIP39",
+      "BIP32",
+      "Bitcoin Core",
+      "Bitcoin wallet backup",
+      "wallet recovery",
+      "PSBT",
+      "offline signing",
     ],
   },
   {

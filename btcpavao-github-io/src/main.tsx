@@ -13,6 +13,7 @@ import {
   needsArticleData,
   needsLearningArticleHtml,
   needsLongRoadArticleSource,
+  needsBip39ArticleSource,
   normalizePath,
   START_HERE_PATH,
 } from "@/routes"
@@ -24,6 +25,7 @@ async function startApp() {
   let initialLearningArticleHtml = ""
   let initialBitcoinCoreArticleSource = ""
   let initialLongRoadArticleSource = ""
+  let initialBip39ArticleSource = ""
 
   if (needsArticleData(initialPath)) {
     initialArticleData = await import("./article-data")
@@ -45,6 +47,12 @@ async function startApp() {
   if (needsLongRoadArticleSource(initialPath)) {
     initialLongRoadArticleSource = (
       await import("./long-road-back-to-bitcoin-core.md?raw")
+    ).default
+  }
+
+  if (needsBip39ArticleSource(initialPath)) {
+    initialBip39ArticleSource = (
+      await import("./bip39-wrong-thing-human-readable.md?raw")
     ).default
   }
 
@@ -75,6 +83,7 @@ async function startApp() {
         initialLearningArticleHtml={initialLearningArticleHtml}
         initialBitcoinCoreArticleSource={initialBitcoinCoreArticleSource}
         initialLongRoadArticleSource={initialLongRoadArticleSource}
+        initialBip39ArticleSource={initialBip39ArticleSource}
       />
     )
   }

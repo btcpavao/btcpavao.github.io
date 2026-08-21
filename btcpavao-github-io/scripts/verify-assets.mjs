@@ -5,6 +5,18 @@ import path from "node:path"
 const root = new URL("../", import.meta.url)
 
 const responsiveImages = [
+  ...Array.from({ length: 9 }, (_, index) => {
+    const number = String(index + 2).padStart(2, "0")
+
+    return {
+      full: `public/bip39-wrong-thing-${number}.webp`,
+      small: `public/bip39-wrong-thing-${number}-840.webp`,
+    }
+  }),
+  {
+    full: "public/bip39-wrong-thing-cover.webp",
+    small: "public/bip39-wrong-thing-cover-840.webp",
+  },
   ...Array.from({ length: 11 }, (_, index) => {
     const number = String(index + 1).padStart(2, "0")
 
@@ -68,6 +80,7 @@ const responsiveImages = [
 ]
 
 const additionalPublicAssets = [
+  "public/bip39-wrong-thing-cover-share.jpg",
   "public/bitcoin-logo.svg",
   "public/bitcoin-core-entropija-cover-v2-share.jpg",
   "public/long-road-bitcoin-core-cover-share.jpg",
@@ -195,6 +208,14 @@ const longRoadModuleSource = await readFile(
   new URL("../src/long-road-article.tsx", import.meta.url),
   "utf8"
 )
+const bip39ArticleSource = await readFile(
+  new URL("../src/bip39-wrong-thing-human-readable.md", import.meta.url),
+  "utf8"
+)
+const bip39ArticleModuleSource = await readFile(
+  new URL("../src/bip39-article.tsx", import.meta.url),
+  "utf8"
+)
 const packageSource = await readFile(
   new URL("../package.json", import.meta.url),
   "utf8"
@@ -269,7 +290,14 @@ const longRoadArticleRouteHtml = await readFile(
   ),
   "utf8"
 )
-const sourceText = `${appSource}\n${homepageSource}\n${bitcoinCoreStartSource}\n${articleDataSource}\n${bitcoinCoreArticleSource}\n${bitcoinCoreEnglishArticleSource}\n${longRoadModuleSource}`
+const bip39ArticleRouteHtml = await readFile(
+  new URL(
+    "../dist/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/index.html",
+    import.meta.url
+  ),
+  "utf8"
+)
+const sourceText = `${appSource}\n${homepageSource}\n${bitcoinCoreStartSource}\n${articleDataSource}\n${bitcoinCoreArticleSource}\n${bitcoinCoreEnglishArticleSource}\n${longRoadModuleSource}\n${bip39ArticleModuleSource}`
 const bitcoinCoreArticleHash = createHash("sha256")
   .update(bitcoinCoreArticleSource)
   .digest("hex")
@@ -303,6 +331,12 @@ assert(
   (longRoadArticleSource.match(/\[VISUAL PLACEHOLDER \d{2} \u2014/g) ?? [])
     .length === 13,
   "The Long Road article source does not contain exactly 13 visual placeholders"
+)
+assert(
+  (bip39ArticleSource.match(/^!\[/gm) ?? []).length === 10 &&
+    bip39ArticleSource.includes("Today a client sent me his Bitcoin wallet.") &&
+    !/\bfriend\b/i.test(bip39ArticleSource),
+  "The BIP39 article source is incomplete or still uses friend"
 )
 
 function bitcoinCoreArticleStructure(source) {
@@ -351,6 +385,20 @@ assert(
       )
     ).every(Boolean),
   "Sitemap is missing The Long Road article, cover, or one of its 13 inline images"
+)
+assert(
+  sitemapSource.includes(
+    "https://btcpavao.com/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/"
+  ) &&
+    sitemapSource.includes(
+      "https://btcpavao.com/bip39-wrong-thing-cover.webp"
+    ) &&
+    Array.from({ length: 9 }, (_, index) =>
+      sitemapSource.includes(
+        `https://btcpavao.com/bip39-wrong-thing-${String(index + 2).padStart(2, "0")}.webp`
+      )
+    ).every(Boolean),
+  "Sitemap is missing the BIP39 article, cover, or one of its inline images"
 )
 
 function assertStructuredDataIsValid(html, label) {
@@ -515,6 +563,10 @@ assert(
   "Homepage is missing The Long Road article"
 )
 assert(
+  distIndexHtml.includes("BIP39 Made the Wrong Thing Human-Readable"),
+  "Homepage is missing the BIP39 article"
+)
+assert(
   articleRouteHtml.includes("Postoji trenutak kada nova tehnologija"),
   "First article body was not prerendered"
 )
@@ -552,6 +604,9 @@ assert(
       "The Long Road Back to Bitcoin Core"
     ) &&
     enBitcoinCoreSeriesRouteHtml.includes(
+      "BIP39 Made the Wrong Thing Human-Readable"
+    ) &&
+    enBitcoinCoreSeriesRouteHtml.includes(
       "English essays about Bitcoin Core, wallets, validation, and the security foundations of the Bitcoin system."
     ),
   "English Bitcoin Core series page is incomplete"
@@ -582,6 +637,27 @@ assert(
     longRoadArticleRouteHtml.includes('aria-label="Back to top"') &&
     longRoadArticleRouteHtml.includes(">Contents</p>"),
   "The Long Road article body or English navigation was not prerendered"
+)
+assert(
+  bip39ArticleRouteHtml.includes(
+    "Today a client sent me his Bitcoin wallet."
+  ) &&
+    !/\bfriend\b/i.test(bip39ArticleRouteHtml) &&
+    bip39ArticleRouteHtml.includes('aria-label="Back to top"') &&
+    bip39ArticleRouteHtml.includes(">Contents</p>"),
+  "The BIP39 article body or English navigation was not prerendered"
+)
+assert(
+  bip39ArticleRouteHtml.includes('src="/bip39-wrong-thing-cover.webp"') &&
+    bip39ArticleRouteHtml.includes("/bip39-wrong-thing-cover-840.webp") &&
+    Array.from({ length: 9 }, (_, index) => {
+      const number = String(index + 2).padStart(2, "0")
+      return (
+        bip39ArticleRouteHtml.includes(`/bip39-wrong-thing-${number}.webp`) &&
+        bip39ArticleRouteHtml.includes(`/bip39-wrong-thing-${number}-840.webp`)
+      )
+    }).every(Boolean),
+  "The BIP39 article is missing its responsive cover or inline images"
 )
 assert(
   longRoadArticleRouteHtml.includes(
@@ -751,6 +827,22 @@ assert(
   "The Long Road article metadata is incomplete or has an incorrect hreflang link"
 )
 assert(
+  bip39ArticleRouteHtml.includes('<html lang="en">') &&
+    bip39ArticleRouteHtml.includes(
+      'rel="canonical" href="https://btcpavao.com/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/"'
+    ) &&
+    bip39ArticleRouteHtml.includes('property="og:locale" content="en_US"') &&
+    bip39ArticleRouteHtml.includes('"inLanguage": "en-US"') &&
+    bip39ArticleRouteHtml.includes('"@type": "BlogPosting"') &&
+    bip39ArticleRouteHtml.includes('"@type": "BreadcrumbList"') &&
+    bip39ArticleRouteHtml.includes("/bip39-wrong-thing-cover-share.jpg") &&
+    bip39ArticleRouteHtml.includes(
+      'property="og:image:width" content="1200"'
+    ) &&
+    bip39ArticleRouteHtml.includes('property="og:image:height" content="630"'),
+  "The BIP39 article metadata is incomplete"
+)
+assert(
   (workflowRouteHtml.match(/property="og:locale"/g) ?? []).length === 1 &&
     workflowRouteHtml.includes('property="og:locale" content="hr_HR"'),
   "Workflow route has incorrect or duplicate Open Graph locale metadata"
@@ -776,6 +868,7 @@ assertStructuredDataIsValid(
   "English Bitcoin Core article"
 )
 assertStructuredDataIsValid(longRoadArticleRouteHtml, "The Long Road article")
+assertStructuredDataIsValid(bip39ArticleRouteHtml, "The BIP39 article")
 
 const entryScriptMatch = distIndexHtml.match(
   /<script type="module" crossorigin src="([^"]+)"><\/script>/
@@ -805,6 +898,7 @@ const bitcoinCoreEnglishArticleBodyProbe =
   "When you create a new wallet in Bitcoin Core"
 const longRoadArticleBodyProbe =
   "For years, I was quietly searching for a better Bitcoin wallet."
+const bip39ArticleBodyProbe = "Today a client sent me his Bitcoin wallet."
 
 assert(
   entryScriptBytes < 335_000,
@@ -831,6 +925,10 @@ assert(
   "Entry chunk includes The Long Road article body"
 )
 assert(
+  !entryScript.includes(bip39ArticleBodyProbe),
+  "Entry chunk includes the BIP39 article body"
+)
+assert(
   lazyChunkSources.some((source) => source.includes(articleBodyProbe)),
   "Article body was not found in a lazy chunk"
 )
@@ -853,6 +951,10 @@ assert(
 assert(
   lazyChunkSources.some((source) => source.includes(longRoadArticleBodyProbe)),
   "The Long Road article body was not found in a lazy chunk"
+)
+assert(
+  lazyChunkSources.some((source) => source.includes(bip39ArticleBodyProbe)),
+  "The BIP39 article body was not found in a lazy chunk"
 )
 assert(
   !packageSource.includes('"motion"'),

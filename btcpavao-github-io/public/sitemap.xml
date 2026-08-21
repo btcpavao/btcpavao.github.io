@@ -6,7 +6,7 @@
 >
   <url>
     <loc>https://btcpavao.com/</loc>
-    <lastmod>2026-08-06</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -163,7 +163,7 @@
   </url>
   <url>
     <loc>https://btcpavao.com/en/bitcoin-core/</loc>
-    <lastmod>2026-08-05</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -194,6 +194,52 @@
     <image:image>
       <image:loc>https://btcpavao.com/bitcoin-core-wallet-guide/10-backup-wallet-menu.webp</image:loc>
       <image:title>Bitcoin Core wallet backup and recovery guide</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://btcpavao.com/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://btcpavao.com/bip39-wrong-thing-cover.webp</image:loc>
+      <image:title>BIP39 made the wrong thing human-readable</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bip39-wrong-thing-02.webp</image:loc>
+      <image:title>The real recovery test</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bip39-wrong-thing-03.webp</image:loc>
+      <image:title>Seed versus wallet</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bip39-wrong-thing-04.webp</image:loc>
+      <image:title>Wallet archaeology</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bip39-wrong-thing-05.webp</image:loc>
+      <image:title>BIP32 versus BIP39</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bip39-wrong-thing-06.webp</image:loc>
+      <image:title>The wrong thing made memorable</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bip39-wrong-thing-07.webp</image:loc>
+      <image:title>Eight-word KeePassXC passphrase</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bip39-wrong-thing-08.webp</image:loc>
+      <image:title>Separation of recovery artifacts</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bip39-wrong-thing-09.webp</image:loc>
+      <image:title>Protected redundancy</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://btcpavao.com/bip39-wrong-thing-10.webp</image:loc>
+      <image:title>The next question: entropy</image:title>
     </image:image>
   </url>
   <url>

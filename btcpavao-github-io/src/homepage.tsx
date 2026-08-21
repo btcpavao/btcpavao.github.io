@@ -21,6 +21,7 @@ import { SiteBrandLink } from "@/components/site-brand"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
+  BIP39_WRONG_THING_ARTICLE_PATH,
   BITCOIN_CORE_CURRICULUM_PATH,
   BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
@@ -127,6 +128,14 @@ const audiences: Array<{
 ]
 
 const latestPosts = [
+  {
+    category: "Bitcoin Core",
+    language: "EN",
+    date: "August 21, 2026",
+    title: "BIP39 Made the Wrong Thing Human-Readable",
+    copy: "Why the wallet's root secret should not be the thing humans are expected to preserve.",
+    href: BIP39_WRONG_THING_ARTICLE_PATH,
+  },
   {
     category: "Bitcoin Core",
     language: "HR",
