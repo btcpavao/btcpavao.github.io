@@ -379,7 +379,8 @@ const routes = [
     sectionId: enBitcoinCoreSeriesId,
     articleTag: "Bitcoin Core wallet recovery",
     breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
-    image: `${siteUrl}/bip39-wrong-thing-cover-share.jpg`,
+    image: `${siteUrl}/bip39-wrong-thing-cover-share.jpg?v=20260821`,
+    xCover: true,
     imageAlt:
       "A person holds mnemonic tiles while a complete wallet remains protected inside a machine.",
     imageWidth: 1200,
@@ -613,7 +614,13 @@ ${heroPreload}`
 `
     : ""
 
-  return `${articleMeta}${alternateLinks}    <script type="application/ld+json">
+  const xCoverMeta = route.xCover
+    ? `    <meta property="og:image:secure_url" content="${route.image}" />
+    <meta name="twitter:image:src" content="${route.image}" />
+`
+    : ""
+
+  return `${articleMeta}${alternateLinks}${xCoverMeta}    <script type="application/ld+json">
       ${JSON.stringify(structuredData(route), null, 8)}
     </script>
 `

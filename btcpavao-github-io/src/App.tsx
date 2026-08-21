@@ -161,7 +161,7 @@ const BIP39_WRONG_THING_ARTICLE_DESCRIPTION =
   "Why a machine-readable Bitcoin Core wallet backup can preserve more recovery context than a mnemonic root secret, while keeping signing authority separate."
 const BIP39_WRONG_THING_ARTICLE_DATE = "2026-08-21"
 const BIP39_WRONG_THING_ARTICLE_DISPLAY_DATE = "August 21, 2026"
-const BIP39_WRONG_THING_ARTICLE_OG_IMAGE = `${SITE_URL}/bip39-wrong-thing-cover-share.jpg`
+const BIP39_WRONG_THING_ARTICLE_OG_IMAGE = `${SITE_URL}/bip39-wrong-thing-cover-share.jpg?v=20260821`
 const BIP39_WRONG_THING_ARTICLE_HERO_IMAGE = "/bip39-wrong-thing-cover.webp"
 const BIP39_WRONG_THING_ARTICLE_HERO_IMAGE_SMALL =
   "/bip39-wrong-thing-cover-840.webp"

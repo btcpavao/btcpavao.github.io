@@ -844,7 +844,15 @@ assert(
     bip39ArticleRouteHtml.includes('"inLanguage": "en-US"') &&
     bip39ArticleRouteHtml.includes('"@type": "BlogPosting"') &&
     bip39ArticleRouteHtml.includes('"@type": "BreadcrumbList"') &&
-    bip39ArticleRouteHtml.includes("/bip39-wrong-thing-cover-share.jpg") &&
+    bip39ArticleRouteHtml.includes(
+      "/bip39-wrong-thing-cover-share.jpg?v=20260821"
+    ) &&
+    bip39ArticleRouteHtml.includes(
+      'property="og:image:secure_url" content="https://btcpavao.com/bip39-wrong-thing-cover-share.jpg?v=20260821"'
+    ) &&
+    bip39ArticleRouteHtml.includes(
+      'name="twitter:image:src" content="https://btcpavao.com/bip39-wrong-thing-cover-share.jpg?v=20260821"'
+    ) &&
     bip39ArticleRouteHtml.includes(
       'property="og:image:width" content="1200"'
     ) &&
