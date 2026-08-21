@@ -553,10 +553,16 @@ assert(
   "Homepage was not prerendered"
 )
 assert(
-  distIndexHtml.includes(
+  !distIndexHtml.includes(
     "Kako Bitcoin Core generira entropiju kada napravimo novi wallet"
-  ),
-  "Homepage is missing the latest Bitcoin Core article"
+  ) &&
+    !distIndexHtml.includes(
+      "Kako sam uz AI naučio matematiku Bitcoinova dugoročnog trenda"
+    ) &&
+    !distIndexHtml.includes(
+      "Moj AI workflow: od diktata do objavljene stranice"
+    ),
+  "Homepage still includes Croatian writing"
 )
 assert(
   distIndexHtml.includes("The Long Road Back to Bitcoin Core"),
@@ -635,7 +641,10 @@ assert(
     "For years, I was quietly searching for a better Bitcoin wallet."
   ) &&
     longRoadArticleRouteHtml.includes('aria-label="Back to top"') &&
-    longRoadArticleRouteHtml.includes(">Contents</p>"),
+    longRoadArticleRouteHtml.includes(">Contents</p>") &&
+    longRoadArticleRouteHtml.includes(
+      "https://checkout.opennode.com/p/5d3032e8-dc66-4e0f-9fbe-e523ea62dc05"
+    ),
   "The Long Road article body or English navigation was not prerendered"
 )
 assert(

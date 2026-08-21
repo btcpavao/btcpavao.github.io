@@ -29,9 +29,13 @@ import {
   renderBip39Inline,
   type Bip39ArticleBlock,
 } from "@/bip39-article"
-import { BitcoinPavaoMark, SiteBrandLink } from "@/components/site-brand"
+import { SiteBrandLink } from "@/components/site-brand"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import {
+  ValueForValueCard,
+  ValueForValueRail,
+} from "@/components/value-for-value"
 import {
   longRoadVisuals,
   parseLongRoadArticle,
@@ -189,8 +193,7 @@ type SeriesPost = {
 
 const socialLinks = [
   { label: "X", href: "https://x.com/btcpavao" },
-  { label: "Nostr", href: "https://primal.net/btcpavao" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/pavaopahljina/" },
+  { label: "GitHub", href: "https://github.com/btcpavao" },
   {
     label: "GitBook",
     href: "https://btcpavao.gitbook.io/practical-bitcoin-standard/",
@@ -1093,6 +1096,7 @@ function ArticlePage({
     <div className="relative isolate min-h-screen overflow-x-clip bg-background text-foreground">
       <SkipLink label="Preskoči na sadržaj" />
       <div className="reading-progress" aria-hidden="true" />
+      <ValueForValueRail language="hr" />
       <div
         aria-hidden="true"
         className="page-atmosphere pointer-events-none absolute inset-0"
@@ -1152,16 +1156,6 @@ function ArticlePage({
                   <span className="rounded-full border border-border/70 bg-background/78 px-3 py-1 backdrop-blur">
                     AI u praksi
                   </span>
-                  <span className="rounded-full border border-border/70 bg-background/78 px-3 py-1 backdrop-blur">
-                    Hrvatski
-                  </span>
-                  <a
-                    href="/"
-                    rel="author"
-                    className="rounded-full border border-border/70 bg-background/78 px-3 py-1 backdrop-blur hover:bg-card hover:text-foreground"
-                  >
-                    <BitcoinPavaoMark iconClassName="size-4" />
-                  </a>
                   <time
                     className="rounded-full border border-border/70 bg-background/78 px-3 py-1 backdrop-blur"
                     dateTime={ARTICLE_DATE}
@@ -1343,6 +1337,8 @@ function ArticlePage({
                 </section>
               ))}
             </div>
+
+            <ValueForValueCard language="hr" className="article-shell mt-14" />
 
             <Card className="article-shell mt-14 rounded-[30px] border-border/70 bg-card/86 py-0 shadow-float">
               <CardContent className="p-6 sm:p-8">
@@ -1984,6 +1980,7 @@ function BitcoinCoreArticlePage({
       language={language}
     >
       <div className="reading-progress" aria-hidden="true" />
+      <ValueForValueRail language={language} />
       <main id="main-content" className="relative pb-20">
         <article>
           <header className="article-hero-bleed bitcoin-core-article-hero entropy-cover-hero">
@@ -2017,22 +2014,12 @@ function BitcoinCoreArticlePage({
                   <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
                     Bitcoin Core
                   </span>
-                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
-                    {isEnglish ? "English" : "Hrvatski"}
-                  </span>
                   <a
                     href={counterpartPath}
                     className="surface-ring inline-flex min-h-10 items-center rounded-full bg-background/78 px-3 py-1 backdrop-blur transition-[background-color,color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground active:scale-[0.96]"
                     hrefLang={isEnglish ? "hr" : "en"}
                   >
                     {isEnglish ? "Croatian version" : "English version"}
-                  </a>
-                  <a
-                    href="/"
-                    rel="author"
-                    className="surface-ring inline-flex min-h-10 items-center rounded-full bg-background/78 px-3 py-1 backdrop-blur hover:bg-card hover:text-foreground"
-                  >
-                    <BitcoinPavaoMark iconClassName="size-4" />
                   </a>
                   <time
                     className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
@@ -2123,6 +2110,11 @@ function BitcoinCoreArticlePage({
                 <p>{isEnglish ? "Loading article…" : "Učitavanje članka…"}</p>
               ) : null}
             </div>
+
+            <ValueForValueCard
+              language={language}
+              className="article-shell mt-14"
+            />
 
             <nav
               aria-label={isEnglish ? "Related content" : "Povezani sadržaj"}
@@ -2273,6 +2265,7 @@ function Bip39ArticlePage({
       language="en"
     >
       <div className="reading-progress" aria-hidden="true" />
+      <ValueForValueRail language="en" />
       <main id="main-content" className="relative pb-20">
         <article>
           <header className="article-hero-bleed bitcoin-core-article-hero long-road-cover-hero bip39-cover-hero">
@@ -2307,16 +2300,6 @@ function Bip39ArticlePage({
                   <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
                     Article 1
                   </span>
-                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
-                    English
-                  </span>
-                  <a
-                    href="/"
-                    rel="author"
-                    className="surface-ring inline-flex min-h-10 items-center rounded-full bg-background/78 px-3 py-1 backdrop-blur transition-[background-color,color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground active:scale-[0.96]"
-                  >
-                    <BitcoinPavaoMark iconClassName="size-4" />
-                  </a>
                   <time
                     className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
                     dateTime={BIP39_WRONG_THING_ARTICLE_DATE}
@@ -2417,6 +2400,8 @@ function Bip39ArticlePage({
               })}
               {!articleSource ? <p>Loading article…</p> : null}
             </div>
+
+            <ValueForValueCard language="en" className="article-shell mt-14" />
 
             <nav
               aria-label="Related content"
@@ -2569,6 +2554,7 @@ function LongRoadArticlePage({
       language="en"
     >
       <div className="reading-progress" aria-hidden="true" />
+      <ValueForValueRail language="en" />
       <main id="main-content" className="relative pb-20">
         <article>
           <header className="article-hero-bleed bitcoin-core-article-hero long-road-cover-hero">
@@ -2603,16 +2589,6 @@ function LongRoadArticlePage({
                   <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
                     Bitcoin Core
                   </span>
-                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
-                    English
-                  </span>
-                  <a
-                    href="/"
-                    rel="author"
-                    className="surface-ring inline-flex min-h-10 items-center rounded-full bg-background/78 px-3 py-1 backdrop-blur transition-[background-color,color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground active:scale-[0.96]"
-                  >
-                    <BitcoinPavaoMark iconClassName="size-4" />
-                  </a>
                   <time
                     className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
                     dateTime={LONG_ROAD_ARTICLE_DATE}
@@ -2718,6 +2694,8 @@ function LongRoadArticlePage({
               })}
               {!articleSource ? <p>Loading article…</p> : null}
             </div>
+
+            <ValueForValueCard language="en" className="article-shell mt-14" />
 
             <nav
               aria-label="Related content"
@@ -2905,6 +2883,7 @@ function WorkflowArticlePage({
   return (
     <PageChrome>
       <div className="reading-progress" aria-hidden="true" />
+      <ValueForValueRail language="hr" />
       <main id="main-content" className="relative pb-20">
         <article>
           <header className="article-hero-bleed">
@@ -2934,16 +2913,6 @@ function WorkflowArticlePage({
                   <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
                     AI u praksi
                   </span>
-                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
-                    Hrvatski
-                  </span>
-                  <a
-                    href="/"
-                    rel="author"
-                    className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur hover:bg-card hover:text-foreground"
-                  >
-                    <BitcoinPavaoMark iconClassName="size-4" />
-                  </a>
                   <time
                     className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
                     dateTime={WORKFLOW_ARTICLE_DATE}
@@ -3023,6 +2992,8 @@ function WorkflowArticlePage({
               })}
             </div>
 
+            <ValueForValueCard language="hr" className="article-shell mt-14" />
+
             <nav
               aria-label="Povezani članci"
               className="article-shell mt-14 grid gap-3 sm:grid-cols-2"
@@ -3087,6 +3058,7 @@ function LearningArticlePage({
   return (
     <PageChrome>
       <div className="reading-progress" aria-hidden="true" />
+      <ValueForValueRail language="hr" />
       <main id="main-content" className="relative pb-20">
         <article>
           <header className="article-hero-bleed">
@@ -3116,16 +3088,6 @@ function LearningArticlePage({
                   <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
                     AI u praksi
                   </span>
-                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
-                    Hrvatski
-                  </span>
-                  <a
-                    href="/"
-                    rel="author"
-                    className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur hover:bg-card hover:text-foreground"
-                  >
-                    <BitcoinPavaoMark iconClassName="size-4" />
-                  </a>
                   <time
                     className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
                     dateTime={LEARNING_ARTICLE_DATE}
@@ -3180,6 +3142,8 @@ function LearningArticlePage({
                 Učitavanje članka…
               </p>
             )}
+
+            <ValueForValueCard language="hr" className="article-shell mt-14" />
 
             <nav
               aria-label="Povezani članci"

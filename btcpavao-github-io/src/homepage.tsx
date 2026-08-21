@@ -20,17 +20,13 @@ import { useTheme } from "@/components/theme-provider"
 import { SiteBrandLink } from "@/components/site-brand"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { ValueForValueCard } from "@/components/value-for-value"
 import {
   BIP39_WRONG_THING_ARTICLE_PATH,
-  BITCOIN_CORE_CURRICULUM_PATH,
-  BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   EN_BITCOIN_CORE_SERIES_PATH,
-  HR_HOME_PATH,
-  LEARNING_ARTICLE_PATH,
   LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH,
   START_HERE_PATH,
-  WORKFLOW_ARTICLE_PATH,
 } from "@/routes"
 
 const BOOKING_URL = "https://cal.com/btcpavao/introductory-call"
@@ -138,14 +134,6 @@ const latestPosts = [
   },
   {
     category: "Bitcoin Core",
-    language: "HR",
-    date: "10. kolovoza 2026.",
-    title: "Praktičan Bitcoin self-custody uz Bitcoin Core",
-    copy: "Deset faza od threat modela i ranih Signet vježbi do provjerenog recoveryja, offline signinga i multisiga.",
-    href: BITCOIN_CORE_CURRICULUM_PATH,
-  },
-  {
-    category: "Bitcoin Core",
     language: "EN",
     date: "August 5, 2026",
     title: "The Long Road Back to Bitcoin Core",
@@ -159,30 +147,6 @@ const latestPosts = [
     title: "How Bitcoin Core Generates Entropy When You Create a New Wallet",
     copy: "How Core gathers randomness, validates a private key, and builds a BIP32 wallet.",
     href: EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
-  },
-  {
-    category: "Bitcoin Core",
-    language: "HR",
-    date: "5. kolovoza 2026.",
-    title: "Kako Bitcoin Core generira entropiju kada napravimo novi wallet",
-    copy: "Hrvatska verzija vodiča kroz entropiju, privatni ključ i nastanak walleta.",
-    href: BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
-  },
-  {
-    category: "AI and workflows",
-    language: "HR",
-    date: "17. srpnja 2026.",
-    title: "Kako sam uz AI naučio matematiku Bitcoinova dugoročnog trenda",
-    copy: "Od teškog PDF-a do provjerenog modela, grafa i javnog alata.",
-    href: LEARNING_ARTICLE_PATH,
-  },
-  {
-    category: "AI and workflows",
-    language: "HR",
-    date: "25. lipnja 2026.",
-    title: "Moj AI workflow: od diktata do objavljene stranice",
-    copy: "Kako ideja prolazi kroz diktat, uređivanje, implementaciju i objavu.",
-    href: WORKFLOW_ARTICLE_PATH,
   },
 ]
 
@@ -371,24 +335,6 @@ export function Homepage() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <div
-              className="hidden min-h-11 items-center rounded-full bg-card px-6 text-xs font-semibold text-muted-foreground shadow-[var(--shadow-border)] sm:flex"
-              aria-label="Language"
-            >
-              <span className="text-foreground" aria-current="page">
-                EN
-              </span>
-              <span className="px-2 text-border" aria-hidden="true">
-                /
-              </span>
-              <a
-                href={HR_HOME_PATH}
-                lang="hr"
-                className="hover:text-foreground"
-              >
-                HR
-              </a>
-            </div>
             <ThemeToggle />
             <Button
               asChild
@@ -450,14 +396,7 @@ export function Homepage() {
                   <ArrowRight className="size-4" aria-hidden="true" />
                 </a>
               ))}
-              <div className="mt-2 grid grid-cols-2 gap-2">
-                <a
-                  href={HR_HOME_PATH}
-                  lang="hr"
-                  className="flex min-h-11 items-center justify-center rounded-full bg-card text-sm font-semibold shadow-[var(--shadow-border)]"
-                >
-                  Hrvatski
-                </a>
+              <div className="mt-2">
                 <a
                   href={BOOKING_URL}
                   target="_blank"
@@ -541,6 +480,10 @@ export function Homepage() {
                   <a href="#writing">Read the latest writing</a>
                 </Button>
               </div>
+              <p className="mt-4 max-w-xl text-sm leading-6 text-muted-foreground">
+                Advisory calls are offered on a value-for-value basis: after the
+                conversation, contribute what it was worth to you.
+              </p>
             </div>
           </div>
         </section>
@@ -864,7 +807,6 @@ export function Homepage() {
                 "Bitcoin Core",
                 "Bitcoin Standard",
                 "AI and workflows",
-                "Croatian",
                 "English",
               ].map((label) => (
                 <span
@@ -919,14 +861,11 @@ export function Homepage() {
             >
               <a href={EN_BITCOIN_CORE_SERIES_PATH}>English Bitcoin Core</a>
             </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="min-h-11 rounded-full px-5"
-            >
-              <a href={HR_HOME_PATH}>All Croatian writing</a>
-            </Button>
           </div>
+        </section>
+
+        <section className="px-4 pb-20 sm:px-6 sm:pb-28 lg:px-8">
+          <ValueForValueCard language="en" className="mx-auto max-w-7xl" />
         </section>
 
         <section
@@ -1036,6 +975,10 @@ export function Homepage() {
                 in one weekend. Begin with one conversation or one test wallet.
                 Understand one step, verify it, and continue.
               </p>
+              <p className="mt-5 max-w-2xl text-sm leading-7 text-white/72">
+                Advisory calls work on a value-for-value basis. There is no
+                fixed fee: contribute what the conversation was worth to you.
+              </p>
               <p className="mt-6 text-sm text-white/60">
                 Practical education and guidance. Not investment, legal, or tax
                 advice.
@@ -1090,18 +1033,11 @@ export function Homepage() {
               X
             </a>
             <a
-              href="https://primal.net/btcpavao"
+              href="https://github.com/btcpavao"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Nostr
-            </a>
-            <a
-              href="https://www.linkedin.com/in/pavaopahljina/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn
+              GitHub
             </a>
             <a href="mailto:pavao@hey.com">Email</a>
           </div>

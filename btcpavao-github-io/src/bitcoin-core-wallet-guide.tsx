@@ -26,6 +26,10 @@ import {
 import { useTheme } from "@/components/theme-provider"
 import { SiteBrandLink } from "@/components/site-brand"
 import {
+  ValueForValueCard,
+  ValueForValueRail,
+} from "@/components/value-for-value"
+import {
   BITCOIN_CORE_WALLET_GUIDE_PATH,
   EN_BITCOIN_CORE_SERIES_PATH,
 } from "@/routes"
@@ -1171,6 +1175,7 @@ export function BitcoinCoreWalletGuidePage() {
       <a className="skip-link" href="#guide">
         Skip to guide
       </a>
+      <ValueForValueRail language="en" />
 
       <header className="sticky top-0 z-30 bg-background/92 shadow-[0_1px_0_rgba(0,0,0,0.08)] backdrop-blur-xl dark:shadow-[0_1px_0_rgba(255,255,255,0.09)]">
         <div className="mx-auto flex min-h-[72px] max-w-5xl items-center justify-between gap-3 px-4 sm:px-6">
@@ -1405,6 +1410,10 @@ export function BitcoinCoreWalletGuidePage() {
             </div>
           </div>
         </section>
+
+        <div className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 sm:pb-20">
+          <ValueForValueCard language="en" />
+        </div>
       </main>
 
       <footer className="border-t border-border/60 py-8 text-center text-xs leading-6 text-muted-foreground">
