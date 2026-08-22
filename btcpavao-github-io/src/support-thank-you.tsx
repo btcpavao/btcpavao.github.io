@@ -48,48 +48,49 @@ export function SupportThankYouPage() {
       <SiteHeader />
 
       <main id="thank-you">
-        <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
-          <div className="overflow-hidden rounded-[2rem] bg-card shadow-[var(--shadow-border)]">
-            <div className="grid lg:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.92fr)]">
-              <div className="flex flex-col justify-center p-6 sm:p-10 lg:p-14">
-                <p className="text-[11px] font-bold tracking-[0.18em] text-primary uppercase">
-                  Value for Value
-                </p>
-                <h1 className="mt-5 max-w-[13ch] font-display text-4xl leading-[0.98] font-bold tracking-[-0.055em] sm:text-6xl">
-                  Thank you for returning value.
-                </h1>
-                <div className="mt-7 max-w-2xl space-y-5 text-base leading-8 text-muted-foreground sm:text-lg sm:leading-9">
-                  <p>
-                    Thank you for supporting my work. Your contribution helps me
-                    keep Bitcoin education, articles, guides and other resources
-                    open and freely available to everyone.
-                  </p>
-                  <p>
-                    I don&apos;t want useful Bitcoin knowledge to be hidden
-                    behind a paywall or limited only to people who can afford a
-                    predetermined price. Value for Value lets me keep the work
-                    open while allowing each person to decide for themselves
-                    what it was worth.
-                  </p>
-                </div>
-              </div>
+        <section className="home-hero support-thank-hero relative isolate overflow-hidden">
+          <picture className="home-hero-background support-thank-hero-background absolute inset-0 -z-20">
+            <source
+              srcSet="/value-for-value-visual-840.webp 840w, /value-for-value-visual.webp 1536w"
+              sizes="100vw"
+              type="image/webp"
+            />
+            <img
+              src="/value-for-value-visual.webp"
+              alt="An open book encircled by small brass markers on a sunlit Mediterranean stone table, symbolizing open knowledge and voluntary exchange."
+              width="1536"
+              height="1024"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </picture>
+          <div
+            className="home-hero-fade support-thank-hero-fade absolute inset-0 -z-10"
+            aria-hidden="true"
+          />
 
-              <picture className="relative block min-h-64 bg-muted lg:min-h-[34rem]">
-                <source
-                  srcSet="/value-for-value-visual-840.webp 840w, /value-for-value-visual.webp 1536w"
-                  sizes="(max-width: 1023px) calc(100vw - 2rem), 42vw"
-                  type="image/webp"
-                />
-                <img
-                  src="/value-for-value-visual.webp"
-                  alt="An open book encircled by small brass markers on a sunlit Mediterranean stone table, symbolizing open knowledge and voluntary exchange."
-                  width="1536"
-                  height="1024"
-                  loading="eager"
-                  decoding="async"
-                  className="absolute inset-0 size-full object-cover outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10"
-                />
-              </picture>
+          <div className="mx-auto flex min-h-[43rem] max-w-7xl items-center px-4 py-16 sm:min-h-[47rem] sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+            <div className="home-hero-copy max-w-3xl">
+              <p className="text-[11px] font-bold tracking-[0.18em] text-primary uppercase">
+                Value for Value
+              </p>
+              <h1 className="mt-5 max-w-[13ch] font-display text-5xl leading-[0.94] font-bold tracking-[-0.065em] text-balance sm:text-7xl lg:text-[5rem]">
+                Thank you for returning value.
+              </h1>
+              <div className="mt-7 max-w-2xl space-y-5 text-base leading-8 text-muted-foreground sm:text-lg sm:leading-9">
+                <p>
+                  Thank you for supporting my work. Your contribution helps me
+                  keep Bitcoin education, articles, guides and other resources
+                  open and freely available to everyone.
+                </p>
+                <p>
+                  I don&apos;t want useful Bitcoin knowledge to be hidden behind
+                  a paywall or limited only to people who can afford a
+                  predetermined price. Value for Value lets me keep the work
+                  open while allowing each person to decide for themselves what
+                  it was worth.
+                </p>
+              </div>
             </div>
           </div>
         </section>

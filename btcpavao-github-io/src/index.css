@@ -4403,6 +4403,33 @@
   filter: brightness(0.68) saturate(0.86);
 }
 
+.support-thank-hero {
+  min-height: min(48rem, calc(100svh - 4.75rem));
+}
+
+.home-hero-background.support-thank-hero-background img {
+  object-position: 54% 56%;
+}
+
+.home-hero-fade.support-thank-hero-fade {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--background) 26%, transparent) 0%,
+      transparent 24%,
+      transparent 72%,
+      color-mix(in oklab, var(--background) 44%, transparent) 100%
+    ),
+    linear-gradient(
+      90deg,
+      var(--background) 0%,
+      color-mix(in oklab, var(--background) 98%, transparent) 28%,
+      color-mix(in oklab, var(--background) 88%, transparent) 46%,
+      color-mix(in oklab, var(--background) 42%, transparent) 64%,
+      transparent 82%
+    );
+}
+
 .home-path-card {
   position: relative;
   border: 0;
@@ -4500,6 +4527,27 @@
         color-mix(in oklab, var(--background) 34%, transparent) 100%
       );
   }
+
+  .home-hero-background.support-thank-hero-background img {
+    object-position: 62% center;
+  }
+
+  .home-hero-fade.support-thank-hero-fade {
+    background:
+      linear-gradient(
+        180deg,
+        var(--background) 0%,
+        color-mix(in oklab, var(--background) 96%, transparent) 44%,
+        color-mix(in oklab, var(--background) 76%, transparent) 72%,
+        color-mix(in oklab, var(--background) 24%, transparent) 100%
+      ),
+      linear-gradient(
+        90deg,
+        var(--background) 0%,
+        color-mix(in oklab, var(--background) 88%, transparent) 58%,
+        color-mix(in oklab, var(--background) 24%, transparent) 100%
+      );
+  }
 }
 
 @media (max-width: 39.9375rem) {
@@ -4507,8 +4555,16 @@
     min-height: 43rem;
   }
 
+  .support-thank-hero {
+    min-height: 47rem;
+  }
+
   .home-hero-background img {
     object-position: 71% center;
+  }
+
+  .home-hero-background.support-thank-hero-background img {
+    object-position: 66% center;
   }
 
   .principles-panel,
