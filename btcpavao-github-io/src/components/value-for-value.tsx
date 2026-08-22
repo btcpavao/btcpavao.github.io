@@ -74,8 +74,14 @@ export function ValueForValueRail({
         <span className="value-for-value-rail__icon" aria-hidden="true">
           <Zap />
         </span>
-        <span className="value-for-value-rail__eyebrow">{labels.eyebrow}</span>
-        <span className="value-for-value-rail__title">{labels.railLabel}</span>
+        <span className="value-for-value-rail__copy">
+          <span className="value-for-value-rail__eyebrow">
+            {labels.eyebrow}
+          </span>
+          <span className="value-for-value-rail__title">
+            {labels.railLabel}
+          </span>
+        </span>
         <ArrowUpRight
           className="value-for-value-rail__arrow"
           aria-hidden="true"
