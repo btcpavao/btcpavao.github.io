@@ -93,6 +93,7 @@ const additionalPublicAssets = [
   "public/pavao-profile.webp",
   "public/ai-workflow-og.jpg",
   "public/og-image-v2.jpg",
+  "public/btcpavao-home-share-v3.jpg",
   "public/favicon.png",
   "public/apple-touch-icon.png",
   "public/feed.xml",
@@ -567,6 +568,18 @@ assert(
     distIndexHtml.includes('src="/homepage-hero-v2.webp"') &&
     distIndexHtml.includes("/homepage-hero-v2-840.webp"),
   "Homepage was not prerendered"
+)
+assert(
+  /property="og:image"\s+content="https:\/\/btcpavao\.com\/btcpavao-home-share-v3\.jpg"/.test(
+    distIndexHtml
+  ) &&
+    /name="twitter:image"\s+content="https:\/\/btcpavao\.com\/btcpavao-home-share-v3\.jpg"/.test(
+      distIndexHtml
+    ) &&
+    distIndexHtml.includes(
+      "Free and open Bitcoin Standard guidance and Bitcoin Core education, supported through Value for Value."
+    ),
+  "Homepage social metadata does not use the new Value for Value share image"
 )
 assert(
   !distIndexHtml.includes(
