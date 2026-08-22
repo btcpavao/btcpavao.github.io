@@ -16,6 +16,7 @@ import {
   needsBip39ArticleSource,
   normalizePath,
   START_HERE_PATH,
+  SUPPORT_THANK_YOU_PATH,
 } from "@/routes"
 
 async function startApp() {
@@ -75,6 +76,9 @@ async function startApp() {
     const { BitcoinCoreWalletGuidePage } =
       await import("./bitcoin-core-wallet-guide")
     routedPage = <BitcoinCoreWalletGuidePage />
+  } else if (initialPath === SUPPORT_THANK_YOU_PATH) {
+    const { SupportThankYouPage } = await import("./support-thank-you")
+    routedPage = <SupportThankYouPage />
   } else {
     routedPage = (
       <App

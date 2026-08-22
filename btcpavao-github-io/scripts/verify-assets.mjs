@@ -53,6 +53,10 @@ const responsiveImages = [
     full: "public/ai-workflow-hero.webp",
     small: "public/ai-workflow-hero-840.webp",
   },
+  {
+    full: "public/value-for-value-visual.webp",
+    small: "public/value-for-value-visual-840.webp",
+  },
   ...[
     "step-1-idea",
     "step-2-dictation",
@@ -176,6 +180,14 @@ const homepageSource = await readFile(
   new URL("../src/homepage.tsx", import.meta.url),
   "utf8"
 )
+const valueForValueSource = await readFile(
+  new URL("../src/components/value-for-value.tsx", import.meta.url),
+  "utf8"
+)
+const supportThankYouSource = await readFile(
+  new URL("../src/support-thank-you.tsx", import.meta.url),
+  "utf8"
+)
 const bitcoinCoreStartSource = await readFile(
   new URL("../src/bitcoin-core-start.tsx", import.meta.url),
   "utf8"
@@ -297,7 +309,11 @@ const bip39ArticleRouteHtml = await readFile(
   ),
   "utf8"
 )
-const sourceText = `${appSource}\n${homepageSource}\n${bitcoinCoreStartSource}\n${articleDataSource}\n${bitcoinCoreArticleSource}\n${bitcoinCoreEnglishArticleSource}\n${longRoadModuleSource}\n${bip39ArticleModuleSource}`
+const supportThankYouRouteHtml = await readFile(
+  new URL("../dist/support/thank-you/index.html", import.meta.url),
+  "utf8"
+)
+const sourceText = `${appSource}\n${homepageSource}\n${bitcoinCoreStartSource}\n${articleDataSource}\n${bitcoinCoreArticleSource}\n${bitcoinCoreEnglishArticleSource}\n${longRoadModuleSource}\n${bip39ArticleModuleSource}\n${valueForValueSource}\n${supportThankYouSource}`
 const bitcoinCoreArticleHash = createHash("sha256")
   .update(bitcoinCoreArticleSource)
   .digest("hex")
@@ -647,6 +663,36 @@ assert(
     ),
   "The Long Road article body or English navigation was not prerendered"
 )
+assert(
+  supportThankYouRouteHtml.includes("Thank you for returning value.") &&
+    supportThankYouRouteHtml.includes("Schedule a Value for Value call") &&
+    supportThankYouRouteHtml.includes(
+      "https://cal.com/btcpavao/introductory-call"
+    ) &&
+    supportThankYouRouteHtml.includes("mailto:pavao@hey.com") &&
+    supportThankYouRouteHtml.includes("/value-for-value-visual.webp") &&
+    supportThankYouRouteHtml.includes(
+      '<meta name="robots" content="noindex,nofollow,noarchive" />'
+    ) &&
+    supportThankYouRouteHtml.includes(
+      'rel="canonical" href="https://btcpavao.com/support/thank-you/"'
+    ) &&
+    !supportThankYouRouteHtml.includes("<form"),
+  "Value for Value thank-you page is incomplete, indexable, or collects form data"
+)
+for (const [label, html] of [
+  ["The Long Road article", longRoadArticleRouteHtml],
+  ["BIP39 article", bip39ArticleRouteHtml],
+  ["English entropy article", enBitcoinCoreArticleRouteHtml],
+]) {
+  assert(
+    html.includes("Did this help you?") &&
+      html.includes("Return value") &&
+      html.includes("/value-for-value-visual-840.webp") &&
+      (html.match(/Did this help you\?/g) ?? []).length === 1,
+    `${label} is missing the reusable Value for Value block or renders it more than once`
+  )
+}
 assert(
   bip39ArticleRouteHtml.includes(
     "Today a client sent me his Bitcoin wallet."

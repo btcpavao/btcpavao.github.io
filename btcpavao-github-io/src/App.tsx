@@ -58,9 +58,8 @@ import {
   START_HERE_PATH,
   WORKFLOW_ARTICLE_PATH,
 } from "@/routes"
+import { CONTACT_EMAIL_URL, SITE_URL } from "@/site-config"
 
-const SITE_URL = "https://btcpavao.com"
-const CONTACT_EMAIL = "mailto:pavao@hey.com"
 const Homepage = lazy(() =>
   import("@/homepage").then((module) => ({ default: module.Homepage }))
 )
@@ -1317,7 +1316,7 @@ function ArticlePage({
                     variant="link"
                     className="h-auto px-1 text-sm font-semibold"
                   >
-                    <a href={CONTACT_EMAIL}>
+                    <a href={CONTACT_EMAIL_URL}>
                       Kontakt
                       <Mail className="size-4" />
                     </a>
@@ -1505,7 +1504,7 @@ function AiSeriesPage() {
               size="lg"
               className="glimmer-button cta-shadow mt-6 rounded-full px-6"
             >
-              <a href={CONTACT_EMAIL}>
+              <a href={CONTACT_EMAIL_URL}>
                 Kontakt
                 <Mail className="size-4" />
               </a>

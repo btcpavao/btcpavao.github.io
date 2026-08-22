@@ -12,7 +12,7 @@ import {
   type LucideIcon,
 } from "lucide-react"
 
-import { SiteBrandLink } from "@/components/site-brand"
+import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -26,8 +26,8 @@ import {
   LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH,
   START_HERE_PATH,
 } from "@/routes"
+import { BOOKING_URL } from "@/site-config"
 
-const BOOKING_URL = "https://cal.com/btcpavao/introductory-call"
 const PRACTICAL_BITCOIN_STANDARD_URL =
   "https://btcpavao.gitbook.io/practical-bitcoin-standard/"
 
@@ -927,33 +927,7 @@ export function Homepage() {
         </section>
       </main>
 
-      <footer className="border-t border-border/60 bg-card/44">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-          <div>
-            <SiteBrandLink />
-            <p className="mt-1 text-xs text-muted-foreground">
-              Bitcoin Standard advisory · Bitcoin Core education
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm font-medium text-muted-foreground">
-            <a
-              href="https://x.com/btcpavao"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              X
-            </a>
-            <a
-              href="https://github.com/btcpavao"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
-            <a href="mailto:pavao@hey.com">Email</a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
 
       {showBackToTop ? (
         <Button

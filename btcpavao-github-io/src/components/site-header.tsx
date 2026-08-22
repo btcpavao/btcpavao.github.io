@@ -4,8 +4,7 @@ import { ArrowRight, Menu, MoonStar, SunMedium, X } from "lucide-react"
 import { SiteBrandLink } from "@/components/site-brand"
 import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
-
-const BOOKING_URL = "https://cal.com/btcpavao/introductory-call"
+import { BOOKING_URL } from "@/site-config"
 
 const navigation = [
   { label: "Bitcoin Standard", href: "/#bitcoin-standard" },

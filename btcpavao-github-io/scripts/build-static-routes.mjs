@@ -18,6 +18,7 @@ const walletGuideUrl = `${enBitcoinCoreSeriesUrl}wallet-setup-backup-recovery/`
 const bip39WrongThingArticleUrl = `${enBitcoinCoreSeriesUrl}bip39-made-the-wrong-thing-human-readable/`
 const enBitcoinCoreArticleUrl = `${enBitcoinCoreSeriesUrl}how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/`
 const longRoadArticleUrl = `${enBitcoinCoreSeriesUrl}the-long-road-back-to-bitcoin-core/`
+const supportThankYouUrl = `${siteUrl}/support/thank-you/`
 
 const homeRoute = {
   appPath: "/",
@@ -476,6 +477,29 @@ const routes = [
       "offline signing",
     ],
   },
+  {
+    appPath: "/support/thank-you/",
+    routePath: "support/thank-you",
+    routeUrl: supportThankYouUrl,
+    title: "Thank You | Pavao",
+    collectionName: "Value for Value thank you",
+    description:
+      "Thank you for supporting open, practical Bitcoin education through Value for Value.",
+    ogDescription:
+      "Thank you for supporting open, practical Bitcoin education through Value for Value.",
+    type: "website",
+    language: "en-US",
+    image: `${siteUrl}/value-for-value-visual.webp`,
+    imageType: "image/webp",
+    imageAlt:
+      "An open book on a Mediterranean stone table symbolizes open knowledge and voluntary exchange.",
+    imageWidth: 1536,
+    imageHeight: 1024,
+    textHero: true,
+    breadcrumbParents: [],
+    about: ["Value for Value", "Bitcoin education", "Open knowledge"],
+    noindex: true,
+  },
 ]
 
 const distIndexUrl = new URL("../dist/index.html", import.meta.url)
@@ -656,6 +680,13 @@ function renderRoute(baseHtml, route) {
     /<meta\s+name="description"[^>]*>/,
     `<meta name="description" content="${escapeHtml(route.description)}" />`
   )
+  if (route.noindex) {
+    html = replaceFirst(
+      html,
+      /<meta\s+name="robots"[^>]*>/,
+      '<meta name="robots" content="noindex,nofollow,noarchive" />'
+    )
+  }
   html = replaceFirst(
     html,
     /<link rel="canonical" href="[^"]*"\s*\/>/,

@@ -12,6 +12,7 @@ import bitcoinCoreArticleSource from "./bitcoin-core-article.txt?raw"
 import bip39ArticleSource from "./bip39-wrong-thing-human-readable.md?raw"
 import { ThemeProvider } from "./components/theme-provider.tsx"
 import { Homepage } from "./homepage.tsx"
+import { SupportThankYouPage } from "./support-thank-you.tsx"
 import learningArticleHtml from "./learning-article.html?raw"
 import longRoadArticleSource from "./long-road-back-to-bitcoin-core.md?raw"
 import {
@@ -26,6 +27,7 @@ import {
   needsBip39ArticleSource,
   normalizePath,
   START_HERE_PATH,
+  SUPPORT_THANK_YOU_PATH,
 } from "./routes.ts"
 
 export function renderPage(pathname: string) {
@@ -41,6 +43,8 @@ export function renderPage(pathname: string) {
       <BitcoinCoreStartPage />
     ) : initialPath === BITCOIN_CORE_WALLET_GUIDE_PATH ? (
       <BitcoinCoreWalletGuidePage />
+    ) : initialPath === SUPPORT_THANK_YOU_PATH ? (
+      <SupportThankYouPage />
     ) : (
       <App
         initialPath={initialPath}
