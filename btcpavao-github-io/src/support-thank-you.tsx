@@ -11,6 +11,7 @@ import {
   CONTACT_EMAIL_URL,
   SITE_URL,
 } from "@/site-config"
+import { SOCIAL_CARD_IMAGES } from "@/social-card-images"
 
 const title = "Thank You | Pavao"
 const description =
@@ -36,8 +37,10 @@ export function SupportThankYouPage() {
     setMeta('meta[property="og:title"]', "content", title)
     setMeta('meta[property="og:description"]', "content", description)
     setMeta('meta[property="og:url"]', "content", canonicalUrl)
+    setMeta('meta[property="og:image"]', "content", SOCIAL_CARD_IMAGES.support)
     setMeta('meta[name="twitter:title"]', "content", title)
     setMeta('meta[name="twitter:description"]', "content", description)
+    setMeta('meta[name="twitter:image"]', "content", SOCIAL_CARD_IMAGES.support)
   }, [])
 
   return (

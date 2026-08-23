@@ -30,6 +30,7 @@ import {
   BITCOIN_CORE_WALLET_GUIDE_PATH,
   EN_BITCOIN_CORE_SERIES_PATH,
 } from "@/routes"
+import { SOCIAL_CARD_IMAGES } from "@/social-card-images"
 
 const SITE_URL = "https://btcpavao.com"
 const STEP_STORAGE_KEY = "btcpavao-core-wallet-guide-steps-v1"
@@ -648,7 +649,7 @@ function useGuideMetadata() {
     const description =
       "A step-by-step guide to creating a basic encrypted Bitcoin Core wallet, making redundant backups, and testing recovery."
     const url = `${SITE_URL}${BITCOIN_CORE_WALLET_GUIDE_PATH}`
-    const socialImage = `${SITE_URL}${IMAGE_ROOT}/10-backup-wallet-menu.webp`
+    const socialImage = SOCIAL_CARD_IMAGES.walletGuide
 
     document.documentElement.lang = "en"
     document.title = title
@@ -723,7 +724,7 @@ function HeaderProgress({
             className="text-primary"
           />
         </svg>
-        <span className="relative grid size-8 place-items-center rounded-full bg-primary text-[10px] leading-none font-extrabold text-primary-foreground shadow-[0_1px_2px_rgba(0,0,0,0.16)] tabular-nums">
+        <span className="relative grid size-8 place-items-center rounded-full bg-primary text-[10px] leading-none font-extrabold text-primary-foreground tabular-nums shadow-[0_1px_2px_rgba(0,0,0,0.16)]">
           {completed}/{total}
         </span>
       </span>

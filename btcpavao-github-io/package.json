@@ -4,8 +4,9 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/build-static-routes.mjs",
+    "prepare:social-cards": "node scripts/prepare-social-cards.mjs",
+    "dev": "npm run prepare:social-cards && vite",
+    "build": "npm run prepare:social-cards && tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/build-static-routes.mjs",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",

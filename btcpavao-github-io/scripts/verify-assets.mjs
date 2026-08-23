@@ -169,6 +169,58 @@ function assert(condition, message) {
   }
 }
 
+function attributeValues(html, tagName, attribute, key, valueAttribute) {
+  const tags = html.match(new RegExp(`<${tagName}\\b[^>]*>`, "g")) ?? []
+  const keyPattern = new RegExp(`\\b${attribute}="${key}"`)
+  const valuePattern = new RegExp(`\\b${valueAttribute}="([^"]*)"`)
+
+  return tags
+    .filter((tag) => keyPattern.test(tag))
+    .map((tag) => tag.match(valuePattern)?.[1])
+    .filter(Boolean)
+}
+
+function assertSocialMetadata(html, label, allowedImages) {
+  const canonical = attributeValues(html, "link", "rel", "canonical", "href")
+  const ogUrl = attributeValues(html, "meta", "property", "og:url", "content")
+  const ogImage = attributeValues(
+    html,
+    "meta",
+    "property",
+    "og:image",
+    "content"
+  )
+  const twitterCard = attributeValues(
+    html,
+    "meta",
+    "name",
+    "twitter:card",
+    "content"
+  )
+  const twitterImage = attributeValues(
+    html,
+    "meta",
+    "name",
+    "twitter:image",
+    "content"
+  )
+
+  assert(canonical.length === 1, `${label} has duplicate canonical URLs`)
+  assert(ogUrl.length === 1, `${label} has duplicate Open Graph URLs`)
+  assert(canonical[0] === ogUrl[0], `${label} canonical and og:url disagree`)
+  assert(ogImage.length === 1, `${label} has duplicate Open Graph images`)
+  assert(twitterImage.length === 1, `${label} has duplicate Twitter images`)
+  assert(ogImage[0] === twitterImage[0], `${label} social images disagree`)
+  assert(
+    allowedImages.has(ogImage[0]),
+    `${label} does not use a fingerprinted social image`
+  )
+  assert(
+    twitterCard.length === 1 && twitterCard[0] === "summary_large_image",
+    `${label} does not use one summary_large_image Twitter card`
+  )
+}
+
 function publicUrl(relativePath) {
   return `/${path.basename(relativePath)}`
 }
@@ -237,6 +289,14 @@ const indexHtml = await readFile(
   new URL("../index.html", import.meta.url),
   "utf8"
 )
+const socialCardManifest = JSON.parse(
+  await readFile(
+    new URL("../.cache/social-card-manifest.json", import.meta.url),
+    "utf8"
+  )
+)
+const socialCardImages = socialCardManifest.urls
+const allowedSocialCardImages = new Set(Object.values(socialCardImages))
 const sitemapSource = await readFile(
   new URL("../public/sitemap.xml", import.meta.url),
   "utf8"
@@ -313,6 +373,16 @@ const bip39ArticleRouteHtml = await readFile(
 const supportThankYouRouteHtml = await readFile(
   new URL("../dist/support/thank-you/index.html", import.meta.url),
   "utf8"
+)
+const distDirectoryUrl = new URL("../dist/", import.meta.url)
+const distHtmlPaths = (await readdir(distDirectoryUrl, { recursive: true }))
+  .filter((relativePath) => relativePath.endsWith(".html"))
+  .sort()
+const distHtmlDocuments = await Promise.all(
+  distHtmlPaths.map(async (relativePath) => ({
+    relativePath,
+    html: await readFile(new URL(relativePath, distDirectoryUrl), "utf8"),
+  }))
 )
 const sourceText = `${appSource}\n${homepageSource}\n${bitcoinCoreStartSource}\n${articleDataSource}\n${bitcoinCoreArticleSource}\n${bitcoinCoreEnglishArticleSource}\n${longRoadModuleSource}\n${bip39ArticleModuleSource}\n${valueForValueSource}\n${supportThankYouSource}`
 const bitcoinCoreArticleHash = createHash("sha256")
@@ -471,6 +541,39 @@ for (const asset of additionalPublicAssets) {
   )
 }
 
+for (const [key, asset] of Object.entries(socialCardManifest.assets)) {
+  const sourceBytes = await readFile(
+    new URL(`../public/${asset.source}`, import.meta.url)
+  )
+  const expectedHash = createHash("sha256")
+    .update(sourceBytes)
+    .digest("hex")
+    .slice(0, 12)
+
+  assert(asset.hash === expectedHash, `Wrong social card hash: ${key}`)
+  assert(
+    await exists(`public/social-cards/${asset.filename}`),
+    `Missing generated social card: ${key}`
+  )
+  assert(
+    await exists(`dist/social-cards/${asset.filename}`),
+    `Missing deployed social card: ${key}`
+  )
+  assert(
+    socialCardImages[key] ===
+      `https://btcpavao.com/social-cards/${asset.filename}`,
+    `Wrong public social card URL: ${key}`
+  )
+}
+
+for (const { relativePath, html } of distHtmlDocuments) {
+  assertSocialMetadata(html, relativePath, allowedSocialCardImages)
+  assert(
+    !html.includes("bip39-wrong-thing-cover-share.jpg?v=20260821"),
+    `${relativePath} still contains the legacy query-string cache buster`
+  )
+}
+
 for (const asset of projectLogoAssets) {
   const deployedPath = asset.replace(/^public\//, "")
 
@@ -570,12 +673,7 @@ assert(
   "Homepage was not prerendered"
 )
 assert(
-  /property="og:image"\s+content="https:\/\/btcpavao\.com\/btcpavao-home-share-v3\.jpg"/.test(
-    distIndexHtml
-  ) &&
-    /name="twitter:image"\s+content="https:\/\/btcpavao\.com\/btcpavao-home-share-v3\.jpg"/.test(
-      distIndexHtml
-    ) &&
+  distIndexHtml.includes(socialCardImages.homepage) &&
     distIndexHtml.includes(
       "Free and open Bitcoin Standard guidance and Bitcoin Core education, supported through Value for Value."
     ),
@@ -826,11 +924,11 @@ assert(
   "Workflow route is missing breadcrumb structured data"
 )
 assert(
-  workflowRouteHtml.includes("/ai-workflow-og.jpg"),
+  workflowRouteHtml.includes(socialCardImages.workflow),
   "Workflow route is missing its article-specific social image"
 )
 assert(
-  learningRouteHtml.includes("/ai-ucenje-bitcoin-model-hero.webp"),
+  learningRouteHtml.includes(socialCardImages.learning),
   "Learning route is missing its article-specific social image"
 )
 assert(
@@ -844,9 +942,7 @@ assert(
     bitcoinCoreArticleRouteHtml.includes(
       'property="article:section" content="Bitcoin Core"'
     ) &&
-    bitcoinCoreArticleRouteHtml.includes(
-      "/bitcoin-core-entropija-cover-v2-share.jpg"
-    ) &&
+    bitcoinCoreArticleRouteHtml.includes(socialCardImages.bitcoinCore) &&
     bitcoinCoreArticleRouteHtml.includes(
       "/bitcoin-core-entropija-cover-v2.webp"
     ),
@@ -882,9 +978,7 @@ assert(
     longRoadArticleRouteHtml.includes('"inLanguage": "en-US"') &&
     longRoadArticleRouteHtml.includes('"@type": "BlogPosting"') &&
     longRoadArticleRouteHtml.includes('"@type": "BreadcrumbList"') &&
-    longRoadArticleRouteHtml.includes(
-      "/long-road-bitcoin-core-cover-share.jpg"
-    ) &&
+    longRoadArticleRouteHtml.includes(socialCardImages.longRoad) &&
     longRoadArticleRouteHtml.includes(
       'property="og:image:width" content="1774"'
     ) &&
@@ -903,15 +997,7 @@ assert(
     bip39ArticleRouteHtml.includes('"inLanguage": "en-US"') &&
     bip39ArticleRouteHtml.includes('"@type": "BlogPosting"') &&
     bip39ArticleRouteHtml.includes('"@type": "BreadcrumbList"') &&
-    bip39ArticleRouteHtml.includes(
-      "/bip39-wrong-thing-cover-share.jpg?v=20260821"
-    ) &&
-    bip39ArticleRouteHtml.includes(
-      'property="og:image:secure_url" content="https://btcpavao.com/bip39-wrong-thing-cover-share.jpg?v=20260821"'
-    ) &&
-    bip39ArticleRouteHtml.includes(
-      'name="twitter:image:src" content="https://btcpavao.com/bip39-wrong-thing-cover-share.jpg?v=20260821"'
-    ) &&
+    bip39ArticleRouteHtml.includes(socialCardImages.bip39) &&
     bip39ArticleRouteHtml.includes(
       'property="og:image:width" content="1200"'
     ) &&

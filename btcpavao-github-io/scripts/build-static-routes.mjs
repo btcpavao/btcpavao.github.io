@@ -19,6 +19,13 @@ const bip39WrongThingArticleUrl = `${enBitcoinCoreSeriesUrl}bip39-made-the-wrong
 const enBitcoinCoreArticleUrl = `${enBitcoinCoreSeriesUrl}how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/`
 const longRoadArticleUrl = `${enBitcoinCoreSeriesUrl}the-long-road-back-to-bitcoin-core/`
 const supportThankYouUrl = `${siteUrl}/support/thank-you/`
+const socialCardManifest = JSON.parse(
+  await readFile(
+    new URL("../.cache/social-card-manifest.json", import.meta.url),
+    "utf8"
+  )
+)
+const socialCardImages = socialCardManifest.urls
 
 const homeRoute = {
   appPath: "/",
@@ -37,7 +44,7 @@ const routes = [
     ogDescription:
       "Hrvatski tekstovi o Bitcoinu, Bitcoin Coreu i praktičnoj primjeni umjetne inteligencije.",
     type: "website",
-    image: `${siteUrl}/og-image-v2.jpg`,
+    image: socialCardImages.default,
     imageAlt: "BTC Pavao, Bitcoin Standard Advisor",
     imageWidth: 1200,
     imageHeight: 630,
@@ -54,7 +61,7 @@ const routes = [
     ogDescription:
       "Kako jedan generalist koristi AI da ideje pretvori u tekstove, knjige, web stranice i stvarne poslovne sustave.",
     type: "website",
-    image: `${siteUrl}/og-image-v2.jpg`,
+    image: socialCardImages.default,
     imageAlt: "BTC Pavao, Bitcoin Standard Advisor",
     imageWidth: 1200,
     imageHeight: 630,
@@ -81,7 +88,7 @@ const routes = [
       { name: "Hrvatski tekstovi", item: hrUrl },
       { name: "AI u praksi", item: seriesUrl },
     ],
-    image: `${siteUrl}/ai-workflow-og.jpg`,
+    image: socialCardImages.workflow,
     imageAlt:
       "Laptop, mobitel, bilježnica i rukopis na radnom stolu prikazuju AI workflow.",
     imageWidth: 1200,
@@ -106,7 +113,7 @@ const routes = [
       { name: "Hrvatski tekstovi", item: hrUrl },
       { name: "AI u praksi", item: seriesUrl },
     ],
-    image: `${siteUrl}/ai-workflow-og.jpg`,
+    image: socialCardImages.workflow,
     imageAlt:
       "Laptop, mobitel, bilježnica i rukopis na radnom stolu prikazuju AI workflow.",
     imageWidth: 1200,
@@ -131,7 +138,7 @@ const routes = [
       { name: "Hrvatski tekstovi", item: hrUrl },
       { name: "AI u praksi", item: seriesUrl },
     ],
-    image: `${siteUrl}/ai-ucenje-bitcoin-model-hero.webp`,
+    image: socialCardImages.learning,
     imageType: "image/webp",
     imageWidth: 1672,
     imageHeight: 941,
@@ -159,7 +166,7 @@ const routes = [
     ogDescription:
       "Hrvatski tekstovi o Bitcoin Coreu, walletima, validaciji i sigurnosnim temeljima Bitcoin sustava.",
     type: "website",
-    image: `${siteUrl}/bitcoin-core-entropija-cover-v2-share.jpg`,
+    image: socialCardImages.bitcoinCore,
     imageAlt:
       "Bitcoin Core self-custody kurikulum od Signet vježbe do provjerenog recoveryja.",
     imageWidth: 1200,
@@ -183,7 +190,7 @@ const routes = [
     ogDescription:
       "Nauči držati svoj Bitcoin tako da razumiješ cijeli sustav — od prvog Signet testa do provjerenog recoveryja.",
     type: "website",
-    image: `${siteUrl}/bitcoin-core-entropija-cover-v2-share.jpg`,
+    image: socialCardImages.bitcoinCore,
     imageAlt:
       "Kriptografski proces nastanka Bitcoin Core walleta u mediteranskom okruženju.",
     imageWidth: 1200,
@@ -229,7 +236,7 @@ const routes = [
       { name: "Hrvatski tekstovi", item: hrUrl },
       { name: "Bitcoin Core", item: bitcoinCoreSeriesUrl },
     ],
-    image: `${siteUrl}/bitcoin-core-entropija-cover-v2-share.jpg`,
+    image: socialCardImages.bitcoinCore,
     imageAlt:
       "Kriptografski proces nastanka Bitcoin Core walleta u mediteranskom okruženju.",
     imageWidth: 1200,
@@ -264,7 +271,7 @@ const routes = [
       "English essays about Bitcoin Core, wallets, validation, and the security foundations of the Bitcoin system.",
     type: "website",
     language: "en-US",
-    image: `${siteUrl}/bitcoin-core-entropija-cover-v2-share.jpg`,
+    image: socialCardImages.bitcoinCore,
     imageAlt:
       "The cryptographic process of creating a Bitcoin Core wallet in a Mediterranean setting.",
     imageWidth: 1200,
@@ -289,7 +296,7 @@ const routes = [
       "Learn to hold your bitcoin by understanding the whole system — from the first Signet exercise to verified recovery.",
     type: "website",
     language: "en-US",
-    image: `${siteUrl}/bitcoin-core-entropija-cover-v2-share.jpg`,
+    image: socialCardImages.bitcoinCore,
     imageAlt:
       "The cryptographic process of creating a Bitcoin Core wallet in a Mediterranean setting.",
     imageWidth: 1200,
@@ -323,7 +330,7 @@ const routes = [
       "A first Bitcoin Core exercise using no real bitcoin: verify the software, create an empty test wallet, and map the backup process.",
     type: "website",
     language: "en-US",
-    image: `${siteUrl}/long-road-bitcoin-core-cover-share.jpg`,
+    image: socialCardImages.longRoad,
     imageAlt:
       "A traveler leaves a limestone maze for a transparent Bitcoin Core machine overlooking the Adriatic Sea.",
     imageWidth: 1774,
@@ -348,7 +355,7 @@ const routes = [
     sectionId: enBitcoinCoreSeriesId,
     articleTag: "Bitcoin Core wallet recovery",
     breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
-    image: `${siteUrl}/bitcoin-core-wallet-guide/10-backup-wallet-menu.webp`,
+    image: socialCardImages.walletGuide,
     imageType: "image/webp",
     imageAlt: "Bitcoin Core File menu with Backup Wallet selected.",
     imageWidth: 1800,
@@ -380,8 +387,7 @@ const routes = [
     sectionId: enBitcoinCoreSeriesId,
     articleTag: "Bitcoin Core wallet recovery",
     breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
-    image: `${siteUrl}/bip39-wrong-thing-cover-share.jpg?v=20260821`,
-    xCover: true,
+    image: socialCardImages.bip39,
     imageAlt:
       "A person holds mnemonic tiles while a complete wallet remains protected inside a machine.",
     imageWidth: 1200,
@@ -419,7 +425,7 @@ const routes = [
     sectionId: enBitcoinCoreSeriesId,
     articleTag: "Bitcoin Core entropy",
     breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
-    image: `${siteUrl}/bitcoin-core-entropija-cover-v2-share.jpg`,
+    image: socialCardImages.bitcoinCore,
     imageAlt:
       "The cryptographic process of creating a Bitcoin Core wallet in a Mediterranean setting.",
     imageWidth: 1200,
@@ -459,7 +465,7 @@ const routes = [
     sectionId: enBitcoinCoreSeriesId,
     articleTag: "Bitcoin Core wallet security",
     breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
-    image: `${siteUrl}/long-road-bitcoin-core-cover-share.jpg`,
+    image: socialCardImages.longRoad,
     imageAlt:
       "A traveler leaves a limestone maze for a transparent Bitcoin Core machine overlooking the Adriatic Sea.",
     imageWidth: 1774,
@@ -489,7 +495,7 @@ const routes = [
       "Thank you for supporting open, practical Bitcoin education through Value for Value.",
     type: "website",
     language: "en-US",
-    image: `${siteUrl}/value-for-value-visual.webp`,
+    image: socialCardImages.support,
     imageType: "image/webp",
     imageAlt:
       "An open book on a Mediterranean stone table symbolizes open knowledge and voluntary exchange.",
@@ -638,13 +644,7 @@ ${heroPreload}`
 `
     : ""
 
-  const xCoverMeta = route.xCover
-    ? `    <meta property="og:image:secure_url" content="${route.image}" />
-    <meta name="twitter:image:src" content="${route.image}" />
-`
-    : ""
-
-  return `${articleMeta}${alternateLinks}${xCoverMeta}    <script type="application/ld+json">
+  return `${articleMeta}${alternateLinks}    <script type="application/ld+json">
       ${JSON.stringify(structuredData(route), null, 8)}
     </script>
 `

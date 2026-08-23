@@ -59,6 +59,7 @@ import {
   WORKFLOW_ARTICLE_PATH,
 } from "@/routes"
 import { CONTACT_EMAIL_URL, SITE_URL } from "@/site-config"
+import { SOCIAL_CARD_IMAGES } from "@/social-card-images"
 
 const Homepage = lazy(() =>
   import("@/homepage").then((module) => ({ default: module.Homepage }))
@@ -160,7 +161,7 @@ const BIP39_WRONG_THING_ARTICLE_DESCRIPTION =
   "Why a machine-readable Bitcoin Core wallet backup can preserve more recovery context than a mnemonic root secret, while keeping signing authority separate."
 const BIP39_WRONG_THING_ARTICLE_DATE = "2026-08-21"
 const BIP39_WRONG_THING_ARTICLE_DISPLAY_DATE = "August 21, 2026"
-const BIP39_WRONG_THING_ARTICLE_OG_IMAGE = `${SITE_URL}/bip39-wrong-thing-cover-share.jpg?v=20260821`
+const BIP39_WRONG_THING_ARTICLE_OG_IMAGE = SOCIAL_CARD_IMAGES.bip39
 const BIP39_WRONG_THING_ARTICLE_HERO_IMAGE = "/bip39-wrong-thing-cover.webp"
 const BIP39_WRONG_THING_ARTICLE_HERO_IMAGE_SMALL =
   "/bip39-wrong-thing-cover-840.webp"
@@ -170,7 +171,7 @@ const LONG_ROAD_ARTICLE_SUBTITLE =
   "How a hardware-wallet controversy, an entropy rabbit hole, and a few simple restore tests ended my search for the \u201cperfect\u201d Bitcoin wallet"
 const LONG_ROAD_ARTICLE_DATE = "2026-08-05"
 const LONG_ROAD_ARTICLE_DISPLAY_DATE = "August 5, 2026"
-const LONG_ROAD_ARTICLE_OG_IMAGE = `${SITE_URL}/long-road-bitcoin-core-cover-share.jpg`
+const LONG_ROAD_ARTICLE_OG_IMAGE = SOCIAL_CARD_IMAGES.longRoad
 const LONG_ROAD_ARTICLE_HERO_IMAGE = "/long-road-bitcoin-core-cover.webp"
 const LONG_ROAD_ARTICLE_HERO_IMAGE_SMALL =
   "/long-road-bitcoin-core-cover-840.webp"
@@ -867,6 +868,7 @@ function useArticleMetadata() {
     url: ARTICLE_URL,
     type: "article",
     publishedDate: ARTICLE_DATE,
+    image: SOCIAL_CARD_IMAGES.workflow,
   })
 }
 
@@ -876,6 +878,7 @@ function useSeriesMetadata() {
     description: AI_SERIES_DESCRIPTION,
     ogDescription: AI_SERIES_OG_DESCRIPTION,
     url: AI_SERIES_URL,
+    image: SOCIAL_CARD_IMAGES.default,
   })
 }
 
@@ -887,6 +890,7 @@ function useWorkflowArticleMetadata() {
     url: WORKFLOW_ARTICLE_URL,
     type: "article",
     publishedDate: WORKFLOW_ARTICLE_DATE,
+    image: SOCIAL_CARD_IMAGES.workflow,
   })
 }
 
@@ -898,6 +902,7 @@ function useLearningArticleMetadata() {
     url: LEARNING_ARTICLE_URL,
     type: "article",
     publishedDate: LEARNING_ARTICLE_DATE,
+    image: SOCIAL_CARD_IMAGES.learning,
   })
 }
 
@@ -907,6 +912,7 @@ function useHrHomeMetadata() {
     description: HR_HOME_DESCRIPTION,
     ogDescription: HR_HOME_DESCRIPTION,
     url: HR_HOME_URL,
+    image: SOCIAL_CARD_IMAGES.default,
   })
 }
 
@@ -922,6 +928,7 @@ function useBitcoinCoreSeriesMetadata(language: BitcoinCoreLanguage = "hr") {
       ? EN_BITCOIN_CORE_SERIES_DESCRIPTION
       : BITCOIN_CORE_SERIES_DESCRIPTION,
     url: isEnglish ? EN_BITCOIN_CORE_SERIES_URL : BITCOIN_CORE_SERIES_URL,
+    image: SOCIAL_CARD_IMAGES.bitcoinCore,
     language,
     alternates: {
       hr: BITCOIN_CORE_SERIES_URL,
@@ -948,7 +955,7 @@ function useBitcoinCoreArticleMetadata(language: BitcoinCoreLanguage = "hr") {
     type: "article",
     publishedDate: BITCOIN_CORE_ARTICLE_DATE,
     articleSection: BITCOIN_CORE_SERIES_TITLE,
-    image: `${SITE_URL}/bitcoin-core-entropija-cover-v2-share.jpg`,
+    image: SOCIAL_CARD_IMAGES.bitcoinCore,
     language,
     alternates: {
       hr: BITCOIN_CORE_ARTICLE_URL,
