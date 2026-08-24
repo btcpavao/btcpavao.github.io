@@ -74,9 +74,20 @@ export function BitcoinCoreStartPage() {
 
       <main id="lesson">
         <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
-          <p className="text-[11px] font-semibold text-primary uppercase">
-            Bitcoin Core · Start here
-          </p>
+          <div className="flex items-center gap-3">
+            <img
+              src="/software-stack/bitcoin-core.svg"
+              alt="Bitcoin Core"
+              width="190"
+              height="40"
+              className="h-8 w-auto shrink-0 outline-none"
+              draggable="false"
+            />
+            <span className="h-5 w-px bg-border" aria-hidden="true" />
+            <p className="text-[11px] font-semibold text-primary uppercase">
+              Start here
+            </p>
+          </div>
           <h1 className="mt-5 max-w-[14ch] font-display text-5xl leading-[0.96] font-bold tracking-[-0.055em] sm:text-7xl">
             Your first exercise uses no real bitcoin.
           </h1>
