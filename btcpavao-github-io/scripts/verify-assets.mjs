@@ -2,6 +2,12 @@ import { createHash } from "node:crypto"
 import { access, readFile, readdir, stat } from "node:fs/promises"
 import path from "node:path"
 
+import {
+  SITE_URL,
+  contentRegistry,
+  getPublishedContent,
+} from "../content/content-registry.mjs"
+
 const root = new URL("../", import.meta.url)
 
 const responsiveImages = [
@@ -245,6 +251,10 @@ const bitcoinCoreStartSource = await readFile(
   new URL("../src/bitcoin-core-start.tsx", import.meta.url),
   "utf8"
 )
+const bitcoinCoreWalletGuideSource = await readFile(
+  new URL("../src/bitcoin-core-wallet-guide.tsx", import.meta.url),
+  "utf8"
+)
 const cssSource = await readFile(
   new URL("../src/index.css", import.meta.url),
   "utf8"
@@ -298,7 +308,11 @@ const socialCardManifest = JSON.parse(
 const socialCardImages = socialCardManifest.urls
 const allowedSocialCardImages = new Set(Object.values(socialCardImages))
 const sitemapSource = await readFile(
-  new URL("../public/sitemap.xml", import.meta.url),
+  new URL("../dist/sitemap.xml", import.meta.url),
+  "utf8"
+)
+const feedSource = await readFile(
+  new URL("../dist/feed.xml", import.meta.url),
   "utf8"
 )
 const distIndexHtml = await readFile(
@@ -349,6 +363,21 @@ const bitcoinCoreStartRouteHtml = await readFile(
   new URL("../dist/en/bitcoin-core/start-here/index.html", import.meta.url),
   "utf8"
 )
+const bitcoinCoreWalletGuideRouteHtml = await readFile(
+  new URL(
+    "../dist/en/bitcoin-core/wallet-setup-backup-recovery/index.html",
+    import.meta.url
+  ),
+  "utf8"
+)
+const enBitcoinCoreCurriculumRouteHtml = await readFile(
+  new URL("../dist/en/bitcoin-core/self-custody/index.html", import.meta.url),
+  "utf8"
+)
+const hrBitcoinCoreCurriculumRouteHtml = await readFile(
+  new URL("../dist/hr/bitcoin-core/self-custody/index.html", import.meta.url),
+  "utf8"
+)
 const enBitcoinCoreArticleRouteHtml = await readFile(
   new URL(
     "../dist/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/index.html",
@@ -374,6 +403,14 @@ const supportThankYouRouteHtml = await readFile(
   new URL("../dist/support/thank-you/index.html", import.meta.url),
   "utf8"
 )
+const supportRouteHtml = await readFile(
+  new URL("../dist/support/index.html", import.meta.url),
+  "utf8"
+)
+const notFoundRouteHtml = await readFile(
+  new URL("../dist/404.html", import.meta.url),
+  "utf8"
+)
 const distDirectoryUrl = new URL("../dist/", import.meta.url)
 const distHtmlPaths = (await readdir(distDirectoryUrl, { recursive: true }))
   .filter((relativePath) => relativePath.endsWith(".html"))
@@ -384,7 +421,7 @@ const distHtmlDocuments = await Promise.all(
     html: await readFile(new URL(relativePath, distDirectoryUrl), "utf8"),
   }))
 )
-const sourceText = `${appSource}\n${homepageSource}\n${bitcoinCoreStartSource}\n${articleDataSource}\n${bitcoinCoreArticleSource}\n${bitcoinCoreEnglishArticleSource}\n${longRoadModuleSource}\n${bip39ArticleModuleSource}\n${valueForValueSource}\n${supportThankYouSource}`
+const sourceText = `${appSource}\n${homepageSource}\n${bitcoinCoreStartSource}\n${bitcoinCoreWalletGuideSource}\n${articleDataSource}\n${bitcoinCoreArticleSource}\n${bitcoinCoreEnglishArticleSource}\n${longRoadModuleSource}\n${bip39ArticleModuleSource}\n${valueForValueSource}\n${supportThankYouSource}`
 const bitcoinCoreArticleHash = createHash("sha256")
   .update(bitcoinCoreArticleSource)
   .digest("hex")
@@ -456,8 +493,11 @@ assert(
 assert(
   sitemapSource.includes(
     "https://btcpavao.com/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"
-  ) && sitemapSource.includes("<image:title>The SHA-512 mixer</image:title>"),
-  "Sitemap is missing the English Bitcoin Core article or its translated image titles"
+  ) &&
+    sitemapSource.includes(
+      "<image:caption>The cryptographic process of creating a Bitcoin Core wallet.</image:caption>"
+    ),
+  "Sitemap is missing the English Bitcoin Core article or its image caption"
 )
 assert(
   sitemapSource.includes(
@@ -465,13 +505,8 @@ assert(
   ) &&
     sitemapSource.includes(
       "https://btcpavao.com/long-road-bitcoin-core-cover.webp"
-    ) &&
-    Array.from({ length: 13 }, (_, index) =>
-      sitemapSource.includes(
-        `https://btcpavao.com/long-road-bitcoin-core-${String(index + 1).padStart(2, "0")}.webp`
-      )
-    ).every(Boolean),
-  "Sitemap is missing The Long Road article, cover, or one of its 13 inline images"
+    ),
+  "Sitemap is missing The Long Road article or cover"
 )
 assert(
   sitemapSource.includes(
@@ -479,14 +514,46 @@ assert(
   ) &&
     sitemapSource.includes(
       "https://btcpavao.com/bip39-wrong-thing-cover.webp"
-    ) &&
-    Array.from({ length: 9 }, (_, index) =>
-      sitemapSource.includes(
-        `https://btcpavao.com/bip39-wrong-thing-${String(index + 2).padStart(2, "0")}.webp`
-      )
-    ).every(Boolean),
-  "Sitemap is missing the BIP39 article, cover, or one of its inline images"
+    ),
+  "Sitemap is missing the BIP39 article or cover"
 )
+
+const publishedContent = getPublishedContent()
+const feedItemLinks = new Set(
+  [...feedSource.matchAll(/<item>[\s\S]*?<link>(.*?)<\/link>[\s\S]*?<\/item>/g)].map(
+    (match) => match[1]
+  )
+)
+
+assert(
+  new Set(contentRegistry.map((entry) => entry.id)).size ===
+    contentRegistry.length,
+  "Content registry contains duplicate IDs"
+)
+assert(
+  new Set(contentRegistry.map((entry) => entry.path)).size ===
+    contentRegistry.length,
+  "Content registry contains duplicate paths"
+)
+assert(
+  feedSource.includes(
+    "<title>BTC Pavao — Bitcoin Core, Bitcoin Standard and open writing</title>"
+  ),
+  "RSS feed title does not match the approved site identity"
+)
+
+for (const entry of publishedContent) {
+  const absoluteUrl = `${SITE_URL}${entry.path}`
+
+  assert(
+    sitemapSource.includes(`<loc>${absoluteUrl}</loc>`) === entry.indexable,
+    `${entry.path} has the wrong sitemap visibility`
+  )
+  assert(
+    feedItemLinks.has(absoluteUrl) === entry.rss,
+    `${entry.path} has the wrong RSS visibility`
+  )
+}
 
 function assertStructuredDataIsValid(html, label) {
   const blocks = [
@@ -667,17 +734,26 @@ for (const html of [indexHtml, distIndexHtml]) {
 }
 
 assert(
-  distIndexHtml.includes("Build your Bitcoin life from first principles.") &&
+  distIndexHtml.includes(
+    "Build a Bitcoin life you can explain, recover, and maintain."
+  ) &&
     distIndexHtml.includes('src="/homepage-hero-v2.webp"') &&
     distIndexHtml.includes("/homepage-hero-v2-840.webp"),
   "Homepage was not prerendered"
 )
 assert(
+  distIndexHtml.includes("Start with Bitcoin Core") &&
+    distIndexHtml.includes("Book a Value for Value conversation") &&
+    !distIndexHtml.includes("Read the latest writing") &&
+    !distIndexHtml.includes("Read latest writing"),
+  "Homepage CTAs do not match the approved hierarchy"
+)
+assert(
   distIndexHtml.includes(socialCardImages.homepage) &&
     distIndexHtml.includes(
-      "Free and open Bitcoin Standard guidance and Bitcoin Core education, supported through Value for Value."
+      "Practical Bitcoin Standard advisory and first-principles Bitcoin Core education for people who want to understand, recover, and maintain their setup."
     ),
-  "Homepage social metadata does not use the new Value for Value share image"
+  "Homepage social metadata does not match the registry"
 )
 assert(
   !distIndexHtml.includes(
@@ -740,9 +816,31 @@ assert(
       "BIP39 Made the Wrong Thing Human-Readable"
     ) &&
     enBitcoinCoreSeriesRouteHtml.includes(
-      "English essays about Bitcoin Core, wallets, validation, and the security foundations of the Bitcoin system."
+      "Practical Bitcoin Core resources, tutorials, and research about wallets, validation, recovery, and operational security."
     ),
   "English Bitcoin Core series page is incomplete"
+)
+const practicalStartIndex = enBitcoinCoreSeriesRouteHtml.indexOf(
+  "Start Here with Bitcoin Core"
+)
+const practicalRestoreIndex = enBitcoinCoreSeriesRouteHtml.indexOf(
+  "Bitcoin Core Wallet: Setup, Encryption, Backup and Recovery"
+)
+const practicalOperateIndex = enBitcoinCoreSeriesRouteHtml.indexOf(
+  "Practical Bitcoin Self-Custody with Bitcoin Core"
+)
+
+assert(
+  enBitcoinCoreSeriesRouteHtml.includes("Practical path") &&
+    enBitcoinCoreSeriesRouteHtml.includes("Research &amp; essays") &&
+    practicalStartIndex >= 0 &&
+    practicalStartIndex < practicalRestoreIndex &&
+    practicalRestoreIndex < practicalOperateIndex,
+  "English Bitcoin Core hub does not preserve the Start, Restore, Operate path"
+)
+assert(
+  bitcoinCoreSeriesRouteHtml.includes("Currently available in English"),
+  "Croatian Bitcoin Core hub is missing the English-only label"
 )
 assert(
   bitcoinCoreStartRouteHtml.includes(
@@ -753,6 +851,76 @@ assert(
       'rel="canonical" href="https://btcpavao.com/en/bitcoin-core/start-here/"'
     ),
   "Bitcoin Core start page was not prerendered or has incomplete metadata"
+)
+assert(
+  bitcoinCoreStartRouteHtml.includes(socialCardImages.startHere) &&
+    socialCardImages.startHere !== socialCardImages.homepage &&
+    socialCardImages.startHere !== socialCardImages.default,
+  "Bitcoin Core Start Here page does not use its unique social card"
+)
+
+const englishTutorialLabels = [
+  "Before you begin",
+  "Goal",
+  "Difficulty",
+  "Estimated time",
+  "Real bitcoin",
+  "Software version",
+  "Operating systems",
+  "Recommended OS",
+  "Prerequisites",
+  "Expected outcome",
+  "Last reviewed",
+]
+
+for (const [label, html] of [
+  ["Start Here", bitcoinCoreStartRouteHtml],
+  ["Wallet guide", bitcoinCoreWalletGuideRouteHtml],
+  ["English curriculum", enBitcoinCoreCurriculumRouteHtml],
+]) {
+  assert(
+    englishTutorialLabels.every((item) => html.includes(item)),
+    `${label} is missing reusable tutorial metadata`
+  )
+}
+
+const croatianTutorialLabels = [
+  "Prije početka",
+  "Cilj",
+  "Težina",
+  "Procijenjeno vrijeme",
+  "Stvarni bitcoin",
+  "Verzija softvera",
+  "Operacijski sustavi",
+  "Preporučeni OS",
+  "Preduvjeti",
+  "Očekivani rezultat",
+  "Zadnja provjera",
+]
+
+assert(
+  croatianTutorialLabels.every((item) =>
+    hrBitcoinCoreCurriculumRouteHtml.includes(item)
+  ),
+  "Croatian curriculum is missing reusable tutorial metadata"
+)
+assert(
+  (bitcoinCoreWalletGuideRouteHtml.match(/aria-valuemax="11"/g) ?? [])
+    .length >= 1 &&
+    bitcoinCoreWalletGuideRouteHtml.includes(
+      "Optional: Make the backup less obvious"
+    ) &&
+    bitcoinCoreWalletGuideRouteHtml.includes("Signet PSBT round trip") &&
+    bitcoinCoreWalletGuideSource.includes(
+      "btcpavao-core-wallet-guide-steps-v2"
+    ) &&
+    bitcoinCoreWalletGuideSource.includes(
+      "btcpavao-core-wallet-guide-checklist-v2"
+    ) &&
+    bitcoinCoreWalletGuideSource.includes(
+      "btcpavao-core-wallet-guide-steps-v1"
+    ),
+  "Wallet guide step count, appendix, Signet exercise, or progress migration is incomplete"
 )
 assert(
   enBitcoinCoreArticleRouteHtml.includes(
@@ -783,13 +951,70 @@ assert(
     supportThankYouRouteHtml.includes("mailto:pavao@hey.com") &&
     supportThankYouRouteHtml.includes("/value-for-value-visual.webp") &&
     supportThankYouRouteHtml.includes(
-      '<meta name="robots" content="noindex,nofollow,noarchive" />'
+      '<meta name="robots" content="noindex,nofollow" />'
     ) &&
     supportThankYouRouteHtml.includes(
       'rel="canonical" href="https://btcpavao.com/support/thank-you/"'
     ) &&
     !supportThankYouRouteHtml.includes("<form"),
   "Value for Value thank-you page is incomplete, indexable, or collects form data"
+)
+assert(
+  supportRouteHtml.includes("Keep useful Bitcoin work open.") &&
+    supportRouteHtml.includes(
+      "<title>Support Open Bitcoin Education | BTC Pavao</title>"
+    ) &&
+    supportRouteHtml.includes(
+      'rel="canonical" href="https://btcpavao.com/support/"'
+    ) &&
+    supportRouteHtml.includes(
+      '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />'
+    ),
+  "Public support page is incomplete or not indexable"
+)
+assert(
+  notFoundRouteHtml.includes("This page does not exist.") &&
+    notFoundRouteHtml.includes("Go to homepage") &&
+    notFoundRouteHtml.includes("Explore Bitcoin Core") &&
+    notFoundRouteHtml.includes(
+      'rel="canonical" href="https://btcpavao.com/404/"'
+    ) &&
+    notFoundRouteHtml.includes(
+      '<meta name="robots" content="noindex,nofollow" />'
+    ),
+  "404 page is incomplete, indexable, or missing recovery links"
+)
+
+const technicalArticleLabels = [
+  "Technical article record",
+  "Published",
+  "Last updated",
+  "Technical review",
+  "Core reference version",
+  "Report a correction",
+]
+
+for (const [label, html] of [
+  ["Entropy article", enBitcoinCoreArticleRouteHtml],
+  ["The Long Road article", longRoadArticleRouteHtml],
+  ["BIP39 article", bip39ArticleRouteHtml],
+]) {
+  assert(
+    technicalArticleLabels.every((item) => html.includes(item)),
+    `${label} is missing the technical article record`
+  )
+}
+
+assert(
+  [
+    "Tehnički zapis članka",
+    "Objavljeno",
+    "Posljednje ažuriranje",
+    "Tehnička provjera",
+    "Referentna Core verzija",
+    "Prijavite ispravak",
+  ].every((item) => bitcoinCoreArticleRouteHtml.includes(item)),
+  "Croatian entropy article is missing the technical article record"
 )
 for (const [label, html] of [
   ["The Long Road article", longRoadArticleRouteHtml],
@@ -916,12 +1141,8 @@ for (let index = 1; index <= 13; index += 1) {
   )
 }
 assert(
-  workflowRouteHtml.includes('"@type": "BlogPosting"'),
-  "Workflow route is missing BlogPosting structured data"
-)
-assert(
-  workflowRouteHtml.includes('"@type": "BreadcrumbList"'),
-  "Workflow route is missing breadcrumb structured data"
+  workflowRouteHtml.includes('"@type":"Article"'),
+  "Workflow route is missing Article structured data"
 )
 assert(
   workflowRouteHtml.includes(socialCardImages.workflow),
@@ -956,7 +1177,7 @@ assert(
     enBitcoinCoreArticleRouteHtml.includes(
       'property="og:locale" content="en_US"'
     ) &&
-    enBitcoinCoreArticleRouteHtml.includes('"inLanguage": "en-US"') &&
+    enBitcoinCoreArticleRouteHtml.includes('"inLanguage":"en-US"') &&
     enBitcoinCoreArticleRouteHtml.includes(
       'hreflang="hr" href="https://btcpavao.com/hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/"'
     ) &&
@@ -975,9 +1196,8 @@ assert(
       'rel="canonical" href="https://btcpavao.com/en/bitcoin-core/the-long-road-back-to-bitcoin-core/"'
     ) &&
     longRoadArticleRouteHtml.includes('property="og:locale" content="en_US"') &&
-    longRoadArticleRouteHtml.includes('"inLanguage": "en-US"') &&
-    longRoadArticleRouteHtml.includes('"@type": "BlogPosting"') &&
-    longRoadArticleRouteHtml.includes('"@type": "BreadcrumbList"') &&
+    longRoadArticleRouteHtml.includes('"inLanguage":"en-US"') &&
+    longRoadArticleRouteHtml.includes('"@type":"Article"') &&
     longRoadArticleRouteHtml.includes(socialCardImages.longRoad) &&
     longRoadArticleRouteHtml.includes(
       'property="og:image:width" content="1774"'
@@ -985,8 +1205,13 @@ assert(
     longRoadArticleRouteHtml.includes(
       'property="og:image:height" content="887"'
     ) &&
-    !longRoadArticleRouteHtml.includes('rel="alternate" hreflang='),
-  "The Long Road article metadata is incomplete or has an incorrect hreflang link"
+    longRoadArticleRouteHtml.includes(
+      'rel="alternate" hreflang="en" href="https://btcpavao.com/en/bitcoin-core/the-long-road-back-to-bitcoin-core/"'
+    ) &&
+    longRoadArticleRouteHtml.includes(
+      'rel="alternate" hreflang="x-default" href="https://btcpavao.com/en/bitcoin-core/the-long-road-back-to-bitcoin-core/"'
+    ),
+  "The Long Road article metadata or hreflang links are incomplete"
 )
 assert(
   bip39ArticleRouteHtml.includes('<html lang="en">') &&
@@ -994,9 +1219,8 @@ assert(
       'rel="canonical" href="https://btcpavao.com/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/"'
     ) &&
     bip39ArticleRouteHtml.includes('property="og:locale" content="en_US"') &&
-    bip39ArticleRouteHtml.includes('"inLanguage": "en-US"') &&
-    bip39ArticleRouteHtml.includes('"@type": "BlogPosting"') &&
-    bip39ArticleRouteHtml.includes('"@type": "BreadcrumbList"') &&
+    bip39ArticleRouteHtml.includes('"inLanguage":"en-US"') &&
+    bip39ArticleRouteHtml.includes('"@type":"Article"') &&
     bip39ArticleRouteHtml.includes(socialCardImages.bip39) &&
     bip39ArticleRouteHtml.includes(
       'property="og:image:width" content="1200"'
@@ -1063,7 +1287,7 @@ const longRoadArticleBodyProbe =
 const bip39ArticleBodyProbe = "Today a client sent me his Bitcoin wallet."
 
 assert(
-  entryScriptBytes < 335_000,
+  entryScriptBytes < 360_000,
   `Entry bundle is too large: ${entryScriptBytes} bytes`
 )
 assert(

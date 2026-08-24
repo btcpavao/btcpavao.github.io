@@ -27,9 +27,15 @@ import {
   type Bip39ArticleBlock,
 } from "@/bip39-article"
 import { SiteBrandLink } from "@/components/site-brand"
+import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
+import { TechnicalArticleInfo } from "@/components/technical-article-info"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import {
+  contentRegistry,
+  type ContentRegistryEntry,
+} from "@/content-registry"
 import {
   ValueForValueCard,
   ValueForValueRail,
@@ -63,6 +69,9 @@ import { SOCIAL_CARD_IMAGES } from "@/social-card-images"
 
 const Homepage = lazy(() =>
   import("@/homepage").then((module) => ({ default: module.Homepage }))
+)
+const NotFoundPage = lazy(() =>
+  import("@/not-found").then((module) => ({ default: module.NotFoundPage }))
 )
 const BitcoinCoreStartPage = lazy(() =>
   import("@/bitcoin-core-start").then((module) => ({
@@ -277,70 +286,70 @@ const aiSeriesPosts: SeriesPost[] = [
   },
 ]
 
-const hrBitcoinCorePosts: SeriesPost[] = [
-  {
-    category: "Living curriculum",
-    title: "Praktičan Bitcoin self-custody uz Bitcoin Core",
-    description:
-      "Deset faza s lokalnim napretkom: od threat modela i Signet vježbi do recoveryja, offline signinga i multisiga.",
-    href: BITCOIN_CORE_CURRICULUM_PATH,
-    language: "HR",
-    date: "Ažurirano 10. kolovoza 2026.",
-  },
-  {
-    category: BITCOIN_CORE_SERIES_TITLE,
-    title: BITCOIN_CORE_ARTICLE_TITLE,
-    description: BITCOIN_CORE_ARTICLE_SUBTITLE,
-    href: BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
-    language: "HR",
-    date: BITCOIN_CORE_ARTICLE_DISPLAY_DATE,
-  },
-]
+function formatRegistryDate(entry: ContentRegistryEntry) {
+  const value = entry.updatedAt ?? entry.publishedAt
 
-const enBitcoinCorePosts: SeriesPost[] = [
-  {
-    category: BITCOIN_CORE_SERIES_TITLE,
-    title: BIP39_WRONG_THING_ARTICLE_TITLE,
-    description: BIP39_WRONG_THING_ARTICLE_SUBTITLE,
-    href: BIP39_WRONG_THING_ARTICLE_PATH,
-    language: "EN",
-    date: BIP39_WRONG_THING_ARTICLE_DISPLAY_DATE,
-  },
-  {
-    category: "Living curriculum",
-    title: "Practical Bitcoin Self-Custody with Bitcoin Core",
-    description:
-      "Ten phases with local progress tracking: from threat modeling and Signet practice to recovery, offline signing, and multisig.",
-    href: EN_BITCOIN_CORE_CURRICULUM_PATH,
-    language: "EN",
-    date: "Updated August 19, 2026",
-  },
-  {
-    category: "Interactive guide",
-    title: "Bitcoin Core Wallet: Basic Setup, Encryption, Backup & Recovery",
-    description:
-      "Create an encrypted Bitcoin Core wallet, make redundant backups, and prove that recovery works before using meaningful funds.",
-    href: BITCOIN_CORE_WALLET_GUIDE_PATH,
-    language: "EN",
-    date: "Updated August 18, 2026",
-  },
-  {
-    category: BITCOIN_CORE_SERIES_TITLE,
-    title: LONG_ROAD_ARTICLE_TITLE,
-    description: LONG_ROAD_ARTICLE_SUBTITLE,
-    href: LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH,
-    language: "EN",
-    date: LONG_ROAD_ARTICLE_DISPLAY_DATE,
-  },
-  {
-    category: BITCOIN_CORE_SERIES_TITLE,
-    title: EN_BITCOIN_CORE_ARTICLE_TITLE,
-    description: EN_BITCOIN_CORE_ARTICLE_SUBTITLE,
-    href: EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
-    language: "EN",
-    date: EN_BITCOIN_CORE_ARTICLE_DISPLAY_DATE,
-  },
-]
+  if (!value) return entry.locale === "hr" ? "Živi vodič" : "Living guide"
+
+  const date = new Date(`${value}T00:00:00Z`)
+  const formatted = new Intl.DateTimeFormat(
+    entry.locale === "hr" ? "hr-HR" : "en-US",
+    {
+      day: entry.locale === "hr" ? "numeric" : undefined,
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC",
+    }
+  ).format(date)
+
+  if (entry.updatedAt) {
+    return entry.locale === "hr"
+      ? `Ažurirano ${formatted}`
+      : `Updated ${formatted}`
+  }
+
+  return entry.locale === "hr" ? `Objavljeno ${formatted}` : formatted
+}
+
+function registryEntryToSeriesPost(entry: ContentRegistryEntry): SeriesPost {
+  const isPractical = entry.section === "core-practical"
+  const isCurriculum = entry.id.endsWith("curriculum")
+  const isStart = entry.id.endsWith("start")
+
+  return {
+    category: isCurriculum
+      ? "Living curriculum"
+      : isStart
+        ? "Start here"
+        : isPractical
+          ? entry.locale === "hr"
+            ? "Praktični vodič"
+            : "Practical guide"
+          : entry.locale === "hr"
+            ? "Istraživanje i esej"
+            : "Research & essay",
+    title: entry.title.replace(/\s+\|\s+BTC Pavao$/, ""),
+    description: entry.description,
+    href: entry.path,
+    language: entry.locale.toUpperCase(),
+    date: formatRegistryDate(entry),
+  }
+}
+
+function getBitcoinCorePosts(
+  locale: "en" | "hr",
+  section: "core-practical" | "core-research"
+) {
+  return contentRegistry
+    .filter(
+      (entry) =>
+        entry.status === "published" &&
+        entry.locale === locale &&
+        entry.section === section
+    )
+    .sort((a, b) => a.order - b.order)
+    .map(registryEntryToSeriesPost)
+}
 
 const learningArticleHeadings = [
   {
@@ -1384,6 +1393,7 @@ function PageChrome({
       <SiteHeader />
 
       {children}
+      <SiteFooter />
     </div>
   )
 }
@@ -1537,7 +1547,10 @@ function HrHomePage() {
       title: BITCOIN_CORE_SERIES_TITLE,
       description: BITCOIN_CORE_SERIES_DESCRIPTION,
       href: BITCOIN_CORE_SERIES_PATH,
-      count: `${hrBitcoinCorePosts.length} teksta`,
+      count: `${
+        getBitcoinCorePosts("hr", "core-practical").length +
+        getBitcoinCorePosts("hr", "core-research").length
+      } tekstova`,
     },
   ]
 
@@ -1595,7 +1608,8 @@ function BitcoinCoreSeriesPage({
   language?: BitcoinCoreLanguage
 }) {
   const isEnglish = language === "en"
-  const posts = isEnglish ? enBitcoinCorePosts : hrBitcoinCorePosts
+  const practicalPosts = getBitcoinCorePosts(language, "core-practical")
+  const researchPosts = getBitcoinCorePosts(language, "core-research")
   const seriesPath = isEnglish
     ? EN_BITCOIN_CORE_SERIES_PATH
     : BITCOIN_CORE_SERIES_PATH
@@ -1646,11 +1660,64 @@ function BitcoinCoreSeriesPage({
 
         <section className="mt-16 border-t border-border/60 pt-16">
           <SectionHeader
-            eyebrow={isEnglish ? "Published writing" : "Objavljeni sadržaj"}
-            title="Bitcoin Core"
+            eyebrow={isEnglish ? "Practical path" : "Praktični put"}
+            title={
+              isEnglish
+                ? "Start → Restore → Operate"
+                : "Vježbaj → Vrati → Održavaj"
+            }
+          />
+          <p className="mt-5 max-w-3xl text-base leading-8 text-pretty text-muted-foreground">
+            {isEnglish
+              ? "Begin with an empty practice wallet, prove that recovery works, then move into the broader self-custody curriculum. Research essays stay separate so the operational path remains clear."
+              : "Krenite s dostupnim praktičnim kurikulumom, uvježbajte recovery i tek zatim prijeđite na složenije operativne odluke. Početni vodič i interaktivna wallet vježba zasad su dostupni na engleskom."}
+          </p>
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {practicalPosts.map((post) => (
+              <SeriesCard key={post.href} post={post} />
+            ))}
+          </div>
+
+          {!isEnglish ? (
+            <aside className="mt-6 rounded-[1.75rem] border border-border/70 bg-card/72 p-6 shadow-sm sm:p-7">
+              <p className="text-xs font-semibold tracking-[0.18em] text-bitcoin uppercase">
+                Currently available in English
+              </p>
+              <p className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
+                Početna vježba i interaktivni wallet vodič trenutačno su dostupni
+                na engleskom jeziku.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a
+                  className={`inline-flex min-h-11 items-center rounded-full bg-bitcoin px-5 text-sm font-semibold text-white ${liftHover}`}
+                  href={START_HERE_PATH}
+                >
+                  Start Here
+                </a>
+                <a
+                  className={`inline-flex min-h-11 items-center rounded-full border border-border bg-background px-5 text-sm font-semibold text-foreground ${liftHover}`}
+                  href={BITCOIN_CORE_WALLET_GUIDE_PATH}
+                >
+                  Wallet guide
+                </a>
+                <a
+                  className={`inline-flex min-h-11 items-center rounded-full border border-border bg-background px-5 text-sm font-semibold text-foreground ${liftHover}`}
+                  href={HR_HOME_PATH}
+                >
+                  Natrag na hrvatski početni sadržaj
+                </a>
+              </div>
+            </aside>
+          ) : null}
+        </section>
+
+        <section className="mt-16 border-t border-border/60 pt-16">
+          <SectionHeader
+            eyebrow={isEnglish ? "Research & essays" : "Istraživanja i eseji"}
+            title={isEnglish ? "Understand the tradeoffs" : "Razumijte kompromise"}
           />
           <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {posts.map((post) => (
+            {researchPosts.map((post) => (
               <SeriesCard key={post.href} post={post} />
             ))}
           </div>
@@ -1968,6 +2035,37 @@ function BitcoinCoreArticlePage({
           </header>
 
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <TechnicalArticleInfo
+              language={language}
+              published={
+                isEnglish ? "August 5, 2026" : "5. kolovoza 2026."
+              }
+              updated={
+                isEnglish ? "August 24, 2026" : "24. kolovoza 2026."
+              }
+              coreVersion="30.0"
+              sourcePath={
+                isEnglish
+                  ? "src/bitcoin-core-article-en.txt"
+                  : "src/bitcoin-core-article.txt"
+              }
+              sources={[
+                {
+                  label: "Bitcoin Core random.h",
+                  href: "https://github.com/bitcoin/bitcoin/blob/v30.0/src/random.h",
+                },
+                {
+                  label: "Bitcoin Core key.cpp",
+                  href: "https://github.com/bitcoin/bitcoin/blob/v30.0/src/key.cpp",
+                },
+                {
+                  label: isEnglish
+                    ? "Bitcoin Core wallet source"
+                    : "Izvorni kod Bitcoin Core walleta",
+                  href: "https://github.com/bitcoin/bitcoin/tree/v30.0/src/wallet",
+                },
+              ]}
+            />
             <nav
               aria-label={isEnglish ? "Article contents" : "Sadržaj članka"}
               className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
@@ -2246,6 +2344,27 @@ function Bip39ArticlePage({
           </header>
 
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <TechnicalArticleInfo
+              language="en"
+              published="August 21, 2026"
+              updated="August 24, 2026"
+              coreVersion="30.0"
+              sourcePath="src/bip39-wrong-thing-human-readable.md"
+              sources={[
+                {
+                  label: "BIP39 specification",
+                  href: "https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki",
+                },
+                {
+                  label: "BIP32 specification",
+                  href: "https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki",
+                },
+                {
+                  label: "Bitcoin Core wallet source",
+                  href: "https://github.com/bitcoin/bitcoin/tree/v30.0/src/wallet",
+                },
+              ]}
+            />
             <nav
               aria-label="Article contents"
               className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
@@ -2535,6 +2654,27 @@ function LongRoadArticlePage({
           </header>
 
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <TechnicalArticleInfo
+              language="en"
+              published="August 5, 2026"
+              updated="August 24, 2026"
+              coreVersion="30.0"
+              sourcePath="src/long-road-back-to-bitcoin-core.md"
+              sources={[
+                {
+                  label: "Bitcoin Core documentation",
+                  href: "https://github.com/bitcoin/bitcoin/tree/v30.0/doc",
+                },
+                {
+                  label: "Bitcoin Core wallet source",
+                  href: "https://github.com/bitcoin/bitcoin/tree/v30.0/src/wallet",
+                },
+                {
+                  label: "Bitcoin Core releases",
+                  href: "https://bitcoincore.org/en/releases/",
+                },
+              ]}
+            />
             <nav
               aria-label="Article contents"
               className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
@@ -3221,7 +3361,15 @@ export function App({
     )
   }
 
-  return <HomePage />
+  if (currentPath === "/") {
+    return <HomePage />
+  }
+
+  return (
+    <Suspense fallback={null}>
+      <NotFoundPage />
+    </Suspense>
+  )
 }
 
 export default App

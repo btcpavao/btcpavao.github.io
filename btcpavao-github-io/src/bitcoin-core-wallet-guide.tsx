@@ -22,6 +22,7 @@ import {
 } from "lucide-react"
 
 import { SiteHeader } from "@/components/site-header"
+import { TutorialMetadata } from "@/components/tutorial-metadata"
 import {
   ValueForValueCard,
   ValueForValueRail,
@@ -33,8 +34,11 @@ import {
 import { SOCIAL_CARD_IMAGES } from "@/social-card-images"
 
 const SITE_URL = "https://btcpavao.com"
-const STEP_STORAGE_KEY = "btcpavao-core-wallet-guide-steps-v1"
-const CHECKLIST_STORAGE_KEY = "btcpavao-core-wallet-guide-checklist-v1"
+const STEP_STORAGE_KEY = "btcpavao-core-wallet-guide-steps-v2"
+const CHECKLIST_STORAGE_KEY = "btcpavao-core-wallet-guide-checklist-v2"
+const LEGACY_STEP_STORAGE_KEY = "btcpavao-core-wallet-guide-steps-v1"
+const LEGACY_CHECKLIST_STORAGE_KEY =
+  "btcpavao-core-wallet-guide-checklist-v1"
 const IMAGE_ROOT = "/bitcoin-core-wallet-guide"
 const BITCOIN_CORE_DOWNLOAD_URL = "https://bitcoincore.org/en/download/"
 const KEEPASSXC_DOWNLOAD_URL = "https://keepassxc.org/download/"
@@ -98,7 +102,7 @@ const image = (
   height,
 })
 
-const steps: GuideStep[] = [
+const legacySteps: GuideStep[] = [
   {
     number: 1,
     title: "Start with no wallet loaded",
@@ -347,10 +351,10 @@ const steps: GuideStep[] = [
         </ul>
         <p>
           This does not make the environment magically sterile, but it removes
-          many common infection paths and sharply limits exposure. Pause here
-          before Step 8: continue only after deciding whether this practice
-          wallet belongs on the current computer or whether your intended cold
-          storage warrants a clean, dedicated offline signer.
+          many common infection paths and sharply limits exposure. Pause before
+          continuing: decide whether this practice wallet belongs on the current
+          computer or whether your intended cold storage warrants a clean,
+          dedicated offline signer.
         </p>
       </>
     ),
@@ -591,6 +595,148 @@ const steps: GuideStep[] = [
   },
 ]
 
+const steps: GuideStep[] = [
+  {
+    ...legacySteps[0],
+    number: 1,
+    title: "Prepare a safe practice environment",
+    summary: "Begin with no wallet loaded and no meaningful funds at risk.",
+    content: (
+      <>
+        <p>
+          Use a disposable practice wallet first. Install Bitcoin Core from the
+          official source, keep the operating system current, and pause if you
+          have any reason to suspect malware. Bitcoin Core can run and stay
+          synchronized without a wallet loaded, which is the clean state used
+          at the start of this exercise.
+        </p>
+        <p>
+          Do not send meaningful funds to this wallet until you have completed
+          and tested the entire backup and recovery workflow.
+        </p>
+      </>
+    ),
+  },
+  { ...legacySteps[1], number: 2 },
+  { ...legacySteps[2], number: 3 },
+  {
+    ...legacySteps[3],
+    number: 4,
+    title: "Generate and enter a strong passphrase",
+    summary:
+      "Use a password manager, enter the phrase twice, and keep its backup separate.",
+    images: [...legacySteps[3].images, ...legacySteps[4].images],
+    content: (
+      <>
+        {legacySteps[3].content}
+        {legacySteps[4].content}
+      </>
+    ),
+    note: legacySteps[4].note,
+    noteKind: legacySteps[4].noteKind,
+  },
+  {
+    ...legacySteps[5],
+    number: 5,
+    title: "Acknowledge Bitcoin Core's warnings",
+    summary:
+      "Understand both permanent passphrase loss and the limits of encryption against malware.",
+    images: [...legacySteps[5].images, ...legacySteps[6].images],
+    content: (
+      <>
+        {legacySteps[5].content}
+        {legacySteps[6].content}
+      </>
+    ),
+    noteKind: "critical",
+    note: (
+      <>
+        Losing the passphrase can make the encrypted private keys unusable.
+        Encryption also cannot make a compromised signing computer trustworthy.
+        Stop here until you understand both warnings and have chosen an
+        appropriate signing environment.
+      </>
+    ),
+  },
+  {
+    ...legacySteps[8],
+    number: 6,
+    title: "Generate a receiving address",
+  },
+  {
+    ...legacySteps[9],
+    number: 7,
+    title: "Back up the encrypted wallet",
+  },
+  {
+    ...legacySteps[10],
+    number: 8,
+    title: "Open Restore Wallet",
+  },
+  {
+    ...legacySteps[11],
+    number: 9,
+    title: "Select the backup file",
+    summary:
+      "Choose the wallet backup you intend to test, regardless of its filename.",
+  },
+  {
+    ...legacySteps[14],
+    number: 10,
+    title: "Restore and verify the wallet",
+    summary:
+      "Confirm the expected wallet data returns and the private keys remain protected.",
+    content: (
+      <>
+        {legacySteps[14].content}
+        <p>
+          A <strong>restore test</strong> proves that Bitcoin Core can load the
+          backup and recover the expected wallet data. It does not by itself
+          prove that you can complete your full signing workflow. For meaningful
+          savings, follow this with the operational Signet PSBT exercise in the
+          <a
+            href="/en/bitcoin-core/self-custody/#lesson/9.1"
+            className="font-semibold text-primary underline decoration-primary/45 underline-offset-4"
+          >
+            self-custody curriculum
+          </a>
+          .
+        </p>
+      </>
+    ),
+  },
+  {
+    number: 11,
+    title: "Complete the operational checklist",
+    summary:
+      "Verify separation, redundancy, recovery, and the limits of wallet encryption.",
+    images: [
+      image(
+        "08-wallet-created-crisp",
+        "Bitcoin Core overview after an encrypted test wallet is loaded",
+        992,
+        1586
+      ),
+    ],
+    content: (
+      <p>
+        Review the checklist below before treating the exercise as complete. A
+        backup strategy is only credible after you have restored it, understood
+        when the passphrase is required, and separated the wallet backup from
+        the passphrase backup.
+      </p>
+    ),
+    noteKind: "warning",
+    note: (
+      <>
+        A restored wallet with the correct labels and addresses is useful
+        evidence. A completed Signet PSBT round trip is stronger operational
+        evidence that your signing and transport process also works.
+      </>
+    ),
+  },
+]
+
 const finalChecklist = [
   "I created the wallet on an environment I trust.",
   "The wallet is encrypted with a strong, unique passphrase.",
@@ -601,7 +747,6 @@ const finalChecklist = [
   "I successfully restored the wallet from a backup.",
   "I understand that restoring or opening the wallet does not require unlocking the private keys.",
   "I understand that the passphrase is required for signing or spending.",
-  "I understand that renaming the file is obfuscation, not encryption.",
   "I have a plan to periodically test my backups.",
   "For serious cold storage, my private-key signer is kept offline.",
 ]
@@ -622,6 +767,49 @@ function writeStoredBooleans(key: string, value: boolean[]) {
   } catch {
     // Progress remains available for the current session when storage is blocked.
   }
+}
+
+function migrateStepProgress() {
+  if (localStorage.getItem(STEP_STORAGE_KEY) !== null) {
+    return readStoredBooleans(STEP_STORAGE_KEY, steps.length)
+  }
+
+  const legacy = readStoredBooleans(
+    LEGACY_STEP_STORAGE_KEY,
+    legacySteps.length
+  )
+  const migrated = [
+    legacy[0],
+    legacy[1],
+    legacy[2],
+    legacy[3] || legacy[4],
+    legacy[5] || legacy[6],
+    legacy[8],
+    legacy[9],
+    legacy[10],
+    legacy[11],
+    legacy[14],
+    false,
+  ]
+  writeStoredBooleans(STEP_STORAGE_KEY, migrated)
+  return migrated
+}
+
+function migrateChecklistProgress() {
+  if (localStorage.getItem(CHECKLIST_STORAGE_KEY) !== null) {
+    return readStoredBooleans(CHECKLIST_STORAGE_KEY, finalChecklist.length)
+  }
+
+  const legacy = readStoredBooleans(
+    LEGACY_CHECKLIST_STORAGE_KEY,
+    finalChecklist.length + 1
+  )
+  const migrated = [...legacy.slice(0, 9), ...legacy.slice(10)].slice(
+    0,
+    finalChecklist.length
+  )
+  writeStoredBooleans(CHECKLIST_STORAGE_KEY, migrated)
+  return migrated
 }
 
 function setMetaContent(
@@ -1114,10 +1302,8 @@ export function BitcoinCoreWalletGuidePage() {
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
-      setCompletedSteps(readStoredBooleans(STEP_STORAGE_KEY, steps.length))
-      setCheckedFinal(
-        readStoredBooleans(CHECKLIST_STORAGE_KEY, finalChecklist.length)
-      )
+      setCompletedSteps(migrateStepProgress())
+      setCheckedFinal(migrateChecklistProgress())
       setStorageReady(true)
     })
 
@@ -1182,6 +1368,27 @@ export function BitcoinCoreWalletGuidePage() {
             A step-by-step guide to creating a basic encrypted Bitcoin Core
             wallet, making redundant backups, and restoring it when needed.
           </p>
+
+          <TutorialMetadata
+            language="en"
+            className="mt-10"
+            goal="Create, encrypt, back up, restore, and verify a disposable Bitcoin Core wallet."
+            difficulty="Beginner to intermediate"
+            estimatedTime="60–90 minutes"
+            realBitcoin="No. Complete the full recovery test before considering funds."
+            softwareVersion="Bitcoin Core 30.0"
+            operatingSystems="The screenshots use macOS; the workflow also applies to Windows and Linux."
+            recommendedOs={
+              <>
+                For a dedicated signer, use a clean installation such as{" "}
+                <a href={FEDORA_WORKSTATION_DOWNLOAD_URL}>Fedora Workstation</a>{" "}
+                or <a href={FEDORA_XFCE_DOWNLOAD_URL}>Fedora Xfce</a>.
+              </>
+            }
+            prerequisites="Bitcoin Core installed from an official source, an empty practice environment, and a separate place for passphrase notes."
+            outcome="A restored practice wallet whose addresses and metadata match the original."
+            lastReviewed="24 August 2026"
+          />
 
           <div className="mt-10 grid gap-4 rounded-[28px] bg-card p-5 shadow-[var(--shadow-border)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-7">
             <div>
@@ -1307,8 +1514,8 @@ export function BitcoinCoreWalletGuidePage() {
                 </div>
               </section>
 
-              {step.number === 4 ? <SeriousColdStorage /> : null}
-              {step.number === 12 ? (
+              {step.number === 5 ? <SeriousColdStorage /> : null}
+              {step.number === 9 ? (
                 <OptionalObfuscation onOpen={openImage} />
               ) : null}
               {index < steps.length - 1 ? (

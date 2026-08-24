@@ -4,7 +4,6 @@ import {
   ArrowUp,
   ArrowUpRight,
   Building2,
-  CalendarDays,
   Check,
   KeyRound,
   RefreshCcw,
@@ -17,11 +16,10 @@ import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ValueForValueCard } from "@/components/value-for-value"
+import { contentRegistry } from "@/content-registry"
 import {
-  BIP39_WRONG_THING_ARTICLE_PATH,
   BITCOIN_CORE_WALLET_GUIDE_PATH,
   EN_BITCOIN_CORE_CURRICULUM_PATH,
-  EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   EN_BITCOIN_CORE_SERIES_PATH,
   LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH,
   START_HERE_PATH,
@@ -113,59 +111,58 @@ const audiences: Array<{
   },
 ]
 
-const latestPosts = [
-  {
-    category: "Bitcoin Core",
+const latestPosts = contentRegistry
+  .filter(
+    (entry) =>
+      entry.locale === "en" &&
+      entry.contentType === "article" &&
+      entry.status === "published" &&
+      entry.publishedAt
+  )
+  .sort((a, b) =>
+    String(b.publishedAt).localeCompare(String(a.publishedAt))
+  )
+  .slice(0, 3)
+  .map((entry) => ({
+    category: entry.section.startsWith("core")
+      ? "Bitcoin Core"
+      : "Writing",
     language: "EN",
-    date: "August 21, 2026",
-    title: "BIP39 Made the Wrong Thing Human-Readable",
-    copy: "Why the wallet's root secret should not be the thing humans are expected to preserve.",
-    href: BIP39_WRONG_THING_ARTICLE_PATH,
-  },
-  {
-    category: "Bitcoin Core",
-    language: "EN",
-    date: "August 5, 2026",
-    title: "The Long Road Back to Bitcoin Core",
-    copy: "A practical account of wallet assumptions, recovery tests, and choosing a foundation for the long term.",
-    href: LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH,
-  },
-  {
-    category: "Bitcoin Core",
-    language: "EN",
-    date: "August 5, 2026",
-    title: "How Bitcoin Core Generates Entropy When You Create a New Wallet",
-    copy: "How Core gathers randomness, validates a private key, and builds a BIP32 wallet.",
-    href: EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
-  },
-]
+    date: new Intl.DateTimeFormat("en", {
+      dateStyle: "long",
+      timeZone: "UTC",
+    }).format(new Date(`${entry.publishedAt}T00:00:00Z`)),
+    title: entry.title.replace(/ \| BTC Pavao$/, ""),
+    copy: entry.description,
+    href: entry.path,
+  }))
 
 const projects = [
   {
     title: "Saifedean.com",
-    label: "Education",
-    copy: "Bitcoin education, Austrian economics, and high-signal learning infrastructure.",
+    label: "My work: education operations",
+    copy: "I contribute to the systems that deliver Bitcoin and Austrian economics education.",
     href: "https://saifedean.com",
     logo: "/project-logos/saifedean.avif",
   },
   {
     title: "TheSaifHouse.com",
-    label: "Books and commerce",
-    copy: "Books, global fulfillment, checkout experience, and Bitcoin-native commerce.",
+    label: "My work: publishing operations",
+    copy: "I contribute to the publishing, customer experience, and operational side of the project.",
     href: "https://thesaifhouse.com",
     logo: "/project-logos/the-saif-house.png",
   },
   {
     title: "TwentyOne.World",
-    label: "Community network",
-    copy: "Local community discovery, coordination, events, and Bitcoin signal.",
+    label: "My work: community operations",
+    copy: "I contribute to a network built around local Bitcoin communities and coordination.",
     href: "https://twentyone.world",
     logo: "/project-logos/twentyone-world-v2.svg",
   },
   {
     title: "Practical Bitcoin Standard",
-    label: "Open-source writing",
-    copy: "A growing guide to turning Bitcoin conviction into everyday practice.",
+    label: "My work: open writing",
+    copy: "I write and maintain this open guide to putting Bitcoin principles into everyday practice.",
     href: PRACTICAL_BITCOIN_STANDARD_URL,
     logo: "/project-logos/practical-bitcoin-standard.png",
   },
@@ -277,18 +274,18 @@ export function Homepage() {
             aria-hidden="true"
           />
 
-          <div className="mx-auto flex min-h-[43rem] max-w-7xl items-center px-4 py-16 sm:min-h-[47rem] sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+          <div className="mx-auto flex min-h-[37rem] max-w-7xl items-center px-4 py-14 sm:min-h-[40rem] sm:px-6 sm:py-16 lg:px-8 lg:py-20">
             <div className="home-hero-copy max-w-3xl">
               <Eyebrow>
                 Bitcoin Standard advisory · Bitcoin Core education
               </Eyebrow>
-              <h1 className="mt-5 max-w-[12ch] font-display text-5xl leading-[0.94] font-bold tracking-[-0.065em] text-balance sm:text-7xl lg:text-[5.5rem]">
-                Build your Bitcoin life from first principles.
+              <h1 className="mt-5 max-w-[14ch] font-display text-5xl leading-[0.96] font-bold tracking-[-0.055em] text-balance sm:text-6xl lg:text-[4.75rem]">
+                Build a Bitcoin life you can explain, recover, and maintain.
               </h1>
               <p className="mt-7 max-w-2xl text-lg leading-8 text-muted-foreground sm:text-xl sm:leading-9">
-                Practical guidance for individuals, families, and businesses who
-                want to organize their money around Bitcoin, and learn
-                self-custody with Bitcoin Core when they are ready.
+                Practical Bitcoin Standard advisory and first-principles
+                self-custody education for individuals, families, and
+                businesses who want fewer hidden assumptions in their setup.
               </p>
               <p className="mt-5 max-w-xl text-base leading-7 font-semibold text-foreground">
                 Fewer assumptions. Fewer moving parts. More clarity for the
@@ -300,13 +297,9 @@ export function Homepage() {
                   size="lg"
                   className="min-h-12 rounded-full px-6"
                 >
-                  <a
-                    href={BOOKING_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Book an advisory call
-                    <CalendarDays className="size-4" aria-hidden="true" />
+                  <a href={START_HERE_PATH}>
+                    Start with Bitcoin Core
+                    <ArrowRight className="size-4" aria-hidden="true" />
                   </a>
                 </Button>
                 <Button
@@ -315,13 +308,13 @@ export function Homepage() {
                   size="lg"
                   className="min-h-12 rounded-full bg-background/80 px-6 backdrop-blur-sm"
                 >
-                  <a href={START_HERE_PATH}>
-                    Start learning Bitcoin Core
-                    <ArrowRight className="size-4" aria-hidden="true" />
+                  <a
+                    href={BOOKING_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Book a Value for Value conversation
                   </a>
-                </Button>
-                <Button asChild variant="link" className="min-h-12 px-2">
-                  <a href="#writing">Read the latest writing</a>
                 </Button>
               </div>
               <p className="mt-4 max-w-xl text-sm leading-6 text-muted-foreground">
@@ -359,7 +352,7 @@ export function Homepage() {
 
         <section
           id="bitcoin-standard"
-          className="mx-auto max-w-7xl scroll-mt-24 px-4 py-20 sm:px-6 sm:py-28 lg:px-8"
+          className="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
         >
           <SectionIntro
             eyebrow="Two connected paths"
@@ -440,7 +433,7 @@ export function Homepage() {
         </section>
 
         <section className="border-y border-border/60 bg-card/54">
-          <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
             <SectionIntro
               eyebrow="Custody philosophy"
               title="Custody is a progression, not a purity test."
@@ -450,14 +443,16 @@ export function Homepage() {
               <p>
                 An air-gapped computer, a custom descriptor, or a complex
                 multisig policy should not be the starting point for everyone.
-                There is no shame in using simpler or custodial tools while
-                learning.
+                A simpler wallet, and even a custodial service, can be a
+                reasonable temporary choice while a beginner is learning.
               </p>
               <p>
-                Move toward greater control only when the process is clear,
-                tested, and repeatable. Hardware wallets, BIP39, multisig, and
-                Bitcoin Core all have trade-offs. Understanding them matters
-                more than choosing a camp.
+                For meaningful savings, my recommended destination is generic
+                hardware running a clean, dedicated Linux system with Bitcoin
+                Core, wallet encryption, redundant encrypted backups, a
+                separately stored passphrase, PSBT-based signing, and a tested
+                recovery procedure. Add complexity only when every part is
+                understood and repeatable.
               </p>
             </div>
 
@@ -481,7 +476,7 @@ export function Homepage() {
 
         <section
           id="bitcoin-core"
-          className="mx-auto max-w-7xl scroll-mt-24 px-4 py-20 sm:px-6 sm:py-28 lg:px-8"
+          className="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
         >
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:gap-20">
             <div>
@@ -555,7 +550,7 @@ export function Homepage() {
           id="tutorials"
           className="scroll-mt-24 border-y border-border/60 bg-card/48"
         >
-          <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
             <SectionIntro
               eyebrow="Bitcoin Core tutorials"
               title="Choose the depth that fits your next step."
@@ -618,7 +613,7 @@ export function Homepage() {
           </div>
         </section>
 
-        <section className="px-4 pb-20 sm:px-6 sm:pb-28 lg:px-8">
+        <section className="px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8">
           <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[36px] bg-card shadow-[var(--shadow-border),0_28px_80px_color-mix(in_oklab,var(--foreground)_10%,transparent)] lg:grid-cols-2">
             <picture className="min-h-[340px]">
               <source
@@ -670,7 +665,7 @@ export function Homepage() {
         </section>
 
         <section className="border-y border-border/60 bg-card/48">
-          <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
             <SectionIntro
               eyebrow="Who this work is for"
               title="Built for responsibility shared over time."
@@ -702,7 +697,7 @@ export function Homepage() {
 
         <section
           id="writing"
-          className="mx-auto max-w-7xl scroll-mt-24 px-4 py-20 sm:px-6 sm:py-28 lg:px-8"
+          className="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
         >
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <SectionIntro
@@ -775,7 +770,7 @@ export function Homepage() {
           </div>
         </section>
 
-        <section className="px-4 pb-20 sm:px-6 sm:pb-28 lg:px-8">
+        <section className="px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8">
           <ValueForValueCard language="en" className="mx-auto max-w-7xl" />
         </section>
 
@@ -783,7 +778,7 @@ export function Homepage() {
           id="about"
           className="scroll-mt-24 border-y border-border/60 bg-card/48"
         >
-          <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 sm:py-24 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-16 lg:px-8">
+          <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-16 lg:px-8">
             <figure className="mx-auto w-full max-w-[240px] rounded-full bg-background p-2 shadow-[var(--shadow-border)] lg:mx-0">
               <img
                 src="/pavao-profile.webp"
@@ -825,7 +820,7 @@ export function Homepage() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
           <SectionIntro
             eyebrow="Work and projects"
             title="Work in the Bitcoin space."
@@ -871,7 +866,7 @@ export function Homepage() {
 
         <section
           id="work-with-me"
-          className="scroll-mt-24 px-4 pb-20 sm:px-6 sm:pb-28 lg:px-8"
+          className="scroll-mt-24 px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8"
         >
           <div className="final-cta mx-auto grid max-w-7xl gap-10 overflow-hidden rounded-[36px] px-6 py-10 sm:px-10 sm:py-14 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:px-14 lg:py-16">
             <div className="max-w-3xl">
@@ -902,7 +897,7 @@ export function Homepage() {
                 className="min-h-12 rounded-full bg-white px-6 text-[#0d3153] hover:bg-white/90"
               >
                 <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                  Book an introductory call
+                  Book a Value for Value conversation
                 </a>
               </Button>
               <Button
@@ -915,13 +910,6 @@ export function Homepage() {
                   Try the first Bitcoin Core exercise
                 </a>
               </Button>
-              <a
-                href="#writing"
-                className="inline-flex min-h-11 items-center justify-center gap-2 px-4 text-sm font-semibold text-white/78 hover:text-white"
-              >
-                Read the latest writing
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </a>
             </div>
           </div>
         </section>

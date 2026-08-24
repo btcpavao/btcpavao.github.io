@@ -12,6 +12,7 @@ import {
 
 import { Button } from "@/components/ui/button"
 import { SiteHeader } from "@/components/site-header"
+import { TutorialMetadata } from "@/components/tutorial-metadata"
 import {
   BITCOIN_CORE_WALLET_GUIDE_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
@@ -84,6 +85,27 @@ export function BitcoinCoreStartPage() {
             software, create an empty practice wallet, identify what must be
             backed up, and explain the plan in your own words.
           </p>
+
+          <TutorialMetadata
+            language="en"
+            className="mt-10"
+            goal="Understand the complete wallet practice cycle before using funds."
+            difficulty="Beginner"
+            estimatedTime="30–45 minutes"
+            realBitcoin="No. Use an empty, disposable practice wallet."
+            softwareVersion="Bitcoin Core 30.0"
+            operatingSystems="macOS, Windows, and maintained Linux distributions"
+            recommendedOs="Any maintained desktop OS for this disposable exercise"
+            prerequisites={
+              <>
+                Download Bitcoin Core from the{" "}
+                <a href="https://bitcoincore.org/en/download/">official site</a>
+                ; keep existing wallets and backups out of this exercise.
+              </>
+            }
+            outcome="An empty practice wallet, a verified backup, and a recovery plan you can explain."
+            lastReviewed="24 August 2026"
+          />
 
           <div className="mt-10 rounded-[28px] bg-card p-6 shadow-[var(--shadow-border)] sm:p-8">
             <div className="flex gap-4">

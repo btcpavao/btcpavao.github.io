@@ -18,6 +18,7 @@ const sources = {
   walletGuide: "bitcoin-core-wallet-guide/10-backup-wallet-menu.webp",
   bip39: "bip39-wrong-thing-cover-share.jpg",
   support: "value-for-value-visual.webp",
+  startHere: "start-here-bitcoin-core-card.png",
 }
 
 await rm(generatedDirectory, { recursive: true, force: true })

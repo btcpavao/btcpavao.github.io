@@ -16,7 +16,9 @@ import {
   needsBip39ArticleSource,
   normalizePath,
   START_HERE_PATH,
+  SUPPORT_PATH,
   SUPPORT_THANK_YOU_PATH,
+  NOT_FOUND_PATH,
 } from "@/routes"
 
 async function startApp() {
@@ -79,6 +81,12 @@ async function startApp() {
   } else if (initialPath === SUPPORT_THANK_YOU_PATH) {
     const { SupportThankYouPage } = await import("./support-thank-you")
     routedPage = <SupportThankYouPage />
+  } else if (initialPath === SUPPORT_PATH) {
+    const { SupportPage } = await import("./support")
+    routedPage = <SupportPage />
+  } else if (initialPath === NOT_FOUND_PATH) {
+    const { NotFoundPage } = await import("./not-found")
+    routedPage = <NotFoundPage />
   } else {
     routedPage = (
       <App

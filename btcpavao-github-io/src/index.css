@@ -36,7 +36,7 @@
   --popover: oklch(0.993 0.006 90);
   --popover-foreground: oklch(0.24 0.018 58);
   --primary: oklch(0.69 0.16 72);
-  --primary-foreground: oklch(0.985 0.003 95);
+  --primary-foreground: oklch(0.22 0.018 58);
   --secondary: oklch(0.955 0.012 85);
   --secondary-foreground: oklch(0.28 0.016 58);
   --muted: oklch(0.95 0.01 85);
@@ -56,7 +56,7 @@
   --sidebar: oklch(0.993 0.006 90);
   --sidebar-foreground: oklch(0.24 0.018 58);
   --sidebar-primary: oklch(0.69 0.16 72);
-  --sidebar-primary-foreground: oklch(0.985 0.003 95);
+  --sidebar-primary-foreground: oklch(0.22 0.018 58);
   --sidebar-accent: oklch(0.965 0.012 84);
   --sidebar-accent-foreground: oklch(0.28 0.016 58);
   --sidebar-border: oklch(0.89 0.01 85);
@@ -89,7 +89,7 @@
   --popover: oklch(0.235 0.012 56);
   --popover-foreground: oklch(0.95 0.008 88);
   --primary: oklch(0.75 0.15 72);
-  --primary-foreground: oklch(0.985 0.003 95);
+  --primary-foreground: oklch(0.19 0.012 56);
   --secondary: oklch(0.28 0.012 56);
   --secondary-foreground: oklch(0.95 0.008 88);
   --muted: oklch(0.255 0.01 56);
@@ -108,7 +108,7 @@
   --sidebar: oklch(0.235 0.012 56);
   --sidebar-foreground: oklch(0.95 0.008 88);
   --sidebar-primary: oklch(0.75 0.15 72);
-  --sidebar-primary-foreground: oklch(0.985 0.003 95);
+  --sidebar-primary-foreground: oklch(0.19 0.012 56);
   --sidebar-accent: oklch(0.29 0.012 56);
   --sidebar-accent-foreground: oklch(0.95 0.008 88);
   --sidebar-border: oklch(1 0 0 / 10%);
@@ -188,7 +188,6 @@
 
   * {
     @apply border-border outline-ring/50;
-    letter-spacing: 0 !important;
   }
 
   body {
@@ -4440,7 +4439,7 @@
 }
 
 .home-hero {
-  min-height: min(54rem, calc(100svh - 4.75rem));
+  min-height: min(44rem, calc(100svh - 4.75rem));
   background: var(--background);
   box-shadow: 0 1px 0 color-mix(in oklab, var(--foreground) 6%, transparent);
 }

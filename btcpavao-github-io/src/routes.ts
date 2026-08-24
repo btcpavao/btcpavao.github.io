@@ -5,7 +5,9 @@ export const BITCOIN_CORE_CURRICULUM_PATH = "/hr/bitcoin-core/self-custody/"
 export const EN_BITCOIN_CORE_SERIES_PATH = "/en/bitcoin-core/"
 export const EN_BITCOIN_CORE_CURRICULUM_PATH = "/en/bitcoin-core/self-custody/"
 export const START_HERE_PATH = "/en/bitcoin-core/start-here/"
+export const SUPPORT_PATH = "/support/"
 export const SUPPORT_THANK_YOU_PATH = "/support/thank-you/"
+export const NOT_FOUND_PATH = "/404/"
 export const BITCOIN_CORE_WALLET_GUIDE_PATH =
   "/en/bitcoin-core/wallet-setup-backup-recovery/"
 export const BITCOIN_CORE_ENTROPY_ARTICLE_PATH =

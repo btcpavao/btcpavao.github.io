@@ -1,789 +1,188 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises"
 
+import {
+  SITE_URL,
+  contentRegistry,
+  getPublishedContent,
+} from "../content/content-registry.mjs"
 import { renderPage } from "../dist-ssr/entry-server.js"
 
-const siteUrl = "https://btcpavao.com"
-const personId = `${siteUrl}/#person`
-const websiteId = `${siteUrl}/#website`
-const hrUrl = `${siteUrl}/hr/`
-const seriesUrl = `${siteUrl}/hr/ai-u-praksi/`
-const seriesId = `${seriesUrl}#collection`
-const bitcoinCoreSeriesUrl = `${siteUrl}/hr/bitcoin-core/`
-const bitcoinCoreSeriesId = `${bitcoinCoreSeriesUrl}#collection`
-const bitcoinCoreCurriculumUrl = `${bitcoinCoreSeriesUrl}self-custody/`
-const enBitcoinCoreSeriesUrl = `${siteUrl}/en/bitcoin-core/`
-const enBitcoinCoreCurriculumUrl = `${enBitcoinCoreSeriesUrl}self-custody/`
-const enBitcoinCoreSeriesId = `${enBitcoinCoreSeriesUrl}#collection`
-const walletGuideUrl = `${enBitcoinCoreSeriesUrl}wallet-setup-backup-recovery/`
-const bip39WrongThingArticleUrl = `${enBitcoinCoreSeriesUrl}bip39-made-the-wrong-thing-human-readable/`
-const enBitcoinCoreArticleUrl = `${enBitcoinCoreSeriesUrl}how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/`
-const longRoadArticleUrl = `${enBitcoinCoreSeriesUrl}the-long-road-back-to-bitcoin-core/`
-const supportThankYouUrl = `${siteUrl}/support/thank-you/`
-const socialCardManifest = JSON.parse(
+const distIndexUrl = new URL("../dist/index.html", import.meta.url)
+const socialCards = JSON.parse(
   await readFile(
     new URL("../.cache/social-card-manifest.json", import.meta.url),
     "utf8"
   )
-)
-const socialCardImages = socialCardManifest.urls
+).urls
 
-const homeRoute = {
-  appPath: "/",
-  routeUrl: `${siteUrl}/`,
-}
-
-const routes = [
-  {
-    appPath: "/hr/",
-    routePath: "hr",
-    routeUrl: hrUrl,
-    title: "Hrvatski tekstovi | BTC Pavao",
-    collectionName: "Hrvatski tekstovi",
-    description:
-      "Hrvatski tekstovi Pavaoa Pahljine o Bitcoinu, Bitcoin Coreu i praktičnoj primjeni umjetne inteligencije.",
-    ogDescription:
-      "Hrvatski tekstovi o Bitcoinu, Bitcoin Coreu i praktičnoj primjeni umjetne inteligencije.",
-    type: "website",
-    image: socialCardImages.default,
-    imageAlt: "BTC Pavao, Bitcoin Standard Advisor",
-    imageWidth: 1200,
-    imageHeight: 630,
-    breadcrumbParents: [],
-    about: ["Bitcoin", "Bitcoin Core", "Umjetna inteligencija"],
-  },
-  {
-    appPath: "/hr/ai-u-praksi/",
-    routePath: "hr/ai-u-praksi",
-    routeUrl: seriesUrl,
-    title: "AI u praksi | BTC Pavao",
-    description:
-      "Osobne bilješke o tome kako koristim AI za pisanje, knjige, web stranice, agente, automatizaciju i svakodnevni rad.",
-    ogDescription:
-      "Kako jedan generalist koristi AI da ideje pretvori u tekstove, knjige, web stranice i stvarne poslovne sustave.",
-    type: "website",
-    image: socialCardImages.default,
-    imageAlt: "BTC Pavao, Bitcoin Standard Advisor",
-    imageWidth: 1200,
-    imageHeight: 630,
-    collectionName: "AI u praksi",
-    breadcrumbParents: [{ name: "Hrvatski tekstovi", item: hrUrl }],
-    about: ["Umjetna inteligencija", "AI workflow", "Codex", "ChatGPT"],
-  },
-  {
-    appPath: "/hr/ai-u-praksi/jedan-covjek-ai-i-dva-mjeseca-rada/",
-    routePath: "hr/ai-u-praksi/jedan-covjek-ai-i-dva-mjeseca-rada",
-    routeUrl: `${siteUrl}/hr/ai-u-praksi/jedan-covjek-ai-i-dva-mjeseca-rada/`,
-    title: "Jedan čovjek, AI i dva mjeseca rada",
-    headline: "Jedan čovjek, AI i dva mjeseca rada",
-    description:
-      "Osobni osvrt na to kako sam uz diktiranje, ChatGPT i Codex u manje od dva mjeseca dovršio knjigu, podigao web stranice i promijenio vlastiti način rada.",
-    ogDescription:
-      "Kako AI u praksi mijenja rad jednog generalista: od diktiranja u šetnji do knjige, web stranica, agenata i automatizacije.",
-    type: "article",
-    publishedDate: "2026-06-12",
-    sectionName: "AI u praksi",
-    sectionId: seriesId,
-    articleTag: "AI workflow",
-    breadcrumbParents: [
-      { name: "Hrvatski tekstovi", item: hrUrl },
-      { name: "AI u praksi", item: seriesUrl },
-    ],
-    image: socialCardImages.workflow,
-    imageAlt:
-      "Laptop, mobitel, bilježnica i rukopis na radnom stolu prikazuju AI workflow.",
-    imageWidth: 1200,
-    imageHeight: 630,
-  },
-  {
-    appPath: "/hr/ai-u-praksi/od-diktata-do-objavljene-stranice/",
-    routePath: "hr/ai-u-praksi/od-diktata-do-objavljene-stranice",
-    routeUrl: `${siteUrl}/hr/ai-u-praksi/od-diktata-do-objavljene-stranice/`,
-    title: "Moj AI workflow: od diktata do objavljene stranice",
-    headline: "Moj AI workflow: od diktata do objavljene stranice",
-    description:
-      "Kako koristim diktiranje, transkripciju, ChatGPT i Codex da ideju pretvorim u članak, vodič, knjigu ili web stranicu.",
-    ogDescription:
-      "Praktičan prikaz procesa od ideje izgovorene u šetnji do sadržaja ili stranice spremne za objavu.",
-    type: "article",
-    publishedDate: "2026-06-25",
-    sectionName: "AI u praksi",
-    sectionId: seriesId,
-    articleTag: "AI workflow",
-    breadcrumbParents: [
-      { name: "Hrvatski tekstovi", item: hrUrl },
-      { name: "AI u praksi", item: seriesUrl },
-    ],
-    image: socialCardImages.workflow,
-    imageAlt:
-      "Laptop, mobitel, bilježnica i rukopis na radnom stolu prikazuju AI workflow.",
-    imageWidth: 1200,
-    imageHeight: 630,
-  },
-  {
-    appPath: "/hr/ai-u-praksi/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda/",
-    routePath: "hr/ai-u-praksi/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda",
-    routeUrl: `${siteUrl}/hr/ai-u-praksi/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda/`,
-    title: "Kako sam uz AI naučio matematiku Bitcoinova dugoročnog trenda",
-    headline: "Kako sam uz AI naučio matematiku Bitcoinova dugoročnog trenda",
-    description:
-      "Kako sam uz AI korak po korak naučio matematiku Bitcoin Wave Modela, provjerio njegove granice i znanje pretvorio u graf i H-time kalkulator.",
-    ogDescription:
-      "Od PDF-a koji nisam razumio do javnog grafa i H-time kalkulatora: konkretan primjer AI-a kao učitelja, istraživača i alata za izgradnju.",
-    type: "article",
-    publishedDate: "2026-07-17",
-    sectionName: "AI u praksi",
-    sectionId: seriesId,
-    articleTag: "AI učenje",
-    breadcrumbParents: [
-      { name: "Hrvatski tekstovi", item: hrUrl },
-      { name: "AI u praksi", item: seriesUrl },
-    ],
-    image: socialCardImages.learning,
-    imageType: "image/webp",
-    imageWidth: 1672,
-    imageHeight: 941,
-    imageAlt:
-      "Radni stol s matematičkim bilješkama, grafovima, bilježnicom i laptopom s prikazom Bitcoinove cijene",
-    heroImage: "/ai-ucenje-bitcoin-model-hero.webp",
-    heroImageSrcSet:
-      "/ai-ucenje-bitcoin-model-hero-840.webp 840w, /ai-ucenje-bitcoin-model-hero.webp 1672w",
-    keywords: [
-      "AI učenje",
-      "Bitcoin Wave Model",
-      "Bitcoin matematika",
-      "ChatGPT",
-      "Codex",
-    ],
-  },
-  {
-    appPath: "/hr/bitcoin-core/",
-    routePath: "hr/bitcoin-core",
-    routeUrl: bitcoinCoreSeriesUrl,
-    title: "Bitcoin Core | BTC Pavao",
-    collectionName: "Bitcoin Core",
-    description:
-      "Hrvatski tekstovi o Bitcoin Coreu, walletima, validaciji i sigurnosnim temeljima Bitcoin sustava.",
-    ogDescription:
-      "Hrvatski tekstovi o Bitcoin Coreu, walletima, validaciji i sigurnosnim temeljima Bitcoin sustava.",
-    type: "website",
-    image: socialCardImages.bitcoinCore,
-    imageAlt:
-      "Bitcoin Core self-custody kurikulum od Signet vježbe do provjerenog recoveryja.",
-    imageWidth: 1200,
-    imageHeight: 630,
-    breadcrumbParents: [{ name: "Hrvatski tekstovi", item: hrUrl }],
-    about: ["Bitcoin Core", "Bitcoin wallet", "Bitcoin sigurnost"],
-    alternates: {
-      hr: bitcoinCoreSeriesUrl,
-      en: enBitcoinCoreSeriesUrl,
-      xDefault: enBitcoinCoreSeriesUrl,
-    },
-  },
-  {
-    appPath: "/hr/bitcoin-core/self-custody/",
-    routePath: "hr/bitcoin-core/self-custody",
-    routeUrl: bitcoinCoreCurriculumUrl,
-    title: "Praktičan Bitcoin self-custody uz Bitcoin Core | BTCPAVAO",
-    collectionName: "Praktičan Bitcoin self-custody uz Bitcoin Core",
-    description:
-      "Dugoročni vodič za Bitcoin self-custody: Signet vježba, vlastiti node, backup i restore, offline signing, PSBT, multisig i operativna sigurnost.",
-    ogDescription:
-      "Nauči držati svoj Bitcoin tako da razumiješ cijeli sustav — od prvog Signet testa do provjerenog recoveryja.",
-    type: "website",
-    image: socialCardImages.bitcoinCore,
-    imageAlt:
-      "Kriptografski proces nastanka Bitcoin Core walleta u mediteranskom okruženju.",
-    imageWidth: 1200,
-    imageHeight: 630,
-    textHero: true,
-    breadcrumbParents: [
-      { name: "Hrvatski tekstovi", item: hrUrl },
-      { name: "Bitcoin Core", item: bitcoinCoreSeriesUrl },
-    ],
-    about: [
-      "Bitcoin Core",
-      "Bitcoin self-custody",
-      "Wallet backup",
-      "Wallet recovery",
-      "Offline signing",
-      "PSBT",
-      "Bitcoin multisig",
-    ],
-    alternates: {
-      hr: bitcoinCoreCurriculumUrl,
-      en: enBitcoinCoreCurriculumUrl,
-      xDefault: enBitcoinCoreCurriculumUrl,
-    },
-  },
-  {
-    appPath:
-      "/hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/",
-    routePath:
-      "hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet",
-    routeUrl: `${bitcoinCoreSeriesUrl}kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/`,
-    title: "Kako Bitcoin Core generira entropiju kada napravimo novi wallet",
-    headline: "Kako Bitcoin Core generira entropiju kada napravimo novi wallet",
-    description:
-      "Kako Bitcoin Core prikuplja i kriptografski miješa entropiju, provjerava privatni ključ i iz njega gradi BIP32 wallet.",
-    ogDescription:
-      "Kako Bitcoin Core stvara visokokvalitetan privatni korijen iz više izvora entropije i iz njega gradi cijeli wallet.",
-    type: "article",
-    publishedDate: "2026-08-05",
-    sectionName: "Bitcoin Core",
-    sectionId: bitcoinCoreSeriesId,
-    articleTag: "Bitcoin Core entropija",
-    breadcrumbParents: [
-      { name: "Hrvatski tekstovi", item: hrUrl },
-      { name: "Bitcoin Core", item: bitcoinCoreSeriesUrl },
-    ],
-    image: socialCardImages.bitcoinCore,
-    imageAlt:
-      "Kriptografski proces nastanka Bitcoin Core walleta u mediteranskom okruženju.",
-    imageWidth: 1200,
-    imageHeight: 630,
-    heroImage: "/bitcoin-core-entropija-cover-v2.webp",
-    heroImageSrcSet:
-      "/bitcoin-core-entropija-cover-v2-840.webp 840w, /bitcoin-core-entropija-cover-v2.webp 1672w",
-    heroImageSizes: "100vw",
-    keywords: [
-      "Bitcoin Core",
-      "entropija",
-      "privatni ključ",
-      "BIP32",
-      "kriptografski RNG",
-      "Bitcoin wallet",
-    ],
-    alternates: {
-      hr: `${bitcoinCoreSeriesUrl}kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/`,
-      en: enBitcoinCoreArticleUrl,
-      xDefault: enBitcoinCoreArticleUrl,
-    },
-  },
-  {
-    appPath: "/en/bitcoin-core/",
-    routePath: "en/bitcoin-core",
-    routeUrl: enBitcoinCoreSeriesUrl,
-    title: "Bitcoin Core | BTC Pavao",
-    collectionName: "Bitcoin Core",
-    description:
-      "English essays about Bitcoin Core, wallets, validation, and the security foundations of the Bitcoin system.",
-    ogDescription:
-      "English essays about Bitcoin Core, wallets, validation, and the security foundations of the Bitcoin system.",
-    type: "website",
-    language: "en-US",
-    image: socialCardImages.bitcoinCore,
-    imageAlt:
-      "The cryptographic process of creating a Bitcoin Core wallet in a Mediterranean setting.",
-    imageWidth: 1200,
-    imageHeight: 630,
-    breadcrumbParents: [],
-    about: ["Bitcoin Core", "Bitcoin wallet", "Bitcoin security"],
-    alternates: {
-      hr: bitcoinCoreSeriesUrl,
-      en: enBitcoinCoreSeriesUrl,
-      xDefault: enBitcoinCoreSeriesUrl,
-    },
-  },
-  {
-    appPath: "/en/bitcoin-core/self-custody/",
-    routePath: "en/bitcoin-core/self-custody",
-    routeUrl: enBitcoinCoreCurriculumUrl,
-    title: "Practical Bitcoin Self-Custody with Bitcoin Core | BTC Pavao",
-    collectionName: "Practical Bitcoin Self-Custody with Bitcoin Core",
-    description:
-      "A long-term Bitcoin self-custody curriculum: Signet practice, your own node, backup and recovery, offline signing, PSBT, multisig, and operational security.",
-    ogDescription:
-      "Learn to hold your bitcoin by understanding the whole system — from the first Signet exercise to verified recovery.",
-    type: "website",
-    language: "en-US",
-    image: socialCardImages.bitcoinCore,
-    imageAlt:
-      "The cryptographic process of creating a Bitcoin Core wallet in a Mediterranean setting.",
-    imageWidth: 1200,
-    imageHeight: 630,
-    textHero: true,
-    breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
-    about: [
-      "Bitcoin Core",
-      "Bitcoin self-custody",
-      "Wallet backup",
-      "Wallet recovery",
-      "Offline signing",
-      "PSBT",
-      "Bitcoin multisig",
-    ],
-    alternates: {
-      hr: bitcoinCoreCurriculumUrl,
-      en: enBitcoinCoreCurriculumUrl,
-      xDefault: enBitcoinCoreCurriculumUrl,
-    },
-  },
-  {
-    appPath: "/en/bitcoin-core/start-here/",
-    routePath: "en/bitcoin-core/start-here",
-    routeUrl: `${enBitcoinCoreSeriesUrl}start-here/`,
-    title: "Start Here with Bitcoin Core | BTC Pavao",
-    collectionName: "Start Here with Bitcoin Core",
-    description:
-      "A calm first Bitcoin Core exercise for non-developers: prepare a practice environment, verify the software, create an empty test wallet, and document the backup plan.",
-    ogDescription:
-      "A first Bitcoin Core exercise using no real bitcoin: verify the software, create an empty test wallet, and map the backup process.",
-    type: "website",
-    language: "en-US",
-    image: socialCardImages.longRoad,
-    imageAlt:
-      "A traveler leaves a limestone maze for a transparent Bitcoin Core machine overlooking the Adriatic Sea.",
-    imageWidth: 1774,
-    imageHeight: 887,
-    breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
-    about: ["Bitcoin Core", "Bitcoin wallet backup", "Bitcoin wallet recovery"],
-  },
-  {
-    appPath: "/en/bitcoin-core/wallet-setup-backup-recovery/",
-    routePath: "en/bitcoin-core/wallet-setup-backup-recovery",
-    routeUrl: walletGuideUrl,
-    title: "Bitcoin Core Wallet: Basic Setup, Encryption, Backup & Recovery",
-    headline: "Bitcoin Core Wallet: Basic Setup, Encryption, Backup & Recovery",
-    description:
-      "A step-by-step guide to creating a basic encrypted Bitcoin Core wallet, making redundant backups, and testing recovery.",
-    ogDescription:
-      "Create an encrypted Bitcoin Core wallet, make redundant backups, and prove that recovery works before using meaningful funds.",
-    type: "article",
-    language: "en-US",
-    publishedDate: "2026-08-18",
-    sectionName: "Bitcoin Core",
-    sectionId: enBitcoinCoreSeriesId,
-    articleTag: "Bitcoin Core wallet recovery",
-    breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
-    image: socialCardImages.walletGuide,
-    imageType: "image/webp",
-    imageAlt: "Bitcoin Core File menu with Backup Wallet selected.",
-    imageWidth: 1800,
-    imageHeight: 1125,
-    textHero: true,
-    keywords: [
-      "Bitcoin Core wallet",
-      "Bitcoin wallet encryption",
-      "Bitcoin wallet backup",
-      "Bitcoin wallet recovery",
-      "offline signing",
-      "PSBT",
-    ],
-  },
-  {
-    appPath: "/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/",
-    routePath: "en/bitcoin-core/bip39-made-the-wrong-thing-human-readable",
-    routeUrl: bip39WrongThingArticleUrl,
-    title: "BIP39 Made the Wrong Thing Human-Readable",
-    headline: "BIP39 Made the Wrong Thing Human-Readable",
-    description:
-      "Why a machine-readable Bitcoin Core wallet backup can preserve more recovery context than a mnemonic root secret, while keeping signing authority separate.",
-    ogDescription:
-      "Why I no longer think the wallet's root secret should be the thing humans are asked to preserve",
-    type: "article",
-    language: "en-US",
-    publishedDate: "2026-08-21",
-    sectionName: "Bitcoin Core",
-    sectionId: enBitcoinCoreSeriesId,
-    articleTag: "Bitcoin Core wallet recovery",
-    breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
-    image: socialCardImages.bip39,
-    imageAlt:
-      "A person holds mnemonic tiles while a complete wallet remains protected inside a machine.",
-    imageWidth: 1200,
-    imageHeight: 630,
-    heroImage: "/bip39-wrong-thing-cover.webp",
-    heroImageSrcSet:
-      "/bip39-wrong-thing-cover-840.webp 840w, /bip39-wrong-thing-cover.webp 1920w",
-    heroImageSizes: "100vw",
-    keywords: [
-      "BIP39",
-      "BIP32",
-      "Bitcoin Core",
-      "Bitcoin wallet backup",
-      "wallet recovery",
-      "PSBT",
-      "offline signing",
-    ],
-  },
-  {
-    appPath:
-      "/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/",
-    routePath:
-      "en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet",
-    routeUrl: enBitcoinCoreArticleUrl,
-    title: "How Bitcoin Core Generates Entropy When You Create a New Wallet",
-    headline: "How Bitcoin Core Generates Entropy When You Create a New Wallet",
-    description:
-      "How Bitcoin Core gathers and cryptographically mixes entropy, validates a private key, and builds a BIP32 wallet from it.",
-    ogDescription:
-      "How Bitcoin Core creates a high-quality private root from multiple entropy sources and uses it to build an entire wallet.",
-    type: "article",
-    language: "en-US",
-    publishedDate: "2026-08-05",
-    sectionName: "Bitcoin Core",
-    sectionId: enBitcoinCoreSeriesId,
-    articleTag: "Bitcoin Core entropy",
-    breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
-    image: socialCardImages.bitcoinCore,
-    imageAlt:
-      "The cryptographic process of creating a Bitcoin Core wallet in a Mediterranean setting.",
-    imageWidth: 1200,
-    imageHeight: 630,
-    heroImage: "/bitcoin-core-entropija-cover-v2.webp",
-    heroImageSrcSet:
-      "/bitcoin-core-entropija-cover-v2-840.webp 840w, /bitcoin-core-entropija-cover-v2.webp 1672w",
-    heroImageSizes: "100vw",
-    keywords: [
-      "Bitcoin Core",
-      "entropy",
-      "private key",
-      "BIP32",
-      "cryptographic RNG",
-      "Bitcoin wallet",
-    ],
-    alternates: {
-      hr: `${bitcoinCoreSeriesUrl}kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/`,
-      en: enBitcoinCoreArticleUrl,
-      xDefault: enBitcoinCoreArticleUrl,
-    },
-  },
-  {
-    appPath: "/en/bitcoin-core/the-long-road-back-to-bitcoin-core/",
-    routePath: "en/bitcoin-core/the-long-road-back-to-bitcoin-core",
-    routeUrl: longRoadArticleUrl,
-    title: "The Long Road Back to Bitcoin Core",
-    headline: "The Long Road Back to Bitcoin Core",
-    description:
-      "How a hardware-wallet controversy, an entropy rabbit hole, and a few simple restore tests ended my search for the \u201cperfect\u201d Bitcoin wallet",
-    ogDescription:
-      "How a hardware-wallet controversy, an entropy rabbit hole, and a few simple restore tests ended my search for the \u201cperfect\u201d Bitcoin wallet",
-    type: "article",
-    language: "en-US",
-    publishedDate: "2026-08-05",
-    sectionName: "Bitcoin Core",
-    sectionId: enBitcoinCoreSeriesId,
-    articleTag: "Bitcoin Core wallet security",
-    breadcrumbParents: [{ name: "Bitcoin Core", item: enBitcoinCoreSeriesUrl }],
-    image: socialCardImages.longRoad,
-    imageAlt:
-      "A traveler leaves a limestone maze for a transparent Bitcoin Core machine overlooking the Adriatic Sea.",
-    imageWidth: 1774,
-    imageHeight: 887,
-    heroImage: "/long-road-bitcoin-core-cover.webp",
-    heroImageSrcSet:
-      "/long-road-bitcoin-core-cover-840.webp 840w, /long-road-bitcoin-core-cover.webp 1774w",
-    keywords: [
-      "Bitcoin Core",
-      "Bitcoin wallet",
-      "hardware wallet",
-      "BIP39",
-      "descriptor wallet",
-      "pruned node",
-      "offline signing",
-    ],
-  },
-  {
-    appPath: "/support/thank-you/",
-    routePath: "support/thank-you",
-    routeUrl: supportThankYouUrl,
-    title: "Thank You | Pavao",
-    collectionName: "Value for Value thank you",
-    description:
-      "Thank you for supporting open, practical Bitcoin education through Value for Value.",
-    ogDescription:
-      "Thank you for supporting open, practical Bitcoin education through Value for Value.",
-    type: "website",
-    language: "en-US",
-    image: socialCardImages.support,
-    imageType: "image/webp",
-    imageAlt:
-      "An open book on a Mediterranean stone table symbolizes open knowledge and voluntary exchange.",
-    imageWidth: 1536,
-    imageHeight: 1024,
-    textHero: true,
-    breadcrumbParents: [],
-    about: ["Value for Value", "Bitcoin education", "Open knowledge"],
-    noindex: true,
-  },
-]
-
-const distIndexUrl = new URL("../dist/index.html", import.meta.url)
-
-function escapeHtml(value) {
-  return value
+function escapeHtml(value = "") {
+  return String(value)
     .replaceAll("&", "&amp;")
     .replaceAll('"', "&quot;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
 }
 
-function replaceFirst(html, pattern, replacement) {
-  if (!pattern.test(html)) {
-    throw new Error(`Could not find pattern: ${pattern}`)
-  }
-
-  return html.replace(pattern, () => replacement)
+function escapeXml(value = "") {
+  return escapeHtml(value).replaceAll("'", "&apos;")
 }
 
-function breadcrumbItems(route) {
-  const items = [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "BTC Pavao",
-      item: `${siteUrl}/`,
-    },
-  ]
-
-  for (const parent of route.breadcrumbParents ?? []) {
-    items.push({
-      "@type": "ListItem",
-      position: items.length + 1,
-      name: parent.name,
-      item: parent.item,
-    })
-  }
-
-  items.push({
-    "@type": "ListItem",
-    position: items.length + 1,
-    name: route.headline ?? route.collectionName ?? route.title,
-    item: route.routeUrl,
-  })
-
-  return items
+function absolute(path) {
+  return new URL(path, `${SITE_URL}/`).href
 }
 
-function structuredData(route) {
-  const language = route.language ?? "hr-HR"
-  const breadcrumb = {
-    "@type": "BreadcrumbList",
-    "@id": `${route.routeUrl}#breadcrumb`,
-    itemListElement: breadcrumbItems(route),
+function replaceMeta(html, selector, replacement) {
+  if (selector.test(html)) {
+    return html.replace(selector, replacement)
   }
 
-  if (route.type === "article") {
-    return {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "BlogPosting",
-          "@id": `${route.routeUrl}#article`,
-          url: route.routeUrl,
-          headline: route.headline,
-          description: route.description,
-          inLanguage: language,
-          datePublished: route.publishedDate,
-          dateModified: route.publishedDate,
-          articleSection: route.sectionName,
-          isAccessibleForFree: true,
-          image: {
-            "@type": "ImageObject",
-            url: route.image,
-            width: route.imageWidth,
-            height: route.imageHeight,
-          },
-          thumbnailUrl: route.image,
-          mainEntityOfPage: {
-            "@type": "WebPage",
-            "@id": route.routeUrl,
-          },
-          author: { "@id": personId },
-          publisher: { "@id": personId },
-          isPartOf: { "@id": route.sectionId },
-          keywords: route.keywords ?? [route.sectionName],
-        },
-        breadcrumb,
-      ],
+  return html.replace("</head>", `  ${replacement}\n  </head>`)
+}
+
+function cardFor(entry) {
+  return socialCards[entry.socialCardKey] ?? socialCards.default
+}
+
+function alternatesFor(entry) {
+  const alternates = [{ locale: entry.locale, path: entry.path }]
+  if (entry.translationPath) {
+    const translation = contentRegistry.find(
+      (candidate) => candidate.path === entry.translationPath
+    )
+    if (translation) {
+      alternates.push({ locale: translation.locale, path: translation.path })
     }
   }
-
-  return {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "CollectionPage",
-        "@id": `${route.routeUrl}#collection`,
-        name: route.collectionName,
-        description: route.description,
-        inLanguage: language,
-        url: route.routeUrl,
-        isPartOf: { "@id": websiteId },
-        author: { "@id": personId },
-        about: route.about,
-      },
-      breadcrumb,
-    ],
-  }
+  return alternates
 }
 
-function routeHeadMeta(route) {
-  const heroImage = route.heroImage ?? "/ai-workflow-hero.webp"
-  const heroImageSrcSet =
-    route.heroImageSrcSet ??
-    "/ai-workflow-hero-840.webp 840w, /ai-workflow-hero.webp 1672w"
-  const heroImageSizes =
-    route.heroImageSizes ?? "(max-width: 760px) 100vw, 60vw"
-  const heroPreload = route.textHero
-    ? ""
-    : `    <link rel="preload" as="image" href="${heroImage}" type="image/webp" imagesrcset="${heroImageSrcSet}" imagesizes="${heroImageSizes}" fetchpriority="high" />
-`
-  const articleMeta =
-    route.type === "article"
-      ? `    <meta property="article:published_time" content="${route.publishedDate}" />
-    <meta property="article:modified_time" content="${route.publishedDate}" />
-    <meta property="article:section" content="${escapeHtml(route.sectionName)}" />
-    <meta property="article:tag" content="${escapeHtml(route.articleTag)}" />
-${heroPreload}`
-      : ""
-  const alternateLinks = route.alternates
-    ? `    <link rel="alternate" hreflang="hr" href="${route.alternates.hr}" />
-    <link rel="alternate" hreflang="en" href="${route.alternates.en}" />
-    <link rel="alternate" hreflang="x-default" href="${route.alternates.xDefault}" />
-`
-    : ""
-
-  return `${articleMeta}${alternateLinks}    <script type="application/ld+json">
-      ${JSON.stringify(structuredData(route), null, 8)}
-    </script>
-`
-}
-
-function renderRoot(html, appPath) {
-  return replaceFirst(
-    html,
-    /<div id="root"><\/div>/,
-    `<div id="root">${renderPage(appPath)}</div>`
-  )
-}
-
-function renderRoute(baseHtml, route) {
-  let html = baseHtml.replace(
-    /\s*<link rel="alternate" hreflang="(?:en|hr|x-default)" href="[^"]*" \/>/g,
-    ""
-  )
-  const isEnglish = (route.language ?? "hr-HR").startsWith("en")
-
-  html = replaceFirst(
-    html,
-    /<html lang="en">/,
-    `<html lang="${isEnglish ? "en" : "hr"}">`
-  )
-  html = replaceFirst(
-    html,
-    /<title>.*?<\/title>/,
-    `<title>${escapeHtml(route.title)}</title>`
-  )
-  html = replaceFirst(
-    html,
-    /<meta\s+name="description"[^>]*>/,
-    `<meta name="description" content="${escapeHtml(route.description)}" />`
-  )
-  if (route.noindex) {
-    html = replaceFirst(
-      html,
-      /<meta\s+name="robots"[^>]*>/,
-      '<meta name="robots" content="noindex,nofollow,noarchive" />'
+function headExtras(entry) {
+  const alternates = alternatesFor(entry)
+  const alternateTags = alternates
+    .map(
+      ({ locale, path }) =>
+        `<link rel="alternate" hreflang="${locale}" href="${absolute(path)}" />`
     )
-  }
-  html = replaceFirst(
-    html,
-    /<link rel="canonical" href="[^"]*"\s*\/>/,
-    `<link rel="canonical" href="${route.routeUrl}" />`
+    .join("\n    ")
+  const xDefault =
+    alternates.find(({ locale }) => locale === "en")?.path ?? entry.path
+  const robots = entry.indexable
+    ? "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
+    : "noindex,nofollow"
+  const dates = entry.publishedAt
+    ? `\n    <meta property="article:published_time" content="${entry.publishedAt}" />${
+        entry.updatedAt
+          ? `\n    <meta property="article:modified_time" content="${entry.updatedAt}" />`
+          : ""
+      }`
+    : ""
+  const articleSection =
+    entry.contentType === "article"
+      ? `\n    <meta property="article:section" content="${
+          entry.section.startsWith("core") ? "Bitcoin Core" : "Writing"
+        }" />`
+      : ""
+
+  return `
+    <meta name="robots" content="${robots}" />
+    ${alternateTags}
+    <link rel="alternate" hreflang="x-default" href="${absolute(xDefault)}" />${dates}${articleSection}
+    <script type="application/ld+json">${JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": entry.contentType === "article" ? "Article" : "WebPage",
+      headline: entry.title,
+      description: entry.description,
+      url: absolute(entry.path),
+      inLanguage: entry.locale === "hr" ? "hr-HR" : "en-US",
+      ...(entry.publishedAt ? { datePublished: entry.publishedAt } : {}),
+      ...(entry.updatedAt ? { dateModified: entry.updatedAt } : {}),
+      author: {
+        "@type": "Person",
+        name: "BTC Pavao",
+        url: `${SITE_URL}/`,
+      },
+    }).replaceAll("<", "\\u003c")}</script>`
+}
+
+function renderRoot(html, path) {
+  return html.replace(
+    '<div id="root"></div>',
+    `<div id="root">${renderPage(path)}</div>`
   )
-  html = replaceFirst(
-    html,
-    /<meta\s+property="og:type"[^>]*>/,
-    `<meta property="og:type" content="${route.type}" />`
-  )
-  html = replaceFirst(
+}
+
+function renderRoute(baseHtml, entry) {
+  const image = cardFor(entry)
+  const imageType = image.endsWith(".webp")
+    ? "image/webp"
+    : image.endsWith(".png")
+      ? "image/png"
+      : "image/jpeg"
+  const type = entry.contentType === "article" ? "article" : "website"
+  let html = renderRoot(baseHtml, entry.path)
+
+  html = html.replace(/<html lang="[^"]*">/, `<html lang="${entry.locale}">`)
+  html = html.replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(entry.title)}</title>`)
+  html = replaceMeta(html, /<meta\s+name="description"[^>]*>/, `<meta name="description" content="${escapeHtml(entry.description)}" />`)
+  html = replaceMeta(html, /<link\s+rel="canonical"[^>]*>/, `<link rel="canonical" href="${absolute(entry.path)}" />`)
+  html = replaceMeta(html, /<meta\s+property="og:type"[^>]*>/, `<meta property="og:type" content="${type}" />`)
+  html = replaceMeta(html, /<meta\s+property="og:title"[^>]*>/, `<meta property="og:title" content="${escapeHtml(entry.title)}" />`)
+  html = replaceMeta(html, /<meta\s+property="og:description"[^>]*>/, `<meta property="og:description" content="${escapeHtml(entry.description)}" />`)
+  html = replaceMeta(html, /<meta\s+property="og:url"[^>]*>/, `<meta property="og:url" content="${absolute(entry.path)}" />`)
+  html = replaceMeta(
     html,
     /<meta\s+property="og:locale"[^>]*>/,
-    `<meta property="og:locale" content="${isEnglish ? "en_US" : "hr_HR"}" />`
+    `<meta property="og:locale" content="${entry.locale === "hr" ? "hr_HR" : "en_US"}" />`
   )
-  html = replaceFirst(
+  html = replaceMeta(
     html,
     /<meta\s+property="og:locale:alternate"[^>]*>/,
-    `<meta property="og:locale:alternate" content="${isEnglish ? "hr_HR" : "en_US"}" />`
+    `<meta property="og:locale:alternate" content="${entry.locale === "hr" ? "en_US" : "hr_HR"}" />`
   )
-  html = replaceFirst(
-    html,
-    /<meta\s+property="og:title"[^>]*>/,
-    `<meta property="og:title" content="${escapeHtml(route.headline ?? route.title)}" />`
-  )
-  html = replaceFirst(
-    html,
-    /<meta\s+property="og:description"[^>]*>/,
-    `<meta property="og:description" content="${escapeHtml(route.ogDescription)}" />`
-  )
-  html = replaceFirst(
-    html,
-    /<meta\s+property="og:url"[^>]*>/,
-    `<meta property="og:url" content="${route.routeUrl}" />`
-  )
-  html = replaceFirst(
-    html,
-    /<meta\s+property="og:image"[^>]*>/,
-    `<meta property="og:image" content="${route.image}" />`
-  )
-  html = replaceFirst(
-    html,
-    /<meta\s+property="og:image:type"[^>]*>/,
-    `<meta property="og:image:type" content="${route.imageType ?? "image/jpeg"}" />`
-  )
-  html = replaceFirst(
-    html,
-    /<meta\s+property="og:image:width"[^>]*>/,
-    `<meta property="og:image:width" content="${route.imageWidth}" />`
-  )
-  html = replaceFirst(
-    html,
-    /<meta\s+property="og:image:height"[^>]*>/,
-    `<meta property="og:image:height" content="${route.imageHeight}" />`
-  )
-  html = replaceFirst(
-    html,
-    /<meta\s+property="og:image:alt"[^>]*>/,
-    `<meta property="og:image:alt" content="${escapeHtml(route.imageAlt)}" />`
-  )
-  html = replaceFirst(
-    html,
-    /<meta\s+name="twitter:title"[^>]*>/,
-    `<meta name="twitter:title" content="${escapeHtml(route.headline ?? route.title)}" />`
-  )
-  html = replaceFirst(
-    html,
-    /<meta\s+name="twitter:description"[^>]*>/,
-    `<meta name="twitter:description" content="${escapeHtml(route.ogDescription)}" />`
-  )
-  html = replaceFirst(
-    html,
-    /<meta\s+name="twitter:image"[^>]*>/,
-    `<meta name="twitter:image" content="${route.image}" />`
-  )
-  html = replaceFirst(
-    html,
-    /<meta\s+name="twitter:image:alt"[^>]*>/,
-    `<meta name="twitter:image:alt" content="${escapeHtml(route.imageAlt)}" />`
-  )
-  html = replaceFirst(html, /<\/head>/, `${routeHeadMeta(route)}  </head>`)
+  html = replaceMeta(html, /<meta\s+property="og:image"[^>]*>/, `<meta property="og:image" content="${image}" />`)
+  html = replaceMeta(html, /<meta\s+property="og:image:type"[^>]*>/, `<meta property="og:image:type" content="${imageType}" />`)
+  html = replaceMeta(html, /<meta\s+property="og:image:width"[^>]*>/, `<meta property="og:image:width" content="${entry.imageWidth}" />`)
+  html = replaceMeta(html, /<meta\s+property="og:image:height"[^>]*>/, `<meta property="og:image:height" content="${entry.imageHeight}" />`)
+  html = replaceMeta(html, /<meta\s+property="og:image:alt"[^>]*>/, `<meta property="og:image:alt" content="${escapeHtml(entry.imageAlt)}" />`)
+  html = replaceMeta(html, /<meta\s+name="twitter:title"[^>]*>/, `<meta name="twitter:title" content="${escapeHtml(entry.title)}" />`)
+  html = replaceMeta(html, /<meta\s+name="twitter:description"[^>]*>/, `<meta name="twitter:description" content="${escapeHtml(entry.description)}" />`)
+  html = replaceMeta(html, /<meta\s+name="twitter:image"[^>]*>/, `<meta name="twitter:image" content="${image}" />`)
+  html = replaceMeta(html, /<meta\s+name="twitter:image:alt"[^>]*>/, `<meta name="twitter:image:alt" content="${escapeHtml(entry.imageAlt)}" />`)
+  html = html.replace(/\s*<meta\s+name="robots"[^>]*>/g, "")
+  html = html.replace(/\s*<link\s+rel="alternate"\s+hreflang[^>]*>/g, "")
+  return html.replace("</head>", `${headExtras(entry)}\n  </head>`)
+}
 
-  return renderRoot(html, route.appPath)
+function sitemapXml(entries) {
+  const urls = entries.filter((entry) => entry.indexable).map((entry) => {
+    const alternates = alternatesFor(entry).map(({ locale, path }) => `<xhtml:link rel="alternate" hreflang="${locale}" href="${escapeXml(absolute(path))}" />`).join("")
+    const xDefault = alternatesFor(entry).find(({ locale }) => locale === "en")?.path ?? entry.path
+    const image = entry.heroImage ? `<image:image><image:loc>${escapeXml(absolute(entry.heroImage))}</image:loc><image:caption>${escapeXml(entry.imageAlt)}</image:caption></image:image>` : ""
+    return `<url><loc>${escapeXml(absolute(entry.path))}</loc>${entry.updatedAt ? `<lastmod>${entry.updatedAt}</lastmod>` : ""}${alternates}<xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(absolute(xDefault))}" />${image}</url>`
+  }).join("")
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">${urls}</urlset>\n`
+}
+
+function rssXml(entries) {
+  const items = entries.filter((entry) => entry.rss && entry.indexable).sort((a, b) => String(b.updatedAt ?? b.publishedAt ?? "").localeCompare(String(a.updatedAt ?? a.publishedAt ?? ""))).map((entry) => `<item><title>${escapeXml(entry.title)}</title><link>${escapeXml(absolute(entry.path))}</link><guid isPermaLink="true">${escapeXml(absolute(entry.path))}</guid><description>${escapeXml(entry.description)}</description>${entry.publishedAt ? `<pubDate>${new Date(`${entry.publishedAt}T12:00:00Z`).toUTCString()}</pubDate>` : ""}</item>`).join("")
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>BTC Pavao — Bitcoin Core, Bitcoin Standard and open writing</title><link>${SITE_URL}/</link><description>Practical Bitcoin Core education, Bitcoin Standard advisory and open writing.</description><language>en</language>${items}</channel></rss>\n`
 }
 
 const baseHtml = await readFile(distIndexUrl, "utf8")
-await writeFile(distIndexUrl, renderRoot(baseHtml, homeRoute.appPath))
+const home = contentRegistry.find((entry) => entry.path === "/")
+if (!home) throw new Error("The content registry is missing the homepage.")
+await writeFile(distIndexUrl, renderRoute(baseHtml, home))
 
-for (const route of routes) {
-  const routeDirectoryUrl = new URL(
-    `../dist/${route.routePath}/`,
-    import.meta.url
-  )
-  const routeIndexUrl = new URL("index.html", routeDirectoryUrl)
-
-  await mkdir(routeDirectoryUrl, { recursive: true })
-  await writeFile(routeIndexUrl, renderRoute(baseHtml, route))
+for (const entry of getPublishedContent().filter(({ path }) => path !== "/")) {
+  const directoryUrl = new URL(`../dist${entry.path}`, import.meta.url)
+  await mkdir(directoryUrl, { recursive: true })
+  await writeFile(new URL("index.html", directoryUrl), renderRoute(baseHtml, entry))
 }
 
-console.log(`Prerendered ${routes.length + 1} routes with crawlable HTML.`)
+const notFound = contentRegistry.find((entry) => entry.id === "not-found")
+if (!notFound) throw new Error("The content registry is missing the 404 page.")
+await writeFile(new URL("../dist/404.html", import.meta.url), renderRoute(baseHtml, notFound))
+await writeFile(new URL("../dist/sitemap.xml", import.meta.url), sitemapXml(getPublishedContent()))
+await writeFile(new URL("../dist/feed.xml", import.meta.url), rssXml(getPublishedContent()))
+
+console.log(`Prerendered ${getPublishedContent().length} public routes, 404.html, sitemap.xml and feed.xml.`)

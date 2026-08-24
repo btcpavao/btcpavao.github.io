@@ -46,6 +46,7 @@ import {
   type PlayerLesson,
 } from "@/bitcoin-core-curriculum-player-data"
 import { SiteHeader } from "@/components/site-header"
+import { TutorialMetadata } from "@/components/tutorial-metadata"
 import {
   BITCOIN_CORE_CURRICULUM_PATH,
   BITCOIN_CORE_SERIES_PATH,
@@ -573,6 +574,21 @@ function CourseLanding({
           ) : null}
         </aside>
       </section>
+
+      <TutorialMetadata
+        className="mx-auto my-8 max-w-[1520px]"
+        language="hr"
+        goal="Izgraditi cjelovit i ponovljiv Bitcoin Core self-custody postupak, od provjere i izrade walleta do PSBT potpisivanja i oporavka."
+        difficulty="Od početne do napredne razine"
+        estimatedTime="Vlastitim tempom; približno 8–12 sati za objavljeni glavni put"
+        realBitcoin="Ne u prvim vježbama; prije mainnet postupka koristi se Signet"
+        softwareVersion={`Living curriculum v${CURRICULUM_VERSION}; ${CORE_REFERENCE_VERSION}`}
+        operatingSystems="macOS, Linux i Windows; Linux primjeri koriste Fedoru gdje je praktično"
+        recommendedOs="Čisto namjensko Linux računalo koje ostaje offline za generiranje ključeva i potpisivanje kada štitiš značajnu štednju"
+        prerequisites="Osnovno snalaženje s datotekama i terminalom; prethodno iskustvo s Bitcoin Coreom nije potrebno"
+        outcome="Možeš objasniti, sigurnosno kopirati, obnoviti, provjeriti i održavati odvojeni online node i offline signer postupak."
+        lastReviewed={formatReviewDate(LAST_TECHNICAL_REVIEW)}
+      />
 
       <section className="course-safety" aria-label="Sigurnosno pravilo">
         <KeyRound aria-hidden="true" />

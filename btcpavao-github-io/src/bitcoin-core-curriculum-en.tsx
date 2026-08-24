@@ -46,6 +46,7 @@ import {
   type PlayerLesson,
 } from "@/bitcoin-core-curriculum-player-en-data"
 import { SiteHeader } from "@/components/site-header"
+import { TutorialMetadata } from "@/components/tutorial-metadata"
 import { ValueForValueRail } from "@/components/value-for-value"
 import {
   EN_BITCOIN_CORE_CURRICULUM_PATH,
@@ -591,6 +592,21 @@ function CourseLanding({
           ) : null}
         </aside>
       </section>
+
+      <TutorialMetadata
+        className="mx-auto my-8 max-w-[1520px]"
+        language="en"
+        goal="Build a complete, repeatable Bitcoin Core self-custody practice, from verification and wallet creation to PSBT signing and recovery."
+        difficulty="Beginner to advanced"
+        estimatedTime="Self-paced; approximately 8–12 hours for the published path"
+        realBitcoin="No for the first exercises; Signet is used before any mainnet workflow"
+        softwareVersion={`Living curriculum v${CURRICULUM_VERSION}; ${CORE_REFERENCE_VERSION}`}
+        operatingSystems="macOS, Linux, and Windows; Linux examples use Fedora where practical"
+        recommendedOs="A clean dedicated Linux computer kept offline for key generation and signing when protecting meaningful savings"
+        prerequisites="Comfort using files and a terminal; no prior Bitcoin Core experience required"
+        outcome="You can explain, back up, restore, verify, and operate a separated online-node and offline-signer workflow."
+        lastReviewed={formatReviewDate(LAST_TECHNICAL_REVIEW)}
+      />
 
       <section className="course-safety" aria-label="Security rule">
         <KeyRound aria-hidden="true" />

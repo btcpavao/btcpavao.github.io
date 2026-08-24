@@ -8,6 +8,7 @@ export type SocialCardImageKey =
   | "walletGuide"
   | "bip39"
   | "support"
+  | "startHere"
 
 declare const __SOCIAL_CARD_URLS__: Record<SocialCardImageKey, string>
 

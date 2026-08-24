@@ -1,0 +1,13 @@
+# BTC Pavao
+
+Practical Bitcoin Core and Bitcoin Standard education focused on clear reasoning, recoverable self-custody, and maintainable systems.
+
+- [Homepage](https://btcpavao.com/)
+- [Bitcoin Core guides](https://btcpavao.com/en/bitcoin-core/)
+- [Start here with Bitcoin Core](https://btcpavao.com/en/bitcoin-core/start-here/)
+- [Bitcoin Core wallet setup, backup and recovery](https://btcpavao.com/en/bitcoin-core/wallet-setup-backup-recovery/)
+- [Bitcoin self-custody curriculum](https://btcpavao.com/en/bitcoin-core/self-custody/)
+- [Writing](https://btcpavao.com/en/writing/)
+- [Support this work](https://btcpavao.com/en/support/)
+
+Croatian versions are available under corresponding `/hr/` routes when published.
