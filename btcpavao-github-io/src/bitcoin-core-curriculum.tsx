@@ -339,7 +339,13 @@ function Callout({ callout }: { callout: LessonCallout }) {
     <aside className={`course-callout course-callout--${callout.kind}`}>
       <Icon aria-hidden="true" />
       <div>
-        <strong>{callout.title}</strong>
+        <strong>
+          {callout.url ? (
+            <a href={callout.url}>{callout.title}</a>
+          ) : (
+            callout.title
+          )}
+        </strong>
         <p>{callout.body}</p>
       </div>
     </aside>
@@ -499,6 +505,47 @@ function CourseLanding({
             ključevi su početak; pouzdan sustav uključuje provjeru, backup,
             restore, potpisivanje i rutinu koju možeš ponoviti pod stresom.
           </p>
+          <section
+            className="course-software-stack"
+            aria-labelledby="course-software-stack-title"
+          >
+            <div className="course-software-stack__intro">
+              <strong id="course-software-stack-title">
+                Preporučeni softverski stack
+              </strong>
+              <span>Službeni alati koji se koriste kroz kurikulum</span>
+            </div>
+            <ul aria-label="Bitcoin Core, Linux, Fedora i KeePassXC">
+              <li className="course-software-stack__item--primary">
+                <img
+                  src="/software-stack/bitcoin-core.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <span>Bitcoin Core</span>
+              </li>
+              <li>
+                <img src="/software-stack/tux.svg" alt="" aria-hidden="true" />
+                <span>Linux</span>
+              </li>
+              <li>
+                <img
+                  src="/software-stack/fedora.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <span>Fedora</span>
+              </li>
+              <li>
+                <img
+                  src="/software-stack/keepassxc.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <span>KeePassXC</span>
+              </li>
+            </ul>
+          </section>
           <div className="course-hero__actions">
             <button
               type="button"
@@ -575,6 +622,29 @@ function CourseLanding({
         </aside>
       </section>
 
+      <section
+        className="course-recommendation"
+        aria-labelledby="course-recommendation-title"
+      >
+        <ShieldAlert aria-hidden="true" />
+        <div>
+          <span>Snažna preporuka</span>
+          <h2 id="course-recommendation-title">
+            Ovo je Bitcoin Core-only self-custody kurikulum.
+          </h2>
+          <p>
+            Bitcoin Core jedini je wallet i softver za potpisivanje koji se
+            ovdje koristi. Hardware walleti, BIP39, Sparrow i Electrum spominju
+            se samo ondje gdje kurikulum objašnjava zašto nisu dio produkcijskog
+            stacka. Za značajnu dugoročnu štednju preporučena arhitektura
+            uključuje generički hardware s čistim namjenskim Linuxom, vlastiti
+            Bitcoin Core node, odvojeni offline Bitcoin Core signer, PSBT,
+            enkriptirane wallet backupove, snažan odvojeno spremljen passphrase
+            i testirani recovery postupak.
+          </p>
+        </div>
+      </section>
+
       <TutorialMetadata
         className="mx-auto my-8 max-w-[1520px]"
         language="hr"
@@ -639,8 +709,9 @@ function CourseLanding({
             <div>
               <strong>Primijeni</strong>
               <p>
-                Odaberi arhitekturu, složi odvojeni mainnet setup i napravi mali
-                operativni test.
+                Odaberi između dviju Bitcoin Core arhitektura. Za značajnu
+                štednju koristi odvojeni online node i offline signer, pa
+                testiraj cijeli recovery postupak.
               </p>
             </div>
           </li>

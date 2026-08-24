@@ -184,34 +184,34 @@ export const curriculumModules: CurriculumModule[] = [
   },
   {
     id: "1",
-    title: "Why does this guide start with Bitcoin Core?",
+    title: "Why this curriculum stays with Bitcoin Core",
     subtitle:
-      "A fair comparison of security philosophies, decision load, and operational tradeoffs.",
+      "One verifiable stack, fewer recovery models, and no commercial signing-device dependency.",
     level: "beginner",
     status: "published",
     estimatedTime: "55 min",
     prerequisites: ["Module 0"],
     videoUrl: null,
     warnings: [
-      "This module does not claim that other wallets are insecure. It compares their user experience and assumptions for a specific threat model.",
+      "Sparrow, Electrum, hardware wallets, and BIP39 appear here for comparison only. They are not part of the production architecture taught in this curriculum.",
     ],
     checklist: [
-      "I understand why a purpose-built device can be part of a threat model.",
-      "I can explain the strengths of hardware wallets, Sparrow, and Electrum.",
-      "I know why this curriculum begins with fewer decisions.",
+      "I understand why this curriculum does not require a commercial hardware wallet.",
+      "I can explain why Sparrow and Electrum are comparison points, not required tools.",
+      "I understand why the production architecture stays with Bitcoin Core.",
     ],
     lessons: [
       {
         id: "1.1",
-        title: "The hardware wallet approach",
+        title: "Why this curriculum does not require a hardware wallet",
         summary:
-          "A hardware wallet isolates signing keys and makes self-custody significantly easier for many users. At the same time, it introduces a specialized device, firmware, supply-chain risk, and dependence on the vendor's security practices into the threat model.",
+          "A hardware wallet can isolate signing keys, but it also adds a specialized device, firmware, supply-chain exposure, and vendor-specific recovery assumptions. This curriculum instead uses auditable general-purpose hardware, a clean operating system, and Bitcoin Core.",
         status: "published",
         what: "We separate the real advantages of an isolated signer from the dependencies and risks introduced by a targeted, specialized device.",
-        why: "The choice does not begin with which product is 'the safest,' but with which risks we want to reduce and which new dependencies we are willing to accept.",
-        risk: "The wrong conclusion would be that a hardware wallet is automatically insecure. This is about choosing an architecture, not making a universal judgment.",
+        why: "A dedicated offline computer can isolate key generation and signing without making a commercial device part of the recovery plan.",
+        risk: "A purpose-built signer can still be useful in another architecture. It is deliberately outside the production path taught here.",
         notes: [
-          "A hardware wallet can be a very reasonable choice. This tutorial first teaches a system that can be built and restored without depending on a vendor-specific device.",
+          "The recommended meaningful-savings architecture is a dedicated offline Bitcoin Core signer paired with a separate online Bitcoin Core node.",
         ],
         sources: [
           {
@@ -226,10 +226,10 @@ export const curriculumModules: CurriculumModule[] = [
         id: "1.2",
         title: "Sparrow Wallet",
         summary:
-          "Sparrow is a powerful coordinator for hardware wallets, PSBTs, multisig, and descriptors. This flexibility gives experienced users control, but exposes beginners to more security-relevant decisions.",
+          "Sparrow is a capable coordinator for hardware wallets, PSBTs, multisig, and descriptors. It is included to clarify the alternatives, but it is not part of this curriculum's production stack.",
         status: "published",
         what: "We treat the policy type, script type, keystore, mnemonic standard, and signer connection as separate decisions.",
-        why: "Seeing each decision separately makes it clear why a flexible tool can be excellent at a later stage yet more demanding as a beginner's first mental model.",
+        why: "Seeing each decision separately explains why this curriculum keeps coordination, signing, backup, and recovery inside Bitcoin Core.",
         risk: "Manually choosing mnemonic words is not a reliable source of entropy. A trusted tool should generate the randomness; a person should not invent it.",
         warnings: [
           "Never enter real seed words into a web page, message, cloud note, or demonstration.",
@@ -246,10 +246,10 @@ export const curriculumModules: CurriculumModule[] = [
         id: "1.3",
         title: "Electrum",
         summary:
-          "Electrum is a mature lightweight wallet with its own mnemonic system. Its server model, seed backup, and password behavior differ from Bitcoin Core.",
+          "Electrum is a mature lightweight wallet with its own mnemonic and server model. It is a comparison point here, not a required component of the production architecture.",
         status: "published",
         what: "We separate the Electrum seed, local wallet-file encryption, and the way a lightweight wallet obtains blockchain data.",
-        why: "The comparison shows that two high-quality tools can use different recovery models and require different knowledge from users.",
+        why: "The comparison shows how adding another wallet also adds a different recovery model and a different set of operational assumptions.",
         risk: "Assuming that all mnemonic formats are inherently the same can complicate recovery. Electrum's seed system is not the same as a standard BIP39 workflow.",
         sources: [
           {
@@ -261,15 +261,15 @@ export const curriculumModules: CurriculumModule[] = [
       },
       {
         id: "1.4",
-        title: "Why doesn't this curriculum start with mnemonic words?",
+        title: "Why this curriculum does not use mnemonic words",
         summary:
-          "BIP39 is a standard for converting computer-generated entropy into a mnemonic phrase and then into a seed. Its main advantages are portability and broad compatibility.",
+          "BIP39 converts computer-generated entropy into a portable human-readable bearer secret. This curriculum avoids that recovery model and uses encrypted Bitcoin Core wallet backups with a separate strong passphrase.",
         status: "published",
         what: "We distinguish entropy, the mnemonic phrase, the optional BIP39 passphrase, and the seed from which the wallet derives keys.",
-        why: "A mnemonic is an operational secret that must be stored safely and tested through recovery. This first path uses the Bitcoin Core wallet model instead.",
+        why: "The goal is to avoid creating, transcribing, engraving, or storing a portable mnemonic secret when Bitcoin Core already provides its own deterministic wallet and backup model.",
         risk: "BIP39 is not a method for a person to invent 'random enough' words. The BIP describes how computer-generated randomness is encoded in a human-readable form.",
         notes: [
-          "This is not a claim that BIP39 is mathematically weak. It is a decision to begin with fewer secret types and fewer compatibility assumptions.",
+          "The objection is operational, not about entropy. Do not generate or store a mnemonic for this curriculum.",
         ],
         sources: [
           {
@@ -281,9 +281,9 @@ export const curriculumModules: CurriculumModule[] = [
       },
       {
         id: "1.5",
-        title: "Core-first philosophy",
+        title: "A Bitcoin Core-only production stack",
         summary:
-          "The initial Core workflow is short: create a wallet, encrypt it, back it up, and restore it. Each step has a clear place in the recovery model.",
+          "Create, encrypt, back up, restore, and test the wallet in Bitcoin Core. For meaningful savings, separate the offline Bitcoin Core signer from the online Bitcoin Core node.",
         status: "published",
         what: "First, we build a simple test system that we can explain from key creation through a verified restore.",
         why: "Fewer initial decisions leave more room to focus on what should not be skipped: encryption, backup, recovery, and documentation.",

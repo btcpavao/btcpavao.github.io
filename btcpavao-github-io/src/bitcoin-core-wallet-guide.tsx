@@ -10,15 +10,22 @@ import {
 import {
   ArrowLeft,
   ArrowRightLeft,
+  Brain,
   Check,
   CheckCircle2,
+  Copy,
+  FileCheck2,
+  HardDrive,
+  KeyRound,
   Maximize2,
   RefreshCcw,
   ShieldAlert,
   TriangleAlert,
+  UserRoundX,
   Wifi,
   WifiOff,
   X,
+  type LucideIcon,
 } from "lucide-react"
 
 import { SiteHeader } from "@/components/site-header"
@@ -37,8 +44,7 @@ const SITE_URL = "https://btcpavao.com"
 const STEP_STORAGE_KEY = "btcpavao-core-wallet-guide-steps-v2"
 const CHECKLIST_STORAGE_KEY = "btcpavao-core-wallet-guide-checklist-v2"
 const LEGACY_STEP_STORAGE_KEY = "btcpavao-core-wallet-guide-steps-v1"
-const LEGACY_CHECKLIST_STORAGE_KEY =
-  "btcpavao-core-wallet-guide-checklist-v1"
+const LEGACY_CHECKLIST_STORAGE_KEY = "btcpavao-core-wallet-guide-checklist-v1"
 const IMAGE_ROOT = "/bitcoin-core-wallet-guide"
 const BITCOIN_CORE_DOWNLOAD_URL = "https://bitcoincore.org/en/download/"
 const KEEPASSXC_DOWNLOAD_URL = "https://keepassxc.org/download/"
@@ -63,6 +69,54 @@ type GuideStep = {
   content: ReactNode
   note?: ReactNode
   noteKind?: "note" | "warning" | "critical"
+}
+
+type GuideIconItem = {
+  icon: LucideIcon
+  title: ReactNode
+  description?: ReactNode
+}
+
+function GuideIconList({
+  items,
+  tone = "neutral",
+}: {
+  items: GuideIconItem[]
+  tone?: "neutral" | "warning" | "secure"
+}) {
+  const iconStyle =
+    tone === "warning"
+      ? "bg-[#f3b61f]/16 text-[#9a6500] dark:text-[#f6c95c]"
+      : tone === "secure"
+        ? "bg-[#0d3153] text-[#7cc9ff]"
+        : "bg-primary/12 text-primary"
+
+  return (
+    <ul className="my-1 grid gap-3 sm:grid-cols-2">
+      {items.map(({ icon: Icon, title, description }, index) => (
+        <li
+          key={index}
+          className="flex min-w-0 gap-3.5 rounded-[20px] bg-background p-4 shadow-[var(--shadow-border)] sm:p-5"
+        >
+          <span
+            className={`grid size-10 shrink-0 place-items-center rounded-full ${iconStyle}`}
+          >
+            <Icon className="size-[18px]" strokeWidth={2} aria-hidden="true" />
+          </span>
+          <div className="min-w-0 pt-0.5">
+            <p className="text-sm leading-6 font-bold text-foreground">
+              {title}
+            </p>
+            {description ? (
+              <p className="mt-1 text-sm leading-6 text-pretty text-muted-foreground">
+                {description}
+              </p>
+            ) : null}
+          </div>
+        </li>
+      ))}
+    </ul>
+  )
 }
 
 function ResourceLink({
@@ -214,12 +268,35 @@ const legacySteps: GuideStep[] = [
           <ResourceLink href={KEEPASSXC_DOWNLOAD_URL}>KeePassXC</ResourceLink>{" "}
           to generate at least eight randomly selected words.
         </p>
-        <ul>
-          <li>Do not invent a memorable sentence yourself.</li>
-          <li>Do not reuse a password from another service.</li>
-          <li>Do not include personal information.</li>
-          <li>Store the real passphrase separately from wallet backups.</li>
-        </ul>
+        <GuideIconList
+          tone="warning"
+          items={[
+            {
+              icon: Brain,
+              title: "Do not invent a memorable sentence.",
+              description:
+                "Use words selected randomly by a password manager instead of a phrase designed to feel clever or familiar.",
+            },
+            {
+              icon: Copy,
+              title: "Do not reuse a password.",
+              description:
+                "A breach of another service must not expose the passphrase that protects your wallet.",
+            },
+            {
+              icon: UserRoundX,
+              title: "Do not include personal information.",
+              description:
+                "Names, dates, quotations, and familiar patterns make a passphrase easier to predict.",
+            },
+            {
+              icon: HardDrive,
+              title: "Separate the two recovery components.",
+              description:
+                "Keep the real passphrase physically separate from every copy of the wallet backup.",
+            },
+          ]}
+        />
       </>
     ),
     noteKind: "critical",
@@ -337,18 +414,35 @@ const legacySteps: GuideStep[] = [
           need to synchronize a node on the signing computer for those
           private-key operations.
         </p>
-        <ul>
-          <li>Use the machine only for key generation and signing.</li>
-          <li>Do not use it for browsing, email, messaging, or daily work.</li>
-          <li>
-            Keep the synchronized online node on a separate computer and move
-            unsigned and signed PSBTs between the two environments carefully.
-          </li>
-          <li>
-            Verify transaction details on the offline signer before approving a
-            signature.
-          </li>
-        </ul>
+        <GuideIconList
+          tone="secure"
+          items={[
+            {
+              icon: KeyRound,
+              title: "Reserve the machine for keys and signatures.",
+              description:
+                "Do not turn the offline signer into another general-purpose computer.",
+            },
+            {
+              icon: WifiOff,
+              title: "Keep everyday network activity away.",
+              description:
+                "Do not use it for browsing, email, messaging, or daily work.",
+            },
+            {
+              icon: ArrowRightLeft,
+              title: "Use a separate online Bitcoin Core node.",
+              description:
+                "Move unsigned and signed PSBTs carefully between the online node and offline signer.",
+            },
+            {
+              icon: FileCheck2,
+              title: "Verify before signing.",
+              description:
+                "Confirm destinations, amounts, and fees on the offline signer before approving a signature.",
+            },
+          ]}
+        />
         <p>
           This does not make the environment magically sterile, but it removes
           many common infection paths and sharply limits exposure. Pause before
@@ -607,8 +701,8 @@ const steps: GuideStep[] = [
           Use a disposable practice wallet first. Install Bitcoin Core from the
           official source, keep the operating system current, and pause if you
           have any reason to suspect malware. Bitcoin Core can run and stay
-          synchronized without a wallet loaded, which is the clean state used
-          at the start of this exercise.
+          synchronized without a wallet loaded, which is the clean state used at
+          the start of this exercise.
         </p>
         <p>
           Do not send meaningful funds to this wallet until you have completed
@@ -774,10 +868,7 @@ function migrateStepProgress() {
     return readStoredBooleans(STEP_STORAGE_KEY, steps.length)
   }
 
-  const legacy = readStoredBooleans(
-    LEGACY_STEP_STORAGE_KEY,
-    legacySteps.length
-  )
+  const legacy = readStoredBooleans(LEGACY_STEP_STORAGE_KEY, legacySteps.length)
   const migrated = [
     legacy[0],
     legacy[1],
@@ -1376,7 +1467,7 @@ export function BitcoinCoreWalletGuidePage() {
             difficulty="Beginner to intermediate"
             estimatedTime="60–90 minutes"
             realBitcoin="No. Complete the full recovery test before considering funds."
-            softwareVersion="Bitcoin Core 30.0"
+            softwareVersion="Bitcoin Core 31.1"
             operatingSystems="The screenshots use macOS; the workflow also applies to Windows and Linux."
             recommendedOs={
               <>

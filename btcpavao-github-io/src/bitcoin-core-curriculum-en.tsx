@@ -358,7 +358,13 @@ function Callout({ callout }: { callout: LessonCallout }) {
     <aside className={`course-callout course-callout--${callout.kind}`}>
       <Icon aria-hidden="true" />
       <div>
-        <strong>{callout.title}</strong>
+        <strong>
+          {callout.url ? (
+            <a href={callout.url}>{callout.title}</a>
+          ) : (
+            callout.title
+          )}
+        </strong>
         <p>{callout.body}</p>
       </div>
     </aside>
@@ -519,6 +525,47 @@ function CourseLanding({
             includes verification, backup, recovery, signing, and a routine you
             can repeat under stress.
           </p>
+          <section
+            className="course-software-stack"
+            aria-labelledby="course-software-stack-title"
+          >
+            <div className="course-software-stack__intro">
+              <strong id="course-software-stack-title">
+                Recommended software stack
+              </strong>
+              <span>Official tools used throughout the curriculum</span>
+            </div>
+            <ul aria-label="Bitcoin Core, Linux, Fedora, and KeePassXC">
+              <li className="course-software-stack__item--primary">
+                <img
+                  src="/software-stack/bitcoin-core.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <span>Bitcoin Core</span>
+              </li>
+              <li>
+                <img src="/software-stack/tux.svg" alt="" aria-hidden="true" />
+                <span>Linux</span>
+              </li>
+              <li>
+                <img
+                  src="/software-stack/fedora.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <span>Fedora</span>
+              </li>
+              <li>
+                <img
+                  src="/software-stack/keepassxc.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <span>KeePassXC</span>
+              </li>
+            </ul>
+          </section>
           <div className="course-hero__actions">
             <button
               type="button"
@@ -593,6 +640,29 @@ function CourseLanding({
         </aside>
       </section>
 
+      <section
+        className="course-recommendation"
+        aria-labelledby="course-recommendation-title"
+      >
+        <ShieldAlert aria-hidden="true" />
+        <div>
+          <span>Strong recommendation</span>
+          <h2 id="course-recommendation-title">
+            This is a Bitcoin Core-only self-custody curriculum.
+          </h2>
+          <p>
+            Bitcoin Core is the only wallet and signing software used here.
+            Hardware wallets, BIP39, Sparrow, and Electrum appear only where the
+            curriculum explains why they are not part of the production stack.
+            For meaningful long-term savings, the recommended architecture is
+            generic hardware with clean dedicated Linux, your own Bitcoin Core
+            node, a separate offline Bitcoin Core signer, PSBTs, encrypted
+            wallet backups, a strong separately stored passphrase, and a tested
+            recovery routine.
+          </p>
+        </div>
+      </section>
+
       <TutorialMetadata
         className="mx-auto my-8 max-w-[1520px]"
         language="en"
@@ -661,8 +731,9 @@ function CourseLanding({
             <div>
               <strong>Apply</strong>
               <p>
-                Choose an architecture, build a separate mainnet setup, and
-                perform a small operational test.
+                Choose between two Bitcoin Core architectures. For meaningful
+                savings, use the separated online-node and offline-signer path,
+                then test the complete recovery routine.
               </p>
             </div>
           </li>

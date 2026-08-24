@@ -1270,6 +1270,82 @@
   text-wrap: pretty;
 }
 
+.course-software-stack {
+  max-width: 40rem;
+  margin-top: 1.55rem;
+  padding-block: 0.95rem 1rem;
+  border-block: 1px solid color-mix(in oklab, var(--border) 82%, transparent);
+}
+
+.course-software-stack__intro {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.course-software-stack__intro strong {
+  color: var(--foreground);
+  font-size: 0.78rem;
+  font-weight: 780;
+  letter-spacing: 0.085em;
+  text-transform: uppercase;
+}
+
+.course-software-stack__intro span {
+  color: var(--muted-foreground);
+  font-size: 0.76rem;
+  line-height: 1.4;
+  text-align: right;
+}
+
+.course-software-stack ul {
+  display: grid;
+  overflow: hidden;
+  grid-template-columns: 1.18fr repeat(3, minmax(0, 1fr));
+  margin-top: 0.8rem;
+  border: 1px solid color-mix(in oklab, var(--border) 84%, transparent);
+  border-radius: 1rem;
+  background: color-mix(in oklab, var(--card) 78%, transparent);
+}
+
+.course-software-stack li {
+  display: flex;
+  min-width: 0;
+  min-height: 4rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.52rem;
+  padding: 0.65rem 0.72rem;
+  color: var(--muted-foreground);
+  font-size: 0.8rem;
+  font-weight: 690;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.course-software-stack li + li {
+  border-left: 1px solid color-mix(in oklab, var(--border) 84%, transparent);
+}
+
+.course-software-stack li.course-software-stack__item--primary {
+  color: var(--foreground);
+  background: color-mix(in oklab, var(--course-orange-soft) 72%, transparent);
+  font-weight: 760;
+}
+
+.course-software-stack img {
+  width: 1.8rem;
+  height: 1.8rem;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.course-software-stack__item--primary img {
+  width: 2.15rem;
+  height: 2.15rem;
+}
+
 .course-hero__actions {
   display: flex;
   flex-wrap: wrap;
@@ -1335,6 +1411,55 @@
   font-size: 1.05rem;
   font-style: normal;
   line-height: 1.65;
+}
+
+.course-recommendation {
+  display: grid;
+  max-width: 84rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  margin: 0 auto 2.25rem;
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+  border: 1px solid color-mix(in oklab, var(--primary) 26%, var(--border));
+  border-radius: 1.5rem;
+  background: color-mix(in oklab, var(--course-orange-soft) 52%, var(--card));
+  box-shadow: inset 0 1px rgb(255 255 255 / 0.35);
+}
+
+.course-recommendation > svg {
+  width: 1.45rem;
+  height: 1.45rem;
+  margin-top: 0.15rem;
+  color: var(--primary);
+}
+
+.course-recommendation span {
+  display: block;
+  color: color-mix(in oklab, var(--primary) 88%, var(--foreground));
+  font-size: 0.74rem;
+  font-weight: 790;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.course-recommendation h2 {
+  max-width: 31ch;
+  margin-top: 0.35rem;
+  color: var(--foreground);
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  font-weight: 770;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.course-recommendation p {
+  max-width: 72rem;
+  margin-top: 0.75rem;
+  color: var(--muted-foreground);
+  font-size: 1rem;
+  line-height: 1.65;
+  text-wrap: pretty;
 }
 
 .course-progress-card {
@@ -2276,6 +2401,17 @@
   font-size: 0.98rem;
 }
 
+.course-callout strong a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+.course-callout strong a:hover {
+  color: var(--primary);
+}
+
 .course-review-state p,
 .course-callout p,
 .course-inline-message p {
@@ -3156,6 +3292,39 @@
     margin-top: 1.5rem;
     font-size: 1.1rem;
     line-height: 1.62;
+  }
+
+  .course-software-stack__intro {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .course-software-stack__intro span {
+    text-align: left;
+  }
+
+  .course-software-stack ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .course-software-stack li + li {
+    border-left: 0;
+  }
+
+  .course-software-stack li:nth-child(even) {
+    border-left: 1px solid color-mix(in oklab, var(--border) 84%, transparent);
+  }
+
+  .course-software-stack li:nth-child(n + 3) {
+    border-top: 1px solid color-mix(in oklab, var(--border) 84%, transparent);
+  }
+
+  .course-recommendation {
+    grid-template-columns: 1fr;
+    margin-inline: 1rem;
+    padding: 1.2rem;
+    border-radius: 1.25rem;
   }
 
   .course-hero__actions {

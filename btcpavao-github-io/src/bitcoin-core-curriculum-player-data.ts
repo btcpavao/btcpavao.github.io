@@ -23,6 +23,7 @@ export type LessonCallout = {
   kind: LessonCalloutKind
   title: string
   body: string
+  url?: string
 }
 
 export type PlayerLesson = Omit<CurriculumLesson, "status"> & {
@@ -109,6 +110,11 @@ const multisigTutorial: CurriculumSource = {
 const bip39: CurriculumSource = {
   label: "BIP 39 — Mnemonic code for deterministic keys",
   url: "https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki",
+}
+
+const bip39Editorial: CurriculumSource = {
+  label: "Zašto je BIP39 učinio pogrešnu stvar čitljivom ljudima",
+  url: "/hr/bitcoin-core/bip39-made-the-wrong-thing-human-readable/",
 }
 
 const bip325: CurriculumSource = {
@@ -299,11 +305,11 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     id: "1",
     slug: "zasto-bitcoin-core",
     shortTitle: "Zašto Bitcoin Core?",
-    title: "Zašto Bitcoin Core za self-custody?",
+    title: "Zašto ovaj kurikulum ostaje uz Bitcoin Core?",
     summary:
-      "Uspoređujemo sigurnosne filozofije i broj odluka koje alat traži od korisnika — bez tribalizma.",
+      "Produkcijski put koristi jedan provjerljiv stack: Bitcoin Core za validaciju, wallet, potpisivanje, backup i recovery.",
     outcome:
-      "Znat ćeš zašto ovaj put koristi Core i kada bi drugi alat ili hardware wallet bio razuman izbor.",
+      "Razumjet ćeš zašto su Sparrow, Electrum, hardware walleti i BIP39 usporedne točke, a ne dijelovi produkcijske arhitekture koju podučavamo.",
     status: "published",
     estimatedTime: "90 min",
     lessons: [
@@ -370,7 +376,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       retainLesson("1.2", {
         slug: "sparrow-flow-i-sigurnosne-pretpostavke",
         objective:
-          "Analizirati koje odluke Sparrow rano izlaže korisniku i što moraš razumjeti prije njihova izbora.",
+          "Koristiti Sparrow samo kao usporedbu za kompleksnost coordinatora, bez uvođenja u produkcijsku arhitekturu ovog kurikuluma.",
         status: "in-progress",
         verification: "review-required",
         referenceVersion: SPARROW_REFERENCE_VERSION,
@@ -381,7 +387,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       retainLesson("1.3", {
         slug: "electrum-flow-i-sigurnosne-pretpostavke",
         objective:
-          "Proći aktualni Electrum wizard, seed confirmation, enkripciju i upozorenja kao jedan operativni proces.",
+          "Koristiti Electrum samo kao usporedbu za tradeoffove lightweight walleta i mnemonica, bez dodavanja u preporučeni stack.",
         status: "in-progress",
         verification: "review-required",
         referenceVersion: ELECTRUM_REFERENCE_VERSION,
@@ -392,20 +398,20 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       retainLesson("1.1", {
         slug: "hardware-wallet-kao-tradeoff",
         objective:
-          "Procijeniti hardware wallet kroz konkretne failure modeove, a ne kao automatski odgovor na kompleksnost.",
+          "Objasniti dodatne ovisnosti komercijalnih hardware walleta i zašto ovaj kurikulum umjesto njih koristi namjensko generičko računalo s Bitcoin Coreom.",
         sources: [hwi],
       }),
       retainLesson("1.4", {
         slug: "bip39-kriptografija-i-backup-model",
         objective:
-          "Odvojiti kvalitetu računalno generirane entropije od dugoročnog fizičkog i operativnog recovery modela.",
+          "Odvojiti kvalitetu BIP39 entropije od ljudski čitljivog bearer-secret recovery modela i objasniti zašto se u ovom Core workflowu ne stvara mnemonic.",
         referenceVersion: "BIP 39",
         sources: [bip39],
         callouts: [
           {
             kind: "important",
-            title: "BIP39 nije problem sam po sebi",
-            body: "BIP39 s kvalitetno generiranom entropijom može imati odličnu kriptografsku sigurnost. Problem nastaje kada čovjek sam bira riječi ili kada recovery sustav ne čuva sve potrebne metapodatke.",
+            title: "Prigovor je operativan, a ne vezan uz entropiju",
+            body: "Sigurno generiran BIP39 mnemonic može sadržavati snažnu entropiju. Ovaj kurikulum izbjegava prenosivi, ljudski čitljiv bearer-secret recovery model i operativne ovisnosti koje uvodi.",
           },
         ],
       }),
@@ -1259,43 +1265,142 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
   {
     id: "1",
     slug: "bitcoin-core-mentalni-model",
-    shortTitle: "Bitcoin Core mentalni model",
-    title: "Bitcoin Core kao alat, ne kao identitet",
+    shortTitle: "Zašto samo Bitcoin Core",
+    title: "Zašto ovaj kurikulum ostaje uz Bitcoin Core",
     summary:
-      "Kratki mentalni model Corea i vlastitog nodea prije prve testne radnje.",
+      "Fokusiran mentalni model za izgradnju, testiranje i oporavak jednog koherentnog Bitcoin Core self-custody sustava.",
     outcome:
-      "Razumjet ćeš zašto koristiš Core i zašto vlastiti node služi prvenstveno tvojoj provjeri.",
+      "Razumjet ćeš zašto svaka produkcijska uloga u ovom kurikulumu ostaje unutar Bitcoin Corea — i zašto su drugi sposobni alati namjerno izostavljeni.",
     status: "published",
     estimatedTime: "25 min + deep dives",
     lessons: [
       reuseV2Lesson("1.5", {
-        title: "Bitcoin Core kao alat, ne kao identitet",
+        title: "Zašto ovaj kurikulum ostaje uz Bitcoin Core",
+        summary:
+          "Jedna implementacija, jedan descriptor model, jedan backup model i jedan jezik recoveryja smanjuju nepotrebne prijelaze između alata.",
+        objective:
+          "Objasniti zašto Bitcoin Core-only produkcijski stack čini custody arhitekturu lakšom za razumijevanje i uvježbavanje.",
+        explanation: [
+          "Ovaj kurikulum ne koristi Bitcoin Core kao oznaku identiteta. Koristi ga zato što node, online watch-only wallet, offline signer, descriptori, PSBT workflow, backup i recovery mogu ostati unutar jedne provjerljive implementacije.",
+          "Ta dosljednost je važna. Svaki dodatni produkcijski wallet uvodi novi release proces, format datoteka, recovery konvencije i skup pretpostavki. Sposobne alternative mogu biti korisne drugdje, ali nisu potrebne za sustav koji se ovdje podučava.",
+          "Preporučeni stack zato je izričit: Bitcoin Core na čistoj Linux instalaciji, Fedora kao praktičan primjer i KeePassXC za generiranje snažnog nasumičnog passphrasea. Za značajnu štednju snažnija arhitektura odvaja offline Core signer od zasebnog online Core nodea.",
+        ],
+        callouts: [
+          {
+            kind: "mental-model",
+            title: "Core-only je arhitektonska granica.",
+            body: "Validacija, descriptori, PSBT-ovi, potpisivanje, wallet backup i recovery ostaju u jednom dokumentiranom sustavu. To nije tvrdnja da su svi drugi walleti nesposobni.",
+          },
+        ],
+        checklist: [
+          "Mogu objasniti zašto ovaj kurikulum od početka do kraja koristi jednu wallet implementaciju.",
+          "Poznajem preporučeni softverski stack i ulogu svake komponente.",
+          "Razumijem da jednostavniji tooling ne uklanja malware, fizički ni ljudski rizik.",
+        ],
       }),
       reuseV2Lesson("2.1"),
       reuseV2Lesson("own-node"),
       reuseV2Lesson("core-development", { optional: true }),
-      reuseV2Lesson("1.2", { optional: true }),
-      reuseV2Lesson("1.3", { optional: true }),
-      reuseV2Lesson("1.1", { optional: true }),
-      reuseV2Lesson("1.4", {
+      reuseV2Lesson("1.2", {
         optional: true,
-        title: "BIP39 i portable mnemonic recovery",
+        title: "Zašto Sparrow nije dio produkcijskog stacka",
         summary:
-          "BIP39 s kvalitetno generiranom entropijom može imati vrlo visoku kriptografsku sigurnost; tradeoff je cijeli portable recovery model, ne standard sam po sebi.",
+          "Sparrow je sposoban alat za PSBT-ove, descriptore, watch-only wallete i hardware signere, ali ovdje nijedna od tih funkcija ne zahtijeva Sparrow.",
         objective:
-          "Usporediti file-based i mnemonic recovery bez tvrdnje da jedan univerzalno ima manje tajni.",
+          "Prepoznati Sparrowove prednosti bez unošenja privatnih ključeva i recovery artefakata u drugu wallet implementaciju.",
         explanation: [
-          "Ovaj curriculum bira file-based recovery model s manjim brojem user-facing odluka tijekom kreiranja walleta, umjesto portable mnemonic recovery modela. To nije tvrdnja da file-based model nužno ima manje tajni.",
-          "BIP39 bez dodatnog passphrasea može imati jedan kritičan secret — mnemonic. Enkriptirani Core wallet tipično uključuje wallet backup i wallet encryption passphrase. Sigurnost zato procjenjujemo kroz generiranje, backup, metapodatke, kompatibilnost, derivacijske pretpostavke, fizičku pohranu i ljudsku pogrešku.",
-          "Problem nije BIP39 sam po sebi. Problem nastaje kada je entropija loša, čovjek sam smišlja riječi ili recovery procedura ne čuva sve što drugi kompatibilni alat treba znati.",
+          "Sparrow može koordinirati PSBT-ove, descriptore, watch-only wallete, multisig pravila i hardware signere. To su stvarne sposobnosti, a ne nedostaci.",
+          "Bitcoin Core već pruža PSBT, descriptor, watch-only, signing i recovery funkcije koje ovaj kurikulum koristi. Dodavanje Sparrowa stvorilo bi još jednu produkcijsku ovisnost i još jedno sučelje koje treba razumjeti, bez rješavanja zahtjeva koji nedostaje.",
+          "Sparrow se zato može proučavati kao opcionalna usporedba, ali se ne koristi za stvaranje produkcijskih privatnih ključeva, pohranu recovery materijala, koordinaciju preporučene arhitekture ni restore walleta iz ovog kurikuluma.",
+        ],
+        warnings: [
+          "Za potrebe ovog kurikuluma nemoj prenositi stvarni privatni ključ ni recovery secret u Sparrow.",
+        ],
+        checklist: [
+          "Mogu navesti korisne Sparrowove koordinacijske funkcije.",
+          "Razumijem zašto te funkcije ne zahtijevaju dodavanje Sparrowa ovom sustavu.",
+          "Produkcijske ključeve i recovery zadržat ću unutar dokumentiranog Bitcoin Core workflowa.",
+        ],
+      }),
+      reuseV2Lesson("1.3", {
+        optional: true,
+        title: "Zašto Electrum nije dio produkcijskog stacka",
+        summary:
+          "Electrum je zreo wallet s vlastitim server, mnemonic, enkripcijskim i recovery modelom — drugim sustavom od onoga koji se ovdje podučava.",
+        objective:
+          "Razumjeti zašto su Electrumova zasebna implementacija i recovery pravila nepotrebne ovisnosti u ovoj Core-only arhitekturi.",
+        explanation: [
+          "Electrum je sposoban lightweight wallet. Koristi drugu implementaciju, podatke o blockchainu dobiva kroz Electrum server model i ima vlastita mnemonic i wallet-encryption pravila.",
+          "Te razlike su legitimne dizajnerske odluke, ali uvode drugi jezik recoveryja i drugi skup operativnih pretpostavki. Ovaj kurikulum ih ne miješa u produkcijski Bitcoin Core sustav.",
+          "Electrum se može proučavati usporedno. U preporučenoj arhitekturi ne koristi se za produkcijsko generiranje ključeva, potpisivanje, backup ni recovery.",
+        ],
+        checklist: [
+          "Razumijem da Electrum seed i BIP39 mnemonic nisu međusobno zamjenjive pretpostavke.",
+          "Znam zašto zaseban server i recovery model ovdje nepotrebno šire opseg.",
+          "Electrum neću koristiti kao prečac za recovery ovog Core walleta.",
+        ],
+      }),
+      reuseV2Lesson("1.1", {
+        optional: true,
+        title: "Izolirano potpisivanje bez komercijalnog hardware walleta",
+        summary:
+          "Korisno svojstvo je držati signing ključeve izvan mreže; uređaj određenog proizvođača samo je jedna moguća izvedba, a ne uvjet.",
+        objective:
+          "Odvojiti sigurnosnu korist izoliranog potpisivanja od novih ovisnosti koje uvode specijalizirani hardware walleti.",
+        explanation: [
+          "Hardware wallet može izolirati signing ključeve i olakšati self-custody. To je korisno svojstvo, ali ne zahtijeva komercijalan uređaj.",
+          "Namjensko generičko računalo s čistom Linux instalacijom i Bitcoin Coreom može služiti kao offline signer. Zaseban online Bitcoin Core node priprema PSBT-ove i broadcasta potpisane transakcije, dok privatni ključevi ostaju na offline računalu.",
+          "Komercijalni hardware uvodi specijaliziranu metu, firmware i supply-chain pretpostavke, attestation uređaja, sigurnosne prakse proizvođača, vendor-specific recovery putove i čestu vezu s mnemonic backupom. Nijedna od tih ovisnosti nije potrebna za arhitekturu koja se ovdje podučava.",
         ],
         callouts: [
           {
             kind: "important",
-            title: "Uspoređujemo recovery modele, ne tabore",
-            body: "Kvalitetno generiran BIP39 mnemonic može biti kriptografski vrlo siguran. Pitanje je koji model korisnik može ispravno generirati, pohraniti, dokumentirati i obnoviti.",
+            title: "Preporučeno za značajnu štednju",
+            body: "Koristi namjenski generički hardware, čisti Linux, Bitcoin Core kao offline signer i zaseban online Bitcoin Core node. Ovaj kurikulum ne koristi komercijalni hardware wallet.",
           },
         ],
+        checklist: [
+          "Mogu objasniti korist izoliranog potpisivanja bez navođenja proizvoda.",
+          "Mogu prepoznati dodatne trust pretpostavke koje uvodi specijalizirani hardware.",
+          "Razumijem preporučenu Bitcoin Core arhitekturu s dva računala.",
+        ],
+      }),
+      reuseV2Lesson("1.4", {
+        optional: true,
+        title: "Zašto ovaj kurikulum ne koristi BIP39 mnemoniku",
+        summary:
+          "Prigovor nije slaba entropija, nego pretvaranje prenosivog root bearer secreta walleta u riječi namijenjene ljudskom prepisivanju i rukovanju.",
+        objective:
+          "Razlikovati determinističko izvođenje ključeva od BIP39 recovery workflowa i objasniti zašto ovaj kurikulum recovery zadržava u enkriptiranom Core wallet backupu.",
+        explanation: [
+          "BIP32 opisuje determinističko izvođenje: mnogo ključeva može se izvesti iz internog seed materijala. BIP39 dodaje prenosivu, čovjeku čitljivu mnemonic reprezentaciju koja može ponovno stvoriti root secret walleta. Ideje su povezane, ali nisu isti zahtjev.",
+          "Bitcoin Core descriptor walleti također interno koriste deterministički seed materijal. Core taj root ne prikazuje kao BIP39 word backup. Recovery artefakt u ovom kurikulumu je Bitcoin Core wallet backup, koji čuva i descriptore, labele te druge wallet metapodatke.",
+          "Preporučeno odvajanje je enkriptirani wallet backup i snažan passphrase pohranjen u drugom trust domainu. Passphrase sam ne može ponovno stvoriti wallet. Enkriptirani backup ne bi trebao omogućiti spending bez passphrasea. Backup također čuva operativne metapodatke koje mnemonic sam po sebi ne nosi.",
+          "Zato za wallet iz ovog kurikuluma nemoj generirati, gravirati, prepisivati ni čuvati BIP39 mnemoniku.",
+        ],
+        warnings: [
+          "Nemoj stvarati BIP39 mnemonic kao dodatni backup za ovaj Bitcoin Core wallet.",
+        ],
+        callouts: [
+          {
+            kind: "warning",
+            title: "Pogrešna stvar postala je čovjeku čitljiva",
+            body: "BIP39 mnemonic je prenosivi bearer secret. Tko ga dobije, obično može ponovno stvoriti wallet. Prije prihvaćanja mnemonic recoveryja pročitaj cijeli argument.",
+            url: bip39Editorial.url,
+          },
+        ],
+        concepts: [
+          "BIP32 determinističko izvođenje ne zahtijeva user-facing BIP39 mnemonic.",
+          "Bitcoin Core deterministički seed materijal zadržava unutar walleta.",
+          "Enkriptirani wallet backup i passphrase dvije su odvojene recovery komponente.",
+          "Wallet backup čuva descriptore i metapodatke koje same riječi ne kodiraju.",
+        ],
+        checklist: [
+          "Mogu razlikovati BIP32 izvođenje od BIP39 mnemonic recoveryja.",
+          "Za ovaj wallet neću stvarati ni čuvati BIP39 mnemonic.",
+          "Enkriptirani Core backup i njegov passphrase držat ću odvojeno.",
+        ],
+        sources: [bip39Editorial, bip39, managingWallets],
       }),
     ],
   },
@@ -1530,10 +1635,10 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
   {
     id: "4",
     slug: "odaberi-custody-arhitekturu",
-    shortTitle: "Odaberi arhitekturu",
-    title: "Odaberi arhitekturu prema threat modelu",
+    shortTitle: "Dvije Core arhitekture",
+    title: "Odaberi jednu od dvije Bitcoin Core arhitekture",
     summary:
-      "Jednostavni online wallet i offline signer dva su legitimna odgovora na različite rizike.",
+      "Oba puta ostaju unutar Bitcoin Corea; razlika je u tome dijele li signing ključevi uređaj s mrežnom aktivnošću.",
     outcome:
       "Moći ćeš izabrati najmanju arhitekturu koja rješava tvoj stvarni failure mode.",
     status: "in-progress",
@@ -1552,15 +1657,15 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         referenceVersion: CORE_REFERENCE_VERSION,
         estimatedTime: "12–16 min",
         explanation: [
-          "Path A je jednostavni online, enkriptirani Core wallet. Razuman je za manje iznose, spending wallet ili situaciju u kojoj bi dodatni uređaji i transferi povećali vjerojatnost ljudske pogreške.",
-          "Path B je online Core s watch-only walletom i odvojenim offline Core signerom. Rješava konkretan failure mode: kompromitaciju mrežno povezanog uređaja koji bi inače držao privatne ključeve.",
+          "Path A je jednostavni online, enkriptirani Core wallet. Ograničen je na manje iznose, spending wallet ili situaciju u kojoj bi dodatni uređaji i transferi povećali vjerojatnost ljudske pogreške.",
+          "Path B je online Core s watch-only walletom i odvojenim offline Core signerom. To je snažna preporuka za značajnu štednju jer rješava konkretan failure mode: kompromitaciju mrežno povezanog uređaja koji bi inače držao privatne ključeve.",
           "Path B nije automatski sigurniji za svakoga. Ako ne možeš održavati dva uređaja, descriptore, PSBT transport i recovery svake uloge, složenost može poništiti dio koristi.",
         ],
         callouts: [
           {
             kind: "mental-model",
-            title: "Arhitektura mora imati posao",
-            body: "Ne pitaj koji je setup najnapredniji. Pitaj koji failure mode smanjuje i koju novu obvezu oporavka uvodi.",
+            title: "Dva puta, jedan Bitcoin Core sustav",
+            body: "Path A ograniči na iznose kod kojih je jednostavnost važnija od izolacije. Za značajnu štednju koristi Path B: zaseban online Core node i offline Core signer.",
           },
         ],
         checklist: [
@@ -1614,8 +1719,9 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
       }),
       reuseV2Lesson("offline-device", {
         explanation: [
-          "Primarni model je dedicated function, verificiran software, minimalan attack surface i dokumentiran recovery. Stari laptop, određena Linux distribucija ili fizičko uklanjanje Wi-Fi kartice samo su implementacijske opcije.",
-          "Svaka hardening mjera mora odgovoriti na pitanje koji failure mode smanjuje. ThinkPad, Debian ili Fedora nisu sigurnosni cilj sami po sebi.",
+          "Primarni model je namjenska funkcija, verificirani software, minimalan attack surface i dokumentiran recovery. Praktičan signer može biti generičko računalo s čistom Linux instalacijom, minimalnim brojem aplikacija i trajno isključenom mrežom.",
+          "Fedora Workstation praktičan je primjer za moderni hardware, a Fedora Xfce za skromnije računalo. Distribucija sama po sebi nije sigurnosni cilj: cilj je čist, provjerljiv i namjenski sustav koji pokreće Bitcoin Core samo za ključne operacije i potpisivanje.",
+          "Zaseban online uređaj pokreće sinkronizirani Bitcoin Core node i watch-only wallet. Offline uređaj pokreće Bitcoin Core wallet s privatnim ključevima, pregledava PSBT i potpisuje samo provjerenu transakciju.",
         ],
         callouts: [
           {

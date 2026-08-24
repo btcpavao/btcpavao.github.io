@@ -23,6 +23,7 @@ export type LessonCallout = {
   kind: LessonCalloutKind
   title: string
   body: string
+  url?: string
 }
 
 export type PlayerLesson = Omit<CurriculumLesson, "status"> & {
@@ -109,6 +110,11 @@ const multisigTutorial: CurriculumSource = {
 const bip39: CurriculumSource = {
   label: "BIP 39 — mnemonic code for deterministic keys",
   url: "https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki",
+}
+
+const bip39Editorial: CurriculumSource = {
+  label: "Why BIP39 made the wrong thing human-readable",
+  url: "/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/",
 }
 
 const bip325: CurriculumSource = {
@@ -299,11 +305,11 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     id: "1",
     slug: "zasto-bitcoin-core",
     shortTitle: "Why Bitcoin Core?",
-    title: "Why Bitcoin Core for self-custody?",
+    title: "Why this curriculum stays with Bitcoin Core",
     summary:
-      "We compare security philosophies and the number of decisions each tool requires—without tribalism.",
+      "The production path uses one verifiable stack: Bitcoin Core for validation, wallet management, signing, backup, and recovery.",
     outcome:
-      "You will understand why this tutorial uses Bitcoin Core and when another tool or a hardware wallet may be a reasonable choice.",
+      "You will understand why Sparrow, Electrum, hardware wallets, and BIP39 are comparison points rather than parts of the taught production architecture.",
     status: "published",
     estimatedTime: "90 min",
     lessons: [
@@ -370,7 +376,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       retainLesson("1.2", {
         slug: "sparrow-flow-i-sigurnosne-pretpostavke",
         objective:
-          "Analyze the decisions Sparrow presents early and what you need to understand before choosing among them.",
+          "Use Sparrow as a comparison point for coordinator complexity without adopting it in the production architecture taught here.",
         status: "in-progress",
         verification: "review-required",
         referenceVersion: SPARROW_REFERENCE_VERSION,
@@ -381,7 +387,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       retainLesson("1.3", {
         slug: "electrum-flow-i-sigurnosne-pretpostavke",
         objective:
-          "Walk through the current Electrum wizard, seed confirmation, encryption, and warnings as one operational process.",
+          "Use Electrum as a comparison point for lightweight-wallet and mnemonic tradeoffs without adding it to the taught stack.",
         status: "in-progress",
         verification: "review-required",
         referenceVersion: ELECTRUM_REFERENCE_VERSION,
@@ -392,20 +398,20 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       retainLesson("1.1", {
         slug: "hardware-wallet-kao-tradeoff",
         objective:
-          "Evaluate a hardware wallet against specific failure modes rather than treating it as an automatic response to complexity.",
+          "Explain the additional dependencies introduced by commercial hardware wallets and why this curriculum instead uses a dedicated generic computer with Bitcoin Core.",
         sources: [hwi],
       }),
       retainLesson("1.4", {
         slug: "bip39-kriptografija-i-backup-model",
         objective:
-          "Separate the quality of computer-generated entropy from the long-term physical and operational recovery model.",
+          "Separate BIP39 entropy quality from its human-readable bearer-secret recovery model and explain why the taught Core workflow does not create a mnemonic.",
         referenceVersion: "BIP 39",
         sources: [bip39],
         callouts: [
           {
             kind: "important",
-            title: "BIP39 is not a problem by itself",
-            body: "BIP39 with securely generated entropy can have excellent cryptographic security. The problem arises when a person chooses the words or when the recovery system does not preserve all required metadata.",
+            title: "The objection is operational, not about entropy",
+            body: "A securely generated BIP39 mnemonic can contain strong entropy. This curriculum avoids the portable, human-readable bearer-secret recovery model and the operational dependencies it introduces.",
           },
         ],
       }),
@@ -1259,43 +1265,142 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
   {
     id: "1",
     slug: "bitcoin-core-mentalni-model",
-    shortTitle: "Bitcoin Core mental model",
-    title: "Bitcoin Core as a tool, not as an identity",
+    shortTitle: "Why Bitcoin Core only",
+    title: "Why this curriculum stays with Bitcoin Core",
     summary:
-      "A short mental model of Bitcoin Core and your own node before the first practical exercise.",
+      "A focused mental model for building, testing, and recovering one coherent Bitcoin Core self-custody system.",
     outcome:
-      "You'll understand why you are using Bitcoin Core and how your own node lets you verify the Bitcoin network for yourself.",
+      "You'll understand why every production role in this curriculum stays inside Bitcoin Core—and why other capable tools are deliberately left out.",
     status: "published",
     estimatedTime: "25 min + Deep dives",
     lessons: [
       reuseV2Lesson("1.5", {
-        title: "Bitcoin Core as a tool, not as an identity",
+        title: "Why this curriculum stays with Bitcoin Core",
+        summary:
+          "One implementation, one descriptor model, one backup model, and one recovery language reduce avoidable transitions between tools.",
+        objective:
+          "Explain why a Bitcoin Core-only production stack makes the custody architecture easier to reason about and rehearse.",
+        explanation: [
+          "This curriculum does not use Bitcoin Core as a badge of identity. It uses Core because the node, online watch-only wallet, offline signer, descriptors, PSBT workflow, backups, and recovery procedure can remain inside one inspectable implementation.",
+          "That continuity matters. Every additional production wallet introduces another release process, file format, recovery convention, and set of assumptions. Capable alternatives may be useful elsewhere, but they are unnecessary for the system taught here.",
+          "The recommended stack is therefore explicit: Bitcoin Core on a clean Linux installation, Fedora as the practical example, and KeePassXC for generating a strong random passphrase. For meaningful savings, the stronger architecture separates an offline Core signer from a separate online Core node.",
+        ],
+        callouts: [
+          {
+            kind: "mental-model",
+            title: "Core-only is an architectural boundary.",
+            body: "It keeps validation, descriptors, PSBTs, signing, wallet backups, and recovery in one documented system. It is not a claim that every other wallet is incapable.",
+          },
+        ],
+        checklist: [
+          "I can explain why this curriculum uses one wallet implementation end to end.",
+          "I know the recommended software stack and the role of each component.",
+          "I understand that simpler tooling does not remove malware, physical, or human risk.",
+        ],
       }),
       reuseV2Lesson("2.1"),
       reuseV2Lesson("own-node"),
       reuseV2Lesson("core-development", { optional: true }),
-      reuseV2Lesson("1.2", { optional: true }),
-      reuseV2Lesson("1.3", { optional: true }),
-      reuseV2Lesson("1.1", { optional: true }),
-      reuseV2Lesson("1.4", {
+      reuseV2Lesson("1.2", {
         optional: true,
-        title: "BIP39 and portable mnemonic recovery",
+        title: "Why Sparrow is not part of the production stack",
         summary:
-          "BIP39 with securely generated entropy can have very high cryptographic security; the tradeoff is adopting an entire portable recovery model rather than a single standard in isolation.",
+          "Sparrow is a capable interface for PSBTs, descriptors, watch-only wallets, and hardware signers, but none of those functions require it here.",
         objective:
-          "Compare file-based and mnemonic recovery without claiming that one approach always involves fewer secrets.",
+          "Recognize Sparrow's strengths while keeping private keys and recovery artifacts out of a second wallet implementation.",
         explanation: [
-          "This curriculum uses a file-based recovery model because it presents fewer user-facing decisions during wallet creation. It does not claim that file-based recovery necessarily involves fewer secrets than a portable mnemonic model.",
-          "BIP39 without an additional passphrase can have one critical secret: the mnemonic. An encrypted Bitcoin Core wallet typically involves both a wallet backup and an encryption passphrase. Security therefore depends on generation, backup quality, metadata, compatibility, derivation assumptions, physical storage, and human error.",
-          "The problem is not BIP39 itself. Problems arise when entropy is weak, users invent words themselves, or the recovery procedure fails to preserve everything a compatible tool needs to reconstruct the wallet.",
+          "Sparrow can coordinate PSBTs, descriptors, watch-only wallets, multisig policies, and hardware signers. Those are real capabilities, not shortcomings.",
+          "Bitcoin Core already provides the PSBT, descriptor, watch-only, signing, and recovery functions used by this curriculum. Adding Sparrow would create another production dependency and another interface to understand without solving a missing requirement.",
+          "For that reason, Sparrow may be studied as an optional comparison, but it is not used to create production private keys, store recovery material, coordinate the recommended architecture, or restore the wallet taught here.",
+        ],
+        warnings: [
+          "Do not move a real private key or recovery secret into Sparrow for this curriculum.",
+        ],
+        checklist: [
+          "I can name Sparrow's useful coordination features.",
+          "I understand why those features do not require adding Sparrow to this system.",
+          "I will keep production keys and recovery inside the documented Bitcoin Core workflow.",
+        ],
+      }),
+      reuseV2Lesson("1.3", {
+        optional: true,
+        title: "Why Electrum is not part of the production stack",
+        summary:
+          "Electrum is a mature wallet with its own server, mnemonic, encryption, and recovery model—a different system from the one taught here.",
+        objective:
+          "Understand that Electrum's separate implementation and recovery conventions are unnecessary dependencies for this Core-only architecture.",
+        explanation: [
+          "Electrum is a capable lightweight wallet. It uses a different implementation, obtains blockchain data through an Electrum server model, and has its own mnemonic and wallet-encryption conventions.",
+          "Those differences are legitimate design choices, but they create another recovery language and another set of operational assumptions. This curriculum does not mix them into a Bitcoin Core production system.",
+          "Electrum may be studied comparatively. It is not used for production key generation, signing, backup, or recovery in the recommended architecture.",
+        ],
+        checklist: [
+          "I understand that Electrum seeds and BIP39 mnemonics are not interchangeable assumptions.",
+          "I know why a separate server and recovery model add unnecessary scope here.",
+          "I will not use Electrum as a recovery shortcut for this Core wallet.",
+        ],
+      }),
+      reuseV2Lesson("1.1", {
+        optional: true,
+        title: "Isolated signing without a commercial hardware wallet",
+        summary:
+          "The useful property is keeping signing keys off the network; a vendor-specific device is one possible implementation, not a requirement.",
+        objective:
+          "Separate the security benefit of isolated signing from the new dependencies introduced by specialized hardware wallets.",
+        explanation: [
+          "A hardware wallet can isolate signing keys and make self-custody more accessible. The isolation property is useful, but it does not require a commercial device.",
+          "A dedicated generic computer with a clean Linux installation and Bitcoin Core can serve as the offline signer. A separate online Bitcoin Core node prepares PSBTs and broadcasts signed transactions, while private keys remain on the offline machine.",
+          "Commercial hardware adds a specialized target, firmware and supply-chain assumptions, device attestation, vendor security practices, vendor-specific recovery paths, and frequent coupling to mnemonic backups. None of those dependencies is needed for the architecture taught here.",
         ],
         callouts: [
           {
             kind: "important",
-            title: "We're comparing recovery models, not camps.",
-            body: "A properly generated BIP39 mnemonic can be cryptographically very secure. The question is which recovery model a user can correctly generate, store, document, and restore.",
+            title: "Recommended for meaningful savings",
+            body: "Use generic dedicated hardware, clean Linux, Bitcoin Core as the offline signer, and a separate online Bitcoin Core node. The curriculum does not use a commercial hardware wallet.",
           },
         ],
+        checklist: [
+          "I can explain the benefit of isolated signing without naming a product.",
+          "I can identify the extra trust assumptions introduced by specialized hardware.",
+          "I understand the two-computer Bitcoin Core architecture recommended here.",
+        ],
+      }),
+      reuseV2Lesson("1.4", {
+        optional: true,
+        title: "Why this curriculum does not use BIP39 mnemonics",
+        summary:
+          "The objection is not weak entropy. It is turning the wallet's portable root bearer secret into words meant to be copied and handled by people.",
+        objective:
+          "Distinguish deterministic key derivation from a BIP39 recovery workflow and explain why this curriculum keeps recovery in an encrypted Core wallet backup.",
+        explanation: [
+          "BIP32 describes deterministic derivation: many keys can be derived from internal seed material. BIP39 adds a portable, human-readable mnemonic representation that can recreate the wallet's root secret. These are related ideas, but they are not the same requirement.",
+          "Bitcoin Core descriptor wallets also use deterministic seed material internally. Core does not present that root as a BIP39 word backup. The recovery artifact in this curriculum is the Bitcoin Core wallet backup, which also preserves descriptors, labels, and other wallet metadata.",
+          "The preferred separation is an encrypted wallet backup plus a strong passphrase stored in a different trust domain. The passphrase alone cannot recreate the wallet. The encrypted backup should not enable spending without the passphrase. The backup also preserves operational metadata that a mnemonic does not inherently carry.",
+          "Therefore, do not generate, engrave, transcribe, or store a BIP39 mnemonic for the wallet built in this curriculum.",
+        ],
+        warnings: [
+          "Do not create a BIP39 mnemonic as an additional backup for this Bitcoin Core wallet.",
+        ],
+        callouts: [
+          {
+            kind: "warning",
+            title: "The wrong thing became human-readable",
+            body: "A BIP39 mnemonic is a portable bearer secret. Anyone who obtains it can usually recreate the wallet. Read the full argument before adopting mnemonic recovery.",
+            url: bip39Editorial.url,
+          },
+        ],
+        concepts: [
+          "BIP32 deterministic derivation does not require a user-facing BIP39 mnemonic.",
+          "Bitcoin Core keeps deterministic seed material internal to the wallet.",
+          "Encrypted wallet backup and passphrase are separate recovery components.",
+          "A wallet backup preserves descriptors and metadata that words alone do not encode.",
+        ],
+        checklist: [
+          "I can distinguish BIP32 derivation from BIP39 mnemonic recovery.",
+          "I will not create or store a BIP39 mnemonic for this wallet.",
+          "I will keep the encrypted Core backup and its passphrase separate.",
+        ],
+        sources: [bip39Editorial, bip39, managingWallets],
       }),
     ],
   },
@@ -1531,10 +1636,10 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
   {
     id: "4",
     slug: "odaberi-custody-arhitekturu",
-    shortTitle: "Choose an architecture",
-    title: "Choose an architecture that fits your threat model",
+    shortTitle: "Two Core architectures",
+    title: "Choose one of two Bitcoin Core architectures",
     summary:
-      "Simple online wallet and offline signer are two legitimate responses to different risks.",
+      "Both paths stay inside Bitcoin Core; the difference is whether signing keys share a device with network activity.",
     outcome:
       "You'll be able to choose the smallest architecture that addresses your actual failure modes.",
     status: "in-progress",
@@ -1555,13 +1660,14 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         explanation: [
           "Path A is a simple online, encrypted Bitcoin Core wallet. It is reasonable for smaller amounts, a spending wallet, or a situation in which additional devices and transfers would increase the probability of human error.",
           "Path B uses an online Bitcoin Core node with a watch-only wallet and a separate offline Core signer. It addresses a specific failure mode: the compromise of a networked device that would otherwise hold private keys.",
-          "Path B is not automatically safer for everyone. If you cannot maintain two devices, descriptors, PSBT transport, and recovery procedures for each role, the added complexity can undo some of the benefits.",
+          "Path B is the strong recommendation for meaningful savings because it removes private keys from the networked computer. It requires more discipline: two dedicated roles, descriptors, PSBT transport, and tested recovery procedures.",
         ],
         callouts: [
           {
             kind: "mental-model",
-            title: "The architecture must have a job.",
-            body: "Do not ask which setup is the most advanced. Ask which failure mode it reduces and which new recovery obligations it introduces.",
+            title:
+              "Path A is for limited-risk use; Path B is the savings architecture.",
+            body: "Use Path A for learning, smaller amounts, or an everyday spending wallet. For meaningful long-term savings, use a separate offline Core signer and online Core node.",
           },
         ],
         checklist: [
@@ -1614,14 +1720,15 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
       }),
       reuseV2Lesson("offline-device", {
         explanation: [
-          "The primary model is a dedicated function, verified software, a minimal attack surface, and documented recovery. An old laptop, a specific Linux distribution, or physical removal of Wi-Fi hardware are only implementation options.",
-          "Each hardening measure must answer which failure mode it reduces. A ThinkPad, Debian, or Fedora is not a security goal in itself.",
+          "Use a generic dedicated computer with a clean Linux installation, minimal software, and no continuing network role. Fedora Workstation is the practical example for modern hardware; Fedora Xfce is a lighter option for older machines.",
+          "Install verified Bitcoin Core, create and retain the private-key wallet only on this offline signer, and use a separate online Bitcoin Core node with a watch-only wallet for synchronization, PSBT preparation, and broadcasting.",
+          "The goal is a sterile, single-purpose signing environment—not a particular laptop brand. Document the hardware, operating system, Core version, transport method, and recovery procedure, then rehearse the full cycle on Signet.",
         ],
         callouts: [
           {
             kind: "mental-model",
-            title: "Dedicated function before brand hardware",
-            body: "It matters more that the signer has one clear role, verified software, and a recovery plan than that it matches a particular hardware aesthetic.",
+            title: "Generic hardware, explicit roles",
+            body: "The offline computer generates keys and signs. The online Core node synchronizes, prepares PSBTs, and broadcasts. Neither role needs a commercial hardware wallet or a second wallet application.",
           },
         ],
       }),
