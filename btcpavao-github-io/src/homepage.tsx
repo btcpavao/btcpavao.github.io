@@ -119,14 +119,10 @@ const latestPosts = contentRegistry
       entry.status === "published" &&
       entry.publishedAt
   )
-  .sort((a, b) =>
-    String(b.publishedAt).localeCompare(String(a.publishedAt))
-  )
+  .sort((a, b) => String(b.publishedAt).localeCompare(String(a.publishedAt)))
   .slice(0, 3)
   .map((entry) => ({
-    category: entry.section.startsWith("core")
-      ? "Bitcoin Core"
-      : "Writing",
+    category: entry.section.startsWith("core") ? "Bitcoin Core" : "Writing",
     language: "EN",
     date: new Intl.DateTimeFormat("en", {
       dateStyle: "long",
@@ -141,14 +137,14 @@ const projects = [
   {
     title: "Saifedean.com",
     label: "My work: education operations",
-    copy: "I contribute to the systems that deliver Bitcoin and Austrian economics education.",
+    copy: "I contributed to the systems that deliver Bitcoin and Austrian economics education.",
     href: "https://saifedean.com",
     logo: "/project-logos/saifedean.avif",
   },
   {
     title: "TheSaifHouse.com",
     label: "My work: publishing operations",
-    copy: "I contribute to the publishing, customer experience, and operational side of the project.",
+    copy: "I contributed to the publishing, customer experience, and operational side of the project.",
     href: "https://thesaifhouse.com",
     logo: "/project-logos/the-saif-house.png",
   },
@@ -284,8 +280,8 @@ export function Homepage() {
               </h1>
               <p className="mt-7 max-w-2xl text-lg leading-8 text-muted-foreground sm:text-xl sm:leading-9">
                 Practical Bitcoin Standard advisory and first-principles
-                self-custody education for individuals, families, and
-                businesses who want fewer hidden assumptions in their setup.
+                self-custody education for individuals, families, and businesses
+                who want fewer hidden assumptions in their setup.
               </p>
               <p className="mt-5 max-w-xl text-base leading-7 font-semibold text-foreground">
                 Fewer assumptions. Fewer moving parts. More clarity for the
@@ -442,8 +438,8 @@ export function Homepage() {
             <div className="mt-8 grid gap-5 text-base leading-8 text-muted-foreground lg:grid-cols-2 lg:gap-12">
               <p>
                 An air-gapped computer, a custom descriptor, or a complex
-                multisig policy should not be the starting point for everyone.
-                A simpler wallet, and even a custodial service, can be a
+                multisig policy should not be the starting point for everyone. A
+                simpler wallet, and even a custodial service, can be a
                 reasonable temporary choice while a beginner is learning.
               </p>
               <p>
