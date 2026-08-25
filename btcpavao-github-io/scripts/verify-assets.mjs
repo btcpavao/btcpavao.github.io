@@ -52,40 +52,8 @@ const responsiveImages = [
     small: "public/bitcoin-core-entropija-cover-v2-840.webp",
   },
   {
-    full: "public/ai-ucenje-bitcoin-model-hero.webp",
-    small: "public/ai-ucenje-bitcoin-model-hero-840.webp",
-  },
-  {
-    full: "public/ai-workflow-hero.webp",
-    small: "public/ai-workflow-hero-840.webp",
-  },
-  {
     full: "public/value-for-value-visual.webp",
     small: "public/value-for-value-visual-840.webp",
-  },
-  ...[
-    "step-1-idea",
-    "step-2-dictation",
-    "step-3-chatgpt-editor",
-    "step-4-codex-task",
-    "step-5-system-reading",
-    "step-6-review",
-    "step-7-iteration",
-  ].map((name) => ({
-    full: `public/ai-workflow-${name}.webp`,
-    small: `public/ai-workflow-${name}-840.webp`,
-  })),
-  {
-    full: "public/bitcoin-kao-novac-cover.webp",
-    small: "public/bitcoin-kao-novac-cover-724.webp",
-  },
-  {
-    full: "public/bitcoin-savjetovanje-screenshot.webp",
-    small: "public/bitcoin-savjetovanje-screenshot-800.webp",
-  },
-  {
-    full: "public/dvadesetjedan-screenshot.webp",
-    small: "public/dvadesetjedan-screenshot-800.webp",
   },
 ]
 
@@ -94,10 +62,7 @@ const additionalPublicAssets = [
   "public/bitcoin-logo.svg",
   "public/bitcoin-core-entropija-cover-v2-share.jpg",
   "public/long-road-bitcoin-core-cover-share.jpg",
-  "public/bitcoin-savjetovanje-screenshot-1600.webp",
-  "public/dvadesetjedan-screenshot-1600.webp",
   "public/pavao-profile.webp",
-  "public/ai-workflow-og.jpg",
   "public/og-image-v2.jpg",
   "public/btcpavao-home-share-v3.jpg",
   "public/favicon.png",
@@ -263,10 +228,6 @@ const twentyOneLogoSource = await readFile(
   new URL("../public/project-logos/twentyone-world-v2.svg", import.meta.url),
   "utf8"
 )
-const articleDataSource = await readFile(
-  new URL("../src/article-data.ts", import.meta.url),
-  "utf8"
-)
 const bitcoinCoreArticleSource = await readFile(
   new URL("../src/bitcoin-core-article.txt", import.meta.url),
   "utf8"
@@ -319,23 +280,13 @@ const distIndexHtml = await readFile(
   new URL("../dist/index.html", import.meta.url),
   "utf8"
 )
-const articleRouteHtml = await readFile(
+const migratedAiRedirectHtml = await readFile(
+  new URL("../dist/hr/ai-u-praksi/index.html", import.meta.url),
+  "utf8"
+)
+const migratedAiArticleRedirectHtml = await readFile(
   new URL(
     "../dist/hr/ai-u-praksi/jedan-covjek-ai-i-dva-mjeseca-rada/index.html",
-    import.meta.url
-  ),
-  "utf8"
-)
-const workflowRouteHtml = await readFile(
-  new URL(
-    "../dist/hr/ai-u-praksi/od-diktata-do-objavljene-stranice/index.html",
-    import.meta.url
-  ),
-  "utf8"
-)
-const learningRouteHtml = await readFile(
-  new URL(
-    "../dist/hr/ai-u-praksi/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda/index.html",
     import.meta.url
   ),
   "utf8"
@@ -421,7 +372,7 @@ const distHtmlDocuments = await Promise.all(
     html: await readFile(new URL(relativePath, distDirectoryUrl), "utf8"),
   }))
 )
-const sourceText = `${appSource}\n${homepageSource}\n${bitcoinCoreStartSource}\n${bitcoinCoreWalletGuideSource}\n${articleDataSource}\n${bitcoinCoreArticleSource}\n${bitcoinCoreEnglishArticleSource}\n${longRoadModuleSource}\n${bip39ArticleModuleSource}\n${valueForValueSource}\n${supportThankYouSource}`
+const sourceText = `${appSource}\n${homepageSource}\n${bitcoinCoreStartSource}\n${bitcoinCoreWalletGuideSource}\n${bitcoinCoreArticleSource}\n${bitcoinCoreEnglishArticleSource}\n${longRoadModuleSource}\n${bip39ArticleModuleSource}\n${valueForValueSource}\n${supportThankYouSource}`
 const bitcoinCoreArticleHash = createHash("sha256")
   .update(bitcoinCoreArticleSource)
   .digest("hex")
@@ -634,6 +585,7 @@ for (const [key, asset] of Object.entries(socialCardManifest.assets)) {
 }
 
 for (const { relativePath, html } of distHtmlDocuments) {
+  if (relativePath.startsWith("hr/ai-u-praksi/")) continue
   assertSocialMetadata(html, relativePath, allowedSocialCardImages)
   assert(
     !html.includes("bip39-wrong-thing-cover-share.jpg?v=20260821"),
@@ -776,16 +728,19 @@ assert(
   "Homepage is missing the BIP39 article"
 )
 assert(
-  articleRouteHtml.includes("Postoji trenutak kada nova tehnologija"),
-  "First article body was not prerendered"
+  !sitemapSource.includes("/hr/ai-u-praksi/") &&
+    !feedSource.includes("/hr/ai-u-praksi/"),
+  "Migrated AI content remains in the BTC sitemap or feed"
 )
 assert(
-  workflowRouteHtml.includes("Najveća promjena koju mi je AI donio"),
-  "Workflow article body was not prerendered"
-)
-assert(
-  learningRouteHtml.includes("Nedavno sam otvorio PDF od 24 stranice"),
-  "Learning article body was not prerendered"
+  migratedAiRedirectHtml.includes(
+    'rel="canonical" href="https://aipavao.com/writing"'
+  ) &&
+    migratedAiRedirectHtml.includes('name="robots" content="noindex,follow"') &&
+    migratedAiArticleRedirectHtml.includes(
+      "https://aipavao.com/writing/jedan-covjek-ai-i-dva-mjeseca-rada"
+    ),
+  "AI migration fallback redirects are incomplete"
 )
 assert(
   hrHomeRouteHtml.includes("Hrvatski tekstovi") &&
@@ -1141,22 +1096,6 @@ for (let index = 1; index <= 13; index += 1) {
   )
 }
 assert(
-  workflowRouteHtml.includes('"@type":"Article"'),
-  "Workflow route is missing Article structured data"
-)
-assert(
-  workflowRouteHtml.includes(socialCardImages.workflow),
-  "Workflow route is missing its article-specific social image"
-)
-assert(
-  learningRouteHtml.includes(socialCardImages.learning),
-  "Learning route is missing its article-specific social image"
-)
-assert(
-  learningRouteHtml.includes('property="og:image:type" content="image/webp"'),
-  "Learning route has the wrong social image type"
-)
-assert(
   bitcoinCoreArticleRouteHtml.includes(
     'rel="canonical" href="https://btcpavao.com/hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/"'
   ) &&
@@ -1228,16 +1167,7 @@ assert(
     bip39ArticleRouteHtml.includes('property="og:image:height" content="630"'),
   "The BIP39 article metadata is incomplete"
 )
-assert(
-  (workflowRouteHtml.match(/property="og:locale"/g) ?? []).length === 1 &&
-    workflowRouteHtml.includes('property="og:locale" content="hr_HR"'),
-  "Workflow route has incorrect or duplicate Open Graph locale metadata"
-)
-
 assertStructuredDataIsValid(distIndexHtml, "Homepage")
-assertStructuredDataIsValid(articleRouteHtml, "First article")
-assertStructuredDataIsValid(workflowRouteHtml, "Workflow article")
-assertStructuredDataIsValid(learningRouteHtml, "Learning article")
 assertStructuredDataIsValid(hrHomeRouteHtml, "Croatian hub")
 assertStructuredDataIsValid(bitcoinCoreSeriesRouteHtml, "Bitcoin Core series")
 assertStructuredDataIsValid(bitcoinCoreArticleRouteHtml, "Bitcoin Core article")
@@ -1277,8 +1207,6 @@ const lazyChunkSources = await Promise.all(
       readFile(new URL(`../dist/assets/${name}`, import.meta.url), "utf8")
     )
 )
-const articleBodyProbe = "Postoji trenutak kada nova tehnologija"
-const learningArticleBodyProbe = "Nedavno sam otvorio PDF od 24 stranice"
 const bitcoinCoreArticleBodyProbe = "Kad u Bitcoin Coreu napraviš novi wallet"
 const bitcoinCoreEnglishArticleBodyProbe =
   "When you create a new wallet in Bitcoin Core"
@@ -1289,14 +1217,6 @@ const bip39ArticleBodyProbe = "Today a client sent me his Bitcoin wallet."
 assert(
   entryScriptBytes < 360_000,
   `Entry bundle is too large: ${entryScriptBytes} bytes`
-)
-assert(
-  !entryScript.includes(articleBodyProbe),
-  "Entry chunk includes the article body"
-)
-assert(
-  !entryScript.includes(learningArticleBodyProbe),
-  "Entry chunk includes the learning article body"
 )
 assert(
   !entryScript.includes(bitcoinCoreArticleBodyProbe),
@@ -1313,14 +1233,6 @@ assert(
 assert(
   !entryScript.includes(bip39ArticleBodyProbe),
   "Entry chunk includes the BIP39 article body"
-)
-assert(
-  lazyChunkSources.some((source) => source.includes(articleBodyProbe)),
-  "Article body was not found in a lazy chunk"
-)
-assert(
-  lazyChunkSources.some((source) => source.includes(learningArticleBodyProbe)),
-  "Learning article body was not found in a lazy chunk"
 )
 assert(
   lazyChunkSources.some((source) =>

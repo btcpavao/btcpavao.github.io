@@ -40,7 +40,6 @@ const navigationGroups = [
     label: "Writing",
     links: [
       { label: "Bitcoin Core essays", href: "/en/bitcoin-core/#essays" },
-      { label: "AI u praksi", href: "/hr/ai-u-praksi/" },
       { label: "Latest writing", href: "/#writing" },
     ],
   },

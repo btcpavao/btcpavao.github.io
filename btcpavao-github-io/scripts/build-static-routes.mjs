@@ -168,6 +168,21 @@ function rssXml(entries) {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>BTC Pavao — Bitcoin Core, Bitcoin Standard and open writing</title><link>${SITE_URL}/</link><description>Practical Bitcoin Core education, Bitcoin Standard advisory and open writing.</description><language>en</language>${items}</channel></rss>\n`
 }
 
+const migratedAiRedirects = {
+  "/hr/ai-u-praksi/": "https://aipavao.com/writing",
+  "/hr/ai-u-praksi/jedan-covjek-ai-i-dva-mjeseca-rada/":
+    "https://aipavao.com/writing/jedan-covjek-ai-i-dva-mjeseca-rada",
+  "/hr/ai-u-praksi/od-diktata-do-objavljene-stranice/":
+    "https://aipavao.com/writing/od-diktata-do-objavljene-stranice",
+  "/hr/ai-u-praksi/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda/":
+    "https://aipavao.com/writing/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda",
+}
+
+function redirectDocument(destination) {
+  const safeDestination = escapeHtml(destination)
+  return `<!doctype html><html lang="hr"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="robots" content="noindex,follow" /><link rel="canonical" href="${safeDestination}" /><meta http-equiv="refresh" content="0;url=${safeDestination}" /><title>Preseljeno na AI Pavao</title><script>location.replace(${JSON.stringify(destination)}+location.search+location.hash)</script></head><body><p>Ovaj je sadržaj preseljen na <a href="${safeDestination}">AI Pavao</a>.</p></body></html>`
+}
+
 const baseHtml = await readFile(distIndexUrl, "utf8")
 const home = contentRegistry.find((entry) => entry.path === "/")
 if (!home) throw new Error("The content registry is missing the homepage.")
@@ -177,6 +192,12 @@ for (const entry of getPublishedContent().filter(({ path }) => path !== "/")) {
   const directoryUrl = new URL(`../dist${entry.path}`, import.meta.url)
   await mkdir(directoryUrl, { recursive: true })
   await writeFile(new URL("index.html", directoryUrl), renderRoute(baseHtml, entry))
+}
+
+for (const [sourcePath, destination] of Object.entries(migratedAiRedirects)) {
+  const directoryUrl = new URL(`../dist${sourcePath}`, import.meta.url)
+  await mkdir(directoryUrl, { recursive: true })
+  await writeFile(new URL("index.html", directoryUrl), redirectDocument(destination))
 }
 
 const notFound = contentRegistry.find((entry) => entry.id === "not-found")

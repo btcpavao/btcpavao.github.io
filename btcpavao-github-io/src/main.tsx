@@ -2,7 +2,7 @@ import { StrictMode, type ReactNode } from "react"
 import { createRoot, hydrateRoot } from "react-dom/client"
 
 import "./index.css"
-import App, { type ArticleDataModule } from "./App.tsx"
+import App from "./App.tsx"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
 import {
   BITCOIN_CORE_CURRICULUM_PATH,
@@ -10,8 +10,6 @@ import {
   EN_BITCOIN_CORE_CURRICULUM_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   needsBitcoinCoreArticleSource,
-  needsArticleData,
-  needsLearningArticleHtml,
   needsLongRoadArticleSource,
   needsBip39ArticleSource,
   normalizePath,
@@ -24,20 +22,9 @@ import {
 async function startApp() {
   const root = document.getElementById("root")!
   const initialPath = normalizePath(window.location.pathname)
-  let initialArticleData: ArticleDataModule | null = null
-  let initialLearningArticleHtml = ""
   let initialBitcoinCoreArticleSource = ""
   let initialLongRoadArticleSource = ""
   let initialBip39ArticleSource = ""
-
-  if (needsArticleData(initialPath)) {
-    initialArticleData = await import("./article-data")
-  }
-
-  if (needsLearningArticleHtml(initialPath)) {
-    initialLearningArticleHtml = (await import("./learning-article.html?raw"))
-      .default
-  }
 
   if (needsBitcoinCoreArticleSource(initialPath)) {
     initialBitcoinCoreArticleSource = (
@@ -91,8 +78,6 @@ async function startApp() {
     routedPage = (
       <App
         initialPath={initialPath}
-        initialArticleData={initialArticleData}
-        initialLearningArticleHtml={initialLearningArticleHtml}
         initialBitcoinCoreArticleSource={initialBitcoinCoreArticleSource}
         initialLongRoadArticleSource={initialLongRoadArticleSource}
         initialBip39ArticleSource={initialBip39ArticleSource}

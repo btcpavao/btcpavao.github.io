@@ -708,7 +708,7 @@ export function Homepage() {
               {[
                 "Bitcoin Core",
                 "Bitcoin Standard",
-                "AI and workflows",
+                "Self-custody",
                 "English",
               ].map((label) => (
                 <span

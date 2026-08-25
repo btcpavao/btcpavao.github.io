@@ -11,8 +11,6 @@ const manifestUrl = new URL("social-card-manifest.json", cacheDirectory)
 const sources = {
   homepage: "btcpavao-home-share-v3.jpg",
   default: "og-image-v2.jpg",
-  workflow: "ai-workflow-og.jpg",
-  learning: "ai-ucenje-bitcoin-model-hero.webp",
   bitcoinCore: "bitcoin-core-entropija-cover-v2-share.jpg",
   longRoad: "long-road-bitcoin-core-cover-share.jpg",
   walletGuide: "bitcoin-core-wallet-guide/10-backup-wallet-menu.webp",

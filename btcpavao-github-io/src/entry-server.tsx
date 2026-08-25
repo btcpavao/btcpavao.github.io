@@ -2,7 +2,6 @@ import { StrictMode } from "react"
 import { renderToString } from "react-dom/server"
 
 import App from "./App.tsx"
-import * as articleData from "./article-data.ts"
 import { BitcoinCoreCurriculumPage } from "./bitcoin-core-curriculum.tsx"
 import { BitcoinCoreCurriculumEnPage } from "./bitcoin-core-curriculum-en.tsx"
 import { BitcoinCoreStartPage } from "./bitcoin-core-start.tsx"
@@ -15,7 +14,6 @@ import { Homepage } from "./homepage.tsx"
 import { SupportThankYouPage } from "./support-thank-you.tsx"
 import { SupportPage } from "./support.tsx"
 import { NotFoundPage } from "./not-found.tsx"
-import learningArticleHtml from "./learning-article.html?raw"
 import longRoadArticleSource from "./long-road-back-to-bitcoin-core.md?raw"
 import {
   BITCOIN_CORE_CURRICULUM_PATH,
@@ -23,8 +21,6 @@ import {
   EN_BITCOIN_CORE_CURRICULUM_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   needsBitcoinCoreArticleSource,
-  needsArticleData,
-  needsLearningArticleHtml,
   needsLongRoadArticleSource,
   needsBip39ArticleSource,
   normalizePath,
@@ -56,10 +52,6 @@ export function renderPage(pathname: string) {
     ) : (
       <App
         initialPath={initialPath}
-        initialArticleData={needsArticleData(initialPath) ? articleData : null}
-        initialLearningArticleHtml={
-          needsLearningArticleHtml(initialPath) ? learningArticleHtml : ""
-        }
         initialBitcoinCoreArticleSource={
           needsBitcoinCoreArticleSource(initialPath)
             ? initialPath === EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH

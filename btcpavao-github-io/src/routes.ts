@@ -33,17 +33,6 @@ export function normalizePath(pathname: string) {
   return pathname.endsWith("/") ? pathname : `${pathname}/`
 }
 
-export function needsArticleData(pathname: string) {
-  const normalizedPath = normalizePath(pathname)
-  return (
-    normalizedPath === ARTICLE_PATH || normalizedPath === WORKFLOW_ARTICLE_PATH
-  )
-}
-
-export function needsLearningArticleHtml(pathname: string) {
-  return normalizePath(pathname) === LEARNING_ARTICLE_PATH
-}
-
 export function needsBitcoinCoreArticleSource(pathname: string) {
   const normalizedPath = normalizePath(pathname)
 

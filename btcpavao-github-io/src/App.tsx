@@ -96,7 +96,7 @@ const BitcoinCoreCurriculumEnPage = lazy(() =>
 const HR_HOME_URL = `${SITE_URL}${HR_HOME_PATH}`
 const HR_HOME_TITLE = "Hrvatski tekstovi"
 const HR_HOME_DESCRIPTION =
-  "Hrvatski tekstovi Pavaoa Pahljine o Bitcoinu, Bitcoin Coreu i praktičnoj primjeni umjetne inteligencije."
+  "Hrvatski tekstovi Pavaoa Pahljine o Bitcoinu, Bitcoin Coreu, walletima, validaciji i sigurnosti samostalnog čuvanja."
 const AI_SERIES_URL = `${SITE_URL}${AI_SERIES_PATH}`
 const AI_SERIES_TITLE = "AI u praksi"
 const AI_SERIES_DESCRIPTION =
@@ -1025,7 +1025,7 @@ function useReadingProgress() {
   }, [])
 }
 
-function ArticlePage({
+export function ArticlePage({
   initialArticleData = null,
 }: {
   initialArticleData?: ArticleDataModule | null
@@ -1425,7 +1425,7 @@ function SeriesCard({ post }: { post: SeriesPost }) {
   )
 }
 
-function AiSeriesPage() {
+export function AiSeriesPage() {
   useSeriesMetadata()
 
   const topics = [
@@ -1537,12 +1537,6 @@ function HrHomePage() {
   useHrHomeMetadata()
 
   const sections = [
-    {
-      title: AI_SERIES_TITLE,
-      description: AI_SERIES_DESCRIPTION,
-      href: AI_SERIES_PATH,
-      count: `${aiSeriesPosts.length} teksta`,
-    },
     {
       title: BITCOIN_CORE_SERIES_TITLE,
       description: BITCOIN_CORE_SERIES_DESCRIPTION,
@@ -2892,7 +2886,7 @@ function WorkflowArticleBlock({
   return <p>{renderLinkedText(block.text)}</p>
 }
 
-function WorkflowArticlePage({
+export function WorkflowArticlePage({
   initialArticleData = null,
 }: {
   initialArticleData?: ArticleDataModule | null
@@ -3092,7 +3086,7 @@ function WorkflowArticlePage({
   )
 }
 
-function LearningArticlePage({
+export function LearningArticlePage({
   initialArticleHtml = "",
 }: {
   initialArticleHtml?: string
@@ -3251,17 +3245,37 @@ function HomePage() {
   )
 }
 
+const migratedAiDestinations: Record<string, string> = {
+  [AI_SERIES_PATH]: "https://aipavao.com/writing",
+  [ARTICLE_PATH]: "https://aipavao.com/writing/jedan-covjek-ai-i-dva-mjeseca-rada",
+  [WORKFLOW_ARTICLE_PATH]: "https://aipavao.com/writing/od-diktata-do-objavljene-stranice",
+  [LEARNING_ARTICLE_PATH]: "https://aipavao.com/writing/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda",
+}
+
+function MigratedAiRedirect({ destination }: { destination: string }) {
+  useEffect(() => {
+    window.location.replace(`${destination}${window.location.search}${window.location.hash}`)
+  }, [destination])
+
+  return (
+    <PageChrome>
+      <main id="main-content" className="relative mx-auto min-h-[70vh] max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
+        <p className="text-[11px] font-semibold tracking-[0.22em] text-muted-foreground uppercase">Moved</p>
+        <h1 className="mt-4 font-display text-5xl font-bold tracking-[-0.055em] text-foreground">Ovaj je tekst preseljen na AI Pavao.</h1>
+        <p className="mt-6 text-lg leading-8 text-muted-foreground">Ako se preusmjeravanje ne pokrene automatski, otvorite novu adresu.</p>
+        <a className="mt-8 inline-flex min-h-11 items-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground" href={destination}>Otvori AI Pavao ↗</a>
+      </main>
+    </PageChrome>
+  )
+}
+
 export function App({
   initialPath,
-  initialArticleData = null,
-  initialLearningArticleHtml = "",
   initialBitcoinCoreArticleSource = "",
   initialLongRoadArticleSource = "",
   initialBip39ArticleSource = "",
 }: {
   initialPath?: string
-  initialArticleData?: ArticleDataModule | null
-  initialLearningArticleHtml?: string
   initialBitcoinCoreArticleSource?: string
   initialLongRoadArticleSource?: string
   initialBip39ArticleSource?: string
@@ -3270,8 +3284,9 @@ export function App({
     ? normalizePath(initialPath)
     : getCurrentPath()
 
-  if (currentPath === ARTICLE_PATH) {
-    return <ArticlePage initialArticleData={initialArticleData} />
+  const migratedDestination = migratedAiDestinations[currentPath]
+  if (migratedDestination) {
+    return <MigratedAiRedirect destination={migratedDestination} />
   }
 
   if (currentPath === HR_HOME_PATH) {
@@ -3345,20 +3360,6 @@ export function App({
 
   if (currentPath === BIP39_WRONG_THING_ARTICLE_PATH) {
     return <Bip39ArticlePage initialArticleSource={initialBip39ArticleSource} />
-  }
-
-  if (currentPath === AI_SERIES_PATH) {
-    return <AiSeriesPage />
-  }
-
-  if (currentPath === WORKFLOW_ARTICLE_PATH) {
-    return <WorkflowArticlePage initialArticleData={initialArticleData} />
-  }
-
-  if (currentPath === LEARNING_ARTICLE_PATH) {
-    return (
-      <LearningArticlePage initialArticleHtml={initialLearningArticleHtml} />
-    )
   }
 
   if (currentPath === "/") {

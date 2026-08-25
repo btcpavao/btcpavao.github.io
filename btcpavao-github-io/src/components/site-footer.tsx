@@ -21,7 +21,7 @@ const footerGroups = [
     label: "Writing",
     links: [
       { label: "Bitcoin Core essays", href: "/en/bitcoin-core/#essays" },
-      { label: "AI u praksi", href: "/hr/ai-u-praksi/" },
+      { label: "Latest writing", href: "/#writing" },
     ],
   },
   {
@@ -75,7 +75,11 @@ export function SiteFooter() {
         </div>
         <div className="mt-9 flex flex-wrap items-center justify-between gap-4 border-t border-border/60 pt-6 text-sm text-muted-foreground">
           <span>© {new Date().getFullYear()} BTC Pavao</span>
-          <div className="flex flex-wrap gap-5">
+          <div className="flex flex-wrap items-center gap-5">
+            <a href="https://aipavao.com/" className="font-semibold tracking-[0.08em] text-foreground/72 uppercase hover:text-foreground">
+              <span className="mr-2 text-[9px] text-muted-foreground">The room next door</span>
+              AI Pavao ↗
+            </a>
             {SOCIAL_LINKS.map((link) => (
               <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">{link.label}</a>
             ))}
