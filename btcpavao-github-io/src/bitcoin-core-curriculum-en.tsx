@@ -537,32 +537,38 @@ function CourseLanding({
             </div>
             <ul aria-label="Bitcoin Core, Linux, Fedora, and KeePassXC">
               <li className="course-software-stack__item--primary">
-                <img
-                  src="/software-stack/bitcoin-core.svg"
-                  alt=""
-                  aria-hidden="true"
-                />
-                <span>Bitcoin Core</span>
+                <span className="course-software-stack__logo">
+                  <img src="/bitcoin-logo.svg" alt="" aria-hidden="true" />
+                </span>
+                <span className="course-software-stack__label">
+                  Bitcoin Core
+                </span>
               </li>
               <li>
-                <img src="/software-stack/tux.svg" alt="" aria-hidden="true" />
-                <span>Linux</span>
+                <span className="course-software-stack__logo">
+                  <img src="/software-stack/tux.svg" alt="" aria-hidden="true" />
+                </span>
+                <span className="course-software-stack__label">Linux</span>
               </li>
               <li>
-                <img
-                  src="/software-stack/fedora.svg"
-                  alt=""
-                  aria-hidden="true"
-                />
-                <span>Fedora</span>
+                <span className="course-software-stack__logo">
+                  <img
+                    src="/software-stack/fedora.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </span>
+                <span className="course-software-stack__label">Fedora</span>
               </li>
               <li>
-                <img
-                  src="/software-stack/keepassxc.svg"
-                  alt=""
-                  aria-hidden="true"
-                />
-                <span>KeePassXC</span>
+                <span className="course-software-stack__logo">
+                  <img
+                    src="/software-stack/keepassxc.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </span>
+                <span className="course-software-stack__label">KeePassXC</span>
               </li>
             </ul>
           </section>

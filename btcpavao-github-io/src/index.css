@@ -1307,22 +1307,16 @@
 
 .course-software-stack ul {
   display: grid;
-  overflow: hidden;
-  grid-template-columns: 1.18fr repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
   margin-top: 0.8rem;
-  border: 1px solid color-mix(in oklab, var(--border) 84%, transparent);
-  border-radius: 1rem;
-  background: color-mix(in oklab, var(--card) 78%, transparent);
 }
 
 .course-software-stack li {
-  display: flex;
+  display: grid;
   min-width: 0;
-  min-height: 4rem;
-  align-items: center;
-  justify-content: center;
-  gap: 0.52rem;
-  padding: 0.65rem 0.72rem;
+  grid-template-rows: 4.25rem auto;
+  gap: 0.55rem;
   color: var(--muted-foreground);
   font-size: 0.8rem;
   font-weight: 690;
@@ -1330,17 +1324,22 @@
   text-align: center;
 }
 
-.course-software-stack li + li {
-  border-left: 1px solid color-mix(in oklab, var(--border) 84%, transparent);
+.course-software-stack__logo {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in oklab, var(--border) 84%, transparent);
+  border-radius: 0.9rem;
+  background: color-mix(in oklab, var(--card) 78%, transparent);
 }
 
 .course-software-stack li.course-software-stack__item--primary {
   color: var(--foreground);
-  background: transparent;
   font-weight: 760;
 }
 
-.course-software-stack img {
+.course-software-stack__logo img {
   width: 1.8rem;
   height: 1.8rem;
   flex: 0 0 auto;
@@ -1348,9 +1347,14 @@
   object-fit: contain;
 }
 
-.course-software-stack__item--primary img {
+.course-software-stack__item--primary .course-software-stack__logo img {
   width: 2.15rem;
   height: 2.15rem;
+}
+
+.course-software-stack__label {
+  min-width: 0;
+  text-wrap: balance;
 }
 
 .course-hero__actions {
@@ -3335,18 +3339,6 @@
 
   .course-software-stack ul {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .course-software-stack li + li {
-    border-left: 0;
-  }
-
-  .course-software-stack li:nth-child(even) {
-    border-left: 1px solid color-mix(in oklab, var(--border) 84%, transparent);
-  }
-
-  .course-software-stack li:nth-child(n + 3) {
-    border-top: 1px solid color-mix(in oklab, var(--border) 84%, transparent);
   }
 
   .course-recommendation {
