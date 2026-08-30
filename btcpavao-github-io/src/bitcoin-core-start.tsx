@@ -104,7 +104,7 @@ export function BitcoinCoreStartPage() {
             difficulty="Beginner"
             estimatedTime="30–45 minutes"
             realBitcoin="No. Use an empty, disposable practice wallet."
-            softwareVersion="Bitcoin Core 30.0"
+            softwareVersion="Bitcoin Core 31.1"
             operatingSystems="macOS, Windows, and maintained Linux distributions"
             recommendedOs="Any maintained desktop OS for this disposable exercise"
             prerequisites={
@@ -115,7 +115,7 @@ export function BitcoinCoreStartPage() {
               </>
             }
             outcome="An empty practice wallet, a verified backup, and a recovery plan you can explain."
-            lastReviewed="24 August 2026"
+            lastReviewed="30 August 2026"
           />
 
           <div className="mt-10 rounded-[28px] bg-card p-6 shadow-[var(--shadow-border)] sm:p-8">

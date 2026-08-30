@@ -1003,7 +1003,7 @@ function HeaderProgress({
             className="text-primary"
           />
         </svg>
-        <span className="relative grid size-8 place-items-center rounded-full bg-primary text-[10px] leading-none font-extrabold text-primary-foreground tabular-nums shadow-[0_1px_2px_rgba(0,0,0,0.16)]">
+        <span className="relative grid size-8 place-items-center rounded-full bg-primary text-[10px] leading-none font-extrabold text-white tabular-nums shadow-[0_1px_2px_rgba(0,0,0,0.16)]">
           {completed}/{total}
         </span>
       </span>
@@ -1034,7 +1034,7 @@ function StepCheckbox({
         className="peer sr-only"
         aria-label={`Mark step ${number}, ${title}, complete`}
       />
-      <span className="grid size-5 place-items-center rounded-full bg-muted text-transparent shadow-[inset_0_0_0_1px_rgba(0,0,0,0.08)] transition-[background-color,color,transform] duration-200 peer-checked:bg-primary peer-checked:text-primary-foreground peer-focus-visible:outline-2 peer-focus-visible:outline-offset-3 peer-focus-visible:outline-primary">
+      <span className="grid size-5 place-items-center rounded-full bg-muted text-transparent shadow-[inset_0_0_0_1px_rgba(0,0,0,0.08)] transition-[background-color,color,transform] duration-200 peer-checked:bg-success peer-checked:text-success-foreground peer-focus-visible:outline-2 peer-focus-visible:outline-offset-3 peer-focus-visible:outline-success">
         <Check className="size-3.5" strokeWidth={3} aria-hidden="true" />
       </span>
       {checked ? "Completed" : "Mark complete"}
@@ -1541,7 +1541,7 @@ export function BitcoinCoreWalletGuidePage() {
                 <div className="grid gap-8 lg:grid-cols-[230px_minmax(0,1fr)] lg:gap-12">
                   <div className="lg:sticky lg:top-24 lg:self-start">
                     <div className="flex items-center gap-3">
-                      <span className="grid size-11 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground tabular-nums">
+                      <span className="grid size-11 place-items-center rounded-full bg-primary text-sm font-bold text-white tabular-nums">
                         {String(step.number).padStart(2, "0")}
                       </span>
                       <span className="text-[11px] font-bold tracking-[0.16em] text-muted-foreground uppercase">
@@ -1638,7 +1638,7 @@ export function BitcoinCoreWalletGuidePage() {
               {finalChecklist.map((item, index) => (
                 <label
                   key={item}
-                  className={`group flex min-h-14 cursor-pointer items-start gap-3 rounded-[18px] p-4 text-sm leading-6 shadow-[var(--shadow-border)] transition-[background-color,color,transform] duration-200 active:scale-[0.96] ${checkedFinal[index] ? "bg-primary/10 text-foreground" : "bg-background text-muted-foreground hover:text-foreground"}`}
+                  className={`group flex min-h-14 cursor-pointer items-start gap-3 rounded-[18px] p-4 text-sm leading-6 shadow-[var(--shadow-border)] transition-[background-color,color,transform] duration-200 active:scale-[0.96] ${checkedFinal[index] ? "bg-success/10 text-foreground" : "bg-background text-muted-foreground hover:text-foreground"}`}
                 >
                   <input
                     type="checkbox"
@@ -1652,7 +1652,7 @@ export function BitcoinCoreWalletGuidePage() {
                       )
                     }
                   />
-                  <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-muted text-transparent transition-[background-color,color] duration-200 peer-checked:bg-primary peer-checked:text-primary-foreground peer-focus-visible:outline-2 peer-focus-visible:outline-offset-3 peer-focus-visible:outline-primary">
+                  <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-muted text-transparent transition-[background-color,color] duration-200 peer-checked:bg-success peer-checked:text-success-foreground peer-focus-visible:outline-2 peer-focus-visible:outline-offset-3 peer-focus-visible:outline-success">
                     <Check
                       className="size-3.5"
                       strokeWidth={3}
