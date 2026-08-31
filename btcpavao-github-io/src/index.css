@@ -1353,6 +1353,10 @@
   object-fit: contain;
 }
 
+.course-software-stack__logo--pair {
+  gap: 0.45rem;
+}
+
 .course-software-stack__item--primary .course-software-stack__logo img {
   width: 2.15rem;
   height: 2.15rem;

@@ -42,6 +42,7 @@ import {
   curriculumPhases,
   findLessonBySlug,
   isAvailableLesson,
+  legacyEnglishLessonSlugAliases,
   primaryCurriculumLessons,
   type CurriculumCodeBlock,
   type CurriculumPhase,
@@ -163,7 +164,9 @@ function writeStoredSet(key: string, value: Set<string>) {
 function getHashLessonSlug() {
   if (typeof window === "undefined") return null
   const match = window.location.hash.match(/^#lesson\/(.+)$/)
-  return match ? decodeURIComponent(match[1]) : null
+  if (!match) return null
+  const slug = decodeURIComponent(match[1])
+  return legacyEnglishLessonSlugAliases[slug] ?? slug
 }
 
 function formatReviewDate(date: string | undefined) {
@@ -378,7 +381,7 @@ function Callout({ callout }: { callout: LessonCallout }) {
 function CoreSignerArchitecture({ overview = false }: { overview?: boolean }) {
   return (
     <figure
-      className={`course-core-architecture${overview ? " course-core-architecture--overview" : ""}`}
+      className={`course-core-architecture${overview ? "course-core-architecture--overview" : ""}`}
       aria-label="Recommended Bitcoin Core savings architecture"
     >
       <figcaption>
@@ -603,7 +606,12 @@ function CourseLanding({
                 </span>
               </li>
               <li>
-                <span className="course-software-stack__logo">
+                <span className="course-software-stack__logo course-software-stack__logo--pair">
+                  <img
+                    src="/software-stack/fedora.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
                   <img
                     src="/software-stack/tux.svg"
                     alt=""
@@ -1301,14 +1309,32 @@ export function BitcoinCoreCurriculumEnPage() {
       setCompletedLessons(readStoredSet(PROGRESS_STORAGE_KEY))
       setChecklistItems(readStoredSet(CHECKLIST_STORAGE_KEY))
       try {
-        setLastAvailableSlug(localStorage.getItem(LAST_LESSON_STORAGE_KEY))
+        const storedSlug = localStorage.getItem(LAST_LESSON_STORAGE_KEY)
+        setLastAvailableSlug(
+          storedSlug
+            ? (legacyEnglishLessonSlugAliases[storedSlug] ?? storedSlug)
+            : null
+        )
       } catch {
         setLastAvailableSlug(null)
       }
       setStorageReady(true)
     }, 0)
 
-    const syncFromUrl = () => setActiveSlug(getHashLessonSlug())
+    const syncFromUrl = () => {
+      const slug = getHashLessonSlug()
+      setActiveSlug(slug)
+      if (
+        slug &&
+        window.location.hash !== `#lesson/${encodeURIComponent(slug)}`
+      ) {
+        window.history.replaceState(
+          {},
+          "",
+          `${window.location.pathname}${window.location.search}#lesson/${encodeURIComponent(slug)}`
+        )
+      }
+    }
     syncFromUrl()
     window.addEventListener("hashchange", syncFromUrl)
     window.addEventListener("popstate", syncFromUrl)

@@ -13,6 +13,92 @@ export const SPARROW_REFERENCE_VERSION = "Sparrow 2.5.2"
 export const ELECTRUM_REFERENCE_VERSION = "Electrum 4.8.0"
 export const LAST_TECHNICAL_REVIEW = "2026-08-31"
 
+export const legacyEnglishLessonSlugAliases: Record<string, string> = {
+  "sto-self-custody-stvarno-znaci": "what-self-custody-really-means",
+  "threat-model-prije-alata": "threat-model-before-tools",
+  "sigurnost-je-proces": "security-is-a-process",
+  "core-kao-alat-ne-kao-identitet": "core-as-a-tool-not-an-identity",
+  "sto-je-bitcoin-core": "what-is-bitcoin-core",
+  "tvoj-node-je-prije-svega-vazan-tebi": "your-node-matters-first-to-you",
+  "battle-tested-ne-znaci-bez-bugova": "battle-tested-does-not-mean-bug-free",
+  "sparrow-flow-i-sigurnosne-pretpostavke":
+    "sparrow-workflow-and-security-assumptions",
+  "electrum-flow-i-sigurnosne-pretpostavke":
+    "electrum-workflow-and-security-assumptions",
+  "hardware-wallet-kao-tradeoff": "hardware-wallet-as-a-tradeoff",
+  "bip39-kriptografija-i-backup-model": "bip39-cryptography-and-backup-model",
+  "prvo-nauci-s-bitcoinima-bez-vrijednosti":
+    "learn-first-with-valueless-bitcoin",
+  "pokretanje-bitcoin-corea-na-signetu": "start-bitcoin-core-on-signet",
+  "prvi-signet-wallet-i-adresa": "first-signet-wallet-and-address",
+  "prvi-receive-i-send-na-signetu": "first-signet-receive-and-send",
+  "backup-unisti-testno-okruzenje-i-restore":
+    "back-up-remove-test-wallet-and-restore",
+  "odabir-racunala-i-malware-threat-model":
+    "choose-a-computer-and-model-malware-risk",
+  "kreiranje-stvarnog-walleta": "create-your-first-mainnet-wallet",
+  "enkripcija-i-passphrase": "encryption-and-passphrase",
+  "wallet-backup-i-redundancija": "wallet-backup-and-redundancy",
+  "restore-na-cistom-testnom-okruzenju": "restore-in-a-clean-test-environment",
+  "verification-prije-prvog-mainnet-deposita":
+    "verification-before-first-mainnet-deposit",
+  "node-wallet-i-blockchain-nisu-ista-stvar":
+    "node-wallet-and-blockchain-are-not-the-same",
+  "ibd-nije-prepreka-za-ucenje-walleta": "ibd-does-not-block-wallet-learning",
+  "wallet-backup-vs-node-podaci": "wallet-backup-vs-node-data",
+  "migracija-node-podataka-ili-nova-validacija":
+    "migrate-node-data-or-validate-from-scratch",
+  "core-nije-ili-server-ili-beskoristan":
+    "core-is-neither-a-server-nor-useless",
+  "online-node-i-offline-signer": "online-node-and-offline-signer",
+  "zasto-signer-ne-treba-blockchain":
+    "why-the-signer-does-not-need-the-blockchain",
+  "hot-watch-only-i-signing-wallet": "hot-watch-only-and-signing-wallet",
+  "priprema-offline-signera": "prepare-offline-signer",
+  "prva-offline-potpisana-transakcija": "first-offline-signed-transaction",
+  "recovery-drill-bez-originalnog-koordinatora":
+    "recovery-drill-without-original-coordinator",
+  "redovni-testovi-i-godisnji-recovery-drill":
+    "regular-tests-and-annual-recovery-drill",
+  "malware-usb-i-provjera-odredista":
+    "malware-usb-and-destination-verification",
+  "fizicka-sigurnost-i-backup-mediji": "physical-security-and-backup-media",
+  "dokumentiraj-proceduru-bez-otkrivanja-tajni":
+    "document-the-procedure-without-exposing-secrets",
+  "inheritance-i-drugi-ljudi": "inheritance-and-other-people",
+  "zasto-i-kada-ne-multisig": "why-multisig-and-when-not-to-use-it",
+  "2-of-3-na-signetu": "2-of-3-on-signet",
+  "kljucevi-nisu-cijeli-multisig-recovery":
+    "keys-are-not-the-whole-multisig-recovery",
+  "failure-simulacije": "failure-simulations",
+  "taproot-descriptori-i-recovery-artefakti":
+    "taproot-descriptors-and-recovery-artifacts",
+  "taproot-mentalni-model": "taproot-mental-model",
+  "testiranje-svakog-recovery-patha": "test-every-recovery-path",
+  "kako-voditi-self-custody-eksperiment":
+    "how-to-run-a-self-custody-experiment",
+  "rpc-i-cli": "rpc-and-cli",
+  "descriptor-eksperimenti": "descriptor-experiments",
+  "regtest-i-failure-scenariji": "regtest-and-failure-scenarios",
+  "community-pitanja-i-clarifications":
+    "community-questions-and-clarifications",
+  "enkriptiraj-signet-wallet-i-napravi-novi-backup":
+    "encrypt-signet-wallet-and-create-new-backup",
+  "odakle-dolazi-privatni-kljuc": "where-the-private-key-comes-from",
+  "vise-kopija-nije-isto-sto-i-noviji-backup":
+    "more-copies-do-not-mean-a-current-backup",
+  "digitalni-i-cloud-backup-privacy-model":
+    "digital-and-cloud-backup-privacy-model",
+  "instaliraj-i-provjeri-bitcoin-core": "install-and-verify-bitcoin-core",
+  "ponovno-poslaji-nakon-signet-recoveryja": "send-again-after-signet-recovery",
+  "jednostavni-wallet-ili-offline-signer": "simple-wallet-or-offline-signer",
+  "ne-pretvaraj-signet-wallet-u-mainnet-wallet":
+    "do-not-turn-signet-wallet-into-mainnet-wallet",
+  "mainnet-readiness-prije-prvog-deposita":
+    "mainnet-readiness-before-first-deposit",
+  "prvi-mali-mainnet-test": "first-small-mainnet-test",
+}
+
 export type LessonVerification = "verified" | "review-required" | "planned"
 export type LessonCalloutKind =
   | "important"
@@ -298,7 +384,7 @@ const standardReviewNote =
 const curriculumPhasesV2: CurriculumPhase[] = [
   {
     id: "0",
-    slug: "zasto-self-custody",
+    slug: "why-self-custody",
     shortTitle: "Why self-custody?",
     title: "Why self-custody?",
     summary:
@@ -309,17 +395,17 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     estimatedTime: "35 min",
     lessons: [
       retainLesson("0.1", {
-        slug: "sto-self-custody-stvarno-znaci",
+        slug: "what-self-custody-really-means",
         objective:
           "Distinguish control of the keys from verification, backup, signing, and recovery.",
       }),
       retainLesson("0.2", {
-        slug: "threat-model-prije-alata",
+        slug: "threat-model-before-tools",
         objective:
           "Create a threat model that compares probability, impact, and the cost of protection.",
       }),
       retainLesson("0.3", {
-        slug: "sigurnost-je-proces",
+        slug: "security-is-a-process",
         objective:
           "Recognize operational errors that good cryptography itself cannot prevent.",
         callouts: [
@@ -334,7 +420,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
   },
   {
     id: "1",
-    slug: "zasto-bitcoin-core",
+    slug: "why-bitcoin-core",
     shortTitle: "Why Bitcoin Core?",
     title: "Why this curriculum stays with Bitcoin Core",
     summary:
@@ -345,7 +431,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     estimatedTime: "90 min",
     lessons: [
       retainLesson("1.5", {
-        slug: "core-kao-alat-ne-kao-identitet",
+        slug: "core-as-a-tool-not-an-identity",
         objective:
           "Explain why a narrow initial flow can reduce the number of security decisions a beginner must make before understanding them.",
         explanation: [
@@ -355,14 +441,14 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         sources: [managingWallets, coreRelease],
       }),
       retainLesson("2.1", {
-        slug: "sto-je-bitcoin-core",
+        slug: "what-is-bitcoin-core",
         objective:
           "Separate the node that validates the blockchain from the wallet that monitors funds and signs transactions.",
         sources: [coreRepository, coreRelease],
       }),
       outlineLesson({
         id: "own-node",
-        slug: "tvoj-node-je-prije-svega-vazan-tebi",
+        slug: "your-node-matters-first-to-you",
         title: "Your node is valuable first and foremost to you",
         summary:
           "Your own node lets you verify the rules, transactions, and wallet state without relying on someone else's node or service.",
@@ -390,7 +476,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "core-development",
-        slug: "battle-tested-ne-znaci-bez-bugova",
+        slug: "battle-tested-does-not-mean-bug-free",
         title: "Battle-tested does not mean without bugs",
         summary:
           "Its long development history, public review, and economic importance support measured confidence in the process—not a guarantee of perfection.",
@@ -405,7 +491,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         sources: [coreRepository, coreRelease],
       }),
       retainLesson("1.2", {
-        slug: "sparrow-flow-i-sigurnosne-pretpostavke",
+        slug: "sparrow-workflow-and-security-assumptions",
         objective:
           "Use Sparrow as a comparison point for coordinator complexity without adopting it in the production architecture taught here.",
         status: "in-progress",
@@ -416,7 +502,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         sources: [sparrowQuickStart, sparrowRelease],
       }),
       retainLesson("1.3", {
-        slug: "electrum-flow-i-sigurnosne-pretpostavke",
+        slug: "electrum-workflow-and-security-assumptions",
         objective:
           "Use Electrum as a comparison point for lightweight-wallet and mnemonic tradeoffs without adding it to the taught stack.",
         status: "in-progress",
@@ -427,13 +513,13 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         sources: [electrumDocs, electrumRelease],
       }),
       retainLesson("1.1", {
-        slug: "hardware-wallet-kao-tradeoff",
+        slug: "hardware-wallet-as-a-tradeoff",
         objective:
           "Explain the additional dependencies introduced by commercial hardware wallets and why this curriculum instead uses a dedicated generic computer with Bitcoin Core.",
         sources: [hwi],
       }),
       retainLesson("1.4", {
-        slug: "bip39-kriptografija-i-backup-model",
+        slug: "bip39-cryptography-and-backup-model",
         objective:
           "Separate BIP39 entropy quality from its human-readable bearer-secret recovery model and explain why the taught Core workflow does not create a mnemonic.",
         referenceVersion: "BIP 39",
@@ -450,7 +536,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
   },
   {
     id: "2",
-    slug: "sigurno-igraliste",
+    slug: "safe-playground",
     shortTitle: "Safe playground",
     title: "Safe playground: everything starts on Signet",
     summary:
@@ -462,7 +548,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     lessons: [
       outlineLesson({
         id: "signet-why",
-        slug: "prvo-nauci-s-bitcoinima-bez-vrijednosti",
+        slug: "learn-first-with-valueless-bitcoin",
         title: "First learn with bitcoins that have no value",
         summary:
           "Your first self-custody attempt should not happen when real money is already at stake.",
@@ -509,7 +595,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "signet-start",
-        slug: "pokretanje-bitcoin-corea-na-signetu",
+        slug: "start-bitcoin-core-on-signet",
         title: "Starting Bitcoin Core on Signet",
         summary:
           "Install Bitcoin Core, verify the download, and separate the Signet profile before the first wallet operation.",
@@ -520,7 +606,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "signet-first-wallet",
-        slug: "prvi-signet-wallet-i-adresa",
+        slug: "first-signet-wallet-and-address",
         title: "First Signet wallet and receiving address",
         summary:
           "Make an obvious test wallet, record the network, and generate the first address.",
@@ -531,7 +617,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "signet-receive-send",
-        slug: "prvi-receive-i-send-na-signetu",
+        slug: "first-signet-receive-and-send",
         title: "First Signet receive and send",
         summary:
           "Obtain test coins, confirm receipt, choose an amount, and send a Signet transaction.",
@@ -543,7 +629,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "signet-restore",
-        slug: "backup-unisti-testno-okruzenje-i-restore",
+        slug: "back-up-remove-test-wallet-and-restore",
         title: "Back up, remove the test wallet, and restore it",
         summary:
           "The test ends only when a fresh setup restores the expected addresses from backup and can use the wallet.",
@@ -584,7 +670,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
   },
   {
     id: "3",
-    slug: "prvi-stvarni-core-wallet",
+    slug: "first-real-core-wallet",
     shortTitle: "First real wallet",
     title: "Your first real Core wallet",
     summary:
@@ -596,7 +682,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     lessons: [
       outlineLesson({
         id: "real-device",
-        slug: "odabir-racunala-i-malware-threat-model",
+        slug: "choose-a-computer-and-model-malware-risk",
         title: "Choosing a computer and defining the malware threat model",
         summary:
           "General-purpose hardware can be a reasonable signer or wallet device when you understand the risks introduced by combining or separating roles.",
@@ -607,7 +693,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "real-create",
-        slug: "kreiranje-stvarnog-walleta",
+        slug: "create-your-first-mainnet-wallet",
         title: "Create your first mainnet wallet",
         summary:
           "Create a new descriptor wallet only after the device, network, and recovery plan have been defined.",
@@ -618,7 +704,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "real-encryption",
-        slug: "enkripcija-i-passphrase",
+        slug: "encryption-and-passphrase",
         title: "Encryption and passphrase",
         summary:
           "A passphrase protects private keys in the wallet file, but it does not hide all metadata or stop a keylogger.",
@@ -629,7 +715,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "real-backup",
-        slug: "wallet-backup-i-redundancija",
+        slug: "wallet-backup-and-redundancy",
         title: "Wallet backup and redundancy",
         summary:
           "Use the built-in backup procedure, maintain multiple reliable copies, and keep the wallet separate from its passphrase.",
@@ -640,7 +726,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "real-restore",
-        slug: "restore-na-cistom-testnom-okruzenju",
+        slug: "restore-in-a-clean-test-environment",
         title: "Restore in a clean test environment",
         summary:
           "A backup becomes evidence only when you load it, check the addresses, and confirm that the passphrase works.",
@@ -651,7 +737,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "real-verify",
-        slug: "verification-prije-prvog-mainnet-deposita",
+        slug: "verification-before-first-mainnet-deposit",
         title: "Verification before the first mainnet deposit",
         summary:
           "The first real deposit comes only after verifying addresses, the backup, the passphrase, and the documented recovery procedure.",
@@ -664,7 +750,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
   },
   {
     id: "4",
-    slug: "node-bez-mitologije",
+    slug: "node-without-mythology",
     shortTitle: "Node without mythology",
     title: "Node without mythology",
     summary:
@@ -675,7 +761,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     estimatedTime: "70 min",
     lessons: [
       retainLesson("2.2", {
-        slug: "node-wallet-i-blockchain-nisu-ista-stvar",
+        slug: "node-wallet-and-blockchain-are-not-the-same",
         objective:
           "Distinguish chain synchronization from wallet creation, backup, and signing.",
         sources: [coreRepository, coreFiles],
@@ -688,7 +774,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "ibd-separation",
-        slug: "ibd-nije-prepreka-za-ucenje-walleta",
+        slug: "ibd-does-not-block-wallet-learning",
         title: "IBD is not an obstacle to learning wallet operations",
         summary:
           "Full synchronization is required for a current, independently validated view of the chain — but wallet creation, backup, restore, and signing are separate concepts.",
@@ -703,14 +789,14 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         sources: [coreFiles, offlineSigning],
       }),
       retainLesson("2.6", {
-        slug: "wallet-backup-vs-node-podaci",
+        slug: "wallet-backup-vs-node-data",
         objective:
           "Distinguish wallet backups from block, chainstate, and other node data, and avoid copying active files unsafely.",
         sources: [coreFiles, managingWallets],
       }),
       outlineLesson({
         id: "node-migration",
-        slug: "migracija-node-podataka-ili-nova-validacija",
+        slug: "migrate-node-data-or-validate-from-scratch",
         title: "Migrate node data or validate from scratch",
         summary:
           "Copying verified data may save time, but it requires a clean shutdown and a documented procedure.",
@@ -721,7 +807,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "core-not-server",
-        slug: "core-nije-ili-server-ili-beskoristan",
+        slug: "core-is-neither-a-server-nor-useless",
         title: "Bitcoin Core is neither a 24/7 server nor useless",
         summary:
           "An archival node, a pruned node, an online coordinator, and an offline signer are different roles with different requirements.",
@@ -751,26 +837,26 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     estimatedTime: "3-4 h",
     lessons: [
       retainLesson("2.4", {
-        slug: "online-node-i-offline-signer",
+        slug: "online-node-and-offline-signer",
         objective:
           "Divide the system into online verification and offline signing authority.",
         sources: [offlineSigning, psbt],
       }),
       retainLesson("2.5", {
-        slug: "zasto-signer-ne-treba-blockchain",
+        slug: "why-the-signer-does-not-need-the-blockchain",
         objective:
           "Explain which PSBT data is transferred and why the signer does not need to synchronize the chain.",
         sources: [offlineSigning, psbt],
       }),
       retainLesson("2.8", {
-        slug: "hot-watch-only-i-signing-wallet",
+        slug: "hot-watch-only-and-signing-wallet",
         objective:
           "Distinguish the capabilities and privacy consequences of hot, watch-only, and offline wallets.",
         sources: [offlineSigning, descriptors],
       }),
       outlineLesson({
         id: "offline-device",
-        slug: "priprema-offline-signera",
+        slug: "prepare-offline-signer",
         title: "Preparing an offline signer",
         summary:
           "A generic dedicated computer boots a trusted Tails live USB and runs Bitcoin Core without a network connection.",
@@ -789,7 +875,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "offline-psbt",
-        slug: "prva-offline-potpisana-transakcija",
+        slug: "first-offline-signed-transaction",
         title: "First offline signed transaction",
         summary:
           "The unsigned PSBT goes offline; the signed result returns online for finalization and broadcast.",
@@ -801,7 +887,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "offline-recovery",
-        slug: "recovery-drill-bez-originalnog-koordinatora",
+        slug: "recovery-drill-without-original-coordinator",
         title: "Recovery drill without the original coordinator",
         summary:
           "An offline system is not complete until both the watch-only coordinator and signer can be restored from documented artifacts.",
@@ -814,7 +900,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
   },
   {
     id: "6",
-    slug: "operativna-sigurnost",
+    slug: "operational-security",
     shortTitle: "Operational security",
     title: "Operational security over time",
     summary:
@@ -826,7 +912,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     lessons: [
       outlineLesson({
         id: "ops-routine",
-        slug: "redovni-testovi-i-godisnji-recovery-drill",
+        slug: "regular-tests-and-annual-recovery-drill",
         title: "Regular tests and annual recovery drill",
         summary:
           "Check your backup media, passphrase access, software version, and recovery results before an emergency occurs.",
@@ -837,7 +923,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "ops-malware",
-        slug: "malware-usb-i-provjera-odredista",
+        slug: "malware-usb-and-destination-verification",
         title: "Malware, USB, and destination verification",
         summary:
           "An air gap reduces network exposure. It does not prove that the signer, Tails media, or transaction is trustworthy.",
@@ -866,7 +952,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "ops-physical",
-        slug: "fizicka-sigurnost-i-backup-mediji",
+        slug: "physical-security-and-backup-media",
         title: "Physical safety and backup media",
         summary:
           "Recovery artifacts are irreplaceable; the signer laptop, Tails USB, and PSBT media are replaceable equipment.",
@@ -905,7 +991,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "ops-documentation",
-        slug: "dokumentiraj-proceduru-bez-otkrivanja-tajni",
+        slug: "document-the-procedure-without-exposing-secrets",
         title: "Document the procedure without exposing secrets",
         summary:
           "Recovery instructions should describe artifacts, sequence, and checks without copying every secret into one document.",
@@ -915,7 +1001,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "ops-inheritance",
-        slug: "inheritance-i-drugi-ljudi",
+        slug: "inheritance-and-other-people",
         title: "Inheritance and other people",
         summary:
           "The system must consider who can understand and implement recovery when you are not available.",
@@ -941,7 +1027,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     lessons: [
       outlineLesson({
         id: "multisig-why",
-        slug: "zasto-i-kada-ne-multisig",
+        slug: "why-multisig-and-when-not-to-use-it",
         title: "Why multisig — and when it does not make sense",
         summary:
           "Multisig is a response to specific failure modes, not a badge of sophistication.",
@@ -952,7 +1038,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "multisig-signet",
-        slug: "2-of-3-na-signetu",
+        slug: "2-of-3-on-signet",
         title: "2-of-3 on Signet",
         summary:
           "Three test signers and a watch-only coordinator build the first multisig policy without real funds.",
@@ -963,7 +1049,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "multisig-backup",
-        slug: "kljucevi-nisu-cijeli-multisig-recovery",
+        slug: "keys-are-not-the-whole-multisig-recovery",
         title: "Keys are not the whole multisig recovery package",
         summary:
           "Descriptors, derivation information, policies, and documentation may be necessary alongside private keys.",
@@ -974,7 +1060,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "multisig-failures",
-        slug: "failure-simulacije",
+        slug: "failure-simulations",
         title: "Failure simulations",
         summary:
           "Deliberately lose access to the coordinator, one signer, and one location to prove the limits of the system.",
@@ -987,7 +1073,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
   },
   {
     id: "8",
-    slug: "taproot-i-napredne-politike",
+    slug: "taproot-and-advanced-policies",
     shortTitle: "Taproot and policies",
     title: "Taproot and advanced policies",
     summary:
@@ -999,7 +1085,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     lessons: [
       outlineLesson({
         id: "taproot-model",
-        slug: "taproot-mentalni-model",
+        slug: "taproot-mental-model",
         title: "Taproot mental model",
         summary:
           "Key-path and script-path spending are different authorization methods, not just a new address format.",
@@ -1010,7 +1096,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "taproot-descriptors",
-        slug: "taproot-descriptori-i-recovery-artefakti",
+        slug: "taproot-descriptors-and-recovery-artifacts",
         title: "Taproot descriptors and recovery artifacts",
         summary:
           "Precisely defined policies determine what the wallet backup contains and what else you need to document.",
@@ -1031,7 +1117,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "taproot-path-tests",
-        slug: "testiranje-svakog-recovery-patha",
+        slug: "test-every-recovery-path",
         title: "Testing each recovery path",
         summary:
           "A path that exists only in the descriptor but has never been exercised on Signet has not yet been operationally proven.",
@@ -1044,7 +1130,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
   },
   {
     id: "9",
-    slug: "laboratorij",
+    slug: "laboratory",
     shortTitle: "Laboratory",
     title: "Self-Custody Laboratory",
     summary:
@@ -1056,7 +1142,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
     lessons: [
       outlineLesson({
         id: "lab-method",
-        slug: "kako-voditi-self-custody-eksperiment",
+        slug: "how-to-run-a-self-custody-experiment",
         title: "How to run a self-custody experiment",
         summary:
           "Each experiment defines a network, preconditions, an expected result, an observed result, and a cleanup procedure.",
@@ -1066,7 +1152,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "lab-rpc",
-        slug: "rpc-i-cli",
+        slug: "rpc-and-cli",
         title: "RPC and CLI",
         summary:
           "Accurate, versioned experiments that show the difference between the node and the wallet context.",
@@ -1077,7 +1163,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "lab-descriptors",
-        slug: "descriptor-eksperimenti",
+        slug: "descriptor-experiments",
         title: "Descriptor experiments",
         summary:
           "Watch-only wallets, checksums, and public metadata in a controlled test environment.",
@@ -1098,7 +1184,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "lab-regtest",
-        slug: "regtest-i-failure-scenariji",
+        slug: "regtest-and-failure-scenarios",
         title: "Regtest and failure scenarios",
         summary:
           "A local chain for quick, repeatable tests and deliberately induced failures.",
@@ -1108,7 +1194,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "lab-community",
-        slug: "community-pitanja-i-clarifications",
+        slug: "community-questions-and-clarifications",
         title: "Community questions and clarifications",
         summary:
           "Real user questions become versioned clarifications tied to a specific lesson.",
@@ -1139,7 +1225,7 @@ function reuseV2Lesson(
 
 const newBackupAfterEncryption = outlineLesson({
   id: "signet-encrypt-new-backup",
-  slug: "enkriptiraj-signet-wallet-i-napravi-novi-backup",
+  slug: "encrypt-signet-wallet-and-create-new-backup",
   title: "Encrypt wallet and create a new backup",
   summary:
     "Encryption changes the wallet's recovery state: a pre-encryption backup is no longer the artifact you should rely on for new receipts.",
@@ -1207,7 +1293,7 @@ const newBackupAfterEncryption = outlineLesson({
 
 const entropyDeepDive = outlineLesson({
   id: "signet-entropy-deep-dive",
-  slug: "odakle-dolazi-privatni-kljuc",
+  slug: "where-the-private-key-comes-from",
   title: "Where does the private key come from?",
   summary:
     "A good key-generation flow removes people from the task of inventing randomness.",
@@ -1246,7 +1332,7 @@ const entropyDeepDive = outlineLesson({
 
 const backupFreshnessLesson = outlineLesson({
   id: "backup-redundancy-freshness",
-  slug: "vise-kopija-nije-isto-sto-i-noviji-backup",
+  slug: "more-copies-do-not-mean-a-current-backup",
   title: "More copies are not the same as a current backup",
   summary:
     "Redundancy answers how many failures you can survive; freshness answers whether you have the right version of the wallet state.",
@@ -1285,7 +1371,7 @@ const backupFreshnessLesson = outlineLesson({
 
 const cloudPrivacyLesson = outlineLesson({
   id: "encrypted-backup-privacy",
-  slug: "digitalni-i-cloud-backup-privacy-model",
+  slug: "digital-and-cloud-backup-privacy-model",
   title: "Digital and cloud backups: a privacy model",
   summary:
     "Encryption may make private-key theft harder, but it does not make a wallet backup free of privacy risk.",
@@ -1333,7 +1419,7 @@ const signetReadinessChecklist = [
 const curriculumPhasesV21Draft: CurriculumPhase[] = [
   {
     id: "0",
-    slug: "razumij-self-custody",
+    slug: "understand-self-custody",
     shortTitle: "Understand self-custody",
     title: "Understand what you're really protecting",
     summary:
@@ -1350,7 +1436,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
   },
   {
     id: "1",
-    slug: "bitcoin-core-mentalni-model",
+    slug: "bitcoin-core-mental-model",
     shortTitle: "Why Bitcoin Core only",
     title: "Why this curriculum stays with Bitcoin Core",
     summary:
@@ -1506,7 +1592,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
       reuseV2Lesson("signet-vs-mainnet"),
       outlineLesson({
         id: "signet-install-verify",
-        slug: "instaliraj-i-provjeri-bitcoin-core",
+        slug: "install-and-verify-bitcoin-core",
         title: "Install and check Bitcoin Core",
         summary:
           "Verify the official package, checksum, and signatures before creating a wallet.",
@@ -1660,7 +1746,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "signet-transact-again",
-        slug: "ponovno-poslaji-nakon-signet-recoveryja",
+        slug: "send-again-after-signet-recovery",
         title: "Send again after recovery",
         summary:
           "Recovery is complete only when the restored wallet can authorize and send another Signet transaction.",
@@ -1701,7 +1787,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
   },
   {
     id: "3",
-    slug: "node-bez-mitologije",
+    slug: "node-without-mythology",
     shortTitle: "Node without mythology",
     title: "A minimal node model before mainnet",
     summary:
@@ -1721,7 +1807,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
   },
   {
     id: "4",
-    slug: "odaberi-custody-arhitekturu",
+    slug: "choose-custody-architecture",
     shortTitle: "Two Core architectures",
     title: "Choose one of two Bitcoin Core architectures",
     summary:
@@ -1733,7 +1819,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
     lessons: [
       outlineLesson({
         id: "architecture-choice",
-        slug: "jednostavni-wallet-ili-offline-signer",
+        slug: "simple-wallet-or-offline-signer",
         title: "Simple wallet or offline signer?",
         summary:
           "Operational simplicity and isolated signing keys address different problems.",
@@ -1884,7 +1970,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
   },
   {
     id: "5",
-    slug: "mainnet-odvojeni-setup",
+    slug: "separate-mainnet-setup",
     shortTitle: "Mainnet and a small test",
     title: "A new mainnet setup and small operational test",
     summary:
@@ -1896,7 +1982,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
     lessons: [
       outlineLesson({
         id: "mainnet-separate-wallet",
-        slug: "ne-pretvaraj-signet-wallet-u-mainnet-wallet",
+        slug: "do-not-turn-signet-wallet-into-mainnet-wallet",
         title: "Do not turn a Signet wallet into a mainnet wallet",
         summary:
           "Mainnet is a deliberately separate setup: a different chain context, a new wallet, and new recovery artifacts.",
@@ -1928,7 +2014,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
       reuseV2Lesson("real-restore"),
       outlineLesson({
         id: "mainnet-readiness",
-        slug: "mainnet-readiness-prije-prvog-deposita",
+        slug: "mainnet-readiness-before-first-deposit",
         title: "Mainnet readiness before the first deposit",
         summary:
           "The new wallet should not receive a serious amount until the backup, passphrase, restore process, and selected architecture are clear.",
@@ -1962,7 +2048,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
       }),
       outlineLesson({
         id: "mainnet-small-test",
-        slug: "prvi-mali-mainnet-test",
+        slug: "first-small-mainnet-test",
         title: "The first small mainnet test",
         summary:
           "A small receive-and-spend cycle confirms that the real network and setup configuration work correctly.",
@@ -1998,7 +2084,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
   {
     ...curriculumPhasesV2[6],
     id: "6",
-    slug: "odrzavanje-kroz-vrijeme",
+    slug: "maintenance-over-time",
     shortTitle: "Maintenance",
     title: "Maintenance, recovery drills, and inheritance",
   },
