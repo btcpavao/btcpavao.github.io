@@ -605,7 +605,7 @@ function CourseLanding({
               <li>
                 <span className="course-software-stack__logo">
                   <img
-                    src="/software-stack/fedora.svg"
+                    src="/software-stack/tux.svg"
                     alt=""
                     aria-hidden="true"
                   />
@@ -617,7 +617,7 @@ function CourseLanding({
               <li>
                 <span className="course-software-stack__logo">
                   <img
-                    src="/software-stack/tux.svg"
+                    src="/software-stack/tails.png"
                     alt=""
                     aria-hidden="true"
                   />
