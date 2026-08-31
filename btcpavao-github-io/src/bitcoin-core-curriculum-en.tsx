@@ -10,6 +10,7 @@ import {
   AlertTriangle,
   ArrowLeft,
   ArrowRight,
+  ArrowUpDown,
   BookOpen,
   Check,
   CheckCircle2,
@@ -22,11 +23,14 @@ import {
   KeyRound,
   Lightbulb,
   Link2,
+  Laptop,
   Menu,
   Play,
   RefreshCcw,
   ShieldAlert,
   Terminal,
+  Usb,
+  WifiOff,
   X,
 } from "lucide-react"
 
@@ -95,7 +99,7 @@ function useCurriculumMetadata() {
   useEffect(() => {
     const title = "Practical Bitcoin Self-Custody with Bitcoin Core | BTC Pavao"
     const description =
-      "A long-term Bitcoin self-custody guide covering Signet practice, your own node, backup and recovery, offline signing, PSBT, multisig, and operational security."
+      "A long-term Bitcoin Core self-custody guide covering a watch-only online node, a Tails-based offline signer, wallet backup and recovery, PSBTs, and operational security."
     const url = `${SITE_URL}${EN_BITCOIN_CORE_CURRICULUM_PATH}`
 
     document.documentElement.lang = "en"
@@ -371,6 +375,60 @@ function Callout({ callout }: { callout: LessonCallout }) {
   )
 }
 
+function CoreSignerArchitecture({ overview = false }: { overview?: boolean }) {
+  return (
+    <figure
+      className={`course-core-architecture${overview ? " course-core-architecture--overview" : ""}`}
+      aria-label="Recommended Bitcoin Core savings architecture"
+    >
+      <figcaption>
+        <span>Core-only savings architecture</span>
+        <strong>Online Core verifies and prepares. Offline Core signs.</strong>
+      </figcaption>
+      <div className="course-core-architecture__role">
+        <div className="course-core-architecture__role-heading">
+          <Laptop aria-hidden="true" />
+          <div>
+            <span>Online</span>
+            <strong>Bitcoin Core full node</strong>
+          </div>
+        </div>
+        <small>Installed Linux · Fedora is the practical example</small>
+        <ul>
+          <li>Watch-only savings wallet</li>
+          <li>Prepares PSBTs and broadcasts</li>
+          <li>No savings-wallet private keys</li>
+        </ul>
+      </div>
+      <div
+        className="course-core-architecture__transfer"
+        aria-label="PSBT transfer"
+      >
+        <ArrowUpDown aria-hidden="true" />
+        <strong>PSBT</strong>
+        <span>
+          <Usb aria-hidden="true" /> Controlled removable media
+        </span>
+      </div>
+      <div className="course-core-architecture__role course-core-architecture__role--offline">
+        <div className="course-core-architecture__role-heading">
+          <WifiOff aria-hidden="true" />
+          <div>
+            <span>Offline</span>
+            <strong>Bitcoin Core signer</strong>
+          </div>
+        </div>
+        <small>Trusted Tails live USB · generic dedicated computer</small>
+        <ul>
+          <li>Encrypted private-key wallet</li>
+          <li>No blockchain and no network</li>
+          <li>Reviews and signs PSBTs</li>
+        </ul>
+      </div>
+    </figure>
+  )
+}
+
 function PhaseNavigator({
   activeLesson,
   completedLessons,
@@ -535,7 +593,7 @@ function CourseLanding({
               </strong>
               <span>Official tools used throughout the curriculum</span>
             </div>
-            <ul aria-label="Bitcoin Core, Linux, Fedora, and KeePassXC">
+            <ul aria-label="Bitcoin Core, Fedora or Linux, Tails, and KeePassXC">
               <li className="course-software-stack__item--primary">
                 <span className="course-software-stack__logo">
                   <img src="/bitcoin-logo.svg" alt="" aria-hidden="true" />
@@ -546,19 +604,25 @@ function CourseLanding({
               </li>
               <li>
                 <span className="course-software-stack__logo">
-                  <img src="/software-stack/tux.svg" alt="" aria-hidden="true" />
-                </span>
-                <span className="course-software-stack__label">Linux</span>
-              </li>
-              <li>
-                <span className="course-software-stack__logo">
                   <img
                     src="/software-stack/fedora.svg"
                     alt=""
                     aria-hidden="true"
                   />
                 </span>
-                <span className="course-software-stack__label">Fedora</span>
+                <span className="course-software-stack__label">
+                  Fedora / Linux
+                </span>
+              </li>
+              <li>
+                <span className="course-software-stack__logo">
+                  <img
+                    src="/software-stack/tux.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </span>
+                <span className="course-software-stack__label">Tails live</span>
               </li>
               <li>
                 <span className="course-software-stack__logo">
@@ -660,14 +724,16 @@ function CourseLanding({
             Bitcoin Core is the only wallet and signing software used here.
             Hardware wallets, BIP39, Sparrow, and Electrum appear only where the
             curriculum explains why they are not part of the production stack.
-            For meaningful long-term savings, the recommended architecture is
-            generic hardware with clean dedicated Linux, your own Bitcoin Core
-            node, a separate offline Bitcoin Core signer, PSBTs, encrypted
-            wallet backups, a strong separately stored passphrase, and a tested
-            recovery routine.
+            For meaningful long-term savings, the recommended architecture is an
+            online Bitcoin Core full node with a watch-only wallet on normal
+            Linux, plus Bitcoin Core in a trusted Tails live environment on a
+            generic dedicated offline computer. Private keys remain on the
+            offline signer. PSBTs cross the gap on controlled removable media.
           </p>
         </div>
       </section>
+
+      <CoreSignerArchitecture overview />
 
       <TutorialMetadata
         className="mx-auto my-8 max-w-[1520px]"
@@ -677,8 +743,8 @@ function CourseLanding({
         estimatedTime="Self-paced; approximately 8–12 hours for the published path"
         realBitcoin="No for the first exercises; Signet is used before any mainnet workflow"
         softwareVersion={`Living curriculum v${CURRICULUM_VERSION}; ${CORE_REFERENCE_VERSION}`}
-        operatingSystems="macOS, Linux, and Windows; Linux examples use Fedora where practical"
-        recommendedOs="A clean dedicated Linux computer kept offline for key generation and signing when protecting meaningful savings"
+        operatingSystems="Fedora or another appropriately secured Linux installation for the online node; Tails live USB for the offline signer"
+        recommendedOs="For meaningful savings: an online Core node on normal Linux plus an offline Core signer booted from trusted Tails media"
         prerequisites="Comfort using files and a terminal; no prior Bitcoin Core experience required"
         outcome="You can explain, back up, restore, verify, and operate a separated online-node and offline-signer workflow."
         lastReviewed={formatReviewDate(LAST_TECHNICAL_REVIEW)}
@@ -739,7 +805,8 @@ function CourseLanding({
               <p>
                 Choose between two Bitcoin Core architectures. For meaningful
                 savings, use the separated online-node and offline-signer path,
-                then test the complete recovery routine.
+                with Tails as the signer's live operating environment, then test
+                the complete recovery routine.
               </p>
             </div>
           </li>
@@ -962,6 +1029,8 @@ function LessonArticle({
           </dl>
         ) : null}
       </section>
+
+      {lesson.id === "2.4" ? <CoreSignerArchitecture /> : null}
 
       {lesson.walkthrough ? (
         <section

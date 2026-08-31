@@ -69,6 +69,16 @@ const psbt: CurriculumSource = {
   url: "https://github.com/bitcoin/bitcoin/blob/master/doc/psbt.md",
 }
 
+const tailsInstall: CurriculumSource = {
+  label: "Tails: Official installation guide",
+  url: "https://tails.net/install/",
+}
+
+const tailsHardwareWarnings: CurriculumSource = {
+  label: "Tails: Hardware and firmware limitations",
+  url: "https://tails.net/doc/about/warnings/computer/index.en.html",
+}
+
 const bitcoinWhitepaper: CurriculumSource = {
   label: "Bitcoin: A Peer-to-Peer Electronic Cash System",
   url: "https://bitcoincore.org/bitcoin.pdf",
@@ -141,7 +151,7 @@ export const curriculumModules: CurriculumModule[] = [
         summary:
           "A threat model is not a list of every possible disaster. It is a decision about which risks you will protect against, in what order, and at what cost.",
         status: "published",
-        what: "We examine device loss, media failure, a forgotten passphrase, malware, a compromised online computer, supply-chain and firmware risk, physical theft, human error, and inadequate backups.",
+        what: "We examine device loss, media failure, a forgotten passphrase, malware, a compromised online computer, supply-chain and firmware risk, physical theft, malicious modification while the signer is unattended, human error, and inadequate backups.",
         why: "There is no universally best setup. This curriculum is designed for long-term savings, clear understanding, less reliance on third parties, and repeatable recovery.",
         risk: "A system that protects against very rare attacks but increases the risk of everyday human error can be worse overall.",
         concepts: [
@@ -149,6 +159,7 @@ export const curriculumModules: CurriculumModule[] = [
           "Consequence: what happens if the scenario occurs?",
           "Detection: how will you know that the problem occurred?",
           "Recovery: which tested procedure returns the system to a usable state?",
+          "Physical control: could the signer, its boot media, or its hardware have been modified without an obvious sign?",
         ],
         notes: [
           "Your threat model changes with the amount secured, your circumstances and locations, the people involved in recovery, and the technology you use.",
@@ -158,7 +169,7 @@ export const curriculumModules: CurriculumModule[] = [
           "I wrote down the risk with the greatest consequence.",
           "For both risks, I know how to test recovery.",
         ],
-        sources: [managingWallets],
+        sources: [managingWallets, tailsHardwareWarnings],
         videoUrl: null,
       },
       {
@@ -211,7 +222,7 @@ export const curriculumModules: CurriculumModule[] = [
         why: "A dedicated offline computer can isolate key generation and signing without making a commercial device part of the recovery plan.",
         risk: "A purpose-built signer can still be useful in another architecture. It is deliberately outside the production path taught here.",
         notes: [
-          "The recommended meaningful-savings architecture is a dedicated offline Bitcoin Core signer paired with a separate online Bitcoin Core node.",
+          "The recommended meaningful-savings architecture is Bitcoin Core in a trusted Tails live environment on a dedicated offline computer, paired with a separate online Bitcoin Core node on normal Linux.",
         ],
         sources: [
           {
@@ -219,6 +230,7 @@ export const curriculumModules: CurriculumModule[] = [
             url: "https://github.com/bitcoin-core/HWI",
           },
           managingWallets,
+          tailsInstall,
         ],
         videoUrl: null,
       },
@@ -657,14 +669,15 @@ export const curriculumModules: CurriculumModule[] = [
   {
     id: "8",
     title: "Offline signer",
-    subtitle: "One device, one function, and a verifiable data transfer.",
+    subtitle:
+      "A trusted Tails live system, Bitcoin Core, one signing role, and a verifiable data transfer.",
     level: "intermediate",
     status: "in-progress",
     estimatedTime: "120 min",
     prerequisites: ["Modules 0-7", "Tested backup and restore"],
     videoUrl: null,
     warnings: [
-      "An air gap is not proof of security if the software, installation, or portable media have not been verified.",
+      "An air gap is not proof of security if the software, Tails media, computer firmware, hardware, or PSBT transport have not been verified and controlled.",
     ],
     checklist: [
       "The signer was never connected to the network after preparation.",
@@ -676,18 +689,18 @@ export const curriculumModules: CurriculumModule[] = [
       [
         "Why use an offline computer",
         "Why a signer does not need the blockchain",
-        "An old laptop as a dedicated signing device",
-        "Linux",
-        "Fedora, Debian, and lightweight desktops",
-        "Install Bitcoin Core before creating the air gap",
-        "Software validation",
-        "Disconnecting the network",
-        "Optional physical removal of Wi-Fi hardware",
-        "One device, one function",
-        "Why an old ThinkPad can be more than enough",
+        "A generic laptop as a dedicated signing device",
+        "Create and verify trusted Tails boot media",
+        "Encrypted Persistent Storage and what it keeps",
+        "Verify the official Bitcoin Core Linux release",
+        "Start Tails in Offline Mode",
+        "Create or restore the encrypted Core signing wallet",
+        "Use separate removable media for PSBTs",
+        "Shut down and secure the Tails USB",
+        "Rebuild from the Core wallet backup",
       ],
       "in-progress",
-      "The offline-device guide is undergoing hardware and operational review."
+      "The Tails-based offline-device guide is undergoing hardware and operational review."
     ),
   },
   {

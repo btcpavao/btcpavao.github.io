@@ -444,8 +444,10 @@ export function Homepage() {
               </p>
               <p>
                 For meaningful savings, my recommended destination is generic
-                hardware running a clean, dedicated Linux system with Bitcoin
-                Core, wallet encryption, redundant encrypted backups, a
+                dedicated hardware booted from trusted Tails media for the
+                offline Bitcoin Core signer, paired with a separate online
+                Bitcoin Core node on normal secured Linux. The system still
+                needs wallet encryption, redundant encrypted Core backups, a
                 separately stored passphrase, PSBT-based signing, and a tested
                 recovery procedure. Add complexity only when every part is
                 understood and repeatable.

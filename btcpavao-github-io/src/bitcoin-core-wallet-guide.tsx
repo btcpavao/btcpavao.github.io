@@ -50,8 +50,9 @@ const BITCOIN_CORE_DOWNLOAD_URL = "https://bitcoincore.org/en/download/"
 const KEEPASSXC_DOWNLOAD_URL = "https://keepassxc.org/download/"
 const FEDORA_WORKSTATION_DOWNLOAD_URL =
   "https://fedoraproject.org/workstation/download/"
-const FEDORA_XFCE_DOWNLOAD_URL =
-  "https://fedoraproject.org/spins/xfce/download/"
+const TAILS_INSTALL_URL = "https://tails.net/install/"
+const TAILS_PERSISTENT_STORAGE_URL =
+  "https://tails.net/doc/persistent_storage/index.en.html"
 const GNUPG_DOWNLOAD_URL = "https://gnupg.org/download/"
 
 type GuideImage = {
@@ -400,19 +401,21 @@ const legacySteps: GuideStep[] = [
           malware.
         </p>
         <p>
-          For serious cold storage, the stronger approach is a dedicated signing
-          computer with a clean{" "}
-          <ResourceLink href={FEDORA_WORKSTATION_DOWNLOAD_URL}>
-            Fedora Linux
+          For serious cold storage, the stronger approach is a generic dedicated
+          computer booted from trusted{" "}
+          <ResourceLink href={TAILS_INSTALL_URL}>Tails media</ResourceLink>.
+          Unlock encrypted{" "}
+          <ResourceLink href={TAILS_PERSISTENT_STORAGE_URL}>
+            Persistent Storage
           </ResourceLink>{" "}
-          installation. Obtain and verify{" "}
+          only for files the signing environment must retain. Obtain and verify{" "}
           <ResourceLink href={BITCOIN_CORE_DOWNLOAD_URL}>
             Bitcoin Core
           </ResourceLink>{" "}
-          before taking the computer offline, then keep that machine offline for
-          wallet creation, key generation, and signing. Bitcoin Core does not
-          need to synchronize a node on the signing computer for those
-          private-key operations.
+          on a separate trusted computer before moving the documented release to
+          the signer. Start Tails in Offline Mode and keep the signer
+          disconnected for wallet creation, key generation, and signing. Bitcoin
+          Core does not need a synchronized blockchain on the signing computer.
         </p>
         <GuideIconList
           tone="secure"
@@ -444,11 +447,12 @@ const legacySteps: GuideStep[] = [
           ]}
         />
         <p>
-          This does not make the environment magically sterile, but it removes
-          many common infection paths and sharply limits exposure. Pause before
+          This removes reliance on the operating system installed on the
+          laptop's internal disk. It does not prove that the Tails USB, BIOS,
+          firmware, hardware, or physical keyboard path is clean. Pause before
           continuing: decide whether this practice wallet belongs on the current
-          computer or whether your intended cold storage warrants a clean,
-          dedicated offline signer.
+          computer or whether your intended cold storage warrants the dedicated
+          Tails-based signer.
         </p>
       </>
     ),
@@ -1262,23 +1266,18 @@ function SeriousColdStorage() {
         </div>
 
         <p className="mt-6 max-w-3xl text-base leading-8 text-pretty text-muted-foreground">
-          For meaningful long-term cold storage, consider a dedicated signing
-          computer: an older general-purpose laptop with a clean Linux
-          installation,{" "}
+          For meaningful long-term cold storage, use a generic dedicated
+          computer booted from trusted{" "}
+          <ResourceLink href={TAILS_INSTALL_URL}>Tails media</ResourceLink>,{" "}
           <ResourceLink href={BITCOIN_CORE_DOWNLOAD_URL}>
             Bitcoin Core
           </ResourceLink>
-          , and{" "}
-          <ResourceLink href={KEEPASSXC_DOWNLOAD_URL}>KeePassXC</ResourceLink>{" "}
-          if needed.{" "}
+          , and encrypted Persistent Storage for the files that must survive
+          shutdown. Use a separate online Bitcoin Core node on normal Linux.{" "}
           <ResourceLink href={FEDORA_WORKSTATION_DOWNLOAD_URL}>
             Fedora Workstation
           </ResourceLink>{" "}
-          is a practical choice for modern hardware;{" "}
-          <ResourceLink href={FEDORA_XFCE_DOWNLOAD_URL}>
-            Fedora Xfce Spin
-          </ResourceLink>{" "}
-          or another lightweight desktop may suit older machines.
+          remains a practical example for that online role.
         </p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -1288,11 +1287,11 @@ function SeriousColdStorage() {
               Offline signing computer
             </h3>
             <ul className="mt-4 grid gap-2 text-sm leading-6 text-muted-foreground">
-              <li>Dedicated to key generation and signing.</li>
+              <li>Boots trusted Tails media and runs Bitcoin Core.</li>
               <li>
-                Kept offline; not used for browsing, email, or daily work.
+                Uses Offline Mode; not used for browsing, email, or daily work.
               </li>
-              <li>Software authenticity verified before installation.</li>
+              <li>No blockchain synchronization and no private-key export.</li>
             </ul>
           </div>
           <div className="rounded-[22px] bg-background p-5 shadow-[var(--shadow-border)]">
@@ -1313,6 +1312,12 @@ function SeriousColdStorage() {
           unsigned PSBT to the offline signer, verifies and signs it there, then
           returns the signed transaction for broadcast. Transaction signing is
           outside this basic tutorial.
+        </p>
+        <p className="mt-4 text-sm leading-7 text-pretty text-muted-foreground">
+          The Tails installation is replaceable. Your Bitcoin Core wallet backup
+          is not. Keep the encrypted Core wallet backup and its separate
+          passphrase as the authoritative recovery model, even if you also keep
+          a cloned Tails USB for faster operational recovery.
         </p>
       </div>
     </section>
@@ -1359,10 +1364,11 @@ function ArchitectureDiagram() {
             Offline signer
           </p>
           <h3 className="mt-2 font-display text-2xl font-bold">
-            Dedicated Linux laptop
+            Tails live signer
           </h3>
           <p className="mt-3 text-sm leading-7 text-white/72">
-            Bitcoin Core wallet → private keys → verifies and signs PSBT
+            Tails live USB → encrypted Bitcoin Core wallet → reviews and signs
+            PSBT
           </p>
           <p className="mt-5 inline-flex min-h-10 items-center rounded-full bg-white/10 px-3 text-xs font-bold text-white">
             Private keys never move online
@@ -1471,14 +1477,15 @@ export function BitcoinCoreWalletGuidePage() {
             operatingSystems="The screenshots use macOS; the workflow also applies to Windows and Linux."
             recommendedOs={
               <>
-                For a dedicated signer, use a clean installation such as{" "}
-                <a href={FEDORA_WORKSTATION_DOWNLOAD_URL}>Fedora Workstation</a>{" "}
-                or <a href={FEDORA_XFCE_DOWNLOAD_URL}>Fedora Xfce</a>.
+                For meaningful savings, use trusted{" "}
+                <a href={TAILS_INSTALL_URL}>Tails media</a> for the offline
+                Bitcoin Core signer. Fedora or another secured Linux
+                installation remains the practical online-node environment.
               </>
             }
             prerequisites="Bitcoin Core installed from an official source, an empty practice environment, and a separate place for passphrase notes."
             outcome="A restored practice wallet whose addresses and metadata match the original."
-            lastReviewed="24 August 2026"
+            lastReviewed="31 August 2026"
           />
 
           <div className="mt-10 grid gap-4 rounded-[28px] bg-card p-5 shadow-[var(--shadow-border)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-7">

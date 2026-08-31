@@ -1480,6 +1480,175 @@
   text-wrap: pretty;
 }
 
+.course-core-architecture {
+  display: grid;
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr) minmax(9rem, 0.42fr) minmax(0, 1fr);
+  gap: 1rem;
+  margin-block: 2rem;
+  padding: clamp(1.15rem, 2.4vw, 1.75rem);
+  border: 1px solid color-mix(in oklab, var(--course-sky) 26%, var(--border));
+  border-radius: 1.5rem;
+  background: color-mix(in oklab, var(--course-sky-soft) 32%, var(--card));
+}
+
+.course-core-architecture--overview {
+  max-width: 84rem;
+  margin: 0 auto 2.25rem;
+}
+
+.course-core-architecture figcaption {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 76%, transparent);
+}
+
+.course-core-architecture figcaption span {
+  color: var(--muted-foreground);
+  font-size: 0.72rem;
+  font-weight: 790;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.course-core-architecture figcaption strong {
+  color: var(--foreground);
+  font-size: 1rem;
+  font-weight: 740;
+  text-align: right;
+}
+
+.course-core-architecture__role {
+  min-width: 0;
+  padding: 1.15rem;
+  border: 1px solid color-mix(in oklab, var(--course-sky) 24%, var(--border));
+  border-radius: 1.15rem;
+  background: color-mix(in oklab, var(--card) 88%, transparent);
+  box-shadow: inset 0 1px rgb(255 255 255 / 0.35);
+}
+
+.course-core-architecture__role--offline {
+  border-color: color-mix(in oklab, var(--primary) 24%, var(--border));
+}
+
+.course-core-architecture__role-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.course-core-architecture__role-heading > svg {
+  width: 2.35rem;
+  height: 2.35rem;
+  padding: 0.58rem;
+  border-radius: 0.75rem;
+  color: var(--course-sky);
+  background: color-mix(in oklab, var(--course-sky-soft) 72%, transparent);
+}
+
+.course-core-architecture__role--offline
+  .course-core-architecture__role-heading
+  > svg {
+  color: var(--primary);
+  background: color-mix(in oklab, var(--course-orange-soft) 72%, transparent);
+}
+
+.course-core-architecture__role-heading span,
+.course-core-architecture__role-heading strong {
+  display: block;
+}
+
+.course-core-architecture__role-heading span {
+  color: var(--muted-foreground);
+  font-size: 0.7rem;
+  font-weight: 780;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.course-core-architecture__role-heading strong {
+  margin-top: 0.18rem;
+  color: var(--foreground);
+  font-size: 1.02rem;
+}
+
+.course-core-architecture__role > small {
+  display: block;
+  margin-top: 0.85rem;
+  color: var(--muted-foreground);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.course-core-architecture__role ul {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 0.8rem;
+}
+
+.course-core-architecture__role li {
+  position: relative;
+  padding-left: 0.85rem;
+  color: var(--foreground);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.course-core-architecture__role li::before {
+  position: absolute;
+  top: 0.62em;
+  left: 0;
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 50%;
+  background: var(--course-sky);
+  content: "";
+}
+
+.course-core-architecture__role--offline li::before {
+  background: var(--primary);
+}
+
+.course-core-architecture__transfer {
+  display: grid;
+  min-width: 0;
+  place-content: center;
+  justify-items: center;
+  gap: 0.35rem;
+  color: var(--muted-foreground);
+  text-align: center;
+}
+
+.course-core-architecture__transfer > svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--primary);
+}
+
+.course-core-architecture__transfer strong {
+  color: var(--foreground);
+  font-size: 0.92rem;
+}
+
+.course-core-architecture__transfer span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.32rem;
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.course-core-architecture__transfer span svg {
+  width: 0.78rem;
+  height: 0.78rem;
+  flex: 0 0 auto;
+}
+
 .course-progress-card {
   position: relative;
   overflow: hidden;
@@ -3152,6 +3321,14 @@
     grid-template-columns: 1fr;
   }
 
+  .course-core-architecture {
+    grid-template-columns: 1fr;
+  }
+
+  .course-core-architecture__transfer {
+    min-height: 6rem;
+  }
+
   .course-player {
     display: block;
   }
@@ -3352,6 +3529,25 @@
     margin-inline: 1rem;
     padding: 1.2rem;
     border-radius: 1.25rem;
+  }
+
+  .course-core-architecture--overview {
+    width: auto;
+    margin-inline: 1rem;
+  }
+
+  .course-core-architecture {
+    padding: 1rem;
+    border-radius: 1.25rem;
+  }
+
+  .course-core-architecture figcaption {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .course-core-architecture figcaption strong {
+    text-align: left;
   }
 
   .course-hero__actions {
