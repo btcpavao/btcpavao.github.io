@@ -381,7 +381,12 @@ function Callout({ callout }: { callout: LessonCallout }) {
 function CoreSignerArchitecture({ overview = false }: { overview?: boolean }) {
   return (
     <figure
-      className={`course-core-architecture${overview ? "course-core-architecture--overview" : ""}`}
+      className={[
+        "course-core-architecture",
+        overview && "course-core-architecture--overview",
+      ]
+        .filter(Boolean)
+        .join(" ")}
       aria-label="Recommended Bitcoin Core savings architecture"
     >
       <figcaption>
