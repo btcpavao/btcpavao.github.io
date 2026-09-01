@@ -7,6 +7,7 @@ export type SocialCardImageKey =
   | "longRoad"
   | "walletGuide"
   | "bip39"
+  | "multisig"
   | "support"
   | "startHere"
 

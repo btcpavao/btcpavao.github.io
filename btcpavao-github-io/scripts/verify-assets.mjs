@@ -720,8 +720,8 @@ assert(
   "Homepage still includes Croatian writing"
 )
 assert(
-  distIndexHtml.includes("The Long Road Back to Bitcoin Core"),
-  "Homepage is missing The Long Road article"
+  distIndexHtml.includes("Multisig Is Not a Dollar Amount"),
+  "Homepage is missing the Multisig article"
 )
 assert(
   distIndexHtml.includes("BIP39 Made the Wrong Thing Human-Readable"),

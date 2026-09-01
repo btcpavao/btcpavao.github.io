@@ -18,6 +18,8 @@ export const BIP39_WRONG_THING_ARTICLE_PATH =
   "/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/"
 export const LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH =
   "/en/bitcoin-core/the-long-road-back-to-bitcoin-core/"
+export const MULTISIG_NOT_DOLLAR_AMOUNT_ARTICLE_PATH =
+  "/en/bitcoin-core/multisig-is-not-a-dollar-amount/"
 export const ARTICLE_PATH =
   "/hr/ai-u-praksi/jedan-covjek-ai-i-dva-mjeseca-rada/"
 export const WORKFLOW_ARTICLE_PATH =

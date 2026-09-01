@@ -1,0 +1,478 @@
+# Multisig Is Not a Dollar Amount
+
+Yesterday I joined a discussion between JW Weatherman and Giacomo Zucco about Bitcoin security and custody.
+
+Afterward, I received a few questions in DMs. One came up more than once:
+
+> *“Up to what amount would you use singlesig, and at what amount would you switch to multisig?”*
+
+The more I think about that question, the more I think the heuristic behind it is wrong.
+
+We tend to think about Bitcoin custody roughly like this:
+
+Small amount → singlesig
+Large amount → multisig
+
+I don't think that is the right first-principles way to think about it.
+
+A better question is:
+
+What failure modes am I trying to protect against, and who or what should have the authority to spend?
+
+The amount matters because it changes the consequence of failure and potentially the incentives of an attacker.
+
+But the amount itself should not determine the signing policy.
+
+**Multisig is not “singlesig, but for more money.”**
+
+**Multisig is a different authorization model.**
+
+> **[VISUAL PLACEHOLDER 01 — HERO]**
+
+## What multisig actually changes
+
+A singlesig wallet says:
+
+> *One valid key can authorize a spend.*
+
+A 2-of-3 multisig says:
+
+> *Any two of these three independent keys must authorize a spend.*
+
+That is the fundamental difference.
+
+Multisig becomes useful when your threat model says that no single key should be sufficient.
+
+That can mean dividing authority between several people.
+
+It can mean separating authority between different locations, devices or administrative domains.
+
+It can mean designing a company treasury where neither the CEO nor the CFO can move the bitcoin independently.
+
+It can mean an inheritance structure involving several people.
+
+It can also mean one individual deliberately distributing signing authority so that compromise of one signer is insufficient.
+
+But notice what we are talking about.
+
+Authority. Independence. Failure domains. Compromise tolerance.
+
+Not the exchange rate.
+
+If I have $50,000 and specifically need three people to participate in treasury decisions, multisig may make perfect sense.
+
+If I have $5 million, control everything personally, have an extremely good threat model, a properly isolated signer, redundant encrypted backups and a regularly tested recovery procedure, the mere fact that the number is larger does not magically make singlesig cryptographically defective.
+
+That distinction matters.
+
+## I think BIP39 helped create the wrong mental model
+
+There is another reason I think Bitcoiners gradually arrived at the “large amount = multisig” heuristic.
+
+The dominant hardware-wallet backup model gave us a peculiar problem.
+
+With BIP39, the root secret of a deterministic wallet is represented as a short human-readable bearer secret — normally 12 or 24 words.
+
+That has an obvious advantage: humans can write it down.
+
+But it also creates an awkward relationship between redundancy and confidentiality.
+
+Suppose I have one copy of my 24 words.
+
+I have a single point of failure.
+
+So I make another copy.
+
+Now I have two places from which somebody might steal the complete root secret.
+
+I make five copies.
+
+Recovery becomes increasingly redundant — but I have also created five copies of a bearer secret capable of recreating the wallet.
+
+BIP39 does not make redundant backup impossible.
+
+It makes the tradeoff unusually visible:
+
+Every complete redundant copy is another complete copy of the secret.
+
+And I think multisig gradually became, among other things, a way of solving this problem.
+
+Instead of duplicating one complete spending secret everywhere, create several independent keys and require only a threshold of them.
+
+Now losing one key need not destroy the wallet.
+
+And compromising one key need not compromise the bitcoin.
+
+That is genuinely useful.
+
+But somewhere along the way, a specific solution to specific failure modes became a general heuristic:
+
+serious money = multisig.
+
+I think we should revisit that.
+
+> **[VISUAL PLACEHOLDER 02 — REDUNDANCY VS SECRET EXPOSURE]**
+
+## The Bitcoin Core backup model changes the problem
+
+Now start again from first principles, but use Bitcoin Core.
+
+Bitcoin Core creates the wallet.
+
+The wallet containing the private keys can be encrypted with a strong passphrase.
+
+The encrypted wallet backup can then be copied redundantly.
+
+You could have copies on different USB media, optical media, encrypted storage, geographically separate locations, or whatever your threat model calls for.
+
+The crucial distinction is this:
+
+**The encrypted wallet backup and the passphrase do not have to live together.**
+
+A copied encrypted wallet.dat — or Bitcoin Core wallet backup — does not have the same operational properties as writing another unencrypted root secret on another piece of paper.
+
+Of course, the encryption is only as useful as the passphrase protecting it.
+
+So use a genuinely strong random passphrase, generated by something open source such as KeePassXC, and store that passphrase separately.
+
+Then test the system.
+
+Don't just assume that your backup works.
+
+Restore it.
+
+Once a year, for example, perform a recovery drill and prove that you can reconstruct the wallet without depending on the original active machine.
+
+Document the procedure well enough that inheritance does not depend on your memory.
+
+At that point, backup redundancy and signing policy become two separate design decisions.
+
+That is the conceptual shift I find important.
+
+**You don't need multisig merely because you need redundancy.**
+
+You can build very strong redundancy around an encrypted singlesig Core wallet.
+
+And once you recognize that, the question changes from:
+
+> *“How much Bitcoin before I need multisig?”*
+
+to:
+
+> *“Does my threat model require threshold authorization?”*
+
+## Singlesig can be an extremely serious security architecture
+
+When people hear “singlesig,” they often imagine one laptop with Bitcoin Core running online and one copy of wallet.dat sitting on the same hard drive.
+
+That is one possible singlesig setup.
+
+It is not the one I am talking about.
+
+My preferred starting point for meaningful long-term savings looks more like this:
+
+**Generic hardware.**
+
+A used ThinkPad is perfectly adequate.
+
+**A clean Linux environment.**
+
+**Bitcoin Core.**
+
+Dedicated machines used exclusively for Bitcoin operations.
+
+And preferably, separation between the online and signing roles.
+
+The online machine runs a synchronized Bitcoin Core node and a watch-only wallet.
+
+It knows the blockchain state.
+
+It monitors the wallet.
+
+It prepares the transaction.
+
+It broadcasts the completed transaction.
+
+But it does not have the savings wallet's private keys.
+
+The offline machine creates and holds the private-key wallet.
+
+It does not need the blockchain.
+
+It does not need to be connected to the internet.
+
+The transaction moves between them as a PSBT.
+
+The offline signer verifies and signs.
+
+The signed PSBT goes back to the online node for broadcast.
+
+That can still be singlesig.
+
+There is one signing key policy.
+
+But the private keys are not sitting on the networked computer.
+
+The wallet backup is redundant.
+
+The passphrase is separate.
+
+Recovery is periodically tested.
+
+The procedure is documented.
+
+Calling that setup “just singlesig” can hide how much actual security engineering has gone into it.
+
+> **[VISUAL PLACEHOLDER 03 — CORE SINGLESIG ARCHITECTURE]**
+
+## Then build the threat model
+
+This is where I think the conversation should start.
+
+Take two Bitcoin holders.
+
+The first has a relatively ordinary income, lives in a rented apartment, does not publicly signal significant wealth and has very few people entering his home.
+
+The second lives in a multimillion-dollar property, has contractors, cleaners, maintenance staff and other people regularly moving through the property, and is publicly known to have significant assets.
+
+Even if both own exactly the same amount of bitcoin, their threat models may be substantially different.
+
+Physical access may matter much more to the second person.
+
+Now you start asking useful questions.
+
+Who can physically access the signer?
+
+Where is it stored?
+
+Could someone modify it while you are away?
+
+Would you notice?
+
+Does it make sense to seal the laptop so tampering is evident?
+
+Should the signer live in a safe?
+
+Should the boot environment itself be separately controlled?
+
+Would a live operating system such as Tails make sense for that signer?
+
+Would you prefer periodically rebuilding a known-clean Linux signing environment rather than trusting a permanently installed OS indefinitely?
+
+If something feels wrong, do you have a procedure that says:
+
+> *Do not enter the wallet passphrase. Rebuild the signing environment first.*
+
+This is a much better security conversation than asking whether you crossed some arbitrary fiat-value threshold.
+
+And none of this means that Tails, a safe or a tamper seal magically solves physical security.
+
+Sophisticated physical attacks can go below the operating system into firmware or hardware.
+
+The point is not to discover the one perfect object that makes Bitcoin safe.
+
+The point is to identify a threat and then deliberately reduce it.
+
+> **[VISUAL PLACEHOLDER 04 — THREAT MODEL, NOT BALANCE]**
+
+## Why I keep coming back to generic hardware, Linux and Bitcoin Core
+
+There is another reason I increasingly prefer this starting point.
+
+Every additional component adds assumptions.
+
+A Bitcoin-specific hardware device creates a particular attack surface: hardware design, firmware, manufacturing and supply-chain processes, update infrastructure, vendor practices, device-specific recovery assumptions and sometimes additional coordinator software.
+
+That does not mean every hardware wallet is insecure.
+
+It means it is another specialized system whose assumptions need to be included in the threat model.
+
+Likewise, another wallet application means another codebase responsible for handling extremely sensitive cryptographic material.
+
+Again, that does not mean every alternative Bitcoin wallet is bad software.
+
+It means another implementation is another dependency.
+
+My preference is therefore becoming increasingly boring:
+
+Generic hardware.
+Clean Linux.
+Bitcoin Core.
+
+Not because those things eliminate every possible attack.
+
+They don't.
+
+Generic computers still have firmware.
+
+Linux has bugs.
+
+Bitcoin Core has bugs.
+
+Humans make mistakes.
+
+The argument is about minimizing unnecessary surfaces and using a software stack with an unusually long history of public scrutiny for the Bitcoin-specific operations that matter most.
+
+And then build the remaining protections around your actual circumstances.
+
+## What multisig is for
+
+Once that foundation is clear, multisig becomes easier to reason about.
+
+Suppose my threat model says that Alice must not be able to spend independently.
+
+Bob must not be able to spend independently either.
+
+But Alice + Bob should be able to spend.
+
+Or perhaps Alice, Bob and Carol each hold a key and any two should be sufficient.
+
+Excellent.
+
+Now I have an authorization requirement.
+
+That is a multisig problem.
+
+Maybe I want one signer in Croatia, one in Switzerland and one somewhere else, and no single physical compromise should be sufficient.
+
+Also a legitimate threshold-security requirement.
+
+Build the policy.
+
+Then apply the same disciplines to each signer:
+
+generic hardware where appropriate,
+
+clean environments,
+
+Bitcoin Core,
+
+strong wallet encryption,
+
+redundant backups,
+
+separation of backups from passphrases,
+
+documentation,
+
+recovery drills,
+
+and deliberate physical security.
+
+Multisig does not eliminate backups.
+
+It does not eliminate inheritance planning.
+
+It does not eliminate compromised operating systems.
+
+It does not eliminate bad procedures.
+
+It simply changes the authorization condition.
+
+And it introduces additional things that singlesig does not have: multiple keys, a threshold policy, coordination and the need to preserve enough wallet policy information to reconstruct the setup correctly.
+
+That complexity can absolutely be worth it.
+
+But complexity should solve an identified problem.
+
+It should not be added merely because the Bitcoin balance looks impressive.
+
+> **[VISUAL PLACEHOLDER 05 — MULTISIG AS DISTRIBUTED AUTHORITY]**
+
+## Amount still matters — just not in the way we usually say it does
+
+I want to be careful here.
+
+I am not saying that the amount of bitcoin is irrelevant to security.
+
+If the potential loss is greater, spending more time and money reducing risk obviously becomes rational.
+
+A larger known holding may also increase an attacker's incentive.
+
+So the amount can absolutely change your threat model.
+
+What I reject is the shortcut:
+
+$X = singlesig
+$Y = multisig
+
+That skips the reasoning.
+
+**The amount should be an input into the threat model.**
+
+**The threat model should determine the architecture.**
+
+That architecture may end up being multisig.
+
+Or it may end up being a very carefully designed singlesig system.
+
+The decision should follow from the failure modes.
+
+## Start with first principles
+
+If I had to reduce my takeaway from yesterday's discussion to one idea, it would be this:
+
+**Singlesig is not the insecure version of multisig.**
+
+**And multisig is not the premium version of singlesig.**
+
+They are different authorization structures.
+
+A properly designed singlesig system can be extraordinarily robust.
+
+A poorly designed multisig system can be fragile.
+
+Start lower in the stack.
+
+What exactly are you protecting?
+
+Against whom?
+
+Which failures must you survive?
+
+Who should be able to authorize a spend?
+
+How many independent failures should the system tolerate?
+
+How will the wallet be recovered if the active signer disappears tomorrow?
+
+Who will understand the system if you die?
+
+Then choose the architecture.
+
+If one independent signing authority is appropriate, build a very good singlesig system.
+
+If control needs to be divided, define the multisig policy first — who controls which keys and what threshold should authorize spending — and then build and test that architecture.
+
+In either case, I would test the entire procedure on Signet before putting meaningful bitcoin behind it.
+
+Create the wallet.
+
+Back it up.
+
+Destroy the test environment.
+
+Recover it.
+
+Prepare a PSBT.
+
+Sign it offline.
+
+Broadcast it.
+
+If it is multisig, deliberately lose one signer and prove that the expected quorum still works.
+
+Do that until the process is boring.
+
+Security should come from understanding the system, not from buying or adding enough security-looking objects.
+
+And perhaps the heuristic we should retire is:
+
+> *“How much Bitcoin before I need multisig?”*
+
+**The better question is:**
+
+> *“What does my threat model require?”*
+
+> **[VISUAL PLACEHOLDER 06 — CLOSING IMAGE]**
+

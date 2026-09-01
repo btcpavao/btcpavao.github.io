@@ -4047,6 +4047,10 @@
   font-weight: 760;
 }
 
+.multisig-article-body > p {
+  white-space: pre-line;
+}
+
 .long-road-article-visual {
   display: block;
   width: min(72rem, calc(100vw - 2rem));
@@ -4200,6 +4204,12 @@
     object-position: 72% center;
     opacity: 0.78;
   }
+
+  .bitcoin-core-article-hero.multisig-cover-hero .article-hero-background img {
+    object-fit: cover;
+    object-position: center center;
+    opacity: 0.8;
+  }
 }
 
 @media (max-width: 760px) {
@@ -4269,6 +4279,16 @@
       #000 64%,
       #000 100%
     );
+  }
+
+  .bitcoin-core-article-hero.multisig-cover-hero .article-hero-background {
+    height: 48%;
+  }
+
+  .bitcoin-core-article-hero.multisig-cover-hero .article-hero-background img {
+    object-fit: cover;
+    object-position: 64% center;
+    opacity: 0.76;
   }
 }
 

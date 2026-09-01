@@ -32,10 +32,7 @@ import { SiteHeader } from "@/components/site-header"
 import { TechnicalArticleInfo } from "@/components/technical-article-info"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import {
-  contentRegistry,
-  type ContentRegistryEntry,
-} from "@/content-registry"
+import { contentRegistry, type ContentRegistryEntry } from "@/content-registry"
 import {
   ValueForValueCard,
   ValueForValueRail,
@@ -46,6 +43,13 @@ import {
   renderLongRoadInline,
   type LongRoadArticleBlock,
 } from "@/long-road-article"
+import {
+  multisigVisuals,
+  parseMultisigArticle,
+  renderMultisigInline,
+  type MultisigArticleBlock,
+} from "@/multisig-article"
+import multisigArticleSource from "@/multisig-is-not-a-dollar-amount.md?raw"
 import {
   AI_SERIES_PATH,
   ARTICLE_PATH,
@@ -60,6 +64,7 @@ import {
   HR_HOME_PATH,
   LEARNING_ARTICLE_PATH,
   LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH,
+  MULTISIG_NOT_DOLLAR_AMOUNT_ARTICLE_PATH,
   normalizePath,
   START_HERE_PATH,
   WORKFLOW_ARTICLE_PATH,
@@ -184,6 +189,16 @@ const LONG_ROAD_ARTICLE_OG_IMAGE = SOCIAL_CARD_IMAGES.longRoad
 const LONG_ROAD_ARTICLE_HERO_IMAGE = "/long-road-bitcoin-core-cover.webp"
 const LONG_ROAD_ARTICLE_HERO_IMAGE_SMALL =
   "/long-road-bitcoin-core-cover-840.webp"
+const MULTISIG_ARTICLE_URL = `${SITE_URL}${MULTISIG_NOT_DOLLAR_AMOUNT_ARTICLE_PATH}`
+const MULTISIG_ARTICLE_TITLE = "Multisig Is Not a Dollar Amount"
+const MULTISIG_ARTICLE_DESCRIPTION =
+  "Multisig is not “singlesig, but for more money.” Multisig is a different authorization model."
+const MULTISIG_ARTICLE_DATE = "2026-09-01"
+const MULTISIG_ARTICLE_DISPLAY_DATE = "September 1, 2026"
+const MULTISIG_ARTICLE_OG_IMAGE = SOCIAL_CARD_IMAGES.multisig
+const MULTISIG_ARTICLE_HERO_IMAGE = "/multisig-not-dollar-amount-cover.webp"
+const MULTISIG_ARTICLE_HERO_IMAGE_SMALL =
+  "/multisig-not-dollar-amount-cover-840.webp"
 const BOOK_SECTION_HEADING = "Knjiga koja je godinama čekala red"
 const AGENTS_SECTION_HEADING = "Agenti kao probni čitatelji"
 const WEB_SECTION_HEADING = "Web stranice kroz razgovor"
@@ -988,6 +1003,20 @@ function useLongRoadArticleMetadata() {
   })
 }
 
+function useMultisigArticleMetadata() {
+  usePageMetadata({
+    title: MULTISIG_ARTICLE_TITLE,
+    description: MULTISIG_ARTICLE_DESCRIPTION,
+    ogDescription: MULTISIG_ARTICLE_DESCRIPTION,
+    url: MULTISIG_ARTICLE_URL,
+    type: "article",
+    publishedDate: MULTISIG_ARTICLE_DATE,
+    articleSection: BITCOIN_CORE_SERIES_TITLE,
+    image: MULTISIG_ARTICLE_OG_IMAGE,
+    language: "en",
+  })
+}
+
 function useBip39ArticleMetadata() {
   usePageMetadata({
     title: BIP39_WRONG_THING_ARTICLE_TITLE,
@@ -1674,16 +1703,16 @@ function BitcoinCoreSeriesPage({
 
           {!isEnglish ? (
             <aside className="mt-6 rounded-[1.75rem] border border-border/70 bg-card/72 p-6 shadow-sm sm:p-7">
-              <p className="text-xs font-semibold tracking-[0.18em] text-bitcoin uppercase">
+              <p className="text-bitcoin text-xs font-semibold tracking-[0.18em] uppercase">
                 Currently available in English
               </p>
               <p className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
-                Početna vježba i interaktivni wallet vodič trenutačno su dostupni
-                na engleskom jeziku.
+                Početna vježba i interaktivni wallet vodič trenutačno su
+                dostupni na engleskom jeziku.
               </p>
               <div className="mt-5 flex flex-wrap gap-3">
                 <a
-                  className={`inline-flex min-h-11 items-center rounded-full bg-bitcoin px-5 text-sm font-semibold text-white ${liftHover}`}
+                  className={`bg-bitcoin inline-flex min-h-11 items-center rounded-full px-5 text-sm font-semibold text-white ${liftHover}`}
                   href={START_HERE_PATH}
                 >
                   Start Here
@@ -1708,7 +1737,9 @@ function BitcoinCoreSeriesPage({
         <section className="mt-16 border-t border-border/60 pt-16">
           <SectionHeader
             eyebrow={isEnglish ? "Research & essays" : "Istraživanja i eseji"}
-            title={isEnglish ? "Understand the tradeoffs" : "Razumijte kompromise"}
+            title={
+              isEnglish ? "Understand the tradeoffs" : "Razumijte kompromise"
+            }
           />
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {researchPosts.map((post) => (
@@ -2031,12 +2062,8 @@ function BitcoinCoreArticlePage({
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <TechnicalArticleInfo
               language={language}
-              published={
-                isEnglish ? "August 5, 2026" : "5. kolovoza 2026."
-              }
-              updated={
-                isEnglish ? "August 24, 2026" : "24. kolovoza 2026."
-              }
+              published={isEnglish ? "August 5, 2026" : "5. kolovoza 2026."}
+              updated={isEnglish ? "August 24, 2026" : "24. kolovoza 2026."}
               coreVersion="30.0"
               sourcePath={
                 isEnglish
@@ -2464,6 +2491,240 @@ function Bip39ArticlePage({
                 </span>
                 <span className="mt-3 block font-display text-xl font-bold tracking-[-0.04em] text-balance text-foreground">
                   {EN_BITCOIN_CORE_ARTICLE_TITLE}
+                </span>
+              </a>
+            </nav>
+          </div>
+        </article>
+      </main>
+      <BitcoinCoreBackToTop language="en" />
+    </PageChrome>
+  )
+}
+
+function MultisigArticleVisual({ number }: { number: number }) {
+  const visual = multisigVisuals[number - 1]
+
+  if (!visual) {
+    throw new Error(`Missing Multisig article visual ${number}.`)
+  }
+
+  return (
+    <figure className="long-road-article-visual multisig-article-visual">
+      <picture>
+        <source
+          media="(max-width: 840px)"
+          srcSet={visual.smallSrc}
+          type="image/webp"
+        />
+        <img
+          src={visual.src}
+          srcSet={`${visual.smallSrc} 840w, ${visual.src} 1920w`}
+          sizes="(max-width: 840px) calc(100vw - 32px), 1152px"
+          alt={visual.alt}
+          width={1920}
+          height={1080}
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
+    </figure>
+  )
+}
+
+function MultisigSectionHeading({
+  heading,
+  index,
+}: {
+  heading: Extract<MultisigArticleBlock, { type: "heading" }>
+  index: number
+}) {
+  const icon =
+    bitcoinCoreHeadingIcons[index % bitcoinCoreHeadingIcons.length] ??
+    bitcoinCoreFallbackIcon
+
+  return (
+    <div className="bitcoin-core-section-heading">
+      <span className="bitcoin-core-section-pictogram" aria-hidden="true">
+        {icon}
+      </span>
+      <h2 id={heading.id}>{heading.text}</h2>
+    </div>
+  )
+}
+
+function MultisigArticlePage() {
+  useMultisigArticleMetadata()
+  useReadingProgress()
+
+  const article = parseMultisigArticle(multisigArticleSource)
+  if (article.title !== MULTISIG_ARTICLE_TITLE) {
+    throw new Error(
+      "The multisig article title does not match its approved copy."
+    )
+  }
+
+  const headings = article.blocks.filter(
+    (block): block is Extract<MultisigArticleBlock, { type: "heading" }> =>
+      block.type === "heading"
+  )
+  const readingMinutes = estimateReadingMinutes([
+    article.title,
+    ...article.blocks.flatMap((block) => {
+      if (block.type === "visual") return []
+      return [block.text]
+    }),
+  ])
+
+  return (
+    <PageChrome
+      sectionHref={EN_BITCOIN_CORE_SERIES_PATH}
+      sectionLabel={BITCOIN_CORE_SERIES_TITLE}
+      language="en"
+    >
+      <div className="reading-progress" aria-hidden="true" />
+      <ValueForValueRail language="en" />
+      <main id="main-content" className="relative pb-20">
+        <article>
+          <header className="article-hero-bleed bitcoin-core-article-hero long-road-cover-hero multisig-cover-hero">
+            <picture className="article-hero-background">
+              <source
+                media="(max-width: 840px)"
+                srcSet={MULTISIG_ARTICLE_HERO_IMAGE_SMALL}
+                type="image/webp"
+              />
+              <img
+                src={MULTISIG_ARTICLE_HERO_IMAGE}
+                srcSet={`${MULTISIG_ARTICLE_HERO_IMAGE_SMALL} 840w, ${MULTISIG_ARTICLE_HERO_IMAGE} 2000w`}
+                sizes="100vw"
+                alt="One-key and two-of-three authorization structures on an Adriatic terrace."
+                width={2000}
+                height={800}
+                decoding="async"
+                fetchPriority="high"
+              />
+            </picture>
+
+            <div className="article-hero-content">
+              <div className="article-hero-copy">
+                <a
+                  href={EN_BITCOIN_CORE_SERIES_PATH}
+                  className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
+                >
+                  Bitcoin Core
+                </a>
+
+                <div className="mt-12 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-muted-foreground uppercase">
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
+                    Research &amp; essay
+                  </span>
+                  <time
+                    className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
+                    dateTime={MULTISIG_ARTICLE_DATE}
+                  >
+                    {MULTISIG_ARTICLE_DISPLAY_DATE}
+                  </time>
+                  <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
+                    {readingMinutes} min read
+                  </span>
+                </div>
+
+                <h1 className="mt-8 max-w-[14ch] font-display text-5xl leading-[0.94] font-bold tracking-[-0.06em] text-balance text-foreground sm:text-7xl">
+                  {article.title}
+                </h1>
+              </div>
+            </div>
+          </header>
+
+          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <nav
+              aria-label="Article contents"
+              className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
+            >
+              <p className="text-[11px] font-semibold text-muted-foreground uppercase">
+                Contents
+              </p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {headings.map((heading) => (
+                  <a
+                    key={heading.id}
+                    href={`#${heading.id}`}
+                    className={`glimmer-button surface-ring rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
+                  >
+                    {heading.text}
+                  </a>
+                ))}
+              </div>
+            </nav>
+
+            <div className="article-shell learning-article-body bitcoin-core-article-body long-road-article-body multisig-article-body mt-10">
+              {article.blocks.map((block, index) => {
+                if (block.type === "heading") {
+                  return (
+                    <MultisigSectionHeading
+                      key={`${block.id}-${index}`}
+                      heading={block}
+                      index={headings.findIndex(
+                        (heading) => heading.id === block.id
+                      )}
+                    />
+                  )
+                }
+
+                if (block.type === "quote") {
+                  return (
+                    <blockquote
+                      className="long-road-article-quote"
+                      key={`quote-${index}`}
+                    >
+                      <p>{renderMultisigInline(block.text)}</p>
+                    </blockquote>
+                  )
+                }
+
+                if (block.type === "visual") {
+                  return (
+                    <MultisigArticleVisual
+                      key={`visual-${block.number}`}
+                      number={block.number}
+                    />
+                  )
+                }
+
+                return (
+                  <p key={`paragraph-${index}`}>
+                    {renderMultisigInline(block.text)}
+                  </p>
+                )
+              })}
+            </div>
+
+            <ValueForValueCard language="en" className="article-shell mt-14" />
+
+            <nav
+              aria-label="Related content"
+              className="article-shell mt-14 grid gap-3 sm:grid-cols-2"
+            >
+              <a
+                href={EN_BITCOIN_CORE_SERIES_PATH}
+                className={`glimmer-button surface-shadow-soft rounded-[24px] bg-card/82 p-5 hover:bg-card sm:p-6 ${liftHover}`}
+              >
+                <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+                  Section
+                </span>
+                <span className="mt-3 block font-display text-xl font-bold tracking-[-0.04em] text-balance text-foreground">
+                  Bitcoin Core
+                </span>
+              </a>
+              <a
+                href={BIP39_WRONG_THING_ARTICLE_PATH}
+                className={`glimmer-button surface-shadow-soft rounded-[24px] bg-card/82 p-5 hover:bg-card sm:p-6 ${liftHover}`}
+              >
+                <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
+                  Related article
+                </span>
+                <span className="mt-3 block font-display text-xl font-bold tracking-[-0.04em] text-balance text-foreground">
+                  BIP39 Made the Wrong Thing Human-Readable
                 </span>
               </a>
             </nav>
@@ -3247,23 +3508,42 @@ function HomePage() {
 
 const migratedAiDestinations: Record<string, string> = {
   [AI_SERIES_PATH]: "https://aipavao.com/writing",
-  [ARTICLE_PATH]: "https://aipavao.com/writing/jedan-covjek-ai-i-dva-mjeseca-rada",
-  [WORKFLOW_ARTICLE_PATH]: "https://aipavao.com/writing/od-diktata-do-objavljene-stranice",
-  [LEARNING_ARTICLE_PATH]: "https://aipavao.com/writing/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda",
+  [ARTICLE_PATH]:
+    "https://aipavao.com/writing/jedan-covjek-ai-i-dva-mjeseca-rada",
+  [WORKFLOW_ARTICLE_PATH]:
+    "https://aipavao.com/writing/od-diktata-do-objavljene-stranice",
+  [LEARNING_ARTICLE_PATH]:
+    "https://aipavao.com/writing/kako-sam-uz-ai-naucio-matematiku-bitcoin-trenda",
 }
 
 function MigratedAiRedirect({ destination }: { destination: string }) {
   useEffect(() => {
-    window.location.replace(`${destination}${window.location.search}${window.location.hash}`)
+    window.location.replace(
+      `${destination}${window.location.search}${window.location.hash}`
+    )
   }, [destination])
 
   return (
     <PageChrome>
-      <main id="main-content" className="relative mx-auto min-h-[70vh] max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <p className="text-[11px] font-semibold tracking-[0.22em] text-muted-foreground uppercase">Moved</p>
-        <h1 className="mt-4 font-display text-5xl font-bold tracking-[-0.055em] text-foreground">Ovaj je tekst preseljen na AI Pavao.</h1>
-        <p className="mt-6 text-lg leading-8 text-muted-foreground">Ako se preusmjeravanje ne pokrene automatski, otvorite novu adresu.</p>
-        <a className="mt-8 inline-flex min-h-11 items-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground" href={destination}>Otvori AI Pavao ↗</a>
+      <main
+        id="main-content"
+        className="relative mx-auto min-h-[70vh] max-w-3xl px-4 py-20 sm:px-6 lg:px-8"
+      >
+        <p className="text-[11px] font-semibold tracking-[0.22em] text-muted-foreground uppercase">
+          Moved
+        </p>
+        <h1 className="mt-4 font-display text-5xl font-bold tracking-[-0.055em] text-foreground">
+          Ovaj je tekst preseljen na AI Pavao.
+        </h1>
+        <p className="mt-6 text-lg leading-8 text-muted-foreground">
+          Ako se preusmjeravanje ne pokrene automatski, otvorite novu adresu.
+        </p>
+        <a
+          className="mt-8 inline-flex min-h-11 items-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground"
+          href={destination}
+        >
+          Otvori AI Pavao ↗
+        </a>
       </main>
     </PageChrome>
   )
@@ -3356,6 +3636,10 @@ export function App({
         initialArticleSource={initialLongRoadArticleSource}
       />
     )
+  }
+
+  if (currentPath === MULTISIG_NOT_DOLLAR_AMOUNT_ARTICLE_PATH) {
+    return <MultisigArticlePage />
   }
 
   if (currentPath === BIP39_WRONG_THING_ARTICLE_PATH) {

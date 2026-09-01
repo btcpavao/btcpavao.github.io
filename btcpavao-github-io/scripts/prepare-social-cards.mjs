@@ -15,6 +15,7 @@ const sources = {
   longRoad: "long-road-bitcoin-core-cover-share.jpg",
   walletGuide: "bitcoin-core-wallet-guide/10-backup-wallet-menu.webp",
   bip39: "bip39-wrong-thing-cover-share.jpg",
+  multisig: "multisig-not-dollar-amount-cover.webp",
   support: "value-for-value-visual.webp",
   startHere: "start-here-bitcoin-core-card.png",
 }
