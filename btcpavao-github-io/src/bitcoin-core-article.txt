@@ -13,8 +13,6 @@ Ako je taj prvi broj — tajna iz koje nastaje tvoj wallet — loš, predvidiv i
 
 Zato je tema entropije toliko važna.
 
-Ovaj članak prati Bitcoin Core 31.1. U toj verziji Bitcoin Core može stvarati samo descriptor wallete. Tok ispod opisuje običan wallet s uključenim privatnim ključevima, a ne prazan wallet ili wallet kojim upravlja vanjski potpisnik.
-
 A upravo tu Bitcoin Core pokazuje zašto ga mnogi smatraju okosnicom Bitcoin ekonomije: ne zato što je “lijep” ili “moderan”, nego zato što je to softver koji je godinama detaljno proučavan, testiran i korišten kao temelj stvarnog Bitcoin sustava, uključujući i ozbiljne profesionalne i institucionalne stackove.
 
 1. Što je entropija, najjednostavnije rečeno

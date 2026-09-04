@@ -149,7 +149,7 @@ const BITCOIN_CORE_ARTICLE_TITLE =
 const BITCOIN_CORE_ARTICLE_SUBTITLE =
   "Zašto je to važno i zašto je Bitcoin Core toliko bitan"
 const BITCOIN_CORE_ARTICLE_DESCRIPTION =
-  "Kako Bitcoin Core 31.1 prikuplja i kriptografski miješa entropiju, provjerava privatni ključ i iz njega gradi BIP32 descriptor wallet."
+  "Kako Bitcoin Core prikuplja i kriptografski miješa entropiju, provjerava privatni ključ i iz njega gradi BIP32 wallet."
 const BITCOIN_CORE_ARTICLE_DATE = "2026-08-05"
 const BITCOIN_CORE_ARTICLE_DISPLAY_DATE = "5. kolovoza 2026."
 const BITCOIN_CORE_ARTICLE_HERO_IMAGE = "/bitcoin-core-entropija-cover-v2.webp"
@@ -164,7 +164,7 @@ const EN_BITCOIN_CORE_ARTICLE_TITLE =
 const EN_BITCOIN_CORE_ARTICLE_SUBTITLE =
   "Why It Matters and Why Bitcoin Core Is So Important"
 const EN_BITCOIN_CORE_ARTICLE_DESCRIPTION =
-  "How Bitcoin Core 31.1 gathers and cryptographically mixes entropy, validates a private key, and builds a BIP32 descriptor wallet from it."
+  "How Bitcoin Core gathers and cryptographically mixes entropy, validates a private key, and builds a BIP32 wallet from it."
 const EN_BITCOIN_CORE_ARTICLE_DISPLAY_DATE = "August 5, 2026"
 const BIP39_WRONG_THING_ARTICLE_URL = `${SITE_URL}${BIP39_WRONG_THING_ARTICLE_PATH}`
 const BIP39_WRONG_THING_ARTICLE_TITLE =
@@ -973,7 +973,7 @@ function useBitcoinCoreArticleMetadata(language: BitcoinCoreLanguage = "hr") {
       ? EN_BITCOIN_CORE_ARTICLE_DESCRIPTION
       : BITCOIN_CORE_ARTICLE_DESCRIPTION,
     ogDescription: isEnglish
-      ? "How Bitcoin Core 31.1 creates a high-quality private root from multiple entropy sources and uses it to build a descriptor wallet."
+      ? "How Bitcoin Core creates a high-quality private root from multiple entropy sources and uses it to build an entire wallet."
       : BITCOIN_CORE_ARTICLE_DESCRIPTION,
     url: isEnglish ? EN_BITCOIN_CORE_ARTICLE_URL : BITCOIN_CORE_ARTICLE_URL,
     type: "article",
@@ -2063,39 +2063,27 @@ function BitcoinCoreArticlePage({
             <TechnicalArticleInfo
               language={language}
               published={isEnglish ? "August 5, 2026" : "5. kolovoza 2026."}
-              updated={isEnglish ? "September 4, 2026" : "4. rujna 2026."}
+              updated={isEnglish ? "August 24, 2026" : "24. kolovoza 2026."}
               coreVersion="31.1"
               sourcePath={
                 isEnglish
-                  ? "btcpavao-github-io/src/bitcoin-core-article-en.txt"
-                  : "btcpavao-github-io/src/bitcoin-core-article.txt"
+                  ? "src/bitcoin-core-article-en.txt"
+                  : "src/bitcoin-core-article.txt"
               }
               sources={[
                 {
-                  label: isEnglish
-                    ? "Bitcoin Core 31.1 release notes"
-                    : "Bilješke izdanja Bitcoin Corea 31.1",
-                  href: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/release-notes/release-notes-31.1.md",
+                  label: "Bitcoin Core random.h",
+                  href: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/random.h",
                 },
                 {
-                  label: "Bitcoin Core 31.1 random.cpp",
-                  href: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/random.cpp",
-                },
-                {
-                  label: "Bitcoin Core 31.1 key.cpp",
+                  label: "Bitcoin Core key.cpp",
                   href: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/key.cpp",
                 },
                 {
                   label: isEnglish
-                    ? "Bitcoin Core 31.1 wallet creation"
-                    : "Stvaranje walleta u Bitcoin Coreu 31.1",
-                  href: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/wallet/wallet.cpp",
-                },
-                {
-                  label: isEnglish
-                    ? "Bitcoin Core 31.1 descriptor paths"
-                    : "Descriptor putanje u Bitcoin Coreu 31.1",
-                  href: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/wallet/walletutil.cpp",
+                    ? "Bitcoin Core wallet source"
+                    : "Izvorni kod Bitcoin Core walleta",
+                  href: "https://github.com/bitcoin/bitcoin/tree/v31.1/src/wallet",
                 },
               ]}
             />
