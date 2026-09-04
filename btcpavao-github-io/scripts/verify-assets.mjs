@@ -379,7 +379,7 @@ const bitcoinCoreArticleHash = createHash("sha256")
 
 assert(
   bitcoinCoreArticleHash ===
-    "fe05d12e74b074d0576da5880edddfdf863890c7455fc0bebccb9b6f4c27568f",
+    "ab9ec6823a4b7a1605db35c3c935a2896ef7f6945bc8e6a95eea2631071dc453",
   "Bitcoin Core article source changed from the approved text with the requested visual list removed"
 )
 
@@ -389,7 +389,7 @@ const bitcoinCoreEnglishArticleHash = createHash("sha256")
 
 assert(
   bitcoinCoreEnglishArticleHash ===
-    "25e66995320956fcdaaed4d9c6cc9b4a0064c013bd44bd7caa418f040e931696",
+    "ceea4d61ac708cd52fd4b48f8f78dea44130dd87f1b8704961e24bb158355202",
   "English Bitcoin Core article source changed from the approved translation"
 )
 

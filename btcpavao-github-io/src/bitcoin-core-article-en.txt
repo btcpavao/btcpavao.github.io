@@ -13,6 +13,8 @@ If that first number—the secret from which your wallet is created—is poor, p
 
 That is why entropy matters so much.
 
+This article follows Bitcoin Core 31.1. In that release, Bitcoin Core can create only descriptor wallets. The flow below describes a normal wallet with private keys enabled, not a blank wallet or one managed by an external signer.
+
 And this is precisely where Bitcoin Core shows why many people consider it the backbone of the Bitcoin economy: not because it is “beautiful” or “modern,” but because it is software that has been studied in detail, tested, and used for years as a foundation of the real Bitcoin system, including serious professional and institutional stacks.
 
 1. What Entropy Is, in the Simplest Terms
