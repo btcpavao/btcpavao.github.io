@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "verify": "npm run verify:assets",
     "verify:assets": "node scripts/verify-assets.mjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "verify:curriculum": "node scripts/verify-curriculum.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.8",

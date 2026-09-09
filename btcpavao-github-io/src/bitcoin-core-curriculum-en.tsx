@@ -1,43 +1,26 @@
+import { CurriculumOverview } from "@/components/curriculum-overview"
+import { CurriculumLesson } from "@/components/curriculum-lesson"
 import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type Dispatch,
-  type SetStateAction,
-} from "react"
+  canCompleteLesson,
+  effectiveCompletions,
+  nextRequiredEntry,
+  resumeEntry,
+} from "@/curriculum-learning"
+import { useEffect, useMemo, useRef, useState } from "react"
 import {
-  AlertTriangle,
   ArrowLeft,
   ArrowRight,
-  ArrowUpDown,
   BookOpen,
   Check,
-  CheckCircle2,
   ChevronRight,
-  Clipboard,
-  Clock3,
-  Code2,
-  ExternalLink,
-  FileText,
-  KeyRound,
-  Lightbulb,
-  Link2,
-  Laptop,
   Menu,
-  Play,
-  RefreshCcw,
   ShieldAlert,
-  Terminal,
-  Usb,
-  WifiOff,
   X,
 } from "lucide-react"
 
 import {
   CORE_REFERENCE_VERSION,
   CURRICULUM_VERSION,
-  LAST_TECHNICAL_REVIEW,
   curriculumLessons,
   curriculumPhases,
   findLessonBySlug,
@@ -45,13 +28,9 @@ import {
   legacyEnglishLessonSlugAliases,
   primaryCurriculumLessons,
   type CurriculumCodeBlock,
-  type CurriculumPhase,
-  type CurriculumStatus,
-  type LessonCallout,
   type PlayerLesson,
 } from "@/bitcoin-core-curriculum-player-en-data"
 import { SiteHeader } from "@/components/site-header"
-import { TutorialMetadata } from "@/components/tutorial-metadata"
 import { ValueForValueRail } from "@/components/value-for-value"
 import {
   EN_BITCOIN_CORE_CURRICULUM_PATH,
@@ -60,23 +39,11 @@ import {
 
 const SITE_URL = "https://btcpavao.com"
 const PROGRESS_STORAGE_KEY = "btcpavao-core-curriculum-en-progress-v1"
-const CHECKLIST_STORAGE_KEY = "btcpavao-core-curriculum-en-checklists-v1"
+const CHECKLIST_STORAGE_KEY = "btcpavao-core-curriculum-en-checklists-v2"
 const LAST_LESSON_STORAGE_KEY =
   "btcpavao-core-curriculum-en-last-available-lesson-v3"
 
 type CurriculumEntry = (typeof curriculumLessons)[number]
-
-const statusLabels: Record<CurriculumStatus, string> = {
-  published: "Published",
-  "in-progress": "In review",
-  planned: "Planned",
-}
-
-const verificationLabels = {
-  verified: "Verified",
-  "review-required": "Review required",
-  planned: "Planned",
-}
 
 function setMetaContent(
   attribute: "name" | "property",
@@ -147,7 +114,11 @@ function useCurriculumMetadata() {
 function readStoredSet(key: string) {
   try {
     const stored = JSON.parse(localStorage.getItem(key) ?? "[]")
-    return new Set<string>(Array.isArray(stored) ? stored : [])
+    return new Set<string>(
+      Array.isArray(stored)
+        ? stored.filter((item): item is string => typeof item === "string")
+        : []
+    )
   } catch {
     return new Set<string>()
   }
@@ -165,276 +136,12 @@ function getHashLessonSlug() {
   if (typeof window === "undefined") return null
   const match = window.location.hash.match(/^#lesson\/(.+)$/)
   if (!match) return null
-  const slug = decodeURIComponent(match[1])
-  return legacyEnglishLessonSlugAliases[slug] ?? slug
-}
-
-function formatReviewDate(date: string | undefined) {
-  if (!date) return "Not completed"
-  return new Intl.DateTimeFormat("en-US", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(new Date(`${date}T12:00:00`))
-}
-
-function StatusBadge({ status }: { status: CurriculumStatus }) {
-  return (
-    <span className={`curriculum-status curriculum-status--${status}`}>
-      <span aria-hidden="true" />
-      {statusLabels[status]}
-    </span>
-  )
-}
-
-function PhaseAvailability({ phase }: { phase: CurriculumPhase }) {
-  const available = phase.lessons.filter(isAvailableLesson).length
-  const inReview = phase.lessons.filter(
-    (lesson) => lesson.verification === "review-required"
-  ).length
-  const total = phase.lessons.length
-  const state =
-    available === total ? "available" : available > 0 ? "partial" : "planned"
-
-  return (
-    <span
-      className={`course-phase-availability course-phase-availability--${state}`}
-    >
-      <span aria-hidden="true" />
-      {available === total
-        ? `${available} of ${total} available`
-        : available > 0
-          ? `${available} of ${total} currently available${inReview ? ` · ${inReview} in review` : ""}`
-          : inReview
-            ? `${inReview} in technical review`
-            : "Planned"}
-    </span>
-  )
-}
-
-function VideoBlock({ lesson }: { lesson: PlayerLesson }) {
-  if (lesson.videoUrl) {
-    return (
-      <div className="course-video course-video--embed">
-        <iframe
-          src={lesson.videoUrl}
-          title={`Video: ${lesson.title}`}
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
-    )
+  try {
+    const slug = decodeURIComponent(match[1])
+    return legacyEnglishLessonSlugAliases[slug] ?? slug
+  } catch {
+    return null
   }
-
-  return (
-    <div className="course-video" aria-label="Video coming soon">
-      <span className="course-video__icon">
-        <Play aria-hidden="true" />
-      </span>
-      <span>
-        <strong>Video coming soon</strong>
-        <small>The written lesson stands on its own.</small>
-      </span>
-    </div>
-  )
-}
-
-function CodeBlock({
-  block,
-  copiedId,
-  onCopy,
-}: {
-  block: CurriculumCodeBlock
-  copiedId: string | null
-  onCopy: (block: CurriculumCodeBlock) => void
-}) {
-  const copied = copiedId === block.id
-
-  return (
-    <section className="course-code" aria-labelledby={`code-${block.id}`}>
-      <div className="course-code__header">
-        <div>
-          <span className="course-code__label">
-            <Terminal aria-hidden="true" /> RPC / CLI
-          </span>
-          <h3 id={`code-${block.id}`}>{block.title}</h3>
-        </div>
-        <button
-          type="button"
-          className="course-copy-button"
-          onClick={() => onCopy(block)}
-          aria-label={`Copy command: ${block.title}`}
-        >
-          {copied ? (
-            <Check aria-hidden="true" />
-          ) : (
-            <Clipboard aria-hidden="true" />
-          )}
-          <span>{copied ? "Copied" : "Copy"}</span>
-        </button>
-      </div>
-      <pre>
-        <code>{block.code}</code>
-      </pre>
-      <p>{block.explanation}</p>
-      {block.parameters?.length ? (
-        <dl className="course-code__parameters">
-          {block.parameters.map((parameter) => (
-            <div key={parameter.name}>
-              <dt>{parameter.name}</dt>
-              <dd>{parameter.explanation}</dd>
-            </div>
-          ))}
-        </dl>
-      ) : null}
-      {block.warning ? (
-        <div className="course-inline-message course-inline-message--warning">
-          <AlertTriangle aria-hidden="true" />
-          <p>{block.warning}</p>
-        </div>
-      ) : null}
-    </section>
-  )
-}
-
-function Checklist({
-  lesson,
-  checkedItems,
-  setCheckedItems,
-}: {
-  lesson: PlayerLesson
-  checkedItems: Set<string>
-  setCheckedItems: Dispatch<SetStateAction<Set<string>>>
-}) {
-  if (!lesson.checklist?.length) return null
-
-  return (
-    <section
-      className="course-checklist"
-      aria-labelledby="lesson-checklist-title"
-    >
-      <div className="course-section-heading course-section-heading--compact">
-        <CheckCircle2 aria-hidden="true" />
-        <div>
-          <span>Apply</span>
-          <h2 id="lesson-checklist-title">Practical tasks</h2>
-        </div>
-      </div>
-      <div className="course-checklist__items">
-        {lesson.checklist.map((item, index) => {
-          const key = `lesson-${lesson.id}:${index}`
-          const checked = checkedItems.has(key)
-          return (
-            <label key={key} className={checked ? "is-checked" : undefined}>
-              <input
-                type="checkbox"
-                checked={checked}
-                onChange={() =>
-                  setCheckedItems((current) => {
-                    const next = new Set(current)
-                    if (next.has(key)) next.delete(key)
-                    else next.add(key)
-                    return next
-                  })
-                }
-              />
-              <span className="course-checkbox" aria-hidden="true">
-                <Check />
-              </span>
-              <span>{item}</span>
-            </label>
-          )
-        })}
-      </div>
-    </section>
-  )
-}
-
-function Callout({ callout }: { callout: LessonCallout }) {
-  const Icon =
-    callout.kind === "warning"
-      ? ShieldAlert
-      : callout.kind === "verify"
-        ? CheckCircle2
-        : callout.kind === "mental-model"
-          ? Lightbulb
-          : FileText
-
-  return (
-    <aside className={`course-callout course-callout--${callout.kind}`}>
-      <Icon aria-hidden="true" />
-      <div>
-        <strong>
-          {callout.url ? (
-            <a href={callout.url}>{callout.title}</a>
-          ) : (
-            callout.title
-          )}
-        </strong>
-        <p>{callout.body}</p>
-      </div>
-    </aside>
-  )
-}
-
-function CoreSignerArchitecture({ overview = false }: { overview?: boolean }) {
-  return (
-    <figure
-      className={[
-        "course-core-architecture",
-        overview && "course-core-architecture--overview",
-      ]
-        .filter(Boolean)
-        .join(" ")}
-      aria-label="Recommended Bitcoin Core savings architecture"
-    >
-      <figcaption>
-        <span>Core-only savings architecture</span>
-        <strong>Online Core verifies and prepares. Offline Core signs.</strong>
-      </figcaption>
-      <div className="course-core-architecture__role">
-        <div className="course-core-architecture__role-heading">
-          <Laptop aria-hidden="true" />
-          <div>
-            <span>Online</span>
-            <strong>Bitcoin Core full node</strong>
-          </div>
-        </div>
-        <small>Installed Linux · Fedora is the practical example</small>
-        <ul>
-          <li>Watch-only savings wallet</li>
-          <li>Prepares PSBTs and broadcasts</li>
-          <li>No savings-wallet private keys</li>
-        </ul>
-      </div>
-      <div
-        className="course-core-architecture__transfer"
-        aria-label="PSBT transfer"
-      >
-        <ArrowUpDown aria-hidden="true" />
-        <strong>PSBT</strong>
-        <span>
-          <Usb aria-hidden="true" /> Controlled removable media
-        </span>
-      </div>
-      <div className="course-core-architecture__role course-core-architecture__role--offline">
-        <div className="course-core-architecture__role-heading">
-          <WifiOff aria-hidden="true" />
-          <div>
-            <span>Offline</span>
-            <strong>Bitcoin Core signer</strong>
-          </div>
-        </div>
-        <small>Trusted Tails live USB · generic dedicated computer</small>
-        <ul>
-          <li>Encrypted private-key wallet</li>
-          <li>No blockchain and no network</li>
-          <li>Reviews and signs PSBTs</li>
-        </ul>
-      </div>
-    </figure>
-  )
 }
 
 function PhaseNavigator({
@@ -450,6 +157,8 @@ function PhaseNavigator({
   onOverview: () => void
   mobile?: boolean
 }) {
+  const [allPhases, setAllPhases] = useState(false)
+  const [showOptional, setShowOptional] = useState(false)
   const activePhase = curriculumPhases.find((phase) =>
     phase.lessons.some((lesson) => lesson.id === activeLesson.id)
   )
@@ -472,765 +181,116 @@ function PhaseNavigator({
       <div className="course-outline__progress">
         <span>
           Your progress
-          <small>{availableCount} currently available</small>
+          <small>{availableCount} steps on the main path</small>
         </span>
         <strong>{completedCount} completed</strong>
       </div>
+      <button
+        type="button"
+        className="course-outline__toggle"
+        aria-expanded={allPhases}
+        onClick={() => setAllPhases(!allPhases)}
+      >
+        {allPhases ? "Show current phase" : "Show all phases"}
+      </button>
+      <button
+        type="button"
+        className="course-outline__toggle"
+        aria-expanded={showOptional}
+        onClick={() => setShowOptional(!showOptional)}
+      >
+        {showOptional ? "Hide optional reading" : "Show optional reading"}
+      </button>
       <ol className="course-outline__phases">
-        {curriculumPhases.map((phase) => {
-          const isActive = phase.id === activePhase?.id
-          return (
-            <li key={phase.id} className={isActive ? "is-active" : undefined}>
-              <button
-                type="button"
-                className="course-outline__phase"
-                onClick={() => {
-                  const lesson = phase.lessons[0]
-                  if (lesson) onSelectLesson(lesson)
-                }}
-                aria-current={isActive ? "step" : undefined}
-              >
-                <span>{String(Number(phase.id) + 1).padStart(2, "0")}</span>
-                <span>
-                  <strong>{phase.shortTitle}</strong>
-                  <small>{phase.estimatedTime}</small>
-                </span>
-                <ChevronRight aria-hidden="true" />
-              </button>
-              {isActive ? (
-                <ol className="course-outline__lessons">
-                  {phase.lessons.map((lesson, index) => {
-                    const isCurrent = lesson.id === activeLesson.id
-                    return (
-                      <li key={lesson.id}>
-                        <button
-                          type="button"
-                          className={isCurrent ? "is-current" : undefined}
-                          onClick={() => onSelectLesson(lesson)}
-                          aria-current={isCurrent ? "page" : undefined}
-                        >
-                          <span>
-                            {phase.id}.{index + 1}
-                          </span>
-                          <span className="course-outline__lesson-title">
-                            <span>{lesson.title}</span>
-                            {lesson.optional ? (
-                              <small>Optional deep dive</small>
-                            ) : !isAvailableLesson(lesson) ? (
-                              <small>
-                                {lesson.status === "planned"
-                                  ? "Planned"
-                                  : "In technical review"}
-                              </small>
+        {curriculumPhases
+          .filter((phase) => allPhases || phase.id === activePhase?.id)
+          .map((phase) => {
+            const isActive = phase.id === activePhase?.id
+            return (
+              <li key={phase.id} className={isActive ? "is-active" : undefined}>
+                <button
+                  type="button"
+                  className="course-outline__phase"
+                  onClick={() => {
+                    const lesson = phase.lessons[0]
+                    if (lesson) onSelectLesson(lesson)
+                  }}
+                  aria-current={isActive ? "step" : undefined}
+                >
+                  <span>{String(Number(phase.id) + 1).padStart(2, "0")}</span>
+                  <span>
+                    <strong>{phase.shortTitle}</strong>
+                    <small>{phase.estimatedTime}</small>
+                  </span>
+                  <ChevronRight aria-hidden="true" />
+                </button>
+                {isActive ? (
+                  <ol className="course-outline__lessons">
+                    {phase.lessons.map((lesson, index) => {
+                      if (
+                        lesson.optional &&
+                        !showOptional &&
+                        lesson.id !== activeLesson.id
+                      )
+                        return null
+                      const isCurrent = lesson.id === activeLesson.id
+                      return (
+                        <li key={lesson.id}>
+                          <button
+                            type="button"
+                            className={isCurrent ? "is-current" : undefined}
+                            onClick={() => onSelectLesson(lesson)}
+                            aria-current={isCurrent ? "page" : undefined}
+                          >
+                            <span>
+                              {Number(phase.id) + 1}.{index + 1}
+                            </span>
+                            <span className="course-outline__lesson-title">
+                              <span>{lesson.title}</span>
+                              {lesson.optional ? (
+                                <small>Optional deep dive</small>
+                              ) : null}
+                              {!isAvailableLesson(lesson) ? (
+                                <small>
+                                  {lesson.status === "planned"
+                                    ? "Planned"
+                                    : "In technical review"}
+                                </small>
+                              ) : null}
+                            </span>
+                            {completedLessons.has(lesson.id) ? (
+                              <Check aria-label="Completed" />
                             ) : null}
-                          </span>
-                          {completedLessons.has(lesson.id) ? (
-                            <Check aria-label="Completed" />
-                          ) : null}
-                        </button>
-                      </li>
-                    )
-                  })}
-                </ol>
-              ) : null}
-            </li>
-          )
-        })}
+                          </button>
+                        </li>
+                      )
+                    })}
+                  </ol>
+                ) : null}
+              </li>
+            )
+          })}
       </ol>
     </nav>
-  )
-}
-
-function CourseLanding({
-  completedLessons,
-  onStart,
-  onContinue,
-  continueEntry,
-  returning,
-  onSelectPhase,
-  onReset,
-}: {
-  completedLessons: Set<string>
-  onStart: () => void
-  onContinue: () => void
-  continueEntry: CurriculumEntry | null
-  returning: boolean
-  onSelectPhase: (phase: CurriculumPhase) => void
-  onReset: () => void
-}) {
-  const [roadmapOpen, setRoadmapOpen] = useState(false)
-  const completableLessons = primaryCurriculumLessons
-  const completedCount = completableLessons.filter(({ lesson }) =>
-    completedLessons.has(lesson.id)
-  ).length
-  const progress = completableLessons.length
-    ? (completedCount / completableLessons.length) * 100
-    : 0
-
-  return (
-    <>
-      <section className="course-hero" aria-labelledby="course-title">
-        <div className="course-hero__copy">
-          <div className="course-eyebrow">
-            <img
-              src="/bitcoin-logo-official.png"
-              alt=""
-              width="1920"
-              height="1920"
-              aria-hidden="true"
-              draggable="false"
-            />
-            <span>Living curriculum · v{CURRICULUM_VERSION}</span>
-          </div>
-          <h1 id="course-title">
-            Learn to hold your own bitcoin by understanding the entire system.
-          </h1>
-          <p className="course-hero__lede">
-            A practical path to long-term self-custody with Bitcoin Core.
-            Private keys are only the beginning; a dependable setup also
-            includes verification, backup, recovery, signing, and a routine you
-            can repeat under stress.
-          </p>
-          <section
-            className="course-software-stack"
-            aria-labelledby="course-software-stack-title"
-          >
-            <div className="course-software-stack__intro">
-              <strong id="course-software-stack-title">
-                Recommended software stack
-              </strong>
-              <span>Official tools used throughout the curriculum</span>
-            </div>
-            <ul aria-label="Bitcoin Core, Fedora or Linux, Tails, and KeePassXC">
-              <li className="course-software-stack__item--primary">
-                <span className="course-software-stack__logo">
-                  <img src="/bitcoin-logo.svg" alt="" aria-hidden="true" />
-                </span>
-                <span className="course-software-stack__label">
-                  Bitcoin Core
-                </span>
-              </li>
-              <li>
-                <span className="course-software-stack__logo course-software-stack__logo--pair">
-                  <img
-                    src="/software-stack/fedora.svg"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                  <img
-                    src="/software-stack/tux.svg"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                </span>
-                <span className="course-software-stack__label">
-                  Fedora / Linux
-                </span>
-              </li>
-              <li>
-                <span className="course-software-stack__logo">
-                  <img
-                    src="/software-stack/tails.png"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                </span>
-                <span className="course-software-stack__label">Tails live</span>
-              </li>
-              <li>
-                <span className="course-software-stack__logo">
-                  <img
-                    src="/software-stack/keepassxc.svg"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                </span>
-                <span className="course-software-stack__label">KeePassXC</span>
-              </li>
-            </ul>
-          </section>
-          <div className="course-hero__actions">
-            <button
-              type="button"
-              className="course-action course-action--primary"
-              onClick={returning ? onContinue : onStart}
-            >
-              {returning && continueEntry
-                ? `Continue: ${continueEntry.lesson.title}`
-                : "Start with the first step"}
-              <ArrowRight aria-hidden="true" />
-            </button>
-          </div>
-          <blockquote>
-            Your node matters first and foremost to you: it lets you verify the
-            rules, state, and transactions you rely on.
-          </blockquote>
-        </div>
-
-        <aside
-          className="course-progress-card"
-          aria-label="Progress and content version"
-        >
-          <div className="course-progress-card__heading">
-            <span>{returning ? "Your next step" : "Living curriculum"}</span>
-            <strong aria-live="polite">
-              {returning && continueEntry
-                ? continueEntry.lesson.title
-                : `${completableLessons.length} verified lessons`}
-            </strong>
-          </div>
-          {continueEntry ? (
-            <p className="course-progress-card__location">
-              Phase {Number(continueEntry.phase.id) + 1} · Lesson{" "}
-              {continueEntry.lessonNumber}
-            </p>
-          ) : null}
-          <div
-            className="course-progress-track"
-            role="progressbar"
-            aria-label="Progress through verified and published lessons"
-            aria-valuemin={0}
-            aria-valuemax={completableLessons.length}
-            aria-valuenow={completedCount}
-          >
-            <span style={{ width: `${progress}%` }} />
-          </div>
-          <p>
-            {completedCount} completed · {completableLessons.length} currently
-            available. Progress is stored only in this browser; deep dives and
-            lessons under review do not block the main path.
-          </p>
-          <dl>
-            <div>
-              <dt>Reference version</dt>
-              <dd>{CORE_REFERENCE_VERSION}</dd>
-            </div>
-            <div>
-              <dt>Latest completed technical review</dt>
-              <dd>{formatReviewDate(LAST_TECHNICAL_REVIEW)}</dd>
-            </div>
-            <div>
-              <dt>Content</dt>
-              <dd>v{CURRICULUM_VERSION}</dd>
-            </div>
-          </dl>
-          {completedCount ? (
-            <button type="button" className="course-reset" onClick={onReset}>
-              <RefreshCcw aria-hidden="true" />
-              Reset progress
-            </button>
-          ) : null}
-        </aside>
-      </section>
-
-      <section
-        className="course-recommendation"
-        aria-labelledby="course-recommendation-title"
-      >
-        <ShieldAlert aria-hidden="true" />
-        <div>
-          <span>Strong recommendation</span>
-          <h2 id="course-recommendation-title">
-            This is a Bitcoin Core-only self-custody curriculum.
-          </h2>
-          <p>
-            Bitcoin Core is the only wallet and signing software used here.
-            Hardware wallets, BIP39, Sparrow, and Electrum appear only where the
-            curriculum explains why they are not part of the production stack.
-            For meaningful long-term savings, the recommended architecture is an
-            online Bitcoin Core full node with a watch-only wallet on normal
-            Linux, plus Bitcoin Core in a trusted Tails live environment on a
-            generic dedicated offline computer. Private keys remain on the
-            offline signer. PSBTs cross the gap on controlled removable media.
-          </p>
-        </div>
-      </section>
-
-      <CoreSignerArchitecture overview />
-
-      <TutorialMetadata
-        className="mx-auto my-8 max-w-[1520px]"
-        language="en"
-        goal="Build a complete, repeatable Bitcoin Core self-custody practice, from verification and wallet creation to PSBT signing and recovery."
-        difficulty="Beginner to advanced"
-        estimatedTime="Self-paced; approximately 8–12 hours for the published path"
-        realBitcoin="No for the first exercises; Signet is used before any mainnet workflow"
-        softwareVersion={`Living curriculum v${CURRICULUM_VERSION}; ${CORE_REFERENCE_VERSION}`}
-        operatingSystems="Fedora or another appropriately secured Linux installation for the online node; Tails live USB for the offline signer"
-        recommendedOs="For meaningful savings: an online Core node on normal Linux plus an offline Core signer booted from trusted Tails media"
-        prerequisites="Comfort using files and a terminal; no prior Bitcoin Core experience required"
-        outcome="You can explain, back up, restore, verify, and operate a separated online-node and offline-signer workflow."
-        lastReviewed={formatReviewDate(LAST_TECHNICAL_REVIEW)}
-      />
-
-      <section className="course-safety" aria-label="Security rule">
-        <KeyRound aria-hidden="true" />
-        <div>
-          <strong>This page never asks for your secrets.</strong>
-          <p>
-            Never enter real private keys, seed words, a passphrase, or an xpriv
-            here. The first hands-on exercises use Signet, so no real money is
-            at risk.
-          </p>
-        </div>
-      </section>
-
-      <section
-        className="course-stage-map"
-        aria-labelledby="course-stages-title"
-      >
-        <div className="course-section-heading">
-          <span>A path without shortcuts</span>
-          <h2 id="course-stages-title">
-            Three stages to your first real setup
-          </h2>
-          <p>
-            First understand the system, then practice the complete recovery
-            cycle without real money, and only then choose and test a mainnet
-            architecture.
-          </p>
-        </div>
-        <ol>
-          <li>
-            <span>01</span>
-            <div>
-              <strong>Understand</strong>
-              <p>
-                Threat modeling, Bitcoin Core, and independent verification
-                without mythology.
-              </p>
-            </div>
-          </li>
-          <li>
-            <span>02</span>
-            <div>
-              <strong>Practice</strong>
-              <p>
-                Create → encrypt → new backup → transact → restore → transact
-                again on Signet.
-              </p>
-            </div>
-          </li>
-          <li>
-            <span>03</span>
-            <div>
-              <strong>Apply</strong>
-              <p>
-                Choose between two Bitcoin Core architectures. For meaningful
-                savings, use the separated online-node and offline-signer path,
-                with Tails as the signer's live operating environment, then test
-                the complete recovery routine.
-              </p>
-            </div>
-          </li>
-        </ol>
-      </section>
-
-      <section
-        className="course-roadmap"
-        aria-labelledby="course-roadmap-title"
-      >
-        <div className="course-section-heading">
-          <span>Detailed plan</span>
-          <h2 id="course-roadmap-title">
-            The complete roadmap, when you need it
-          </h2>
-          <p>
-            Statuses show what is currently available, what is under technical
-            review, and what is still planned.
-          </p>
-        </div>
-        <button
-          type="button"
-          className="course-roadmap-toggle"
-          aria-expanded={roadmapOpen}
-          aria-controls="course-full-roadmap"
-          onClick={() => setRoadmapOpen((current) => !current)}
-        >
-          {roadmapOpen ? "Hide the full roadmap" : "View the full roadmap"}
-          <ChevronRight aria-hidden="true" />
-        </button>
-        <div id="course-full-roadmap" hidden={!roadmapOpen}>
-          <ol className="course-roadmap__grid">
-            {curriculumPhases.map((phase, index) => (
-              <li key={phase.id}>
-                <button type="button" onClick={() => onSelectPhase(phase)}>
-                  <span className="course-roadmap__number">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="course-roadmap__copy">
-                    <span className="course-roadmap__meta">
-                      <PhaseAvailability phase={phase} />
-                      <small>{phase.estimatedTime}</small>
-                    </span>
-                    <strong>{phase.title}</strong>
-                    <p>{phase.summary}</p>
-                    <span className="course-roadmap__outcome">
-                      Outcome: {phase.outcome}
-                    </span>
-                  </span>
-                  <ArrowRight aria-hidden="true" />
-                </button>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section
-        className="course-principles"
-        aria-labelledby="course-principles-title"
-      >
-        <div>
-          <span>Four rules for the whole journey</span>
-          <h2 id="course-principles-title">Security is the whole system.</h2>
-        </div>
-        <ul>
-          <li>
-            Do not add complexity before you understand the simpler system.
-          </li>
-          <li>A backup is not a backup until recovery has been tested.</li>
-          <li>
-            A private key does not need to be online for Bitcoin to be usable.
-          </li>
-          <li>Cryptography cannot fix an unclear operating procedure.</li>
-        </ul>
-      </section>
-    </>
-  )
-}
-
-function LessonArticle({
-  lesson,
-  phase,
-  lessonNumber,
-  completed,
-  copiedId,
-  checklistItems,
-  setChecklistItems,
-  onCopyCode,
-  onCopyLink,
-  copiedLink,
-  onToggleComplete,
-}: {
-  lesson: PlayerLesson
-  phase: CurriculumPhase
-  lessonNumber: string
-  completed: boolean
-  copiedId: string | null
-  checklistItems: Set<string>
-  setChecklistItems: Dispatch<SetStateAction<Set<string>>>
-  onCopyCode: (block: CurriculumCodeBlock) => void
-  onCopyLink: () => void
-  copiedLink: boolean
-  onToggleComplete: () => void
-}) {
-  const isCompletable = isAvailableLesson(lesson)
-  const showConsultingBridge = [
-    "mainnet-readiness-prije-prvog-deposita",
-    "prvi-mali-mainnet-test",
-  ].includes(lesson.slug)
-
-  return (
-    <article className="course-lesson" aria-labelledby="lesson-title">
-      <header className="course-lesson__header">
-        <div className="course-lesson__kicker">
-          <span>Phase {Number(phase.id) + 1}</span>
-          <span aria-hidden="true">/</span>
-          <span>Lesson {lessonNumber}</span>
-        </div>
-        <h1 id="lesson-title">{lesson.title}</h1>
-        <p className="course-lesson__objective">{lesson.objective}</p>
-        <div className="course-lesson__meta">
-          <StatusBadge status={lesson.status} />
-          {lesson.optional ? (
-            <span className="course-optional-label">Optional deep dive</span>
-          ) : null}
-          <span>
-            <Clock3 aria-hidden="true" /> {lesson.estimatedTime}
-          </span>
-          <span
-            className={`course-verification course-verification--${lesson.verification}`}
-          >
-            <CheckCircle2 aria-hidden="true" />
-            {verificationLabels[lesson.verification]}
-          </span>
-        </div>
-        <dl className="course-lesson__version">
-          <div>
-            <dt>
-              {lesson.verification === "verified"
-                ? "Tested on"
-                : "Reference version"}
-            </dt>
-            <dd>{lesson.referenceVersion}</dd>
-          </div>
-          <div>
-            <dt>Technical review</dt>
-            <dd>
-              {lesson.verification === "verified"
-                ? formatReviewDate(lesson.lastReviewed)
-                : lesson.verification === "planned"
-                  ? "Planned"
-                  : "Not completed"}
-            </dd>
-          </div>
-          <div>
-            <dt>Provenance</dt>
-            <dd>{lesson.origin}</dd>
-          </div>
-        </dl>
-      </header>
-
-      <VideoBlock lesson={lesson} />
-
-      {lesson.verification !== "verified" ? (
-        <aside className="course-review-state">
-          <ShieldAlert aria-hidden="true" />
-          <div>
-            <strong>
-              {lesson.verification === "planned"
-                ? "This lesson is planned."
-                : "This lesson is not yet ready for practical use."}
-            </strong>
-            <p>
-              {lesson.reviewNote ??
-                "The structure and sources exist, but the procedure must be reproduced on the stated version before publication."}
-            </p>
-          </div>
-        </aside>
-      ) : null}
-
-      <section
-        className="course-reading"
-        aria-labelledby="lesson-explanation-title"
-      >
-        <div className="course-section-heading course-section-heading--compact">
-          <BookOpen aria-hidden="true" />
-          <div>
-            <span>Understand</span>
-            <h2 id="lesson-explanation-title">Explanation</h2>
-          </div>
-        </div>
-        {(lesson.explanation?.length
-          ? lesson.explanation
-          : [lesson.summary]
-        ).map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
-        ))}
-
-        {lesson.what || lesson.why || lesson.risk ? (
-          <dl className="course-three-questions">
-            {lesson.what ? (
-              <div>
-                <dt>What are we doing?</dt>
-                <dd>{lesson.what}</dd>
-              </div>
-            ) : null}
-            {lesson.why ? (
-              <div>
-                <dt>Why?</dt>
-                <dd>{lesson.why}</dd>
-              </div>
-            ) : null}
-            {lesson.risk ? (
-              <div>
-                <dt>What could go wrong?</dt>
-                <dd>{lesson.risk}</dd>
-              </div>
-            ) : null}
-          </dl>
-        ) : null}
-      </section>
-
-      {lesson.id === "2.4" ? <CoreSignerArchitecture /> : null}
-
-      {lesson.walkthrough ? (
-        <section
-          className="course-walkthrough"
-          aria-labelledby="lesson-walkthrough-title"
-        >
-          <div className="course-section-heading course-section-heading--compact">
-            <ArrowRight aria-hidden="true" />
-            <div>
-              <span>Execute</span>
-              <h2 id="lesson-walkthrough-title">{lesson.walkthrough.title}</h2>
-            </div>
-          </div>
-          {lesson.walkthrough.intro ? <p>{lesson.walkthrough.intro}</p> : null}
-          <ol>
-            {lesson.walkthrough.steps.map((step) => (
-              <li key={step}>{step}</li>
-            ))}
-          </ol>
-        </section>
-      ) : null}
-
-      {lesson.callouts?.map((callout) => (
-        <Callout key={`${callout.kind}-${callout.title}`} callout={callout} />
-      ))}
-
-      {lesson.concepts?.length ? (
-        <section
-          className="course-concepts"
-          aria-labelledby="lesson-concepts-title"
-        >
-          <div className="course-section-heading course-section-heading--compact">
-            <Lightbulb aria-hidden="true" />
-            <div>
-              <span>Remember</span>
-              <h2 id="lesson-concepts-title">Key concepts</h2>
-            </div>
-          </div>
-          <ul>
-            {lesson.concepts.map((concept) => (
-              <li key={concept}>
-                <Check aria-hidden="true" />
-                <span>{concept}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {lesson.warnings?.map((warning) => (
-        <aside
-          className="course-inline-message course-inline-message--warning"
-          key={warning}
-        >
-          <AlertTriangle aria-hidden="true" />
-          <p>{warning}</p>
-        </aside>
-      ))}
-      {lesson.notes?.map((note) => (
-        <aside className="course-inline-message" key={note}>
-          <FileText aria-hidden="true" />
-          <p>{note}</p>
-        </aside>
-      ))}
-
-      {lesson.image ? (
-        <figure className="course-lesson-image">
-          <img src={lesson.image.src} alt={lesson.image.alt} loading="lazy" />
-        </figure>
-      ) : null}
-
-      {lesson.codeBlocks?.map((block) => (
-        <CodeBlock
-          key={block.id}
-          block={block}
-          copiedId={copiedId}
-          onCopy={onCopyCode}
-        />
-      ))}
-
-      {lesson.technicalDetails ? (
-        <details className="course-technical-details">
-          <summary>
-            <Code2 aria-hidden="true" />
-            <span>Technical details</span>
-            <ChevronRight aria-hidden="true" />
-          </summary>
-          <p>{lesson.technicalDetails}</p>
-        </details>
-      ) : null}
-
-      <Checklist
-        lesson={lesson}
-        checkedItems={checklistItems}
-        setCheckedItems={setChecklistItems}
-      />
-
-      {lesson.sources?.length ? (
-        <section
-          className="course-sources"
-          aria-labelledby="lesson-sources-title"
-        >
-          <div className="course-section-heading course-section-heading--compact">
-            <ExternalLink aria-hidden="true" />
-            <div>
-              <span>Primary sources</span>
-              <h2 id="lesson-sources-title">Verify it yourself</h2>
-            </div>
-          </div>
-          <ul>
-            {lesson.sources.map((source) => (
-              <li key={source.url}>
-                <a href={source.url} target="_blank" rel="noreferrer">
-                  <span>{source.label}</span>
-                  <ExternalLink aria-hidden="true" />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {showConsultingBridge ? (
-        <aside className="course-consulting-bridge">
-          <div>
-            <span>Before using a larger amount</span>
-            <strong>Would you like another pair of eyes on your setup?</strong>
-            <p>
-              Individual consulting can help review your threat model, recovery
-              plan, and operating procedure. I will never ask for your private
-              keys, seed words, or wallet passphrase.
-            </p>
-          </div>
-          <a
-            href="https://bitcoin-savjetovanje.com/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            See whether consulting is right for you
-            <ExternalLink aria-hidden="true" />
-          </a>
-        </aside>
-      ) : null}
-
-      <footer className="course-lesson__completion">
-        <div>
-          <strong>
-            {isCompletable
-              ? "Have you completed this lesson?"
-              : "This lesson is not available for completion."}
-          </strong>
-          <p>
-            {isCompletable
-              ? "Your completion status is stored locally in this browser."
-              : "Completion will be enabled after technical review and publication."}
-          </p>
-        </div>
-        <button
-          type="button"
-          className={completed ? "is-complete" : undefined}
-          onClick={onToggleComplete}
-          disabled={!isCompletable}
-        >
-          <CheckCircle2 aria-hidden="true" />
-          {completed ? "Completed" : "Mark as completed"}
-        </button>
-      </footer>
-
-      <button type="button" className="course-copy-link" onClick={onCopyLink}>
-        {copiedLink ? (
-          <Check aria-hidden="true" />
-        ) : (
-          <Link2 aria-hidden="true" />
-        )}
-        {copiedLink ? "Link copied" : "Copy lesson link"}
-      </button>
-    </article>
   )
 }
 
 export function BitcoinCoreCurriculumEnPage() {
   useCurriculumMetadata()
   const [activeSlug, setActiveSlug] = useState<string | null>(null)
-  const [completedLessons, setCompletedLessons] = useState<Set<string>>(
+  const [completionMarks, setCompletedLessons] = useState<Set<string>>(
     new Set()
   )
   const [checklistItems, setChecklistItems] = useState<Set<string>>(new Set())
+  const completedLessons = useMemo(
+    () =>
+      effectiveCompletions(
+        curriculumLessons.map((entry) => entry.lesson),
+        completionMarks,
+        checklistItems
+      ),
+    [completionMarks, checklistItems]
+  )
   const [storageReady, setStorageReady] = useState(false)
   const [mobileOutlineOpen, setMobileOutlineOpen] = useState(false)
   const [copiedId, setCopiedId] = useState<string | null>(null)
@@ -1239,6 +299,8 @@ export function BitcoinCoreCurriculumEnPage() {
     null
   )
   const mobileCloseRef = useRef<HTMLButtonElement>(null)
+  const mobileDrawerRef = useRef<HTMLElement>(null)
+  const mobileTriggerRef = useRef<HTMLButtonElement>(null)
 
   const activeEntry = useMemo(() => findLessonBySlug(activeSlug), [activeSlug])
   const activeIndex = activeEntry
@@ -1257,55 +319,11 @@ export function BitcoinCoreCurriculumEnPage() {
               ) < activeIndex
           ) ?? null)
       : null
-  const nextEntry =
-    activeIndex >= 0
-      ? (primaryCurriculumLessons.find(
-          (entry) =>
-            curriculumLessons.findIndex(
-              ({ lesson }) => lesson.id === entry.lesson.id
-            ) > activeIndex
-        ) ?? null)
-      : null
-  const nextEntryIndex = nextEntry
-    ? curriculumLessons.findIndex(
-        ({ lesson }) => lesson.id === nextEntry.lesson.id
-      )
-    : curriculumLessons.length
-  const skippedEntries =
-    activeIndex >= 0
-      ? curriculumLessons
-          .slice(activeIndex + 1, nextEntryIndex)
-          .filter(({ lesson }) => lesson.optional || !isAvailableLesson(lesson))
-      : []
-  const skippedReviewEntry =
-    skippedEntries.find(
-      ({ lesson }) => !lesson.optional && !isAvailableLesson(lesson)
-    ) ?? null
-  const skippedOptionalEntry =
-    skippedEntries.find(({ lesson }) => lesson.optional) ?? null
-  const continueEntry = useMemo<CurriculumEntry | null>(() => {
-    const storedIndex = primaryCurriculumLessons.findIndex(
-      ({ lesson }) => lesson.slug === lastAvailableSlug
-    )
-
-    if (storedIndex >= 0) {
-      const stored = primaryCurriculumLessons[storedIndex]
-      if (stored && !completedLessons.has(stored.lesson.id)) return stored
-
-      const laterIncomplete = primaryCurriculumLessons
-        .slice(storedIndex + 1)
-        .find(({ lesson }) => !completedLessons.has(lesson.id))
-      if (laterIncomplete) return laterIncomplete
-    }
-
-    return (
-      primaryCurriculumLessons.find(
-        ({ lesson }) => !completedLessons.has(lesson.id)
-      ) ??
-      primaryCurriculumLessons.at(-1) ??
-      null
-    )
-  }, [completedLessons, lastAvailableSlug])
+  const nextEntry = nextRequiredEntry(curriculumLessons, activeIndex)
+  const continueEntry = useMemo<CurriculumEntry | null>(
+    () => resumeEntry(curriculumLessons, completedLessons),
+    [completedLessons]
+  )
   const hasLearningHistory =
     Boolean(lastAvailableSlug) || completedLessons.size > 0
 
@@ -1351,19 +369,19 @@ export function BitcoinCoreCurriculumEnPage() {
   }, [])
 
   useEffect(() => {
-    if (storageReady) writeStoredSet(PROGRESS_STORAGE_KEY, completedLessons)
-  }, [completedLessons, storageReady])
+    if (storageReady) writeStoredSet(PROGRESS_STORAGE_KEY, completionMarks)
+  }, [completionMarks, storageReady])
 
   useEffect(() => {
     if (storageReady) writeStoredSet(CHECKLIST_STORAGE_KEY, checklistItems)
   }, [checklistItems, storageReady])
 
   useEffect(() => {
-    if (
-      !activeEntry ||
-      !isAvailableLesson(activeEntry.lesson) ||
-      activeEntry.lesson.optional
-    )
+    if (!activeEntry) return
+    document.title = `${activeEntry.lesson.title} | BTC Pavao`
+    document.getElementById("lesson-title")?.focus({ preventScroll: true })
+    window.scrollTo({ top: 0, behavior: "auto" })
+    if (!isAvailableLesson(activeEntry.lesson) || activeEntry.lesson.optional)
       return
     const rememberTimer = window.setTimeout(() => {
       try {
@@ -1373,8 +391,6 @@ export function BitcoinCoreCurriculumEnPage() {
         // The last lesson is not critical data.
       }
     }, 0)
-    document.title = `${activeEntry.lesson.title} | BTC Pavao`
-    window.scrollTo({ top: 0, behavior: "auto" })
     return () => window.clearTimeout(rememberTimer)
   }, [activeEntry])
 
@@ -1387,7 +403,26 @@ export function BitcoinCoreCurriculumEnPage() {
       280
     )
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMobileOutlineOpen(false)
+      if (event.key === "Escape") {
+        setMobileOutlineOpen(false)
+        mobileTriggerRef.current?.focus()
+      }
+      if (event.key === "Tab") {
+        const buttons =
+          mobileDrawerRef.current?.querySelectorAll<HTMLButtonElement>(
+            "button:not(:disabled)"
+          )
+        if (!buttons?.length) return
+        const first = buttons[0]
+        const last = buttons[buttons.length - 1]
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault()
+          last.focus()
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault()
+          first.focus()
+        }
+      }
     }
     window.addEventListener("keydown", closeOnEscape)
     return () => {
@@ -1457,11 +492,13 @@ export function BitcoinCoreCurriculumEnPage() {
   const activeLesson = activeEntry?.lesson
 
   return (
-    <div className="curriculum-page course-page course-page--persistent-support min-h-screen bg-background text-foreground">
+    <div
+      className={`curriculum-page course-page ${!activeEntry ? "course-page--persistent-support" : ""} min-h-screen bg-background text-foreground`}
+    >
       <a className="skip-link" href="#curriculum-content">
         Skip to content
       </a>
-      <ValueForValueRail language="en" persistent />
+      {!activeEntry && <ValueForValueRail language="en" persistent />}
       <SiteHeader />
 
       <div className="curriculum-header curriculum-header--course">
@@ -1501,6 +538,7 @@ export function BitcoinCoreCurriculumEnPage() {
               <button
                 type="button"
                 className="course-mobile-outline-trigger"
+                ref={mobileTriggerRef}
                 onClick={() => setMobileOutlineOpen(true)}
                 aria-expanded={mobileOutlineOpen}
               >
@@ -1509,7 +547,12 @@ export function BitcoinCoreCurriculumEnPage() {
                 <small>{activeEntry.lessonNumber}</small>
               </button>
 
-              <LessonArticle
+              <CurriculumLesson
+                key={activeLesson.id}
+                language="en"
+                completedLessons={completedLessons}
+                lessons={curriculumLessons.map((entry) => entry.lesson)}
+                onSelectLesson={openLesson}
                 lesson={activeLesson}
                 phase={activeEntry.phase}
                 lessonNumber={activeEntry.lessonNumber}
@@ -1524,26 +567,37 @@ export function BitcoinCoreCurriculumEnPage() {
                   setCompletedLessons((current) => {
                     const next = new Set(current)
                     if (next.has(activeLesson.id)) next.delete(activeLesson.id)
-                    else next.add(activeLesson.id)
+                    else if (
+                      canCompleteLesson(
+                        activeLesson,
+                        checklistItems,
+                        completedLessons
+                      )
+                    )
+                      next.add(activeLesson.id)
                     return next
                   })
                 }
               />
 
-              {skippedReviewEntry || skippedOptionalEntry ? (
+              {nextEntry && !isAvailableLesson(nextEntry.lesson) ? (
                 <aside className="course-next-notice">
                   <ShieldAlert aria-hidden="true" />
                   <div>
                     <strong>
-                      {skippedReviewEntry
-                        ? `The lesson “${skippedReviewEntry.lesson.title}” is still in technical review.`
-                        : "The next deep dive is optional."}
+                      The next required exercise is still in review.
                     </strong>
                     <p>
-                      {skippedReviewEntry
-                        ? "Open it manually from the phase overview if you want to preview what is coming. The button below takes you to another published and verified lesson, not an unverified placeholder."
-                        : "You can open it manually from the phase overview; it does not block the main path."}
+                      The guided path stops here. You can read the draft, but
+                      this does not complete its practical requirements.
                     </p>
+                    <button
+                      type="button"
+                      className="course-copy-link"
+                      onClick={() => openLesson(nextEntry.lesson)}
+                    >
+                      Read the draft: {nextEntry.lesson.title}
+                    </button>
                   </div>
                 </aside>
               ) : null}
@@ -1566,17 +620,15 @@ export function BitcoinCoreCurriculumEnPage() {
                 ) : (
                   <span />
                 )}
-                {nextEntry ? (
+                {nextEntry &&
+                isAvailableLesson(nextEntry.lesson) &&
+                completedLessons.has(activeLesson.id) ? (
                   <button
                     type="button"
                     onClick={() => openLesson(nextEntry.lesson)}
                   >
                     <span>
-                      <small>
-                        {skippedReviewEntry
-                          ? "Another verified lesson"
-                          : "Continue on the main path"}
-                      </small>
+                      <small>Continue on the main path</small>
                       <strong>{nextEntry.lesson.title}</strong>
                     </span>
                     <ArrowRight aria-hidden="true" />
@@ -1595,6 +647,11 @@ export function BitcoinCoreCurriculumEnPage() {
             <aside
               className={`course-drawer ${mobileOutlineOpen ? "is-open" : ""}`}
               aria-hidden={!mobileOutlineOpen}
+              inert={!mobileOutlineOpen}
+              ref={mobileDrawerRef}
+              role="dialog"
+              aria-modal={mobileOutlineOpen || undefined}
+              aria-label="Phases and lessons"
             >
               <div className="course-drawer__header">
                 <strong>Phases and lessons</strong>
@@ -1617,7 +674,12 @@ export function BitcoinCoreCurriculumEnPage() {
             </aside>
           </div>
         ) : (
-          <CourseLanding
+          <CurriculumOverview
+            language="en"
+            phases={curriculumPhases}
+            entries={curriculumLessons}
+            version={CURRICULUM_VERSION}
+            referenceVersion={CORE_REFERENCE_VERSION}
             completedLessons={completedLessons}
             onStart={() => {
               const first = primaryCurriculumLessons[0]

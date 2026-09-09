@@ -1,3 +1,5 @@
+import type { LearningRequirements } from "@/curriculum-learning"
+import { reviseCurriculum } from "@/curriculum-revisions"
 import {
   curriculumModules as legacyModules,
   type CurriculumCodeBlock,
@@ -6,7 +8,7 @@ import {
   type CurriculumStatus,
 } from "@/bitcoin-core-curriculum-data"
 
-export const CURRICULUM_VERSION = "2.1"
+export const CURRICULUM_VERSION = "2.3"
 export const CORE_REFERENCE_VERSION = "Bitcoin Core 31.1"
 export const SPARROW_REFERENCE_VERSION = "Sparrow 2.5.2"
 export const ELECTRUM_REFERENCE_VERSION = "Electrum 4.8.0"
@@ -26,27 +28,28 @@ export type LessonCallout = {
   url?: string
 }
 
-export type PlayerLesson = Omit<CurriculumLesson, "status"> & {
-  status: CurriculumStatus
-  slug: string
-  objective: string
-  estimatedTime: string
-  verification: LessonVerification
-  referenceVersion: string
-  lastReviewed?: string
-  optional?: boolean
-  reviewNote?: string
-  explanation?: string[]
-  walkthrough?: {
-    title: string
-    intro?: string
-    steps: string[]
+export type PlayerLesson = Omit<CurriculumLesson, "status"> &
+  LearningRequirements & {
+    status: CurriculumStatus
+    slug: string
+    objective: string
+    estimatedTime: string
+    verification: LessonVerification
+    referenceVersion: string
+    lastReviewed?: string
+    optional?: boolean
+    reviewNote?: string
+    explanation?: string[]
+    walkthrough?: {
+      title: string
+      intro?: string
+      steps: string[]
+    }
+    callouts?: LessonCallout[]
+    commonMistakes?: string[]
+    communityQuestions?: string[]
+    origin?: string
   }
-  callouts?: LessonCallout[]
-  commonMistakes?: string[]
-  communityQuestions?: string[]
-  origin?: string
-}
 
 export type CurriculumPhase = {
   id: string
@@ -1862,7 +1865,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
 
 const curriculumPhaseOrder = ["0", "1", "2", "4", "3", "5", "6", "7", "8", "9"]
 
-export const curriculumPhases: CurriculumPhase[] = curriculumPhaseOrder.map(
+const orderedCurriculumPhases: CurriculumPhase[] = curriculumPhaseOrder.map(
   (originalId, index) => {
     const phase = curriculumPhasesV21Draft.find(
       (candidate) => candidate.id === originalId
@@ -1872,11 +1875,13 @@ export const curriculumPhases: CurriculumPhase[] = curriculumPhaseOrder.map(
   }
 )
 
+export const curriculumPhases = reviseCurriculum(orderedCurriculumPhases, "hr")
+
 export const curriculumLessons = curriculumPhases.flatMap((phase) =>
   phase.lessons.map((lesson, index) => ({
     phase,
     lesson,
-    lessonNumber: `${phase.id}.${index + 1}`,
+    lessonNumber: `${Number(phase.id) + 1}.${index + 1}`,
   }))
 )
 
@@ -1894,7 +1899,7 @@ export function isAvailableLesson(lesson: PlayerLesson) {
 }
 
 export const primaryCurriculumLessons = curriculumLessons.filter(
-  ({ lesson }) => isAvailableLesson(lesson) && !lesson.optional
+  ({ lesson }) => !lesson.optional
 )
 
 export const curriculumSources = {
