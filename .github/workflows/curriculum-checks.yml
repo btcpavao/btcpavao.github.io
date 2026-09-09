@@ -1,0 +1,36 @@
+name: Check self-custody curriculum
+
+on:
+  pull_request:
+    paths:
+      - 'btcpavao-github-io/src/**'
+      - 'btcpavao-github-io/scripts/**'
+      - 'btcpavao-github-io/package*.json'
+      - '.github/workflows/curriculum-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: curriculum-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: btcpavao-github-io
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: btcpavao-github-io/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run verify:curriculum
+      - run: npm run build
+      - run: npm run verify:assets
