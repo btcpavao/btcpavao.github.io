@@ -2153,6 +2153,45 @@
   border-right: 1px solid var(--border);
 }
 
+.course-player.course-player--sidebar-hidden {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.course-sidebar-toggle {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color 160ms ease-out;
+}
+
+.course-sidebar-toggle:hover {
+  background: var(--muted);
+}
+
+.course-sidebar-toggle svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+@media (max-width: 63.9375rem) {
+  .course-sidebar-toggle {
+    display: none;
+  }
+}
+
+.course-player__sidebar[hidden],
+.course-outline__lessons[hidden] {
+  display: none;
+}
+
 .course-player__sidebar .course-outline {
   position: sticky;
   top: 1.5rem;
@@ -2291,7 +2330,7 @@
   transition: rotate 160ms ease-out;
 }
 
-.course-outline__phases > li.is-active > .course-outline__phase > svg {
+.course-outline__phase[aria-expanded="true"] > svg {
   rotate: 90deg;
 }
 
@@ -2916,6 +2955,12 @@
   padding-bottom: 1.25rem;
 }
 
+.course-checklist > h2 {
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
 .course-checklist__items {
   display: grid;
   gap: 0.55rem;
@@ -2927,7 +2972,7 @@
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 0.9rem;
+  padding: 1rem 1.5rem;
   border: 1px solid var(--border);
   border-radius: 0.85rem;
   background: var(--card);
@@ -2937,6 +2982,12 @@
   transition-property: border-color, background-color, scale;
   transition-duration: 150ms;
   transition-timing-function: ease-out;
+}
+
+@media (max-width: 47.9375rem) {
+  .course-checklist__items label {
+    padding-inline: 1rem;
+  }
 }
 
 .course-checklist__items label:hover {
@@ -4893,6 +4944,11 @@
 
 .home-hero-copy {
   text-shadow: 0 1px 1px color-mix(in oklab, var(--background) 72%, transparent);
+}
+
+/* Buttons have their own solid surface and do not need the hero text shadow. */
+.home-hero-copy [data-slot="button"] {
+  text-shadow: none;
 }
 
 .dark .home-hero-background img {

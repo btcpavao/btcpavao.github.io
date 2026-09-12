@@ -14,6 +14,8 @@ import {
   Check,
   ChevronRight,
   Menu,
+  PanelLeftClose,
+  PanelLeftOpen,
   ShieldAlert,
   X,
 } from "lucide-react"
@@ -140,6 +142,27 @@ function PhaseNavigator({
   const activePhase = curriculumPhases.find((phase) =>
     phase.lessons.some((lesson) => lesson.id === activeLesson.id)
   )
+  const [phaseExpansion, setPhaseExpansion] = useState<{
+    lessonId: string
+    phaseIds: string[]
+  }>({
+    lessonId: activeLesson.id,
+    phaseIds: activePhase ? [activePhase.id] : [],
+  })
+  // A new lesson reveals its phase; browsing the outline does not change lessons.
+  if (phaseExpansion.lessonId !== activeLesson.id) {
+    setPhaseExpansion({
+      lessonId: activeLesson.id,
+      phaseIds: activePhase ? [activePhase.id] : [],
+    })
+  }
+  const expandedPhaseIds =
+    phaseExpansion.lessonId === activeLesson.id
+      ? phaseExpansion.phaseIds
+      : activePhase
+        ? [activePhase.id]
+        : []
+
   const availableCount = primaryCurriculumLessons.length
   const completedCount = primaryCurriculumLessons.filter(({ lesson }) =>
     completedLessons.has(lesson.id)
@@ -184,16 +207,24 @@ function PhaseNavigator({
           .filter((phase) => allPhases || phase.id === activePhase?.id)
           .map((phase) => {
             const isActive = phase.id === activePhase?.id
+            const isExpanded = expandedPhaseIds.includes(phase.id)
+            const lessonsId = `${mobile ? "mobile" : "desktop"}-phase-${phase.id}-lessons`
             return (
               <li key={phase.id} className={isActive ? "is-active" : undefined}>
                 <button
                   type="button"
                   className="course-outline__phase"
                   onClick={() => {
-                    const lesson = phase.lessons[0]
-                    if (lesson) onSelectLesson(lesson)
+                    setPhaseExpansion({
+                      lessonId: activeLesson.id,
+                      phaseIds: isExpanded
+                        ? expandedPhaseIds.filter((id) => id !== phase.id)
+                        : [...expandedPhaseIds, phase.id],
+                    })
                   }}
                   aria-current={isActive ? "step" : undefined}
+                  aria-expanded={isExpanded}
+                  aria-controls={lessonsId}
                 >
                   <span>{String(Number(phase.id) + 1).padStart(2, "0")}</span>
                   <span>
@@ -202,49 +233,51 @@ function PhaseNavigator({
                   </span>
                   <ChevronRight aria-hidden="true" />
                 </button>
-                {isActive ? (
-                  <ol className="course-outline__lessons">
-                    {phase.lessons.map((lesson, index) => {
-                      if (
-                        lesson.optional &&
-                        !showOptional &&
-                        lesson.id !== activeLesson.id
-                      )
-                        return null
-                      const isCurrent = lesson.id === activeLesson.id
-                      return (
-                        <li key={lesson.id}>
-                          <button
-                            type="button"
-                            className={isCurrent ? "is-current" : undefined}
-                            onClick={() => onSelectLesson(lesson)}
-                            aria-current={isCurrent ? "page" : undefined}
-                          >
-                            <span>
-                              {Number(phase.id) + 1}.{index + 1}
-                            </span>
-                            <span className="course-outline__lesson-title">
-                              <span>{lesson.title}</span>
-                              {lesson.optional ? (
-                                <small>Neobavezni deep dive</small>
-                              ) : null}
-                              {!isAvailableLesson(lesson) ? (
-                                <small>
-                                  {lesson.status === "planned"
-                                    ? "Planirano"
-                                    : "U tehničkoj provjeri"}
-                                </small>
-                              ) : null}
-                            </span>
-                            {completedLessons.has(lesson.id) ? (
-                              <Check aria-label="Dovršeno" />
+                <ol
+                  id={lessonsId}
+                  className="course-outline__lessons"
+                  hidden={!isExpanded}
+                >
+                  {phase.lessons.map((lesson, index) => {
+                    if (
+                      lesson.optional &&
+                      !showOptional &&
+                      lesson.id !== activeLesson.id
+                    )
+                      return null
+                    const isCurrent = lesson.id === activeLesson.id
+                    return (
+                      <li key={lesson.id}>
+                        <button
+                          type="button"
+                          className={isCurrent ? "is-current" : undefined}
+                          onClick={() => onSelectLesson(lesson)}
+                          aria-current={isCurrent ? "page" : undefined}
+                        >
+                          <span>
+                            {Number(phase.id) + 1}.{index + 1}
+                          </span>
+                          <span className="course-outline__lesson-title">
+                            <span>{lesson.title}</span>
+                            {lesson.optional ? (
+                              <small>Neobavezni deep dive</small>
                             ) : null}
-                          </button>
-                        </li>
-                      )
-                    })}
-                  </ol>
-                ) : null}
+                            {!isAvailableLesson(lesson) ? (
+                              <small>
+                                {lesson.status === "planned"
+                                  ? "Planirano"
+                                  : "U tehničkoj provjeri"}
+                              </small>
+                            ) : null}
+                          </span>
+                          {completedLessons.has(lesson.id) ? (
+                            <Check aria-label="Dovršeno" />
+                          ) : null}
+                        </button>
+                      </li>
+                    )
+                  })}
+                </ol>
               </li>
             )
           })}
@@ -271,6 +304,7 @@ export function BitcoinCoreCurriculumPage() {
   )
   const [storageReady, setStorageReady] = useState(false)
   const [mobileOutlineOpen, setMobileOutlineOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(true)
   const [copiedId, setCopiedId] = useState<string | null>(null)
   const [copiedLink, setCopiedLink] = useState(false)
   const [lastAvailableSlug, setLastAvailableSlug] = useState<string | null>(
@@ -463,6 +497,22 @@ export function BitcoinCoreCurriculumPage() {
 
       <div className="curriculum-header curriculum-header--course">
         <div>
+          {activeEntry && (
+            <button
+              type="button"
+              className="course-sidebar-toggle"
+              aria-expanded={sidebarOpen}
+              aria-controls="course-desktop-outline"
+              onClick={() => setSidebarOpen((open) => !open)}
+            >
+              {sidebarOpen ? (
+                <PanelLeftClose aria-hidden="true" />
+              ) : (
+                <PanelLeftOpen aria-hidden="true" />
+              )}
+              <span>{sidebarOpen ? "Sakrij korake" : "Prikaži korake"}</span>
+            </button>
+          )}
           <button
             type="button"
             className="course-header-title"
@@ -481,8 +531,14 @@ export function BitcoinCoreCurriculumPage() {
 
       <main id="curriculum-content">
         {activeEntry && activeLesson ? (
-          <div className="course-player">
-            <aside className="course-player__sidebar">
+          <div
+            className={`course-player ${sidebarOpen ? "" : "course-player--sidebar-hidden"}`}
+          >
+            <aside
+              id="course-desktop-outline"
+              className="course-player__sidebar"
+              hidden={!sidebarOpen}
+            >
               <PhaseNavigator
                 activeLesson={activeLesson}
                 completedLessons={completedLessons}
@@ -657,8 +713,7 @@ export function BitcoinCoreCurriculumPage() {
 
       <footer className="curriculum-footer course-footer">
         <p>
-          Edukativni sadržaj za testno i postupno učenje. Nije financijski,
-          pravni ni porezni savjet.
+          Edukativni sadržaj za testno i postupno učenje.
         </p>
         <a href={BITCOIN_CORE_SERIES_PATH}>Bitcoin Core na btcpavao.com</a>
       </footer>

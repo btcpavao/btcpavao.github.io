@@ -61,6 +61,7 @@ const copy = {
     repeat: "Repeat from this step",
     confirmed: "Result confirmed",
     checks: "Confirm what you actually did",
+    readingChecks: "Check your understanding",
     prerequisites: "Complete these prerequisites first",
     open: "Open lesson",
     saved:
@@ -110,6 +111,7 @@ const copy = {
     repeat: "Ponovi od ovog koraka",
     confirmed: "Rezultat potvrđen",
     checks: "Potvrdi što si stvarno napravio",
+    readingChecks: "Provjeri svoje razumijevanje",
     prerequisites: "Prvo dovrši ove preduvjete",
     open: "Otvori lekciju",
     saved:
@@ -468,11 +470,9 @@ export function CurriculumLesson({
           ))}
         </section>
       )}
-      {!lesson.guidedSteps?.length &&
-      kind !== "reading" &&
-      lesson.checklist?.length ? (
+      {lesson.checklist?.length ? (
         <section className="course-checklist">
-          <h2>{t.checks}</h2>
+          <h2>{kind === "reading" ? t.readingChecks : t.checks}</h2>
           <div className="course-checklist__items">
             {lesson.checklist.map((item, index) => {
               const key = checklistKey(lesson.id, index)
@@ -482,7 +482,7 @@ export function CurriculumLesson({
                   <input
                     type="checkbox"
                     checked={checked}
-                    disabled={!available}
+                    disabled={kind !== "reading" && !available}
                     onChange={() =>
                       setChecklistItems((current) => {
                         const next = new Set(current)
@@ -539,13 +539,6 @@ export function CurriculumLesson({
         {lesson.notes?.map((p) => (
           <p key={p}>{p}</p>
         ))}
-        {kind === "reading" && lesson.checklist?.length ? (
-          <ul>
-            {lesson.checklist.map((c) => (
-              <li key={c}>{c}</li>
-            ))}
-          </ul>
-        ) : null}
         {lesson.walkthrough && !lesson.guidedSteps?.length && (
           <>
             <h3>{lesson.walkthrough.title}</h3>

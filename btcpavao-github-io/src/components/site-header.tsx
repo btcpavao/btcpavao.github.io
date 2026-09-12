@@ -1,15 +1,13 @@
-import { useEffect, useRef, useState, useSyncExternalStore } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
   ArrowRight,
   ChevronDown,
-  Languages,
   Menu,
   MoonStar,
   SunMedium,
   X,
 } from "lucide-react"
 
-import { findContentByPath, getLanguageTarget } from "@/content-registry"
 import { SiteBrandLink } from "@/components/site-brand"
 import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
@@ -78,20 +76,6 @@ function ThemeToggle() {
 export function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openGroup, setOpenGroup] = useState<string | null>(null)
-  const currentPath = useSyncExternalStore(
-    () => () => undefined,
-    () => window.location.pathname,
-    () => "/"
-  )
-  const currentLocale = currentPath.startsWith("/hr/") ? "hr" : "en"
-  const targetLocale = currentLocale === "hr" ? "en" : "hr"
-  const languageTarget = getLanguageTarget(currentPath, targetLocale)
-  const currentEntry = findContentByPath(currentPath)
-  const languageLink = {
-    href: languageTarget,
-    label: targetLocale.toUpperCase(),
-    exact: currentEntry?.translationPath === languageTarget,
-  }
   const headerRef = useRef<HTMLElement | null>(null)
   const menuButtonRef = useRef<HTMLButtonElement | null>(null)
   const firstMobileLinkRef = useRef<HTMLAnchorElement | null>(null)
@@ -125,10 +109,6 @@ export function SiteHeader() {
   useEffect(() => {
     if (mobileMenuOpen) firstMobileLinkRef.current?.focus()
   }, [mobileMenuOpen])
-
-  const languageTitle = languageLink.exact
-    ? `Open ${languageLink.label} version`
-    : `${languageLink.label} translation unavailable; open the relevant language hub`
 
   return (
     <header ref={headerRef} className="home-header sticky top-0 z-50 border-b border-border/60 bg-background/88 backdrop-blur-xl">
@@ -173,15 +153,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <a
-            href={languageLink.href}
-            title={languageTitle}
-            aria-label={languageTitle}
-            className="hidden min-h-11 items-center gap-1.5 rounded-full border border-border/70 bg-background/88 px-3 text-sm font-bold text-muted-foreground hover:text-foreground sm:inline-flex"
-          >
-            <Languages className="size-4" aria-hidden="true" />
-            {languageLink.label}
-          </a>
           <ThemeToggle />
           <Button asChild className="hidden min-h-11 rounded-full px-5 xl:inline-flex">
             <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Book a call</a>
@@ -224,10 +195,6 @@ export function SiteHeader() {
                 ))}
               </section>
             ))}
-            <a href={languageLink.href} title={languageTitle} className="flex min-h-11 items-center justify-between rounded-2xl border border-border/70 px-4 text-sm font-semibold">
-              Open {languageLink.label}{!languageLink.exact ? " language hub" : " version"}
-              <Languages className="size-4" aria-hidden="true" />
-            </a>
           </div>
         </nav>
       ) : null}
