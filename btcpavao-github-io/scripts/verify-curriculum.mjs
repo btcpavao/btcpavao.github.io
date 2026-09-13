@@ -304,7 +304,7 @@ try {
   )
   check("New procedures do not acquire a hands-on verification date", () => {
     for (const data of [en]) {
-      assert.equal(data.CURRICULUM_VERSION, "3.1")
+      assert.equal(data.CURRICULUM_VERSION, "3.2")
       for (const id of [
         "offline-device",
         "optional-tails",

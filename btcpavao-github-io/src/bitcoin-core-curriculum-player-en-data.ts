@@ -8,7 +8,7 @@ import {
   type CurriculumStatus,
 } from "@/bitcoin-core-curriculum-en-data"
 
-export const CURRICULUM_VERSION = "3.1"
+export const CURRICULUM_VERSION = "3.2"
 export const CORE_REFERENCE_VERSION = "Bitcoin Core 31.1"
 export const SPARROW_REFERENCE_VERSION = "Sparrow 2.5.2"
 export const ELECTRUM_REFERENCE_VERSION = "Electrum 4.8.0"
@@ -353,7 +353,7 @@ function outlineLesson(config: {
 }
 
 const standardReviewNote =
-  "Operational steps and screenshots must be reproduced with that version before the lesson is published."
+  "Practical review is still pending. The full procedure and screenshots must be checked using the listed software version."
 
 const curriculumPhasesV2: CurriculumPhase[] = [
   {
@@ -435,9 +435,9 @@ const curriculumPhasesV2: CurriculumPhase[] = [
           "This does not mean that every node must be a public server, an archival node, or a computer running 24/7. The function you need determines the resources and operating model.",
         ],
         concepts: [
-          "Rules validation and storage of private keys are separate functions.",
+          "Checking Bitcoin's rules and storing private keys are separate jobs.",
           "A pruned node still validates blocks, although it does not store the entire history on disk.",
-          "Your own node reduces the need to reveal wallet queries to a third party or accept that party's view of the chain.",
+          "Using your own node reduces the need to ask a third party about your addresses and payments or rely on its account of the blockchain.",
         ],
         sources: [coreRepository, coreFiles],
         callouts: [
@@ -472,7 +472,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         verification: "review-required",
         referenceVersion: SPARROW_REFERENCE_VERSION,
         reviewNote:
-          "Official Quick Start confirms the policy, script and keystore decisions. All GUI flow and mnemonic behavior still need to be reproduced on Sparrow 2.5.2 before publication.",
+          "The comparison is based on Sparrow's official Quick Start. Its wallet-creation screens and recovery-word behavior still need hands-on review in Sparrow 2.5.2.",
         sources: [sparrowQuickStart, sparrowRelease],
       }),
       retainLesson("1.3", {
@@ -483,7 +483,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         verification: "review-required",
         referenceVersion: ELECTRUM_REFERENCE_VERSION,
         reviewNote:
-          "The seed system and official instructions are documented, but the screenshots and full creation flow still need to be reproduced on Electrum 4.8.0.",
+          "The comparison is based on Electrum's documented recovery-word system. Its wallet-creation screens and full setup procedure still need hands-on review in Electrum 4.8.0.",
         sources: [electrumDocs, electrumRelease],
       }),
       retainLesson("1.1", {
@@ -1086,7 +1086,7 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         title: "Descriptor experiments",
         summary:
           "Watch-only wallets, checksums, and public metadata in a controlled test environment.",
-        objective: "Explain each descriptor element before import.",
+        objective: "Explain each part of a descriptor before importing it.",
         sources: [descriptors],
         reviewNote: standardReviewNote,
       }),

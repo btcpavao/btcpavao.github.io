@@ -7753,4 +7753,9 @@ input:focus-visible + .curriculum-checkbox {
   .course-prerequisites,
   .course-guided__result,
   .course-guided__warning { padding: 1.5rem; }
+  .course-lesson--focused .course-code__header,
+  .course-lesson--focused .course-code pre { padding: 1.5rem; }
+  .course-lesson--focused .course-code > p,
+  .course-lesson--focused .course-code__parameters,
+  .course-lesson--focused .course-code > .course-inline-message { margin: 1.5rem; }
 }

@@ -68,7 +68,7 @@ export function CurriculumOverview({
           </h1>
           <p className="course-hero__lede">
             {tr(
-              "Learn to protect and recover your bitcoin from the beginning. Practise with test coins first, then learn to approve payments on a computer kept offline. Technical terms are explained as you need them.",
+              "Start with test coins and learn how to back up and recover a wallet. Then practice preparing payments online and approving them on an offline computer, with each new technical term explained as you need it.",
               "Počni modelom prijetnji, vježbaj na Signetu i nauči obnoviti novčanik i potpisivati offline. Mainnet pripremi tek nakon uspješnih vježbi oporavka."
             )}
           </p>
@@ -179,7 +179,7 @@ export function CurriculumOverview({
           <p>
             {referenceVersion} · {tr("Curriculum", "Kurikulum")} v{version}.{" "}
             {tr(
-              "Review scope and source links are listed in each lesson. A content update does not imply that every operating-system combination has been tested. Active work and waiting for synchronization or confirmations are separate.",
+              "Review scope and source links are listed in each lesson. A content update does not imply that every operating-system combination has been tested. Lesson times separate hands-on work from time spent waiting for synchronization or confirmations.",
               "Opseg pregleda i izvori navedeni su u svakoj lekciji. Dorada sadržaja ne znači da je svaka kombinacija sustava praktično provjerena. Aktivan rad i čekanje sinkronizacije ili potvrda odvojeni su."
             )}
           </p>
@@ -195,7 +195,7 @@ export function CurriculumOverview({
           <TutorialMetadata
             language={language}
             goal={tr(
-              "Practise signing and independent wallet recovery.",
+              "Practice signing and independent wallet recovery.",
               "Uvježbaj potpisivanje i neovisni oporavak novčanika."
             )}
             difficulty={tr(
@@ -212,7 +212,7 @@ export function CurriculumOverview({
             )}
             softwareVersion={`${referenceVersion} · Curriculum v${version}`}
             operatingSystems={tr(
-              "Debian Stable x86-64 reference; other Core platforms for practice",
+              "Examples use Debian Stable on x86-64; other supported Core platforms can be used for practice",
               "Referentni Debian Stable x86-64; drugi Core sustavi za vježbu"
             )}
             recommendedOs={tr(
@@ -224,7 +224,7 @@ export function CurriculumOverview({
               "Osnovni rad s datotekama; praktični preduvjeti navedeni su uz svaku provjeru"
             )}
             outcome={tr(
-              "A documented receive, sign, back up and recover procedure",
+              "Written instructions for receiving, signing, backing up and recovering",
               "Dokumentiran postupak primanja, potpisivanja, backupa i obnove"
             )}
             lastReviewed={tr(
@@ -235,7 +235,7 @@ export function CurriculumOverview({
         </details>
         <p className="course-local-note">
           {tr(
-            "Never enter a password, seed, private key or wallet file on this website.",
+            "Never enter a password, recovery words, private key or wallet file on this website.",
             "Na ovoj stranici nikada ne unosi lozinku, seed, privatni ključ ni datoteku novčanika."
           )}
         </p>

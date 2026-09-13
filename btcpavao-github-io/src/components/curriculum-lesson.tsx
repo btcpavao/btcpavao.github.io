@@ -47,7 +47,7 @@ const copy = {
     origin: "Review scope",
     noReview: "Not completed",
     draft:
-      "Read this as a draft. Completion is unavailable until the procedure is tested and published.",
+      "This procedure is a draft. You can read it, but completion is disabled until it has been tested and published.",
     background: "Why this matters and further reading",
     details: "Technical details",
     sources: "Sources",
@@ -66,20 +66,21 @@ const copy = {
     prerequisites: "Complete these prerequisites first",
     open: "Open lesson",
     saved:
-      "Stored only in this browser. These are your declarations, not an independent check of your wallet.",
+      "Progress is saved in this browser. The site records what you confirm; it cannot check your wallet.",
     read: "Mark as read",
     done: "Confirm practice completed",
     checkpointDone: "Confirm checkpoint",
     completed: "Completed",
     undo: "Undo completion",
     remaining: "Confirm each result before completing the exercise.",
-    unavailable: "Practical completion awaits technical review.",
+    unavailable:
+      "Completion is disabled while this exercise awaits practical review.",
     copy: "Copy",
     copied: "Copied",
     link: "Copy lesson link",
     linkCopied: "Link copied",
     secrets:
-      "Never enter a password, seed, private key, or wallet file on this website.",
+      "Never enter a password, recovery words, private key or wallet file on this website.",
   },
   hr: {
     phase: "Faza",
@@ -160,7 +161,7 @@ function Command({
           ) : (
             <Clipboard aria-hidden="true" />
           )}
-          {copiedId === block.id ? t.copied : t.copy}
+          <span>{copiedId === block.id ? t.copied : t.copy}</span>
         </button>
       </div>
       <pre>

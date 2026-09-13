@@ -8,38 +8,38 @@ const introductions: Record<string, Introduction> = {
   "0.1": [
     "What you will learn",
     "Understand what lets you spend bitcoin and what you need to recover it.",
-    "Self-custody means that you control the secrets needed to spend your bitcoin. A private key is a secret number that your software uses to approve a payment with a digital signature. Your wallet manages these keys and keeps track of your payments. Bitcoin Core is the program we will use. It can also act as a node: a computer that checks Bitcoin's transaction history against its rules.",
-    "You will practise with test coins on Signet, a separate Bitcoin network whose coins are not intended to have monetary value. Later, you will learn to approve payments on a computer disconnected from the internet. You will also rebuild a wallet from its backup, so that losing a computer does not have to mean losing access to your bitcoin.",
+    "Self-custody means that you control the secrets needed to spend your bitcoin. A private key is a secret number that your software uses to approve a payment with a digital signature. Your wallet manages these keys and keeps track of your payments. Bitcoin Core is the program we will use. It can also run as a node, checking Bitcoin's transaction history against its rules.",
+    "You will practice with test coins on Signet, a separate Bitcoin network whose coins are not intended to have monetary value. Later, you will learn to approve payments on a computer disconnected from the internet. You will practice restoring a wallet from its backup, so you can regain access to your bitcoin if the original computer fails.",
   ],
   "0.2": [
     "Decide what you need to protect",
     "Write down two things that could go wrong and how you would recover.",
     "A threat model is your answer to three questions: what am I protecting, what could go wrong, and what am I willing to do about it? Start with your own circumstances. Losing a practice wallet is different from losing family savings.",
-    "Every precaution can create another problem to manage. A password protects a stolen backup, but you also need a way to recover that password. Choose a setup you can explain and repeat. More devices and more steps do not automatically make it safer.",
+    "Every precaution can create another problem to manage. A password helps protect a backup if it is stolen, but you also need a way to recover the password. Choose a setup you can explain and repeat. More devices and more steps do not automatically make it safer.",
   ],
   "1.5": [
     "Why this course uses ordinary computers and Bitcoin Core",
-    "Understand the choices this course makes and the responsibility they leave with you.",
-    "For savings, this course uses ordinary dedicated computers, meaning computers reserved for this job rather than everyday browsing or email. They run Linux, an operating system, and Bitcoin Core for checking transactions, managing the wallet and signing payments. Linux and Core are open source: their source code is available for others to inspect. The computer holding private keys stays offline, disconnected from networks.",
-    "This is a deliberate choice, not a claim that an ordinary laptop is always safer than a hardware wallet. Hardware wallets are devices designed to keep signing keys separate and can be easier to operate. You still rely on their manufacturer, their recovery method and their firmware, the low-level software built into the device. Ordinary computers avoid some Bitcoin-specific product dependencies but contain more general-purpose hardware and software. You take responsibility for verifying the software, keeping the signer isolated and repeatedly testing recovery.",
+    "Understand why this course uses this setup and what you will need to manage yourself.",
+    "For savings, this course uses ordinary computers dedicated to this task. Keep them separate from everyday browsing and email. They run Linux, an operating system, and Bitcoin Core for checking transactions, managing the wallet and signing payments. Linux and Core are open source, so their code is available for others to inspect. The computer holding private keys stays offline, disconnected from networks.",
+    "This is a deliberate choice, not a claim that an ordinary laptop is always safer than a hardware wallet. Hardware wallets are devices designed to keep signing keys separate and can be easier to operate. You still rely on their manufacturer, their recovery method and their firmware, the low-level software built into the device. Ordinary computers avoid some Bitcoin-specific product dependencies but contain more general-purpose hardware and software. With this setup, you are responsible for verifying the software, keeping the signer offline and testing recovery regularly.",
   ],
   "signet-why": [
-    "Practise with test coins first",
+    "Practice with test coins first",
     "Learn the whole payment and recovery process before risking real bitcoin.",
-    "Signet is a separate network for practising with Bitcoin software. Its test coins are not intended to have monetary value. You can receive them, send them, make mistakes and repeat the exercise without putting your savings at risk. Mainnet is the real Bitcoin network, where payments move bitcoin with monetary value.",
-    "You will receive test coins, send a small amount, save a wallet backup and restore the wallet from that file. Then you will send again using the restored wallet. That final payment checks something a copied file cannot: whether you can actually regain the ability to spend.",
+    "Signet is a separate network for practicing with Bitcoin software. Its test coins are not intended to have monetary value. You can receive them, send them, make mistakes and repeat the exercise without putting your savings at risk. Mainnet is the real Bitcoin network, where payments transfer bitcoin that has monetary value.",
+    "You will receive test coins, send a small amount, save a wallet backup and restore the wallet from that file. Then you will send again using the restored wallet. That final payment checks whether the backup restores your ability to spend. Simply copying the file does not establish that.",
   ],
   "signet-vs-mainnet": [
     "Check whether you are using test coins or real bitcoin",
     "Recognize Signet and mainnet before creating a wallet or sending a payment.",
     "Mainnet and Signet keep separate transaction histories. A Signet payment does not move real mainnet bitcoin. Core chooses which network to use when it starts. In this course, adding -signet to the launch command selects the practice network.",
-    "Core's console is a text-command panel inside the application. The command getblockchaininfo reports the selected network in a field named chain. The value signet means our practice network; main means real Bitcoin. Check that value instead of guessing from a wallet name or an address. Some other test networks use addresses that look like Signet addresses.",
+    "Core's console is a panel inside the application where you can enter text commands. The command getblockchaininfo reports the selected network in a field named chain. The value signet means our practice network; main means real Bitcoin. Check that value instead of guessing from a wallet name or an address. Addresses on some other test networks look like Signet addresses.",
   ],
   "0.3": [
     "Good security also depends on what you do",
     "Spot everyday mistakes that encryption cannot fix.",
     "Cryptography is the mathematics behind digital signatures and encryption. It can make it extremely difficult to forge a signature or read an encrypted secret without its password. It cannot stop you from deleting your only backup, forgetting the password or approving a payment to the wrong address.",
-    "A security procedure is the set of actions you repeat: check the network, check the recipient, keep separate recovery copies and practise using them. Write the steps down. If a step depends on your memory or on guessing what a warning means, improve the instructions before using meaningful savings.",
+    "A security procedure is the set of actions you repeat: check the network, check the recipient, keep separate recovery copies and practice using them. Write the steps down. If a step depends on your memory or on guessing what a warning means, improve the instructions before entrusting the setup with your savings.",
   ],
   "2.1": [
     "What Bitcoin Core does",
@@ -57,42 +57,42 @@ const introductions: Record<string, Introduction> = {
     "Widely reviewed software can still have bugs",
     "Know what public review tells you, and what you still need to check.",
     "Bitcoin Core's source code and proposed changes are public. Developers review changes and run tests before releasing new versions. A bug is a mistake in the software; a regression is a change that breaks something that previously worked.",
-    "This process gives reasons for confidence, but it does not guarantee flawless software or a safe computer. You still need to obtain the intended release, verify the download, read upgrade instructions and test your own recovery procedure. A familiar name on a download is not a substitute for those checks.",
+    "Public review and testing give us reasons to trust Core, but they do not guarantee that the software is flawless or that your computer is safe. You still need to obtain the intended release, verify the download, read upgrade instructions and test your own recovery procedure. Recognizing the name of a download is no substitute for checking it.",
   ],
   "1.2": [
-    "Why this course keeps the wallet work in Core",
+    "Why this course uses Core for every wallet task",
     "Understand why you do not need to add Sparrow to follow this course.",
-    "Sparrow is another Bitcoin wallet application. It can prepare payments, work with hardware wallets and manage setups that require several signatures. Those can be useful features. You do not need to learn them before completing this course.",
-    "Here, Bitcoin Core already performs the wallet, signing and recovery tasks we teach. Adding another wallet application would mean another interface, file format and update process to understand. You can compare Sparrow later using disposable test wallets. Keep the real keys and backups from this course within its documented Core procedure.",
+    "Sparrow is another Bitcoin wallet application. It can prepare payments, work with hardware wallets and manage setups that require several signatures. Those features can be useful, but you do not need them to complete this course.",
+    "Here, Bitcoin Core already performs the wallet, signing and recovery tasks we teach. Adding another wallet application would mean another interface, file format and update process to understand. You can compare Sparrow later using disposable test wallets. Use the documented Core procedure for the real keys and backups you create in this course.",
   ],
   "1.3": [
     "Why we do not mix Electrum and Core recovery methods",
     "Recognize that different wallet applications can require different recovery information.",
-    "Electrum is a separate Bitcoin wallet application. It normally obtains information through Electrum servers instead of validating the entire blockchain itself. It also has its own wallet files, encryption behavior and recovery-word conventions.",
-    "A recovery method taught for one application is not automatically a recovery method for another. This course uses Bitcoin Core wallet backups throughout. You do not need to install Electrum, create its recovery words or move your Core keys into it to complete the lessons.",
+    "Electrum is a separate Bitcoin wallet application. It normally obtains information through Electrum servers instead of validating the entire blockchain itself. It also uses its own wallet-file formats, encryption settings and recovery-word system.",
+    "A recovery method that works in one application may not work in another. This course uses Bitcoin Core wallet backups throughout. You do not need to install Electrum, create its recovery words or move your Core keys into it to complete the lessons.",
   ],
   "1.1": [
     "Ordinary computers and hardware wallets: what changes?",
     "Compare the responsibilities of the two approaches without assuming either is always safer.",
     "A hardware wallet is a device built to protect keys and approve payments. It can make that job easier and keep keys separate from an everyday computer. You still rely on its hardware, its manufacturer and its firmware, the low-level software built into the device. Some products also use attestation, a check intended to establish that a device or its software is genuine.",
-    "This course chooses ordinary dedicated computers and Core. That reduces dependence on Bitcoin-specific products, but ordinary computers also contain firmware and can be altered before reaching you. This is supply-chain risk: something going wrong during manufacture, distribution or delivery. A general-purpose computer has more components to manage, so isolation, verification and recovery discipline matter. Neither choice removes those responsibilities entirely.",
+    "This course uses ordinary dedicated computers running Core. That reduces dependence on Bitcoin-specific products, but ordinary computers also contain firmware and can be altered before reaching you. This is supply-chain risk: something going wrong during manufacture, distribution or delivery. A general-purpose computer has more components to manage, so isolation, verification and recovery discipline matter. Neither choice removes those responsibilities entirely.",
   ],
   "1.4": [
     "Why your Core backup is a file, not a list of recovery words",
     "Know which two things you must keep to recover this wallet: its backup and its password.",
-    "Many wallets show a list of recovery words. BIP39 is a specification for one such method. The words encode starting secret information used to derive keys. BIP32 describes how many keys can be derived from a starting secret. Derive means calculate them in a repeatable way. Core uses this kind of key generation internally, but it does not give you a BIP39 word list for the wallet taught here.",
-    "In this course you save an encrypted Core wallet backup file and keep its password separately. The file contains the key material and wallet information, including descriptions of how its addresses are made. The password unlocks protected key material; it cannot recreate a missing wallet file. Do not invent a recovery-word backup for this Core wallet.",
+    "Many wallets show a list of recovery words. BIP39 is a specification for one such method. The words represent secret data used to derive keys. BIP32 describes how to derive a family of keys from one starting secret. To derive a key means to calculate it in a repeatable way. Core uses this kind of key generation internally, but it does not give you a BIP39 word list for the wallet taught here.",
+    "In this course you save an encrypted Core wallet backup file and keep its password separately. The file contains the key material and wallet information, including descriptions of how its addresses are made. The password unlocks the protected keys, but it cannot recreate a missing wallet file. Use Core's file-based backup procedure for this wallet.",
   ],
   "signet-install-verify": [
     "Download Core and check that it is the intended release",
-    "Check the downloaded file and the people whose release signatures you rely on.",
+    "Verify the download and identify the people whose release signatures you trust.",
     "A download check has two parts. A checksum is a short fingerprint calculated from a file's contents; it helps detect whether the file changed. A digital signature connects the published checksum list to a signing key. You must also establish whose key it is, otherwise an attacker could supply their own file, checksum and signature.",
-    "The steps below prepare the tools, check the file and identify several release signers before running Core. They explain the messages you should expect. These checks do not prove that the program has no bugs or that your computer is free of malicious software.",
+    "Before you run Core, the steps in this lesson walk you through preparing the tools, checking the file and identifying several release signers. They explain the messages you should expect. These checks do not prove that the program has no bugs or that your computer is free of malicious software.",
   ],
   "signet-start": [
     "Open Core on the Signet practice network",
-    "Start the test network and confirm when your node has caught up.",
-    "The Core application window is its graphical user interface, often shortened to GUI. It includes the node as well as the wallet controls. You do not need to start another background program for these exercises.",
+    "Start Core on Signet and check when your node has caught up.",
+    "Core's application window is its graphical user interface, or GUI. It includes the node as well as the wallet controls. You do not need to start another background program for these exercises.",
     "Synchronization means downloading and checking the blocks your node is missing. Wait for it to finish before relying on the node to check received coins or send transactions. You can prepare an empty practice wallet while it catches up.",
   ],
   "signet-first-wallet": [
@@ -115,7 +115,7 @@ const introductions: Record<string, Introduction> = {
   ],
   "signet-restore": [
     "Rebuild the test wallet from its backup",
-    "Check that a separately restored wallet finds your recorded address and payment.",
+    "Check that the restored wallet recognizes the address and payment you recorded.",
     "Restoring means asking Core to create a usable wallet from your saved backup file. We give the restored copy a different name and keep the original closed. Nothing needs to be deleted for this exercise.",
     "Core may scan stored blocks to find payments belonging to the restored wallet. This is a rescan. Seeing the expected address and transaction is a useful first check. The next lesson tests the password and signing keys by sending from the restored copy.",
   ],
@@ -133,7 +133,7 @@ const introductions: Record<string, Introduction> = {
   ],
   "signet-entropy-deep-dive": [
     "How Core creates unpredictable private keys",
-    "Understand why the software, rather than your imagination, generates wallet keys.",
+    "Understand why you should let the software generate wallet keys.",
     "A private key must be unpredictable. Entropy is a way of describing uncertainty in the information used to make a secret. A random-number generator, or RNG, produces values for the program. A cryptographically secure generator, often called a CSPRNG, is designed so that an attacker cannot predict its output from what they know.",
     "Core combines randomness from the operating system with its own internal generator and other inputs, then checks that the result is a valid key for Bitcoin's signature mathematics. The name secp256k1 identifies that mathematical system. You do not need to perform these calculations or invent random words. Use verified software on a computer you trust, and protect the resulting wallet backup.",
   ],
@@ -144,14 +144,14 @@ const introductions: Record<string, Introduction> = {
     "You can download the public history again. You cannot download lost private keys or your wallet password from the network. Save wallet backups separately from the computer's working data. A synchronized node without your keys is not a replacement for a wallet backup.",
   ],
   "ibd-separation": [
-    "What you can practise while the node catches up",
+    "What you can practice while the node catches up",
     "Separate wallet preparation from actions that need current transaction history.",
     "Initial Block Download, shortened to IBD, is the node's first download and check of the blockchain. Until it catches up, its view of received coins and confirmations is incomplete.",
     "You can create an empty practice wallet, encrypt it, make a backup and try loading that backup before IBD finishes. Wait for synchronization before receiving and spending in the online exercises. Later, the offline signer will approve prepared transactions without downloading a blockchain at all.",
   ],
   "2.3": [
-    "Keep all old blocks, or save disk space with pruning",
-    "Choose storage without confusing less stored history with less checking.",
+    "Keep every block or save disk space with pruning",
+    "Understand what pruning saves and how it affects wallet recovery.",
     "An archival full node keeps the old blocks after checking them. A pruned full node checks the same Bitcoin rules but deletes older block files to save disk space. Pruning does not mean trusting someone else to validate the transactions, and an archival node is not required for safe wallet operation.",
     "The difference matters when restoring a wallet. Core may need old blocks to find its earlier payments. If your pruned node has deleted those blocks, you need access to that history again, including downloading and validating it when necessary. Keeping the full archive makes that task easier when you have enough storage. Neither choice replaces wallet backups.",
   ],
@@ -159,7 +159,7 @@ const introductions: Record<string, Introduction> = {
     "Your node does not have to run all day",
     "Understand when the online node needs to catch up with the network.",
     "A server is a computer providing a service to other computers. You do not need to operate a public server simply to use Core for your own wallet. You may shut down your node normally and start it when needed.",
-    "While it is off, it does not learn about new blocks. On restart it must download and check what it missed before you rely on its current view. Keeping it running can make payments more convenient, but does not remove the need for backups or make an offline signer need a network connection.",
+    "While it is off, it does not learn about new blocks. On restart it must download and check what it missed before you rely on its current view. Keeping it running can make payments more convenient, but backups are still essential. The offline signer still needs no network connection.",
   ],
   "2.6": [
     "Find the wallet data that needs a backup",
@@ -176,8 +176,8 @@ const introductions: Record<string, Introduction> = {
   "architecture-choice": [
     "Choose the two-computer setup used in this course",
     "Give one computer the online work and the other the private signing keys.",
-    "Architecture means how the parts of your setup fit together. Our default uses two ordinary computers reserved for this purpose. Both run Debian Stable, a version of Linux chosen for predictable long-term maintenance, and Bitcoin Core. The online computer checks Bitcoin's history and prepares payments. The offline computer holds the private keys and approves those payments.",
-    "The online savings wallet is watch-only: it can recognize your addresses and payments but cannot sign a spend. The offline computer is the signer. Its Debian installation is persistent, meaning programs and saved files remain after shutdown. Learn and recover this setup with Signet test coins first. Tails, an optional operating system started from a USB drive, comes later if you have a reason to use it.",
+    "Architecture means how the parts of your setup fit together. Our default uses two ordinary computers reserved for this purpose. Both run Debian Stable, a Linux operating system chosen for predictable long-term maintenance, and Bitcoin Core. The online computer checks Bitcoin's history and prepares payments. The offline computer holds the private keys and approves those payments.",
+    "The online savings wallet is watch-only: it can recognize your addresses and payments but cannot sign a transaction. The offline computer is the signer. Its Debian installation is persistent, meaning programs and saved files remain after shutdown. Practice using and recovering this setup with Signet test coins first. Tails, an optional operating system started from a USB drive, comes later if you have a reason to use it.",
   ],
   "2.4": [
     "How the online computer and offline signer work together",
@@ -187,33 +187,33 @@ const introductions: Record<string, Introduction> = {
   ],
   "real-device": [
     "Choose the computers and label the storage devices",
-    "Identify which computer and storage device has each job before installing software.",
+    "Decide which job each computer and storage device will do before installing software.",
     "Dedicated means reserved for this task. Generic hardware means an ordinary computer rather than a product built specifically for Bitcoin. The examples use x86-64 computers, the processor family also called amd64 in Debian downloads. Software built for another processor may not run on your device.",
     "Media means storage devices such as USB drives, external disks or optical discs. Keep the installation USB, the installed system disk, wallet backup devices and payment-transfer USB separate. A label should tell you what a device contains and which computer may use it. Two files on one failed drive are both lost.",
   ],
   "ops-malware": [
-    "Move payment files without bringing unsafe software with them",
+    "Transfer payment files safely between the computers",
     "Decide which files may cross between the computers and how you will check the recipient.",
     "Malware is software designed to harm you, steal information or change what your computer does. Keeping the signer offline blocks ordinary network access, but a USB drive can still bring it malicious files. An air gap means there is no network connection between the devices; it does not make transferred data safe.",
     "Use the transfer device only for the expected public wallet descriptions and PSBT payment files. Never put private wallet backups or passwords on it. Before signing, compare the proposed payment with an independently obtained record of what you intended to pay. A second screen showing the same substituted clipboard address is not an independent check.",
   ],
   "ops-physical": [
     "Know when physical tampering means you should stop",
-    "Write a replacement plan that does not require unlocking a suspicious computer.",
-    "An Evil Maid attack means someone gets access while you are absent and changes the device so they can steal secrets later. They might change hardware, firmware, which is software built into a device, or the software that starts the computer. An unattended laptop is not automatically compromised. Consider who could access it and whether there is reasonable evidence or suspicion of tampering.",
-    "If you reasonably suspect tampering, do not unlock the wallet on that computer just to check it. Remove it from signing duty, prepare trusted replacement hardware with verified software, and restore from known-good backups offline. If keys may have been copied or exposed, make fresh keys on the trusted replacement and move the funds after checking that setup. Changing the old wallet password cannot take a stolen key back.",
+    "Plan how to replace a suspect signer without unlocking its wallet.",
+    "An Evil Maid attack means someone gets access while you are absent and changes the device so they can steal secrets later. They might alter the hardware, the firmware built into it, or the software that starts the computer. An unattended laptop is not automatically compromised. Consider who could access it and whether there is reasonable evidence or suspicion of tampering.",
+    "If you reasonably suspect tampering, do not unlock the wallet on that computer just to check it. Remove it from signing duty, prepare trusted replacement hardware with verified software, and restore from known-good backups offline. If keys may have been copied or exposed, make fresh keys on the trusted replacement and move the funds after checking that setup. Changing the old wallet password cannot stop someone from using a key they already copied.",
   ],
   "offline-device": [
     "Prepare the offline signer and check it after shutdown",
-    "Keep the test wallet offline and prove that its saved files survive a full shutdown.",
+    "Keep the test wallet offline and prove that its saved files are still there after a full shutdown.",
     "The signer is the computer that holds private keys and approves payments. Prepare Debian, verified Core and the password manager while this computer has no wallet secrets. Then disconnect it before creating or restoring a wallet. From that point, it stays offline whenever it holds these keys.",
     "Persistent storage means saved files remain after the computer is turned off. You will choose a specific folder for Core's data and check it after a full shutdown. This checks the installed setup, not independent recovery. You also need a separate wallet backup that can restore the wallet on a replacement computer.",
   ],
   "offline-psbt": [
     "Prepare a payment online and approve it offline",
     "Move a payment between the computers while keeping every private key on the signer.",
-    "First, the signer provides public descriptors: text descriptions that let another wallet calculate and recognize its addresses without receiving its private keys. The online watch-only wallet uses them to track payments and prepare a PSBT file, a payment proposal carrying the information the signer needs.",
-    "A payment spends previous received amounts, called inputs, and creates new amounts assigned to addresses, called outputs. Some outputs pay the recipient; another may return change to you. The offline signer must recognize its own change and let you check every payment and the total fee before signing. The signed file then returns online for broadcast to the network.",
+    "First, you export public descriptors from the signer: text descriptions that let another wallet calculate and recognize its addresses without receiving its private keys. The online watch-only wallet uses them to track payments and prepare a PSBT file, a payment proposal carrying the information the signer needs.",
+    "A payment spends previously received amounts, called inputs, and creates new amounts assigned to addresses, called outputs. Some outputs pay the recipient; another may return change to you. The offline signer must recognize its own change and let you check every payment and the total fee before signing. You then return the signed file to the online node, which broadcasts the transaction.",
   ],
   "offline-recovery": [
     "Replace both computers and repeat the payment",
@@ -222,22 +222,22 @@ const introductions: Record<string, Introduction> = {
     "The online coordinator is simply the online Core computer that prepares and tracks payments. Rebuild its watch-only wallet from public descriptors, then repeat a small Signet payment with both replacements. A balance on a screen is not enough: the replacement signer must approve the payment and the replacement online node must broadcast it.",
   ],
   "ops-documentation": [
-    "Write instructions someone can recover with",
-    "Make a recovery card that works without your memory or the original computers.",
-    "A recovery card is a written map of the setup: what each computer does, which wallet is used, where its backup is stored and how to recover the password separately. Recovery material means the files, devices and records the procedure needs. The card itself should not contain a private key or password.",
-    "Try following the card with your Signet test files. Whenever you have to guess, add the missing instruction. Then have the person who could act if you died or became unavailable try it too. Practise with test material rather than sharing real wallet secrets for an exercise.",
+    "Write a recovery guide someone else can follow",
+    "Write recovery instructions that do not depend on your memory or the original computers.",
+    "A recovery card is a written guide to the setup: what each computer does, which wallet is used, where its backup is stored and how to recover the password separately. Recovery material means the files, devices and records the procedure needs. The card itself should not contain a private key or password.",
+    "Try following the card with your Signet test files. Whenever you have to guess, add the missing instruction. Then have the person who could act if you died or became unavailable try it too. Practice with test material rather than sharing real wallet secrets for an exercise.",
   ],
   "optional-tails": [
     "Optional: use Tails as the offline operating system",
     "Understand what a live system changes before choosing it over the default Debian signer.",
-    "Tails is an operating system you start from a USB drive. A live system runs from that removable media rather than a normal installation on the computer's internal disk. Amnesic means that it is designed to leave much session data behind when shut down. This can reduce saved operating-system state, but does not make altered hardware or firmware trustworthy.",
-    "The optional draft below uses Tails Persistent Storage, an encrypted area that deliberately keeps selected files after shutdown. It is therefore not a completely nonpersistent wallet. You still need separate Core backups, passwords and a full recovery test. Learn the default Debian procedure first, and choose Tails only if the difference solves a problem in your own threat model.",
+    "Tails is an operating system you start from a USB drive. A live system runs from that removable media rather than a normal installation on the computer's internal disk. Amnesic means that most session data is discarded at shutdown. This can reduce the information left on the device, but does not make altered hardware or firmware trustworthy.",
+    "The optional procedure in this lesson uses Tails Persistent Storage, an encrypted area that deliberately keeps selected files after shutdown. Your wallet therefore remains available between sessions. You still need separate Core backups, passwords and a full recovery test. Learn the default Debian procedure first, and choose Tails only if the difference solves a problem in your own threat model.",
   ],
   "architecture-path-a": [
     "Optional: keep a small spending wallet online",
     "Understand the simpler hot-wallet approach and its exposure to online attacks.",
     "A hot wallet holds private keys on a device connected to a network. The same computer can prepare and sign a payment, so there are fewer devices and file transfers to manage. Encryption protects stored key material while locked, but malware may capture secrets or misuse keys when the wallet is unlocked.",
-    "A simpler setup can reduce mistakes if you cannot reliably operate a more involved one. That does not make an online computer suitable for every amount or threat. This course's reference for meaningful savings keeps the keys on a separate offline signer. Decide what loss you could tolerate before using an online spending wallet.",
+    "A simpler setup can reduce mistakes if you cannot reliably operate a more involved one. That does not make an online computer suitable for every amount or threat. This course's recommended setup for long-term savings keeps the keys on a separate offline signer. Decide what loss you could tolerate before using an online spending wallet.",
   ],
   "2.5": [
     "Why the signer does not download the blockchain",
@@ -249,29 +249,29 @@ const introductions: Record<string, Introduction> = {
     "Three wallet roles you will encounter",
     "Recognize which wallets can observe payments and which can approve spending.",
     "A hot wallet holds signing keys on a network-connected computer. A watch-only wallet has public information for recognizing addresses and transactions but no private keys to sign a spend. An offline signing wallet holds the private keys on a disconnected computer and approves a payment prepared elsewhere.",
-    "In our two-computer setup, the online wallet is watch-only and the offline wallet signs. Public descriptors connect their view of addresses; PSBT files carry proposed and signed payments. Watch-only does not mean public: its addresses and history can reveal financial information even though it cannot spend.",
+    "In our two-computer setup, the online wallet is watch-only and the offline wallet signs. Public descriptors let both wallets recognize the same addresses; PSBT files carry proposed and signed payments. Watch-only does not mean public: its addresses and history can reveal financial information even though it cannot spend.",
   ],
   "mainnet-separate-wallet": [
     "Start a new wallet for real bitcoin",
-    "Reuse the procedure you practised, never the test keys or passwords.",
-    "Mainnet is Bitcoin's real network. Create new keys, a new wallet password and separately labelled backups for it. Do not convert your Signet practice wallet into a savings wallet or restore a test backup into this setup.",
+    "Reuse the procedure you practiced, never the test keys or passwords.",
+    "Mainnet is Bitcoin's real network. Create new keys, a new wallet password and separately labeled backups for it. Do not convert your Signet practice wallet into a savings wallet or restore a test backup into this setup.",
     "The roles remain the same: a disconnected computer holds the encrypted private-key wallet, and an online watch-only computer checks the chain and prepares payments. Before depositing anything, restore the new empty wallet offline and check that its separately stored password works.",
   ],
   "real-encryption": [
     "Create the real wallet and its password offline",
-    "Make a fresh encrypted wallet, a separate backup and a recoverable password.",
+    "Create an encrypted wallet and make sure you can recover both its backup and password.",
     "Use the offline password manager prepared earlier. A password generator chooses random characters for you; you should not invent a sentence or reuse a practice password. If you save the wallet password in an encrypted password-manager database, you also need a way to recover that database and its own password.",
-    "Keep the real wallet in its own Core data folder, separate from Signet practice files. Make the wallet backup after enabling encryption. The backup file and wallet password are both needed for recovery and should not depend on the same device surviving.",
+    "Keep the real wallet in its own Core data folder, separate from Signet practice files. Make the wallet backup after enabling encryption. Recovery needs both the backup file and the wallet password. Store them so that one failed device cannot take away both.",
   ],
   "backup-redundancy-freshness": [
     "Keep backups separate and up to date",
     "Check both how many usable copies you have and whether they cover your current wallet.",
     "Redundancy means keeping copies that will not all disappear in the same failure. Two files on one USB drive do not protect against losing that drive. Separate devices and locations can protect against different failures. Freshness means the backup includes the wallet's current keys, settings and other information you need to recover.",
-    "Make a fresh backup after encryption, a wallet-password change or importing new keys or descriptors. Save a new copy when newer labels or other wallet records matter too. Modern wallets derive new keys from a saved starting secret, so every new receiving address does not by itself require another backup. Changing the active wallet password does not change passwords on old backup files, and it cannot revoke keys someone has copied.",
+    "Make a fresh backup after encryption, a wallet-password change or importing new keys or descriptors. Save a new copy when newer labels or other wallet records matter too. Modern wallets derive new keys from a saved starting secret, so creating a new receiving address does not, by itself, require another backup. Changing the active wallet password does not change passwords on old backup files, and it cannot revoke keys someone has copied.",
   ],
   "encrypted-backup-privacy": [
     "Understand what an encrypted backup still reveals",
-    "Consider both the ability to spend and the privacy of your wallet information.",
+    "Understand how key protection differs from financial privacy.",
     "Core wallet encryption protects private-key material. It does not necessarily hide public keys, addresses, transaction records or labels. These records are often called metadata: information about the wallet's activity rather than the secret needed to sign a payment.",
     "Someone who obtains the file may learn about your finances even if the password prevents spending. Cloud storage can make a copy available after local devices fail, but it also gives a third party a stored copy and adds online exposure. If you use an additional encrypted container to hide the entire file, include that container and its password in the recovery test. Extra protection also creates another thing you must recover.",
   ],
@@ -285,7 +285,7 @@ const introductions: Record<string, Introduction> = {
     "Check the setup before a small real-bitcoin test",
     "Confirm the empty-wallet recovery before risking even the first test amount.",
     "You should have a new mainnet wallet, separate recoverable backups and password, and an offline replacement that recognizes its address. The online watch-only wallet must have no savings private keys. Check the actual setup rather than relying on this website's progress marks.",
-    "This checkpoint permits only the planned small test. It does not prove that spending works yet. The next exercise must send from the restored offline wallet and reach a confirmation before you consider adding meaningful savings.",
+    "This checkpoint permits only the planned small test. It does not prove that spending works yet. The next exercise must send from the restored offline wallet and reach a confirmation before you consider adding substantial savings.",
   ],
   "mainnet-small-test": [
     "Send a small real payment from the restored wallet",
@@ -295,8 +295,8 @@ const introductions: Record<string, Introduction> = {
   ],
   "ops-routine": [
     "Schedule backup checks and recovery practice",
-    "Write down when you will check the copies and when you will fully recover the wallet again.",
-    "A quick backup check asks whether the expected copies are present, their storage devices are readable and the instructions still make sense. A recovery drill goes further: restore on a replacement computer, recover the password and complete a payment. A readable filename does not prove those steps work.",
+    "Schedule your next backup check and full recovery drill.",
+    "A quick backup check asks whether the expected copies are present, their storage devices are readable and the instructions still make sense. A recovery drill goes further: restore on a replacement computer, recover the password and complete a payment. Seeing a file in a folder does not prove that recovery will work.",
     "Check backup media every 3–6 months and complete a full recovery drill at least once a year. Consider twice a year for high-value or complicated setups. Repeat after changes to the wallet, password, backups, signer or recovery instructions. Use Signet for repeated practice and separately test the actual mainnet recovery material offline. Keep operating-system and Core updates on their own maintenance schedule.",
   ],
   "ops-inheritance": [
@@ -312,10 +312,10 @@ const introductions: Record<string, Introduction> = {
     "It also adds devices, records and coordination. You must preserve the wallet's complete signing rule and public-key information, not merely two private keys. Choose it when shared authorization or a specific failure risk justifies those responsibilities. A larger balance by itself does not tell you whether you can operate it reliably.",
   ],
   "multisig-signet": [
-    "Practise a two-out-of-three wallet on Signet",
-    "Understand what must agree before two signers can approve the same payment.",
+    "Practice using a two-out-of-three wallet on Signet",
+    "Check that both signers are approving a payment from the same wallet.",
     "A 2-of-3 wallet has three participating keys and requires any two signatures to spend. Its descriptor is the text description of that rule, the public keys and how the wallet makes addresses. Every participant must check that they are working with the same wallet description.",
-    "Use only new test keys. Compare a specific receiving address on the participants, prepare one PSBT payment file and add two valid signatures to that same proposal. Then test a different pair. This is an advanced draft: do not infer that a production-ready multisig setup has been verified merely because the idea is described here.",
+    "Use only new test keys. Compare the same receiving address on each participant's device, prepare one PSBT payment file and add two valid signatures to that same proposal. Then test a different pair. This is an advanced draft: the description alone does not establish that the setup is ready for real funds.",
   ],
   "multisig-backup": [
     "Back up the rule as well as the multisig keys",
@@ -324,7 +324,7 @@ const introductions: Record<string, Introduction> = {
     "Save the exact wallet description and the relevant wallet backups, key origins, derivation paths and passwords. A key origin identifies where a key came from; a derivation path records the sequence used to calculate a child key. Test reconstruction with one signer unavailable. Do not assume that any two isolated key files will automatically discover the original wallet.",
   ],
   "multisig-failures": [
-    "Practise losing a multisig signer",
+    "Practice losing a multisig signer",
     "Recover the test wallet with one signer unavailable and the original coordinator set aside.",
     "A failure simulation is a controlled rehearsal of something going wrong. For a 2-of-3 wallet, set one test signer aside without deleting it. The two remaining signers should still be able to approve a payment if you also have the full wallet description and correct backups.",
     "Rebuild the coordinator, the computer that prepares and combines payment files, from your records rather than its original wallet database. Check a recorded address and complete a Signet payment. If recovery depends on information still sitting on an excluded device, add that information to the backup plan and repeat the test.",
@@ -342,7 +342,7 @@ const introductions: Record<string, Introduction> = {
     "Keep the exact descriptor, relevant key information, wallet backups and any additional data your chosen signing tool needs. Write down which keys and conditions each route requires. A collection of keys without the original structure may be insufficient. Treat this as an advanced recovery problem to test, not a shortcut around the basic backup exercises.",
   ],
   "complex-simple": [
-    "Make a complicated wallet understandable to recover",
+    "Make a complex wallet easier to recover",
     "Turn each extra condition into a written, testable recovery step.",
     "A wallet policy is its rule for who can spend and under what conditions. More keys, waiting periods or alternative routes can address particular risks, but each adds something to remember, preserve and test.",
     "Write one plain sentence for each route: who acts, what they need and what must be true first. Then follow the instructions using Signet test material without help from the original devices. If you cannot explain a condition or reproduce its recovery, simplify the policy before using real savings.",
@@ -351,13 +351,13 @@ const introductions: Record<string, Introduction> = {
     "Test every planned spending route",
     "Prove each alternative independently rather than testing only the easiest one.",
     "A spending path is one allowed way to authorize a transaction. A wallet may have a normal route and a fallback route with different keys or conditions. One successful payment proves only the route used for that payment.",
-    "For each route, record the required keys, files, signatures and any waiting condition. Rehearse both success and the expected failure when a required condition is absent. Use isolated test wallets. Do not mark the complete recovery plan tested until every route you intend to rely on has been reproduced.",
+    "For each route, record the required keys, files, signatures and any waiting condition. Test that the route works when its conditions are met and fails when a required condition is missing. Use isolated test wallets. Do not mark the recovery plan as tested until you have successfully rehearsed every route you intend to rely on.",
   ],
   "lab-method": [
     "Run an experiment you can repeat",
     "Write a small test with a clear starting point and an observable result.",
     "A useful experiment answers one question. Write the Core version, test network, wallet names, starting files, commands or clicks and the result you expect. Use disposable keys and a separate data folder so the test cannot act on a wallet holding real funds.",
-    "Record what actually happened, including error messages with secrets removed. Keep the original files intact when you can. Someone following the same notes should be able to repeat the test and tell whether it worked. A checked box without a recorded observation is not a reproduction record.",
+    "Record what actually happened, including error messages with secrets removed. Keep the original files intact when you can. Someone following the same notes should be able to repeat the test and tell whether it worked. A checked box is not enough. Record the result so someone else can compare it with their own test.",
   ],
   "lab-rpc": [
     "Understand Core's console and command-line tools",
@@ -367,12 +367,12 @@ const introductions: Record<string, Introduction> = {
   ],
   "lab-descriptors": [
     "Read a wallet descriptor before importing it",
-    "Identify the address rule, public-key information and recovery details in the text.",
+    "Identify the address rules, public keys and recovery information in a descriptor.",
     "A descriptor is a structured text description of how a wallet makes addresses and spends their outputs. It may name a script type, public keys, key origins and derivation paths. A range tells Core which numbered addresses to calculate. A checksum at the end helps detect typing mistakes; it does not prove the descriptor belongs to the intended wallet.",
-    "Use test wallets and explain each part before import. Public descriptors can reveal addresses and activity, while descriptors containing private keys can enable spending. Do not paste either kind into a public help request. Preserve original timestamps so Core knows how far back it may need to look for payments.",
+    "Use a test wallet. Explain each part of a descriptor before importing it. Public descriptors can reveal addresses and activity, while descriptors containing private keys can enable spending. Do not paste either kind into a public help request. Preserve original timestamps so Core knows how far back it may need to look for payments.",
   ],
   "lab-psbt": [
-    "Find what a payment file is still missing",
+    "Check what a payment file is still missing",
     "Distinguish a proposal, a signed PSBT and a transaction ready to broadcast.",
     "PSBT means Partially Signed Bitcoin Transaction. It is a container for a proposed payment, information about the amounts being spent and any signatures added so far. A file ending in .psbt is not necessarily signed or ready to send.",
     "Decoding means reading the file's structured contents. Finalizing means assembling the required signatures and other spending data into their final form. Extraction produces the raw transaction that can be broadcast. If something is missing, identify it before continuing. Never solve an unclear error by blindly signing or pasting the file into a public website.",
@@ -411,7 +411,7 @@ export function reviseBeginnerLanguage(lessons: Map<string, PlayerLesson>) {
 }
 
 const debianReason =
-  "Debian Stable is the default operating system for both dedicated computers in this course. Its stable releases change less often than fast-release desktop systems, and its established software packages suit computers maintained for years. This makes our maintenance procedure easier to plan. It does not prove that Debian is inherently more secure than Fedora. Fedora and other supported Linux distributions remain alternatives if you can maintain and test them."
+  "Debian Stable is the default operating system for both dedicated computers in this course. Its stable releases change less often than fast-release desktop systems, and its mature software repositories make it practical to maintain a dedicated computer for years. That predictability makes maintenance easier to plan. It does not make Debian inherently more secure than Fedora. Fedora and other supported Linux distributions remain alternatives if you can maintain and test them."
 
 const backgroundCopy: Record<string, Partial<PlayerLesson>> = {
   "0.1": {
@@ -428,7 +428,7 @@ const backgroundCopy: Record<string, Partial<PlayerLesson>> = {
     what: "Consider losing access to your bitcoin as well as someone stealing it. The list below gives examples to use in your own plan.",
     concepts: [
       "Lost secrets: the computer holding your private keys fails, the backup file disappears, or you forget the wallet password. Write a separate recovery answer for each.",
-      "Harmful software: malware is a program that acts against you. An internet attacker might take over the online computer, or a malicious download might install harmful software before you disconnect a signer.",
+      "Harmful software: malware is software that steals information, damages files or interferes with your computer. An internet attacker might take over the online computer, or a malicious download might install harmful software before you disconnect a signer.",
       "Problems before a device reaches you: its manufacture, distribution or delivery can introduce a fault or deliberate alteration. This is supply-chain risk. Firmware, the low-level software built into hardware, can also be affected.",
       "Physical access: someone steals a computer or changes it while you are away. A changed device might capture a password the next time you use it.",
       "Accidents and failures: a disk or backup USB drive breaks, a file is deleted, or someone follows the wrong procedure. Two copies on one failed disk do not provide independent recovery.",
@@ -438,7 +438,7 @@ const backgroundCopy: Record<string, Partial<PlayerLesson>> = {
   "1.5": {
     notes: [
       "A device sold specifically to Bitcoin owners can attract attackers seeking wallet keys. It also brings product-specific assumptions about its manufacturer, firmware and recovery method. Using ordinary hardware reduces these Bitcoin-specific dependencies, but ordinary computers also face supply-chain and firmware risks.",
-      "We keep hardware wallets out of the practical path so you can learn one complete Core procedure. Their dedicated signing hardware and simpler controls can be useful. The ordinary Linux computer we choose has more components to manage, so its safety depends on careful setup, isolation and tested recovery.",
+      "We keep hardware wallets out of the practical path so you can learn one complete Core procedure. Their dedicated signing hardware and simpler controls can be useful. An ordinary Linux computer has more components to manage, so its safety depends on careful setup, isolation and tested recovery.",
     ],
   },
   "signet-why": {
@@ -507,7 +507,7 @@ const backgroundCopy: Record<string, Partial<PlayerLesson>> = {
       "Core recovery requires the encrypted backup and its password. The file also keeps address descriptions and wallet information that recovery words alone do not record.",
     ],
     notes: [
-      "Keep the encrypted Core backup and its password separately, so losing one location does not hand an attacker both. Plan recovery of each. The password cannot recreate a missing file, and a strong password makes the protected keys difficult to recover from a stolen file.",
+      "Keep the encrypted Core backup and its password separately, so someone who gains access to one storage location does not get both. Make sure you can recover each separately. The password cannot recreate a missing file, and a strong password makes the protected keys difficult to recover from a stolen file.",
       "This choice concerns how you store and recover secrets. It is not a claim that correctly generated BIP39 words lack randomness. Do not generate or store a BIP39 word list for this Core wallet.",
     ],
     callouts: [
@@ -660,12 +660,13 @@ type StepCopy = {
   instructions: string[]
   expectedResult?: string
   title?: string
+  help?: string
 }
 const stepCopy: Record<string, StepCopy> = {
   "0.2/protect": {
     instructions: [
-      "Write whether you are practising with test coins or planning to protect real savings. Note who needs access and what losing the wallet would mean for them. Keep actual amounts and identities private.",
-      "Do this before choosing an operating system, the software that runs the computer, or buying a signer, the computer that will hold your private keys. Your choices should answer the risks you wrote down.",
+      "Write whether you are practicing with test coins or planning to protect real savings. Note who needs access and what losing the wallet would mean for them. Keep actual amounts and identities private.",
+      "Do this before choosing an operating system, the software that runs the computer, or buying a signer, the computer that will hold your private keys. Choose tools that address the risks you identified.",
     ],
     expectedResult:
       "Your notes say what you are protecting, who needs access and what loss you could tolerate.",
@@ -673,23 +674,25 @@ const stepCopy: Record<string, StepCopy> = {
   "0.2/risks-v3": {
     instructions: [
       "Choose two problems relevant to you, such as losing a computer or becoming unable to help your family recover. For each, write one precaution, the steps you would take to recover, and a new problem that precaution might create.",
-      "For example, a password protects a stolen encrypted backup, but a forgotten password can also lock you out. A separate offline computer reduces exposure to internet attacks, but adds another device and file transfers to manage. The full list of threats is in the explanation below.",
+      "For example, a password helps protect a stolen backup, but forgetting it can also lock you out. A separate offline computer reduces exposure to internet attacks, but adds another device and file transfers to manage. The full list of threats is in the explanation below.",
     ],
     expectedResult:
       "For each of two problems, you have written a precaution, a recovery plan and a drawback to manage.",
   },
   "0.2/complexity": {
+    help: "Choose a setup you can operate and recover reliably. If the offline procedure taught here is more than you can manage, pause before putting savings at risk.",
     instructions: [
       "Write which steps you could reliably repeat under stress and who could follow the recovery instructions if you died or became unavailable. If you cannot explain a precaution or test it, do not rely on it for savings yet.",
-      "Keep these notes. When the course asks you to choose the computers and backups, check that the proposed setup addresses your problems without adding more work than you can maintain.",
+      "Keep these notes. When the course asks you to choose the computers and backups, check that the proposed setup addresses your problems without adding more work than you can reliably manage.",
     ],
     expectedResult:
       "You have a practical limit on the complexity you will accept and a recovery plan that does not rely only on your memory.",
   },
   "signet-install-verify/tools-check": {
+    help: "command -v finds installed tools. curl can download files, git downloads the builder-key repository, gpg checks signatures, sha256sum checks file contents and tar unpacks the archive. The browser downloads in later steps do not require curl.",
     instructions: [
       "A terminal is an application where you type commands for the operating system. Open Debian's Terminal application on the online preparation computer. This is different from the text console inside Bitcoin Core.",
-      "Run the command below. command -v looks for each named tool. It prints the location of tools it finds; a missing tool has no location printed. Check all five names, because a minimal Debian installation may not include them.",
+      "Run the command below. command -v looks for each named tool. It prints the location of each tool it finds; it prints nothing for a missing tool. Check all five names, because a minimal Debian installation may not include them.",
     ],
     expectedResult:
       "You see a location for curl, git, gpg, sha256sum and tar, or can name which ones are missing.",
@@ -702,13 +705,13 @@ const stepCopy: Record<string, StepCopy> = {
   },
   "signet-install-verify/platform": {
     instructions: [
-      "The download must match both your operating system and your processor. This example uses Linux on x86-64, the processor family Debian calls amd64. A .tar.gz archive is a compressed bundle of program files; do not run or extract its program yet.",
-      "Open the official Core download page in Sources. In one new folder save bitcoin-31.1-x86_64-linux-gnu.tar.gz, SHA256SUMS and SHA256SUMS.asc from release 31.1. SHA256SUMS lists file checksums; SHA256SUMS.asc contains signatures over that list. Check the current official release before following this worked example, and keep all three files from the same release. Other platforms need their matching instructions.",
+      "The download must match both your operating system and your processor. This example uses Linux on x86-64, the processor family Debian calls amd64. A .tar.gz archive is a compressed bundle of program files. Leave it unopened until verification is complete.",
+      "Open the official Core download page listed under Sources. Save the following files together in a new folder: bitcoin-31.1-x86_64-linux-gnu.tar.gz, SHA256SUMS and SHA256SUMS.asc from release 31.1. SHA256SUMS lists file checksums; SHA256SUMS.asc contains signatures over that list. Check the current official release before following this worked example, and keep all three files from the same release. Other platforms need their matching instructions.",
     ],
   },
   "signet-install-verify/folder": {
     instructions: [
-      "Commands run in a current folder. Open the terminal in the folder containing your three downloaded files, then run pwd and ls below. pwd prints the folder's location; ls lists its files. Compare both with the file manager.",
+      "Every terminal command runs from a particular folder, called the current directory. Open the terminal in the folder containing your three downloaded files, then run pwd and ls below. pwd prints the folder's location; ls lists its files. Compare both with the file manager.",
       "To move to another folder, use cd followed by its path. For example, cd Downloads/ enters Downloads when you are in your home folder. cd .. goes up one folder. Use the actual folder name on your computer, which may differ. Continue only when the archive and both SHA256SUMS files appear in the same location.",
     ],
   },
@@ -727,19 +730,20 @@ const stepCopy: Record<string, StepCopy> = {
   "signet-install-verify/builder-import": {
     instructions: [
       "GnuPG is the signature-checking program, usually called gpg in commands. OpenPGP is the standard used for these signatures. GPG keeps imported public keys in a local keyring, which is simply its database of keys.",
-      "Run the import command below. The * selects the files in builder-keys. Importing makes the keys available for verification; it does not mean you trust every owner. You do not need to create a private GPG key to check a Core download.",
+      "Run the import command below. The * selects all the files in builder-keys. Importing makes the keys available for verification; it does not mean you trust every owner. You do not need to create a private GPG key to check a Core download.",
     ],
   },
   "signet-install-verify/fingerprints": {
     instructions: [
-      "A fingerprint is the full identifier calculated from a public key. A copied name, email address or short key ID is not enough to establish identity. Run gpg --fingerprint below and keep the full fingerprints for the builders you intend to rely on.",
+      "A fingerprint is the full identifier calculated from a public key. A copied name, email address or short key ID is not enough to establish identity. Run gpg --fingerprint below and record the full fingerprints of the builders you intend to rely on.",
       "For several builders, compare the full fingerprint with a trustworthy independent source, such as their established personal website or a separately authenticated direct contact. Another copy of the same repository is not independent. Record who you checked and how. If you cannot establish a key's identity, do not count its signature as trusted evidence.",
     ],
   },
   "signet-install-verify/signature": {
+    help: "A missing public key prevents GPG from checking that particular signature; it does not invalidate the others. An uncertified-key warning means GPG has not established the key owner's identity through its trust database. Verify identity independently. Stop for a bad signature, an unexplained fingerprint mismatch, an expired or revoked key you rely on, or too few valid signatures from identified builders. Do not change GPG's ownertrust settings just to hide warnings.",
     instructions: [
       "Run the command below to check the signatures in SHA256SUMS.asc against SHA256SUMS. Read the results for the builders whose full fingerprints you checked. Good signature means the signature matches that key. It does not, by itself, establish the person's identity.",
-      "Accept several valid signatures from the expected, independently identified builders. A missing public key means that particular signature was not checked. An uncertified-key warning concerns GPG's stored trust information; resolve identity independently rather than hiding the warning. Stop for a bad signature, a fingerprint mismatch, an expired or revoked key you rely on, or too few identified valid signers.",
+      "Confirm that several builders you independently identified have valid signatures. A missing public key means that particular signature was not checked. An uncertified-key warning concerns GPG's stored trust information; resolve identity independently rather than hiding the warning. Stop for a bad signature, a fingerprint mismatch, an expired or revoked key you rely on, or too few valid signatures from builders you have identified.",
     ],
     expectedResult:
       "Several identified builders have valid signatures, and their full key fingerprints match your independent records.",
@@ -753,7 +757,7 @@ const stepCopy: Record<string, StepCopy> = {
   "signet-start/launch": {
     instructions: [
       "Close any other Core application window first. In the terminal, move to the verified bitcoin-31.1/bin folder and run the command below. The extra -signet setting tells Core to use test coins. On another operating system, start the matching verified Core program with that same setting.",
-      "When Core asks where to store its data, choose a separate practice folder with enough space. This data directory holds the node's working files. Leave the Core window running for the exercises; it already includes the node, so no separate server process is needed.",
+      "When Core asks where to store its data, choose a separate practice folder with enough space. This data directory holds the node's working files. Leave the Core window running for the exercises; it already includes the node, so no separate server program is needed.",
     ],
     expectedResult:
       "Core opens on Signet and begins downloading and checking the practice network's blocks.",
@@ -781,6 +785,7 @@ const stepCopy: Record<string, StepCopy> = {
       "The reply names signet-training-wallet and shows both descriptors and private_keys_enabled as true, meaning enabled.",
   },
   "signet-encrypt-new-backup/context": {
+    help: "If either value differs, stop. Select the intended test wallet and confirm Signet before continuing.",
     instructions: [
       "Check the network and selected wallet in Core's console using the commands below. The reply to getblockchaininfo must say chain = signet. The reply to getwalletinfo must name signet-training-wallet.",
       "Use a password reserved for this test. If either value differs, stop and select the intended practice wallet and network. Do not encrypt or change a different wallet by mistake.",
@@ -788,8 +793,8 @@ const stepCopy: Record<string, StepCopy> = {
   },
   "signet-encrypt-new-backup/encrypt": {
     instructions: [
-      "Choose Settings → Encrypt Wallet in the Core window. Enter your dedicated test password twice in Core's dialog. Passphrase is Core's word for the wallet password; the two entries must match.",
-      "Read Core's warning about making a fresh backup. Encryption protects private-key material when locked, but creates no password-reset option. If this test wallet is already encrypted, use its known test password rather than changing another wallet.",
+      "Choose Settings → Encrypt Wallet in the Core window. Enter your dedicated test password twice in Core's dialog. Passphrase is Core's word for the wallet password; both entries must match.",
+      "Read Core's warning about making a fresh backup. Encryption protects the private keys while the wallet is locked. Core has no password-reset option. If this test wallet is already encrypted, use its known test password rather than changing another wallet.",
     ],
   },
   "signet-encrypt-new-backup/backup": {
@@ -821,7 +826,7 @@ const stepCopy: Record<string, StepCopy> = {
   },
   "signet-receive-send/send": {
     instructions: [
-      "Create another receiving address in your own test wallet. In Send, enter that address and a small amount below your confirmed balance. Leave enough for the fee and the later recovery exercise. This is a self-transfer: both the sending and receiving addresses belong to you.",
+      "Create another receiving address in your own test wallet. In Send, enter that address and a small amount below your confirmed balance. Leave enough for the fee and the later recovery exercise. This is a self-transfer, a payment between addresses in your own wallet.",
       "Choose a displayed fee rate, the price paid per unit of transaction size. Before sending, compare the full destination, payment amount and total fee in Core's confirmation dialog. Unlock with the test password when requested, then send. If you do not understand the total fee, stop before approving.",
     ],
   },
@@ -834,7 +839,7 @@ const stepCopy: Record<string, StepCopy> = {
   "signet-restore/record": {
     instructions: [
       "Record an address that received test coins and its transaction ID. Select File → Close Wallet for signet-training-wallet. Closing unloads it from Core; it does not delete the files.",
-      "Keep the original files intact and locate signet-training-after-encryption.dat separately. The purpose is to make the backup supply the recovery information. The original must stay closed during this exercise and the next payment.",
+      "Keep the original files intact and locate signet-training-after-encryption.dat separately. This ensures that recovery uses the backup rather than the original wallet. The original must stay closed during this exercise and the next payment.",
     ],
   },
   "signet-restore/restore": {
@@ -844,6 +849,9 @@ const stepCopy: Record<string, StepCopy> = {
     ],
   },
   "signet-restore/compare": {
+    help: "Compare an address you recorded earlier, not just the next address each wallet generates. The wallets may be at different positions in their address sequences. A visible balance alone does not prove that you can sign.",
+    expectedResult:
+      "The restored wallet recognizes the recorded transaction and the amounts that should still be available to spend.",
     instructions: [
       "Find the address and transaction ID you recorded before closing the original. Check them in signet-training-restored and keep signet-training-wallet closed. The restored wallet should recognize the expected received amounts that remain available to spend.",
       "Compare a recorded address, not only the next new address each wallet creates. Wallets can be at different positions in their address sequences. Seeing a balance is only the first check; sending from the restored copy next will test access to the signing keys.",
@@ -858,10 +866,12 @@ const stepCopy: Record<string, StepCopy> = {
   "signet-transact-again/spend": {
     instructions: [
       "Repeat the small self-transfer from the receive/send lesson, now using signet-training-restored. Check the full destination, amount, any change returning to you and the total fee. Enter the recovered test password only when Core asks for it in the send dialog.",
-      "Wait for a confirmation and record the new transaction ID. If the password fails, the keys are missing or the payment does not complete, the recovery test is unfinished. Return to the selected wallet and backup instead of treating a visible balance as success.",
+      "Wait for a confirmation and record the new transaction ID. If the password fails, the keys are missing or the payment does not complete, the recovery test is unfinished. Check the selected wallet and backup before trying again. A visible balance alone does not mean recovery succeeded.",
     ],
   },
   "real-device/hardware": {
+    expectedResult:
+      "Both computers support Debian and Core. You have assigned one to online work and the other to offline signing.",
     instructions: [
       "Identify two ordinary computers you control and can reserve for this setup. These examples use x86-64 processors, also called amd64 in Debian downloads. Check that Debian Stable supports their hardware, their disks work and they can start from the intended installation media before creating keys.",
       "Follow Debian's official installation-media verification guide in Sources. Installation can erase a disk: identify the selected disk and preserve any files you still need first. A familiar computer model is not proof that its hardware or firmware has not been altered.",
@@ -869,38 +879,44 @@ const stepCopy: Record<string, StepCopy> = {
   },
   "real-device/separation": {
     instructions: [
-      "Label the computer's installed system disk, the USB used to install Debian, the wallet backup devices and the USB used to move PSBT payment files. Media means the storage device itself. Give each device a clear purpose and record which computer may read it.",
+      "Label the computer's installed system disk, the USB used to install Debian, the wallet backup devices, and the USB used to move PSBT payment files. Media means the storage device itself. Give each device a clear purpose and record which computer may read it.",
       "Keep the password recovery record separate from wallet backups and payment-transfer media. Two backup files on one disk share the risk of that disk failing. A transfer USB can carry harmful files even when the signer has no network connection.",
     ],
   },
   "real-device/online-node": {
+    help: "Keep the full block archive if storage allows. Pruning saves disk space and still checks all Bitcoin rules. If you choose pruning, plan how to obtain old blocks when a recovery scan needs them.",
     instructions: [
       "Install Debian Stable on the online computer, apply its security updates and verify the official Core release using the earlier lesson. Start Core on Signet and wait for it to download and check the practice network's history.",
       "Do not put the savings private-key wallet on this computer. The later PSBT lesson creates its watch-only wallet, which recognizes payments but cannot sign. You may keep the full block archive if storage allows. Pruning saves space by deleting old checked blocks; plan how recovery will obtain any deleted history it needs.",
     ],
   },
   "ops-malware/media": {
+    expectedResult:
+      "You have identified the transfer device and can name the file types allowed on it.",
     instructions: [
-      "Use the labelled payment-transfer device only for public descriptors, which describe wallet addresses without private keys, and PSBT files containing proposed or signed payments. Open only the expected data file in the verified application.",
+      "Use the labeled payment-transfer device only for public descriptors, which describe wallet addresses without private keys, and PSBT files containing proposed or signed payments. Open only the expected data file in the verified application.",
       "Never run a program or install an update supplied on this device while signing. Keep private wallet backups and passwords off it. The absence of a network connection does not make USB contents trustworthy; unexpected files or instructions are a reason to stop.",
     ],
   },
   "ops-malware/destination": {
+    expectedResult:
+      "You have chosen an independent, trusted source for the recipient's address and know how to compare it on the signer.",
     instructions: [
       "For Signet, record a receiving address from your own training wallet. For a real payment, obtain the recipient's address through a separately authenticated channel, a way of communicating where you have checked who the person is. Do not rely only on the address pasted into the online computer.",
       "On the signer, compare every character with that independent record. Check every payment amount, any change returning to you and the total fee. Looking at the same compromised clipboard on two screens does not provide a separate source of truth.",
     ],
   },
   "ops-physical/physical-plan": {
+    help: "A locked room, controlled storage or signs of tampering may help you assess the risk. An intact seal or a clean scan cannot prove that firmware and hardware are unchanged. Leaving a laptop unattended does not, by itself, mean its keys were stolen.",
     instructions: [
-      "Write who can physically reach the signer and how you will store it between uses. List evidence that would make you suspect it had been altered. An Evil Maid attack is a modification made while you are absent, intended to capture secrets when you next use the device.",
+      "Write who can physically access the signer and how you will store it between uses. List evidence that would make you suspect it had been altered. An Evil Maid attack is a modification made while you are absent, intended to capture secrets when you next use the device.",
       "Write the stop rule explicitly: if tampering is reasonably suspected, do not unlock the wallet on that computer to test it. A seal or malware scan cannot prove that hardware or firmware is clean. Equally, simply leaving a laptop unattended does not prove that its keys have been stolen.",
     ],
   },
   "ops-physical/replacement-plan": {
     instructions: [
       "Write a response you can follow without trusting the suspicious machine: stop using it for signing, obtain trusted replacement hardware, install verified Debian and Core, disconnect the replacement, restore known-good backups and recheck addresses, wallet descriptions, password access and signing.",
-      "Known-good means you have a reason to trust the hardware or backup, not merely that a filename looks familiar. Do not copy the suspicious computer's system image to the replacement. If private keys may have been copied, especially after unlocking on the suspect machine, create fresh keys on the trusted replacement and move the funds after checking it. A password change does not revoke a copied private key.",
+      "Known-good means you have a reason to trust the hardware or backup, not just that a model name or filename looks familiar. Do not copy the suspicious computer's system image to the replacement. If private keys may have been copied, especially after unlocking on the suspect machine, create fresh keys on the trusted replacement and move the funds after checking it. A password change does not revoke a copied private key.",
     ],
   },
   "offline-device/debian-preparation": {
@@ -918,7 +934,7 @@ const stepCopy: Record<string, StepCopy> = {
   "offline-device/debian-datadir": {
     instructions: [
       "In the file manager, open your home folder and create folders named core and core-signet. Unpack the verified release inside core so the program is at core/bitcoin-31.1/bin/bitcoin-qt. The command below starts that program, selects Signet and stores working data in core-signet. $HOME means your home folder; -networkactive=0 and -listen=0 turn off Core's network activity and listening.",
-      "Keep the computer physically disconnected. In Core's Window → Console, run getblockchaininfo and getnetworkinfo. Check chain = signet and networkactive = false. false means disabled. This signer is not synchronized with the blockchain, which is expected: the online node will provide payment information in PSBT files.",
+      "Keep the computer physically disconnected. In Core's Window → Console, run getblockchaininfo and getnetworkinfo. Check chain = signet and networkactive = false. false means disabled. The signer is not synchronized with the blockchain. That is expected: the online node will provide payment information in PSBT files.",
     ],
   },
   "offline-device/wallet": {
@@ -935,8 +951,8 @@ const stepCopy: Record<string, StepCopy> = {
   },
   "offline-psbt/export": {
     instructions: [
-      "A public descriptor is a text description from which Core can calculate your addresses without receiving private signing keys. It may contain an extended public key, which can generate a sequence of public keys. The receive branch makes addresses for incoming payments; the internal or change branch makes addresses for money returned to you.",
-      "On the offline signer, select signet-offline-wallet in Window → Console and run listdescriptors without true. The reply is structured text called JSON. Save only the descriptors array, the list between its opening [ and matching closing ], as signet-public-descriptors.json. Keep each entry and its range, timestamp, next_index, active and internal fields intact, including the compatibility field next if present. Use a plain-text file on the transfer device. Never run listdescriptors true, export a private descriptor or transfer the wallet backup or password.",
+      "A public descriptor is a text description from which Core can calculate your addresses without receiving private signing keys. It may contain an extended public key, from which Core can derive a sequence of public keys. The receive branch makes addresses for incoming payments; the internal or change branch makes addresses for money returned to you.",
+      "On the offline signer, select signet-offline-wallet in Window → Console and run listdescriptors without true. The reply is structured text called JSON. Save only the descriptors array, the list between its opening [ and matching closing ], as signet-public-descriptors.json. Keep each entry and its range, timestamp, next_index, active and internal fields intact. Keep the next field too, if present; it is a compatibility copy of next_index. Use a plain-text file on the transfer device. Never run listdescriptors true, export a private descriptor or transfer the wallet backup or password.",
     ],
     expectedResult:
       "The saved JSON list contains the public receive and change descriptions with their original fields. No private key, wallet backup or password crosses to the online computer.",
@@ -949,11 +965,14 @@ const stepCopy: Record<string, StepCopy> = {
   },
   "offline-psbt/import": {
     instructions: [
-      "Open signet-public-descriptors.json as plain text on the online computer. JSON arrays use [ and ] around the list, with named fields inside each entry. range gives the address-number range, timestamp tells Core how far back to look for payments, next_index records its next address position, active says whether to use the description for new addresses, and internal distinguishes change from receiving addresses.",
+      "Open signet-public-descriptors.json as plain text on the online computer. JSON arrays use [ and ] around the list, with named fields inside each entry. range gives the address-number range, timestamp tells Core how far back to look for payments, next_index records the next address position, active says whether to use the description for new addresses, and internal distinguishes change from receiving addresses.",
       "In the signet-watch-only Core console, enter importdescriptors followed by the complete saved array inside single quotes. Keep all fields and original timestamps. Use the array, not the outer object that contained it in the original reply. Check that every import entry reports success: true and that getwalletinfo still reports private_keys_enabled: false. Do not replace old timestamps with now to skip a scan.",
     ],
   },
   "offline-psbt/address": {
+    help: "Two wallets can be at different positions in their address sequences. Check the same recorded address on both devices instead of generating a new address on each and expecting them to match.",
+    expectedResult:
+      "The offline wallet recognizes the address as its own, with ismine: true, and the receive branch matches your records. Only then request a small faucet payment to it.",
     instructions: [
       "Create a receiving address in signet-watch-only and take that exact public address to the offline signer. In its Core console, run getaddressinfo with the address inside double quotes. ismine: true means the selected offline wallet recognizes it as its own.",
       "Check the returned descriptor and derivation path, the recorded sequence used to calculate this address, against the receive branch you exported. Compare the complete address on both devices. Only after those checks, request a small Signet faucet payment to it. Do not compare two independently generated next addresses; their address counters may be at different positions.",
@@ -966,6 +985,8 @@ const stepCopy: Record<string, StepCopy> = {
     ],
   },
   "offline-psbt/review": {
+    expectedResult:
+      "Every output is accounted for, the recipient matches your independent record, and you understand the total fee.",
     instructions: [
       "Move only the expected .psbt file to the offline computer. Select signet-offline-wallet and choose File → Load PSBT from file. Treat this as an untrusted proposal until you have checked it.",
       "For every output, check which address receives what amount. Compare the recipient with your independent record. Any change output returns the unused remainder to your wallet and must be recognized as yours. Check the displayed total fee too. Do not sign if the fee cannot be calculated, an output is unexplained, change is unrecognized or an address differs.",
@@ -973,8 +994,8 @@ const stepCopy: Record<string, StepCopy> = {
   },
   "offline-psbt/sign": {
     instructions: [
-      "After reviewing the whole payment, choose Sign Tx in the PSBT dialog. Tx is short for transaction. Enter the test wallet password only when Core requests it. Core uses the private keys to approve the payment without transferring those keys.",
-      "Check that Core reports the transaction fully signed and ready for broadcast. Save the signed PSBT with a different filename so you can distinguish it from the unsigned proposal. Close the wallet normally and keep the signer offline. A file saved without the needed signatures is not a completed payment.",
+      "After reviewing the whole payment, choose Sign Tx in the PSBT dialog. Tx is short for transaction. Enter the test wallet password only when Core requests it. Core signs the payment with the private keys; the keys stay on the signer.",
+      "Check that Core reports the transaction fully signed and ready for broadcast. Save the signed PSBT with a different filename so you can distinguish it from the unsigned proposal. Close the wallet normally and keep the signer offline. Saving a file does not mean it has been signed. Check Core's signing status before continuing.",
     ],
   },
   "offline-psbt/broadcast": {
@@ -986,24 +1007,31 @@ const stepCopy: Record<string, StepCopy> = {
   "offline-recovery/signer": {
     instructions: [
       "Set the original signer and its working disk aside intact. Prepare trusted replacement hardware with verified Debian and Core using the signer-setup lesson. Disconnect it before restoring any wallet secrets, and use a separate Core Signet data folder.",
-      "Using only known-good recovery copies, choose File → Restore Wallet and restore signet-offline-after-encryption.dat as signet-offline-restored. Check an address you previously recorded receiving coins. The original signer must supply nothing for this recovery. Never restore this private-key backup on the online computer.",
+      "Using only known-good recovery copies, choose File → Restore Wallet and restore signet-offline-after-encryption.dat as signet-offline-restored. Check an address you recorded earlier that has received test coins. The original signer must supply nothing for this recovery. Never restore this private-key backup on the online computer.",
     ],
   },
   "offline-recovery/coordinator": {
+    help: "Use a node with the blocks needed for recovery. Public descriptors restore the address rules, but not labels stored only on the original online computer. Keep a separate watch-only wallet backup if you need those labels.",
+    expectedResult:
+      "The new online wallet reports private_keys_enabled: false and finds the expected unspent amounts without using the original coordinator's database.",
     instructions: [
       "The coordinator is the online computer that tracks payments and prepares PSBT files. Close its original watch-only wallet. On a separate synchronized Signet Core setup, create a new blank wallet with private keys disabled.",
       "Export public descriptors from the restored offline signer and import the complete receive and change entries with their original timestamps, as in the PSBT lesson. Let Core scan for payments and compare your recorded transactions. Keep private_keys_enabled = false. Public descriptors recover the address rules, but not labels written only in the lost coordinator; preserve a separate watch-only backup if you need those labels.",
     ],
   },
   "offline-recovery/sign-again": {
+    expectedResult:
+      "A payment signed and broadcast using only the replacement computers has received a confirmation. The original wallets and signer disk were not needed.",
     instructions: [
       "Repeat the PSBT payment using only the replacement online wallet and signet-offline-restored. Prepare the proposal online, check every output and fee offline, unlock with the test password recovered from its separate record, and sign.",
-      "Return the signed file to the replacement online node, broadcast it and wait for confirmation. Record the transaction ID, software versions and any missing instructions you discovered. This proves more than a visible balance: both replacement roles completed the payment without the original wallets or disk.",
+      "Return the signed file to the replacement online node, broadcast it and wait for confirmation. Record the transaction ID, software versions and any missing instructions you discovered. This confirms that both replacement computers completed the payment without using the original wallets or disks.",
     ],
   },
   "ops-documentation/card": {
+    expectedResult:
+      "The recovery card identifies the necessary files, devices and records, and explains their purpose. It contains no password or private key.",
     instructions: [
-      "Write a recovery card on paper. List the network, which computer signs and which prepares payments, wallet names, Core and operating-system versions, backup dates and locations, and how to find password recovery separately. Identify the public descriptor file and the wallet's creation date.",
+      "Write a recovery card on paper. List the network, which computer signs and which prepares payments, wallet names, Core and operating-system versions, backup dates and locations, and where to find the separate password-recovery records. Identify the public descriptor file and the wallet's creation date.",
       "Write the ordered steps for rebuilding each computer and mark the actions that must stay offline. The card should identify the needed files and records without containing a private key or password. Keep it private too: addresses and storage locations can reveal sensitive financial information.",
     ],
   },
@@ -1014,12 +1042,16 @@ const stepCopy: Record<string, StepCopy> = {
     ],
   },
   "ops-documentation/operator-unavailable": {
+    expectedResult:
+      "You have named the person who could recover the wallet and checked that they can follow the test instructions to find both the backup and the separate password record.",
     instructions: [
-      "Name the person who could act if you died or became unavailable. Ask them to locate the instructions and rehearse with Signet test files. They should be able to find the wallet backup and recover its password through the separate records without your memory supplying missing steps.",
+      "Name the person who could act if you died or became unavailable. Ask them to locate the instructions and rehearse with Signet test files. They should be able to find the wallet backup and recover its password through the separate records without relying on you to fill in missing steps.",
       "Correct anything unclear. Do not share real wallet secrets simply to run this practice. Review the access instructions after life changes; legal arrangements for inheritance need their own appropriate review.",
     ],
   },
   "optional-tails/tails-benefit": {
+    expectedResult:
+      "You can explain which risk Tails addresses and why the extra setup and maintenance are worthwhile for you.",
     instructions: [
       "Tails starts from a USB drive. It can reduce information left behind by a session, while a normal persistent Debian installation keeps saved files and settings. After completing the Debian recovery rehearsal, write which particular risk would be reduced by using Tails.",
       "Write down the extra USB-startup, storage and recovery steps you would accept. Continue only if that benefit matters. This draft deliberately uses encrypted Persistent Storage for some files, so it is not a completely amnesic wallet. Starting Tails cannot make altered hardware or firmware trustworthy.",
@@ -1040,13 +1072,13 @@ const stepCopy: Record<string, StepCopy> = {
   "optional-tails/datadir": {
     instructions: [
       "Before any wallet keys exist, bring the verified Linux x86-64 Core 31.1 archive and verification records from the preparation computer. Unpack it at /home/amnesia/Persistent/core/bitcoin-31.1. In the Files application, create /home/amnesia/Persistent/core-signet for Core's data.",
-      "Start Core with the explicit command below. The paths identify the saved program and data inside Persistent, rather than the temporary home folder. In Core's console, check networkactive = false using getnetworkinfo. If the program or required supporting software cannot run, stop. Do not connect a keyed signer to download a fix or silently switch to temporary storage.",
+      "Start Core with the explicit command below. The paths identify the saved program and data inside Persistent, rather than the temporary home folder. In Core's console, check networkactive = false using getnetworkinfo. If the program or required supporting software cannot run, stop. Do not connect a signer holding private keys to download a fix or silently switch to temporary storage.",
     ],
   },
   "optional-tails/wallet": {
     instructions: [
       "In the offline Core window, create signet-offline-wallet with Encrypt Wallet enabled and a dedicated test password. Keep private keys enabled so it can sign. Choose File → Backup Wallet and save signet-offline-after-encryption.dat on a separate backup device.",
-      "Create and record a Receive address before closing Core normally. Keep wallet backups and passwords off the regular PSBT transfer USB. Tails Persistent Storage is the working copy, not a substitute for a backup on another device.",
+      "Create and record an address using Receive before closing Core normally. Keep wallet backups and passwords off the regular PSBT transfer USB. Tails Persistent Storage is the working copy, not a substitute for a backup on another device.",
     ],
   },
   "optional-tails/coldboot": {
@@ -1056,9 +1088,11 @@ const stepCopy: Record<string, StepCopy> = {
     ],
   },
   "real-encryption/password": {
+    expectedResult:
+      "You can retrieve the new random wallet password even if the wallet's backup device is unavailable.",
     instructions: [
       "On the trusted offline signer, open the verified password manager prepared earlier. Use its generator to create a unique password of 24 random letters and digits. Random means chosen by the software, not a memorable pattern you invent. Do not use a browser generator or a test password.",
-      "Preserve it in a recoverable offline record or encrypted password-manager database. Check that you can retrieve it before using it. If using a database, keep its own password recoverable too. Neither the password record nor its recovery should depend on the wallet's backup device surviving.",
+      "Preserve it in a recoverable offline record or encrypted password-manager database. Check that you can retrieve it before using it. If using a database, keep its own password recoverable too. You must be able to recover the password even if the device holding the wallet backup fails.",
     ],
   },
   "real-encryption/mainnet": {
@@ -1076,18 +1110,21 @@ const stepCopy: Record<string, StepCopy> = {
   "real-restore/restore": {
     instructions: [
       "Before depositing bitcoin, set the original signer aside and prepare a trusted replacement with verified software. Disconnect it before recovery and use a separate mainnet data folder. Restore mainnet-savings-after-encryption.dat as savings-restored.",
-      "In the restored wallet's Core console, use getaddressinfo for the address recorded when you created the wallet. Check that the wallet recognizes it and the expected descriptor, its address and spending-rule description. No private wallet file may touch the online node. This checks an empty wallet; a confirmed spend comes later.",
+      "In the restored wallet's Core console, use getaddressinfo for the address recorded when you created the wallet. Check that the wallet recognizes the address and that the returned descriptor, which describes its addresses and spending rules, matches your records. Never copy the private wallet file to the online node. This checks an empty wallet; a confirmed spend comes later.",
     ],
   },
   "real-restore/unlock": {
+    help: "If the password fails, stop before depositing. Core has no wallet-password reset service. Return to your separate password-recovery records and check that you have the correct password.",
     instructions: [
       "Loading the wallet makes its records visible. Unlocking uses its password to make private keys temporarily available. You must check the actual recovered password, not only whether Core displays the address.",
-      "With savings-restored selected in the offline Core console, read help walletpassphrase. Following that command's syntax there, unlock the wallet for 60 seconds with your recovered password, then call walletlock. Check getwalletinfo afterward; unlocked_until should be 0 when locked. Do not put this password in the operating-system terminal, a document, screenshot or website. If it fails, stop before depositing.",
+      "With savings-restored selected in the offline Core console, read help walletpassphrase. Follow the syntax shown in that help text to unlock the wallet for 60 seconds with your recovered password. Then run walletlock. Check getwalletinfo afterward; unlocked_until should be 0 when locked. Do not enter the password in the operating-system terminal, paste the command with the password into your notes, or include it in a screenshot or website. If it fails, stop before depositing.",
     ],
     expectedResult:
       "Core accepts the recovered password, and getwalletinfo reports unlocked_until: 0 after walletlock.",
   },
   "real-restore/public": {
+    expectedResult:
+      "The online wallet knows the mainnet wallet's address rules but has no private keys. The restored offline signer recognizes the receiving address.",
     instructions: [
       "Create a new online savings-watch-only wallet and repeat the public-descriptor export/import from the Signet PSBT lesson, now using savings-restored on the offline signer. The public descriptions let the online wallet recognize the real wallet's addresses without its private keys.",
       "Keep both receive and change branches and their original timestamps. Use the new mainnet descriptor file, not the Signet one. Confirm private_keys_enabled = false and a synchronized mainnet node. Check one exact receiving address on the restored offline signer before using it. Missing old blocks must be recovered for a needed scan, not skipped.",
@@ -1114,21 +1151,28 @@ const stepCopy: Record<string, StepCopy> = {
     ],
   },
   "ops-routine/schedule": {
+    help: "This schedule is the course's recommended baseline, not a rule of the Bitcoin network. Apply needed security updates sooner; do not wait for the annual drill.",
+    expectedResult:
+      "You have scheduled both the next quick backup check and the next full recovery drill.",
     instructions: [
-      "Write the date of the next quick check of backup files and storage devices, due every 3–6 months. Also write the date of the next full recovery drill, due at least once a year. A drill means actually rebuilding the wallet and completing the signing process.",
+      "Schedule a quick check of backup files and storage devices within the next 3–6 months. Schedule a full recovery drill within the next year. A drill means actually rebuilding the wallet and completing the signing process.",
       "For high-value or complicated setups, consider two full drills a year. These are course recommendations, not rules enforced by Bitcoin. Apply needed security updates sooner rather than waiting for the annual test.",
     ],
   },
   "ops-routine/media-check": {
+    help: "A file's presence does not prove that recovery works. Keep your only good copy safe while testing. A cloud file listing, or a second file on the same disk, does not establish independent recovery.",
     instructions: [
       "Check that each expected backup file is present and readable on its USB drive, external disk or optical disc. Use a trusted environment and keep private wallet backups off the online coordinator. Retain another good copy while testing a device.",
       "Read the recovery instructions too. Record which copies you checked, replace failed media and fix unclear steps. A cloud file listing or a second file on the same disk does not prove independent recovery. This quick check does not replace actually restoring and signing.",
     ],
   },
   "ops-routine/full-drill": {
+    help: "Signet lets you practice the procedure, but it does not test your actual mainnet backup or password. Check those offline on a trusted replacement and complete the small mainnet test before relying on the setup for savings. Never upload a real backup to a practice website.",
+    expectedResult:
+      "You have recorded a confirmed transaction completed with the replacement computers, along with any corrections to the recovery instructions.",
     instructions: [
       "Follow the offline-recovery exercise using the recovery card and a trusted replacement. Restore the wallet, check recorded addresses and public descriptions, and retrieve its separately stored password. Prepare a PSBT online, review and sign offline, then broadcast and confirm. Record the outcome and corrections.",
-      "Use Signet for repeated practice. A Signet test does not test the actual mainnet backup or password: check those offline on the trusted replacement and complete the existing small-value mainnet test before relying on meaningful savings. Never upload a real backup to a practice website.",
+      "Use Signet for repeated practice. A Signet test does not test the actual mainnet backup or password: check those offline on the trusted replacement and complete the existing small-value mainnet test before relying on the setup for substantial savings. Never upload a real backup to a practice website.",
     ],
   },
   "ops-routine/change-trigger": {
@@ -1140,7 +1184,7 @@ const stepCopy: Record<string, StepCopy> = {
   "ops-routine/maintenance": {
     instructions: [
       "Record four separate things: Debian, the operating system; Core's program files; Core's blockchain data folder; and the wallet files and passwords needed for recovery. Normal OS or Core updates do not require downloading the blockchain again if the data remains intact. Read each release's upgrade notes: database migrations, reindexing, corruption or deleted blocks can require extra work. Reindexing means rebuilding Core's indexes from block data.",
-      "Before significant maintenance, back up relevant settings and wallets. Apply Debian security updates on the online node, upgrade Debian while its release is supported, and evaluate and verify Core releases separately. A signer holding keys stays offline: prepare authenticated updates separately or build an updated replacement without secrets, disconnect it, then restore known-good backups. Rehearse that method rather than connecting the active signer just to run apt.",
+      "Before significant maintenance, back up relevant settings and wallets. Apply Debian security updates on the online node, upgrade Debian while its release is supported, and evaluate and verify Core releases separately. Keep a signer that holds keys offline. Prepare authenticated updates separately, or prepare an updated replacement without secrets, disconnect it, and then restore known-good backups. Rehearse that method rather than connecting the active signer just to run apt.",
     ],
   },
 }

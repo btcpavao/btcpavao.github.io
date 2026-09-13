@@ -356,7 +356,7 @@ export const curriculumModules: CurriculumModule[] = [
         codeBlocks: [
           {
             id: "node-info",
-            title: "Check node on Signet",
+            title: "Check the node on Signet",
             code: "bitcoin-cli -signet getblockchaininfo",
             explanation:
               "Reads information about the chain that the node is currently tracking. It does not access private keys.",
@@ -375,7 +375,7 @@ export const curriculumModules: CurriculumModule[] = [
           },
           {
             id: "wallet-info",
-            title: "Check an unmistakably test-only wallet",
+            title: "Check the restored test wallet",
             code: 'bitcoin-cli -signet -rpcwallet="test-wallet" getwalletinfo',
             explanation:
               "Reads information from the wallet named test-wallet in a Signet environment.",
@@ -392,7 +392,7 @@ export const curriculumModules: CurriculumModule[] = [
               },
             ],
             warning:
-              "If `test-wallet` does not exist or is not loaded, the command will return an error. Do not modify or delete an existing wallet.",
+              "If test-wallet does not exist or is not loaded, the command will return an error. Do not modify or delete an existing wallet.",
           },
         ],
         sources: [
@@ -451,7 +451,7 @@ export const curriculumModules: CurriculumModule[] = [
           "A modern Bitcoin Core wallet lives in its own directory with database and supporting files; the historical name wallet.dat does not describe every version and configuration.",
         status: "published",
         what: "We learn how to locate the wallet directory and document what the built-in backup includes in the Bitcoin Core version we use.",
-        why: "Recovery must be based on a verified backup procedure, not on memory of a historical filename.",
+        why: "Base recovery on a backup procedure you have tested, rather than assuming a familiar filename is all you need.",
         risk: "Manually copying an active database or moving files at random can produce an unusable copy. Use the built-in backup process and test the restore.",
         sources: [
           {

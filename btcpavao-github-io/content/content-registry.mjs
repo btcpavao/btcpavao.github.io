@@ -125,7 +125,7 @@ export const contentRegistry = [
     locale: "en",
     title: "Practical Bitcoin Self-Custody with Bitcoin Core | BTC Pavao",
     description:
-      "Learn Bitcoin Core from the beginning: protect your keys, practise with test coins, back up and recover a wallet, then approve payments on an offline computer.",
+      "Learn Bitcoin Core from the beginning: protect your keys, practice with test coins, back up and recover a wallet, then approve payments on an offline computer.",
     contentType: "tutorial",
     section: "core-practical",
     publishedAt: null,

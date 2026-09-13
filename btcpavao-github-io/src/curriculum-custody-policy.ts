@@ -129,7 +129,7 @@ export function reviseCustodyPolicy(
     explanation: [
       lessons.get("0.1")!.explanation![0],
       tr(
-        "Start by asking what you are protecting and what could go wrong. Then learn the curriculum's custody philosophy, practise the full Signet cycle, rehearse two separate Core computers, and test recovery before a small mainnet test.",
+        "Start by asking what you are protecting and what could go wrong. Then learn the curriculum's custody philosophy, practice the full Signet cycle, rehearse two separate Core computers, and test recovery before a small mainnet test.",
         "Prvo razjasni što štitiš i što može poći po zlu. Zatim upoznaj filozofiju kurikuluma, prođi cijeli Signet ciklus, uvježbaj dva odvojena Core računala i testiraj oporavak prije malog mainnet testa."
       ),
     ],
@@ -342,7 +342,7 @@ export function reviseCustodyPolicy(
     status: "in-progress",
     verification: "review-required",
     reviewNote: tr(
-      "Commands checked against upstream documentation on 2026-09-13. The expanded Debian installation procedure still needs practical reproduction; the historical review date does not cover it.",
+      "Commands were checked against the official documentation on 2026-09-13. The expanded Debian installation procedure still needs a complete hands-on test; the earlier review date does not cover it.",
       "Naredbe uspoređene s izvornom dokumentacijom 2026-09-13. Prošireni Debian postupak još treba praktično ponoviti; prethodni datum pregleda ne obuhvaća ovu izmjenu."
     ),
     prerequisites: ["0.2", "1.5"],
@@ -497,7 +497,7 @@ export function reviseCustodyPolicy(
           ),
         ],
         help: tr(
-          "A missing public key means that signature was not checked; it does not invalidate other signatures. An uncertified-key warning means GPG has not established identity through its trust database. Resolve identity independently. Stop for a bad signature, unexplained mismatch, expired/revoked key you rely on, or too few identified valid signers. Do not change ownertrust just to hide warnings.",
+          "A missing public key means that signature was not checked; it does not invalidate other signatures. An uncertified-key warning means GPG has not established identity through its trust database. Resolve identity independently. Stop for a bad signature, unexplained mismatch, expired/revoked key you rely on, or too few valid signatures from builders you have identified. Do not change ownertrust just to hide warnings.",
           "Nedostajući javni ključ znači da taj potpis nije provjeren; ne poništava druge potpise. Upozorenje o necertificiranom ključu znači da GPG nije potvrdio identitet kroz bazu povjerenja. Identitet potvrdi neovisno. Stani kod lošeg potpisa, neobjašnjene razlike, isteklog ili opozvanog ključa na koji se oslanjaš ili premalo identificiranih valjanih potpisa. Ne mijenjaj ownertrust samo da sakriješ upozorenja."
         ),
       },
@@ -541,7 +541,7 @@ export function reviseCustodyPolicy(
         "online-node",
         [
           "Prepare the dedicated online node",
-          "Install Debian Stable, apply security updates and verify the official Core release as practised earlier. Start Core on Signet and let the full node synchronize. Keep the savings private-key wallet off this machine. The PSBT lesson creates the private-key-disabled watch-only wallet.",
+          "Install Debian Stable, apply security updates and verify the official Core release as practiced earlier. Start Core on Signet and let the full node synchronize. Keep the savings private-key wallet off this machine. The PSBT lesson creates the private-key-disabled watch-only wallet.",
           "The dedicated online Core node is synchronized on Signet and contains no savings private keys.",
           "With sufficient storage you may retain the block archive. Pruning is valid for constrained storage and still fully validates consensus. Plan access to old blocks for later recovery scans.",
         ],
@@ -577,7 +577,7 @@ export function reviseCustodyPolicy(
     verification: "review-required",
     referenceVersion: "Debian Stable · Bitcoin Core 31.1",
     reviewNote: tr(
-      "New Debian reference procedure. Physical installation, offline startup, cold boot, signing and independent restore remain to be reproduced.",
+      "This Debian procedure still needs a complete hands-on test: installation, offline startup, a full shutdown and restart, signing, and recovery on a replacement computer.",
       "Novi referentni Debian postupak. Instalaciju na fizičkom uređaju, offline pokretanje, ponovno paljenje, potpisivanje i neovisnu obnovu još treba ponoviti."
     ),
     explanation: lines([
@@ -588,7 +588,7 @@ export function reviseCustodyPolicy(
       step(
         "debian-preparation",
         [
-          "Finish the Debian environment before keys exist",
+          "Finish software setup before creating keys",
           "Install verified Debian Stable with a supported desktop on the dedicated signer. Complete Debian security updates and the Core verification prerequisites while it has no wallet secrets. Prepare the official verified Core archive and a Debian-packaged offline password manager such as KeePassXC. Test that Core launches before disconnecting.",
           "The required software and libraries work, with no private-key wallet yet present.",
           "Follow the Debian installer and media-verification sources. If you enable disk encryption, record its separate recovery password. Wallet encryption and disk encryption protect different things; neither replaces backups.",
@@ -618,7 +618,7 @@ export function reviseCustodyPolicy(
       step(
         "debian-datadir",
         [
-          "Start Core with an explicit offline data folder",
+          "Start Core with a separate offline data folder",
           "In your home folder, create core and core-signet using the file manager. Extract the verified release so its executable is at core/bitcoin-31.1/bin/bitcoin-qt. Run the command below. In Window → Console, use getblockchaininfo and getnetworkinfo to check chain = signet and networkactive = false.",
           "Core uses $HOME/core-signet, is on Signet and has networking disabled. Its blockchain is not synchronized, which is expected for the signer.",
           "$HOME expands to your user's home folder, so no hard-coded username is needed. The data folder must exist. If Core cannot start, stop; do not connect this signer to download dependencies.",
@@ -697,7 +697,7 @@ export function reviseCustodyPolicy(
       step(
         "physical-plan",
         [
-          "Write the stop condition",
+          "Write down when to stop using the signer",
           "Record who can access the signer, how you store it between sessions and what evidence would make you distrust it. Write: reasonable suspicion of tampering means no wallet unlock on that machine. Review your plan before creating keys.",
           "You have a physical-access plan and a clear stop condition.",
           "A locked room, controlled storage or tamper evidence may help for your circumstances. An intact seal or clean scan cannot prove absence of firmware or hardware compromise. Do not treat every absence as proof of stolen keys.",
@@ -765,7 +765,7 @@ export function reviseCustodyPolicy(
       step(
         "tails-benefit",
         [
-          "Name the benefit before changing environments",
+          "Decide whether Tails addresses a risk you face",
           "After the Debian recovery rehearsal, write which threat would be reduced by Tails and what extra boot-media, storage and recovery responsibilities you accept. Continue with this draft only if that benefit matters for your threat model.",
           "You can explain why an optional live environment is worth maintaining.",
           "Tails needs supported x86-64 hardware; Apple Silicon is not supported. A cloned system USB can reduce downtime but cannot replace independent Core backups and password recovery.",
@@ -820,7 +820,7 @@ export function reviseCustodyPolicy(
       step(
         "media-check",
         [
-          "Check copies and readable media",
+          "Check that backup files and storage devices are readable",
           "Verify that every expected backup copy still exists and its USB, optical or external media can be read in a trusted environment. Read your recovery instructions again. Keep private wallet backups off the online coordinator and retain another good copy while checking media.",
           "You have recorded which copies were readable and corrected unclear documentation or replaced failed media.",
           "File exists is not a recovery test. Avoid overwriting your only good copy. A cloud listing or a second file on the same disk does not prove independent recovery.",
@@ -850,7 +850,7 @@ export function reviseCustodyPolicy(
       step(
         "change-trigger",
         [
-          "Record what triggers another drill immediately",
+          "List changes that require a new recovery drill",
           "Require a new recovery test after a new wallet, changed wallet passphrase, backup architecture, imported keys/descriptors, multisig policy, replaced signer, recovery procedure or inheritance instructions. Refresh affected backups and documents as part of the change.",
           "Your change checklist includes a fresh recovery test before relying on the changed setup.",
           "Do not wait for the next annual date after a material change. Old backups are not updated by changing the active wallet's password; stolen keys are not revoked by it.",
@@ -900,7 +900,7 @@ export function reviseCustodyPolicy(
       step(
         "operator-unavailable",
         [
-          "Test who can act without you",
+          "Check that someone else can follow the guide",
           "Name the person who can find and follow the procedure if you die or become unavailable. Have them rehearse with Signet artifacts and correct every unclear step. Record how they locate wallet.dat backups and separately recover the wallet passphrase without relying on your memory.",
           "The procedure identifies a successor and their route to both recovery components.",
           "Do not share production secrets for a practice exercise. Review access and inheritance instructions after life changes. Any legal arrangements need their own appropriate review.",

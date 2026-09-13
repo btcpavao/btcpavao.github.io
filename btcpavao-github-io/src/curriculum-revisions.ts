@@ -111,7 +111,7 @@ export function reviseCurriculum(
   edit("0.1", {
     title: tr("What you will build", "Što ćeš izgraditi"),
     objective: tr(
-      "Learn the three roles, then practise with bitcoin that has no monetary value.",
+      "Learn the three roles, then practice with bitcoin that has no monetary value.",
       "Upoznaj tri uloge pa vježbaj s bitcoinima bez novčane vrijednosti."
     ),
     estimatedTime: tr("5 min reading", "5 min čitanja"),
@@ -244,7 +244,7 @@ export function reviseCurriculum(
       step(
         "launch",
         [
-          "Launch the test network",
+          "Start Core on Signet",
           "Close any other Core GUI first. From the verified bitcoin-31.1/bin folder, run the command below. On other operating systems, launch the verified Core executable with the same -signet argument. Select a test data directory with enough disk space.",
           "Core opens in its Signet context. Leave this GUI running throughout the exercises.",
           "The GUI includes the node. You do not need a second bitcoind process or an RPC server for its built-in console.",
@@ -427,7 +427,7 @@ export function reviseCurriculum(
         [
           "Review a small self-transfer",
           "Create another receiving address in your own test wallet. In Send enter that address and an amount below the confirmed balance, leaving room for fees and the later recovery exercise. Choose a displayed fee rate. Compare destination, amount and total fee in the confirmation dialog, then unlock and send.",
-          "Core reports a transaction ID; its recipient is your recorded second address.",
+          "Core reports a transaction ID; the transaction pays the second address you recorded.",
           "If fee estimation is unavailable, wait for more network data or use a deliberately chosen Signet-only custom fee. Do not press Send without understanding the displayed total.",
         ],
         [
@@ -469,7 +469,7 @@ export function reviseCurriculum(
       step(
         "record",
         [
-          "Record evidence and close the original",
+          "Record the payment details and close the original wallet",
           "Record a funded address and transaction ID from the test wallet. Use File → Close Wallet for signet-training-wallet. Keep its files intact; this exercise never requires deleting them.",
           "The original test wallet is closed and you can locate the post-encryption backup independently.",
           "Do not move a directory whose identity you cannot prove. Never touch another wallet or the blockchain folders.",
@@ -501,7 +501,7 @@ export function reviseCurriculum(
       step(
         "compare",
         [
-          "Compare the recovered state",
+          "Compare the restored wallet with your records",
           "Find the recorded funded address and transaction in the restored wallet. Keep the original closed. The next exercise sends from signet-training-restored and tests the password when Core requests it.",
           "The recovered wallet recognizes the recorded transaction and expected spendable outputs.",
           "Do not compare only the next newly generated address: address indices may differ. A visible balance alone does not prove signing recovery.",
@@ -624,7 +624,7 @@ export function reviseCurriculum(
       step(
         "hardware",
         [
-          "Confirm compatible, controlled hardware",
+          "Check that both computers are suitable",
           "Choose an online node and a separate generic signer you control. Check Debian Stable support and boot compatibility before storing secrets.",
           "You have identified a supported signer and a separate online node.",
           "Identify devices and media before installation. An operating system cannot repair compromised hardware.",
@@ -661,7 +661,7 @@ export function reviseCurriculum(
       step(
         "media",
         [
-          "Limit what crosses the gap",
+          "Limit which files you transfer",
           "Use your labeled PSBT transport media only for public descriptors and transaction files. Open only the expected data file in the verified application. Never execute a program or update supplied on this media during signing.",
           "You can name the allowed file types and the dedicated transfer medium.",
           "An air gap does not make USB data trustworthy. Unexpected files, instructions or executable content are a reason to stop.",
@@ -834,7 +834,7 @@ export function reviseCurriculum(
       step(
         "watchonly",
         [
-          "Create a wallet without private keys",
+          "Create the online watch-only wallet",
           "On the online Signet Core node, use the console command below. Select the new signet-watch-only wallet and run getwalletinfo before importing anything.",
           "walletname is signet-watch-only and private_keys_enabled is false.",
           "If private keys are enabled, stop and create a correctly configured fresh watch-only wallet. Never restore the offline wallet backup on this machine.",
@@ -1028,7 +1028,7 @@ export function reviseCurriculum(
       step(
         "card",
         [
-          "Write the recovery map",
+          "Write the recovery guide",
           "On paper record: network; signer and coordinator roles; wallet names; Core/OS versions; backup dates and locations; where password recovery is kept separately; public descriptor policy and creation date; and the ordered steps to rebuild each role. Mark which actions must remain offline.",
           "Your recovery card identifies the required artifacts and their roles without containing a password or private key.",
           "Treat public descriptors and addresses as private financial information too. A recovery card should not publish wallet history or all storage locations.",
@@ -1330,6 +1330,18 @@ export function reviseCurriculum(
     codeBlocks: nodeLesson.codeBlocks?.map((b) => ({
       ...b,
       code: b.code.replaceAll('"test-wallet"', '"signet-training-restored"'),
+      explanation: b.explanation.replaceAll(
+        "test-wallet",
+        "signet-training-restored"
+      ),
+      warning: b.warning?.replaceAll("test-wallet", "signet-training-restored"),
+      parameters: b.parameters?.map((parameter) => ({
+        ...parameter,
+        name: parameter.name.replaceAll(
+          "test-wallet",
+          "signet-training-restored"
+        ),
+      })),
     })),
   })
   for (const id of ["ops-routine", "ops-physical"])
@@ -1403,7 +1415,7 @@ export function reviseCurriculum(
     {
       title: tr("Start with the essentials", "Počni s osnovama"),
       summary: tr(
-        "Decide what you need to protect and learn where to practise safely.",
+        "Decide what you need to protect and learn where to practice safely.",
         "Model prijetnji, filozofija čuvanja i mreža za vježbu."
       ),
       ids: [
@@ -1467,7 +1479,7 @@ export function reviseCurriculum(
     },
     {
       title: tr(
-        "Practise signing on an offline computer",
+        "Practice signing on an offline computer",
         "Uvježbaj offline arhitekturu"
       ),
       summary: tr(
