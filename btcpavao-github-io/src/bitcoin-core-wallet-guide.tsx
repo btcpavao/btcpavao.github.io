@@ -1,3 +1,4 @@
+import { CustodyArchitecture } from "@/components/custody-architecture"
 import {
   useCallback,
   useEffect,
@@ -48,11 +49,8 @@ const LEGACY_CHECKLIST_STORAGE_KEY = "btcpavao-core-wallet-guide-checklist-v1"
 const IMAGE_ROOT = "/bitcoin-core-wallet-guide"
 const BITCOIN_CORE_DOWNLOAD_URL = "https://bitcoincore.org/en/download/"
 const KEEPASSXC_DOWNLOAD_URL = "https://keepassxc.org/download/"
-const FEDORA_WORKSTATION_DOWNLOAD_URL =
-  "https://fedoraproject.org/workstation/download/"
+const DEBIAN_DOWNLOAD_URL = "https://www.debian.org/distrib/"
 const TAILS_INSTALL_URL = "https://tails.net/install/"
-const TAILS_PERSISTENT_STORAGE_URL =
-  "https://tails.net/doc/persistent_storage/index.en.html"
 const GNUPG_DOWNLOAD_URL = "https://gnupg.org/download/"
 
 type GuideImage = {
@@ -401,21 +399,17 @@ const legacySteps: GuideStep[] = [
           malware.
         </p>
         <p>
-          For serious cold storage, the stronger approach is a generic dedicated
-          computer booted from trusted{" "}
-          <ResourceLink href={TAILS_INSTALL_URL}>Tails media</ResourceLink>.
-          Unlock encrypted{" "}
-          <ResourceLink href={TAILS_PERSISTENT_STORAGE_URL}>
-            Persistent Storage
-          </ResourceLink>{" "}
-          only for files the signing environment must retain. Obtain and verify{" "}
+          For meaningful savings, this curriculum chooses a generic dedicated
+          computer with{" "}
+          <ResourceLink href={DEBIAN_DOWNLOAD_URL}>Debian Stable</ResourceLink>{" "}
+          and{" "}
           <ResourceLink href={BITCOIN_CORE_DOWNLOAD_URL}>
-            Bitcoin Core
+            verified Bitcoin Core
           </ResourceLink>{" "}
-          on a separate trusted computer before moving the documented release to
-          the signer. Start Tails in Offline Mode and keep the signer
-          disconnected for wallet creation, key generation, and signing. Bitcoin
-          Core does not need a synchronized blockchain on the signing computer.
+          as a persistent offline signer. Prepare software before secrets exist,
+          then keep the machine disconnected for key creation, recovery and
+          signing. The separate online Core node holds only the watch-only
+          savings wallet. The signer needs no synchronized blockchain.
         </p>
         <GuideIconList
           tone="secure"
@@ -447,12 +441,16 @@ const legacySteps: GuideStep[] = [
           ]}
         />
         <p>
-          This removes reliance on the operating system installed on the
-          laptop's internal disk. It does not prove that the Tails USB, BIOS,
-          firmware, hardware, or physical keyboard path is clean. Pause before
-          continuing: decide whether this practice wallet belongs on the current
-          computer or whether your intended cold storage warrants the dedicated
-          Tails-based signer.
+          This is a deliberate threat-model choice. A generic Linux computer has
+          a larger general-purpose stack than a hardware wallet and needs
+          disciplined setup, isolation, verification and recovery. Hardware
+          wallets can provide useful signing isolation and simpler operation;
+          they also bring Bitcoin-specific supply-chain, firmware and vendor
+          assumptions. Optional verified Tails media can reduce persistent OS
+          state, but cannot make untrusted hardware trustworthy. If tampering is
+          reasonably suspected, do not unlock the wallet to check it. Replace
+          the signer with known-good hardware and rebuild from known-good
+          backups.
         </p>
       </>
     ),
@@ -1257,7 +1255,7 @@ function SeriousColdStorage() {
           </span>
           <div>
             <p className="text-[11px] font-bold tracking-[0.16em] text-primary uppercase">
-              Best practice for serious cold storage
+              The curriculum's reference setup
             </p>
             <h2 className="mt-3 max-w-[19ch] font-display text-3xl leading-[1.05] font-bold tracking-[-0.04em] text-balance sm:text-4xl">
               Separate signing from network activity
@@ -1266,43 +1264,41 @@ function SeriousColdStorage() {
         </div>
 
         <p className="mt-6 max-w-3xl text-base leading-8 text-pretty text-muted-foreground">
-          For meaningful long-term cold storage, use a generic dedicated
-          computer booted from trusted{" "}
-          <ResourceLink href={TAILS_INSTALL_URL}>Tails media</ResourceLink>,{" "}
-          <ResourceLink href={BITCOIN_CORE_DOWNLOAD_URL}>
-            Bitcoin Core
-          </ResourceLink>
-          , and encrypted Persistent Storage for the files that must survive
-          shutdown. Use a separate online Bitcoin Core node on normal Linux.{" "}
-          <ResourceLink href={FEDORA_WORKSTATION_DOWNLOAD_URL}>
-            Fedora Workstation
+          The reference architecture uses two generic dedicated computers with
+          <ResourceLink href={DEBIAN_DOWNLOAD_URL}>
+            {" "}
+            Debian Stable
           </ResourceLink>{" "}
-          remains a practical example for that online role.
+          and Bitcoin Core. The persistent offline signer keeps the encrypted
+          private-key wallet; the separate online node holds a watch-only
+          savings wallet. Debian is the default for predictable long-term
+          maintenance. Fedora and other maintained Linux distributions remain
+          valid alternatives.
         </p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-[22px] bg-background p-5 shadow-[var(--shadow-border)]">
+          <div className="rounded-[22px] bg-background p-6 shadow-[var(--shadow-border)]">
             <WifiOff className="size-5 text-primary" aria-hidden="true" />
             <h3 className="mt-4 font-display text-xl font-bold">
               Offline signing computer
             </h3>
             <ul className="mt-4 grid gap-2 text-sm leading-6 text-muted-foreground">
-              <li>Boots trusted Tails media and runs Bitcoin Core.</li>
-              <li>
-                Uses Offline Mode; not used for browsing, email, or daily work.
-              </li>
+              <li>Runs Debian Stable and verified Bitcoin Core.</li>
+              <li>Stays offline; reserved for keys, recovery and signing.</li>
               <li>No blockchain synchronization and no private-key export.</li>
             </ul>
           </div>
-          <div className="rounded-[22px] bg-background p-5 shadow-[var(--shadow-border)]">
+          <div className="rounded-[22px] bg-background p-6 shadow-[var(--shadow-border)]">
             <Wifi className="size-5 text-primary" aria-hidden="true" />
             <h3 className="mt-4 font-display text-xl font-bold">
               Separate online node
             </h3>
             <ul className="mt-4 grid gap-2 text-sm leading-6 text-muted-foreground">
-              <li>Runs a synchronized Bitcoin Core node.</li>
+              <li>
+                Runs Debian Stable and a synchronized Bitcoin Core full node.
+              </li>
               <li>Prepares transactions and broadcasts signed transactions.</li>
-              <li>Does not need to hold the private-key wallet.</li>
+              <li>Has a watch-only wallet and no savings private keys.</li>
             </ul>
           </div>
         </div>
@@ -1314,10 +1310,13 @@ function SeriousColdStorage() {
           outside this basic tutorial.
         </p>
         <p className="mt-4 text-sm leading-7 text-pretty text-muted-foreground">
-          The Tails installation is replaceable. Your Bitcoin Core wallet backup
-          is not. Keep the encrypted Core wallet backup and its separate
-          passphrase as the authoritative recovery model, even if you also keep
-          a cloned Tails USB for faster operational recovery.
+          The installed OS and signer are replaceable. Keep independent
+          encrypted Core wallet backups and separate passphrase recovery. A
+          backup is not a backup until recovery has been tested.{" "}
+          <ResourceLink href={TAILS_INSTALL_URL}>Tails</ResourceLink> remains an
+          optional live environment when reducing persistent OS state benefits
+          the threat model. It does not eliminate firmware, hardware or physical
+          tampering risk.
         </p>
       </div>
     </section>
@@ -1334,47 +1333,7 @@ function ArchitectureDiagram() {
         Private keys stay offline
       </h2>
 
-      <div className="mt-8 grid gap-4 lg:grid-cols-[1fr_auto_1fr] lg:items-stretch">
-        <div className="rounded-[26px] bg-card p-6 shadow-[var(--shadow-border)] sm:p-7">
-          <span className="grid size-11 place-items-center rounded-full bg-primary/12 text-primary">
-            <Wifi className="size-5" aria-hidden="true" />
-          </span>
-          <p className="mt-5 text-[11px] font-bold tracking-[0.14em] text-primary uppercase">
-            Online node
-          </p>
-          <h3 className="mt-2 font-display text-2xl font-bold">
-            Internet-connected computer
-          </h3>
-          <p className="mt-3 text-sm leading-7 text-muted-foreground">
-            Synced Bitcoin Core node → creates transactions → broadcasts signed
-            transactions
-          </p>
-        </div>
-
-        <div className="flex items-center justify-center gap-3 rounded-full bg-primary/10 px-5 py-3 text-xs font-bold tracking-[0.12em] text-primary uppercase lg:my-auto lg:flex-col lg:rounded-[22px] lg:px-4 lg:py-5">
-          <ArrowRightLeft className="size-5 lg:rotate-90" aria-hidden="true" />
-          PSBT data
-        </div>
-
-        <div className="rounded-[26px] bg-[#0d3153] p-6 text-white shadow-[var(--shadow-elevated)] sm:p-7">
-          <span className="grid size-11 place-items-center rounded-full bg-white/12 text-[#7cc9ff]">
-            <WifiOff className="size-5" aria-hidden="true" />
-          </span>
-          <p className="mt-5 text-[11px] font-bold tracking-[0.14em] text-[#7cc9ff] uppercase">
-            Offline signer
-          </p>
-          <h3 className="mt-2 font-display text-2xl font-bold">
-            Tails live signer
-          </h3>
-          <p className="mt-3 text-sm leading-7 text-white/72">
-            Tails live USB → encrypted Bitcoin Core wallet → reviews and signs
-            PSBT
-          </p>
-          <p className="mt-5 inline-flex min-h-10 items-center rounded-full bg-white/10 px-3 text-xs font-bold text-white">
-            Private keys never move online
-          </p>
-        </div>
-      </div>
+      <CustodyArchitecture />
 
       <p className="mt-5 max-w-3xl text-sm leading-7 text-muted-foreground">
         USB storage is one possible transport method, but using a USB device is
@@ -1477,15 +1436,14 @@ export function BitcoinCoreWalletGuidePage() {
             operatingSystems="The screenshots use macOS; the workflow also applies to Windows and Linux."
             recommendedOs={
               <>
-                For meaningful savings, use trusted{" "}
-                <a href={TAILS_INSTALL_URL}>Tails media</a> for the offline
-                Bitcoin Core signer. Fedora or another secured Linux
-                installation remains the practical online-node environment.
+                Debian Stable on generic dedicated hardware for both the online
+                watch-only Core node and the persistent offline Core signer.
+                Tails is an optional choice after threat modelling.
               </>
             }
             prerequisites="Bitcoin Core installed from an official source, an empty practice environment, and a separate place for passphrase notes."
             outcome="A restored practice wallet whose addresses and metadata match the original."
-            lastReviewed="31 August 2026"
+            lastReviewed="Technical walkthrough: 31 August 2026. Architecture copy: 13 September 2026; Debian hardware rehearsal pending."
           />
 
           <div className="mt-10 grid gap-4 rounded-[28px] bg-card p-5 shadow-[var(--shadow-border)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-7">

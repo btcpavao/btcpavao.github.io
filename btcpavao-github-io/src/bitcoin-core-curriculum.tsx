@@ -67,7 +67,7 @@ function useCurriculumMetadata() {
   useEffect(() => {
     const title = "Praktičan Bitcoin self-custody uz Bitcoin Core | BTCPAVAO"
     const description =
-      "Dugoročni vodič za Bitcoin self-custody: Signet vježba, vlastiti node, backup i restore, offline signing, PSBT, multisig i operativna sigurnost."
+      "Bitcoin Core self-custody od modela prijetnji do Debiana Stable, online čvora, offline potpisnika, Signet vježbe i provjerenog oporavka. Tails je izboran."
     const url = `${SITE_URL}${BITCOIN_CORE_CURRICULUM_PATH}`
 
     document.documentElement.lang = "hr"
@@ -712,9 +712,7 @@ export function BitcoinCoreCurriculumPage() {
       </main>
 
       <footer className="curriculum-footer course-footer">
-        <p>
-          Edukativni sadržaj za testno i postupno učenje.
-        </p>
+        <p>Edukativni sadržaj za testno i postupno učenje.</p>
         <a href={BITCOIN_CORE_SERIES_PATH}>Bitcoin Core na btcpavao.com</a>
       </footer>
     </div>

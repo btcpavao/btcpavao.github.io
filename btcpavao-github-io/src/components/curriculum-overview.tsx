@@ -1,3 +1,5 @@
+import { CustodyArchitecture } from "@/components/custody-architecture"
+import { CUSTODY_CONTENT_UPDATED } from "@/curriculum-custody-policy"
 import { ArrowRight, BookOpen, RefreshCcw } from "lucide-react"
 import { TutorialMetadata } from "@/components/tutorial-metadata"
 import type {
@@ -66,8 +68,8 @@ export function CurriculumOverview({
           </h1>
           <p className="course-hero__lede">
             {tr(
-              "Practise on Signet, recover your wallet and learn to sign offline. Prepare mainnet only after the recovery exercises work.",
-              "Vježbaj na Signetu, obnovi novčanik i nauči potpisivati offline. Mainnet pripremi tek nakon uspješnih vježbi oporavka."
+              "Start with your threat model, practise on Signet and learn to recover and sign offline. Prepare mainnet only after the recovery exercises work.",
+              "Počni modelom prijetnji, vježbaj na Signetu i nauči obnoviti novčanik i potpisivati offline. Mainnet pripremi tek nakon uspješnih vježbi oporavka."
             )}
           </p>
           <div className="course-hero__actions">
@@ -164,14 +166,14 @@ export function CurriculumOverview({
           </summary>
           <p>
             {tr(
-              "The guided path uses Bitcoin Core for both roles: a synchronized online watch-only node, and an offline signer on a separate supported computer booted from verified Tails media. Public descriptors and PSBT files connect those roles. Private keys stay offline.",
-              "Vođeni put koristi Bitcoin Core za obje uloge: sinkroniziran online watch-only čvor i offline potpisnik na zasebnom podržanom računalu pokrenutom s provjerenog Tails medija. Javni descriptori i PSBT datoteke povezuju te uloge. Privatni ključevi ostaju offline."
+              "The default uses two generic dedicated computers with Debian Stable and Bitcoin Core. The online full node holds a watch-only savings wallet. The persistent offline signer holds encrypted private keys and needs no blockchain. Public descriptors and PSBTs cross the controlled boundary.",
+              "Zadana postava koristi dva namjenska generička računala s Debianom Stable i Bitcoin Coreom. Online puni čvor ima watch-only novčanik za štednju. Trajni offline potpisnik čuva šifrirane privatne ključeve i ne treba blockchain. Javni descriptori i PSBT prelaze kontroliranu granicu."
             )}
           </p>
           <p>
             {tr(
-              "The worked installation commands use Linux x86-64. Other Core desktop platforms link to their official installation instructions. Tails requires supported x86-64 hardware; Apple Silicon is not supported for that signer.",
-              "Primjeri instalacijskih naredbi koriste Linux x86-64. Za druge Core desktop sustave dostupne su poveznice na službene upute. Tails zahtijeva podržani x86-64 hardver; Apple Silicon nije podržan za taj potpisnik."
+              "The examples use Debian Stable on x86-64 hardware. Other maintained Linux distributions remain valid alternatives. Tails is optional for threat models that benefit from reducing persistent OS state. Learn the default first.",
+              "Primjeri koriste Debian Stable na x86-64 hardveru. Druge održavane Linux distribucije ostaju valjane alternative. Tails je izboran kada modelu prijetnji koristi smanjenje trajnog stanja OS-a. Prvo nauči zadanu postavu."
             )}
           </p>
           <p>
@@ -179,6 +181,15 @@ export function CurriculumOverview({
             {tr(
               "Review scope and source links are listed in each lesson. A content update does not imply that every operating-system combination has been tested. Active work and waiting for synchronization or confirmations are separate.",
               "Opseg pregleda i izvori navedeni su u svakoj lekciji. Dorada sadržaja ne znači da je svaka kombinacija sustava praktično provjerena. Aktivan rad i čekanje sinkronizacije ili potvrda odvojeni su."
+            )}
+          </p>
+          <CustodyArchitecture language={language} />
+          <p>
+            {tr("Content updated", "Sadržaj ažuriran")}:{" "}
+            {CUSTODY_CONTENT_UPDATED}.{" "}
+            {tr(
+              "This is not a new hands-on verification date.",
+              "Ovo nije novi datum praktične provjere."
             )}
           </p>
           <TutorialMetadata
@@ -201,12 +212,12 @@ export function CurriculumOverview({
             )}
             softwareVersion={`${referenceVersion} · Curriculum v${version}`}
             operatingSystems={tr(
-              "Core desktop platforms; supported x86-64 hardware for Tails",
-              "Core desktop sustavi; podržani x86-64 hardver za Tails"
+              "Debian Stable x86-64 reference; other Core platforms for practice",
+              "Referentni Debian Stable x86-64; drugi Core sustavi za vježbu"
             )}
             recommendedOs={tr(
-              "Linux for the online node; verified Tails for the offline signer",
-              "Linux za online čvor; provjereni Tails za offline potpisnik"
+              "Debian Stable for the online node and persistent offline signer",
+              "Debian Stable za online čvor i trajni offline potpisnik"
             )}
             prerequisites={tr(
               "Basic file handling; practical prerequisites are listed at each checkpoint",

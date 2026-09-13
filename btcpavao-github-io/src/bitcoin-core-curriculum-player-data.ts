@@ -8,7 +8,7 @@ import {
   type CurriculumStatus,
 } from "@/bitcoin-core-curriculum-data"
 
-export const CURRICULUM_VERSION = "2.3"
+export const CURRICULUM_VERSION = "3.0"
 export const CORE_REFERENCE_VERSION = "Bitcoin Core 31.1"
 export const SPARROW_REFERENCE_VERSION = "Sparrow 2.5.2"
 export const ELECTRUM_REFERENCE_VERSION = "Electrum 4.8.0"
@@ -37,6 +37,7 @@ export type PlayerLesson = Omit<CurriculumLesson, "status"> &
     verification: LessonVerification
     referenceVersion: string
     lastReviewed?: string
+    contentUpdated?: string
     optional?: boolean
     reviewNote?: string
     explanation?: string[]
@@ -182,6 +183,7 @@ function retainLesson(
     origin?: string
     optional?: boolean
     lastReviewed?: string
+    contentUpdated?: string
   }
 ): PlayerLesson {
   const legacy = legacyLessons.get(id)
@@ -1286,7 +1288,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         explanation: [
           "Ovaj kurikulum ne koristi Bitcoin Core kao oznaku identiteta. Koristi ga zato što node, online watch-only wallet, offline signer, descriptori, PSBT workflow, backup i recovery mogu ostati unutar jedne provjerljive implementacije.",
           "Ta dosljednost je važna. Svaki dodatni produkcijski wallet uvodi novi release proces, format datoteka, recovery konvencije i skup pretpostavki. Sposobne alternative mogu biti korisne drugdje, ali nisu potrebne za sustav koji se ovdje podučava.",
-          "Preporučeni stack zato je izričit: Bitcoin Core na čistoj Linux instalaciji, Fedora kao praktičan primjer i KeePassXC za generiranje snažnog nasumičnog passphrasea. Za značajnu štednju snažnija arhitektura odvaja offline Core signer od zasebnog online Core nodea.",
+          "Kurikulum za značajnu štednju bira Debian Stable i Bitcoin Core na dva namjenska generička računala, offline potpisnik i online watch-only čvor. KeePassXC služi za generiranje nasumične lozinke.",
         ],
         callouts: [
           {
@@ -1723,7 +1725,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
       reuseV2Lesson("offline-device", {
         explanation: [
           "Primarni model je namjenska funkcija, verificirani software, minimalan attack surface i dokumentiran recovery. Praktičan signer može biti generičko računalo s čistom Linux instalacijom, minimalnim brojem aplikacija i trajno isključenom mrežom.",
-          "Fedora Workstation praktičan je primjer za moderni hardware, a Fedora Xfce za skromnije računalo. Distribucija sama po sebi nije sigurnosni cilj: cilj je čist, provjerljiv i namjenski sustav koji pokreće Bitcoin Core samo za ključne operacije i potpisivanje.",
+          "Debian Stable zadani je izbor za trajni offline potpisnik zbog predvidljivog održavanja. Generički hardver i dalje zahtijeva discipliniranu izolaciju, provjeru i oporavak.",
           "Zaseban online uređaj pokreće sinkronizirani Bitcoin Core node i watch-only wallet. Offline uređaj pokreće Bitcoin Core wallet s privatnim ključevima, pregledava PSBT i potpisuje samo provjerenu transakciju.",
         ],
         callouts: [

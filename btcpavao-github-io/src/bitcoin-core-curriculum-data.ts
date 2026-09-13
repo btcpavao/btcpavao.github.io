@@ -672,7 +672,7 @@ export const curriculumModules: CurriculumModule[] = [
         "Zašto signer ne treba blockchain",
         "Stari laptop kao dedicated signing appliance",
         "Linux",
-        "Fedora/Debian i lagani desktopi",
+        "Debian Stable i podržani desktopi",
         "Instaliranje Corea prije air-gapa",
         "Verificiranje softwarea",
         "Isključivanje mreže",

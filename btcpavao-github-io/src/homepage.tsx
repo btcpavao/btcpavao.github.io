@@ -444,13 +444,14 @@ export function Homepage() {
               </p>
               <p>
                 For meaningful savings, my recommended destination is generic
-                dedicated hardware booted from trusted Tails media for the
-                offline Bitcoin Core signer, paired with a separate online
-                Bitcoin Core node on normal secured Linux. The system still
-                needs wallet encryption, redundant encrypted Core backups, a
-                separately stored passphrase, PSBT-based signing, and a tested
-                recovery procedure. Add complexity only when every part is
-                understood and repeatable.
+                dedicated computers running Debian Stable and Bitcoin Core, with
+                an offline signer and a separate online watch-only node. Tails
+                is an optional live environment when the threat model benefits
+                from reducing persistent OS state. The system still needs wallet
+                encryption, redundant encrypted Core backups, a separately
+                stored passphrase, PSBT-based signing, and a tested recovery
+                procedure. Add complexity only when every part is understood and
+                repeatable.
               </p>
             </div>
 

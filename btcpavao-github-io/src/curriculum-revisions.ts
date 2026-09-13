@@ -2,6 +2,7 @@ import type {
   CurriculumPhase,
   PlayerLesson,
 } from "@/bitcoin-core-curriculum-player-en-data"
+import { reviseCustodyPolicy } from "@/curriculum-custody-policy"
 import type { GuidedStep } from "@/curriculum-learning"
 
 type Language = "en" | "hr"
@@ -164,13 +165,13 @@ export function reviseCurriculum(
           "Download the matching package",
           "Use the official Bitcoin Core download link under Sources. This worked path uses Linux x86-64 and Core 31.1. Download its archive, SHA256SUMS and SHA256SUMS.asc into one folder. For Windows or macOS, use the matching official verification tab; the Linux commands below do not apply.",
           "All three files belong to release 31.1 and the archive matches your operating system and processor.",
-          "Check architecture in your system settings. Apple Silicon can run the arm64 macOS Core package, but cannot boot the Tails signer used later.",
+          "Check architecture in your system settings. This reference uses Debian Stable on x86-64. Use the official platform instructions for other processors.",
         ],
         [
           "Preuzmi odgovarajući paket",
           "Otvori službeno preuzimanje Bitcoin Corea pod Izvori. Ovaj primjer koristi Linux x86-64 i Core 31.1. U istu mapu spremi arhivu, SHA256SUMS i SHA256SUMS.asc. Za Windows ili macOS koristi odgovarajuću karticu službenih uputa; naredbe za Linux ispod nisu primjenjive.",
           "Sve tri datoteke pripadaju izdanju 31.1, a arhiva odgovara sustavu i procesoru.",
-          "Arhitekturu provjeri u postavkama sustava. Apple Silicon može pokrenuti macOS arm64 Core, ali ne i Tails potpisnik koji koristimo kasnije.",
+          "Arhitekturu provjeri u postavkama sustava. Ovaj primjer koristi Debian Stable na x86-64. Za druge procesore koristi službene upute sustava.",
         ]
       ),
       step(
@@ -623,28 +624,28 @@ export function reviseCurriculum(
         "hardware",
         [
           "Confirm compatible, controlled hardware",
-          "Choose the online node and a separate signer device you control. The Tails signer requires a supported x86-64 computer; Apple Silicon and other ARM devices cannot use this Tails path. Check the current Tails requirements and boot compatibility before storing secrets.",
+          "Choose an online node and a separate generic signer you control. Check Debian Stable support and boot compatibility before storing secrets.",
           "You have identified a supported signer and a separate online node.",
-          "Do not buy or erase media until you know which device and USB will be used. Tails cannot repair compromised hardware.",
+          "Identify devices and media before installation. An operating system cannot repair compromised hardware.",
         ],
         [
           "Potvrdi kompatibilan hardver pod svojom kontrolom",
-          "Odaberi online čvor i zaseban uređaj za potpisivanje pod svojom kontrolom. Tails potpisnik zahtijeva podržano x86-64 računalo; Apple Silicon i drugi ARM uređaji ne mogu koristiti ovaj Tails put. Prije pohrane tajni provjeri zahtjeve i pokretanje Tailsa.",
+          "Odaberi online čvor i zaseban generički potpisnik pod svojom kontrolom. Prije pohrane tajni provjeri podršku Debiana Stable i pokretanje.",
           "Odredio si podržani potpisnik i odvojeni online čvor.",
-          "Ne kupuj i ne briši medije dok ne znaš koji uređaj i USB koristiš. Tails ne može popraviti kompromitiran hardver.",
+          "Prije instalacije identificiraj uređaje i medije. Operacijski sustav ne može popraviti kompromitiran hardver.",
         ]
       ),
       step(
         "separation",
         [
           "Assign and label the media",
-          "Assign separate media for the Tails system, wallet backups and PSBT transport. Write down which device may access each. Keep wallet backups and password recovery separate from routine transport media.",
+          "Assign separate media for OS installation, wallet backups and PSBT transport. Write down which device may access each. Keep wallet backups and password recovery separate from routine transport media.",
           "Your notes distinguish the system USB, backup media and transfer media.",
           "A second file on the same device is not independent protection against its failure. A transfer USB can carry hostile files even when the signer has no network.",
         ],
         [
           "Dodijeli i označi medije",
-          "Odvoji medije za Tails sustav, kopije novčanika i prijenos PSBT-a. Zapiši koji uređaj smije pristupiti kojem mediju. Kopije novčanika i oporavak lozinke odvoji od medija za redovni prijenos.",
+          "Odvoji medije za instalaciju OS-a, kopije novčanika i prijenos PSBT-a. Zapiši koji uređaj smije pristupiti kojem mediju. Kopije novčanika i oporavak lozinke odvoji od medija za redovni prijenos.",
           "U bilješci razlikuješ sistemski USB, backup medije i prijenosne medije.",
           "Druga datoteka na istom uređaju nije neovisna zaštita od njegova kvara. Prijenosni USB može prenijeti zlonamjernu datoteku i bez mreže na potpisniku.",
         ]
@@ -652,7 +653,6 @@ export function reviseCurriculum(
     ],
     ["signet-readiness"]
   )
-  edit("real-device", { sources: tailsSources.slice(0, 2) })
   guide(
     "ops-malware",
     tr("Prepare a safe transfer routine", "Pripremi postupak prijenosa"),
@@ -690,12 +690,24 @@ export function reviseCurriculum(
     ],
     ["real-device"]
   )
-  guide(
-    "offline-device",
-    tr(
-      "Prepare and restart the Tails signer",
-      "Pripremi i ponovno pokreni Tails potpisnik"
+  lessons.set("optional-tails", {
+    ...lessons.get("offline-device")!,
+    id: "optional-tails",
+    slug: tr(
+      "optional-tails-offline-environment",
+      "izborno-tails-offline-okruzenje"
     ),
+    status: "in-progress",
+    verification: "review-required",
+    lastReviewed: undefined,
+    origin: tr(
+      "Optional architecture added 2026-09-13; physical rehearsal pending.",
+      "Izborna arhitektura dodana 2026-09-13; čeka fizičku vježbu."
+    ),
+  })
+  guide(
+    "optional-tails",
+    tr("Optional Tails signer", "Izborni Tails potpisnik"),
     [
       step(
         "boot",
@@ -775,9 +787,9 @@ export function reviseCurriculum(
         ]
       ),
     ],
-    ["real-device", "ops-malware"]
+    ["offline-recovery"]
   )
-  edit("offline-device", {
+  edit("optional-tails", {
     referenceVersion: "Bitcoin Core 31.1 · Tails 7.11 (target)",
     sources: [...tailsSources, coreWallet],
     explanation: [
@@ -957,14 +969,14 @@ export function reviseCurriculum(
         "signer",
         [
           "Restore a replacement offline signer",
-          "Set the original Tails USB aside intact. Boot a separately verified replacement Tails system offline, configure Persistent Storage and an explicit Core Signet data directory. Restore signet-offline-after-encryption.dat as signet-offline-restored using File → Restore Wallet.",
-          "The replacement offline wallet recognizes a recorded funded address. The original system USB was not used.",
+          "Set the original signer aside intact. Prepare known-good replacement generic hardware with verified Debian Stable and Core, using the offline-device procedure. Create a separate Core Signet data directory, stay offline and use only known-good recovery copies. Restore signet-offline-after-encryption.dat as signet-offline-restored using File → Restore Wallet.",
+          "The replacement offline wallet recognizes a recorded funded address. The original signer and its working disk were not used.",
           "Never restore private wallet data on the online coordinator. A wallet restored online does not preserve the offline architecture.",
         ],
         [
           "Obnovi zamjenski offline potpisnik",
-          "Izvorni Tails USB sačuvaj netaknut sa strane. Zasebno provjeren zamjenski Tails pokreni offline, pripremi Persistent Storage i izričitu mapu Core Signet podataka. Kroz File → Restore Wallet obnovi signet-offline-after-encryption.dat kao signet-offline-restored.",
-          "Zamjenski offline novčanik prepoznaje zabilježenu financiranu adresu. Izvorni sistemski USB nije korišten.",
+          "Izvorni potpisnik sačuvaj netaknut sa strane. Pripremi pouzdan zamjenski generički hardver s provjerenim Debianom Stable i Coreom prema lekciji pripreme potpisnika. Napravi zasebnu mapu Core Signet podataka, ostani offline i koristi samo pouzdane kopije za oporavak. Kroz File → Restore Wallet obnovi signet-offline-after-encryption.dat kao signet-offline-restored.",
+          "Zamjenski offline novčanik prepoznaje zabilježenu financiranu adresu. Izvorni potpisnik i njegov radni disk nisu korišteni.",
           "Privatne podatke novčanika nikada ne obnavljaj na online koordinatoru. Online obnova ne zadržava offline arhitekturu.",
         ]
       ),
@@ -988,13 +1000,13 @@ export function reviseCurriculum(
         [
           "Spend using only the replacements",
           "Repeat the preceding PSBT exercise with the replacement coordinator and signet-offline-restored. Review all outputs offline, unlock with the independently recovered test password, sign, return the signed PSBT and broadcast online.",
-          "A confirmed transaction proves that both replacement roles work without the original wallets or Tails USB.",
+          "A confirmed transaction proves that both replacement roles work without the original wallets or signer disk.",
           "A matching balance alone is insufficient. Record the transaction ID, versions, recovery locations and any correction needed in your notes.",
         ],
         [
           "Potroši samo sa zamjenskim uređajima",
           "Ponovi prethodnu PSBT vježbu sa zamjenskim koordinatorom i signet-offline-restored. Offline pregledaj sve izlaze, otključaj neovisno oporavljenom testnom lozinkom, potpiši, vrati potpisani PSBT i objavi online.",
-          "Potvrđena transakcija dokazuje da obje zamjenske uloge rade bez izvornih novčanika i Tails USB-a.",
+          "Potvrđena transakcija dokazuje da obje zamjenske uloge rade bez izvornih novčanika i diska potpisnika.",
           "Sam podudarni saldo nije dovoljan. U bilješku zapiši identifikator transakcije, verzije, mjesta kopija i potrebne ispravke.",
         ]
       ),
@@ -1002,7 +1014,7 @@ export function reviseCurriculum(
     ["offline-psbt"]
   )
   edit("offline-recovery", {
-    sources: [coreWallet, coreOffline, ...tailsSources.slice(2)],
+    sources: [coreWallet, coreOffline],
   })
 
   guide(
@@ -1016,13 +1028,13 @@ export function reviseCurriculum(
         "card",
         [
           "Write the recovery map",
-          "On paper record: network; signer and coordinator roles; wallet names; Core/Tails versions; backup dates and locations; where password recovery is kept separately; public descriptor policy and creation date; and the ordered steps to rebuild each role. Mark which actions must remain offline.",
+          "On paper record: network; signer and coordinator roles; wallet names; Core/OS versions; backup dates and locations; where password recovery is kept separately; public descriptor policy and creation date; and the ordered steps to rebuild each role. Mark which actions must remain offline.",
           "Your recovery card identifies the required artifacts and their roles without containing a password or private key.",
           "Treat public descriptors and addresses as private financial information too. A recovery card should not publish wallet history or all storage locations.",
         ],
         [
           "Zapiši mapu oporavka",
-          "Na papir zapiši: mrežu; uloge potpisnika i koordinatora; nazive novčanika; verzije Corea/Tailsa; datume i mjesta kopija; gdje je odvojeno pohranjen oporavak lozinke; politiku javnih descriptora i datum izrade; redoslijed obnove obiju uloga. Označi radnje koje moraju ostati offline.",
+          "Na papir zapiši: mrežu; uloge potpisnika i koordinatora; nazive novčanika; verzije Corea i OS-a; datume i mjesta kopija; gdje je odvojeno pohranjen oporavak lozinke; politiku javnih descriptora i datum izrade; redoslijed obnove obiju uloga. Označi radnje koje moraju ostati offline.",
           "Uputa navodi potrebne datoteke i njihove uloge bez lozinke ili privatnog ključa.",
           "I javne descriptore i adrese tretiraj kao privatne financijske podatke. Uputa za oporavak ne treba javno otkriti povijest novčanika ni sva mjesta pohrane.",
         ]
@@ -1071,30 +1083,30 @@ export function reviseCurriculum(
           "Generate and preserve a new password offline",
           "On the trusted offline signer, use a verified offline password manager's generator to create a unique password of 24 random letters and digits. Preserve it in an independently recoverable offline record or encrypted password database. Test that recovery before using it. Do not use a browser generator or reuse a test password.",
           "You can recover a new random wallet password without depending on the wallet's own USB.",
-          "Do not assume Tails includes KeePassXC: check the software shipped with the target release. Its documented password manager may be Secrets. Prepare and verify any additional software before secrets exist.",
+          "Install the Debian-packaged KeePassXC during preparation, before keys exist. Keep its database and its own recovery password separate from the wallet backup; test that access offline.",
         ],
         [
           "Offline generiraj i sačuvaj novu lozinku",
           "Na pouzdanom offline potpisniku generatorom provjerenog offline upravitelja lozinki napravi jedinstvenu lozinku od 24 nasumična slova i znamenke. Sačuvaj je u neovisno oporavljivom offline zapisu ili šifriranoj bazi lozinki. Prije upotrebe provjeri oporavak. Nemoj koristiti generator u pregledniku ni testnu lozinku.",
           "Novu nasumičnu lozinku možeš oporaviti bez oslanjanja na USB samog novčanika.",
-          "Nemoj pretpostaviti da Tails uključuje KeePassXC: provjeri softver ciljanog izdanja. Dokumentirani upravitelj može biti Secrets. Dodatni softver pripremi i provjeri prije nastanka tajni.",
+          "KeePassXC iz Debianovih paketa instaliraj tijekom pripreme, prije nastanka ključeva. Njegovu bazu i lozinku za njezin oporavak odvoji od backupa novčanika; pristup isprobaj offline.",
         ]
       ),
       step(
         "mainnet",
         [
           "Start a distinct mainnet data directory",
-          "Close Core. In Persistent create core-mainnet separately from core-signet. Use the launch command below on the offline device; it intentionally omits -signet. In Core's console confirm chain = main and networkactive = false before creating a wallet.",
-          "Core uses Persistent/core-mainnet, reports chain = main and remains offline.",
+          "Close Core. In your home folder create core-mainnet separately from core-signet. Use the launch command below on the offline device; it intentionally omits -signet. In Core's console confirm chain = main and networkactive = false before creating a wallet.",
+          "Core uses $HOME/core-mainnet, reports chain = main and remains offline.",
           "If the chain or data path differs, stop. Do not load the Signet backup into this setup.",
         ],
         [
           "Pokreni zasebnu mainnet mapu podataka",
-          "Zatvori Core. U Persistent napravi core-mainnet odvojeno od core-signet. Na offline uređaju pokreni naredbu ispod, namjerno bez -signet. U Coreovoj konzoli prije izrade novčanika potvrdi chain = main i networkactive = false.",
-          "Core koristi Persistent/core-mainnet, prikazuje chain = main i ostaje offline.",
+          "Zatvori Core. U osobnoj mapi napravi core-mainnet odvojeno od core-signet. Na offline uređaju pokreni naredbu ispod, namjerno bez -signet. U Coreovoj konzoli prije izrade novčanika potvrdi chain = main i networkactive = false.",
+          "Core koristi $HOME/core-mainnet, prikazuje chain = main i ostaje offline.",
           "Ako se mreža ili mapa razlikuju, stani. U ovu postavu nemoj učitavati Signet backup.",
         ],
-        "/home/amnesia/Persistent/core/bitcoin-31.1/bin/bitcoin-qt -datadir=/home/amnesia/Persistent/core-mainnet -networkactive=0 -listen=0",
+        '"$HOME/core/bitcoin-31.1/bin/bitcoin-qt" -datadir="$HOME/core-mainnet" -networkactive=0 -listen=0',
         terminal
       ),
       step(
@@ -1119,8 +1131,8 @@ export function reviseCurriculum(
     sources: [
       coreWallet,
       {
-        label: "Tails · Offline password storage",
-        url: "https://tails.net/doc/encryption_and_privacy/manage_passwords/index.en.html",
+        label: "Debian · KeePassXC package",
+        url: "https://packages.debian.org/stable/keepassxc",
       },
     ],
   })
@@ -1376,6 +1388,8 @@ export function reviseCurriculum(
     ],
   })
 
+  reviseCustodyPolicy(lessons, language)
+
   // Keep all existing lessons accessible, but remove repeated theory and advanced
   // experiments from the required beginner path. These groups own every ID once.
   const groups: {
@@ -1387,16 +1401,16 @@ export function reviseCurriculum(
     {
       title: tr("Start with the essentials", "Počni s osnovama"),
       summary: tr(
-        "Three roles, two risks and a network for practice.",
-        "Tri uloge, dvije prijetnje i mreža za vježbu."
+        "Threat model, custody philosophy and a network for practice.",
+        "Model prijetnji, filozofija čuvanja i mreža za vježbu."
       ),
       ids: [
         "0.1",
         "0.2",
+        "1.5",
         "signet-why",
         "signet-vs-mainnet",
         "0.3",
-        "1.5",
         "2.1",
         "own-node",
         "core-development",
@@ -1407,7 +1421,6 @@ export function reviseCurriculum(
       ],
       optional: [
         "0.3",
-        "1.5",
         "2.1",
         "own-node",
         "core-development",
@@ -1464,15 +1477,17 @@ export function reviseCurriculum(
         "2.4",
         "real-device",
         "ops-malware",
+        "ops-physical",
         "offline-device",
         "offline-psbt",
         "offline-recovery",
         "ops-documentation",
+        "optional-tails",
         "architecture-path-a",
         "2.5",
         "2.8",
       ],
-      optional: ["architecture-path-a", "2.5", "2.8"],
+      optional: ["optional-tails", "architecture-path-a", "2.5", "2.8"],
     },
     {
       title: tr(
@@ -1499,7 +1514,7 @@ export function reviseCurriculum(
         "Review backups, physical access and a recovery plan others can follow.",
         "Pregledaj kopije, fizički pristup i uputu koju drugi mogu pratiti."
       ),
-      ids: ["ops-routine", "ops-physical", "ops-inheritance"],
+      ids: ["ops-routine", "ops-inheritance"],
       optional: ["ops-inheritance"],
     },
     {

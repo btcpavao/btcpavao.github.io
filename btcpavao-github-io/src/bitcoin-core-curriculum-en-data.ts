@@ -69,14 +69,14 @@ const psbt: CurriculumSource = {
   url: "https://github.com/bitcoin/bitcoin/blob/master/doc/psbt.md",
 }
 
-const tailsInstall: CurriculumSource = {
-  label: "Tails: Official installation guide",
-  url: "https://tails.net/install/",
+const debianInstall: CurriculumSource = {
+  label: "Debian: Official installation guide",
+  url: "https://www.debian.org/releases/stable/amd64/",
 }
 
 const tailsHardwareWarnings: CurriculumSource = {
   label: "Tails: Hardware and firmware limitations",
-  url: "https://tails.net/doc/about/warnings/computer/index.en.html",
+  url: "https://tails.net/doc/about/warnings/index.en.html#untrusted_computer",
 }
 
 const bitcoinWhitepaper: CurriculumSource = {
@@ -216,13 +216,13 @@ export const curriculumModules: CurriculumModule[] = [
         id: "1.1",
         title: "Why this curriculum does not require a hardware wallet",
         summary:
-          "A hardware wallet can isolate signing keys, but it also adds a specialized device, firmware, supply-chain exposure, and vendor-specific recovery assumptions. This curriculum instead uses auditable general-purpose hardware, a clean operating system, and Bitcoin Core.",
+          "A hardware wallet can isolate signing keys, but it also adds a specialized device, firmware, supply-chain exposure, and vendor-specific recovery assumptions. This curriculum instead uses generic dedicated hardware, a clean operating system, and Bitcoin Core.",
         status: "published",
         what: "We separate the real advantages of an isolated signer from the dependencies and risks introduced by a targeted, specialized device.",
         why: "A dedicated offline computer can isolate key generation and signing without making a commercial device part of the recovery plan.",
         risk: "A purpose-built signer can still be useful in another architecture. It is deliberately outside the production path taught here.",
         notes: [
-          "The recommended meaningful-savings architecture is Bitcoin Core in a trusted Tails live environment on a dedicated offline computer, paired with a separate online Bitcoin Core node on normal Linux.",
+          "The default meaningful-savings architecture uses Debian Stable and Bitcoin Core on two generic dedicated computers, an offline signer and an online watch-only node.",
         ],
         sources: [
           {
@@ -230,7 +230,7 @@ export const curriculumModules: CurriculumModule[] = [
             url: "https://github.com/bitcoin-core/HWI",
           },
           managingWallets,
-          tailsInstall,
+          debianInstall,
         ],
         videoUrl: null,
       },
@@ -670,14 +670,14 @@ export const curriculumModules: CurriculumModule[] = [
     id: "8",
     title: "Offline signer",
     subtitle:
-      "A trusted Tails live system, Bitcoin Core, one signing role, and a verifiable data transfer.",
+      "A persistent Debian Stable system, Bitcoin Core, one signing role, and a verifiable data transfer.",
     level: "intermediate",
     status: "in-progress",
     estimatedTime: "120 min",
     prerequisites: ["Modules 0-7", "Tested backup and restore"],
     videoUrl: null,
     warnings: [
-      "An air gap is not proof of security if the software, Tails media, computer firmware, hardware, or PSBT transport have not been verified and controlled.",
+      "An air gap is not proof of security if the software, system disk, computer firmware, hardware, or PSBT transport have not been verified and controlled.",
     ],
     checklist: [
       "The signer was never connected to the network after preparation.",
@@ -690,17 +690,17 @@ export const curriculumModules: CurriculumModule[] = [
         "Why use an offline computer",
         "Why a signer does not need the blockchain",
         "A generic laptop as a dedicated signing device",
-        "Create and verify trusted Tails boot media",
-        "Encrypted Persistent Storage and what it keeps",
+        "Verify and install Debian Stable",
+        "Persistent system storage and independent wallet backups",
         "Verify the official Bitcoin Core Linux release",
-        "Start Tails in Offline Mode",
+        "Disable networking before creating or restoring keys",
         "Create or restore the encrypted Core signing wallet",
         "Use separate removable media for PSBTs",
-        "Shut down and secure the Tails USB",
+        "Shut down and secure the signer",
         "Rebuild from the Core wallet backup",
       ],
       "in-progress",
-      "The Tails-based offline-device guide is undergoing hardware and operational review."
+      "The Debian offline-device guide is undergoing hardware and operational review."
     ),
   },
   {

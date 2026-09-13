@@ -69,7 +69,7 @@ function useCurriculumMetadata() {
   useEffect(() => {
     const title = "Practical Bitcoin Self-Custody with Bitcoin Core | BTC Pavao"
     const description =
-      "A long-term Bitcoin Core self-custody guide covering a watch-only online node, a Tails-based offline signer, wallet backup and recovery, PSBTs, and operational security."
+      "Threat-model-first Bitcoin Core self-custody with Debian Stable online and offline computers, Signet practice, PSBTs, tested recovery and optional Tails."
     const url = `${SITE_URL}${EN_BITCOIN_CORE_CURRICULUM_PATH}`
 
     document.documentElement.lang = "en"

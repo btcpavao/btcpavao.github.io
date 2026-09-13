@@ -1,3 +1,4 @@
+import { CustodyArchitecture } from "@/components/custody-architecture"
 import {
   useEffect,
   useRef,
@@ -502,6 +503,7 @@ export function CurriculumLesson({
           </div>
         </section>
       ) : null}
+      {lesson.id === "2.4" && <CustodyArchitecture language={language} />}
       <details className="course-lesson-details">
         <summary>{t.background}</summary>
         {(lesson.guidedSteps?.length ? paragraphs : paragraphs.slice(2)).map(
@@ -594,6 +596,16 @@ export function CurriculumLesson({
             <dt>{t.date}</dt>
             <dd>{lesson.lastReviewed ?? t.noReview}</dd>
           </div>
+          {lesson.contentUpdated && (
+            <div>
+              <dt>
+                {language === "en"
+                  ? "Content updated; no new practical test"
+                  : "Sadržaj ažuriran; bez novog praktičnog testa"}
+              </dt>
+              <dd>{lesson.contentUpdated}</dd>
+            </div>
+          )}
           <div>
             <dt>{t.origin}</dt>
             <dd>{lesson.origin}</dd>

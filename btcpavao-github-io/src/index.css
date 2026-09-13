@@ -7650,3 +7650,107 @@ input:focus-visible + .curriculum-checkbox {
 .course-overview-details .course-roadmap__summary { display: block; margin-block: 0.6rem; line-height: 1.6; }
 .course-lesson--focused .course-lesson__completion button.is-complete { background: transparent; color: var(--muted-foreground); border-color: transparent; text-decoration: underline; }
 .dark .course-guided__confirmed { color: #a1f0c5; }
+
+/* Shared reference architecture in the curriculum and wallet onboarding. */
+.custody-architecture {
+  margin: 1.5rem 0;
+  min-width: 0;
+}
+.custody-architecture > figcaption {
+  margin-bottom: 1rem;
+  font-weight: 650;
+}
+.custody-architecture__roles {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+.custody-architecture__role {
+  min-width: 0;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  background: var(--card);
+}
+.custody-architecture__role--offline {
+  background: #0d3153;
+  color: #fff;
+  border-color: #0d3153;
+}
+.custody-architecture__role h3 {
+  margin: 0.75rem 0;
+  color: inherit;
+}
+.custody-architecture__role ul {
+  display: grid;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.custody-architecture__role li {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.custody-architecture__transfer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+.custody-architecture__transfer svg {
+  flex-shrink: 0;
+}
+.custody-architecture__optional {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+}
+.custody-architecture__optional summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.custody-architecture__optional p {
+  margin: 1rem 0 0;
+  line-height: 1.7;
+}
+@media (min-width: 900px) {
+  .custody-architecture__roles {
+    grid-template-columns: minmax(0, 1fr) 8rem minmax(0, 1fr);
+  }
+  .custody-architecture__transfer {
+    grid-column: 2;
+    grid-row: 1;
+    flex-direction: column;
+  }
+  .custody-architecture__role--offline {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+
+.custody-architecture__role ul { padding-left: 0; }
+.course-prev-next button { min-width: 0; }
+.course-prev-next strong { white-space: normal; overflow-wrap: anywhere; }
+@media (min-width: 768px) {
+  .course-prev-next button { padding: 1.5rem; }
+}
+@media (min-width: 900px) {
+  .custody-architecture__transfer svg { transform: rotate(90deg); }
+}
+@media (max-width: 767px) {
+  .course-prev-next { grid-template-columns: minmax(0, 1fr); }
+}
+@media (min-width: 768px) {
+  .course-prerequisites,
+  .course-guided__result,
+  .course-guided__warning { padding: 1.5rem; }
+}

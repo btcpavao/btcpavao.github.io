@@ -37,18 +37,18 @@ try {
   }
 
   check(
-    "All 63 lesson identities survive in six phases in both languages",
+    "63 existing lessons plus optional Tails form six phases in both languages",
     () => {
       for (const data of [en, hr]) {
         assert.equal(data.curriculumPhases.length, 6)
-        assert.equal(data.curriculumLessons.length, 63)
+        assert.equal(data.curriculumLessons.length, 64)
         assert.equal(
           new Set(data.curriculumLessons.map((e) => e.lesson.id)).size,
-          63
+          64
         )
         assert.equal(
           new Set(data.curriculumLessons.map((e) => e.lesson.slug)).size,
-          63
+          64
         )
         for (const entry of data.curriculumLessons) {
           assert.ok(data.findLessonBySlug(entry.lesson.slug))
@@ -237,8 +237,104 @@ try {
       )
     }
   )
+  check(
+    "Threat modelling and philosophy precede tools and architecture",
+    () => {
+      for (const data of [en, hr]) {
+        const ids = data.curriculumLessons.map(({ lesson }) => lesson.id)
+        const find = (id) =>
+          data.curriculumLessons.find((e) => e.lesson.id === id).lesson
+        assert.ok(ids.indexOf("0.2") < ids.indexOf("1.5"))
+        assert.ok(ids.indexOf("1.5") < ids.indexOf("signet-install-verify"))
+        assert.ok(find("architecture-choice").prerequisites.includes("0.2"))
+        assert.equal(find("1.5").optional, false)
+        assert.equal(
+          canCompleteLesson(
+            find("0.2"),
+            new Set(["lesson-0.2:guided-v1:risks"]),
+            new Set()
+          ),
+          false
+        )
+      }
+    }
+  )
+  check(
+    "Debian default, optional Tails and physical safety preserve the offline boundary",
+    () => {
+      for (const data of [en, hr]) {
+        const find = (id) =>
+          data.curriculumLessons.find((e) => e.lesson.id === id).lesson
+        const signer = find("offline-device")
+        const launch = signer.guidedSteps.find((s) => s.command).command
+        assert.match(signer.referenceVersion, /Debian Stable/)
+        assert.match(launch, /-networkactive=0 -listen=0/)
+        assert.match(launch, /-signet/)
+        assert.doesNotMatch(launch, /amnesia|Persistent/)
+        assert.ok(signer.prerequisites.includes("ops-physical"))
+        assert.equal(find("optional-tails").optional, true)
+        assert.ok(
+          find("optional-tails").prerequisites.includes("offline-recovery")
+        )
+        for (const { lesson } of data.curriculumLessons)
+          assert.ok(!(lesson.prerequisites ?? []).includes("optional-tails"))
+      }
+    }
+  )
+  check(
+    "Verification requires preparation and identity checks before executable launch",
+    () => {
+      for (const data of [en, hr]) {
+        const lesson = data.curriculumLessons.find(
+          (e) => e.lesson.id === "signet-install-verify"
+        ).lesson
+        const steps = lesson.guidedSteps.map((s) => s.id)
+        for (const id of [
+          "tools-check",
+          "tools-install",
+          "folder",
+          "hash",
+          "builder-repo",
+          "builder-import",
+          "fingerprints",
+          "signature",
+        ])
+          assert.ok(
+            steps.indexOf(id) >= 0 &&
+              steps.indexOf(id) < steps.indexOf("extract")
+          )
+        assert.equal(lesson.verification, "review-required")
+        assert.equal(
+          canCompleteLesson(
+            lesson,
+            new Set(requiredChecks(lesson)),
+            new Set(lesson.prerequisites)
+          ),
+          false
+        )
+      }
+    }
+  )
+  check("New procedures do not acquire a hands-on verification date", () => {
+    for (const data of [en, hr]) {
+      assert.equal(data.CURRICULUM_VERSION, "3.0")
+      for (const id of [
+        "offline-device",
+        "optional-tails",
+        "ops-physical",
+        "ops-routine",
+      ]) {
+        const lesson = data.curriculumLessons.find(
+          (e) => e.lesson.id === id
+        ).lesson
+        assert.equal(lesson.contentUpdated, "2026-09-13")
+        assert.equal(lesson.verification, "review-required")
+        assert.notEqual(lesson.lastReviewed, "2026-09-13")
+      }
+    }
+  })
   console.log(
-    `\n${checks} curriculum checks passed. These checks do not simulate Core, Tails or real transactions.`
+    `\n${checks} curriculum checks passed. These checks do not simulate Core, Debian, Tails or real transactions.`
   )
 } finally {
   await rm(temporary, { recursive: true, force: true })

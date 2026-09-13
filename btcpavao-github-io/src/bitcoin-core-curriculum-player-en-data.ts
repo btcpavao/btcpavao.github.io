@@ -8,9 +8,8 @@ import {
   type CurriculumStatus,
 } from "@/bitcoin-core-curriculum-en-data"
 
-export const CURRICULUM_VERSION = "2.3"
+export const CURRICULUM_VERSION = "3.0"
 export const CORE_REFERENCE_VERSION = "Bitcoin Core 31.1"
-export const TAILS_REFERENCE_VERSION = "Tails 7.11"
 export const SPARROW_REFERENCE_VERSION = "Sparrow 2.5.2"
 export const ELECTRUM_REFERENCE_VERSION = "Electrum 4.8.0"
 export const LAST_TECHNICAL_REVIEW = "2026-08-31"
@@ -124,6 +123,7 @@ export type PlayerLesson = Omit<CurriculumLesson, "status"> &
     verification: LessonVerification
     referenceVersion: string
     lastReviewed?: string
+    contentUpdated?: string
     optional?: boolean
     reviewNote?: string
     explanation?: string[]
@@ -190,36 +190,6 @@ const offlineSigning: CurriculumSource = {
 const psbt: CurriculumSource = {
   label: "Bitcoin Core 31.1 — PSBT documentation",
   url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/psbt.md",
-}
-
-const tailsInstall: CurriculumSource = {
-  label: "Tails 7.11 — Official installation guide",
-  url: "https://tails.net/install/",
-}
-
-const tailsPersistentStorage: CurriculumSource = {
-  label: "Tails 7.11 — Persistent Storage",
-  url: "https://tails.net/doc/persistent_storage/index.en.html",
-}
-
-const tailsPersistentStorageConfigure: CurriculumSource = {
-  label: "Tails 7.11 — Configuring the Persistent Storage",
-  url: "https://tails.net/doc/persistent_storage/configure/index.en.html",
-}
-
-const tailsPersistentStorageBackup: CurriculumSource = {
-  label: "Tails 7.11 — Backing up the Persistent Storage",
-  url: "https://tails.net/doc/persistent_storage/backup/index.en.html",
-}
-
-const tailsWelcomeScreen: CurriculumSource = {
-  label: "Tails 7.11 — Welcome Screen and Offline Mode",
-  url: "https://tails.net/doc/first_steps/welcome_screen/index.en.html",
-}
-
-const tailsHardwareWarnings: CurriculumSource = {
-  label: "Tails 7.11 — Hardware and firmware limitations",
-  url: "https://tails.net/doc/about/warnings/computer/index.en.html",
 }
 
 const multisigTutorial: CurriculumSource = {
@@ -299,6 +269,7 @@ function retainLesson(
     origin?: string
     optional?: boolean
     lastReviewed?: string
+    contentUpdated?: string
   }
 ): PlayerLesson {
   const legacy = legacyLessons.get(id)
@@ -862,19 +833,10 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         slug: "prepare-offline-signer",
         title: "Preparing an offline signer",
         summary:
-          "A generic dedicated computer boots a trusted Tails live USB and runs Bitcoin Core without a network connection.",
-        objective:
-          "Prepare a replaceable Tails environment for Bitcoin Core without treating the air gap as proof that the hardware is clean.",
+          "A dedicated Debian Stable computer runs Bitcoin Core offline.",
+        objective: "Prepare and test a persistent offline Debian signer.",
         reviewNote: standardReviewNote,
-        sources: [
-          tailsInstall,
-          tailsPersistentStorage,
-          tailsPersistentStorageConfigure,
-          tailsWelcomeScreen,
-          tailsHardwareWarnings,
-          coreDownload,
-          offlineSigning,
-        ],
+        sources: [managingWallets, offlineSigning],
       }),
       outlineLesson({
         id: "offline-psbt",
@@ -929,68 +891,22 @@ const curriculumPhasesV2: CurriculumPhase[] = [
         slug: "malware-usb-and-destination-verification",
         title: "Malware, USB, and destination verification",
         summary:
-          "An air gap reduces network exposure. It does not prove that the signer, Tails media, or transaction is trustworthy.",
+          "An air gap reduces network exposure. It does not prove that the signer, transfer media, or transaction is trustworthy.",
         objective:
           "Recognize malicious modification, control removable media, and verify the transaction before entering the wallet passphrase.",
         reviewNote: standardReviewNote,
-        explanation: [
-          "An air gap mainly removes direct network exposure. Malware can still arrive through removable media, and a compromised online machine can prepare a deceptive PSBT. The signer must independently check the destination, amount, fee, and change before signing.",
-          "A permanently installed Linux signer can be modified while its owner is absent. This kind of unattended malicious modification is often called an evil maid attack. The compromised operating system can then capture secrets the next time it starts. Booting a separately controlled Tails live USB changes that threat model because the signer no longer relies on the operating system installed on the laptop's internal disk.",
-          "This does not make physical access harmless. BIOS or UEFI firmware, modified hardware, a physical keylogger, the Tails USB, or another component below the live operating system can still be compromised. These attacks are harder and less common than ordinary backup or transaction mistakes, but Tails does not eliminate them.",
-        ],
-        callouts: [
-          {
-            kind: "warning",
-            title: "If physical control was lost",
-            body: "If the signer laptop or the trusted Tails media has been outside your physical control and you have reason to suspect tampering, do not enter the wallet passphrase until the environment has been replaced, rebuilt, or independently checked.",
-          },
-        ],
-        checklist: [
-          "I understand what the air gap does and does not protect against",
-          "I inspect and control the PSBT transport media",
-          "I verify the destination, amount, fee, and change before signing",
-          "I know what I will do if the signer laptop or Tails USB might have been tampered with",
-        ],
-        sources: [offlineSigning, tailsWelcomeScreen, tailsHardwareWarnings],
+        sources: [managingWallets, offlineSigning],
       }),
       outlineLesson({
         id: "ops-physical",
         slug: "physical-security-and-backup-media",
         title: "Physical safety and backup media",
         summary:
-          "Recovery artifacts are irreplaceable; the signer laptop, Tails USB, and PSBT media are replaceable equipment.",
+          "Recovery artifacts are irreplaceable; the signer laptop, system disk, and PSBT media are replaceable equipment.",
         objective:
           "Separate the Bitcoin recovery package from the operational equipment used to sign.",
         reviewNote: standardReviewNote,
-        explanation: [
-          "The Bitcoin recovery package is the encrypted Bitcoin Core wallet backup, its strong passphrase stored separately, and the descriptors and recovery documentation required by your procedure. Test this package without relying on the original laptop or Tails USB.",
-          "The signer laptop, Tails USB, and PSBT transport USB are operational equipment. You should be able to lose all three and rebuild the signer from a newly verified Tails installation, the documented Bitcoin Core version, and the separate Core wallet recovery package.",
-          "The Tails Project recommends a second Tails USB when Persistent Storage is used. That clone can reduce downtime, but it is an operational convenience. It does not replace the independent Bitcoin Core wallet backup and recovery procedure.",
-        ],
-        callouts: [
-          {
-            kind: "mental-model",
-            title:
-              "The Tails installation is replaceable. Your Bitcoin Core wallet backup is not.",
-            body: "Never let the only recoverable copy of the signing wallet live inside the Tails Persistent Storage or its clone.",
-          },
-        ],
-        concepts: [
-          "Bitcoin recovery artifacts: encrypted Core wallet backup, separate passphrase, descriptors, and procedure.",
-          "Replaceable equipment: signer laptop, Tails USB, and PSBT transport USB.",
-          "A backup Tails USB speeds up recovery but is not the wallet recovery model.",
-        ],
-        checklist: [
-          "I can rebuild without the original signer laptop",
-          "I can rebuild without the original Tails USB",
-          "I can rebuild without the PSBT transport USB",
-          "My authoritative recovery test uses the documented Bitcoin Core wallet backup",
-        ],
-        sources: [
-          managingWallets,
-          tailsPersistentStorage,
-          tailsPersistentStorageBackup,
-        ],
+        sources: [managingWallets, offlineSigning],
       }),
       outlineLesson({
         id: "ops-documentation",
@@ -1449,30 +1365,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
     status: "published",
     estimatedTime: "25 min + Deep dives",
     lessons: [
-      reuseV2Lesson("1.5", {
-        title: "Why this curriculum stays with Bitcoin Core",
-        summary:
-          "One implementation, one descriptor model, one backup model, and one recovery language reduce avoidable transitions between tools.",
-        objective:
-          "Explain why a Bitcoin Core-only production stack makes the custody architecture easier to reason about and rehearse.",
-        explanation: [
-          "This curriculum does not use Bitcoin Core as a badge of identity. It uses Core because the node, online watch-only wallet, offline signer, descriptors, PSBT workflow, backups, and recovery procedure can remain inside one inspectable implementation.",
-          "That continuity matters. Every additional production wallet introduces another release process, file format, recovery convention, and set of assumptions. Capable alternatives may be useful elsewhere, but they are unnecessary for the system taught here.",
-          "The recommended stack is explicit. The online Bitcoin Core node runs on a dedicated or appropriately secured normal Linux installation, with Fedora as the practical example. The offline Bitcoin Core signer runs in a trusted Tails live environment on generic dedicated hardware. KeePassXC remains the practical tool for generating a strong random passphrase.",
-        ],
-        callouts: [
-          {
-            kind: "mental-model",
-            title: "Core-only is an architectural boundary.",
-            body: "It keeps validation, descriptors, PSBTs, signing, wallet backups, and recovery in one documented system. It is not a claim that every other wallet is incapable.",
-          },
-        ],
-        checklist: [
-          "I can explain why this curriculum uses one wallet implementation end to end.",
-          "I know the recommended software stack and the role of each component.",
-          "I understand that simpler tooling does not remove malware, physical, or human risk.",
-        ],
-      }),
+      reuseV2Lesson("1.5"),
       reuseV2Lesson("2.1"),
       reuseV2Lesson("own-node"),
       reuseV2Lesson("core-development", { optional: true }),
@@ -1515,31 +1408,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
           "I will not use Electrum as a recovery shortcut for this Core wallet.",
         ],
       }),
-      reuseV2Lesson("1.1", {
-        optional: true,
-        title: "Isolated signing without a commercial hardware wallet",
-        summary:
-          "The useful property is keeping signing keys off the network; a vendor-specific device is one possible implementation, not a requirement.",
-        objective:
-          "Separate the security benefit of isolated signing from the new dependencies introduced by specialized hardware wallets.",
-        explanation: [
-          "A hardware wallet can isolate signing keys and make self-custody more accessible. The isolation property is useful, but it does not require a commercial device.",
-          "A generic dedicated computer booted from a trusted Tails USB can run Bitcoin Core as the offline signer. A separate online Bitcoin Core node prepares PSBTs and broadcasts signed transactions, while private keys remain inside the encrypted Core wallet used only in the offline Tails environment.",
-          "Commercial hardware adds a specialized target, firmware and supply-chain assumptions, device attestation, vendor security practices, vendor-specific recovery paths, and frequent coupling to mnemonic backups. None of those dependencies is needed for the architecture taught here.",
-        ],
-        callouts: [
-          {
-            kind: "important",
-            title: "Recommended for meaningful savings",
-            body: "Use a trusted Tails live USB on generic dedicated hardware for the offline Bitcoin Core signer, plus a separate online Bitcoin Core node on normal Linux. The curriculum does not use a commercial hardware wallet.",
-          },
-        ],
-        checklist: [
-          "I can explain the benefit of isolated signing without naming a product.",
-          "I can identify the extra trust assumptions introduced by specialized hardware.",
-          "I understand the two-computer Bitcoin Core architecture recommended here.",
-        ],
-      }),
+      reuseV2Lesson("1.1"),
       reuseV2Lesson("1.4", {
         optional: true,
         title: "Why this curriculum does not use BIP39 mnemonics",
@@ -1832,27 +1701,8 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         verification: "verified",
         referenceVersion: CORE_REFERENCE_VERSION,
         estimatedTime: "12-16 min",
-        explanation: [
-          "Path A is a simple online, encrypted Bitcoin Core wallet. It is reasonable for smaller amounts, a spending wallet, or a situation in which additional devices and transfers would increase the probability of human error.",
-          "Path B uses an online Bitcoin Core node with a watch-only wallet and a separate offline Core signer. It addresses a specific failure mode: the compromise of a networked device that would otherwise hold private keys.",
-          "Path B is the strong recommendation for meaningful savings because it removes private keys from the networked computer. It requires more discipline: two dedicated roles, descriptors, PSBT transport, and tested recovery procedures.",
-          "For the offline signer, this curriculum boots a trusted Tails live USB instead of requiring a second permanently installed Linux system. Tails is the operating environment underneath Bitcoin Core, not another wallet or recovery format.",
-        ],
-        callouts: [
-          {
-            kind: "mental-model",
-            title:
-              "Path A is for limited-risk use; Path B is the savings architecture.",
-            body: "Use Path A for learning, smaller amounts, or an everyday spending wallet. For meaningful long-term savings, use a separate offline Core signer and online Core node.",
-          },
-        ],
-        checklist: [
-          "I know what amount and purpose the wallet should support",
-          "I can name the failure modes an offline signer would reduce",
-          "I don't choose extra complexity just because it looks more advanced",
-        ],
-        sources: [offlineSigning, managingWallets, tailsInstall],
         origin: "New architectural checkpoint in curriculum v2.1",
+        sources: [managingWallets, offlineSigning],
       }),
       outlineLesson({
         id: "architecture-path-a",
@@ -1871,28 +1721,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         ],
         sources: [managingWallets],
       }),
-      reuseV2Lesson("2.4", {
-        title: "Path B — Online node and offline signer",
-        explanation: [
-          "The online machine runs a synchronized Bitcoin Core full node on a dedicated or appropriately secured normal Linux installation. Its watch-only wallet shows status, monitors receipts, prepares PSBTs, and broadcasts signed transactions. It contains no private keys for the savings wallet.",
-          "The offline machine boots from trusted Tails media and runs Bitcoin Core with the encrypted private-key wallet. It does not need the blockchain and is never intentionally connected to a network during signer use. Its job is to review the PSBT and sign only what the user approves.",
-          "PSBTs move between the two Core instances on controlled removable media. Online Core verifies and prepares. Offline Core signs.",
-        ],
-        callouts: [
-          {
-            kind: "warning",
-            title: "Public data can still be sensitive",
-            body: "Watch-only descriptors are not private keys, but they can reveal a set of addresses, derivation paths, and financial links. Treat them as privacy-sensitive data.",
-          },
-        ],
-        sources: [
-          offlineSigning,
-          descriptors,
-          psbt,
-          tailsWelcomeScreen,
-          tailsHardwareWarnings,
-        ],
-      }),
+      reuseV2Lesson("2.4"),
       reuseV2Lesson("2.5"),
       reuseV2Lesson("2.8", {
         explanation: [
@@ -1901,72 +1730,7 @@ const curriculumPhasesV21Draft: CurriculumPhase[] = [
         ],
         sources: [offlineSigning, descriptors, psbt],
       }),
-      reuseV2Lesson("offline-device", {
-        referenceVersion: `${TAILS_REFERENCE_VERSION} + ${CORE_REFERENCE_VERSION}`,
-        reviewNote:
-          "Before this lesson receives the Tested label, reproduce the complete boot, Persistent Storage, Bitcoin Core 31.1 launch, wallet backup, PSBT signing, and shutdown flow on Tails 7.11.",
-        explanation: [
-          "Use a generic dedicated laptop or computer that can boot the current Tails release from trusted removable media. The laptop's internal operating system is not part of the signing workflow. Fedora remains the practical example for the separate online node, not the recommended beginner signer environment.",
-          "Create Tails media using the official installation instructions and a trusted computer. On the signer, unlock encrypted Persistent Storage and use its Persistent Folder only for the files that must survive shutdown, such as the verified Bitcoin Core release and the working Core wallet. Persistent Storage is encrypted, but it is writable and therefore not immutable. The Tails USB becomes a security-critical artifact.",
-          "Obtain the official Linux release from Bitcoin Core's distribution site and follow the project's checksum and signature verification procedure before transferring it to the signer. Record the exact Core version. Do not replace it through an uncontrolled auto-update path.",
-          "Start Tails in Offline Mode before the desktop loads. Bitcoin Core needs no blockchain on this machine. The online Core node owns chain state, the watch-only wallet, PSBT preparation, and broadcasting. The offline Core instance owns the encrypted private-key wallet and signs only after the user checks the transaction.",
-        ],
-        walkthrough: {
-          title: "Build the Tails-based Bitcoin Core signer",
-          intro:
-            "Complete this on Signet before creating or restoring a wallet that protects meaningful bitcoin.",
-          steps: [
-            "Obtain a generic dedicated laptop or computer and confirm that the current Tails release boots reliably on it.",
-            "Create and verify a trusted Tails USB by following the current official Tails installation guide.",
-            "Boot Tails, unlock encrypted Persistent Storage, turn on the Persistent Folder feature, and start Tails in Offline Mode.",
-            "On a separate trusted computer, download the official Bitcoin Core Linux release and verify its checksums and release signatures. Transfer the verified release to the Persistent Folder using controlled setup media.",
-            "Document the exact Bitcoin Core version, then start `bitcoin-qt` from the verified release. Do not synchronize the blockchain and do not connect the signer to a network.",
-            "Create a new encrypted Bitcoin Core signing wallet or restore the documented encrypted Core wallet backup.",
-            "Create and test a separate Bitcoin Core wallet backup. Keep its strong passphrase in a different trust domain.",
-            "Use separate controlled removable media for unsigned and signed PSBT transfer.",
-            "Before signing, independently verify the destination, amount, fee, and change in Bitcoin Core on the signer.",
-            "Return the signed PSBT to the online Core node, then shut Tails down normally.",
-            "Remove the Tails USB and store it separately from the signer laptop where practical.",
-          ],
-        },
-        callouts: [
-          {
-            kind: "mental-model",
-            title: "Tails is the environment. Bitcoin Core is the signer.",
-            body: "Tails does not replace the wallet, descriptor, backup, or recovery model. Every Bitcoin function remains inside Bitcoin Core.",
-          },
-          {
-            kind: "warning",
-            title: "Persistent Storage is not immutable",
-            body: "Anyone who can modify the trusted Tails media may be able to alter files used in a later signing session. Control the USB, keep the wallet backup separate, and rebuild the environment if tampering is suspected.",
-          },
-          {
-            kind: "important",
-            title:
-              "The Tails installation is replaceable. Your Bitcoin Core wallet backup is not.",
-            body: "A second cloned Tails USB can shorten recovery time, but you must be able to rebuild from fresh verified Tails media and the separate Core wallet recovery package.",
-          },
-        ],
-        checklist: [
-          "The signer boots verified Tails media and starts in Offline Mode",
-          "The signer runs a documented, verified official Bitcoin Core release",
-          "The private-key wallet exists only in the offline signing role",
-          "The signer has no blockchain and no intentional network connection",
-          "I use separate controlled media for PSBT transport",
-          "I can recover without the laptop, Tails USB, or PSBT USB",
-        ],
-        sources: [
-          tailsInstall,
-          tailsPersistentStorage,
-          tailsPersistentStorageConfigure,
-          tailsPersistentStorageBackup,
-          tailsWelcomeScreen,
-          tailsHardwareWarnings,
-          coreDownload,
-          offlineSigning,
-          psbt,
-        ],
-      }),
+      reuseV2Lesson("offline-device"),
       reuseV2Lesson("offline-psbt"),
       reuseV2Lesson("offline-recovery"),
     ],
