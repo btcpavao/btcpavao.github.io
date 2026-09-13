@@ -19,9 +19,9 @@ const introductions: Record<string, Introduction> = {
   ],
   "1.5": [
     "Why this course uses ordinary computers and Bitcoin Core",
-    "Understand why this course uses this setup and what you will need to manage yourself.",
-    "For savings, this course uses ordinary computers dedicated to this task. Keep them separate from everyday browsing and email. They run Linux, an operating system, and Bitcoin Core for checking transactions, managing the wallet and signing payments. Linux and Core are open source, so their code is available for others to inspect. The computer holding private keys stays offline, disconnected from networks.",
-    "This is a deliberate choice, not a claim that an ordinary laptop is always safer than a hardware wallet. Hardware wallets are devices designed to keep signing keys separate and can be easier to operate. You still rely on their manufacturer, their recovery method and their firmware, the low-level software built into the device. Ordinary computers avoid some Bitcoin-specific product dependencies but contain more general-purpose hardware and software. With this setup, you are responsible for verifying the software, keeping the signer offline and testing recovery regularly.",
+    "Understand how the choice of hardware affects who can identify you as a Bitcoin target.",
+    "For savings, this course recommends generic, non-Bitcoin-specific hardware: ordinary computers that could run many kinds of software. Buying one does not, by itself, announce that you plan to hold bitcoin. A hardware wallet is sold specifically for managing Bitcoin or other cryptocurrencies, so its purchase gives an attacker a much stronger clue. We deliberately avoid that signal and the wallet-device supply chain behind it.",
+    "Once acquired, these computers are dedicated to custody, with no everyday browsing or email. They run Linux, an operating system, and Bitcoin Core for the wallet, transaction checks and signing. Linux and Core are open source, so their code is available for inspection. The computer holding private keys stays offline. Our recommendation combines less revealing hardware purchases, mature software, encrypted wallet backups and tested recovery; it does not rest on the laptop alone.",
   ],
   "signet-why": [
     "Practice with test coins first",
@@ -72,16 +72,19 @@ const introductions: Record<string, Introduction> = {
     "A recovery method that works in one application may not work in another. This course uses Bitcoin Core wallet backups throughout. You do not need to install Electrum, create its recovery words or move your Core keys into it to complete the lessons.",
   ],
   "1.1": [
-    "Ordinary computers and hardware wallets: what changes?",
-    "Compare the responsibilities of the two approaches without assuming either is always safer.",
-    "A hardware wallet is a device built to protect keys and approve payments. It can make that job easier and keep keys separate from an everyday computer. You still rely on its hardware, its manufacturer and its firmware, the low-level software built into the device. Some products also use attestation, a check intended to establish that a device or its software is genuine.",
-    "This course uses ordinary dedicated computers running Core. That reduces dependence on Bitcoin-specific products, but ordinary computers also contain firmware and can be altered before reaching you. This is supply-chain risk: something going wrong during manufacture, distribution or delivery. A general-purpose computer has more components to manage, so isolation, verification and recovery discipline matter. Neither choice removes those responsibilities entirely.",
+    "Why Bitcoin-specific devices attract targeted attacks",
+    "Connect the product's purpose, its customer records and the economics of attacking its users.",
+    "An attacker looking for bitcoin must find people likely to control it. A hardware-wallet customer list does part of that work: the product's purpose identifies a group with a likely financial use for it. A list of ordinary laptop buyers is much less specific. This concentration can act as an economic honeypot, meaning an attractive pool of potential victims. It is not a deliberately planted security trap, and a purchase does not reveal anyone's balance.",
+    "This is the targeting asymmetry behind our hardware choice. A Bitcoin-focused attacker can concentrate on one wallet brand, its deliveries, firmware updates and recovery habits. Firmware is the low-level software built into a device. Supply-chain attacks alter a product during manufacture, distribution or delivery. Generic hardware makes a purchase less useful for selecting Bitcoin victims, although an attacker who already knows your identity or custody setup can still target your computer.",
+    "Hardware inspection is a separate problem. A backdoor is a hidden way to bypass the intended protection. Checking a downloaded program against a published fingerprint is cheap and repeatable. That establishes a file match, not the absence of malicious code. Establishing what every chip actually does can require specialist equipment and destructive examination. Research has demonstrated chip modifications that evade optical inspection. Reading published source code, checking a seal or using attestation, a device-authenticity check, cannot prove that all the hardware is free of backdoors. This limitation applies to ordinary computers too.",
+    "Attack and review have different economics. A thief can profit directly from a weakness. Preventing that loss requires someone to fund skilled reviewers, equipment and time. Public source code makes review possible; it does not tell us whether the relevant code path and the shipped device were examined thoroughly. The Coldcard case below shows why we do not equate available source with completed security review.",
+    "Some institutional custody systems use tools quite different from retail hardware wallets. Coinbase's 2025 annual report, for example, describes proprietary software and hardware security modules for cold-storage custody. A hardware security module is a specialized device for protecting cryptographic keys within a larger system. Security work on an institution's own system does not tell us how thoroughly a consumer product has been reviewed. A claim about review quality needs evidence of the work actually performed.",
   ],
   "1.4": [
     "Why your Core backup is a file, not a list of recovery words",
-    "Know which two things you must keep to recover this wallet: its backup and its password.",
-    "Many wallets show a list of recovery words. BIP39 is a specification for one such method. The words represent secret data used to derive keys. BIP32 describes how to derive a family of keys from one starting secret. To derive a key means to calculate it in a repeatable way. Core uses this kind of key generation internally, but it does not give you a BIP39 word list for the wallet taught here.",
-    "In this course you save an encrypted Core wallet backup file and keep its password separately. The file contains the key material and wallet information, including descriptions of how its addresses are made. The password unlocks the protected keys, but it cannot recreate a missing wallet file. Use Core's file-based backup procedure for this wallet.",
+    "Understand why we back up the wallet's records as well as the secret that generates its keys.",
+    "BIP39 is a recovery-word specification introduced in 2013 by four authors, including Trezor's Marek Palatinus and Pavol Rusnak. It made machine-generated secret data easier to write down and transfer, helping make hardware-wallet recovery more usable. The words produce a starting secret, often called a seed. BIP32 then describes how to derive, or calculate, a family of keys from a starting secret. BIP39 is also used by software wallets; it is not restricted to hardware devices.",
+    "We deliberately choose a different recovery model. Core's wallet.dat is a wallet database: it holds keys, address descriptions and wallet records. Use Core's Backup Wallet function to make a consistent snapshot, then keep the encrypted backup and its password separately. This preserves the stored wallet context as well as the secrets. For the offline Core workflow taught here, we consider that a better security model: fewer recovery conventions to reconstruct and a backup we can actually restore and test.",
   ],
   "signet-install-verify": [
     "Download Core and check that it is the intended release",
@@ -391,6 +394,73 @@ const introductions: Record<string, Introduction> = {
   ],
 }
 
+const rationaleSources: Record<string, NonNullable<PlayerLesson["sources"]>> = {
+  "1.5": [
+    {
+      label: "Ledger · Customer-data breach and phishing follow-up",
+      url: "https://www.ledger.com/blog/update-efforts-to-protect-your-data-and-prosecute-the-scammers",
+    },
+  ],
+  "1.1": [
+    {
+      label: "Coinkite · Coldcard seed-generation advisory (2026)",
+      url: "https://blog.coinkite.com/coldcard-mk3-seed-generation-warning/",
+    },
+    {
+      label: "Coldcard · Public firmware repository and security advisory",
+      url: "https://github.com/Coldcard/firmware",
+    },
+    {
+      label: "Wizardsardine · Coldcard entropy failure: technical analysis",
+      url: "https://wizardsardine.com/blog/coldcard-vuln-deep-dive/",
+    },
+    {
+      label: "Ledger · Customer-data breach and phishing follow-up",
+      url: "https://www.ledger.com/blog/update-efforts-to-protect-your-data-and-prosecute-the-scammers",
+    },
+    {
+      label: "Trezor · Support-portal incident, January 2024",
+      url: "https://forum.trezor.io/t/security-alert-update/15204",
+    },
+    {
+      label:
+        "Becker et al. · Hardware Trojans and limits of chip inspection (CHES 2013)",
+      url: "https://www.iacr.org/archive/ches2013/80860203/80860203.pdf",
+    },
+    {
+      label:
+        "Coinbase · 2025 Form 10-K: custody software and hardware security modules",
+      url: "https://www.sec.gov/Archives/edgar/data/1679788/000167978826000015/coin-20251231.htm",
+    },
+  ],
+  "1.4": [
+    {
+      label: "Trezor · BIP39 origins and recovery-word usability",
+      url: "https://trezor.io/learn/advanced/standards-proposals/what-is-bip-39-how-12-and-24-word-wallet-backups-work",
+    },
+    {
+      label: "BIP32 · Deriving a family of keys",
+      url: "https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki",
+    },
+    {
+      label: "BIP44 · Account and derivation-path conventions",
+      url: "https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki",
+    },
+    {
+      label: "BIP380 · Output descriptors preserve spending information",
+      url: "https://github.com/bitcoin/bips/blob/master/bip-0380.mediawiki",
+    },
+    {
+      label: "Core 31.1 · Wallet files and their contents",
+      url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/files.md",
+    },
+    {
+      label: "Bitcoin Core · backupwallet makes a safe wallet copy",
+      url: "https://bitcoincore.org/en/doc/31.0.0/rpc/wallet/backupwallet/",
+    },
+  ],
+}
+
 export function reviseBeginnerLanguage(lessons: Map<string, PlayerLesson>) {
   for (const [id, lesson] of lessons) {
     const introduction = introductions[id]
@@ -403,6 +473,9 @@ export function reviseBeginnerLanguage(lessons: Map<string, PlayerLesson>) {
       summary: objective,
       explanation,
       contentUpdated: "2026-09-13",
+      sources: rationaleSources[id]
+        ? [...(lesson.sources ?? []), ...rationaleSources[id]]
+        : lesson.sources,
       notes: [...(lesson.notes ?? []), ...(lesson.explanation?.slice(2) ?? [])],
       guidedSteps: lesson.guidedSteps?.map((step) => reviseStep(id, step)),
       ...backgroundCopy[id],
@@ -437,8 +510,35 @@ const backgroundCopy: Record<string, Partial<PlayerLesson>> = {
   },
   "1.5": {
     notes: [
-      "A device sold specifically to Bitcoin owners can attract attackers seeking wallet keys. It also brings product-specific assumptions about its manufacturer, firmware and recovery method. Using ordinary hardware reduces these Bitcoin-specific dependencies, but ordinary computers also face supply-chain and firmware risks.",
-      "We keep hardware wallets out of the practical path so you can learn one complete Core procedure. Their dedicated signing hardware and simpler controls can be useful. An ordinary Linux computer has more components to manage, so its safety depends on careful setup, isolation and tested recovery.",
+      "The economic argument concerns finding worthwhile targets. When a product already identifies likely cryptocurrency users, an attacker can spend less effort separating them from unrelated customers. A generic computer has many possible uses, so its purchase supplies less of that information. This can raise the effort needed to identify Bitcoin victims; it does not establish a universal cost advantage for every attack. Ordinary computers are also valuable targets for widespread malware.",
+      "The risk continues after delivery. Customer records, branded support messages and update instructions can give criminals ways to approach the owner. Phishing means impersonating a trusted source to obtain a secret or induce a harmful action. Social engineering is the broader practice of manipulating a person into helping an attacker. A fake support agent asking for recovery words attacks the owner even when the device keeps its keys isolated.",
+      "We therefore leave retail hardware wallets out of this curriculum's savings setup. Their dedicated signing controls can simplify use, but they do not remove the purchase signal, vendor relationship or hardware-verification problem. Our choice avoids those Bitcoin-specific dependencies while accepting the work of maintaining a dedicated Linux computer. Verify the software, keep the signer offline, control physical access and rehearse recovery.",
+    ],
+  },
+  "1.1": {
+    callouts: [
+      {
+        kind: "warning",
+        title: "Coldcard: a five-year seed-generation failure",
+        body: "Coinkite reports weak secret generation in firmware from 2021 to July 2026, despite publicly available source. Entropy means unpredictability: a wallet needs enough of it to make guessing its starting secret infeasible. Independent analysis traced a firmware integration error that used a predictable software generator where hardware randomness was expected. Fixed firmware became available, but updating does not repair secrets already generated by affected versions. The advisory explains the affected versions and migration requirements.",
+        url: "https://blog.coinkite.com/coldcard-mk3-seed-generation-warning/",
+      },
+      {
+        kind: "warning",
+        title: "Ledger: customer records became targeting information",
+        body: "Ledger disclosed a 2020 breach of its customer database and later reported sustained phishing against customers. The leaked information included contact and order details. This was a customer-data breach, separate from extracting keys from a device. It illustrates how buying a security product can create another route for attackers to reach its owner.",
+        url: "https://www.ledger.com/blog/update-efforts-to-protect-your-data-and-prosecute-the-scammers",
+      },
+      {
+        kind: "warning",
+        title: "Trezor: an attacker impersonated support",
+        body: "On January 17, 2024, Trezor reported unauthorized access to its third-party support portal. Its initial report said the intruder contacted 40 users asking for recovery secrets, and that its review had found no secrets sent by those users at that point. This is another concrete example of the support relationship becoming an attack route.",
+        url: "https://forum.trezor.io/t/security-alert-update/15204",
+      },
+    ],
+    notes: [
+      "The five-year bug shows that publishing code is not enough to ensure a critical defect will be found. It does not, by itself, reveal why the defect escaped review. We need evidence of actual review work, including checks of how the device behaves as shipped.",
+      "Our recommendation remains a dedicated offline Core signer on generic hardware, with separately recoverable backups and passwords. We prefer reducing Bitcoin-specific targeting and vendor dependencies to adding another wallet product to manage. That advantage must be combined with careful isolation and recovery; an ordinary computer used for everything would defeat the setup we are teaching.",
     ],
   },
   "signet-why": {
@@ -497,18 +597,19 @@ const backgroundCopy: Record<string, Partial<PlayerLesson>> = {
     ],
   },
   "1.4": {
-    what: "A mnemonic is a list of recovery words. BIP39 defines how software creates such a list from random data, then uses it to calculate the starting secret for key generation.",
-    why: "Core's wallet backup already provides the recovery method we need. Adding a separate recovery-word system would add another secret and procedure to protect.",
-    risk: "People are poor at inventing unpredictable words. BIP39 describes computer-generated randomness, not words chosen by a person.",
+    what: "Words preserve secret material, but not the full instructions for using it. A derivation path identifies a route through the family of keys; a script type specifies the rules for spending. Recovery may also need account choices or a multisig policy, the rule identifying which participants must sign. BIP44 describes one set of account and path conventions. An output descriptor is a text description of addresses and spending rules that can preserve this information alongside the keys.",
+    why: "A seed does not record address labels, imported keys unrelated to that seed, or the other participants' keys in a multisig wallet. A Core backup retains the keys, descriptors and metadata stored in that particular wallet when the copy is made. Metadata means supporting records such as your address labels. We prefer preserving that context to relying on future software to guess it.",
+    risk: "A visible word list is easy to recognize, photograph and transcribe. Without an additional secret, someone who copies it can derive the keys. A BIP39 passphrase can add protection, but its strength and separate recovery then matter too. The word format itself is not encryption.",
     concepts: [
-      "BIP32 describes repeatable key generation from a starting secret. It does not require showing that secret as BIP39 words.",
-      "Core keeps the starting secret inside its wallet. The user-facing backup taught here is a file.",
-      "BIP39 optionally combines recovery words with an additional passphrase before calculating its starting secret. That mechanism is different from the password that encrypts a Core wallet file.",
-      "Core recovery requires the encrypted backup and its password. The file also keeps address descriptions and wallet information that recovery words alone do not record.",
+      "BIP39's checksum, a short error-detection code, catches some transcription mistakes but cannot correct them. Twelve words have a 4-bit checksum; 24 words have 8 bits.",
+      "Every BIP39 passphrase produces a valid seed. A typo can therefore open a different, empty wallet instead of producing an incorrect-password error.",
+      "The words contain no version or wallet-layout marker. They depend on the chosen wordlist, and translating them changes the resulting seed. The conversion is one-way: an arbitrary existing Core starting secret cannot simply be written as equivalent BIP39 words.",
+      "BIP32 key derivation does not require a BIP39 word list. Core's file backup and its encryption password are the recovery components used in this course.",
     ],
     notes: [
-      "Keep the encrypted Core backup and its password separately, so someone who gains access to one storage location does not get both. Make sure you can recover each separately. The password cannot recreate a missing file, and a strong password makes the protected keys difficult to recover from a stolen file.",
-      "This choice concerns how you store and recover secrets. It is not a claim that correctly generated BIP39 words lack randomness. Do not generate or store a BIP39 word list for this Core wallet.",
+      "A complete wallet snapshot is not a backup of the entire custody setup. It does not supply a forgotten password, separate instructions, another participant's private keys, records kept in a different wallet, or changes made after the backup. Keep the recovery guide and password separately recoverable, refresh backups when the wallet changes, and test restoration. The node's public blockchain data can be downloaded again.",
+      "Core's wallet encryption protects private key material; it does not encrypt all wallet metadata. Treat the backup as private financial information even when locked. A generic filename is not protection against someone who examines the file. Keep the private-key backup off the online computer and never upload it to this website.",
+      "We favor Core's long-running wallet-backup approach and its public development and review process. File formats and wallet features have changed over time, so test restoration with the version and wallet you actually use. Correctly generated BIP39 words can have strong randomness. Our objection is to treating them as the whole recovery plan and adding a recovery-word workflow that this Core setup does not need.",
     ],
     callouts: [
       {
