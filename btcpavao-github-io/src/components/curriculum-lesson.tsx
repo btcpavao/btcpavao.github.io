@@ -1,3 +1,8 @@
+import {
+  EntropyTable,
+  BruteForceExplorer,
+  BackupMediaExplorer,
+} from "@/components/curriculum-explorers"
 import { CustodyArchitecture } from "@/components/custody-architecture"
 import {
   useEffect,
@@ -26,13 +31,14 @@ import {
   canCompleteLesson,
   checklistKey,
   requiredChecks,
+  readingKey,
   stepKey,
 } from "@/curriculum-learning"
 
 type Language = "en" | "hr"
 const copy = {
   en: {
-    phase: "Phase",
+    phase: "Part",
     lesson: "Lesson",
     reading: "Reading",
     practice: "Practice",
@@ -43,12 +49,12 @@ const copy = {
     planned: "Planned",
     metadata: "Versions and review",
     reference: "Reference version",
-    date: "Previous technical review",
+    date: "Previous review",
     origin: "Review scope",
     noReview: "Not completed",
     draft:
       "This procedure is a draft. You can read it, but completion is disabled until it has been tested and published.",
-    background: "Why this matters and further reading",
+    background: "Why? / Technical details",
     details: "Technical details",
     sources: "Sources",
     step: "Step",
@@ -209,7 +215,8 @@ function GuidedExercise({
     firstMissing < 0 ? steps.length - 1 : firstMissing
   )
   const draft =
-    lesson.verification !== "verified" || lesson.status !== "published"
+    !["verified", "source-reviewed"].includes(lesson.verification) ||
+    lesson.status !== "published"
   const index = draft
     ? selected
     : Math.min(selected, firstMissing < 0 ? steps.length - 1 : firstMissing)
@@ -338,6 +345,75 @@ function GuidedExercise({
   )
 }
 
+function ReadingExercise({
+  lesson,
+  checkedItems,
+  setCheckedItems,
+}: {
+  lesson: PlayerLesson
+  checkedItems: Set<string>
+  setCheckedItems: Dispatch<SetStateAction<Set<string>>>
+}) {
+  const paragraphs = lesson.explanation ?? [lesson.summary]
+  const firstMissing = paragraphs.findIndex(
+    (_, i) => !checkedItems.has(readingKey(lesson.id, i))
+  )
+  const [index, setIndex] = useState(firstMissing < 0 ? 0 : firstMissing)
+  const paragraph = paragraphs[index]
+  const confirmed = checkedItems.has(readingKey(lesson.id, index))
+  function advance() {
+    setCheckedItems((current) =>
+      new Set(current).add(readingKey(lesson.id, index))
+    )
+    if (index < paragraphs.length - 1) setIndex(index + 1)
+  }
+  return (
+    <section
+      className="course-reading course-reading--paged"
+      aria-label="Guided reading"
+    >
+      <div className="course-guided__position">
+        <span>Read and understand</span>
+        <span>
+          {index + 1} of {paragraphs.length}
+        </span>
+      </div>
+      <div aria-live="polite" aria-atomic="true">
+        <p>{paragraph}</p>
+      </div>
+      <div className="course-guided__actions">
+        {index > 0 && (
+          <button
+            className="course-action course-action--secondary"
+            type="button"
+            onClick={() => setIndex(index - 1)}
+          >
+            <ArrowLeft aria-hidden="true" />
+            Previous
+          </button>
+        )}
+        {index < paragraphs.length - 1 || !confirmed ? (
+          <button
+            className="course-action course-action--primary"
+            type="button"
+            onClick={advance}
+          >
+            {index < paragraphs.length - 1
+              ? "Continue reading"
+              : "Confirm reading"}
+            <ArrowRight aria-hidden="true" />
+          </button>
+        ) : (
+          <span className="course-guided__confirmed">
+            <CheckCircle2 aria-hidden="true" />
+            Reading confirmed
+          </span>
+        )}
+      </div>
+    </section>
+  )
+}
+
 export function CurriculumLesson({
   lesson,
   phase,
@@ -373,7 +449,8 @@ export function CurriculumLesson({
 }) {
   const t = copy[language]
   const available =
-    lesson.status === "published" && lesson.verification === "verified"
+    lesson.status === "published" &&
+    ["verified", "source-reviewed"].includes(lesson.verification)
   const canComplete = canCompleteLesson(
     lesson,
     checklistItems,
@@ -398,7 +475,7 @@ export function CurriculumLesson({
       <header className="course-lesson__header">
         <div className="course-lesson__kicker">
           <span>
-            {t.phase} {Number(phase.id) + 1}
+            {t.phase} {["I", "II", "III"][Number(phase.id)]}
           </span>
           <span aria-hidden="true">/</span>
           <span>
@@ -418,7 +495,9 @@ export function CurriculumLesson({
           {lesson.optional && <span>{t.optional}</span>}
           <span>
             {available
-              ? t.published
+              ? lesson.verification === "source-reviewed"
+                ? "Published · source reviewed"
+                : "Published · observed in app"
               : lesson.verification === "planned"
                 ? t.planned
                 : t.review}
@@ -449,6 +528,16 @@ export function CurriculumLesson({
           </ul>
         </aside>
       )}
+      <dl className="course-purpose">
+        <div>
+          <dt>Why it matters</dt>
+          <dd>{lesson.why}</dd>
+        </div>
+        <div>
+          <dt>Threat / failure mode</dt>
+          <dd>{lesson.risk}</dd>
+        </div>
+      </dl>
       {lesson.guidedSteps?.length ? (
         <GuidedExercise
           key={lesson.id}
@@ -459,19 +548,29 @@ export function CurriculumLesson({
           copiedId={copiedId}
           onCopyCode={onCopyCode}
         />
+      ) : kind === "reading" ? (
+        <ReadingExercise
+          key={lesson.id}
+          lesson={lesson}
+          checkedItems={checklistItems}
+          setCheckedItems={setChecklistItems}
+        />
       ) : (
         <section className="course-reading">
-          {paragraphs.slice(0, 2).map((p) => (
+          {paragraphs.map((p) => (
             <p key={p}>{p}</p>
-          ))}
-          {lesson.warnings?.map((p) => (
-            <aside className="course-guided__warning" key={p}>
-              <AlertTriangle aria-hidden="true" />
-              <p>{p}</p>
-            </aside>
           ))}
         </section>
       )}
+      {lesson.widget === "entropy-table" && <EntropyTable />}
+      {lesson.widget === "brute-force" && <BruteForceExplorer />}
+      {lesson.widget === "backup-media" && <BackupMediaExplorer />}
+      {lesson.warnings?.map((p) => (
+        <aside className="course-guided__warning" key={p}>
+          <AlertTriangle aria-hidden="true" />
+          <p>{p}</p>
+        </aside>
+      ))}
       {lesson.checklist?.length ? (
         <section className="course-checklist">
           <h2>{kind === "reading" ? t.readingChecks : t.checks}</h2>
@@ -505,75 +604,85 @@ export function CurriculumLesson({
         </section>
       ) : null}
       {lesson.id === "2.4" && <CustodyArchitecture language={language} />}
-      <details className="course-lesson-details">
-        <summary>{t.background}</summary>
-        {(lesson.guidedSteps?.length ? paragraphs : paragraphs.slice(2)).map(
-          (p) => (
+      {Boolean(
+        (lesson.guidedSteps?.length && paragraphs.length) ||
+        lesson.callouts?.length ||
+        lesson.concepts?.length ||
+        lesson.notes?.length ||
+        lesson.walkthrough ||
+        lesson.image ||
+        lesson.codeBlocks?.length ||
+        lesson.technicalDetails
+      ) && (
+        <details className="course-lesson-details">
+          <summary>{t.background}</summary>
+          {(lesson.guidedSteps?.length ? paragraphs : []).map((p) => (
             <p key={p}>{p}</p>
-          )
-        )}
-        {lesson.what && <p>{lesson.what}</p>}
-        {lesson.why && <p>{lesson.why}</p>}
-        {lesson.risk && <p>{lesson.risk}</p>}
-        {lesson.callouts?.map((callout) => (
-          <aside
-            className={`course-callout course-callout--${callout.kind}`}
-            key={callout.title}
-          >
-            <div>
-              <strong>
-                {callout.url ? (
-                  <a href={callout.url}>{callout.title}</a>
-                ) : (
-                  callout.title
-                )}
-              </strong>
-              <p>{callout.body}</p>
-            </div>
-          </aside>
-        ))}
-        {lesson.concepts?.length ? (
-          <ul>
-            {lesson.concepts.map((c) => (
-              <li key={c}>{c}</li>
-            ))}
-          </ul>
-        ) : null}
-        {lesson.notes?.map((p) => (
-          <p key={p}>{p}</p>
-        ))}
-        {lesson.walkthrough && !lesson.guidedSteps?.length && (
-          <>
-            <h3>{lesson.walkthrough.title}</h3>
-            <p>{lesson.walkthrough.intro}</p>
-            <ol>
-              {lesson.walkthrough.steps.map((s) => (
-                <li key={s}>{s}</li>
+          ))}
+          {lesson.callouts?.map((callout) => (
+            <aside
+              className={`course-callout course-callout--${callout.kind}`}
+              key={callout.title}
+            >
+              <div>
+                <strong>
+                  {callout.url ? (
+                    <a href={callout.url}>{callout.title}</a>
+                  ) : (
+                    callout.title
+                  )}
+                </strong>
+                <p>{callout.body}</p>
+              </div>
+            </aside>
+          ))}
+          {lesson.concepts?.length ? (
+            <ul>
+              {lesson.concepts.map((c) => (
+                <li key={c}>{c}</li>
               ))}
-            </ol>
-          </>
-        )}
-        {lesson.image && (
-          <figure className="course-lesson-image">
-            <img src={lesson.image.src} alt={lesson.image.alt} loading="lazy" />
-          </figure>
-        )}
-        {lesson.codeBlocks?.map((block) => (
-          <Command
-            key={block.id}
-            block={block}
-            copiedId={copiedId}
-            onCopy={onCopyCode}
-            language={language}
-          />
-        ))}
-        {lesson.technicalDetails && (
-          <>
-            <h3>{t.details}</h3>
-            <p>{lesson.technicalDetails}</p>
-          </>
-        )}
-      </details>
+            </ul>
+          ) : null}
+          {lesson.notes?.map((p) => (
+            <p key={p}>{p}</p>
+          ))}
+          {lesson.walkthrough && !lesson.guidedSteps?.length && (
+            <>
+              <h3>{lesson.walkthrough.title}</h3>
+              <p>{lesson.walkthrough.intro}</p>
+              <ol>
+                {lesson.walkthrough.steps.map((s) => (
+                  <li key={s}>{s}</li>
+                ))}
+              </ol>
+            </>
+          )}
+          {lesson.image && (
+            <figure className="course-lesson-image">
+              <img
+                src={lesson.image.src}
+                alt={lesson.image.alt}
+                loading="lazy"
+              />
+            </figure>
+          )}
+          {lesson.codeBlocks?.map((block) => (
+            <Command
+              key={block.id}
+              block={block}
+              copiedId={copiedId}
+              onCopy={onCopyCode}
+              language={language}
+            />
+          ))}
+          {lesson.technicalDetails && (
+            <>
+              <h3>{t.details}</h3>
+              <p>{lesson.technicalDetails}</p>
+            </>
+          )}
+        </details>
+      )}
       {lesson.videoUrl && (
         <div className="course-video course-video--embed">
           <iframe
@@ -584,6 +693,10 @@ export function CurriculumLesson({
           />
         </div>
       )}
+      <section className="course-takeaway">
+        <h2>What you should now understand</h2>
+        <p>{lesson.takeaway}</p>
+      </section>
       <details className="course-lesson-details">
         <summary>
           {t.sources} · {t.metadata}
@@ -594,14 +707,22 @@ export function CurriculumLesson({
             <dd>{lesson.referenceVersion}</dd>
           </div>
           <div>
-            <dt>{t.date}</dt>
-            <dd>{lesson.lastReviewed ?? t.noReview}</dd>
+            <dt>Source review</dt>
+            <dd>{lesson.sourceReviewed ?? "Not recorded"}</dd>
+          </div>
+          <div>
+            <dt>Hands-on evidence</dt>
+            <dd>
+              {lesson.practicalReview
+                ? `${lesson.practicalReview.date}: ${lesson.practicalReview.scope}`
+                : "No new hands-on test claimed for this lesson."}
+            </dd>
           </div>
           {lesson.contentUpdated && (
             <div>
               <dt>
                 {language === "en"
-                  ? "Content updated; no new practical test"
+                  ? "Content updated"
                   : "Sadržaj ažuriran; bez novog praktičnog testa"}
               </dt>
               <dd>{lesson.contentUpdated}</dd>
@@ -609,7 +730,7 @@ export function CurriculumLesson({
           )}
           <div>
             <dt>{t.origin}</dt>
-            <dd>{lesson.origin}</dd>
+            <dd>{lesson.reviewNote ?? lesson.origin}</dd>
           </div>
         </dl>
         {lesson.sources?.length ? (

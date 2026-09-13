@@ -21,23 +21,33 @@ type ProgressLesson = LearningRequirements & {
   verification: string
   optional?: boolean
   checklist?: string[]
+  explanation?: string[]
 }
 
 export function stepKey(lessonId: string, stepId: string) {
-  return `lesson-${lessonId}:guided-v1:${stepId}`
+  return `lesson-${lessonId}:guided-v4:${stepId}`
 }
 
 export function checklistKey(lessonId: string, index: number) {
-  return `lesson-${lessonId}:checklist-v2:${index}`
+  return `lesson-${lessonId}:checklist-v4:${index}`
+}
+
+export function readingKey(lessonId: string, index: number) {
+  return `lesson-${lessonId}:reading-v4:${index}`
 }
 
 export function requiredChecks(lesson: ProgressLesson) {
-  if (lesson.kind === "reading") return []
-  if (lesson.guidedSteps?.length)
-    return lesson.guidedSteps.map((step) => stepKey(lesson.id, step.id))
-  return (lesson.checklist ?? []).map((_, index) =>
-    checklistKey(lesson.id, index)
-  )
+  return [
+    ...(lesson.kind === "reading"
+      ? (lesson.explanation ?? []).map((_, index) =>
+          readingKey(lesson.id, index)
+        )
+      : []),
+    ...(lesson.guidedSteps ?? []).map((step) => stepKey(lesson.id, step.id)),
+    ...(lesson.checklist ?? []).map((_, index) =>
+      checklistKey(lesson.id, index)
+    ),
+  ]
 }
 
 export function canCompleteLesson(
@@ -47,7 +57,8 @@ export function canCompleteLesson(
 ) {
   return (
     lesson.status === "published" &&
-    lesson.verification === "verified" &&
+    (lesson.verification === "verified" ||
+      lesson.verification === "source-reviewed") &&
     (lesson.kind === "reading" || requiredChecks(lesson).length > 0) &&
     (lesson.prerequisites ?? []).every((id) => completedLessons.has(id)) &&
     requiredChecks(lesson).every((key) => checkedItems.has(key))
@@ -84,6 +95,8 @@ export function nextRequiredEntry<T extends { lesson: ProgressLesson }>(
   activeIndex: number
 ) {
   if (activeIndex < 0) return null
+  if (entries[activeIndex]?.lesson.optional)
+    return entries[activeIndex + 1] ?? null
   return (
     entries.slice(activeIndex + 1).find(({ lesson }) => !lesson.optional) ??
     null

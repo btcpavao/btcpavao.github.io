@@ -1,6 +1,6 @@
 import { CustodyArchitecture } from "@/components/custody-architecture"
-import { CUSTODY_CONTENT_UPDATED } from "@/curriculum-custody-policy"
-import { ArrowRight, BookOpen, RefreshCcw } from "lucide-react"
+import { CUSTODY_CONTENT_UPDATED } from "@/bitcoin-core-curriculum-player-en-data"
+import { ArrowRight, RefreshCcw } from "lucide-react"
 import { TutorialMetadata } from "@/components/tutorial-metadata"
 import type {
   CurriculumPhase,
@@ -44,7 +44,8 @@ export function CurriculumOverview({
   const done = required.filter((e) => completedLessons.has(e.lesson.id)).length
   const drafts = required.filter(
     (e) =>
-      e.lesson.verification !== "verified" || e.lesson.status !== "published"
+      !["verified", "source-reviewed"].includes(e.lesson.verification) ||
+      e.lesson.status !== "published"
   ).length
   return (
     <div className="course-overview--focused">
@@ -62,13 +63,13 @@ export function CurriculumOverview({
           </div>
           <h1 id="course-title">
             {tr(
-              "Your bitcoin. One clear step at a time.",
+              "Understand the system. Own your bitcoin.",
               "Tvoj bitcoin. Jedan jasan korak za drugim."
             )}
           </h1>
           <p className="course-hero__lede">
             {tr(
-              "Start with test coins and learn how to back up and recover a wallet. Then practice preparing payments online and approving them on an offline computer, with each new technical term explained as you need it.",
+              "Begin with the threats. Learn why this course recommends Bitcoin Core on dedicated generic Linux hardware, then master encrypted backups and offline signing with test coins. Add complexity only when your threat model requires it.",
               "Počni modelom prijetnji, vježbaj na Signetu i nauči obnoviti novčanik i potpisivati offline. Mainnet pripremi tek nakon uspješnih vježbi oporavka."
             )}
           </p>
@@ -80,13 +81,13 @@ export function CurriculumOverview({
             >
               {returning && continueEntry
                 ? tr("Continue: ", "Nastavi: ") + continueEntry.lesson.title
-                : tr("Start with the essentials", "Kreni od osnova")}
+                : tr("Start with first principles", "Kreni od osnova")}
               <ArrowRight aria-hidden="true" />
             </button>
           </div>
           <p className="course-local-note">
             {tr(
-              "No real bitcoin is needed for the first exercises. Progress stays in this browser.",
+              "No real bitcoin is needed for the main course. Progress stays in this browser.",
               "Za prve vježbe ne trebaju stvarni bitcoini. Napredak ostaje u ovom pregledniku."
             )}
           </p>
@@ -111,7 +112,9 @@ export function CurriculumOverview({
           />
           <p>
             {tr(
-              `${drafts} required exercises still await technical review. The guided path pauses at them; all drafts remain readable.`,
+              drafts
+                ? `${drafts} exercises remain in review.`
+                : "Complete the outcome checks before moving on. Published instructions, source review and hands-on testing are identified separately in each lesson.",
               `${drafts} obaveznih vježbi još čeka tehničku provjeru. Vođeni put na njima staje; svi nacrti dostupni su za čitanje.`
             )}
           </p>
@@ -124,16 +127,13 @@ export function CurriculumOverview({
         </aside>
       </section>
       <section className="course-overview-details">
-        <details className="course-lesson-details">
-          <summary>
-            <BookOpen aria-hidden="true" />
-            {tr("See the six phases", "Pogledaj šest faza")}
-          </summary>
+        <section
+          className="course-three-parts"
+          aria-labelledby="course-parts-title"
+        >
+          <h2 id="course-parts-title">Three parts. One foundation.</h2>
           <ol className="course-roadmap__grid">
             {phases.map((phase, index) => {
-              const published = phase.lessons.filter(
-                (l) => l.status === "published" && l.verification === "verified"
-              ).length
               return (
                 <li key={phase.id}>
                   <button type="button" onClick={() => onSelectPhase(phase)}>
@@ -142,12 +142,14 @@ export function CurriculumOverview({
                     </span>
                     <span className="course-roadmap__copy">
                       <strong>{phase.title}</strong>
+                      <span className="course-roadmap__subtitle">
+                        {phase.outcome}
+                      </span>
                       <span className="course-roadmap__summary">
                         {phase.summary}
                       </span>
                       <small>
-                        {published} / {phase.lessons.length}{" "}
-                        {tr("published", "objavljeno")} · {phase.estimatedTime}
+                        {phase.lessons.length} lessons · {phase.estimatedTime}
                       </small>
                     </span>
                     <ArrowRight aria-hidden="true" />
@@ -156,7 +158,7 @@ export function CurriculumOverview({
               )
             })}
           </ol>
-        </details>
+        </section>
         <details className="course-lesson-details">
           <summary>
             {tr(
@@ -188,7 +190,7 @@ export function CurriculumOverview({
             {tr("Content updated", "Sadržaj ažuriran")}:{" "}
             {CUSTODY_CONTENT_UPDATED}.{" "}
             {tr(
-              "This is not a new hands-on verification date.",
+              "Hands-on scope is recorded per lesson; a source review does not certify an operating-system installation or physical setup.",
               "Ovo nije novi datum praktične provjere."
             )}
           </p>

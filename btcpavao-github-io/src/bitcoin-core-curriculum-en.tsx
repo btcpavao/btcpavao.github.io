@@ -12,7 +12,6 @@ import {
   ArrowRight,
   BookOpen,
   Check,
-  ChevronRight,
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
@@ -163,44 +162,20 @@ function PhaseNavigator({
   onOverview: () => void
   mobile?: boolean
 }) {
-  const [allPhases, setAllPhases] = useState(false)
+  const [allParts, setAllParts] = useState(false)
   const [showOptional, setShowOptional] = useState(false)
-  const activePhase = curriculumPhases.find((phase) =>
-    phase.lessons.some((lesson) => lesson.id === activeLesson.id)
+  const activePart = curriculumPhases.find((part) =>
+    part.lessons.some((l) => l.id === activeLesson.id)
   )
-  const [phaseExpansion, setPhaseExpansion] = useState<{
-    lessonId: string
-    phaseIds: string[]
-  }>({
-    lessonId: activeLesson.id,
-    phaseIds: activePhase ? [activePhase.id] : [],
-  })
-  // A new lesson reveals its phase; browsing the outline does not change lessons.
-  if (phaseExpansion.lessonId !== activeLesson.id) {
-    setPhaseExpansion({
-      lessonId: activeLesson.id,
-      phaseIds: activePhase ? [activePhase.id] : [],
-    })
-  }
-  const expandedPhaseIds =
-    phaseExpansion.lessonId === activeLesson.id
-      ? phaseExpansion.phaseIds
-      : activePhase
-        ? [activePhase.id]
-        : []
-
-  const availableCount = primaryCurriculumLessons.length
-  const completedCount = primaryCurriculumLessons.filter(({ lesson }) =>
-    completedLessons.has(lesson.id)
+  const completedCount = primaryCurriculumLessons.filter((e) =>
+    completedLessons.has(e.lesson.id)
   ).length
-
   return (
-    <nav className="course-outline" aria-label="Curriculum phases and lessons">
+    <nav className="course-outline" aria-label="Curriculum parts and chapters">
       <button
         type="button"
         className="course-outline__overview"
         onClick={onOverview}
-        tabIndex={mobile ? 0 : undefined}
       >
         <BookOpen aria-hidden="true" />
         Curriculum overview
@@ -208,17 +183,19 @@ function PhaseNavigator({
       <div className="course-outline__progress">
         <span>
           Your progress
-          <small>{availableCount} steps on the main path</small>
+          <small>
+            {primaryCurriculumLessons.length} lessons in the foundation
+          </small>
         </span>
         <strong>{completedCount} completed</strong>
       </div>
       <button
         type="button"
         className="course-outline__toggle"
-        aria-expanded={allPhases}
-        onClick={() => setAllPhases(!allPhases)}
+        aria-expanded={allParts}
+        onClick={() => setAllParts(!allParts)}
       >
-        {allPhases ? "Show current phase" : "Show all phases"}
+        {allParts ? "Show current part" : "Show all three parts"}
       </button>
       <button
         type="button"
@@ -226,87 +203,91 @@ function PhaseNavigator({
         aria-expanded={showOptional}
         onClick={() => setShowOptional(!showOptional)}
       >
-        {showOptional ? "Hide optional reading" : "Show optional reading"}
+        {showOptional ? "Hide optional extensions" : "Show optional extensions"}
       </button>
       <ol className="course-outline__phases">
         {curriculumPhases
-          .filter((phase) => allPhases || phase.id === activePhase?.id)
-          .map((phase) => {
-            const isActive = phase.id === activePhase?.id
-            const isExpanded = expandedPhaseIds.includes(phase.id)
-            const lessonsId = `${mobile ? "mobile" : "desktop"}-phase-${phase.id}-lessons`
-            return (
-              <li key={phase.id} className={isActive ? "is-active" : undefined}>
-                <button
-                  type="button"
-                  className="course-outline__phase"
-                  onClick={() => {
-                    setPhaseExpansion({
-                      lessonId: activeLesson.id,
-                      phaseIds: isExpanded
-                        ? expandedPhaseIds.filter((id) => id !== phase.id)
-                        : [...expandedPhaseIds, phase.id],
-                    })
-                  }}
-                  aria-current={isActive ? "step" : undefined}
-                  aria-expanded={isExpanded}
-                  aria-controls={lessonsId}
-                >
-                  <span>{String(Number(phase.id) + 1).padStart(2, "0")}</span>
-                  <span>
-                    <strong>{phase.shortTitle}</strong>
-                    <small>{phase.estimatedTime}</small>
-                  </span>
-                  <ChevronRight aria-hidden="true" />
-                </button>
-                <ol
-                  id={lessonsId}
-                  className="course-outline__lessons"
-                  hidden={!isExpanded}
-                >
-                  {phase.lessons.map((lesson, index) => {
-                    if (
-                      lesson.optional &&
-                      !showOptional &&
-                      lesson.id !== activeLesson.id
-                    )
-                      return null
-                    const isCurrent = lesson.id === activeLesson.id
-                    return (
-                      <li key={lesson.id}>
-                        <button
-                          type="button"
-                          className={isCurrent ? "is-current" : undefined}
-                          onClick={() => onSelectLesson(lesson)}
-                          aria-current={isCurrent ? "page" : undefined}
-                        >
-                          <span>
-                            {Number(phase.id) + 1}.{index + 1}
-                          </span>
-                          <span className="course-outline__lesson-title">
-                            <span>{lesson.title}</span>
-                            {lesson.optional ? (
-                              <small>Optional deep dive</small>
-                            ) : null}
-                            {!isAvailableLesson(lesson) ? (
-                              <small>
-                                {lesson.status === "planned"
-                                  ? "Planned"
-                                  : "In technical review"}
-                              </small>
-                            ) : null}
-                          </span>
-                          {completedLessons.has(lesson.id) ? (
-                            <Check aria-label="Completed" />
-                          ) : null}
-                        </button>
-                      </li>
-                    )
-                  })}
-                </ol>
-              </li>
-            )
-          })}
+          .filter((p) => allParts || p.id === activePart?.id)
+          .map((part) => (
+            <li
+              key={part.id}
+              className={part.id === activePart?.id ? "is-active" : undefined}
+            >
+              <div className="course-outline__part-title">
+                <span>Part {["I", "II", "III"][Number(part.id)]}</span>
+                <strong>{part.title}</strong>
+              </div>
+              {Array.from(
+                new Set(part.lessons.map((l) => l.chapter ?? "Lessons"))
+              ).map((chapter) => {
+                const chapterLessons = part.lessons.filter(
+                  (l) =>
+                    (l.chapter ?? "Lessons") === chapter &&
+                    (part.id === "2" ||
+                      !l.optional ||
+                      showOptional ||
+                      l.id === activeLesson.id)
+                )
+                if (!chapterLessons.length) return null
+                const active =
+                  part.id === activePart?.id && chapter === activeLesson.chapter
+                return (
+                  <details
+                    key={`${mobile ? "mobile" : "desktop"}-${activeLesson.id}-${part.id}-${chapter}`}
+                    className="course-outline__chapter"
+                    open={active}
+                  >
+                    <summary>
+                      {chapter}
+                      <span>
+                        {
+                          chapterLessons.filter((l) =>
+                            completedLessons.has(l.id)
+                          ).length
+                        }
+                        /{chapterLessons.length}
+                      </span>
+                    </summary>
+                    <ol className="course-outline__lessons">
+                      {chapterLessons.map((lesson) => (
+                        <li key={lesson.id}>
+                          <button
+                            type="button"
+                            className={
+                              lesson.id === activeLesson.id
+                                ? "is-current"
+                                : undefined
+                            }
+                            aria-current={
+                              lesson.id === activeLesson.id ? "page" : undefined
+                            }
+                            onClick={() => onSelectLesson(lesson)}
+                          >
+                            <span>
+                              {Number(part.id) + 1}.
+                              {part.lessons.indexOf(lesson) + 1}
+                            </span>
+                            <span className="course-outline__lesson-title">
+                              <span>{lesson.title}</span>
+                              {lesson.optional && part.id !== "2" && (
+                                <small>Optional</small>
+                              )}
+                              {!isAvailableLesson(lesson) && (
+                                <small>In review</small>
+                              )}
+                            </span>
+                            {completedLessons.has(lesson.id) && (
+                              <Check aria-label="Completed" />
+                            )}
+                          </button>
+                        </li>
+                      ))}
+                    </ol>
+                  </details>
+                )
+              })}
+            </li>
+          ))}
       </ol>
     </nav>
   )
@@ -348,14 +329,16 @@ export function BitcoinCoreCurriculumEnPage() {
     : -1
   const previousEntry =
     activeIndex > 0
-      ? ([...primaryCurriculumLessons]
-          .reverse()
-          .find(
-            (entry) =>
-              curriculumLessons.findIndex(
-                ({ lesson }) => lesson.id === entry.lesson.id
-              ) < activeIndex
-          ) ?? null)
+      ? activeEntry?.lesson.optional
+        ? curriculumLessons[activeIndex - 1]
+        : ([...primaryCurriculumLessons]
+            .reverse()
+            .find(
+              (entry) =>
+                curriculumLessons.findIndex(
+                  ({ lesson }) => lesson.id === entry.lesson.id
+                ) < activeIndex
+            ) ?? null)
       : null
   const nextEntry = nextRequiredEntry(curriculumLessons, activeIndex)
   const continueEntry = useMemo<CurriculumEntry | null>(
@@ -603,7 +586,7 @@ export function BitcoinCoreCurriculumEnPage() {
                 aria-expanded={mobileOutlineOpen}
               >
                 <Menu aria-hidden="true" />
-                <span>Phases and lessons</span>
+                <span>Parts and chapters</span>
                 <small>{activeEntry.lessonNumber}</small>
               </button>
 
@@ -662,6 +645,25 @@ export function BitcoinCoreCurriculumEnPage() {
                 </aside>
               ) : null}
 
+              {activeLesson.id === "single-sig-mastery" &&
+                completedLessons.has(activeLesson.id) && (
+                  <section className="course-takeaway">
+                    <h2>You can operate the simple system.</h2>
+                    <p>
+                      A tested single-sig setup can be your long-term
+                      foundation. Continue to advanced policies only if you need
+                      a different distribution of spending authority.
+                    </p>
+                    <button
+                      type="button"
+                      className="course-action course-action--secondary"
+                      onClick={() => openLesson(curriculumPhases[2].lessons[0])}
+                    >
+                      Explore optional advanced policies
+                      <ArrowRight aria-hidden="true" />
+                    </button>
+                  </section>
+                )}
               <nav
                 className="course-prev-next"
                 aria-label="Previous and next lesson"
@@ -673,7 +675,7 @@ export function BitcoinCoreCurriculumEnPage() {
                   >
                     <ArrowLeft aria-hidden="true" />
                     <span>
-                      <small>Previous on the main path</small>
+                      <small>Previous lesson</small>
                       <strong>{previousEntry.lesson.title}</strong>
                     </span>
                   </button>
@@ -688,7 +690,7 @@ export function BitcoinCoreCurriculumEnPage() {
                     onClick={() => openLesson(nextEntry.lesson)}
                   >
                     <span>
-                      <small>Continue on the main path</small>
+                      <small>Continue</small>
                       <strong>{nextEntry.lesson.title}</strong>
                     </span>
                     <ArrowRight aria-hidden="true" />
@@ -711,10 +713,10 @@ export function BitcoinCoreCurriculumEnPage() {
               ref={mobileDrawerRef}
               role="dialog"
               aria-modal={mobileOutlineOpen || undefined}
-              aria-label="Phases and lessons"
+              aria-label="Parts and chapters"
             >
               <div className="course-drawer__header">
-                <strong>Phases and lessons</strong>
+                <strong>Parts and chapters</strong>
                 <button
                   ref={mobileCloseRef}
                   type="button"
