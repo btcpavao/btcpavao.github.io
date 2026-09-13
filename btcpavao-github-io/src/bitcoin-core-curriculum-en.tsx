@@ -69,7 +69,7 @@ function useCurriculumMetadata() {
   useEffect(() => {
     const title = "Practical Bitcoin Self-Custody with Bitcoin Core | BTC Pavao"
     const description =
-      "Threat-model-first Bitcoin Core self-custody with Debian Stable online and offline computers, Signet practice, PSBTs, tested recovery and optional Tails."
+      "Learn Bitcoin Core from the beginning: protect your keys, practise with test coins, back up and recover a wallet, then approve payments on an offline computer."
     const url = `${SITE_URL}${EN_BITCOIN_CORE_CURRICULUM_PATH}`
 
     document.documentElement.lang = "en"
@@ -93,9 +93,13 @@ function useCurriculumMetadata() {
     }
     canonical.href = url
 
+    document.head
+      .querySelectorAll(
+        'link[rel="alternate"][hreflang="hr"], meta[property="og:locale:alternate"]'
+      )
+      .forEach((element) => element.remove())
     const alternates = [
       { lang: "en", href: url },
-      { lang: "hr", href: `${SITE_URL}/hr/bitcoin-core/self-custody/` },
       { lang: "x-default", href: url },
     ]
     alternates.forEach(({ lang, href }) => {

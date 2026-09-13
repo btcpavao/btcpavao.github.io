@@ -2,7 +2,7 @@ import { StrictMode } from "react"
 import { renderToString } from "react-dom/server"
 
 import App from "./App.tsx"
-import { BitcoinCoreCurriculumPage } from "./bitcoin-core-curriculum.tsx"
+import { CurriculumRedirect } from "./components/curriculum-redirect.tsx"
 import { BitcoinCoreCurriculumEnPage } from "./bitcoin-core-curriculum-en.tsx"
 import { BitcoinCoreStartPage } from "./bitcoin-core-start.tsx"
 import { BitcoinCoreWalletGuidePage } from "./bitcoin-core-wallet-guide.tsx"
@@ -36,7 +36,7 @@ export function renderPage(pathname: string) {
     initialPath === "/" ? (
       <Homepage />
     ) : initialPath === BITCOIN_CORE_CURRICULUM_PATH ? (
-      <BitcoinCoreCurriculumPage />
+      <CurriculumRedirect />
     ) : initialPath === EN_BITCOIN_CORE_CURRICULUM_PATH ? (
       <BitcoinCoreCurriculumEnPage />
     ) : initialPath === START_HERE_PATH ? (

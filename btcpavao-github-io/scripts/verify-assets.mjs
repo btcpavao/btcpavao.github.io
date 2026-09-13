@@ -585,7 +585,10 @@ for (const [key, asset] of Object.entries(socialCardManifest.assets)) {
 }
 
 for (const { relativePath, html } of distHtmlDocuments) {
-  if (relativePath.startsWith("hr/ai-u-praksi/")) continue
+  if (
+    relativePath.startsWith("hr/ai-u-praksi/") ||
+    relativePath === "hr/bitcoin-core/self-custody/index.html"
+  ) continue
   assertSocialMetadata(html, relativePath, allowedSocialCardImages)
   assert(
     !html.includes("bip39-wrong-thing-cover-share.jpg?v=20260821"),
@@ -839,25 +842,17 @@ for (const [label, html] of [
   )
 }
 
-const croatianTutorialLabels = [
-  "Prije početka",
-  "Cilj",
-  "Težina",
-  "Procijenjeno vrijeme",
-  "Stvarni bitcoin",
-  "Verzija softvera",
-  "Operacijski sustavi",
-  "Preporučeni OS",
-  "Preduvjeti",
-  "Očekivani rezultat",
-  "Zadnja provjera",
-]
-
 assert(
-  croatianTutorialLabels.every((item) =>
-    hrBitcoinCoreCurriculumRouteHtml.includes(item)
-  ),
-  "Croatian curriculum is missing reusable tutorial metadata"
+  hrBitcoinCoreCurriculumRouteHtml.includes('name="robots" content="noindex,follow"') &&
+    hrBitcoinCoreCurriculumRouteHtml.includes('rel="canonical" href="https://btcpavao.com/en/bitcoin-core/self-custody/"') &&
+    hrBitcoinCoreCurriculumRouteHtml.includes("englishCurriculumDestination(location.search,location.hash)") &&
+    !hrBitcoinCoreCurriculumRouteHtml.includes("course-title"),
+  "Retired Croatian curriculum must redirect to English, preserving lesson bookmarks"
+)
+assert(
+  !enBitcoinCoreCurriculumRouteHtml.includes('hreflang="hr"') &&
+    !enBitcoinCoreCurriculumRouteHtml.includes('property="og:locale:alternate"'),
+  "English curriculum must not advertise a retired Croatian translation"
 )
 assert(
   (bitcoinCoreWalletGuideRouteHtml.match(/aria-valuemax="11"/g) ?? [])

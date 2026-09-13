@@ -8,7 +8,7 @@ import {
   type CurriculumStatus,
 } from "@/bitcoin-core-curriculum-en-data"
 
-export const CURRICULUM_VERSION = "3.0"
+export const CURRICULUM_VERSION = "3.1"
 export const CORE_REFERENCE_VERSION = "Bitcoin Core 31.1"
 export const SPARROW_REFERENCE_VERSION = "Sparrow 2.5.2"
 export const ELECTRUM_REFERENCE_VERSION = "Electrum 4.8.0"

@@ -3,6 +3,7 @@ import type {
   PlayerLesson,
 } from "@/bitcoin-core-curriculum-player-en-data"
 import { reviseCustodyPolicy } from "@/curriculum-custody-policy"
+import { reviseBeginnerLanguage } from "@/curriculum-beginner-language"
 import type { GuidedStep } from "@/curriculum-learning"
 
 type Language = "en" | "hr"
@@ -1389,6 +1390,7 @@ export function reviseCurriculum(
   })
 
   reviseCustodyPolicy(lessons, language)
+  if (language === "en") reviseBeginnerLanguage(lessons)
 
   // Keep all existing lessons accessible, but remove repeated theory and advanced
   // experiments from the required beginner path. These groups own every ID once.
@@ -1401,7 +1403,7 @@ export function reviseCurriculum(
     {
       title: tr("Start with the essentials", "Počni s osnovama"),
       summary: tr(
-        "Threat model, custody philosophy and a network for practice.",
+        "Decide what you need to protect and learn where to practise safely.",
         "Model prijetnji, filozofija čuvanja i mreža za vježbu."
       ),
       ids: [
@@ -1465,11 +1467,11 @@ export function reviseCurriculum(
     },
     {
       title: tr(
-        "Rehearse the offline architecture",
+        "Practise signing on an offline computer",
         "Uvježbaj offline arhitekturu"
       ),
       summary: tr(
-        "A persistent signer, public descriptors, PSBTs and independent recovery.",
+        "Separate the online and offline jobs, transfer payment files and rebuild both wallets.",
         "Trajni potpisnik, javni descriptori, PSBT i neovisni oporavak."
       ),
       ids: [
@@ -1495,7 +1497,7 @@ export function reviseCurriculum(
         "Pripremi mainnet i testiraj oporavak"
       ),
       summary: tr(
-        "New keys, independent backups and a small spend from the restored signer.",
+        "Create the real wallet, restore its backup and send a small test payment.",
         "Novi ključevi, neovisne kopije i mala potrošnja iz obnovljenog potpisnika."
       ),
       ids: [
@@ -1520,7 +1522,7 @@ export function reviseCurriculum(
     {
       title: tr("Optional experiments", "Izborni eksperimenti"),
       summary: tr(
-        "Multisig, Taproot and the laboratory after the basic recovery cycle.",
+        "Explore several-key approval, different spending rules and local test networks.",
         "Multisig, Taproot i laboratorij nakon osnovnog ciklusa oporavka."
       ),
       ids: [
@@ -1592,7 +1594,7 @@ export function reviseCurriculum(
       outcome: group.summary,
       status: published ? "published" : "in-progress",
       estimatedTime: tr(
-        `${required.length} required steps`,
+        `${required.length} required ${required.length === 1 ? "lesson" : "lessons"}`,
         `${required.length} obaveznih koraka`
       ),
       lessons: grouped,

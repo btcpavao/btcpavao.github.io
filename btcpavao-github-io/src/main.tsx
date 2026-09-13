@@ -3,6 +3,7 @@ import { createRoot, hydrateRoot } from "react-dom/client"
 
 import "./index.css"
 import App from "./App.tsx"
+import { CurriculumRedirect } from "./components/curriculum-redirect"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
 import {
   BITCOIN_CORE_CURRICULUM_PATH,
@@ -51,9 +52,7 @@ async function startApp() {
     const { Homepage } = await import("./homepage")
     routedPage = <Homepage />
   } else if (initialPath === BITCOIN_CORE_CURRICULUM_PATH) {
-    const { BitcoinCoreCurriculumPage } =
-      await import("./bitcoin-core-curriculum")
-    routedPage = <BitcoinCoreCurriculumPage />
+    routedPage = <CurriculumRedirect />
   } else if (initialPath === EN_BITCOIN_CORE_CURRICULUM_PATH) {
     const { BitcoinCoreCurriculumEnPage } =
       await import("./bitcoin-core-curriculum-en")

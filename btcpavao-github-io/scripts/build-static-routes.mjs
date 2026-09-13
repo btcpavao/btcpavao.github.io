@@ -1,3 +1,4 @@
+import { retiredCurriculumPath, englishCurriculumPath, retiredLessonSlugs, englishCurriculumDestination } from "../content/curriculum-redirect.mjs"
 import { mkdir, readFile, writeFile } from "node:fs/promises"
 
 import {
@@ -134,11 +135,8 @@ function renderRoute(baseHtml, entry) {
     /<meta\s+property="og:locale"[^>]*>/,
     `<meta property="og:locale" content="${entry.locale === "hr" ? "hr_HR" : "en_US"}" />`
   )
-  html = replaceMeta(
-    html,
-    /<meta\s+property="og:locale:alternate"[^>]*>/,
-    `<meta property="og:locale:alternate" content="${entry.locale === "hr" ? "en_US" : "hr_HR"}" />`
-  )
+  html = html.replace(/\s*<meta\s+property="og:locale:alternate"[^>]*>/g, "")
+  if (entry.translationPath) html = replaceMeta(html, /<meta\s+property="og:locale:alternate"[^>]*>/, `<meta property="og:locale:alternate" content="${entry.locale === "hr" ? "en_US" : "hr_HR"}" />`)
   html = replaceMeta(html, /<meta\s+property="og:image"[^>]*>/, `<meta property="og:image" content="${image}" />`)
   html = replaceMeta(html, /<meta\s+property="og:image:type"[^>]*>/, `<meta property="og:image:type" content="${imageType}" />`)
   html = replaceMeta(html, /<meta\s+property="og:image:width"[^>]*>/, `<meta property="og:image:width" content="${entry.imageWidth}" />`)
@@ -199,6 +197,11 @@ for (const [sourcePath, destination] of Object.entries(migratedAiRedirects)) {
   await mkdir(directoryUrl, { recursive: true })
   await writeFile(new URL("index.html", directoryUrl), redirectDocument(destination))
 }
+
+const retiredCurriculumDirectory = new URL(`../dist${retiredCurriculumPath}`, import.meta.url)
+await mkdir(retiredCurriculumDirectory, { recursive: true })
+const curriculumRedirectScript = `const englishCurriculumPath=${JSON.stringify(englishCurriculumPath)};const retiredLessonSlugs=${JSON.stringify(retiredLessonSlugs)};${englishCurriculumDestination.toString()};location.replace(englishCurriculumDestination(location.search,location.hash));`
+await writeFile(new URL("index.html", retiredCurriculumDirectory), `<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="robots" content="noindex,follow" /><link rel="canonical" href="${absolute(englishCurriculumPath)}" /><title>The curriculum is now in English | BTC Pavao</title><script>${curriculumRedirectScript.replaceAll("<", "\\u003c")}</script><noscript><meta http-equiv="refresh" content="0;url=${englishCurriculumPath}" /></noscript></head><body><p>The curriculum is now in English. <a href="${englishCurriculumPath}">Continue to the Bitcoin Core curriculum</a>.</p></body></html>`)
 
 const notFound = contentRegistry.find((entry) => entry.id === "not-found")
 if (!notFound) throw new Error("The content registry is missing the 404 page.")

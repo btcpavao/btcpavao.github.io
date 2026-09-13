@@ -17,25 +17,33 @@ export function CustodyArchitecture({
           <h3>Online</h3>
           <ul>
             <li>
-              {tr("Generic dedicated computer", "Namjensko generičko računalo")}
+              {tr(
+                "Ordinary computer reserved for this job",
+                "Namjensko generičko računalo"
+              )}
             </li>
             <li>Debian Stable</li>
-            <li>{tr("Bitcoin Core full node", "Bitcoin Core puni čvor")}</li>
             <li>
               {tr(
-                "Watch-only savings wallet",
+                "Core node: checks Bitcoin history",
+                "Bitcoin Core puni čvor"
+              )}
+            </li>
+            <li>
+              {tr(
+                "Watch-only wallet: tracks payments",
                 "Watch-only novčanik za štednju"
               )}
             </li>
             <li>
               {tr(
-                "No savings private keys",
+                "No private keys for spending savings",
                 "Bez privatnih ključeva za štednju"
               )}
             </li>
             <li>
               {tr(
-                "Prepares PSBTs and broadcasts",
+                "Prepares proposals and sends signed payments",
                 "Priprema PSBT i objavljuje transakcije"
               )}
             </li>
@@ -45,7 +53,7 @@ export function CustodyArchitecture({
           <ArrowDownUp aria-hidden="true" />
           <span>
             {tr(
-              "PSBT via controlled transfer",
+              "PSBT payment files, checked at each transfer",
               "PSBT kontroliranim prijenosom"
             )}
           </span>
@@ -55,20 +63,25 @@ export function CustodyArchitecture({
           <h3>Offline</h3>
           <ul>
             <li>
-              {tr("Generic dedicated computer", "Namjensko generičko računalo")}
+              {tr(
+                "Ordinary computer reserved for this job",
+                "Namjensko generičko računalo"
+              )}
             </li>
             <li>Debian Stable</li>
             <li>Bitcoin Core</li>
             <li>
               {tr(
-                "Encrypted private-key wallet",
+                "Private-key wallet protected by a password",
                 "Šifrirani novčanik s privatnim ključevima"
               )}
             </li>
-            <li>{tr("No blockchain required", "Blockchain nije potreban")}</li>
+            <li>
+              {tr("No blockchain download needed", "Blockchain nije potreban")}
+            </li>
             <li>
               {tr(
-                "No network required for signing",
+                "Approves payments without a network",
                 "Za potpisivanje ne treba mreža"
               )}
             </li>
@@ -81,7 +94,7 @@ export function CustodyArchitecture({
         </summary>
         <p>
           {tr(
-            "Verified Tails live media on supported generic hardware, only when the threat model benefits from reducing persistent OS state. Bitcoin Core still signs. Tails does not make untrusted hardware trustworthy.",
+            "Tails starts from a verified USB drive on a supported computer. It can reduce what the operating system keeps after a session. Choose it only when that helps with a risk you need to address. Core still signs the payments. Tails cannot make altered hardware trustworthy.",
             "Provjereni Tails live medij na podržanom generičkom hardveru, kada modelu prijetnji koristi smanjenje trajnog stanja OS-a. I dalje potpisuje Bitcoin Core. Tails ne čini nepouzdan hardver pouzdanim."
           )}
         </p>

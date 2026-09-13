@@ -68,7 +68,7 @@ export function CurriculumOverview({
           </h1>
           <p className="course-hero__lede">
             {tr(
-              "Start with your threat model, practise on Signet and learn to recover and sign offline. Prepare mainnet only after the recovery exercises work.",
+              "Learn to protect and recover your bitcoin from the beginning. Practise with test coins first, then learn to approve payments on a computer kept offline. Technical terms are explained as you need them.",
               "Počni modelom prijetnji, vježbaj na Signetu i nauči obnoviti novčanik i potpisivati offline. Mainnet pripremi tek nakon uspješnih vježbi oporavka."
             )}
           </p>
@@ -160,19 +160,19 @@ export function CurriculumOverview({
         <details className="course-lesson-details">
           <summary>
             {tr(
-              "Tools, architecture and versions",
+              "Computers, software and versions",
               "Alati, arhitektura i verzije"
             )}
           </summary>
           <p>
             {tr(
-              "The default uses two generic dedicated computers with Debian Stable and Bitcoin Core. The online full node holds a watch-only savings wallet. The persistent offline signer holds encrypted private keys and needs no blockchain. Public descriptors and PSBTs cross the controlled boundary.",
+              "The default uses two ordinary computers reserved for this job. Both run Debian Stable, a Linux operating system, and Bitcoin Core. One stays online to check transaction history and prepare payments. The other stays offline and holds the private keys, the secrets used to approve payments.",
               "Zadana postava koristi dva namjenska generička računala s Debianom Stable i Bitcoin Coreom. Online puni čvor ima watch-only novčanik za štednju. Trajni offline potpisnik čuva šifrirane privatne ključeve i ne treba blockchain. Javni descriptori i PSBT prelaze kontroliranu granicu."
             )}
           </p>
           <p>
             {tr(
-              "The examples use Debian Stable on x86-64 hardware. Other maintained Linux distributions remain valid alternatives. Tails is optional for threat models that benefit from reducing persistent OS state. Learn the default first.",
+              "The examples use x86-64 computers, the processor family also called amd64. Other maintained Linux systems can work too. Tails, an operating system started from a USB drive, is an optional later topic. You do not need to choose between these alternatives before learning the default setup.",
               "Primjeri koriste Debian Stable na x86-64 hardveru. Druge održavane Linux distribucije ostaju valjane alternative. Tails je izboran kada modelu prijetnji koristi smanjenje trajnog stanja OS-a. Prvo nauči zadanu postavu."
             )}
           </p>

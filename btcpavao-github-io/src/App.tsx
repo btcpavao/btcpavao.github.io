@@ -1,3 +1,4 @@
+import { CurriculumRedirect } from "@/components/curriculum-redirect"
 import {
   createElement,
   lazy,
@@ -86,11 +87,6 @@ const BitcoinCoreStartPage = lazy(() =>
 const BitcoinCoreWalletGuidePage = lazy(() =>
   import("@/bitcoin-core-wallet-guide").then((module) => ({
     default: module.BitcoinCoreWalletGuidePage,
-  }))
-)
-const BitcoinCoreCurriculumPage = lazy(() =>
-  import("@/bitcoin-core-curriculum").then((module) => ({
-    default: module.BitcoinCoreCurriculumPage,
   }))
 )
 const BitcoinCoreCurriculumEnPage = lazy(() =>
@@ -1693,7 +1689,7 @@ function BitcoinCoreSeriesPage({
           <p className="mt-5 max-w-3xl text-base leading-8 text-pretty text-muted-foreground">
             {isEnglish
               ? "Begin with an empty practice wallet, prove that recovery works, then move into the broader self-custody curriculum. Research essays stay separate so the operational path remains clear."
-              : "Krenite s dostupnim praktičnim kurikulumom, uvježbajte recovery i tek zatim prijeđite na složenije operativne odluke. Početni vodič i interaktivna wallet vježba zasad su dostupni na engleskom."}
+              : "Praktične vježbe i cijeli kurikulum dostupni su na engleskom. Krenite s testnim novčanikom, uvježbajte oporavak i tek zatim prijeđite na čuvanje stvarnih bitcoina."}
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {practicalPosts.map((post) => (
@@ -1703,16 +1699,16 @@ function BitcoinCoreSeriesPage({
 
           {!isEnglish ? (
             <aside className="mt-6 rounded-[1.75rem] border border-border/70 bg-card/72 p-6 shadow-sm sm:p-7">
-              <p className="text-bitcoin text-xs font-semibold tracking-[0.18em] uppercase">
+              <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">
                 Currently available in English
               </p>
               <p className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
-                Početna vježba i interaktivni wallet vodič trenutačno su
-                dostupni na engleskom jeziku.
+                Početna vježba, wallet vodič i cijeli kurikulum dostupni su na
+                engleskom jeziku.
               </p>
               <div className="mt-5 flex flex-wrap gap-3">
                 <a
-                  className={`bg-bitcoin inline-flex min-h-11 items-center rounded-full px-5 text-sm font-semibold text-white ${liftHover}`}
+                  className={`inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground ${liftHover}`}
                   href={START_HERE_PATH}
                 >
                   Start Here
@@ -1722,6 +1718,12 @@ function BitcoinCoreSeriesPage({
                   href={BITCOIN_CORE_WALLET_GUIDE_PATH}
                 >
                   Wallet guide
+                </a>
+                <a
+                  className={`inline-flex min-h-11 items-center rounded-full border border-border bg-background px-5 text-sm font-semibold text-foreground ${liftHover}`}
+                  href={EN_BITCOIN_CORE_CURRICULUM_PATH}
+                >
+                  Self-custody curriculum
                 </a>
                 <a
                   className={`inline-flex min-h-11 items-center rounded-full border border-border bg-background px-5 text-sm font-semibold text-foreground ${liftHover}`}
@@ -3578,11 +3580,7 @@ export function App({
   }
 
   if (currentPath === BITCOIN_CORE_CURRICULUM_PATH) {
-    return (
-      <Suspense fallback={null}>
-        <BitcoinCoreCurriculumPage />
-      </Suspense>
-    )
+    return <CurriculumRedirect />
   }
 
   if (currentPath === EN_BITCOIN_CORE_CURRICULUM_PATH) {

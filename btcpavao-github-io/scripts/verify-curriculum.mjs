@@ -4,6 +4,10 @@ import { tmpdir } from "node:os"
 import path from "node:path"
 import { pathToFileURL } from "node:url"
 import { build } from "esbuild"
+import {
+  englishCurriculumDestination,
+  retiredLessonSlugs,
+} from "../content/curriculum-redirect.mjs"
 
 const temporary = await mkdtemp(path.join(tmpdir(), "curriculum-check-"))
 try {
@@ -20,7 +24,6 @@ try {
     return import(pathToFileURL(outfile).href)
   }
   const en = await bundle("src/bitcoin-core-curriculum-player-en-data.ts", "en")
-  const hr = await bundle("src/bitcoin-core-curriculum-player-data.ts", "hr")
   const logic = await bundle("src/curriculum-learning.ts", "progress")
   const {
     canCompleteLesson,
@@ -36,57 +39,41 @@ try {
     console.log(`✓ ${name}`)
   }
 
-  check(
-    "63 existing lessons plus optional Tails form six phases in both languages",
-    () => {
-      for (const data of [en, hr]) {
-        assert.equal(data.curriculumPhases.length, 6)
-        assert.equal(data.curriculumLessons.length, 64)
-        assert.equal(
-          new Set(data.curriculumLessons.map((e) => e.lesson.id)).size,
-          64
-        )
-        assert.equal(
-          new Set(data.curriculumLessons.map((e) => e.lesson.slug)).size,
-          64
-        )
-        for (const entry of data.curriculumLessons) {
-          assert.ok(data.findLessonBySlug(entry.lesson.slug))
-          assert.ok(
-            entry.lessonNumber.startsWith(`${Number(entry.phase.id) + 1}.`)
-          )
-        }
-      }
-      assert.deepEqual(
-        en.curriculumLessons.map((e) => e.lesson.id),
-        hr.curriculumLessons.map((e) => e.lesson.id)
+  check("All 64 English lessons remain in six phases", () => {
+    for (const data of [en]) {
+      assert.equal(data.curriculumPhases.length, 6)
+      assert.equal(data.curriculumLessons.length, 64)
+      assert.equal(
+        new Set(data.curriculumLessons.map((e) => e.lesson.id)).size,
+        64
       )
+      assert.equal(
+        new Set(data.curriculumLessons.map((e) => e.lesson.slug)).size,
+        64
+      )
+      for (const entry of data.curriculumLessons) {
+        assert.ok(data.findLessonBySlug(entry.lesson.slug))
+        assert.ok(
+          entry.lessonNumber.startsWith(`${Number(entry.phase.id) + 1}.`)
+        )
+      }
     }
-  )
-  check(
-    "All prerequisites exist earlier on the required path; both locales agree",
-    () => {
-      for (const data of [en, hr]) {
-        const ids = data.curriculumLessons.map((e) => e.lesson.id)
-        for (const { lesson } of data.curriculumLessons) {
-          for (const id of lesson.prerequisites ?? []) {
-            const at = ids.indexOf(id)
-            assert.ok(
-              at >= 0 && at < ids.indexOf(lesson.id),
-              `${lesson.id} → ${id}`
-            )
-            assert.equal(data.curriculumLessons[at].lesson.optional, false)
-          }
-          const partner = (data === en ? hr : en).curriculumLessons.find(
-            (e) => e.lesson.id === lesson.id
-          ).lesson
-          assert.deepEqual(lesson.prerequisites, partner.prerequisites)
-          assert.equal(lesson.kind, partner.kind)
-          assert.equal(lesson.optional, partner.optional)
+  })
+  check("All prerequisites exist earlier on the required path", () => {
+    for (const data of [en]) {
+      const ids = data.curriculumLessons.map((e) => e.lesson.id)
+      for (const { lesson } of data.curriculumLessons) {
+        for (const id of lesson.prerequisites ?? []) {
+          const at = ids.indexOf(id)
+          assert.ok(
+            at >= 0 && at < ids.indexOf(lesson.id),
+            `${lesson.id} → ${id}`
+          )
+          assert.equal(data.curriculumLessons[at].lesson.optional, false)
         }
       }
     }
-  )
+  })
   check(
     "Legacy completion marks and positional checklist keys cannot complete practical work",
     () => {
@@ -198,7 +185,7 @@ try {
   check(
     "Every guided step has a unique stable key, action, expected result and useful help",
     () => {
-      for (const data of [en, hr])
+      for (const data of [en])
         for (const { lesson } of data.curriculumLessons) {
           const steps = lesson.guidedSteps ?? []
           assert.equal(new Set(steps.map((s) => s.id)).size, steps.length)
@@ -240,7 +227,7 @@ try {
   check(
     "Threat modelling and philosophy precede tools and architecture",
     () => {
-      for (const data of [en, hr]) {
+      for (const data of [en]) {
         const ids = data.curriculumLessons.map(({ lesson }) => lesson.id)
         const find = (id) =>
           data.curriculumLessons.find((e) => e.lesson.id === id).lesson
@@ -262,7 +249,7 @@ try {
   check(
     "Debian default, optional Tails and physical safety preserve the offline boundary",
     () => {
-      for (const data of [en, hr]) {
+      for (const data of [en]) {
         const find = (id) =>
           data.curriculumLessons.find((e) => e.lesson.id === id).lesson
         const signer = find("offline-device")
@@ -284,7 +271,7 @@ try {
   check(
     "Verification requires preparation and identity checks before executable launch",
     () => {
-      for (const data of [en, hr]) {
+      for (const data of [en]) {
         const lesson = data.curriculumLessons.find(
           (e) => e.lesson.id === "signet-install-verify"
         ).lesson
@@ -316,8 +303,8 @@ try {
     }
   )
   check("New procedures do not acquire a hands-on verification date", () => {
-    for (const data of [en, hr]) {
-      assert.equal(data.CURRICULUM_VERSION, "3.0")
+    for (const data of [en]) {
+      assert.equal(data.CURRICULUM_VERSION, "3.1")
       for (const id of [
         "offline-device",
         "optional-tails",
@@ -333,6 +320,39 @@ try {
       }
     }
   })
+  check(
+    "Retired Croatian bookmarks reach the corresponding English lessons",
+    () => {
+      assert.equal(Object.keys(retiredLessonSlugs).length, 64)
+      for (const [oldSlug, newSlug] of Object.entries(retiredLessonSlugs)) {
+        assert.ok(en.findLessonBySlug(newSlug), newSlug)
+        assert.equal(
+          englishCurriculumDestination(
+            "?from=bookmark",
+            "#lesson/" + encodeURIComponent(oldSlug)
+          ),
+          "/en/bitcoin-core/self-custody/?from=bookmark#lesson/" +
+            encodeURIComponent(newSlug)
+        )
+      }
+      assert.equal(
+        englishCurriculumDestination(),
+        "/en/bitcoin-core/self-custody/"
+      )
+      assert.equal(
+        englishCurriculumDestination("", "#lesson/0.2"),
+        "/en/bitcoin-core/self-custody/#lesson/0.2"
+      )
+      assert.equal(
+        englishCurriculumDestination("", "#lesson/%ZZ"),
+        "/en/bitcoin-core/self-custody/#lesson/%ZZ"
+      )
+      assert.equal(
+        englishCurriculumDestination("", "#lesson/https://example.com"),
+        "/en/bitcoin-core/self-custody/#lesson/https%3A%2F%2Fexample.com"
+      )
+    }
+  )
   console.log(
     `\n${checks} curriculum checks passed. These checks do not simulate Core, Debian, Tails or real transactions.`
   )
