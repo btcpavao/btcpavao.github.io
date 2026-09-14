@@ -1,0 +1,263 @@
+{
+  "checkedAt": "2026-09-14T10:52:00.154667+00:00",
+  "deploymentCommit": "92e04f97b6cdf8296b77ec8880ffc793e85ba954",
+  "pages": [
+    {
+      "id": "home",
+      "url": "https://btcpavao.com/",
+      "status": 200,
+      "titleMatch": true,
+      "descriptionMatch": true,
+      "canonical": true,
+      "markers": {
+        "Start with first principles": true,
+        "Begin with disposable test wallets and valueless coins.": true,
+        "Understand the threat model": true
+      },
+      "identicalToLocalBuild": true,
+      "sha256": "c5fc2ca15b56ae11f14e724b9862c6f7e0199857457d17391244bde4e9fa7441",
+      "etag": "\"6aa7d0c8-120f7\"",
+      "lastModified": "Mon, 14 Sep 2026 10:47:36 GMT"
+    },
+    {
+      "id": "hr-home",
+      "url": "https://btcpavao.com/hr/",
+      "status": 200,
+      "titleMatch": true,
+      "descriptionMatch": true,
+      "canonical": true,
+      "markers": {},
+      "identicalToLocalBuild": true,
+      "sha256": "dc874a79db8b88da9fb8e23b3cb6bbf26c47f4804142585de3a4577a25b6c1b1",
+      "etag": "\"6aa7d0c8-4f38\"",
+      "lastModified": "Mon, 14 Sep 2026 10:47:36 GMT"
+    },
+    {
+      "id": "hr-core-hub",
+      "url": "https://btcpavao.com/hr/bitcoin-core/",
+      "status": 200,
+      "titleMatch": true,
+      "descriptionMatch": true,
+      "canonical": true,
+      "markers": {
+        "Krenite od modela prijetnji": true,
+        "Self-custody curriculum": true,
+        "id=\"essays\"": true
+      },
+      "identicalToLocalBuild": true,
+      "sha256": "ff8121fc8c9a9aa6795241cab8c5d0839207a34069b822ea70ad60745a4c1620",
+      "etag": "\"6aa7d0c8-5d6d\"",
+      "lastModified": "Mon, 14 Sep 2026 10:47:36 GMT"
+    },
+    {
+      "id": "hr-core-entropy",
+      "url": "https://btcpavao.com/hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/",
+      "status": 200,
+      "titleMatch": true,
+      "descriptionMatch": true,
+      "canonical": true,
+      "markers": {
+        "Isto načelo vrijedi za passphrase walleta": true,
+        "Provjereni postupak s KeePassXC-om": true
+      },
+      "identicalToLocalBuild": true,
+      "sha256": "a4150142ea5e2bd103e117b2bc75ec8ad4b2b9ae1bfc76e2aaa2dcdc72736194",
+      "etag": "\"6aa7d0c8-1537d\"",
+      "lastModified": "Mon, 14 Sep 2026 10:47:36 GMT"
+    },
+    {
+      "id": "en-core-hub",
+      "url": "https://btcpavao.com/en/bitcoin-core/",
+      "status": 200,
+      "titleMatch": true,
+      "descriptionMatch": true,
+      "canonical": true,
+      "markers": {
+        "Start with first principles": true,
+        "Quick Bitcoin Core Practice": true,
+        "id=\"essays\"": true
+      },
+      "identicalToLocalBuild": true,
+      "sha256": "d0abbc003ab86b17fcd2191411c0152219451ed1a7f82d7672f12d7c6256b4f3",
+      "etag": "\"6aa7d0c8-701f\"",
+      "lastModified": "Mon, 14 Sep 2026 10:47:36 GMT"
+    },
+    {
+      "id": "en-core-curriculum",
+      "url": "https://btcpavao.com/en/bitcoin-core/self-custody/",
+      "status": 200,
+      "titleMatch": true,
+      "descriptionMatch": true,
+      "canonical": true,
+      "markers": {
+        "Start with the threat, then choose the tools": true
+      },
+      "identicalToLocalBuild": true,
+      "sha256": "7469a51ee737525214181cdde79df1c9a2d213e74d33ffbfed3cbff5b8c847c9",
+      "etag": "\"6aa7d0c8-a57c\"",
+      "lastModified": "Mon, 14 Sep 2026 10:47:36 GMT"
+    },
+    {
+      "id": "en-core-start",
+      "url": "https://btcpavao.com/en/bitcoin-core/start-here/",
+      "status": 200,
+      "titleMatch": true,
+      "descriptionMatch": true,
+      "canonical": true,
+      "markers": {
+        "Quick Core practice": true,
+        "disposable hands-on exercise": true,
+        "Open the curriculum": true
+      },
+      "identicalToLocalBuild": true,
+      "sha256": "258ebccdbd7b1ec614bf43b9553fdce00e0df6fb39a079e4cc7254b673e26423",
+      "etag": "\"6aa7d0c8-7e4b\"",
+      "lastModified": "Mon, 14 Sep 2026 10:47:36 GMT"
+    },
+    {
+      "id": "en-core-wallet-guide",
+      "url": "https://btcpavao.com/en/bitcoin-core/wallet-setup-backup-recovery/",
+      "status": 200,
+      "titleMatch": true,
+      "descriptionMatch": true,
+      "canonical": true,
+      "markers": {
+        "Eight is not a cryptographic minimum.": true,
+        "7,772 distinct words": true,
+        "Before completing this practice": true
+      },
+      "identicalToLocalBuild": true,
+      "sha256": "68ccf61532707683dc9e55df26d1c839de26c2a5cf278c60fc3d72344962ec93",
+      "etag": "\"6aa7d0c8-1e744\"",
+      "lastModified": "Mon, 14 Sep 2026 10:47:36 GMT"
+    },
+    {
+      "id": "en-core-bip39",
+      "url": "https://btcpavao.com/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/",
+      "status": 200,
+      "titleMatch": true,
+      "descriptionMatch": true,
+      "canonical": true,
+      "markers": {
+        "conservative course default, not a cryptographic minimum": true,
+        "current generator lesson": true
+      },
+      "identicalToLocalBuild": true,
+      "sha256": "25b4f907e1bd2399fd00e158907c03fcda388cd53aafddaa825b3939fafcb98f",
+      "etag": "\"6aa7d0c8-10e77\"",
+      "lastModified": "Mon, 14 Sep 2026 10:47:36 GMT"
+    },
+    {
+      "id": "en-core-entropy",
+      "url": "https://btcpavao.com/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/",
+      "status": 200,
+      "titleMatch": true,
+      "descriptionMatch": true,
+      "canonical": true,
+      "markers": {
+        "The same principle applies to a wallet passphrase": true,
+        "Follow the reviewed KeePassXC procedure": true
+      },
+      "identicalToLocalBuild": true,
+      "sha256": "2a21a42ca2da98a1ae7f4987332f0654ceeab91e1d298ca81794b4dd4212ad8d",
+      "etag": "\"6aa7d0c8-159a1\"",
+      "lastModified": "Mon, 14 Sep 2026 10:47:36 GMT"
+    },
+    {
+      "id": "en-core-long-road",
+      "url": "https://btcpavao.com/en/bitcoin-core/the-long-road-back-to-bitcoin-core/",
+      "status": 200,
+      "titleMatch": true,
+      "descriptionMatch": true,
+      "canonical": true,
+      "markers": {
+        "September 2026 update": true,
+        "What I recommend now": true,
+        "when the threat model justifies that separation.": true
+      },
+      "identicalToLocalBuild": true,
+      "sha256": "c5b87e53fc8c0f382055c7275f623875dc7395c85934ba4ea2d827c44ddb1f75",
+      "etag": "\"6aa7d0c8-14c50\"",
+      "lastModified": "Mon, 14 Sep 2026 10:47:36 GMT"
+    },
+    {
+      "id": "en-core-multisig-not-dollar-amount",
+      "url": "https://btcpavao.com/en/bitcoin-core/multisig-is-not-a-dollar-amount/",
+      "status": 200,
+      "titleMatch": true,
+      "descriptionMatch": true,
+      "canonical": true,
+      "markers": {
+        "Multisig Is Not a Dollar Amount": true
+      },
+      "identicalToLocalBuild": true,
+      "sha256": "358974858d4cebefdeaff347bb8d0e9060f85d8d8534ff44568275642bc9d721",
+      "etag": "\"6aa7d0c8-dbf8\"",
+      "lastModified": "Mon, 14 Sep 2026 10:47:36 GMT"
+    },
+    {
+      "id": "support",
+      "url": "https://btcpavao.com/support/",
+      "status": 200,
+      "titleMatch": true,
+      "descriptionMatch": true,
+      "canonical": true,
+      "markers": {},
+      "identicalToLocalBuild": true,
+      "sha256": "3175bc0e825420718a342aa4b1c4fceeaaf2288fb04e6ca6d40c746cb73e699f",
+      "etag": "\"6aa7d0c8-6835\"",
+      "lastModified": "Mon, 14 Sep 2026 10:47:36 GMT"
+    },
+    {
+      "id": "support-thank-you",
+      "url": "https://btcpavao.com/support/thank-you/",
+      "status": 200,
+      "titleMatch": true,
+      "descriptionMatch": true,
+      "canonical": true,
+      "markers": {},
+      "identicalToLocalBuild": true,
+      "sha256": "ee1a3f6f64371aa83cefbbbd47c878452b2c7ea58932e4437248ee52f796b86b",
+      "etag": "\"6aa7d0c8-650f\"",
+      "lastModified": "Mon, 14 Sep 2026 10:47:36 GMT"
+    }
+  ],
+  "extra": [
+    {
+      "path": "/llms.txt",
+      "status": 200,
+      "matchesLocalBuild": true,
+      "retiredCurriculumRedirect": null
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "matchesLocalBuild": true,
+      "retiredCurriculumRedirect": null
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "matchesLocalBuild": true,
+      "retiredCurriculumRedirect": null
+    },
+    {
+      "path": "/en/writing/",
+      "status": 404,
+      "matchesLocalBuild": null,
+      "retiredCurriculumRedirect": null
+    },
+    {
+      "path": "/en/support/",
+      "status": 404,
+      "matchesLocalBuild": null,
+      "retiredCurriculumRedirect": null
+    },
+    {
+      "path": "/hr/bitcoin-core/self-custody/",
+      "status": 200,
+      "matchesLocalBuild": null,
+      "retiredCurriculumRedirect": true
+    }
+  ]
+}
