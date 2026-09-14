@@ -153,7 +153,7 @@ const BITCOIN_CORE_ARTICLE_HERO_IMAGE_SMALL =
   "/bitcoin-core-entropija-cover-v2-840.webp"
 const EN_BITCOIN_CORE_SERIES_URL = `${SITE_URL}${EN_BITCOIN_CORE_SERIES_PATH}`
 const EN_BITCOIN_CORE_SERIES_DESCRIPTION =
-  "English essays about Bitcoin Core, wallets, validation, and the security foundations of the Bitcoin system."
+  contentRegistry.find((entry) => entry.id === "en-core-hub")!.description
 const EN_BITCOIN_CORE_ARTICLE_URL = `${SITE_URL}${EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH}`
 const EN_BITCOIN_CORE_ARTICLE_TITLE =
   "How Bitcoin Core Generates Entropy When You Create a New Wallet"
@@ -329,13 +329,13 @@ function registryEntryToSeriesPost(entry: ContentRegistryEntry): SeriesPost {
 
   return {
     category: isCurriculum
-      ? "Living curriculum"
+      ? "Start with first principles"
       : isStart
-        ? "Start here"
+        ? "Disposable practice"
         : isPractical
           ? entry.locale === "hr"
             ? "Praktični vodič"
-            : "Practical guide"
+            : "Focused reference"
           : entry.locale === "hr"
             ? "Istraživanje i esej"
             : "Research & essay",
@@ -835,14 +835,18 @@ function usePageMetadata({
   alternates,
 }: MetadataOptions) {
   useEffect(() => {
+    const entry = contentRegistry.find((item) => item.path === new URL(url).pathname)
+    const pageTitle = entry?.title ?? title
+    const pageDescription = entry?.description ?? description
+    const socialDescription = entry?.description ?? ogDescription
     document.documentElement.lang = language
-    document.title = title
+    document.title = pageTitle
     setCanonicalUrl(url)
     setLanguageAlternates(alternates)
-    setMetaContent("name", "description", description)
+    setMetaContent("name", "description", pageDescription)
     setMetaContent("property", "og:type", type)
-    setMetaContent("property", "og:title", title)
-    setMetaContent("property", "og:description", ogDescription)
+    setMetaContent("property", "og:title", pageTitle)
+    setMetaContent("property", "og:description", socialDescription)
     setMetaContent("property", "og:url", url)
     setMetaContent(
       "property",
@@ -854,8 +858,8 @@ function usePageMetadata({
       "og:locale:alternate",
       language === "en" ? "hr_HR" : "en_US"
     )
-    setMetaContent("name", "twitter:title", title)
-    setMetaContent("name", "twitter:description", ogDescription)
+    setMetaContent("name", "twitter:title", pageTitle)
+    setMetaContent("name", "twitter:description", socialDescription)
 
     if (image) {
       setMetaContent("property", "og:image", image)
@@ -865,6 +869,9 @@ function usePageMetadata({
     if (type === "article" && publishedDate) {
       setMetaContent("property", "article:section", articleSection)
       setMetaContent("property", "article:published_time", publishedDate)
+      if (entry?.updatedAt) {
+        setMetaContent("property", "article:modified_time", entry.updatedAt)
+      }
     }
   }, [
     articleSection,
@@ -1427,7 +1434,7 @@ function SeriesCard({ post }: { post: SeriesPost }) {
   return (
     <a
       href={post.href}
-      className={`glimmer-button grid rounded-[28px] border border-border/70 bg-card/82 p-6 shadow-soft hover:bg-card ${liftHover}`}
+      className={`glimmer-button grid rounded-[28px] border border-border/70 bg-card/82 p-6 shadow-soft hover:bg-card ${post.href === EN_BITCOIN_CORE_CURRICULUM_PATH ? "md:col-span-2" : ""} ${liftHover}`}
     >
       <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-muted-foreground uppercase">
         <span className="surface-ring rounded-full bg-background/70 px-3 py-1">
@@ -1682,14 +1689,14 @@ function BitcoinCoreSeriesPage({
             eyebrow={isEnglish ? "Practical path" : "Praktični put"}
             title={
               isEnglish
-                ? "Start → Restore → Operate"
-                : "Vježbaj → Vrati → Održavaj"
+                ? "Start with first principles"
+                : "Krenite od modela prijetnji"
             }
           />
           <p className="mt-5 max-w-3xl text-base leading-8 text-pretty text-muted-foreground">
             {isEnglish
-              ? "Begin with an empty practice wallet, prove that recovery works, then move into the broader self-custody curriculum. Research essays stay separate so the operational path remains clear."
-              : "Praktične vježbe i cijeli kurikulum dostupni su na engleskom. Krenite s testnim novčanikom, uvježbajte oporavak i tek zatim prijeđite na čuvanje stvarnih bitcoina."}
+              ? "The self-custody curriculum is the main learning path. Begin with the threat model and understand why the course chooses Bitcoin Core, generic hardware and Linux. Master one disposable wallet, prove recovery, then separate signing from online coordination. Add advanced policies only if your threat model requires them."
+              : "Glavni put učenja je self-custody kurikulum na engleskom: model prijetnji, razlozi za Bitcoin Core, generički hardver i Linux, jedan testni wallet i dokazan oporavak. Tek zatim odvojite potpisivanje od mrežne koordinacije. Napredne politike dodajte samo kada rješavaju konkretnu prijetnju."}
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {practicalPosts.map((post) => (
@@ -1703,27 +1710,28 @@ function BitcoinCoreSeriesPage({
                 Currently available in English
               </p>
               <p className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
-                Početna vježba, wallet vodič i cijeli kurikulum dostupni su na
-                engleskom jeziku.
+                Kurikulum vodi učenje od prvih načela. Kratka vježba služi
+                upoznavanju programa, a wallet vodič kao praktična referenca.
+                Sva tri dostupna su na engleskom.
               </p>
               <div className="mt-5 flex flex-wrap gap-3">
                 <a
-                  className={`inline-flex min-h-11 items-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground ${liftHover}`}
+                  className={`inline-flex min-h-11 items-center rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground ${liftHover}`}
+                  href={EN_BITCOIN_CORE_CURRICULUM_PATH}
+                >
+                  Self-custody curriculum
+                </a>
+                <a
+                  className={`inline-flex min-h-11 items-center rounded-full border border-border bg-background px-5 text-sm font-semibold text-foreground ${liftHover}`}
                   href={START_HERE_PATH}
                 >
-                  Start Here
+                  Quick Core practice
                 </a>
                 <a
                   className={`inline-flex min-h-11 items-center rounded-full border border-border bg-background px-5 text-sm font-semibold text-foreground ${liftHover}`}
                   href={BITCOIN_CORE_WALLET_GUIDE_PATH}
                 >
                   Wallet guide
-                </a>
-                <a
-                  className={`inline-flex min-h-11 items-center rounded-full border border-border bg-background px-5 text-sm font-semibold text-foreground ${liftHover}`}
-                  href={EN_BITCOIN_CORE_CURRICULUM_PATH}
-                >
-                  Self-custody curriculum
                 </a>
                 <a
                   className={`inline-flex min-h-11 items-center rounded-full border border-border bg-background px-5 text-sm font-semibold text-foreground ${liftHover}`}
@@ -1736,13 +1744,18 @@ function BitcoinCoreSeriesPage({
           ) : null}
         </section>
 
-        <section className="mt-16 border-t border-border/60 pt-16">
+        <section id="essays" className="mt-16 scroll-mt-24 border-t border-border/60 pt-16">
           <SectionHeader
             eyebrow={isEnglish ? "Research & essays" : "Istraživanja i eseji"}
             title={
-              isEnglish ? "Understand the tradeoffs" : "Razumijte kompromise"
+              isEnglish ? "The reasoning behind the recommendation" : "Razlozi iza preporuke"
             }
           />
+          <p className="mt-5 max-w-3xl text-base leading-8 text-muted-foreground">
+            {isEnglish
+              ? "Essays examine the evidence, history and architectural choices behind the course. They complement the curriculum; the quick exercise and wallet guide provide focused hands-on references."
+              : "Eseji istražuju dokaze, povijest i arhitektonske odluke iza kurikuluma. Nadopunjuju glavni put učenja; kratka vježba i wallet vodič služe kao praktične reference."}
+          </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {researchPosts.map((post) => (
               <SeriesCard key={post.href} post={post} />
@@ -2065,7 +2078,7 @@ function BitcoinCoreArticlePage({
             <TechnicalArticleInfo
               language={language}
               published={isEnglish ? "August 5, 2026" : "5. kolovoza 2026."}
-              updated={isEnglish ? "August 24, 2026" : "24. kolovoza 2026."}
+              updated={isEnglish ? "September 14, 2026" : "14. rujna 2026."}
               coreVersion="31.1"
               sourcePath={
                 isEnglish
@@ -2089,6 +2102,24 @@ function BitcoinCoreArticlePage({
                 },
               ]}
             />
+            <aside className="article-shell mt-8 rounded-[24px] border border-border/70 bg-card/78 p-6">
+              <h2 className="text-lg font-semibold">
+                {isEnglish ? "The same principle applies to a wallet passphrase" : "Isto načelo vrijedi za passphrase walleta"}
+              </h2>
+              <p className="mt-3 text-base leading-7 text-muted-foreground">
+                {isEnglish
+                  ? "The reason we rely on cryptographically secure computer-generated randomness for keys also applies to a wallet-encryption passphrase. On a clean, verified Linux environment, the curriculum uses KeePassXC for independent random word selections. Physical dice are optional; they add manual lookup, transcription and procedural work. The two applications need not have the same RNG implementation for that reasoning to hold."
+                  : "Razlog zbog kojeg se za ključeve oslanjamo na kriptografski sigurnu računalnu slučajnost vrijedi i za passphrase kojim šifriramo wallet. Na čistom i provjerenom Linux okruženju kurikulum koristi KeePassXC za neovisne nasumične odabire riječi. Fizičke kockice su opcija koja dodaje ručno traženje riječi, prepisivanje i dodatne korake. Taj zaključak ne zahtijeva da obje aplikacije imaju istu implementaciju generatora slučajnosti."}
+              </p>
+              <p className="mt-3 text-base leading-7">
+                <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/generate-passphrase`}>
+                  {isEnglish ? "Follow the reviewed KeePassXC procedure" : "Provjereni postupak s KeePassXC-om (engleski)"}
+                </a>{" · "}
+                <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/passphrase-strength`}>
+                  {isEnglish ? "Why eight words are the course default" : "Zašto je osam riječi zadani izbor kurikuluma (engleski)"}
+                </a>
+              </p>
+            </aside>
             <nav
               aria-label={isEnglish ? "Article contents" : "Sadržaj članka"}
               className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
@@ -2370,7 +2401,7 @@ function Bip39ArticlePage({
             <TechnicalArticleInfo
               language="en"
               published="August 21, 2026"
-              updated="August 24, 2026"
+              updated="September 14, 2026 (passphrase guidance)"
               coreVersion="30.0"
               sourcePath="src/bip39-wrong-thing-human-readable.md"
               sources={[
@@ -2914,7 +2945,7 @@ function LongRoadArticlePage({
             <TechnicalArticleInfo
               language="en"
               published="August 5, 2026"
-              updated="August 24, 2026"
+              updated="September 14, 2026 (editorial recommendation)"
               coreVersion="30.0"
               sourcePath="src/long-road-back-to-bitcoin-core.md"
               sources={[
@@ -2979,6 +3010,17 @@ function LongRoadArticlePage({
                 }
 
                 if (block.type === "quote") {
+                  const updateHeading = "**September 2026 update**"
+                  if (block.text.startsWith(updateHeading)) {
+                    return (
+                      <aside className="long-road-editorial-update my-8 rounded-[24px] border border-border/70 bg-primary/5 p-4 sm:p-6" key={`update-${index}`}>
+                        <p><strong>September 2026 update</strong></p>
+                        <p style={{ fontSize: "1rem", lineHeight: 1.75 }}>
+                          {renderLongRoadInline(block.text.slice(updateHeading.length).trim())}
+                        </p>
+                      </aside>
+                    )
+                  }
                   return (
                     <blockquote
                       className="long-road-article-quote"

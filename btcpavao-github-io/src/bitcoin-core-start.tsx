@@ -1,3 +1,4 @@
+import { findContentByPath } from "@/content-registry"
 import { useEffect } from "react"
 import {
   ArrowRight,
@@ -15,8 +16,8 @@ import { SiteHeader } from "@/components/site-header"
 import { TutorialMetadata } from "@/components/tutorial-metadata"
 import {
   BITCOIN_CORE_WALLET_GUIDE_PATH,
+  EN_BITCOIN_CORE_CURRICULUM_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
-  EN_BITCOIN_CORE_SERIES_PATH,
   START_HERE_PATH,
 } from "@/routes"
 
@@ -54,9 +55,7 @@ function setMeta(name: string, content: string) {
 
 export function BitcoinCoreStartPage() {
   useEffect(() => {
-    const title = "Start Here with Bitcoin Core | BTC Pavao"
-    const description =
-      "A calm first Bitcoin Core exercise for non-developers: prepare a practice environment, verify the software, create an empty test wallet, and document the backup plan."
+    const { title, description } = findContentByPath("/en/bitcoin-core/start-here/")!
 
     document.documentElement.lang = "en"
     document.title = title
@@ -85,22 +84,26 @@ export function BitcoinCoreStartPage() {
             />
             <span className="h-5 w-px bg-border" aria-hidden="true" />
             <p className="text-[11px] font-semibold text-primary uppercase">
-              Start here
+              Quick Core practice
             </p>
           </div>
           <h1 className="mt-5 max-w-[14ch] font-display text-5xl leading-[0.96] font-bold tracking-[-0.055em] sm:text-7xl">
             Your first exercise uses no real bitcoin.
           </h1>
           <p className="mt-7 max-w-3xl text-lg leading-9 text-muted-foreground sm:text-xl">
-            The first goal is to understand the shape of the process: verify the
-            software, create an empty practice wallet, identify what must be
-            backed up, and explain the plan in your own words.
+            This is a disposable hands-on exercise: verify the software, create
+            an empty wallet and map its backup process. The full{" "}
+            <a className="font-semibold underline underline-offset-4" href={EN_BITCOIN_CORE_CURRICULUM_PATH}>
+              self-custody curriculum
+            </a>{" "}
+            begins one step earlier, with the threat model and first-principles
+            reasoning.
           </p>
 
           <TutorialMetadata
             language="en"
             className="mt-10"
-            goal="Understand the complete wallet practice cycle before using funds."
+            goal="Explore an empty wallet and map what its recovery needs."
             difficulty="Beginner"
             estimatedTime="30–45 minutes"
             realBitcoin="No. Use an empty, disposable practice wallet."
@@ -114,9 +117,15 @@ export function BitcoinCoreStartPage() {
                 ; keep existing wallets and backups out of this exercise.
               </>
             }
-            outcome="An empty practice wallet, a verified backup, and a recovery plan you can explain."
-            lastReviewed="30 August 2026"
+            outcome="An empty practice wallet, an identified backup, and questions to take into the curriculum."
+            lastReviewed="Exercise: 30 August 2026. Curriculum alignment: 14 September 2026."
           />
+
+          <p className="mt-6 max-w-3xl text-sm leading-7 text-muted-foreground">
+            macOS, Windows and maintained Linux are practice platforms here.
+            For the long-term setup taught in the curriculum, Debian Stable on
+            dedicated generic hardware is the default.
+          </p>
 
           <div className="mt-10 rounded-[28px] bg-card p-6 shadow-[var(--shadow-border)] sm:p-8">
             <div className="flex gap-4">
@@ -175,7 +184,7 @@ export function BitcoinCoreStartPage() {
             </ol>
 
             <div className="mt-10 flex flex-wrap gap-3">
-              <Button asChild size="lg" className="min-h-12 rounded-full px-6">
+              <Button asChild size="lg" className="h-auto min-h-12 max-w-full whitespace-normal rounded-full py-3 text-center px-6">
                 <a
                   href="https://bitcoincore.org/en/download/"
                   target="_blank"
@@ -189,7 +198,7 @@ export function BitcoinCoreStartPage() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="min-h-12 rounded-full px-6"
+                className="h-auto min-h-12 max-w-full whitespace-normal rounded-full py-3 text-center px-6"
               >
                 <a href={EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH}>
                   Read how Core creates a wallet
@@ -230,27 +239,28 @@ export function BitcoinCoreStartPage() {
                 Next step
               </p>
               <h3 className="font-display text-2xl leading-tight font-bold tracking-[-0.035em] text-balance">
-                Set up, back up, and recover a wallet.
+                Start with first principles.
               </h3>
               <p className="mb-2 text-sm leading-6 text-pretty text-white/72">
-                Continue with the practical walkthrough and prove that your
-                Bitcoin Core backup works before using real funds.
+                Continue with the self-custody curriculum: define your threats,
+                understand the architecture, then practice one wallet and prove
+                recovery. Use the focused guide as a mechanical reference.
               </p>
               <Button
                 asChild
-                className="min-h-12 rounded-full bg-white px-5 text-[#0d3153] hover:bg-white/90 active:scale-[0.96]"
+                className="h-auto min-h-12 max-w-full whitespace-normal rounded-full py-3 text-center bg-white px-5 text-[#0d3153] hover:bg-white/90 active:scale-[0.96]"
               >
-                <a href={BITCOIN_CORE_WALLET_GUIDE_PATH}>
+                <a href={EN_BITCOIN_CORE_CURRICULUM_PATH}>
                   <BookOpen className="size-4" aria-hidden="true" />
-                  Continue to the wallet guide
+                  Open the curriculum
                   <ArrowRight className="size-4" aria-hidden="true" />
                 </a>
               </Button>
               <a
-                href={EN_BITCOIN_CORE_SERIES_PATH}
-                className="inline-flex min-h-11 items-center justify-center text-sm font-semibold text-white/74 hover:text-white"
+                href={BITCOIN_CORE_WALLET_GUIDE_PATH}
+                className="inline-flex min-h-11 items-center justify-center text-center text-sm font-semibold text-white/74 hover:text-white"
               >
-                Browse all Bitcoin Core articles
+                Open the focused wallet guide
               </a>
             </div>
           </div>

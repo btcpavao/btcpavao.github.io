@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
-  <title id="title">Start Here with Bitcoin Core</title>
-  <desc id="description">A BTC Pavao social card for the beginner Bitcoin Core exercise.</desc>
+  <title id="title">Quick Bitcoin Core Practice</title>
+  <desc id="description">A BTC Pavao social card for the disposable Bitcoin Core exercise.</desc>
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#fffaf1"/>
@@ -29,8 +29,8 @@
 
   <g transform="translate(72 176)">
     <text font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" letter-spacing="2.2" fill="#b96b00">BITCOIN CORE · FIRST PRACTICE</text>
-    <text y="92" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="750" fill="#241c16">Start Here with</text>
-    <text y="174" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="750" fill="#241c16">Bitcoin Core</text>
+    <text y="92" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="750" fill="#241c16">Quick Bitcoin Core</text>
+    <text y="174" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="750" fill="#241c16">Practice</text>
     <text y="242" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#51483f">No real bitcoin. One calm first exercise.</text>
   </g>
 

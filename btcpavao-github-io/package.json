@@ -10,8 +10,9 @@
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
-    "verify": "npm run verify:assets",
+    "verify": "npm run verify:assets && npm run verify:links",
     "verify:assets": "node scripts/verify-assets.mjs",
+    "verify:links": "node scripts/verify-site-links.mjs",
     "preview": "vite preview",
     "verify:curriculum": "node scripts/verify-curriculum.mjs"
   },

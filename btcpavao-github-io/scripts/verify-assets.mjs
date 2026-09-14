@@ -399,7 +399,7 @@ const longRoadArticleHash = createHash("sha256")
 
 assert(
   longRoadArticleHash ===
-    "20202cff2cf066b4fc8bb2afce90400484bab5b683f09464bd8a47d786694c0e",
+    "0f3f15f8c171d855f6bd0947a828bd38197a6649584ce9f5539876d42d53631e",
   "The Long Road article source changed from the approved text"
 )
 assert(
@@ -697,7 +697,7 @@ assert(
   "Homepage was not prerendered"
 )
 assert(
-  distIndexHtml.includes("Start with Bitcoin Core") &&
+  distIndexHtml.includes("Start with first principles") &&
     distIndexHtml.includes("Book a Value for Value conversation") &&
     !distIndexHtml.includes("Read the latest writing") &&
     !distIndexHtml.includes("Read latest writing"),
@@ -774,12 +774,12 @@ assert(
       "BIP39 Made the Wrong Thing Human-Readable"
     ) &&
     enBitcoinCoreSeriesRouteHtml.includes(
-      "Practical Bitcoin Core resources, tutorials, and research about wallets, validation, recovery, and operational security."
+      "Start with the first-principles self-custody curriculum. Use quick Core practice and the wallet guide for mechanics, and essays for the reasoning."
     ),
   "English Bitcoin Core series page is incomplete"
 )
 const practicalStartIndex = enBitcoinCoreSeriesRouteHtml.indexOf(
-  "Start Here with Bitcoin Core"
+  "Quick Bitcoin Core Practice"
 )
 const practicalRestoreIndex = enBitcoinCoreSeriesRouteHtml.indexOf(
   "Bitcoin Core Wallet: Setup, Encryption, Backup and Recovery"
@@ -792,9 +792,10 @@ assert(
   enBitcoinCoreSeriesRouteHtml.includes("Practical path") &&
     enBitcoinCoreSeriesRouteHtml.includes("Research &amp; essays") &&
     practicalStartIndex >= 0 &&
-    practicalStartIndex < practicalRestoreIndex &&
-    practicalRestoreIndex < practicalOperateIndex,
-  "English Bitcoin Core hub does not preserve the Start, Restore, Operate path"
+    practicalOperateIndex >= 0 &&
+    practicalOperateIndex < practicalStartIndex &&
+    practicalStartIndex < practicalRestoreIndex,
+  "English Bitcoin Core hub must put curriculum before quick practice and the focused wallet guide"
 )
 assert(
   bitcoinCoreSeriesRouteHtml.includes("Currently available in English"),
@@ -860,7 +861,7 @@ assert(
     bitcoinCoreWalletGuideRouteHtml.includes(
       "Optional: Make the backup less obvious"
     ) &&
-    bitcoinCoreWalletGuideRouteHtml.includes("Signet PSBT round trip") &&
+    bitcoinCoreWalletGuideRouteHtml.includes("prove that the restored keys can") &&
     bitcoinCoreWalletGuideSource.includes(
       "btcpavao-core-wallet-guide-steps-v2"
     ) &&
@@ -870,7 +871,7 @@ assert(
     bitcoinCoreWalletGuideSource.includes(
       "btcpavao-core-wallet-guide-steps-v1"
     ),
-  "Wallet guide step count, appendix, Signet exercise, or progress migration is incomplete"
+  "Wallet guide step count, appendix, restored-spend guidance, or progress migration is incomplete"
 )
 assert(
   enBitcoinCoreArticleRouteHtml.includes(
@@ -1023,10 +1024,11 @@ assert(
     .length === 17 &&
     (longRoadArticleRouteHtml.match(/bitcoin-core-list/g) ?? []).length === 5 &&
     (longRoadArticleRouteHtml.match(/long-road-article-quote/g) ?? [])
-      .length === 2 &&
+      .length === 1 &&
+    longRoadArticleRouteHtml.includes('class="long-road-editorial-update') &&
     (longRoadArticleRouteHtml.match(/long-road-article-separator/g) ?? [])
       .length === 25 &&
-    (longRoadArticleRouteHtml.match(/<strong>/g) ?? []).length === 2,
+    (longRoadArticleRouteHtml.match(/<strong>/g) ?? []).length === 3,
   "The Long Road article headings, lists, quotes, separators, or bold text were not rendered completely"
 )
 assert(

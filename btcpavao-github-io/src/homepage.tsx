@@ -16,7 +16,7 @@ import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ValueForValueCard } from "@/components/value-for-value"
-import { contentRegistry } from "@/content-registry"
+import { contentRegistry, findContentByPath } from "@/content-registry"
 import {
   BITCOIN_CORE_WALLET_GUIDE_PATH,
   EN_BITCOIN_CORE_CURRICULUM_PATH,
@@ -50,9 +50,9 @@ const pathTopics = [
     eyebrow: "Path two",
     title: "Learn Bitcoin Core without becoming a developer",
     description:
-      "Learn Bitcoin Core slowly and practically, without assuming a programming or cryptography background.",
+      "Start with the threat model and learn why I recommend Bitcoin Core, dedicated generic hardware and Debian Stable. No programming background required.",
     topics: [
-      "Install and verify Bitcoin Core",
+      "Define the threat model and understand why Bitcoin Core",
       "Create, encrypt, back up, and restore a test wallet",
       "Practice recovery before using real funds",
       "Learn watch-only wallets, PSBTs, and offline signing",
@@ -68,24 +68,28 @@ const custodySteps = ["Understand", "Test", "Recover", "Operate", "Review"]
 
 const coreStages = [
   {
-    title: "Understand the model",
-    copy: "Learn what the node, wallet, keys, blockchain, and network each do.",
+    title: "Understand the threat model",
+    copy: "Name the failures you must survive and the cost of each protection.",
   },
   {
-    title: "Use a test wallet",
-    copy: "Create, encrypt, back up, delete, restore, and verify a wallet without real funds.",
+    title: "Understand why Bitcoin Core",
+    copy: "Learn why the course chooses generic hardware, Debian Stable and independent Bitcoin verification. Initial synchronization is part of that work.",
   },
   {
-    title: "Build a repeatable process",
-    copy: "Document the steps and make sure another trusted person can follow them.",
+    title: "Master one simple wallet",
+    copy: "Create, encrypt, receive and spend with one disposable Core wallet and valueless test coins.",
   },
   {
-    title: "Separate online and offline roles",
-    copy: "Learn watch-only wallets, PSBTs, offline signing, and transaction verification.",
+    title: "Prove backup and recovery",
+    copy: "Restore, spend again, change the passphrase and repeat. Make recovery ordinary before adding another computer.",
   },
   {
-    title: "Explore advanced policies",
-    copy: "When the need is real, progress toward multisig, inheritance paths, Miniscript, and Taproot.",
+    title: "Separate node and signer",
+    copy: "Move familiar signing work offline. Learn watch-only coordination and PSBTs after mastering one wallet.",
+  },
+  {
+    title: "Add advanced policies only when required",
+    copy: "Multisig changes spending authority; it is not a backup strategy. Add a policy only when you can name the threat it solves.",
   },
 ]
 
@@ -209,10 +213,7 @@ export function Homepage() {
   const [showBackToTop, setShowBackToTop] = useState(false)
 
   useEffect(() => {
-    const title =
-      "Bitcoin Standard Advisory and Bitcoin Core Education | BTC Pavao"
-    const description =
-      "Practical guidance for individuals, families, and businesses building a life on a Bitcoin standard, with beginner-friendly education on Bitcoin Core, custody, backup, and recovery."
+    const { title, description } = findContentByPath("/")!
 
     document.documentElement.lang = "en"
     document.title = title
@@ -291,10 +292,10 @@ export function Homepage() {
                 <Button
                   asChild
                   size="lg"
-                  className="min-h-12 rounded-full px-6"
+                  className="h-auto min-h-12 max-w-full whitespace-normal rounded-full py-3 text-center px-6"
                 >
-                  <a href={START_HERE_PATH}>
-                    Start with Bitcoin Core
+                  <a href={EN_BITCOIN_CORE_CURRICULUM_PATH}>
+                    Start with first principles
                     <ArrowRight className="size-4" aria-hidden="true" />
                   </a>
                 </Button>
@@ -302,7 +303,7 @@ export function Homepage() {
                   asChild
                   variant="outline"
                   size="lg"
-                  className="min-h-12 rounded-full bg-background/80 px-6 backdrop-blur-sm"
+                  className="h-auto min-h-12 max-w-full whitespace-normal rounded-full py-3 text-center bg-background/80 px-6 backdrop-blur-sm"
                 >
                   <a
                     href={BOOKING_URL}
@@ -404,7 +405,7 @@ export function Homepage() {
                     <Button
                       asChild
                       variant={index === 1 ? "default" : "outline"}
-                      className="mt-8 min-h-11 w-fit rounded-full px-5"
+                      className="mt-8 h-auto min-h-11 max-w-full w-fit whitespace-normal rounded-full px-5 py-3 text-center"
                     >
                       <a
                         href={path.href}
@@ -437,21 +438,18 @@ export function Homepage() {
             />
             <div className="mt-8 grid gap-5 text-base leading-8 text-muted-foreground lg:grid-cols-2 lg:gap-12">
               <p>
-                An air-gapped computer, a custom descriptor, or a complex
-                multisig policy should not be the starting point for everyone. A
-                simpler wallet, and even a custodial service, can be a
-                reasonable temporary choice while a beginner is learning.
+                You do not need the final savings architecture on day one.
+                Begin with disposable test wallets and valueless coins. Learn
+                one wallet, practice the full lifecycle, and prove recovery
+                before creating a fresh setup for real funds.
               </p>
               <p>
-                For meaningful savings, my recommended destination is generic
-                dedicated computers running Debian Stable and Bitcoin Core, with
-                an offline signer and a separate online watch-only node. Tails
-                is an optional live environment when the threat model benefits
-                from reducing persistent OS state. The system still needs wallet
-                encryption, redundant encrypted Core backups, a separately
-                stored passphrase, PSBT-based signing, and a tested recovery
-                procedure. Add complexity only when every part is understood and
-                repeatable.
+                For long-term self-custody, I recommend Bitcoin Core on
+                dedicated generic hardware running Debian Stable. Independent
+                verification, encrypted redundant backups and a separately
+                recoverable passphrase form the foundation. Learn offline
+                signing after recovery is routine, and add further policies
+                only when your threat model requires them.
               </p>
             </div>
 
@@ -482,7 +480,7 @@ export function Homepage() {
               <SectionIntro
                 eyebrow="Bitcoin Core learning path"
                 title="Start small. Add complexity only when it earns its place."
-                copy="The material begins with the model and a disposable test wallet. It can grow over time toward offline signing and advanced spending policies."
+                copy="The curriculum begins with the threat model and the reasons for each architectural choice. Master one wallet and prove recovery before separating the node and signer. Advanced policies remain optional."
               />
               <figure className="mt-10 rounded-[32px] bg-card p-2 shadow-[var(--shadow-border)]">
                 <picture>
@@ -528,8 +526,8 @@ export function Homepage() {
 
           <div className="mt-10 flex flex-wrap gap-3 lg:pl-[calc(41%+5rem)]">
             <Button asChild className="min-h-11 rounded-full px-5">
-              <a href={START_HERE_PATH}>
-                Try the first exercise
+              <a href={EN_BITCOIN_CORE_CURRICULUM_PATH}>
+                Start with first principles
                 <ArrowRight className="size-4" aria-hidden="true" />
               </a>
             </Button>
@@ -566,19 +564,19 @@ export function Homepage() {
                     <KeyRound className="size-5" aria-hidden="true" />
                   </span>
                   <span className="rounded-full bg-card px-3 py-2 text-[11px] font-bold tracking-[0.14em] text-muted-foreground uppercase shadow-[var(--shadow-border)]">
-                    Full tutorial
+                    Canonical learning path
                   </span>
                 </div>
                 <h3 className="mt-8 max-w-[18ch] font-display text-3xl leading-[1.02] font-bold tracking-[-0.045em] text-balance sm:text-4xl">
                   Bitcoin self-custody
                 </h3>
                 <p className="mt-4 max-w-xl text-base leading-8 text-pretty text-muted-foreground">
-                  A structured, progress-tracked course for understanding the
-                  model, practicing recovery, and building toward more advanced
-                  custody workflows.
+                  Start with threats and the reasons for choosing Core. Master
+                  one wallet, prove recovery, then separate signing from online
+                  coordination. Add advanced policies only for a concrete need.
                 </p>
                 <span className="mt-auto inline-flex min-h-11 items-center gap-2 pt-7 text-sm font-semibold group-hover:text-primary">
-                  Open the tutorial
+                  Open the curriculum
                   <ArrowUpRight className="size-4" aria-hidden="true" />
                 </span>
               </a>
@@ -592,7 +590,7 @@ export function Homepage() {
                     <Check className="size-5" aria-hidden="true" />
                   </span>
                   <span className="rounded-full bg-card px-3 py-2 text-[11px] font-bold tracking-[0.14em] text-muted-foreground uppercase shadow-[var(--shadow-border)]">
-                    Quick guide
+                    Focused reference
                   </span>
                 </div>
                 <h3 className="mt-8 max-w-[20ch] font-display text-3xl leading-[1.02] font-bold tracking-[-0.045em] text-balance sm:text-4xl">
@@ -604,7 +602,7 @@ export function Homepage() {
                   can restore it.
                 </p>
                 <span className="mt-auto inline-flex min-h-11 items-center gap-2 pt-7 text-sm font-semibold group-hover:text-primary">
-                  Open the quick guide
+                  Open the wallet guide
                   <ArrowUpRight className="size-4" aria-hidden="true" />
                 </span>
               </a>
@@ -613,7 +611,7 @@ export function Homepage() {
         </section>
 
         <section className="px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8">
-          <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[36px] bg-card shadow-[var(--shadow-border),0_28px_80px_color-mix(in_oklab,var(--foreground)_10%,transparent)] lg:grid-cols-2">
+          <div className="mx-auto grid grid-cols-1 max-w-7xl overflow-hidden rounded-[36px] bg-card shadow-[var(--shadow-border),0_28px_80px_color-mix(in_oklab,var(--foreground)_10%,transparent)] lg:grid-cols-2">
             <picture className="min-h-[340px]">
               <source
                 srcSet="/long-road-bitcoin-core-03-840.webp 840w, /long-road-bitcoin-core-03.webp 1774w"
@@ -643,16 +641,17 @@ export function Homepage() {
                   create the wallet, protect it, back it up, test the restore,
                   and understand what must survive.
                 </p>
-                <p className="rounded-2xl bg-background p-5 text-sm leading-7 shadow-[var(--shadow-border)]">
-                  Bitcoin Core is not the only valid wallet, and it is not the
-                  right answer for everyone. It is the foundation I have chosen
-                  to study deeply and use for the long term.
+                <p className="rounded-2xl bg-background p-5 text-sm leading-7 shadow-[var(--shadow-border)] sm:p-6">
+                  For long-term self-custody, I recommend Bitcoin Core on
+                  dedicated generic Linux hardware. The curriculum teaches
+                  Debian Stable and explains the threat model before asking you
+                  to trust that recommendation.
                 </p>
               </div>
               <Button
                 asChild
                 variant="link"
-                className="mt-5 h-auto w-fit justify-start px-0"
+                className="mt-5 h-auto max-w-full w-fit justify-start whitespace-normal px-0 text-left"
               >
                 <a href={LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH}>
                   Read why I returned to Bitcoin Core
@@ -803,9 +802,10 @@ export function Homepage() {
                     technologists.
                   </p>
                   <p>
-                    I am learning in public, beginning with wallet creation,
-                    backup, and recovery, then moving gradually toward offline
-                    signing and more advanced spending policies.
+                    I am learning in public, starting with the threat model
+                    and testing the simplest system that covers it. Wallet
+                    practice and recovery come before offline signing; more
+                    complex policies need a reason.
                   </p>
                 </div>
                 <p>
@@ -867,7 +867,7 @@ export function Homepage() {
           id="work-with-me"
           className="scroll-mt-24 px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8"
         >
-          <div className="final-cta mx-auto grid max-w-7xl gap-10 overflow-hidden rounded-[36px] px-6 py-10 sm:px-10 sm:py-14 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:px-14 lg:py-16">
+          <div className="final-cta mx-auto grid grid-cols-1 max-w-7xl gap-10 overflow-hidden rounded-[36px] px-6 py-10 sm:px-10 sm:py-14 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:px-14 lg:py-16">
             <div className="max-w-3xl">
               <p className="text-[11px] font-semibold text-white/62 uppercase">
                 The next step
@@ -893,7 +893,7 @@ export function Homepage() {
               <Button
                 asChild
                 size="lg"
-                className="min-h-12 rounded-full bg-white px-6 text-[#0d3153] hover:bg-white/90"
+                className="h-auto min-h-12 max-w-full whitespace-normal rounded-full py-3 text-center bg-white px-6 text-[#0d3153] hover:bg-white/90"
               >
                 <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
                   Book a Value for Value conversation
@@ -903,10 +903,10 @@ export function Homepage() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="min-h-12 rounded-full border-white/28 bg-white/8 px-6 text-white hover:bg-white/14 hover:text-white"
+                className="h-auto min-h-12 max-w-full whitespace-normal rounded-full py-3 text-center border-white/28 bg-white/8 px-6 text-white hover:bg-white/14 hover:text-white"
               >
                 <a href={START_HERE_PATH}>
-                  Try the first Bitcoin Core exercise
+                  Quick Bitcoin Core practice
                 </a>
               </Button>
             </div>

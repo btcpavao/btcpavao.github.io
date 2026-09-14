@@ -2,6 +2,9 @@
 
 ## How a hardware-wallet controversy, an entropy rabbit hole, and a few simple restore tests ended my search for the “perfect” Bitcoin wallet
 
+> **September 2026 update**
+> Rebuilding the self-custody curriculum from first principles strengthened my conclusion: for long-term custody I recommend dedicated generic hardware, Debian Stable and Bitcoin Core, with redundant encrypted Core backups and a separately recoverable passphrase. Separate signing from the online node when the threat model justifies it. Hardware wallets and BIP39 are outside my recommended path. This article preserves the journey; I have updated the passages that describe my present recommendation. The self-custody curriculum gives the complete learning path.
+
 For years, I was quietly searching for a better Bitcoin wallet.
 
 Not constantly. Not consciously every day. But the search was always running somewhere in the background.
@@ -461,7 +464,7 @@ It felt like one house with several well-defined rooms rather than several house
 
 This is where the discussion can become unnecessarily tribal.
 
-BIP39 is not bad.
+BIP39 is not cryptographically broken.
 
 Memorizing or writing down 12 words is not intellectually difficult.
 
@@ -469,7 +472,7 @@ That was never my objection.
 
 BIP39 provides a human-readable, portable representation of entropy. Its interoperability is a genuine advantage. A properly documented mnemonic can be recovered across many compatible wallets and devices.
 
-For many users, that is exactly the right model.
+That portability is real. It does not make BIP39 the recovery foundation I recommend.
 
 But the mnemonic may be only one part of a full recovery procedure.
 
@@ -514,13 +517,7 @@ My main stack is not something I intend to move repeatedly between fashionable w
 
 I am deliberately choosing Bitcoin Core as the system in which I expect to restore and manage it.
 
-Under that assumption, the file-centered model feels simpler to me.
-
-Not universally simpler.
-
-Simpler to me.
-
-And that distinction matters.
+For the long-term architecture I now recommend, the file-centered model removes a recovery-word workflow and preserves more of the wallet’s own structure. It still requires tested copies, separate passphrase recovery and maintained software.
 
 ---
 
@@ -631,7 +628,7 @@ A serious long-term Core setup therefore still benefits from conservative operat
 * a dedicated computer;
 * a clean and maintained operating system;
 * verified software downloads;
-* offline key generation and signing for significant holdings;
+* offline key generation and signing when the threat model calls for separation;
 * encrypted wallet backups;
 * multiple backup media;
 * geographic separation;
@@ -692,9 +689,7 @@ Calling Bitcoin Core “a horrible wallet but a good node” misses some of what
 
 The wallet is integrated into the reference point where Bitcoin’s rules are independently enforced.
 
-That does not make it the right wallet for everybody.
-
-But it gives it a coherence that standalone wallet applications cannot fully reproduce.
+That integration is one reason I recommend Core as the long-term foundation: the wallet operates on a view of Bitcoin I verify myself.
 
 ---
 
@@ -802,35 +797,17 @@ I would rather confront the model directly than inherit assumptions I discover o
 
 ---
 
-## This is not a universal recommendation
+## What I recommend now
 
-I am not arguing that everybody should abandon BIP39.
+Hardware wallets and BIP39 can work as designed. My conclusion is that their Bitcoin-specific dependencies and recovery model are unnecessary for the long-term custody architecture I now recommend.
 
-I am not arguing that hardware wallets are useless.
+Dedicated generic hardware. Debian Stable. Bitcoin Core. Encrypted redundant wallet backups, a separately recoverable passphrase and tested recovery.
 
-I am not arguing that multisig is unnecessary.
+Start with the threat model. Learn one wallet before separating online coordination from offline signing. Add multisig only when authority needs to be divided; more backup copies do not require more signers.
 
-I am not arguing that Bitcoin Core’s wallet is objectively superior under every threat model.
+A family still needs instructions its heirs can follow. A business may need several people to authorize a payment. Those requirements shape the policy around the foundation; they do not make every wallet architecture equally compelling.
 
-A person who frequently moves between wallet applications may correctly value BIP39 portability.
-
-A user who cannot maintain a dedicated computer may correctly prefer a well-designed hardware signer.
-
-A family planning inheritance may need a recovery system that is easier for nontechnical heirs.
-
-A business may need multisig, policy controls and institutional key-management procedures.
-
-A traveler may need a different balance between availability and security than somebody protecting generational savings.
-
-My conclusion is narrower:
-
-> If I am willing to commit to Bitcoin Core, if interoperability with many wallet products is not my main priority, and if I am disciplined about encrypted file backups, Core’s wallet model is simpler for me to understand and recover.
-
-That is not a theorem.
-
-It is an operational decision.
-
-But security is made of operational decisions.
+This is an architectural recommendation, not a theorem that every alternative is unsafe. It follows from the dependencies I want to remove and the recovery work I am prepared to maintain.
 
 ## The return
 
@@ -854,7 +831,7 @@ Store copies securely.
 
 Run my own node.
 
-Use a dedicated offline signer when the amount justifies it.
+Separate signing from the online node when the threat model justifies that separation.
 
 Add complexity only when I can explain exactly which risk it solves.
 

@@ -1,6 +1,6 @@
 import { Fragment, type ReactNode } from "react"
 
-import { EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH } from "@/routes"
+import { EN_BITCOIN_CORE_CURRICULUM_PATH, EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH } from "@/routes"
 
 export type LongRoadArticleBlock =
   | { type: "heading"; text: string; id: string }
@@ -172,7 +172,7 @@ export function parseLongRoadArticle(source: string) {
 
     if (line.startsWith("## ")) {
       const text = line.slice(3)
-      blocks.push({ type: "heading", text, id: toSectionId(text) })
+      blocks.push({ type: "heading", text, id: text === "What I recommend now" ? "this-is-not-a-universal-recommendation" : toSectionId(text) })
       index += 1
       continue
     }
@@ -218,10 +218,14 @@ export function parseLongRoadArticle(source: string) {
 export function renderLongRoadInline(text: string): ReactNode {
   const entropyArticleLinkText = "Bitcoin Core’s entropy generation"
   const parts = text.split(
-    /(\*\*.+?\*\*|Bitcoin Core’s entropy generation)/g
+    /(\*\*.+?\*\*|Bitcoin Core’s entropy generation|self-custody curriculum)/g
   )
 
   return parts.map((part, index) => {
+    if (part === "self-custody curriculum") {
+      return <a href={EN_BITCOIN_CORE_CURRICULUM_PATH} key={`curriculum-${index}`}>{part}</a>
+    }
+
     if (part === entropyArticleLinkText) {
       return (
         <a

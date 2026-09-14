@@ -1,3 +1,4 @@
+import { findContentByPath } from "@/content-registry"
 import {
   curriculumMilestones,
   milestoneProgress,
@@ -75,9 +76,7 @@ function setMetaContent(
 
 function useCurriculumMetadata() {
   useEffect(() => {
-    const title = "Practical Bitcoin Self-Custody with Bitcoin Core | BTC Pavao"
-    const description =
-      "Learn Bitcoin Core from the beginning: protect your keys, practice with test coins, back up and recover a wallet, then approve payments on an offline computer."
+    const { title, description } = findContentByPath("/en/bitcoin-core/self-custody/")!
     const url = `${SITE_URL}${EN_BITCOIN_CORE_CURRICULUM_PATH}`
 
     document.documentElement.lang = "en"

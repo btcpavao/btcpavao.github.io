@@ -1,3 +1,4 @@
+import { findContentByPath } from "@/content-registry"
 import { CustodyArchitecture } from "@/components/custody-architecture"
 import {
   useCallback,
@@ -10,14 +11,11 @@ import {
 } from "react"
 import {
   ArrowLeft,
-  ArrowRightLeft,
   Brain,
   Check,
   CheckCircle2,
   Copy,
-  FileCheck2,
   HardDrive,
-  KeyRound,
   Maximize2,
   RefreshCcw,
   ShieldAlert,
@@ -38,6 +36,7 @@ import {
 import {
   BITCOIN_CORE_WALLET_GUIDE_PATH,
   EN_BITCOIN_CORE_SERIES_PATH,
+  EN_BITCOIN_CORE_CURRICULUM_PATH,
 } from "@/routes"
 import { SOCIAL_CARD_IMAGES } from "@/social-card-images"
 
@@ -48,7 +47,7 @@ const LEGACY_STEP_STORAGE_KEY = "btcpavao-core-wallet-guide-steps-v1"
 const LEGACY_CHECKLIST_STORAGE_KEY = "btcpavao-core-wallet-guide-checklist-v1"
 const IMAGE_ROOT = "/bitcoin-core-wallet-guide"
 const BITCOIN_CORE_DOWNLOAD_URL = "https://bitcoincore.org/en/download/"
-const KEEPASSXC_DOWNLOAD_URL = "https://keepassxc.org/download/"
+const KEEPASSXC_DOWNLOAD_URL = "https://packages.debian.org/trixie/keepassxc-minimal"
 const DEBIAN_DOWNLOAD_URL = "https://www.debian.org/distrib/"
 const TAILS_INSTALL_URL = "https://tails.net/install/"
 const GNUPG_DOWNLOAD_URL = "https://gnupg.org/download/"
@@ -250,7 +249,7 @@ const legacySteps: GuideStep[] = [
   {
     number: 4,
     title: "Generate a strong passphrase",
-    summary: "Use a password manager to generate random words.",
+    summary: "Use KeePassXC with the verified bundled wordlist.",
     images: [
       image(
         "04-keepass-passphrase-generator-crisp",
@@ -262,10 +261,43 @@ const legacySteps: GuideStep[] = [
     content: (
       <>
         <p>
-          Bitcoin Core recommends ten or more random characters or eight or more
-          words. For this exercise, use a password manager such as{" "}
-          <ResourceLink href={KEEPASSXC_DOWNLOAD_URL}>KeePassXC</ResourceLink>{" "}
-          to generate at least eight randomly selected words.
+          Use <ResourceLink href={KEEPASSXC_DOWNLOAD_URL}>KeePassXC</ResourceLink>{" "}
+          on a clean, verified Debian environment. The course uses eight
+          independently generated random words as a conservative default.
+          Eight is not a cryptographic minimum. The goal is a large security
+          margin with a recovery process you can operate.
+        </p>
+        <p>
+          The reviewed Debian 13 Stable package is <code>keepassxc-minimal
+          2.7.10+dfsg1-1</code>. Install it through Debian’s authenticated
+          repositories during preparation and use maintained updates. If the
+          version differs, check it against the{" "}
+          <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/generate-passphrase`}>
+            curriculum’s verified generator procedure
+          </a>{" "}
+          before assuming the same settings or wordlist count.
+        </p>
+        <p>
+          Open Tools → Password Generator → Passphrase. Choose{" "}
+          <code>(SYSTEM) eff_large.wordlist</code>, set Word Count to 8, lower
+          case and a single space separator, then generate. This verified
+          bundled list contains 7,772 distinct words; no custom wordlist import
+          is needed. Keep repeated words and the generated order. You do not
+          need a password database just to use the generator.
+        </p>
+        <p>
+          KeePassXC uses computer-generated secure randomness to select the
+          words. See the curriculum’s{" "}
+          <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/passphrase-strength`}>entropy explanation</a>{" "}
+          and <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/brute-force-economics`}>attack-economics exercise</a>.
+          The screenshots show a macOS practice session; the versioned Debian
+          procedure above is the course default.
+        </p>
+        <p>
+          Physical dice can produce strong entropy, but add time, transcription
+          and procedural error. This guide therefore uses KeePassXC by default.
+          The <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/optional-physical-dice-passphrase`}>optional dice exercise</a>{" "}
+          is for a specific threat or educational purpose that justifies that work.
         </p>
         <GuideIconList
           tone="warning"
@@ -399,58 +431,24 @@ const legacySteps: GuideStep[] = [
           malware.
         </p>
         <p>
-          For meaningful savings, this curriculum chooses a generic dedicated
-          computer with{" "}
+          The long-term foundation I recommend is a dedicated generic computer with{" "}
           <ResourceLink href={DEBIAN_DOWNLOAD_URL}>Debian Stable</ResourceLink>{" "}
           and{" "}
           <ResourceLink href={BITCOIN_CORE_DOWNLOAD_URL}>
             verified Bitcoin Core
           </ResourceLink>{" "}
-          as a persistent offline signer. Prepare software before secrets exist,
-          then keep the machine disconnected for key creation, recovery and
-          signing. The separate online Core node holds only the watch-only
-          savings wallet. The signer needs no synchronized blockchain.
+          . First learn to create, encrypt, back up and restore one disposable
+          wallet. The full curriculum later separates online coordination from
+          offline signing, after the one-wallet mastery checkpoint.
         </p>
-        <GuideIconList
-          tone="secure"
-          items={[
-            {
-              icon: KeyRound,
-              title: "Reserve the machine for keys and signatures.",
-              description:
-                "Do not turn the offline signer into another general-purpose computer.",
-            },
-            {
-              icon: WifiOff,
-              title: "Keep everyday network activity away.",
-              description:
-                "Do not use it for browsing, email, messaging, or daily work.",
-            },
-            {
-              icon: ArrowRightLeft,
-              title: "Use a separate online Bitcoin Core node.",
-              description:
-                "Move unsigned and signed PSBTs carefully between the online node and offline signer.",
-            },
-            {
-              icon: FileCheck2,
-              title: "Verify before signing.",
-              description:
-                "Confirm destinations, amounts, and fees on the offline signer before approving a signature.",
-            },
-          ]}
-        />
         <p>
-          This is a deliberate threat-model choice. A generic Linux computer has
-          a larger general-purpose stack than a hardware wallet and needs
-          disciplined setup, isolation, verification and recovery. Hardware
-          wallets can provide useful signing isolation and simpler operation;
-          they also bring Bitcoin-specific supply-chain, firmware and vendor
-          assumptions. Optional verified Tails media can reduce persistent OS
-          state, but cannot make untrusted hardware trustworthy. If tampering is
-          reasonably suspected, do not unlock the wallet to check it. Replace
-          the signer with known-good hardware and rebuild from known-good
-          backups.
+          Hardware wallets addressed a real malware problem by isolating
+          signing. They also introduce Bitcoin-specific devices, vendor
+          firmware, supply chains and recovery dependencies. I recommend
+          dedicated generic hardware, clean Linux and Bitcoin Core instead.
+          Generic hardware still needs disciplined preparation and physical
+          protection. If tampering is reasonably suspected, do not unlock the
+          wallet to check it; recover on a trusted replacement.
         </p>
       </>
     ),
@@ -707,8 +705,8 @@ const steps: GuideStep[] = [
           the start of this exercise.
         </p>
         <p>
-          Do not send meaningful funds to this wallet until you have completed
-          and tested the entire backup and recovery workflow.
+          Use no real bitcoin in this practice wallet. The curriculum teaches
+          the complete test-coin lifecycle and a fresh setup for real funds.
         </p>
       </>
     ),
@@ -720,7 +718,7 @@ const steps: GuideStep[] = [
     number: 4,
     title: "Generate and enter a strong passphrase",
     summary:
-      "Use a password manager, enter the phrase twice, and keep its backup separate.",
+      "Use KeePassXC, enter the phrase twice, and keep its recovery record separate.",
     images: [...legacySteps[3].images, ...legacySteps[4].images],
     content: (
       <>
@@ -786,12 +784,12 @@ const steps: GuideStep[] = [
       <>
         {legacySteps[14].content}
         <p>
-          A <strong>restore test</strong> proves that Bitcoin Core can load the
-          backup and recover the expected wallet data. It does not by itself
-          prove that you can complete your full signing workflow. For meaningful
-          savings, follow this with the operational Signet PSBT exercise in the
+          A <strong>restore test</strong> shows that Core can load the backup
+          and recover its wallet data. Next, prove that the restored keys can
+          sign a test payment while the original stays closed. Follow the
+          complete one-wallet sequence in the{" "}
           <a
-            href="/en/bitcoin-core/self-custody/#lesson/9.1"
+            href={EN_BITCOIN_CORE_CURRICULUM_PATH}
             className="font-semibold text-primary underline decoration-primary/45 underline-offset-4"
           >
             self-custody curriculum
@@ -826,8 +824,9 @@ const steps: GuideStep[] = [
     note: (
       <>
         A restored wallet with the correct labels and addresses is useful
-        evidence. A completed Signet PSBT round trip is stronger operational
-        evidence that your signing and transport process also works.
+        evidence. A confirmed test payment from the restored wallet proves
+        signing capability. The curriculum teaches that first, then introduces
+        the separate offline-signing workflow.
       </>
     ),
   },
@@ -844,7 +843,7 @@ const finalChecklist = [
   "I understand that restoring or opening the wallet does not require unlocking the private keys.",
   "I understand that the passphrase is required for signing or spending.",
   "I have a plan to periodically test my backups.",
-  "For serious cold storage, my private-key signer is kept offline.",
+  "I understand why the curriculum later separates offline signing from online coordination.",
 ]
 
 function readStoredBooleans(key: string, length: number) {
@@ -925,17 +924,14 @@ function setMetaContent(
 
 function useGuideMetadata() {
   useEffect(() => {
-    const title =
-      "Bitcoin Core Wallet: Basic Setup, Encryption, Backup & Recovery"
-    const description =
-      "A step-by-step guide to creating a basic encrypted Bitcoin Core wallet, making redundant backups, and testing recovery."
+    const { title, description } = findContentByPath("/en/bitcoin-core/wallet-setup-backup-recovery/")!
     const url = `${SITE_URL}${BITCOIN_CORE_WALLET_GUIDE_PATH}`
     const socialImage = SOCIAL_CARD_IMAGES.walletGuide
 
     document.documentElement.lang = "en"
     document.title = title
     setMetaContent("name", "description", description)
-    setMetaContent("property", "og:type", "article")
+    setMetaContent("property", "og:type", "website")
     setMetaContent("property", "og:title", title)
     setMetaContent("property", "og:description", description)
     setMetaContent("property", "og:url", url)
@@ -1264,7 +1260,9 @@ function SeriousColdStorage() {
         </div>
 
         <p className="mt-6 max-w-3xl text-base leading-8 text-pretty text-muted-foreground">
-          The reference architecture uses two generic dedicated computers with
+          After you can operate and recover one wallet, the full curriculum
+          teaches a second computer for offline signing. This later architecture
+          uses two generic dedicated computers with
           <ResourceLink href={DEBIAN_DOWNLOAD_URL}>
             {" "}
             Debian Stable
@@ -1272,8 +1270,8 @@ function SeriousColdStorage() {
           and Bitcoin Core. The persistent offline signer keeps the encrypted
           private-key wallet; the separate online node holds a watch-only
           savings wallet. Debian is the default for predictable long-term
-          maintenance. Fedora and other maintained Linux distributions remain
-          valid alternatives.
+          maintenance. Choose another maintained Linux distribution only if
+          you can maintain and test the same procedure.
         </p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -1327,7 +1325,7 @@ function ArchitectureDiagram() {
   return (
     <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
       <p className="text-[11px] font-bold tracking-[0.16em] text-primary uppercase">
-        Recommended architecture
+        Later in the curriculum
       </p>
       <h2 className="mt-4 max-w-[16ch] font-display text-3xl leading-[1.03] font-bold tracking-[-0.045em] text-balance sm:text-5xl">
         Private keys stay offline
@@ -1421,8 +1419,10 @@ export function BitcoinCoreWalletGuidePage() {
             Bitcoin Core Wallet: Basic Setup, Encryption, Backup & Recovery
           </h1>
           <p className="mt-7 max-w-3xl text-lg leading-8 text-pretty text-muted-foreground sm:text-xl sm:leading-9">
-            A step-by-step guide to creating a basic encrypted Bitcoin Core
-            wallet, making redundant backups, and restoring it when needed.
+            A focused reference for the mechanics of one encrypted Bitcoin Core
+            wallet: creation, backup and restoration. For the threat model,
+            hardware choice, offline signing and advanced policies, follow the{" "}
+            <a className="font-semibold underline underline-offset-4" href={EN_BITCOIN_CORE_CURRICULUM_PATH}>full self-custody curriculum</a>.
           </p>
 
           <TutorialMetadata
@@ -1436,14 +1436,14 @@ export function BitcoinCoreWalletGuidePage() {
             operatingSystems="The screenshots use macOS; the workflow also applies to Windows and Linux."
             recommendedOs={
               <>
-                Debian Stable on generic dedicated hardware for both the online
-                watch-only Core node and the persistent offline Core signer.
-                Tails is an optional choice after threat modelling.
+                Debian Stable on dedicated generic hardware is the long-term
+                default. Learn one wallet before the curriculum introduces a
+                separate offline signer.
               </>
             }
             prerequisites="Bitcoin Core installed from an official source, an empty practice environment, and a separate place for passphrase notes."
             outcome="A restored practice wallet whose addresses and metadata match the original."
-            lastReviewed="Technical walkthrough: 31 August 2026. Architecture copy: 13 September 2026; Debian hardware rehearsal pending."
+            lastReviewed="Technical walkthrough: 31 August 2026. Curriculum and passphrase alignment: 14 September 2026; physical Debian rehearsal not claimed."
           />
 
           <div className="mt-10 grid gap-4 rounded-[28px] bg-card p-5 shadow-[var(--shadow-border)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-7">
@@ -1489,9 +1489,9 @@ export function BitcoinCoreWalletGuidePage() {
           </div>
 
           <GuideCallout kind="note">
-            This is a basic setup tutorial, not a complete security model for
-            every threat scenario. Use no meaningful funds while learning, and
-            adapt the process to your own threat model.
+            Keep this wallet disposable. Use the curriculum to learn the full
+            lifecycle with valueless test coins, then prove recovery before
+            preparing fresh keys and credentials for real funds.
           </GuideCallout>
         </section>
 
@@ -1570,7 +1570,6 @@ export function BitcoinCoreWalletGuidePage() {
                 </div>
               </section>
 
-              {step.number === 5 ? <SeriousColdStorage /> : null}
               {step.number === 9 ? (
                 <OptionalObfuscation onOpen={openImage} />
               ) : null}
@@ -1581,6 +1580,7 @@ export function BitcoinCoreWalletGuidePage() {
           ))}
         </div>
 
+        <SeriousColdStorage />
         <ArchitectureDiagram />
 
         <section className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 sm:pb-20">
@@ -1591,7 +1591,7 @@ export function BitcoinCoreWalletGuidePage() {
                   Final check
                 </p>
                 <h2 className="mt-4 max-w-[18ch] font-display text-3xl leading-[1.03] font-bold tracking-[-0.045em] text-balance sm:text-5xl">
-                  Before putting meaningful bitcoin into this wallet
+                  Before completing this practice
                 </h2>
               </div>
               <span className="rounded-full bg-primary/10 px-4 py-2 text-sm font-bold text-primary tabular-nums">
@@ -1632,8 +1632,8 @@ export function BitcoinCoreWalletGuidePage() {
             <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
               <p className="text-sm text-muted-foreground" aria-live="polite">
                 {finalCompletedCount === finalChecklist.length
-                  ? "Checklist complete. Keep your recovery plan current."
-                  : "Complete every item before moving meaningful funds."}
+                  ? "Checklist complete. Continue with the self-custody curriculum."
+                  : "Complete the practice checks, then follow the curriculum before preparing real funds."}
               </p>
               <button
                 type="button"
@@ -1650,6 +1650,9 @@ export function BitcoinCoreWalletGuidePage() {
         </section>
 
         <div className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 sm:pb-20">
+          <a className="mb-10 inline-flex min-h-12 items-center rounded-full bg-primary px-6 py-3 text-center text-sm font-semibold text-primary-foreground" href={EN_BITCOIN_CORE_CURRICULUM_PATH}>
+            Continue with the self-custody curriculum
+          </a>
           <ValueForValueCard language="en" />
         </div>
       </main>

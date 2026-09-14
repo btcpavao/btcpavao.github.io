@@ -5,9 +5,9 @@ const footerGroups = [
   {
     label: "Learn Core",
     links: [
-      { label: "Start Here", href: "/en/bitcoin-core/start-here/" },
-      { label: "Wallet guide", href: "/en/bitcoin-core/wallet-setup-backup-recovery/" },
       { label: "Self-custody curriculum", href: "/en/bitcoin-core/self-custody/" },
+      { label: "Quick Core practice", href: "/en/bitcoin-core/start-here/" },
+      { label: "Wallet guide", href: "/en/bitcoin-core/wallet-setup-backup-recovery/" },
     ],
   },
   {

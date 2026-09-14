@@ -1,13 +1,14 @@
 # BTC Pavao
 
-Practical Bitcoin Core and Bitcoin Standard education focused on clear reasoning, recoverable self-custody, and maintainable systems.
+First-principles Bitcoin Core and Bitcoin Standard education: define the threat model, understand the system, master one wallet and prove recovery. Add complexity only for a named threat.
 
 - [Homepage](https://btcpavao.com/)
-- [Bitcoin Core guides](https://btcpavao.com/en/bitcoin-core/)
-- [Start here with Bitcoin Core](https://btcpavao.com/en/bitcoin-core/start-here/)
-- [Bitcoin Core wallet setup, backup and recovery](https://btcpavao.com/en/bitcoin-core/wallet-setup-backup-recovery/)
-- [Bitcoin self-custody curriculum](https://btcpavao.com/en/bitcoin-core/self-custody/)
-- [Writing](https://btcpavao.com/en/writing/)
-- [Support this work](https://btcpavao.com/en/support/)
+- [Bitcoin self-custody curriculum — first-principles learning path](https://btcpavao.com/en/bitcoin-core/self-custody/)
+- [Quick Bitcoin Core practice — disposable hands-on exercise](https://btcpavao.com/en/bitcoin-core/start-here/)
+- [Wallet setup, backup and recovery guide — focused mechanical reference](https://btcpavao.com/en/bitcoin-core/wallet-setup-backup-recovery/)
+- [Bitcoin Core research and essays](https://btcpavao.com/en/bitcoin-core/#essays)
+- [Support](https://btcpavao.com/support/)
 
-Croatian versions are available under corresponding `/hr/` routes when published.
+The curriculum is the canonical learning path. It recommends Bitcoin Core on dedicated generic hardware with Debian Stable, encrypted redundant wallet backups and a separately recoverable passphrase. Learn one wallet before separating node and signer; add advanced spending policies only when the threat model requires them.
+
+The curriculum is in English. Published Croatian essays are available through the [Croatian Bitcoin Core hub](https://btcpavao.com/hr/bitcoin-core/).

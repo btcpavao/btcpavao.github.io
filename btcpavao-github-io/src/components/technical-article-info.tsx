@@ -99,7 +99,7 @@ export function TechnicalArticleInfo({
           </a>
           <a
             className="font-medium text-bitcoin underline decoration-bitcoin/35 underline-offset-4 hover:decoration-bitcoin"
-            href={`${REPOSITORY_URL}/blob/main/${sourcePath}`}
+            href={`${REPOSITORY_URL}/blob/main/btcpavao-github-io/${sourcePath}`}
             target="_blank"
             rel="noreferrer"
           >
