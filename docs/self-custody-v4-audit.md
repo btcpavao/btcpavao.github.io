@@ -1,5 +1,7 @@
 # Self-custody v4: audit and information architecture
 
+Status: implemented v4; refined in [v4.1 on 14 September 2026](self-custody-v4.1-review.md). The v4.1 review supersedes the original Part II sequence, default wordlist/generator workflow and lesson-count progress model. This document preserves the historical v4 audit/evidence.
+
 Baseline: `d26266e0e9a498565ae6d082d402aa36b01bc826`, main and origin/main, live v3.3. Existing deployment succeeded before work began. Audit read all 64 resolved lessons, their steps, references, progression logic and rendering. No unrelated site work.
 
 ## Before

@@ -2,6 +2,10 @@ import { CustodyArchitecture } from "@/components/custody-architecture"
 import { CUSTODY_CONTENT_UPDATED } from "@/bitcoin-core-curriculum-player-en-data"
 import { ArrowRight, RefreshCcw } from "lucide-react"
 import { TutorialMetadata } from "@/components/tutorial-metadata"
+import {
+  curriculumMilestones,
+  milestoneProgress,
+} from "@/curriculum-milestones"
 import type {
   CurriculumPhase,
   PlayerLesson,
@@ -24,6 +28,8 @@ export function CurriculumOverview({
   continueEntry,
   returning,
   onSelectPhase,
+  onSelectLesson,
+  hasRetainedProgress,
   onReset,
 }: {
   language: "en" | "hr"
@@ -37,11 +43,17 @@ export function CurriculumOverview({
   continueEntry: Entry | null
   returning: boolean
   onSelectPhase: (phase: CurriculumPhase) => void
+  onSelectLesson: (lesson: PlayerLesson) => void
+  hasRetainedProgress: boolean
   onReset: () => void
 }) {
   const tr = (en: string, hr: string) => (language === "en" ? en : hr)
   const required = entries.filter((e) => !e.lesson.optional)
-  const done = required.filter((e) => completedLessons.has(e.lesson.id)).length
+  const milestones = milestoneProgress(
+    curriculumMilestones(phases),
+    completedLessons
+  )
+  const done = milestones.filter((milestone) => milestone.complete).length
   const drafts = required.filter(
     (e) =>
       !["verified", "source-reviewed"].includes(e.lesson.verification) ||
@@ -69,7 +81,7 @@ export function CurriculumOverview({
           </h1>
           <p className="course-hero__lede">
             {tr(
-              "Begin with the threats. Learn why this course recommends Bitcoin Core on dedicated generic Linux hardware, then master encrypted backups and offline signing with test coins. Add complexity only when your threat model requires it.",
+              "Begin with the threats. Master one Bitcoin Core wallet on one dedicated Debian computer, including backup and recovery. Then separate online coordination from offline signing. Add a protection when you can name the threat it solves.",
               "Počni modelom prijetnji, vježbaj na Signetu i nauči obnoviti novčanik i potpisivati offline. Mainnet pripremi tek nakon uspješnih vježbi oporavka."
             )}
           </p>
@@ -81,7 +93,9 @@ export function CurriculumOverview({
             >
               {returning && continueEntry
                 ? tr("Continue: ", "Nastavi: ") + continueEntry.lesson.title
-                : tr("Start with first principles", "Kreni od osnova")}
+                : done === milestones.length
+                  ? "Review your completed foundation"
+                  : tr("Start with first principles", "Kreni od osnova")}
               <ArrowRight aria-hidden="true" />
             </button>
           </div>
@@ -99,25 +113,30 @@ export function CurriculumOverview({
           <div className="course-progress-card__heading">
             <span>{tr("The main path", "Glavni put")}</span>
             <strong>
-              {done} / {required.length}
+              {done} / {milestones.length}
             </strong>
           </div>
-          <p>
-            {tr("Required lessons completed", "Dovršenih obaveznih lekcija")}
-          </p>
+          <p>Milestones completed · Parts I and II</p>
           <progress
             value={done}
-            max={required.length}
+            max={milestones.length}
             aria-label={tr("Main path progress", "Napredak glavnog puta")}
           />
           <p>
             {tr(
               drafts
                 ? `${drafts} exercises remain in review.`
-                : "Complete the outcome checks before moving on. Published instructions, source review and hands-on testing are identified separately in each lesson.",
+                : "Expand a milestone below to see its steps and your progress. Optional lessons and Part III never count against completion.",
               `${drafts} obaveznih vježbi još čeka tehničku provjeru. Vođeni put na njima staje; svi nacrti dostupni su za čitanje.`
             )}
           </p>
+          {hasRetainedProgress && (
+            <p className="course-local-note">
+              Your v4 work is retained. Continue to the new reading and
+              practical checks, including KeePassXC and the one-wallet
+              checkpoint. Earlier confirmations remain saved.
+            </p>
+          )}
           {returning && (
             <button type="button" className="course-reset" onClick={onReset}>
               <RefreshCcw aria-hidden="true" />
@@ -149,16 +168,115 @@ export function CurriculumOverview({
                         {phase.summary}
                       </span>
                       <small>
-                        {phase.lessons.length} lessons · {phase.estimatedTime}
+                        {phase.id === "2"
+                          ? "Optional policies"
+                          : `${milestones.filter((m) => m.phaseId === phase.id).length} milestones`}{" "}
+                        · {phase.estimatedTime}
                       </small>
                     </span>
                     <ArrowRight aria-hidden="true" />
                   </button>
+                  <ol
+                    className="course-milestones"
+                    aria-label={`${phase.title} milestones and steps`}
+                  >
+                    {milestones
+                      .filter((milestone) => milestone.phaseId === phase.id)
+                      .map((milestone) => (
+                        <li key={milestone.id}>
+                          <details className="course-milestone">
+                            <summary>
+                              <span>{milestone.title}</span>
+                              <small>
+                                {milestone.done} of {milestone.total} steps
+                                complete
+                              </small>
+                            </summary>
+                            <ol>
+                              {phase.lessons
+                                .filter(
+                                  (lesson) => lesson.chapter === milestone.title
+                                )
+                                .map((lesson) => (
+                                  <li key={lesson.id}>
+                                    <button
+                                      type="button"
+                                      onClick={() => onSelectLesson(lesson)}
+                                    >
+                                      <span>{lesson.title}</span>
+                                      <small>
+                                        {completedLessons.has(lesson.id)
+                                          ? "Completed"
+                                          : lesson.optional
+                                            ? "Optional"
+                                            : "Open step"}
+                                      </small>
+                                    </button>
+                                  </li>
+                                ))}
+                            </ol>
+                          </details>
+                        </li>
+                      ))}
+                    {phase.lessons.some(
+                      (lesson) =>
+                        lesson.optional &&
+                        !milestones.some(
+                          (m) =>
+                            m.phaseId === phase.id && m.title === lesson.chapter
+                        )
+                    ) && (
+                      <li>
+                        <details className="course-milestone course-milestone--optional">
+                          <summary>
+                            <span>
+                              {phase.id === "2"
+                                ? "Explore the optional policies"
+                                : "Optional extensions"}
+                            </span>
+                            <small>Outside the required path</small>
+                          </summary>
+                          <ol>
+                            {phase.lessons
+                              .filter(
+                                (lesson) =>
+                                  lesson.optional &&
+                                  !milestones.some(
+                                    (m) =>
+                                      m.phaseId === phase.id &&
+                                      m.title === lesson.chapter
+                                  )
+                              )
+                              .map((lesson) => (
+                                <li key={lesson.id}>
+                                  <button
+                                    type="button"
+                                    onClick={() => onSelectLesson(lesson)}
+                                  >
+                                    <span>{lesson.title}</span>
+                                    <small>
+                                      {completedLessons.has(lesson.id)
+                                        ? "Completed · optional"
+                                        : "Optional"}
+                                    </small>
+                                  </button>
+                                </li>
+                              ))}
+                          </ol>
+                        </details>
+                      </li>
+                    )}
+                  </ol>
                 </li>
               )
             })}
           </ol>
         </section>
+        <p className="course-local-note">
+          A tested single-sig system can be your finished setup. If it covers
+          your actual threat model, you do not need a more complex spending
+          policy.
+        </p>
         <details className="course-lesson-details">
           <summary>
             {tr(
@@ -168,7 +286,7 @@ export function CurriculumOverview({
           </summary>
           <p>
             {tr(
-              "The default uses two ordinary computers reserved for this job. Both run Debian Stable, a Linux operating system, and Bitcoin Core. One stays online to check transaction history and prepare payments. The other stays offline and holds the private keys, the secrets used to approve payments.",
+              "Start with one ordinary computer reserved for practice, running Debian Stable and Bitcoin Core. Learn creation, encryption, payments, backups and restoration before the one-wallet mastery checkpoint. After that checkpoint, the recommended savings setup separates online verification and coordination from offline private-key signing on a second dedicated Debian computer.",
               "Zadana postava koristi dva namjenska generička računala s Debianom Stable i Bitcoin Coreom. Online puni čvor ima watch-only novčanik za štednju. Trajni offline potpisnik čuva šifrirane privatne ključeve i ne treba blockchain. Javni descriptori i PSBT prelaze kontroliranu granicu."
             )}
           </p>
@@ -230,7 +348,7 @@ export function CurriculumOverview({
               "Dokumentiran postupak primanja, potpisivanja, backupa i obnove"
             )}
             lastReviewed={tr(
-              "Dates and scope are listed per lesson; drafts await practical review",
+              "Source and hands-on review dates and scope are listed per lesson",
               "Datumi i opseg navedeni su po lekciji; nacrti čekaju praktičnu provjeru"
             )}
           />

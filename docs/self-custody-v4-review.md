@@ -1,5 +1,7 @@
 # Self-custody v4.0 — implementation and review
 
+Status: implemented v4; refined in [v4.1 on 14 September 2026](self-custody-v4.1-review.md). The v4.1 review supersedes the original Part II sequence, default wordlist/generator workflow and lesson-count progress model. This document preserves the historical v4 audit/evidence.
+
 Review date: 13 September 2026. Baseline: `d26266e0e9a498565ae6d082d402aa36b01bc826`, deployed v3.3. Scope: the English self-custody curriculum only. The existing English URLs and all 64 retired Croatian bookmark redirects are preserved. The previously removed `unslop` skill was not used or restored.
 
 ## 1. Previous structure and audit

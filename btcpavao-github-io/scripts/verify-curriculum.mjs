@@ -25,6 +25,14 @@ try {
   const en = await bundle("src/bitcoin-core-curriculum-player-en-data.ts", "en")
   const logic = await bundle("src/curriculum-learning.ts", "progress")
   const math = await bundle("src/curriculum-math.ts", "math")
+  const migration = await bundle(
+    "src/curriculum-progress-migration.ts",
+    "migration"
+  )
+  const milestone = await bundle("src/curriculum-milestones.ts", "milestones")
+  const v4 = JSON.parse(
+    await readFile("src/curriculum/v4-progress-manifest.json", "utf8")
+  )
   const {
     canCompleteLesson,
     effectiveCompletions,
@@ -64,17 +72,17 @@ try {
     console.log(`✓ ${name}`)
   }
   check(
-    "85 unique lessons in three parts; 56 lessons on the foundation and single-sig path",
+    "87 unique lessons in three parts; 57 lessons on the foundation and single-sig path",
     () => {
-      assert.equal(en.CURRICULUM_VERSION, "4.0")
+      assert.equal(en.CURRICULUM_VERSION, "4.1")
       assert.deepEqual(
         en.curriculumPhases.map((p) => p.lessons.length),
-        [18, 48, 19]
+        [18, 50, 19]
       )
-      assert.equal(lessons.length, 85)
-      assert.equal(new Set(ids).size, 85)
-      assert.equal(new Set(lessons.map((l) => l.slug)).size, 85)
-      assert.equal(en.primaryCurriculumLessons.length, 56)
+      assert.equal(lessons.length, 87)
+      assert.equal(new Set(ids).size, 87)
+      assert.equal(new Set(lessons.map((l) => l.slug)).size, 87)
+      assert.equal(en.primaryCurriculumLessons.length, 57)
       for (const e of entries) {
         assert.equal(en.findLessonBySlug(e.lesson.slug)?.lesson.id, e.lesson.id)
         assert.ok(e.lessonNumber.startsWith(`${Number(e.phase.id) + 1}.`))
@@ -209,11 +217,11 @@ try {
     }
   )
   check(
-    "With all declared results, all 85 lessons are reachable; removing foundation results revokes downstream completion",
+    "With all declared results, all 87 lessons are reachable; removing foundation results revokes downstream completion",
     () => {
       const marks = new Set(ids),
         checks = new Set(lessons.flatMap(requiredChecks))
-      assert.equal(effectiveCompletions(lessons, marks, checks).size, 85)
+      assert.equal(effectiveCompletions(lessons, marks, checks).size, 87)
       checks.delete(readingKey("0.1", 0))
       assert.equal(effectiveCompletions(lessons, marks, checks).size, 0)
     }
@@ -308,7 +316,11 @@ try {
       assert.ok(
         find("offline-device").guidedSteps.some((s) => s.id === "coldboot")
       )
-      for (const id of ["optional-tails", "optional-veracrypt"]) {
+      for (const id of [
+        "optional-tails",
+        "optional-veracrypt",
+        "optional-dice",
+      ]) {
         assert.equal(find(id).optional, true)
         for (const l of lessons.filter((l) => !l.optional))
           assert.ok(!ancestors(l.id).has(id))
@@ -360,20 +372,24 @@ try {
     }
   )
   check(
-    "Uniform EFF entropy uses the verified 7776-entry list and correct 5/6/8-word mathematics",
+    "Default entropy uses the packaged 7772-entry list; original EFF remains an explicit optional calculation",
     () => {
       assert.equal(math.EFF_WORD_COUNT, 7776)
+      assert.equal(math.KEEPASS_WORD_COUNT, 7772)
       for (const [n, bits] of [
-        [1, 12.92481250360578],
-        [5, 64.62406251802891],
-        [6, 77.54887502163469],
-        [8, 103.39850002884624],
+        [1, 12.924070185585345],
+        [5, 64.62035092792672],
+        [6, 77.54442111351207],
+        [8, 103.39256148468276],
       ]) {
         const r = math.wordEntropy(n)
         assert.ok(Math.abs(r.bits - bits) < 1e-10)
-        assert.equal(r.possibilities, 7776 ** n)
+        assert.equal(r.possibilities, 7772 ** n)
       }
-      assert.ok(math.wordEntropy(8, 7772).bits < math.wordEntropy(8).bits)
+      assert.ok(
+        Math.abs(math.wordEntropy(8, 7776).bits - 103.39850002884624) < 1e-10
+      )
+      assert.ok(math.wordEntropy(8).bits < math.wordEntropy(8, 7776).bits)
       for (const invalid of [0, -1, 25, 1.5, NaN, Infinity])
         assert.throws(() => math.wordEntropy(invalid), RangeError)
     }
@@ -399,6 +415,217 @@ try {
         assert.throws(() => math.attackModel(...args), RangeError)
     }
   )
+
+  check(
+    "All 85 existing English IDs and bookmarks survive the refinement",
+    () => {
+      assert.equal(v4.length, 85)
+      for (const old of v4)
+        assert.equal(en.findLessonBySlug(old.slug)?.lesson.id, old.id)
+    }
+  )
+  check(
+    "One-wallet recovery precedes the new mastery gate and every second-computer lesson",
+    () => {
+      const order = [
+        "real-device",
+        "debian-setup",
+        "signet-install-verify",
+        "signet-start",
+        "signet-first-wallet",
+        "generate-passphrase",
+        "signet-encrypt-new-backup",
+        "signet-receive-send",
+        "coin-control-fees",
+        "signet-restore",
+        "signet-transact-again",
+        "wallet-lock-change",
+        "repetition-drills",
+        "recovery-failure-drills",
+        "backup-mastery",
+        "one-wallet-mastery",
+        "architecture-choice",
+        "offline-device",
+        "watch-only-setup",
+        "offline-psbt",
+        "offline-recovery",
+        "single-sig-mastery",
+      ]
+      for (let i = 1; i < order.length; i++)
+        assert.ok(ids.indexOf(order[i - 1]) < ids.indexOf(order[i]), order[i])
+      assert.equal(find("one-wallet-mastery").checklist.length, 12)
+      for (const id of [
+        "architecture-choice",
+        "2.4",
+        "offline-device",
+        "offline-psbt",
+        "offline-recovery",
+      ])
+        assert.ok(ancestors(id).has("one-wallet-mastery"))
+      const stageA = en.curriculumPhases[1].lessons.slice(
+        0,
+        en.curriculumPhases[1].lessons.findIndex(
+          (l) => l.id === "one-wallet-mastery"
+        )
+      )
+      for (const l of stageA)
+        assert.doesNotMatch(
+          JSON.stringify([
+            l.summary,
+            l.explanation,
+            l.guidedSteps,
+            l.checklist,
+          ]),
+          /two-computer|second (physical )?(computer|machine)|watch-only/,
+          l.id
+        )
+      assert.doesNotMatch(
+        text(find("recovery-failure-drills")),
+        /second-machine-v4/
+      )
+      assert.match(
+        text(find("repetition-drills")),
+        /CREATE → ENCRYPT → BACK UP → RECEIVE → SPEND → RESTORE → CHANGE PASSWORD → RESTORE AGAIN/
+      )
+    }
+  )
+  check(
+    "Ten milestones expose every required step; optional content never reduces main-path completion",
+    () => {
+      const groups = milestone.curriculumMilestones(en.curriculumPhases)
+      assert.equal(groups.length, 10)
+      assert.deepEqual(
+        groups.map((g) => g.phaseId),
+        ["0", "0", "0", "1", "1", "1", "1", "1", "1", "1"]
+      )
+      assert.deepEqual(
+        groups.flatMap((g) => g.lessons.map((l) => l.id)),
+        en.primaryCurriculumLessons.map((e) => e.lesson.id)
+      )
+      const main = new Set(en.primaryCurriculumLessons.map((e) => e.lesson.id))
+      assert.equal(
+        milestone.milestoneProgress(groups, main).filter((g) => g.complete)
+          .length,
+        10
+      )
+      assert.equal(
+        milestone
+          .milestoneProgress(
+            groups,
+            new Set(lessons.filter((l) => l.optional).map((l) => l.id))
+          )
+          .filter((g) => g.complete).length,
+        0
+      )
+      main.delete("one-wallet-mastery")
+      const recovery = milestone
+        .milestoneProgress(groups, main)
+        .find((g) => g.title === "Prove backup and recovery")
+      assert.equal(recovery.complete, false)
+      assert.equal(recovery.done, recovery.total - 1)
+      assert.equal(
+        nextRequiredEntry(entries, ids.indexOf("generate-passphrase")).lesson
+          .id,
+        "signet-encrypt-new-backup"
+      )
+      assert.match(
+        text(find("single-sig-mastery")),
+        /you do not need a more complex spending policy/
+      )
+    }
+  )
+  check(
+    "V4 migration preserves earned work and requires new evidence without erasing bookmarks or stored checks",
+    () => {
+      const oldMarks = new Set(v4.map((l) => l.id)),
+        oldChecks = new Set(v4.flatMap((l) => l.checks))
+      const snapshot = migration.validatedV4Completions(oldMarks, oldChecks)
+      assert.equal(snapshot.size, 85)
+      const retained = migration.retainedV4Completions(
+        snapshot,
+        oldMarks,
+        oldChecks
+      )
+      const completed = effectiveCompletions(
+        lessons,
+        oldMarks,
+        oldChecks,
+        retained
+      )
+      const missingOld = v4.filter((l) => !completed.has(l.id)).map((l) => l.id)
+      assert.deepEqual(missingOld, [
+        "architecture-choice",
+        "passphrase-strength",
+        "brute-force-economics",
+        "generate-passphrase",
+        "repetition-drills",
+      ])
+      assert.ok(completed.has("offline-recovery"))
+      assert.ok(!completed.has("one-wallet-mastery"))
+      assert.equal(
+        resumeEntry(entries, completed).lesson.id,
+        "passphrase-strength"
+      )
+      assert.ok(oldChecks.has("lesson-generate-passphrase:guided-v4:method-v4"))
+      assert.ok(
+        !oldChecks.has(
+          "lesson-generate-passphrase:guided-v4:keepass-bundled-v41"
+        )
+      )
+      // New visitors cannot acquire retrospective credit as they work through v4.1.
+      assert.equal(
+        migration.retainedV4Completions(new Set(), oldMarks, oldChecks).size,
+        0
+      )
+      oldChecks.delete("lesson-0.1:reading-v4:0")
+      assert.equal(
+        migration.retainedV4Completions(snapshot, oldMarks, oldChecks).size,
+        0
+      )
+      assert.equal(
+        effectiveCompletions(
+          lessons,
+          oldMarks,
+          oldChecks,
+          migration.retainedV4Completions(snapshot, oldMarks, oldChecks)
+        ).size,
+        0
+      )
+      assert.equal(oldMarks.size, 85)
+      assert.equal(
+        migration.validatedV4Completions(oldMarks, new Set()).size,
+        0
+      )
+    }
+  )
+  check(
+    "The packaged KeePassXC workflow is the default; dice are isolated and the eight-word setting is not a minimum",
+    () => {
+      const gen = find("generate-passphrase")
+      assert.match(text(gen), /2\.7\.10\+dfsg1-1/)
+      assert.match(text(gen), /Botan::System_RNG/)
+      assert.match(text(gen), /\/dev\/urandom/)
+      assert.match(text(gen), /4,656/)
+      assert.match(text(gen), /552,620/)
+      assert.match(text(gen), /CSPRNG/)
+      assert.match(text(gen.guidedSteps), /\(SYSTEM\) eff_large\.wordlist/)
+      assert.doesNotMatch(text(gen.guidedSteps), /custom wordlist|roll a fair/)
+      assert.match(
+        text(find("passphrase-strength")),
+        /not a cryptographic minimum/
+      )
+      assert.match(text(find("optional-dice")), /40 readings/)
+      assert.equal(find("optional-dice").optional, true)
+      // The exact rejection interval in reviewed Random.cpp has equal buckets.
+      const limit = math.KEEPASS_WORD_COUNT,
+        max = 2 ** 32 - 1,
+        ceiling = max - (max % limit) - 1
+      assert.equal((ceiling + 1) % limit, 0)
+      assert.equal((ceiling + 1) / limit, 552620)
+      assert.equal(2 ** 32 - (ceiling + 1), 4656)
+    }
+  )
+
   const lab = await readFile(
     "public/curriculum-labs/core-31.1-regtest.py",
     "utf8"

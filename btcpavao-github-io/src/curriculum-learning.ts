@@ -70,7 +70,8 @@ export function canCompleteLesson(
 export function effectiveCompletions<T extends ProgressLesson>(
   lessons: readonly T[],
   completionMarks: ReadonlySet<string>,
-  checkedItems: ReadonlySet<string>
+  checkedItems: ReadonlySet<string>,
+  retainedCompletions: ReadonlySet<string> = new Set()
 ) {
   const result = new Set<string>()
   let changed = true
@@ -80,7 +81,13 @@ export function effectiveCompletions<T extends ProgressLesson>(
       if (
         completionMarks.has(lesson.id) &&
         !result.has(lesson.id) &&
-        canCompleteLesson(lesson, checkedItems, result)
+        (canCompleteLesson(lesson, checkedItems, result) ||
+          (retainedCompletions.has(lesson.id) &&
+            canCompleteLesson(
+              { ...lesson, prerequisites: [] },
+              checkedItems,
+              result
+            )))
       ) {
         result.add(lesson.id)
         changed = true

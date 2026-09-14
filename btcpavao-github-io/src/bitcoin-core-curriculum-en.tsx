@@ -1,3 +1,11 @@
+import {
+  curriculumMilestones,
+  milestoneProgress,
+} from "@/curriculum-milestones"
+import {
+  retainedV4Completions,
+  validatedV4Completions,
+} from "@/curriculum-progress-migration"
 import { CurriculumOverview } from "@/components/curriculum-overview"
 import { CurriculumLesson } from "@/components/curriculum-lesson"
 import {
@@ -41,6 +49,7 @@ import {
 const SITE_URL = "https://btcpavao.com"
 const PROGRESS_STORAGE_KEY = "btcpavao-core-curriculum-en-progress-v1"
 const CHECKLIST_STORAGE_KEY = "btcpavao-core-curriculum-en-checklists-v2"
+const RETAINED_PROGRESS_KEY = "btcpavao-core-curriculum-en-retained-v4.1"
 const LAST_LESSON_STORAGE_KEY =
   "btcpavao-core-curriculum-en-last-available-lesson-v3"
 
@@ -167,11 +176,18 @@ function PhaseNavigator({
   const activePart = curriculumPhases.find((part) =>
     part.lessons.some((l) => l.id === activeLesson.id)
   )
-  const completedCount = primaryCurriculumLessons.filter((e) =>
-    completedLessons.has(e.lesson.id)
+  const milestones = milestoneProgress(
+    curriculumMilestones(curriculumPhases),
+    completedLessons
+  )
+  const completedCount = milestones.filter(
+    (milestone) => milestone.complete
   ).length
   return (
-    <nav className="course-outline" aria-label="Curriculum parts and chapters">
+    <nav
+      className="course-outline"
+      aria-label="Curriculum parts and milestones"
+    >
       <button
         type="button"
         className="course-outline__overview"
@@ -183,11 +199,11 @@ function PhaseNavigator({
       <div className="course-outline__progress">
         <span>
           Your progress
-          <small>
-            {primaryCurriculumLessons.length} lessons in the foundation
-          </small>
+          <small>{milestones.length} milestones across Parts I and II</small>
         </span>
-        <strong>{completedCount} completed</strong>
+        <strong>
+          {completedCount} of {milestones.length} complete
+        </strong>
       </div>
       <button
         type="button"
@@ -229,6 +245,12 @@ function PhaseNavigator({
                       l.id === activeLesson.id)
                 )
                 if (!chapterLessons.length) return null
+                const required = chapterLessons.filter(
+                  (lesson) => !lesson.optional
+                )
+                const progressLessons = required.length
+                  ? required
+                  : chapterLessons
                 const active =
                   part.id === activePart?.id && chapter === activeLesson.chapter
                 return (
@@ -241,11 +263,12 @@ function PhaseNavigator({
                       {chapter}
                       <span>
                         {
-                          chapterLessons.filter((l) =>
+                          progressLessons.filter((l) =>
                             completedLessons.has(l.id)
                           ).length
-                        }
-                        /{chapterLessons.length}
+                        }{" "}
+                        of {progressLessons.length}{" "}
+                        {required.length ? "steps" : "optional steps"}
                       </span>
                     </summary>
                     <ol className="course-outline__lessons">
@@ -299,15 +322,19 @@ export function BitcoinCoreCurriculumEnPage() {
   const [completionMarks, setCompletedLessons] = useState<Set<string>>(
     new Set()
   )
+  const [retainedSnapshot, setRetainedSnapshot] = useState<Set<string>>(
+    new Set()
+  )
   const [checklistItems, setChecklistItems] = useState<Set<string>>(new Set())
   const completedLessons = useMemo(
     () =>
       effectiveCompletions(
         curriculumLessons.map((entry) => entry.lesson),
         completionMarks,
-        checklistItems
+        checklistItems,
+        retainedV4Completions(retainedSnapshot, completionMarks, checklistItems)
       ),
-    [completionMarks, checklistItems]
+    [completionMarks, checklistItems, retainedSnapshot]
   )
   const [storageReady, setStorageReady] = useState(false)
   const [mobileOutlineOpen, setMobileOutlineOpen] = useState(false)
@@ -350,8 +377,19 @@ export function BitcoinCoreCurriculumEnPage() {
 
   useEffect(() => {
     const storageTimer = window.setTimeout(() => {
-      setCompletedLessons(readStoredSet(PROGRESS_STORAGE_KEY))
-      setChecklistItems(readStoredSet(CHECKLIST_STORAGE_KEY))
+      const marks = readStoredSet(PROGRESS_STORAGE_KEY)
+      const checks = readStoredSet(CHECKLIST_STORAGE_KEY)
+      setCompletedLessons(marks)
+      setChecklistItems(checks)
+      try {
+        if (localStorage.getItem(RETAINED_PROGRESS_KEY) === null) {
+          const retained = validatedV4Completions(marks, checks)
+          writeStoredSet(RETAINED_PROGRESS_KEY, retained)
+          setRetainedSnapshot(retained)
+        } else setRetainedSnapshot(readStoredSet(RETAINED_PROGRESS_KEY))
+      } catch {
+        /* In-memory progress still works without storage. */
+      }
       try {
         const storedSlug = localStorage.getItem(LAST_LESSON_STORAGE_KEY)
         setLastAvailableSlug(
@@ -502,6 +540,8 @@ export function BitcoinCoreCurriculumEnPage() {
       return
     setCompletedLessons(new Set())
     setChecklistItems(new Set())
+    setRetainedSnapshot(new Set())
+    writeStoredSet(RETAINED_PROGRESS_KEY, new Set())
     setLastAvailableSlug(null)
     try {
       localStorage.removeItem(LAST_LESSON_STORAGE_KEY)
@@ -586,7 +626,7 @@ export function BitcoinCoreCurriculumEnPage() {
                 aria-expanded={mobileOutlineOpen}
               >
                 <Menu aria-hidden="true" />
-                <span>Parts and chapters</span>
+                <span>Parts and milestones</span>
                 <small>{activeEntry.lessonNumber}</small>
               </button>
 
@@ -646,13 +686,16 @@ export function BitcoinCoreCurriculumEnPage() {
               ) : null}
 
               {activeLesson.id === "single-sig-mastery" &&
-                completedLessons.has(activeLesson.id) && (
+                primaryCurriculumLessons.every(({ lesson }) =>
+                  completedLessons.has(lesson.id)
+                ) && (
                   <section className="course-takeaway">
                     <h2>You can operate the simple system.</h2>
                     <p>
-                      A tested single-sig setup can be your long-term
-                      foundation. Continue to advanced policies only if you need
-                      a different distribution of spending authority.
+                      If this system covers your actual threat model, you do not
+                      need a more complex spending policy. The required course
+                      is complete. Part III is available when you have a
+                      specific authorization problem to solve.
                     </p>
                     <button
                       type="button"
@@ -713,10 +756,10 @@ export function BitcoinCoreCurriculumEnPage() {
               ref={mobileDrawerRef}
               role="dialog"
               aria-modal={mobileOutlineOpen || undefined}
-              aria-label="Parts and chapters"
+              aria-label="Parts and milestones"
             >
               <div className="course-drawer__header">
-                <strong>Parts and chapters</strong>
+                <strong>Parts and milestones</strong>
                 <button
                   ref={mobileCloseRef}
                   type="button"
@@ -757,6 +800,8 @@ export function BitcoinCoreCurriculumEnPage() {
                 ) ?? phase.lessons[0]
               if (first) openLesson(first)
             }}
+            onSelectLesson={openLesson}
+            hasRetainedProgress={retainedSnapshot.size > 0}
             onReset={resetProgress}
           />
         )}

@@ -7809,3 +7809,26 @@ input:focus-visible + .curriculum-checkbox {
   .course-reading--paged .course-guided__actions { flex-wrap: wrap; }
   .course-table-scroll th, .course-table-scroll td { padding: .65rem .4rem; }
 }
+
+/* v4.1: ten milestones, with the existing micro-lessons available on demand. */
+.course-milestones, .course-milestone ol { list-style: none; margin: 0; padding: 0; }
+.course-three-parts .course-roadmap__grid button { min-height: 0; }
+.course-milestones { padding: 0 1.5rem 1.5rem; }
+.course-milestone { border-top: 1px solid var(--border); }
+.course-milestone > summary { display: grid; grid-template-columns: 1fr auto; gap: .4rem 1rem; padding: 1.5rem 0; cursor: pointer; font-size: .9rem; line-height: 1.5; }
+.course-milestone > summary > span::before { content: "›"; display: inline-block; width: 1rem; }
+.course-milestone[open] > summary > span::before { content: "⌄"; }
+.course-milestone > summary > small { color: var(--muted-foreground); font-size: .75rem; align-self: center; }
+.course-milestone li > button { width: 100%; text-align: left; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem; margin-bottom: .4rem; border: 1px solid var(--border); border-radius: .6rem; font: inherit; font-size: .83rem; line-height: 1.6; background: transparent; color: inherit; cursor: pointer; }
+.course-milestone li > button small { color: var(--muted-foreground); flex-shrink: 0; font-size: .7rem; }
+.course-milestone li > button:hover { background: rgba(247,147,26,.05); }
+.course-milestone > summary:focus-visible, .course-milestone li > button:focus-visible { outline: 2px solid #f7931a; outline-offset: 3px; }
+.course-outline__chapter > summary { display: grid; grid-template-columns: .75rem minmax(0, 1fr); gap: .35rem; }
+.course-outline__chapter > summary > span { grid-column: 2; width: 100%; padding-left: 0; white-space: normal; }
+@media (max-width: 767px) {
+  .course-milestones { padding: 0 1.25rem 1.25rem; }
+  .course-milestone > summary { grid-template-columns: 1fr; }
+  .course-milestone > summary > small { padding-left: 1rem; }
+  .course-milestone li > button { align-items: flex-start; flex-direction: column; gap: .25rem; padding: 1rem; }
+}
+.course-table-scroll th:first-child { white-space: nowrap; }

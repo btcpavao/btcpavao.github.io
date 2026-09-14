@@ -1,19 +1,21 @@
 import { useState } from "react"
 import {
   attackModel,
-  EFF_WORD_COUNT,
+  KEEPASS_WORD_COUNT,
   SECONDS_PER_YEAR,
   wordEntropy,
 } from "@/curriculum-math"
 
 function magnitude(value: number) {
   if (value === 0) return "0"
+  if (Number.isInteger(value) && value < 1e6) return value.toLocaleString("en")
   if (value >= 1e6 || value < 0.01) return value.toExponential(1)
   return new Intl.NumberFormat("en", { maximumSignificantDigits: 2 }).format(
     value
   )
 }
 function duration(seconds: number) {
+  if (seconds < 3600) return `${magnitude(seconds)} seconds`
   return seconds < SECONDS_PER_YEAR
     ? `${magnitude(seconds / 3600)} hours`
     : `${magnitude(seconds / SECONDS_PER_YEAR)} years`
@@ -24,8 +26,8 @@ export function EntropyTable() {
       <h2>The method determines the strength</h2>
       <p>
         Independent, equally likely choices from{" "}
-        {EFF_WORD_COUNT.toLocaleString("en")} distinct words. Fixed separators
-        add no extra entropy.
+        {KEEPASS_WORD_COUNT.toLocaleString("en")} distinct words in the verified
+        KeePassXC bundled large list. Fixed separators add no extra entropy.
       </p>
       <div
         className="course-table-scroll"
@@ -96,18 +98,25 @@ export function BruteForceExplorer() {
       <p>
         This is an order-of-magnitude illustration,{" "}
         <strong>not a Core cracking benchmark</strong>. Enter public numbers
-        only. No password is requested or analyzed.
+        only. No password is requested or analyzed. Eight words are a
+        conservative course default, not a cryptographic minimum. Compare the
+        search spaces and recovery burden, rather than simply choosing the
+        largest number.
+      </p>
+      <p>
+        This model uses the verified bundled list of{" "}
+        {KEEPASS_WORD_COUNT.toLocaleString("en")} distinct words.
       </p>
       <div className="course-explorer__inputs">
         <label>
-          Independent EFF words
+          Independent KeePassXC words
           <select
             value={words}
             onChange={(e) => setWords(Number(e.target.value))}
           >
-            {[5, 6, 8, 12, 24].map((n) => (
+            {[1, 5, 6, 8, 12, 24].map((n) => (
               <option key={n} value={n}>
-                {n} words
+                {n} {n === 1 ? "word" : "words"}
               </option>
             ))}
           </select>
@@ -198,7 +207,7 @@ export function BruteForceExplorer() {
             electricity.
           </p>
           <details className="course-lesson-details">
-            <summary>Compare five, six and eight words</summary>
+            <summary>Compare one, five, six and eight words</summary>
             <div
               className="course-table-scroll"
               tabIndex={0}
@@ -214,7 +223,7 @@ export function BruteForceExplorer() {
                   </tr>
                 </thead>
                 <tbody>
-                  {[5, 6, 8].map((n) => {
+                  {[1, 5, 6, 8].map((n) => {
                     const r = attackModel(
                       n,
                       Number(rate),

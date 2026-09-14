@@ -1,7 +1,9 @@
 // Public illustrative assumptions only. This module never accepts a passphrase.
 export const EFF_WORD_COUNT = 7776
+// Debian Stable KeePassXC 2.7.10+dfsg1-1: actual bundled eff_large.wordlist.
+export const KEEPASS_WORD_COUNT = 7772
 export const SECONDS_PER_YEAR = 365.25 * 24 * 60 * 60
-export function wordEntropy(words: number, listSize = EFF_WORD_COUNT) {
+export function wordEntropy(words: number, listSize = KEEPASS_WORD_COUNT) {
   if (
     !Number.isInteger(words) ||
     words < 1 ||

@@ -2,83 +2,26 @@ import type { PlayerLesson } from "../bitcoin-core-curriculum-player-en-data"
 
 export const part2Lessons: PlayerLesson[] = [
   {
-    id: "architecture-choice",
-    slug: "simple-wallet-or-offline-signer",
-    title: "Choose the two-computer setup used in this course",
-    summary:
-      "Give one computer the online work and the other the private signing keys.",
-    objective:
-      "Give one computer the online work and the other the private signing keys.",
-    estimatedTime: "12-16 min",
-    status: "published",
-    verification: "source-reviewed",
-    referenceVersion: "Bitcoin Core 31.1",
-    explanation: [
-      "Architecture means how the parts of your setup fit together. Our default uses two ordinary computers reserved for this purpose. Both run Debian Stable, a Linux operating system chosen for predictable long-term maintenance, and Bitcoin Core. The online computer checks Bitcoin's history and prepares payments. The offline computer holds the private keys and approves those payments.",
-      "The online savings wallet is watch-only: it can recognize your addresses and payments but cannot sign a transaction. The offline computer is the signer. Its Debian installation is persistent, meaning programs and saved files remain after shutdown. Practice using and recovering this setup with Signet test coins first. Tails, an optional operating system started from a USB drive, comes later if you have a reason to use it.",
-    ],
-    concepts: [],
-    warnings: [],
-    checklist: [],
-    sources: [
-      {
-        label: "Debian · Stable releases and support",
-        url: "https://www.debian.org/releases/",
-      },
-      {
-        label: "Debian · Installation guide",
-        url: "https://www.debian.org/releases/stable/amd64/",
-      },
-      {
-        label: "Debian · Verify installation media",
-        url: "https://www.debian.org/CD/verify",
-      },
-      {
-        label: "Core 31.1 · Offline signing",
-        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/offline-signing-tutorial.md",
-      },
-    ],
-    codeBlocks: [],
-    callouts: [],
-    videoUrl: null,
-    origin: "New architectural checkpoint in curriculum v2.1",
-    optional: false,
-    kind: "reading",
-    prerequisites: ["foundations-checkpoint", "0.2", "1.5"],
-    notes: [
-      "Debian Stable is the default operating system for both dedicated computers in this course. Its stable releases change less often than fast-release desktop systems, and its mature software repositories make it practical to maintain a dedicated computer for years. That predictability makes maintenance easier to plan. It does not make Debian inherently more secure than Fedora. Fedora and other supported Linux distributions remain alternatives if you can maintain and test them.",
-    ],
-    commonMistakes: [],
-    contentUpdated: "2026-09-13",
-    chapter: "Prepare the environment",
-    sourceReviewed: "2026-09-13",
-    reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
-    why: "Give one computer the online work and the other the private signing keys.",
-    risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
-    takeaway:
-      "Start with single-sig and keep spending authority separate from online coordination when you build the recommended savings setup.",
-  },
-  {
     id: "real-device",
     slug: "choose-a-computer-and-model-malware-risk",
-    title: "Choose the dedicated computers and transfer media",
-    summary: "Assign a clear job to each ordinary computer.",
-    objective: "Assign a clear job to each ordinary computer.",
+    title: "Choose one dedicated computer for practice",
+    summary: "Begin with one ordinary computer, Debian and one Core wallet.",
+    objective:
+      "Prepare a dedicated practice computer without adding another wallet role.",
     what: "Assign a clear job to each ordinary computer.",
     why: "A dedicated environment is easier to understand and maintain than a machine used for unrelated daily tasks.",
     risk: "Mixing daily browsing, signing and backup storage can make one compromise defeat several protections.",
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
-      "The recommended final arrangement uses one online node and one offline signer. Both are generic supported computers running Debian Stable and Bitcoin Core. You may learn the initial Signet wallet lifecycle on one dedicated practice machine before setting up the second.",
-      "Choose supported hardware with working storage, enough memory and an adequate drive for the node’s chosen pruning mode. The signer does not need blockchain storage. Its ability to keep keys separate matters more than an expensive processor.",
+      "Start with one supported generic laptop or desktop reserved for this work. Install Debian Stable and Bitcoin Core, then learn the complete wallet lifecycle with Signet test coins. One computer and one wallet are enough for this stage.",
+      "Choose working storage, enough memory and a drive suited to the node’s storage settings. Keep unrelated browsing, email, chat and remote-access software out of this environment. The purpose of dedicating the computer is to reduce unrelated software and activity around the wallet.",
     ],
-    prerequisites: ["architecture-choice"],
+    prerequisites: ["foundations-checkpoint"],
     sources: [
       {
         label: "Debian Stable: installation guide",
@@ -99,22 +42,22 @@ export const part2Lessons: PlayerLesson[] = [
     guidedSteps: [
       {
         id: "assign-v4",
-        title: "Record the two roles",
+        title: "Assign the practice computer",
         instructions: [
-          "Label the planned machines ONLINE NODE and OFFLINE SIGNER in your own notes. Confirm that the signer will not be used for email, browsing, chat, remote desktop or unrelated applications.",
+          "Record which supported computer will run the Signet exercises. Reserve it for this course and confirm that a fresh installation will not erase files you still need.",
         ],
         expectedResult:
-          "Each computer has a clear job and an installation plan.",
+          "One dedicated practice computer has a clear purpose and installation plan.",
         help: "Stop at this step if the result differs. Recheck the selected network, wallet and files, then review the linked official documentation. Do not mark the result as confirmed until you can explain the difference.",
       },
       {
         id: "media-v4",
-        title: "Separate transfers from backups",
+        title: "Choose separate backup storage",
         instructions: [
-          "Choose a transfer medium for expected public descriptors and PSBTs, plus separately stored backup media. A transfer device is routinely handled across the boundary; it should not also be the only backup.",
+          "Keep wallet backups outside the working wallet folder. Have separate removable backup media ready for the later recovery exercises; two files on the same device do not survive loss of that device.",
         ],
         expectedResult:
-          "Loss or compromise of the transfer device does not remove the only backup.",
+          "The working disk will not hold the only recovery copy.",
         help: "Stop at this step if the result differs. Recheck the selected network, wallet and files, then review the linked official documentation. Do not mark the result as confirmed until you can explain the difference.",
       },
       {
@@ -128,11 +71,11 @@ export const part2Lessons: PlayerLesson[] = [
         help: "Stop at this step if the result differs. Recheck the selected network, wallet and files, then review the linked official documentation. Do not mark the result as confirmed until you can explain the difference.",
       },
     ],
-    chapter: "Prepare the environment",
+    chapter: "Prepare Debian and Core",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
-      "A dedicated computer reduces unrelated software and activity around your wallet. The signer’s job does not require blockchain storage.",
+      "First make one Core wallet ordinary to operate and recover on one dedicated Debian computer.",
   },
   {
     id: "debian-setup",
@@ -147,7 +90,7 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Debian Stable · amd64 installation guide",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
@@ -179,7 +122,7 @@ export const part2Lessons: PlayerLesson[] = [
         ],
         expectedResult:
           "You can identify the installer release, architecture, checksum and signing key.",
-        help: "The netinst installer needs networking to fetch packages. Finish this stage before turning a machine into an offline signer. Do not connect a signer containing live keys just to install missing packages.",
+        help: "The netinst installer needs networking to fetch packages. Use this stage to prepare the dedicated practice computer before creating any wallet keys.",
       },
       {
         id: "verify-image",
@@ -226,12 +169,12 @@ export const part2Lessons: PlayerLesson[] = [
         id: "minimum",
         title: "Install only the tools the next task needs",
         instructions: [
-          "For release verification, install GnuPG, curl, Git and certificate support if they are missing. These tools verify signatures, download files and retrieve the builder key repository used in the next lesson.",
-          "KeePassXC is optional if you choose its passphrase generator. Install it during preparation only when that workflow is needed. You do not need another wallet, a seed tool, remote-access software or a separate web dashboard for the base course.",
+          "Install GnuPG, curl, Git and certificate support for release verification. Install KeePassXC from Debian’s authenticated repositories too: it is the default passphrase generator in this course.",
+          "On Debian 13 Stable (trixie), use keepassxc-minimal, reviewed here at 2.7.10+dfsg1-1. It includes the generator without browser-integration and other optional plugins. Use maintained Debian updates; if the version changes, compare the generator settings with the versioned lesson before relying on its exact word-count calculation.",
         ],
         expectedResult: "You can explain why each added package is installed.",
         command:
-          "sudo apt install gnupg curl git ca-certificates\n# Only if you choose the KeePassXC workflow:\n# sudo apt install keepassxc",
+          "sudo apt install gnupg curl git ca-certificates keepassxc-minimal",
         commandContext: "Debian terminal · package installation",
         help: "Identify the selected installer, key fingerprint and target disk before retrying. A missing verification tool is a preparation problem; install it from your existing system’s trusted package source. Never bypass an image mismatch or guess which disk will be overwritten.",
       },
@@ -240,16 +183,15 @@ export const part2Lessons: PlayerLesson[] = [
         title: "Record the installation and prepare for Core",
         instructions: [
           "Record the Debian release, architecture and verification results without including login secrets. Test shutdown and cold boot. Continue to the Core download-verification lesson.",
-          "For the future offline signer, install and verify Core and all needed tools now. Physical disconnection happens later, before creating the signing wallet.",
         ],
         expectedResult:
           "A maintained minimal Debian system is ready for the verified Core release.",
         help: "Identify the selected installer, key fingerprint and target disk before retrying. A missing verification tool is a preparation problem; install it from your existing system’s trusted package source. Never bypass an image mismatch or guess which disk will be overwritten.",
       },
     ],
-    chapter: "Prepare the environment",
+    chapter: "Prepare Debian and Core",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
       "The Debian installer, operating system and installed tools are part of the trust boundary. Prepare and verify them before creating secrets.",
   },
@@ -266,7 +208,7 @@ export const part2Lessons: PlayerLesson[] = [
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1 · Debian Stable",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     explanation: [
       "A download check has two parts. A checksum is a short fingerprint calculated from a file's contents; it helps detect whether the file changed. A digital signature connects the published checksum list to a signing key. You must also establish whose key it is, otherwise an attacker could supply their own file, checksum and signature.",
       "Before you run Core, the steps in this lesson walk you through preparing the tools, checking the file and identifying several release signers. They explain the messages you should expect. These checks do not prove that the program has no bugs or that your computer is free of malicious software.",
@@ -458,12 +400,12 @@ export const part2Lessons: PlayerLesson[] = [
           "Use Signet test coins only. Never reuse these keys or passwords for mainnet.",
       },
     ],
-    prerequisites: ["debian-setup", "0.2", "1.5"],
+    prerequisites: ["debian-setup"],
     notes: [],
     commonMistakes: [],
-    contentUpdated: "2026-09-13",
-    chapter: "Prepare the environment",
-    sourceReviewed: "2026-09-13",
+    contentUpdated: "2026-09-14",
+    chapter: "Prepare Debian and Core",
+    sourceReviewed: "2026-09-14",
     why: "Verify the download and identify the people whose release signatures you trust.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -511,12 +453,12 @@ export const part2Lessons: PlayerLesson[] = [
     origin: "New curriculum v2 lesson",
     optional: false,
     kind: "reading",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     notes: [],
-    chapter: "Prepare the environment",
-    sourceReviewed: "2026-09-13",
+    chapter: "Prepare Debian and Core",
+    sourceReviewed: "2026-09-14",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     why: "Learn the whole payment and recovery process before risking real bitcoin.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -558,12 +500,12 @@ export const part2Lessons: PlayerLesson[] = [
     origin: "New curriculum v2 lesson",
     optional: false,
     kind: "reading",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     notes: [],
-    chapter: "Prepare the environment",
-    sourceReviewed: "2026-09-13",
+    chapter: "Prepare Debian and Core",
+    sourceReviewed: "2026-09-14",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     why: "Recognize Signet and mainnet before creating a wallet or sending a payment.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -583,7 +525,7 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
@@ -602,7 +544,7 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     origin: "First-principles curriculum v4",
     guidedSteps: [
       {
@@ -632,9 +574,9 @@ export const part2Lessons: PlayerLesson[] = [
         help: "Stop at this step if the result differs. Recheck the selected network, wallet and files, then review the linked official documentation. Do not mark the result as confirmed until you can explain the difference.",
       },
     ],
-    chapter: "Prepare the environment",
+    chapter: "Prepare Debian and Core",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
       "An explicit Signet data directory makes the training environment identifiable and keeps its working files separate.",
   },
@@ -671,12 +613,12 @@ export const part2Lessons: PlayerLesson[] = [
     origin: "Moved from legacy module 2",
     optional: true,
     kind: "reading",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     notes: [],
-    chapter: "Prepare the environment",
-    sourceReviewed: "2026-09-13",
+    chapter: "Prepare Debian and Core",
+    sourceReviewed: "2026-09-14",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     takeaway:
       "Pruning saves storage after validation. Missing historical blocks may still be needed when recovering an old wallet.",
     prerequisites: ["signet-start"],
@@ -695,7 +637,7 @@ export const part2Lessons: PlayerLesson[] = [
     referenceVersion: "Bitcoin Core 31.1",
     explanation: [
       "A wallet name is a local label, not a Bitcoin address. We use signet-training-wallet so you can recognize this practice wallet in Core's wallet selector. Never reuse its keys or password for real savings.",
-      "Core can create different kinds of wallet. For this exercise, it must contain private keys so that it can sign a test payment. The next lesson encrypts those keys and makes a fresh backup before you receive test coins.",
+      "Core can create different kinds of wallet. For this exercise, it must contain private keys so that it can sign a test payment. After the passphrase lessons, you will encrypt those keys and make a fresh backup before receiving test coins.",
     ],
     sources: [
       {
@@ -725,7 +667,7 @@ export const part2Lessons: PlayerLesson[] = [
         title: "Create signet-training-wallet",
         instructions: [
           "After confirming Signet, choose File → Create Wallet and name it signet-training-wallet. This name identifies the wallet on your computer; it is not a receiving address.",
-          "For this practice exercise leave Encrypt Wallet unchecked, because the next lesson teaches encryption separately. Leave Disable Private Keys unchecked so the wallet can sign, and Make Blank Wallet unchecked so Core creates its normal starting keys. Do not receive coins before encryption and the new backup.",
+          "For this practice exercise leave Encrypt Wallet unchecked, because encryption is taught separately after passphrase generation. Leave Disable Private Keys unchecked so the wallet can sign, and Make Blank Wallet unchecked so Core creates its normal starting keys. Do not receive coins before encryption and the new backup.",
         ],
         expectedResult: "The selected wallet is signet-training-wallet.",
         help: "If the name already exists, return to that training wallet or use a fresh test data directory; never overwrite another wallet.",
@@ -745,15 +687,15 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     prerequisites: ["signet-start"],
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     notes: [],
     checklist: [
       "I can create a named wallet and locate its receiving address without using the console.",
     ],
-    chapter: "Learn the wallet lifecycle",
-    sourceReviewed: "2026-09-13",
+    chapter: "Operate one Core wallet",
+    sourceReviewed: "2026-09-14",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     why: "Create the named test wallet and check that it can hold signing keys.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -771,44 +713,51 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     estimatedTime: "8–12 min",
     kind: "reading",
     explanation: [
-      "Imagine choosing one word by drawing fairly from a bag of N different words. The attacker has N possibilities. Choosing a second word independently gives N × N possible ordered pairs. Each extra word multiplies the search space again.",
-      "A bit is a doubling of the number of possibilities. The mathematical shorthand log2(N) tells us how many doublings produce N. For independent, equally likely choices, n words provide n × log2(N) bits of entropy. This describes the method of selection; it does not turn a sentence you invented into a random one.",
-      "The original EFF large wordlist has 7,776 distinct entries. The table below calculates one, five, six and eight independent words from that exact list. Repeated words are allowed when the random method selects them. Rerolling words you dislike changes the method.",
-      "This course uses eight independent words from the verified EFF list as its teaching default for a long-term Core encryption passphrase. That provides a generous margin while remaining practical to record and type. Five and six words are shown for comparison, not as a balance-based rule or a reason to weaken an existing passphrase.",
-      "A Core passphrase is an encryption credential protecting wallet key material. BIP39 words encode a root recovery secret. They are not interchangeable. Twelve or twenty-four words are not automatically necessary for an encryption credential; the aim is enough entropy with a generous margin and a recovery procedure you can operate.",
+      "If a list contains N different words, one equally likely selection has N possibilities. Choosing another word independently multiplies that count by N again. Word order matters, and a repeated word is a valid random result.",
+      "A bit represents a doubling of the possibilities. The expression log2(N) counts how many doublings produce N. For n independent, equally likely choices, entropy is n × log2(N) bits. This describes the selection process; a sentence you invent does not become random because it contains the same number of words.",
+      "The bundled large list in the reviewed Debian KeePassXC package contains 7,772 distinct lowercase words. The table uses that actual count: one word gives about 12.92 bits, five 64.62, six 77.54 and eight 103.39. A fixed space between words adds no extra entropy.",
+      "Eight independently random words are the conservative course default for a long-term wallet, not a cryptographic minimum. Five and six words already produce enormous search spaces. Their suitability depends on the generation method and the attack assumptions; fewer than eight is not automatically unsafe. The default gives an enormous margin without requiring each beginner to design a separate policy.",
+      "More words keep multiplying the search space, but their practical benefit diminishes once guessing is already economically implausible with a large margin. Extra words still have to be recorded, typed, protected and recovered. Twenty-four words do not automatically produce a better custody system than eight.",
+      "A Core passphrase protects private key material in an encrypted file. BIP39 words encode a root recovery secret. Their roles differ; neither a word count nor a readable format tells you whether the generating process was sound.",
+      "Our default generator is KeePassXC on the clean dedicated Debian computer. It requests secure random bytes from Linux and uses them to select words. Linux gathers unpredictable input from device activity and other sources, mixes it into protected internal state and uses cryptography to produce bytes. A CSPRNG is a cryptographically secure pseudorandom number generator: its calculations are deterministic, but an attacker without its secret internal state should not be able to predict the output when it is properly initialized.",
+      "Core itself depends on secure computer-generated randomness to create wallet keys. Using a reviewed generator on this same prepared foundation is consistent with that trust. Correct dice can be strong too, but manual rolls, transcription and lookup add work and errors without addressing a threat in our default model. Use KeePassXC unless you can explain the extra protection or educational purpose of dice. The next calculator helps you judge the margin before generating a phrase.",
     ],
     prerequisites: ["signet-first-wallet"],
     sources: [
       {
-        label: "EFF: original large wordlist (7,776 entries)",
-        url: "https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt",
+        label: "Debian Stable: KeePassXC minimal 2.7.10+dfsg1-1",
+        url: "https://packages.debian.org/trixie/keepassxc-minimal",
       },
       {
-        label: "EFF: generating passphrases with dice",
-        url: "https://www.eff.org/dice",
+        label: "KeePassXC 2.7.10: passphrase generation and list loading",
+        url: "https://github.com/keepassxreboot/keepassxc/blob/2.7.10/src/core/PassphraseGenerator.cpp",
       },
       {
-        label: "Bitcoin Core 31.1: passphrase derivation and AES encryption",
-        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/wallet/crypter.cpp",
+        label: "KeePassXC 2.7.10: bundled large wordlist",
+        url: "https://github.com/keepassxreboot/keepassxc/blob/2.7.10/share/wordlists/eff_large.wordlist",
       },
       {
-        label: "Bitcoin Core 31.1: encryption and change-passphrase dialogs",
-        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/qt/askpassphrasedialog.cpp",
+        label: "KeePassXC 2.7.10: random bytes and unbiased integer selection",
+        url: "https://github.com/keepassxreboot/keepassxc/blob/2.7.10/src/crypto/Random.cpp",
+      },
+      {
+        label: "Linux random interfaces",
+        url: "https://man7.org/linux/man-pages/man4/random.4.html",
       },
     ],
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     origin: "First-principles curriculum v4",
     widget: "entropy-table",
-    chapter: "Learn the wallet lifecycle",
+    chapter: "Operate one Core wallet",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
-      "Entropy comes from the generation method. Independent random choices multiply the number of possibilities an attacker must search.",
+      "Eight random words are a conservative default, not a minimum. Judge the generation method, attack margin and recovery burden together.",
   },
   {
     id: "brute-force-economics",
@@ -822,7 +771,7 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     estimatedTime: "8–12 min",
     kind: "reading",
     explanation: [
@@ -830,6 +779,8 @@ export const part2Lessons: PlayerLesson[] = [
       "The default rate of one billion guesses a second is deliberately hypothetical. It is not a Bitcoin Core cracking benchmark. Power and hourly compute costs must describe the same total equipment that achieves the chosen rate. Electricity is shown separately from compute rental to avoid adding the same energy cost twice.",
       "Core 31.1 encrypts private key material using AES-256-CBC and derives an encryption key from the passphrase using salted, repeated SHA-512 work. Its implementation calibrates the iteration count to a target duration on the machine doing encryption, subject to a minimum. That slows each guess; it does not make a predictable passphrase random.",
       "A real attack depends on the wallet’s stored derivation parameters, hardware, software optimization, parallel machines, electricity and future improvements. Do not interpret the result as an insurance quote or aim for an estimated attack cost only slightly above the wallet’s value. Keep a large margin and review it over time.",
+      "An attacker who obtains an encrypted wallet can try guesses without asking you or this website. The work consumes computing time, energy and equipment, and prevents those resources from being used elsewhere. This opportunity cost matters even when a machine is already owned.",
+      "Compare one, five, six and eight words, then change the assumptions. The aim is intuition, not choosing the largest number out of fear. Do not match a $100,000 wallet to a $101,000 attack estimate: future purchasing power, better attack tools and uncertain hardware costs require a much larger margin. Once the attack is already economically absurd under demanding assumptions, further entropy has diminishing practical value. Review the margin over time.",
     ],
     prerequisites: ["passphrase-strength"],
     sources: [
@@ -847,71 +798,85 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     origin: "First-principles curriculum v4",
     widget: "brute-force",
-    chapter: "Learn the wallet lifecycle",
+    chapter: "Operate one Core wallet",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
       "Guessing consumes resources, but illustrative costs are not guarantees. Keep a substantial security margin instead of matching an estimate to your balance.",
   },
   {
     id: "generate-passphrase",
     slug: "generate-passphrase",
-    title: "Generate and record an encryption passphrase",
-    summary: "Choose words by a random procedure you can explain.",
-    objective: "Choose words by a random procedure you can explain.",
+    title: "Generate the passphrase with KeePassXC",
+    summary:
+      "Use the secure randomness already available on your clean Debian system.",
+    objective:
+      "Generate and record eight independent words using the verified bundled list.",
     what: "Choose words by a random procedure you can explain.",
     why: "The strength calculation is only valid when the generating method matches it.",
     risk: "Picking attractive words, reusing an online password or losing the record defeats the intended protection.",
     status: "published",
     verification: "source-reviewed",
-    referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    referenceVersion:
+      "KeePassXC 2.7.10+dfsg1-1 · Debian 13 Stable amd64 · Botan 2.19.5+dfsg-4",
+    contentUpdated: "2026-09-14",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
-      "Use either fair dice with the original EFF large list or a verified offline password generator configured with that same list. Do this on the prepared signing computer before creating a real wallet. For the exercises, use test-only passphrases.",
-      "KeePassXC 2.7.12 uses a bundled list named eff_large.wordlist. We checked its official release file and the installed copy: both have 7,772 distinct entries and are not identical to EFF’s original 7,776-word list. The small numerical difference is not a weakness claim. This workflow explicitly selects the original EFF file so the generation method matches the course’s calculations.",
+      "Use KeePassXC on the clean dedicated Debian environment. The computer is not inventing a clever password: the application requests secure random bytes from the operating system and uses them to select words. For this stage, generate a disposable Signet passphrase. The same method will later run on the prepared offline signer before any real wallet is created.",
+      "Linux gathers unpredictable input from device activity and other sources, mixes it into protected internal state and uses cryptography to produce random bytes. A CSPRNG is a cryptographically secure pseudorandom number generator. Its calculations are deterministic, but an attacker without its secret internal state should not be able to predict the output. The relevant question is whether the source is properly initialized and the implementation is sound, not whether a human or a machine performed the procedure.",
+      "Bitcoin Core already relies on secure computer-generated randomness to create wallet keys. Our clean Linux and generic-hardware foundation therefore needs a trustworthy random source in either case. A correctly implemented password generator can turn that source into more than enough passphrase entropy. Replacing it with manual dice rolling adds no meaningful practical protection against a named threat in this course’s default model.",
+      "The reviewed Debian package includes eff_large.wordlist with 7,772 distinct words. Use it directly. Downloading and importing the original EFF list would change the eight-word figure from about 103.39 to 103.40 bits while adding another file and several manual steps. That does not justify the added work.",
+      "Physical dice can produce excellent entropy, but this course discourages them as the routine method. Transcribing rolls, looking up words and reproducing the procedure add time and opportunities for mistakes. An optional dice lesson remains available for an explicit threat, education or research. If you cannot name the threat that dice solve in your setup, use KeePassXC.",
     ],
     prerequisites: ["brute-force-economics"],
     sources: [
       {
-        label: "EFF: original large wordlist (7,776 entries)",
-        url: "https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt",
+        label: "Debian Stable: KeePassXC minimal 2.7.10+dfsg1-1",
+        url: "https://packages.debian.org/trixie/keepassxc-minimal",
       },
       {
-        label: "EFF: generating passphrases with dice",
-        url: "https://www.eff.org/dice",
+        label: "KeePassXC 2.7.10: passphrase generation and list loading",
+        url: "https://github.com/keepassxreboot/keepassxc/blob/2.7.10/src/core/PassphraseGenerator.cpp",
       },
       {
-        label: "KeePassXC 2.7.12: list loading, random selection and entropy",
-        url: "https://github.com/keepassxreboot/keepassxc/blob/2.7.12/src/core/PassphraseGenerator.cpp",
+        label: "KeePassXC 2.7.10: random bytes and unbiased integer selection",
+        url: "https://github.com/keepassxreboot/keepassxc/blob/2.7.10/src/crypto/Random.cpp",
       },
       {
-        label: "Bitcoin Core 31.1: encryption and change-passphrase dialogs",
-        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/qt/askpassphrasedialog.cpp",
+        label: "KeePassXC 2.7.10: bundled large wordlist",
+        url: "https://github.com/keepassxreboot/keepassxc/blob/2.7.10/share/wordlists/eff_large.wordlist",
       },
       {
-        label: "KeePassXC 2.7.12: actual bundled wordlist (7,772 entries)",
-        url: "https://github.com/keepassxreboot/keepassxc/blob/2.7.12/share/wordlists/eff_large.wordlist",
+        label: "Debian: Botan 2.19.5+dfsg-4",
+        url: "https://packages.debian.org/trixie/libbotan-2-19",
+      },
+      {
+        label: "Botan 2.19.5: system RNG implementation",
+        url: "https://github.com/randombit/botan/blob/2.19.5/src/lib/rng/system_rng/system_rng.cpp",
+      },
+      {
+        label: "Linux random interfaces",
+        url: "https://man7.org/linux/man-pages/man4/random.4.html",
       },
     ],
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 source and sequence review. Debian package files and generator implementation were inspected; this is not a physical Debian installation or a funded Signet test.",
     origin: "First-principles curriculum v4",
     guidedSteps: [
       {
-        id: "method-v4",
-        title: "Choose one generation method",
+        id: "keepass-bundled-v41",
+        title: "Select the bundled generator settings",
         instructions: [
-          "Dice option: for each word, roll a fair six-sided die five times, preserving order. Look up the resulting five-digit code in EFF’s original large wordlist. Repeat independently eight times. Do not substitute words you prefer.",
-          "Generator option: on the prepared offline machine, open KeePassXC’s password generator, choose Passphrase, select a custom wordlist and load the verified EFF large wordlist file. Choose eight words, lowercase and a space separator. Verify the selected list rather than relying on a saved preference.",
+          "Open KeePassXC. You can use its generator without creating a password database. Choose Tools → Password Generator, then Passphrase. Select (SYSTEM) eff_large.wordlist, set Word Count to 8, choose lower case and use a single space as the word separator.",
+          "Check these settings yourself; they may reflect a previous session. Use the Generate control (the circular-arrow button) to create the test phrase. Keep exactly what the generator selects, including repeated words. Do not substitute words you prefer or keep regenerating until the result looks memorable.",
         ],
         expectedResult:
-          "You can identify the list, number of independent choices and method that produced the words.",
-        help: "KeePassXC reads a Diceware-style number followed by a word and removes the numeric label when loading the list. Its source computes entropy from the distinct words actually loaded. A different list needs a different count.",
+          "The selected bundled list has 7,772 choices; eight generated words give about 103.39 bits. No custom file is needed.",
+        help: "If the list is missing, the word count is wrong or the result is empty, stop and check the installed package and generator settings. An unfamiliar version needs a fresh source/list comparison, not an assumed count.",
       },
       {
         id: "record-v4",
@@ -919,6 +884,7 @@ export const part2Lessons: PlayerLesson[] = [
         instructions: [
           "Write the words in order, including any repetition, with the separator and case unambiguous. Store the record separately from the wallet backup locations you are protecting. A second password record may be justified, but give it its own access and loss model.",
           "Do not rely on memory alone. If you use an encrypted password database, its master passphrase and recovery procedure become part of this system. Do not put the only copy inside the wallet backup it is needed to unlock.",
+          "Keep this generated phrase off websites and screenshots. A password database is optional for storage; it is not required simply to use the generator.",
         ],
         expectedResult:
           "A readable, independently protected record can reconstruct the exact passphrase.",
@@ -935,11 +901,17 @@ export const part2Lessons: PlayerLesson[] = [
         help: "Check the wordlist, word count and written order. Do not repair an uncertain phrase by inventing a missing word. For this disposable exercise, generate a fresh phrase and make a clear record.",
       },
     ],
-    chapter: "Learn the wallet lifecycle",
+    chapter: "Operate one Core wallet",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
-      "Eight independent choices from the verified EFF list provide about 103.40 bits of entropy. A phrase you invent does not inherit that calculation.",
+      "Use KeePassXC’s bundled large list on clean Debian: eight independent words provide about 103.39 bits with fewer manual operations.",
+    notes: [
+      "Implementation reviewed: Debian 13 Stable amd64 keepassxc-minimal 2.7.10+dfsg1-1 with libbotan-2-19 2.19.5+dfsg-4. Random.cpp selects Botan::System_RNG. The inspected Debian Botan build enables the device RNG path and sets BOTAN_SYSTEM_RNG_DEVICE to /dev/urandom; its library contains that path. This is a request to Linux’s kernel random generator, not an internet service. Other versions or builds may use a different system interface.",
+      "The device path reads bytes from /dev/urandom. It does not itself wait for initial seeding as Linux’s getrandom interface normally does. This procedure assumes a normally booted, maintained physical Debian desktop with initialized kernel randomness. Early-boot software, copied virtual-machine state and unusual embedded systems need their own review; this source inspection does not certify every platform.",
+      "PassphraseGenerator.cpp loads words into a set that removes duplicates, then requests a random index for each word. Random::randomUInt rejects the small upper tail of a 32-bit draw before taking its remainder modulo the list size. Without that rejection, some indexes could receive more possible draws than others. For 7,772 words, 4,294,962,640 values are accepted, exactly 552,620 per index; 4,656 values are rejected and redrawn. Uniform bytes therefore produce uniform word selections.",
+      "The packaged list and source list were byte-identical, with 7,772 distinct entries even after lowercase conversion. Each word is chosen independently, with replacement, so duplicates in the generated phrase are allowed. The generator’s source default is seven words; explicitly select the course’s eight-word default rather than relying on a factory or saved setting.",
+    ],
   },
   {
     id: "signet-encrypt-new-backup",
@@ -1043,212 +1015,22 @@ export const part2Lessons: PlayerLesson[] = [
           "Use Signet test coins only. Never reuse these keys or passwords for mainnet.",
       },
     ],
-    prerequisites: ["generate-passphrase", "signet-first-wallet"],
-    contentUpdated: "2026-09-13",
+    prerequisites: ["generate-passphrase"],
+    contentUpdated: "2026-09-14",
     notes: [],
     practicalReview: {
       date: "2026-09-13",
       scope:
         "Core 31.1 macOS GUI dialog/menu inspection and automated Regtest encryption, passphrase-change, old/new backup restoration and signing. Not a full Debian GUI run.",
     },
-    chapter: "Learn the wallet lifecycle",
-    sourceReviewed: "2026-09-13",
+    chapter: "Operate one Core wallet",
+    sourceReviewed: "2026-09-14",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     why: "Save a new backup after encryption and record its password separately.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
       "First-time encryption changes the active key-generation roots. Save a fresh backup and preserve its passphrase separately.",
-  },
-  {
-    id: "wallet-lock-change",
-    slug: "wallet-lock-change",
-    title: "Lock, unlock and change the wallet passphrase",
-    summary: "Operate encryption without confusing it with the Bitcoin keys.",
-    objective: "Operate encryption without confusing it with the Bitcoin keys.",
-    what: "Operate encryption without confusing it with the Bitcoin keys.",
-    why: "You must know both when signing is authorized and which passphrase unlocks each backup.",
-    risk: "Changing the live wallet’s passphrase does not update a backup file you already copied elsewhere.",
-    status: "published",
-    verification: "source-reviewed",
-    referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
-    estimatedTime: "20–40 min active",
-    kind: "practice",
-    explanation: [
-      "An encrypted wallet is normally locked for signing. Core asks for the passphrase when a GUI operation needs private keys and ordinarily returns the wallet to its previous locked state afterward. The padlock status describes this state; it is not a button for replacing the keys.",
-      "Core 31.1 has Settings → Change Passphrase. It does not have a general-purpose Unlock Wallet menu item. Receiving addresses and viewing transactions normally do not require unlocking; signing does.",
-    ],
-    prerequisites: ["signet-encrypt-new-backup"],
-    sources: [
-      {
-        label: "Bitcoin Core 31.1: wallet creation, backup and restoration",
-        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/managing-wallets.md",
-      },
-      {
-        label: "Bitcoin Core 31.1: encryption and change-passphrase dialogs",
-        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/qt/askpassphrasedialog.cpp",
-      },
-      {
-        label: "Bitcoin Core 31.1: wallet GUI actions",
-        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/qt/bitcoingui.cpp",
-      },
-      {
-        label: "Bitcoin Core 31.1: passphrase derivation and AES encryption",
-        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/wallet/crypter.cpp",
-      },
-    ],
-    reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
-    origin: "First-principles curriculum v4",
-    guidedSteps: [
-      {
-        id: "state-v4",
-        title: "Observe the locked wallet",
-        instructions: [
-          "Select the encrypted test wallet. Hover the padlock indicator and read its status. Open Receive and generate an address without entering a passphrase.",
-          "Close and reopen the wallet through File → Close Wallet and File → Open Wallet. Confirm it is still encrypted. Later, in the sending or PSBT exercise, observe the unlock prompt and the return to the locked state.",
-        ],
-        expectedResult:
-          "You can distinguish viewing or receiving from an operation that needs signing authority.",
-        help: "Confirm which test wallet is selected and whether the backup predates the password change. Its own creation date determines which password record you should test.",
-      },
-      {
-        id: "old-copy-v4",
-        title: "Make the before-change backup",
-        instructions: [
-          "Use File → Backup Wallet. Save a copy named with the test wallet name, date and “before-passphrase-change”. Keep it for the later old-backup drill; record which test passphrase belongs to it without putting the passphrase in its filename.",
-        ],
-        expectedResult:
-          "The old encrypted snapshot is clearly identified and remains available for a controlled recovery test.",
-        help: "Confirm which test wallet is selected and whether the backup predates the password change. Its own creation date determines which password record you should test.",
-      },
-      {
-        id: "change-v4",
-        title: "Change the live test wallet’s passphrase",
-        instructions: [
-          "Open Settings → Change Passphrase. Enter the old test passphrase and the newly generated test passphrase twice. Read the result. Changing the encryption credential does not change the Bitcoin addresses or revoke old backups.",
-          "Immediately use File → Backup Wallet again. Give the new copy a distinct name and restore that copy under a distinct test wallet name. Test a signing operation with the new phrase.",
-        ],
-        expectedResult:
-          "The changed live wallet and new backup unlock with the new phrase; the recorded addresses still identify the same wallet.",
-        help: "Confirm which test wallet is selected and whether the backup predates the password change. Its own creation date determines which password record you should test.",
-      },
-      {
-        id: "old-state-v4",
-        title: "Restore the old snapshot and explain it",
-        instructions: [
-          "Restore the before-change copy as a separate test wallet. Verify that it still needs its old passphrase. The new passphrase does not retroactively alter that file.",
-          "If an old file and its old passphrase were compromised, changing only the current file’s password would not revoke the attacker’s Bitcoin keys. Actual key compromise requires moving the coins to a new securely created wallet and retiring the compromised keys.",
-        ],
-        expectedResult:
-          "You can identify the passphrase and metadata state associated with each backup.",
-        warning:
-          "This lesson uses disposable test wallets. Do not delete old real backups until current recovery is proven and you have reviewed what the old copies can still reveal.",
-        help: "Confirm which test wallet is selected and whether the backup predates the password change. Its own creation date determines which password record you should test.",
-      },
-    ],
-    practicalReview: {
-      date: "2026-09-13",
-      scope:
-        "Core 31.1 macOS GUI dialog/menu inspection and automated Regtest encryption, passphrase-change, old/new backup restoration and signing. Not a full Debian GUI run.",
-    },
-    chapter: "Learn the wallet lifecycle",
-    optional: false,
-    sourceReviewed: "2026-09-13",
-    takeaway:
-      "Core unlocks protected keys when signing needs them. Changing the passphrase does not update old backup copies or replace copied private keys.",
-  },
-  {
-    id: "signet-restore",
-    slug: "back-up-remove-test-wallet-and-restore",
-    title: "Rebuild the test wallet from its backup",
-    summary:
-      "Check that the restored wallet recognizes the address and payment you recorded.",
-    objective:
-      "Check that the restored wallet recognizes the address and payment you recorded.",
-    estimatedTime: "10–15 min",
-    status: "published",
-    verification: "source-reviewed",
-    referenceVersion: "Bitcoin Core 31.1",
-    explanation: [
-      "Restoring means asking Core to create a usable wallet from your saved backup file. We give the restored copy a different name and keep the original closed. Nothing needs to be deleted for this exercise.",
-      "Core may scan stored blocks to find payments belonging to the restored wallet. This is a rescan. Seeing the expected address and transaction is a useful first check. The next lesson tests the password and signing keys by sending from the restored copy.",
-    ],
-    sources: [
-      {
-        label: "Bitcoin Core 31.1 — Managing the wallet",
-        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/managing-wallets.md",
-      },
-      {
-        label: "Bitcoin Core 31.1 — Files and Data Directories",
-        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/files.md",
-      },
-    ],
-    codeBlocks: [],
-    videoUrl: null,
-    origin:
-      "Create/encrypt/back up/unload/restore/unlock flow reproduced on Bitcoin Core 31.1",
-    optional: false,
-    kind: "practice",
-    guidedSteps: [
-      {
-        id: "record",
-        title: "Record the payment details and close the original wallet",
-        instructions: [
-          "Record an address that received test coins and its transaction ID. Select File → Close Wallet for signet-training-wallet. Closing unloads it from Core; it does not delete the files.",
-          "Keep the original files intact and locate signet-training-after-encryption.dat separately. This ensures that recovery uses the backup rather than the original wallet. The original must stay closed during this exercise and the next payment.",
-        ],
-        expectedResult:
-          "The original test wallet is closed and you can locate the post-encryption backup independently.",
-        help: "Do not move a directory whose identity you cannot prove. Never touch another wallet or the blockchain folders.",
-        warning:
-          "Use Signet test coins only. Never reuse these keys or passwords for mainnet.",
-      },
-      {
-        id: "restore",
-        title: "Restore under a new name",
-        instructions: [
-          "Choose File → Restore Wallet. Name the restored wallet signet-training-restored, select the saved signet-training-after-encryption.dat file and complete the restore. Keep signet-training-wallet closed. If Core needs to scan blocks, let the scan finish before judging the result.",
-          "In the restored wallet, compare the previously recorded receiving address in the Receive history or receiving-address list. Confirm the restored wallet name in the window and its encryption state in the padlock indicator.",
-          "Wait for the Signet node to catch up before comparing transaction history. The later send-again exercise proves signing capability; a familiar balance alone does not.",
-        ],
-        expectedResult:
-          "The intended restored wallet recognizes the recorded address and displays its encryption state.",
-        help: "If the name exists, use a fresh test data directory rather than overwrite it. If pruned blocks are missing, recover against a node with the required history or download and validate that history again.",
-        warning:
-          "Use Signet test coins only. Never reuse these keys or passwords for mainnet.",
-      },
-      {
-        id: "compare",
-        title: "Compare the restored wallet with your records",
-        instructions: [
-          "Find the address and transaction ID you recorded before closing the original. Check them in signet-training-restored and keep signet-training-wallet closed. The restored wallet should recognize the expected received amounts that remain available to spend.",
-          "Compare a recorded address, not only the next new address each wallet creates. Wallets can be at different positions in their address sequences. Seeing a balance is only the first check; sending from the restored copy next will test access to the signing keys.",
-        ],
-        expectedResult:
-          "The restored wallet recognizes the recorded transaction and the amounts that should still be available to spend.",
-        help: "Compare an address you recorded earlier, not just the next address each wallet generates. The wallets may be at different positions in their address sequences. A visible balance alone does not prove that you can sign.",
-        warning:
-          "Use Signet test coins only. Never reuse these keys or passwords for mainnet.",
-      },
-    ],
-    prerequisites: ["wallet-lock-change"],
-    contentUpdated: "2026-09-13",
-    notes: [],
-    practicalReview: {
-      date: "2026-09-13",
-      scope:
-        "Core 31.1 macOS GUI dialog/menu inspection and automated Regtest encryption, passphrase-change, old/new backup restoration and signing. Not a full Debian GUI run.",
-    },
-    chapter: "Learn the wallet lifecycle",
-    sourceReviewed: "2026-09-13",
-    reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
-    why: "Check that the restored wallet recognizes the address and payment you recorded.",
-    risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
-    takeaway:
-      "Restoring a file should reproduce recorded wallet information. A later payment must also prove that the recovered keys can sign.",
   },
   {
     id: "signet-receive-send",
@@ -1263,7 +1045,7 @@ export const part2Lessons: PlayerLesson[] = [
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     explanation: [
       "A receiving address tells a sender where to pay. It is public information you can share for that payment, not a password or a private key. A Signet faucet is a service that sends small amounts of free test coins to your practice address.",
       "A confirmation means that a transaction has been included in a block. When you later spend a received amount, Core may use more than the payment needs and return the remainder to your own wallet as change. The transaction fee is the difference between everything spent and everything paid out, including that change.",
@@ -1292,7 +1074,7 @@ export const part2Lessons: PlayerLesson[] = [
         id: "receive",
         title: "Request test coins",
         instructions: [
-          "Confirm chain = signet and that the node has finished synchronizing. In signet-training-wallet choose Receive → Create new receiving address. Record that address. It is the public destination for this test payment, not a wallet secret.",
+          "Read Signet in the window title and the Network field in Window → Information. Confirm that the node has finished synchronizing. In signet-training-wallet choose Receive → Create new receiving address. Record that address. It is the public destination for this test payment, not a wallet secret.",
           "Use the Signet faucet linked from the official offline-signing tutorial in Sources. A faucet gives out test coins. Give it only the receiving address, never a password or wallet file, and never pay for test coins. A faucet may be unavailable; do not change networks simply to make an address work.",
         ],
         expectedResult:
@@ -1306,14 +1088,11 @@ export const part2Lessons: PlayerLesson[] = [
         title: "Wait until the received coins have a confirmation",
         instructions: [
           "Open Transactions and inspect the payment you received. One confirmation means it has been included in a block. Wait for at least one confirmation before using these coins in the exercise.",
-          "With the test wallet selected in the console, run listunspent. An unspent transaction output, shortened to UTXO, is an amount received that has not yet been spent. Record its transaction ID and amount, and check that it is spendable. The transaction ID identifies the payment in the history.",
+          "Open the received transaction’s details in the GUI and record its transaction ID, address and amount. The transaction ID identifies that payment in the history. Check that the confirmed receipt is reflected in the wallet’s available balance. The next coin-control lesson shows the individual unspent amounts.",
         ],
         expectedResult:
           "The received amount has at least one confirmation and Core reports that this wallet can spend it.",
         help: "An unconfirmed receipt is different from a missing receipt. Check chain, synchronization and the exact address before requesting again.",
-        command: "listunspent",
-        commandContext:
-          "Bitcoin Core · Window → Console (select the named wallet)",
         warning:
           "Use Signet test coins only. Never reuse these keys or passwords for mainnet.",
       },
@@ -1344,11 +1123,11 @@ export const part2Lessons: PlayerLesson[] = [
           "Use Signet test coins only. Never reuse these keys or passwords for mainnet.",
       },
     ],
-    prerequisites: ["signet-restore", "signet-encrypt-new-backup"],
-    contentUpdated: "2026-09-13",
+    prerequisites: ["signet-encrypt-new-backup"],
+    contentUpdated: "2026-09-14",
     notes: [],
-    chapter: "Learn the wallet lifecycle",
-    sourceReviewed: "2026-09-13",
+    chapter: "Operate one Core wallet",
+    sourceReviewed: "2026-09-14",
     why: "Recognize the amount received, the payment, the fee and any money returned as change.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -1368,7 +1147,7 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
@@ -1387,7 +1166,7 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     origin: "First-principles curriculum v4",
     guidedSteps: [
       {
@@ -1424,11 +1203,102 @@ export const part2Lessons: PlayerLesson[] = [
         help: "Recheck the selected wallet, confirmed spendable outputs and fee units. A fee rate in satoshis per virtual byte is not the same number as the transaction’s total fee.",
       },
     ],
-    chapter: "Learn the wallet lifecycle",
+    chapter: "Operate one Core wallet",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
       "Coin control chooses which spendable outputs a payment consumes. The fee depends on transaction size and the selected fee rate.",
+  },
+  {
+    id: "signet-restore",
+    slug: "back-up-remove-test-wallet-and-restore",
+    title: "Rebuild the test wallet from its backup",
+    summary:
+      "Check that the restored wallet recognizes the address and payment you recorded.",
+    objective:
+      "Check that the restored wallet recognizes the address and payment you recorded.",
+    estimatedTime: "10–15 min",
+    status: "published",
+    verification: "source-reviewed",
+    referenceVersion: "Bitcoin Core 31.1",
+    explanation: [
+      "Restoring means asking Core to create a usable wallet from your saved backup file. We give the restored copy a different name and keep the original closed. Nothing needs to be deleted for this exercise.",
+      "Core may scan stored blocks to find payments belonging to the restored wallet. This is a rescan. Compare the address and transaction you recorded in the receive/send exercise. The following send-again lesson will prove that the restored keys and recorded passphrase can authorize a new payment.",
+    ],
+    sources: [
+      {
+        label: "Bitcoin Core 31.1 — Managing the wallet",
+        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/managing-wallets.md",
+      },
+      {
+        label: "Bitcoin Core 31.1 — Files and Data Directories",
+        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/files.md",
+      },
+    ],
+    codeBlocks: [],
+    videoUrl: null,
+    origin:
+      "Create/encrypt/back up/unload/restore/unlock flow reproduced on Bitcoin Core 31.1",
+    optional: false,
+    kind: "practice",
+    guidedSteps: [
+      {
+        id: "record",
+        title: "Record the payment details and close the original wallet",
+        instructions: [
+          "Record an address that received test coins and its transaction ID. Select File → Close Wallet for signet-training-wallet. Closing unloads it from Core; it does not delete the files.",
+          "Keep the original files intact and locate signet-training-after-encryption.dat separately. This ensures that recovery uses the backup rather than the original wallet. The original must stay closed during this exercise and the next payment.",
+        ],
+        expectedResult:
+          "The original test wallet is closed and you can locate the post-encryption backup independently.",
+        help: "Do not move a directory whose identity you cannot prove. Never touch another wallet or the blockchain folders.",
+        warning:
+          "Use Signet test coins only. Never reuse these keys or passwords for mainnet.",
+      },
+      {
+        id: "restore",
+        title: "Restore under a new name",
+        instructions: [
+          "Choose File → Restore Wallet. Name the restored wallet signet-training-restored, select the saved signet-training-after-encryption.dat file and complete the restore. Keep signet-training-wallet closed. If Core needs to scan blocks, let the scan finish before judging the result.",
+          "Confirm the restored wallet name in the window and its encryption state in the padlock indicator. Once the rescan is complete, open the recorded incoming transaction’s details and compare its receiving address with your notes. Receive-request history and labels added after the backup may be absent; rescanning the blockchain does not reconstruct those local records.",
+          "Wait for the Signet node to catch up before comparing transaction history. The later send-again exercise proves signing capability; a familiar balance alone does not.",
+        ],
+        expectedResult:
+          "The intended restored wallet recognizes the recorded address and displays its encryption state.",
+        help: "If the name exists, use a fresh test data directory rather than overwrite it. If pruned blocks are missing, recover against a node with the required history or download and validate that history again.",
+        warning:
+          "Use Signet test coins only. Never reuse these keys or passwords for mainnet.",
+      },
+      {
+        id: "compare",
+        title: "Compare the restored wallet with your records",
+        instructions: [
+          "Find the address and transaction ID you recorded before closing the original. Check them in signet-training-restored and keep signet-training-wallet closed. The restored wallet should recognize the expected received amounts that remain available to spend.",
+          "Compare a recorded address, not only the next new address each wallet creates. Wallets can be at different positions in their address sequences. Seeing a balance is only the first check; sending from the restored copy next will test access to the signing keys.",
+        ],
+        expectedResult:
+          "The restored wallet recognizes the recorded transaction and the amounts that should still be available to spend.",
+        help: "Compare an address you recorded earlier, not just the next address each wallet generates. The wallets may be at different positions in their address sequences. A visible balance alone does not prove that you can sign.",
+        warning:
+          "Use Signet test coins only. Never reuse these keys or passwords for mainnet.",
+      },
+    ],
+    prerequisites: ["coin-control-fees"],
+    contentUpdated: "2026-09-14",
+    notes: [],
+    practicalReview: {
+      date: "2026-09-13",
+      scope:
+        "Core 31.1 macOS GUI dialog/menu inspection and automated Regtest encryption, passphrase-change, old/new backup restoration and signing. Not a full Debian GUI run.",
+    },
+    chapter: "Operate one Core wallet",
+    sourceReviewed: "2026-09-14",
+    reviewNote:
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
+    why: "Check that the restored wallet recognizes the address and payment you recorded.",
+    risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
+    takeaway:
+      "Restoring a file should reproduce recorded wallet information. A later payment must also prove that the recovered keys can sign.",
   },
   {
     id: "signet-transact-again",
@@ -1443,7 +1313,7 @@ export const part2Lessons: PlayerLesson[] = [
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     explanation: [
       "A wallet can display a balance even when it cannot sign. This exercise checks the missing piece: whether your recovered wallet and password can actually approve a payment.",
       "Keep the original wallet closed. Send a small amount to another address in your own restored test wallet, then wait for a confirmation. Record the transaction ID, the reference number that identifies this payment in the transaction history.",
@@ -1491,15 +1361,114 @@ export const part2Lessons: PlayerLesson[] = [
           "Use Signet test coins only. Never reuse these keys or passwords for mainnet.",
       },
     ],
-    prerequisites: ["coin-control-fees", "signet-restore"],
-    contentUpdated: "2026-09-13",
+    prerequisites: ["signet-restore"],
+    contentUpdated: "2026-09-14",
     notes: [],
-    chapter: "Learn the wallet lifecycle",
-    sourceReviewed: "2026-09-13",
+    chapter: "Operate one Core wallet",
+    sourceReviewed: "2026-09-14",
     why: "Send a confirmed test payment using only the wallet restored from backup.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
       "A confirmed payment from the restored wallet proves more than a familiar balance: the recovered signing material actually works.",
+  },
+  {
+    id: "wallet-lock-change",
+    slug: "wallet-lock-change",
+    title: "Lock, unlock and change the wallet passphrase",
+    summary: "Operate encryption without confusing it with the Bitcoin keys.",
+    objective: "Operate encryption without confusing it with the Bitcoin keys.",
+    what: "Operate encryption without confusing it with the Bitcoin keys.",
+    why: "You must know both when signing is authorized and which passphrase unlocks each backup.",
+    risk: "Changing the live wallet’s passphrase does not update a backup file you already copied elsewhere.",
+    status: "published",
+    verification: "source-reviewed",
+    referenceVersion: "Bitcoin Core 31.1",
+    contentUpdated: "2026-09-14",
+    estimatedTime: "20–40 min active",
+    kind: "practice",
+    explanation: [
+      "An encrypted wallet is normally locked for signing. Core asks for the passphrase when a GUI operation needs private keys and ordinarily returns the wallet to its previous locked state afterward. The padlock status describes this state; it is not a button for replacing the keys.",
+      "Core 31.1 has Settings → Change Passphrase. It does not have a general-purpose Unlock Wallet menu item. Receiving addresses and viewing transactions normally do not require unlocking; signing does.",
+    ],
+    prerequisites: ["signet-transact-again"],
+    sources: [
+      {
+        label: "Bitcoin Core 31.1: wallet creation, backup and restoration",
+        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/managing-wallets.md",
+      },
+      {
+        label: "Bitcoin Core 31.1: encryption and change-passphrase dialogs",
+        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/qt/askpassphrasedialog.cpp",
+      },
+      {
+        label: "Bitcoin Core 31.1: wallet GUI actions",
+        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/qt/bitcoingui.cpp",
+      },
+      {
+        label: "Bitcoin Core 31.1: passphrase derivation and AES encryption",
+        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/wallet/crypter.cpp",
+      },
+    ],
+    reviewNote:
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
+    origin: "First-principles curriculum v4",
+    guidedSteps: [
+      {
+        id: "state-v4",
+        title: "Observe the locked wallet",
+        instructions: [
+          "Select the encrypted test wallet. Hover the padlock indicator and read its status. Open Receive and generate an address without entering a passphrase.",
+          "Close and reopen the wallet through File → Close Wallet and File → Open Wallet. Confirm it is encrypted. Repeat a small Signet self-transfer as you already practiced, observe the unlock prompt and check that the wallet returns to its locked state after signing.",
+        ],
+        expectedResult:
+          "You can distinguish viewing or receiving from an operation that needs signing authority.",
+        help: "Confirm which test wallet is selected and whether the backup predates the password change. Its own creation date determines which password record you should test.",
+      },
+      {
+        id: "old-copy-v4",
+        title: "Make the before-change backup",
+        instructions: [
+          "Use File → Backup Wallet. Save a copy named with the test wallet name, date and “before-passphrase-change”. Keep it for the later old-backup drill; record which test passphrase belongs to it without putting the passphrase in its filename.",
+        ],
+        expectedResult:
+          "The old encrypted snapshot is clearly identified and remains available for a controlled recovery test.",
+        help: "Confirm which test wallet is selected and whether the backup predates the password change. Its own creation date determines which password record you should test.",
+      },
+      {
+        id: "change-v4",
+        title: "Change the live test wallet’s passphrase",
+        instructions: [
+          "Open Settings → Change Passphrase. Enter the old test passphrase and the newly generated test passphrase twice. Read the result. Changing the encryption credential does not change the Bitcoin addresses or revoke old backups. Generate the replacement phrase with the same KeePassXC bundled-list method.",
+          "Immediately use File → Backup Wallet again. Give the new copy a distinct name and restore that copy under a distinct test wallet name. Test a signing operation with the new phrase.",
+        ],
+        expectedResult:
+          "The changed live wallet and new backup unlock with the new phrase; the recorded addresses still identify the same wallet.",
+        help: "Confirm which test wallet is selected and whether the backup predates the password change. Its own creation date determines which password record you should test.",
+      },
+      {
+        id: "old-state-v4",
+        title: "Restore the old snapshot and explain it",
+        instructions: [
+          "Restore the before-change copy as a separate test wallet. Verify that it still needs its old passphrase. The new passphrase does not retroactively alter that file.",
+          "If an old file and its old passphrase were compromised, changing only the current file’s password would not revoke the attacker’s Bitcoin keys. Actual key compromise requires moving the coins to a new securely created wallet and retiring the compromised keys.",
+        ],
+        expectedResult:
+          "You can identify the passphrase and metadata state associated with each backup.",
+        warning:
+          "This lesson uses disposable test wallets. Do not delete old real backups until current recovery is proven and you have reviewed what the old copies can still reveal.",
+        help: "Confirm which test wallet is selected and whether the backup predates the password change. Its own creation date determines which password record you should test.",
+      },
+    ],
+    practicalReview: {
+      date: "2026-09-13",
+      scope:
+        "Core 31.1 macOS GUI dialog/menu inspection and automated Regtest encryption, passphrase-change, old/new backup restoration and signing. Not a full Debian GUI run.",
+    },
+    chapter: "Operate one Core wallet",
+    optional: false,
+    sourceReviewed: "2026-09-14",
+    takeaway:
+      "Core unlocks protected keys when signing needs them. Changing the passphrase does not update old backup copies or replace copied private keys.",
   },
   {
     id: "repetition-drills",
@@ -1513,14 +1482,14 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
       "Keep this session entirely on Signet. Use the prefix PRACTICE and never reuse these wallets, addresses or passphrases for savings. The point is to make mistakes while they have no financial consequence.",
       "Do the repetitions across more than one session. Speed is not the metric. You should be able to predict the result and explain a discrepancy.",
     ],
-    prerequisites: ["signet-transact-again"],
+    prerequisites: ["wallet-lock-change"],
     sources: [
       {
         label: "Bitcoin Core 31.1: wallet creation, backup and restoration",
@@ -1532,7 +1501,7 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     origin: "First-principles curriculum v4",
     guidedSteps: [
       {
@@ -1549,7 +1518,7 @@ export const part2Lessons: PlayerLesson[] = [
         id: "three-v4",
         title: "Compare three test passphrases",
         instructions: [
-          "Encrypt three of the empty disposable wallets: one with an obviously weak test phrase, one with five independently generated EFF words and one with eight. The weak examples are experiments only.",
+          "Encrypt three empty disposable wallets: one with an obviously predictable test phrase, one with five independently generated KeePassXC words and one with eight from the same bundled large list. The predictable example is deliberately weak; five random words are a comparison, not automatically an unsafe choice.",
           "Observe that accepting a passphrase, looking locked or taking time to unlock does not demonstrate strong entropy. Record the generation method, not the words, in your comparison notes.",
         ],
         expectedResult:
@@ -1569,20 +1538,20 @@ export const part2Lessons: PlayerLesson[] = [
         help: "Use the name-to-address record to identify the correct test wallet. Keep originals closed during restoration and compare a previously recorded address rather than the next newly generated address.",
       },
       {
-        id: "transact-repeat-v4",
-        title: "Receive, spend, restore and spend again",
+        id: "lifecycle-v41",
+        title: "Repeat the complete lifecycle across separate sessions",
         instructions: [
-          "Use the strongest practice wallet to receive Signet coins, send a small test payment, make a current backup, restore it and send a second test payment. Record the transaction identifiers and confirmations in your own notes.",
-          "If an address or balance differs, explain the cause before continuing: different wallet, old metadata, synchronization, or a backup problem.",
+          "Using eight independently generated words, complete CREATE → ENCRYPT → BACK UP → RECEIVE → SPEND → RESTORE → CHANGE PASSWORD → RESTORE AGAIN. After changing the passphrase, make a fresh backup and restore that new copy with its new phrase. Prove signing from the restored copy.",
+          "Repeat this whole cycle in another session with a fresh disposable wallet and phrase. Keep originals closed during restore tests. Record the addresses, confirmed transactions and which phrase belongs to each backup. If anything differs, explain it before continuing.",
         ],
         expectedResult:
-          "A restored wallet has actually signed a new confirmed test transaction.",
+          "You have repeated the entire cycle, including password changes and a second successful restore, without depending on the working copy.",
         help: "Use the name-to-address record to identify the correct test wallet. Keep originals closed during restoration and compare a previously recorded address rather than the next newly generated address.",
       },
     ],
-    chapter: "Learn the wallet lifecycle",
+    chapter: "Operate one Core wallet",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
       "A reliable workflow is one you can repeat, including password changes and recovery, without improvising from memory.",
   },
@@ -1590,10 +1559,9 @@ export const part2Lessons: PlayerLesson[] = [
     id: "signet-readiness",
     slug: "mainnet-readiness-signet-checkpoint",
     title: "Check that you completed the whole practice cycle",
-    summary:
-      "Confirm what you did in Core before moving to a two-computer setup.",
+    summary: "Confirm what you did in the complete one-wallet practice cycle.",
     objective:
-      "Confirm what you did in Core before moving to a two-computer setup.",
+      "Confirm what you did in the complete one-wallet practice cycle.",
     estimatedTime: "5-10 min",
     status: "published",
     verification: "source-reviewed",
@@ -1628,20 +1596,14 @@ export const part2Lessons: PlayerLesson[] = [
     origin: "New checkpoint in curriculum v2.1",
     optional: false,
     kind: "checkpoint",
-    prerequisites: [
-      "repetition-drills",
-      "signet-encrypt-new-backup",
-      "signet-receive-send",
-      "signet-restore",
-      "signet-transact-again",
-    ],
-    contentUpdated: "2026-09-13",
+    prerequisites: ["repetition-drills"],
+    contentUpdated: "2026-09-14",
     notes: [],
-    chapter: "Learn the wallet lifecycle",
-    sourceReviewed: "2026-09-13",
+    chapter: "Operate one Core wallet",
+    sourceReviewed: "2026-09-14",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
-    why: "Confirm what you did in Core before moving to a two-computer setup.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
+    why: "Confirm what you did in the complete one-wallet practice cycle.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
       "You have practiced the complete test-wallet lifecycle. This checkpoint records your results; it cannot independently verify your computer.",
@@ -1679,12 +1641,12 @@ export const part2Lessons: PlayerLesson[] = [
     origin: "Moved from legacy module 2",
     optional: false,
     kind: "reading",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     notes: [],
-    chapter: "Build a recovery system",
-    sourceReviewed: "2026-09-13",
+    chapter: "Prove backup and recovery",
+    sourceReviewed: "2026-09-14",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     takeaway:
       "Wallet backups preserve wallet information. Public blockchain data serves a different purpose and can be downloaded and validated again.",
     prerequisites: ["signet-readiness"],
@@ -1738,15 +1700,15 @@ export const part2Lessons: PlayerLesson[] = [
     optional: false,
     kind: "checkpoint",
     prerequisites: ["2.6"],
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     notes: [
       "Labels are information you supply. Reading the blockchain again cannot reconstruct them. A newer backup may be needed to recover those records even if an older copy can still recover the money.",
       "Refresh backups after encryption, password changes and imported keys or address descriptions. Also refresh them when newly added wallet records matter for recovery. Changing a password does not encrypt old copies again or take back keys someone copied. If keys may have been stolen, secure the environment and move to new keys.",
     ],
-    chapter: "Build a recovery system",
-    sourceReviewed: "2026-09-13",
+    chapter: "Prove backup and recovery",
+    sourceReviewed: "2026-09-14",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     why: "Check both how many usable copies you have and whether they cover your current wallet.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -1793,14 +1755,14 @@ export const part2Lessons: PlayerLesson[] = [
     optional: false,
     kind: "checkpoint",
     prerequisites: ["backup-redundancy-freshness"],
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     notes: [
       "Cloud storage is therefore a tradeoff: it can improve redundancy and availability, but adds a third party, online exposure, and potential privacy leakage to the threat model. It is not a universal recommendation.",
     ],
-    chapter: "Build a recovery system",
-    sourceReviewed: "2026-09-13",
+    chapter: "Prove backup and recovery",
+    sourceReviewed: "2026-09-14",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     why: "Understand how key protection differs from financial privacy.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -1818,7 +1780,7 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     estimatedTime: "8–12 min",
     kind: "reading",
     explanation: [
@@ -1838,88 +1800,14 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     origin: "First-principles curriculum v4",
     widget: "backup-media",
-    chapter: "Build a recovery system",
+    chapter: "Prove backup and recovery",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
       "Choose copies whose failure modes differ. Test readability and restoration rather than relying on a promised storage lifetime.",
-  },
-  {
-    id: "optional-veracrypt",
-    slug: "optional-veracrypt",
-    title: "Optional: put the backup inside an encrypted container",
-    summary:
-      "Add an outer layer only for a named threat, such as wallet metadata exposure.",
-    objective:
-      "Add an outer layer only for a named threat, such as wallet metadata exposure.",
-    what: "Add an outer layer only for a named threat, such as wallet metadata exposure.",
-    why: "Core wallet encryption protects private key material without encrypting every wallet record.",
-    risk: "A second encryption layer can become a second way to lock yourself out.",
-    status: "published",
-    verification: "source-reviewed",
-    referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
-    estimatedTime: "20–40 min active",
-    kind: "practice",
-    explanation: [
-      "VeraCrypt can hold an encrypted Core backup inside a separate encrypted volume. This can protect information outside Core’s private-key encryption boundary, including metadata, when that additional privacy matters to your threat model.",
-      "It adds software, a volume format, a second credential and another recovery operation. You still need the Core wallet passphrase after opening the container. A lost or damaged container header can create a further recovery dependency.",
-      "The default course does not require VeraCrypt. If you choose it, follow its official volume-creation and backup documentation and prove the whole two-stage recovery with a disposable copy before depending on it.",
-    ],
-    prerequisites: ["backup-media"],
-    sources: [
-      {
-        label: "VeraCrypt: volume backup and recovery dependencies",
-        url: "https://veracrypt.io/en/How%20to%20Back%20Up%20Securely.html",
-      },
-      {
-        label: "Bitcoin Core 31.1: wallet creation, backup and restoration",
-        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/managing-wallets.md",
-      },
-    ],
-    reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
-    origin: "First-principles curriculum v4",
-    guidedSteps: [
-      {
-        id: "justify-layer-v4",
-        title: "Name the extra threat",
-        instructions: [
-          "Write what the outer container protects that your current file encryption and physical storage do not. Identify the VeraCrypt version, password record and any header-backup plan the official documentation requires.",
-        ],
-        expectedResult:
-          "The extra software and recovery dependencies have a reason.",
-        help: "Check whether the problem is opening the container or unlocking the wallet inside it. Each layer needs its own software and credential; test them separately using disposable copies.",
-      },
-      {
-        id: "copy-test-v4",
-        title: "Use a copy in a fresh test container",
-        instructions: [
-          "Create a standard file container through VeraCrypt’s documented wizard on your test computer. Put a copy of an already encrypted test wallet backup inside it. Keep the original backup separately; do not move your only copy into an untested volume. Dismount the container.",
-        ],
-        expectedResult:
-          "The test container can be closed and reopened with its own credential.",
-        help: "Check whether the problem is opening the container or unlocking the wallet inside it. Each layer needs its own software and credential; test them separately using disposable copies.",
-      },
-      {
-        id: "two-stage-v4",
-        title: "Prove both stages elsewhere",
-        instructions: [
-          "On a separate maintained test environment, open the copied container, extract the wallet backup and restore it in Bitcoin Core. Unlock the restored test wallet with its separate Core passphrase and complete a test signing operation.",
-        ],
-        expectedResult:
-          "Both the outer container and inner wallet are recoverable without the original machine.",
-        help: "Check whether the problem is opening the container or unlocking the wallet inside it. Each layer needs its own software and credential; test them separately using disposable copies.",
-      },
-    ],
-    optional: true,
-    chapter: "Build a recovery system",
-    sourceReviewed: "2026-09-13",
-    takeaway:
-      "An encrypted container can address an additional privacy need, but its software, password and recovery procedure become new dependencies.",
   },
   {
     id: "recovery-failure-drills",
@@ -1935,12 +1823,12 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
       "Use only the named disposable practice wallet. Before removing a working copy, make two backups, restore one successfully and record the test wallet’s address and transaction identifiers.",
-      "A second folder on the same computer tests software restoration. A second physical computer also tests your assumptions about equipment, password records and removable media. Perform both before declaring independent recovery.",
+      "In this stage, restore into a fresh named wallet on the same dedicated practice computer. This proves that recovery does not need the local working wallet or one particular backup medium. It does not yet prove recovery after the computer itself fails; that separate exercise comes later.",
     ],
     prerequisites: ["backup-media"],
     sources: [
@@ -1954,7 +1842,7 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     origin: "First-principles curriculum v4",
     guidedSteps: [
       {
@@ -1991,28 +1879,17 @@ export const part2Lessons: PlayerLesson[] = [
           "Loss of one medium does not prevent recovery; both copies were not dependent on that medium.",
         help: "Keep the unavailable original set aside. If recovery needs a file, password or instruction that exists only there, the drill has found a missing dependency: fix the backup plan and repeat.",
       },
-      {
-        id: "second-machine-v4",
-        title: "Recover without the original computer",
-        instructions: [
-          "On a second clean test computer with verified Core, restore a copy under a distinct test wallet name. Use the same test network. Verify addresses and wallet encryption, then complete a test spend or offline signing cycle as appropriate.",
-          "Bring only what your written recovery plan says is required. If you need to retrieve something unlisted from the original computer, correct the plan and repeat.",
-        ],
-        expectedResult:
-          "You have performed a recovery on another machine using only documented surviving materials.",
-        help: "Keep the unavailable original set aside. If recovery needs a file, password or instruction that exists only there, the drill has found a missing dependency: fix the backup plan and repeat.",
-      },
     ],
-    chapter: "Build a recovery system",
+    chapter: "Prove backup and recovery",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
       "Recovery is credible only when the normal working copy or one backup location is genuinely unavailable during the rehearsal.",
   },
   {
     id: "backup-mastery",
     slug: "backup-mastery",
-    title: "Before going offline: prove recovery",
+    title: "Checkpoint — prove backup and recovery",
     summary: "Demonstrate the skills before adding the next building block.",
     objective: "Demonstrate the skills before adding the next building block.",
     what: "Demonstrate the skills before adding the next building block.",
@@ -2021,22 +1898,14 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     estimatedTime: "8–12 min",
     kind: "checkpoint",
     explanation: [
       "Do this without following the earlier lesson line by line. If you need the instructions, return to the exercise, repeat it, and try again later.",
       "Tick each outcome only after you have demonstrated it. These checks record your own assessment in this browser; they are not a certification or a substitute for the actual exercise.",
     ],
-    prerequisites: [
-      "recovery-failure-drills",
-      "signet-readiness",
-      "wallet-lock-change",
-      "2.6",
-      "backup-redundancy-freshness",
-      "encrypted-backup-privacy",
-      "backup-media",
-    ],
+    prerequisites: ["recovery-failure-drills"],
     sources: [
       {
         label: "Bitcoin Core 31.1: wallet creation, backup and restoration",
@@ -2044,20 +1913,130 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     origin: "First-principles curriculum v4",
     checklist: [
       "I can say what my wallet backup contains and which later changes it cannot contain.",
-      "I can restore a wallet on a second computer using a separately stored passphrase.",
+      "I can restore a fresh named wallet on this computer using an independent backup and separately stored passphrase.",
       "I can explain which passphrase an old backup still requires after a password change.",
       "I can recover when one backup medium is unavailable.",
       "I can distinguish backup redundancy from changing who may authorize spending.",
     ],
-    chapter: "Build a recovery system",
+    chapter: "Prove backup and recovery",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
       "You can recover from an independent copy, explain its password state and identify which failures your remaining copies would survive.",
+  },
+  {
+    id: "one-wallet-mastery",
+    slug: "one-wallet-mastery",
+    title: "Mastery checkpoint — I can operate one Core wallet",
+    summary: "Make one Core wallet ordinary before adding another computer.",
+    objective:
+      "Demonstrate the whole wallet lifecycle without following the tutorial.",
+    what: "Demonstrate the skills before adding the next building block.",
+    why: "A new security boundary is easier to understand once the wallet itself is familiar.",
+    risk: "Adding hardware before recovery is routine hides missing basic skills.",
+    status: "published",
+    verification: "source-reviewed",
+    referenceVersion: "Bitcoin Core 31.1",
+    contentUpdated: "2026-09-14",
+    estimatedTime: "Repeat over separate practice sessions",
+    kind: "checkpoint",
+    explanation: [
+      "Use only disposable Signet material on your dedicated Debian practice computer. Complete these outcomes without following the tutorial line by line. Return to any exercise that still requires guessing and try again in another session.",
+      "The local-copy loss test uses the recoverable Trash or a quarantine folder after Core is shut down. It removes the working wallet from use without requiring irreversible deletion. Never remove your real wallet or the only surviving copy.",
+      "The intended result is simple: operating a basic Bitcoin Core wallet now feels ordinary. Once that is true, the next stage separates work you already understand between two computers.",
+    ],
+    prerequisites: ["backup-mastery"],
+    sources: [
+      {
+        label: "Bitcoin Core 31.1: wallet creation, backup and restoration",
+        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/managing-wallets.md",
+      },
+    ],
+    reviewNote:
+      "v4.1 source and sequence review. Debian package files and generator implementation were inspected; this is not a physical Debian installation or a funded Signet test.",
+    origin: "First-principles curriculum v4",
+    checklist: [
+      "I can install and authenticate the intended Bitcoin Core release.",
+      "I can create and name a wallet without following a tutorial.",
+      "I can generate a receiving address and verify it against my wallet record.",
+      "I can receive and send Signet bitcoin and check the confirmation.",
+      "I can encrypt the wallet using an independently generated passphrase.",
+      "I can explain what the passphrase protects and what it does not hide.",
+      "I can observe locking, unlock for signing and check the locked state afterward.",
+      "I can change the passphrase and verify the result.",
+      "I can make a current wallet backup and locate its separate password record.",
+      "I can restore from the backup and prove signing with the original closed.",
+      "I can explain which keys, records and password state an old backup does and does not contain.",
+      "I can recover after removing the disposable local wallet copy and after setting one backup medium aside.",
+    ],
+    chapter: "Prove backup and recovery",
+    optional: false,
+    sourceReviewed: "2026-09-14",
+    takeaway:
+      "One wallet now feels ordinary. You are ready to separate verification and payment coordination from private-key signing.",
+  },
+  {
+    id: "architecture-choice",
+    slug: "simple-wallet-or-offline-signer",
+    title: "Separate the jobs you already know",
+    summary: "Move signing offline after mastering one Core wallet.",
+    objective:
+      "Explain the online and offline jobs of the recommended savings setup.",
+    estimatedTime: "12-16 min",
+    status: "published",
+    verification: "source-reviewed",
+    referenceVersion: "Bitcoin Core 31.1",
+    explanation: [
+      "You already know how a Core wallet receives, signs, encrypts and recovers. We are now separating two jobs, using the same Debian and Bitcoin Core foundation. Complete the one-wallet mastery checkpoint before building this stage.",
+      "The online computer verifies blockchain history, keeps the current wallet view, constructs transactions and broadcasts completed payments. The offline computer holds the private signing keys and approves the proposed transactions. A private key is the secret that authorizes spending; it does not need to be online to do that job.",
+      "Prepare a second dedicated generic Debian computer as the signer. Its wallet uses the same creation, encryption and backup operations you practiced. The online wallet will be watch-only: it has the public information needed to recognize payments, but cannot sign them. Later lessons introduce public descriptors and PSBT files one at a time.",
+      "Create fresh practice keys after disconnecting the signer. Do not turn the previous online practice wallet into a savings wallet by moving its file offline: that cannot undo earlier exposure. Signet material stays disposable throughout.",
+    ],
+    concepts: [],
+    warnings: [],
+    checklist: [],
+    sources: [
+      {
+        label: "Debian · Stable releases and support",
+        url: "https://www.debian.org/releases/",
+      },
+      {
+        label: "Debian · Installation guide",
+        url: "https://www.debian.org/releases/stable/amd64/",
+      },
+      {
+        label: "Debian · Verify installation media",
+        url: "https://www.debian.org/CD/verify",
+      },
+      {
+        label: "Core 31.1 · Offline signing",
+        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/offline-signing-tutorial.md",
+      },
+    ],
+    codeBlocks: [],
+    callouts: [],
+    videoUrl: null,
+    origin: "New architectural checkpoint in curriculum v2.1",
+    optional: false,
+    kind: "reading",
+    prerequisites: ["one-wallet-mastery"],
+    notes: [
+      "Debian Stable is the default operating system for both dedicated computers in this course. Its stable releases change less often than fast-release desktop systems, and its mature software repositories make it practical to maintain a dedicated computer for years. That predictability makes maintenance easier to plan. It does not make Debian inherently more secure than Fedora. Fedora and other supported Linux distributions remain alternatives if you can maintain and test them.",
+    ],
+    commonMistakes: [],
+    contentUpdated: "2026-09-14",
+    chapter: "Separate node and signer",
+    sourceReviewed: "2026-09-14",
+    reviewNote:
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
+    why: "Keeping private keys off the network reduces their exposure during routine coordination.",
+    risk: "Moving keys that have already been online does not erase that earlier exposure.",
+    takeaway:
+      "The wallet primitives stay the same. The new boundary separates online verification and coordination from offline signing.",
   },
   {
     id: "2.4",
@@ -2091,7 +2070,7 @@ export const part2Lessons: PlayerLesson[] = [
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
     explanation: [
-      "The online node checks the blockchain and prepares a proposed payment. Its watch-only wallet has public information about your addresses but no savings private keys. It saves the proposal as a PSBT, a Partially Signed Bitcoin Transaction file. That file carries the payment details and information needed for signing.",
+      "The online jobs are blockchain verification, the current wallet view, transaction construction and broadcasting. A watch-only wallet performs the wallet part with public address information and no signing keys. It saves a payment proposal as a PSBT, a Partially Signed Bitcoin Transaction file, so the signing decision can happen elsewhere.",
       "You move the PSBT to the offline signer, check the recipient, amounts, change and fee, then approve it with the private keys. You return the signed file to the online node for broadcast, which means sending the transaction to the network. The private keys remain offline. The signer checks the proposal; it does not independently check the whole blockchain or whether an input has already been spent.",
     ],
     callouts: [],
@@ -2109,16 +2088,16 @@ export const part2Lessons: PlayerLesson[] = [
     commonMistakes: [],
     checklist: [],
     codeBlocks: [],
-    contentUpdated: "2026-09-13",
-    chapter: "Learn offline signing",
-    sourceReviewed: "2026-09-13",
+    contentUpdated: "2026-09-14",
+    chapter: "Separate node and signer",
+    sourceReviewed: "2026-09-14",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     why: "Follow a proposed payment from preparation through approval to broadcast.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
       "The online node prepares and validates payments; the offline signer supplies authorization. Each machine has a distinct job.",
-    prerequisites: ["backup-mastery"],
+    prerequisites: ["architecture-choice"],
   },
   {
     id: "2.8",
@@ -2162,12 +2141,12 @@ export const part2Lessons: PlayerLesson[] = [
     origin: "Moved from legacy module 2",
     optional: false,
     kind: "reading",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     notes: [],
-    chapter: "Learn offline signing",
-    sourceReviewed: "2026-09-13",
+    chapter: "Separate node and signer",
+    sourceReviewed: "2026-09-14",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     takeaway:
       "A watch-only wallet tracks addresses and constructs transactions using public information. It has no private keys with which to approve them.",
     prerequisites: ["2.4"],
@@ -2233,12 +2212,12 @@ export const part2Lessons: PlayerLesson[] = [
         help: "Comparing two views of the same compromised clipboard is not independent verification.",
       },
     ],
-    prerequisites: ["2.8", "real-device"],
+    prerequisites: ["2.8"],
     notes: [],
     commonMistakes: [],
-    contentUpdated: "2026-09-13",
-    chapter: "Learn offline signing",
-    sourceReviewed: "2026-09-13",
+    contentUpdated: "2026-09-14",
+    chapter: "Separate node and signer",
+    sourceReviewed: "2026-09-14",
     why: "Decide which files may cross between the computers and how you will check the recipient.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -2293,7 +2272,7 @@ export const part2Lessons: PlayerLesson[] = [
     origin: "New curriculum v2 lesson",
     optional: false,
     kind: "practice",
-    prerequisites: ["ops-malware", "real-device"],
+    prerequisites: ["ops-malware"],
     notes: [
       "Tails starts from removable media and can reduce traces left by an operating-system session. It cannot make altered hardware trustworthy. Malicious firmware, hidden hardware, changed startup settings or an altered Tails USB can still undermine it. Rebooting into Tails does not resolve every case of tampering while you were away.",
     ],
@@ -2322,9 +2301,9 @@ export const part2Lessons: PlayerLesson[] = [
         help: "If keys were used or unlocked after plausible compromise, or extraction may have occurred, generate fresh keys on a new trusted signer and migrate the funds after verifying that setup. A password change does not revoke stolen keys. Do not copy the suspicious OS image to the replacement.",
       },
     ],
-    contentUpdated: "2026-09-13",
-    chapter: "Learn offline signing",
-    sourceReviewed: "2026-09-13",
+    contentUpdated: "2026-09-14",
+    chapter: "Separate node and signer",
+    sourceReviewed: "2026-09-14",
     why: "Plan how to replace a suspect signer without unlocking its wallet.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -2345,7 +2324,7 @@ export const part2Lessons: PlayerLesson[] = [
     reviewNote:
       "Procedure and boundaries reviewed against official sources. Physical Debian setup, isolation and tamper resistance must be verified on your actual equipment; no hands-on hardware certification is claimed.",
     explanation: [
-      "The signer is the computer that holds private keys and approves payments. Prepare Debian, verified Core and the password manager while this computer has no wallet secrets. Then disconnect it before creating or restoring a wallet. From that point, it stays offline whenever it holds these keys.",
+      "Use the second dedicated generic Debian computer as the signer. It holds private keys and approves payments using the same Core wallet operations you have mastered. Prepare Debian, verified Core and KeePassXC while it has no wallet secrets. Then disconnect it before creating or restoring a wallet; it stays offline whenever it holds those keys.",
       "Persistent storage means saved files remain after the computer is turned off. You will choose a specific folder for Core's data and check it after a full shutdown. This checks the installed setup, not independent recovery. You also need a separate wallet backup that can restore the wallet on a replacement computer.",
     ],
     concepts: [],
@@ -2389,7 +2368,7 @@ export const part2Lessons: PlayerLesson[] = [
         title: "Finish software setup before creating keys",
         instructions: [
           "Install verified Debian Stable with a supported desktop, the graphical environment with windows and menus. While the signer has no wallet secrets, apply Debian security updates, prepare the download-verification tools and verify the official Core archive using the earlier lesson.",
-          "If your chosen password workflow needs KeePassXC, install and test it at this stage too; dice and a verified wordlist do not require a password manager. Open Core once to check that it and its supporting software run. If you choose disk encryption, keep its separate recovery password as well. Finish software preparation before disconnecting and creating any private-key wallet.",
+          "Install KeePassXC during preparation, using the reviewed Debian package and bundled-list settings. Test that its generator and verified Core run before creating any keys. If you choose disk encryption, preserve its separate recovery password too. Finish setup before disconnecting.",
         ],
         expectedResult:
           "The required software and libraries work, with no private-key wallet yet present.",
@@ -2424,7 +2403,7 @@ export const part2Lessons: PlayerLesson[] = [
         id: "wallet",
         title: "Create and back up the offline Signet wallet",
         instructions: [
-          "In Core choose File → Create Wallet and name it signet-offline-wallet. Enable Encrypt Wallet, use a separate test password and leave private keys enabled. These keys will sign the practice payments while the computer stays offline.",
+          "On this disconnected computer, generate a fresh Signet passphrase with KeePassXC’s bundled large list. In Core choose File → Create Wallet and name it signet-offline-wallet. Enable Encrypt Wallet, enter that separate test passphrase and leave private keys enabled. These new keys approve practice payments while the computer stays offline.",
           "Choose File → Backup Wallet and save signet-offline-after-encryption.dat on a separate backup device. Create and record an address through Receive, note the backup location and keep the password separately. The installed disk is working storage, not your only backup; the regular payment-transfer USB must contain neither this backup nor its password.",
         ],
         expectedResult:
@@ -2445,10 +2424,10 @@ export const part2Lessons: PlayerLesson[] = [
     ],
     notes: [],
     commonMistakes: [],
-    prerequisites: ["ops-physical", "real-device", "ops-malware"],
-    contentUpdated: "2026-09-13",
-    chapter: "Learn offline signing",
-    sourceReviewed: "2026-09-13",
+    prerequisites: ["ops-physical"],
+    contentUpdated: "2026-09-14",
+    chapter: "Separate node and signer",
+    sourceReviewed: "2026-09-14",
     why: "Keep the test wallet offline and prove that its saved files are still there after a full shutdown.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -2468,12 +2447,12 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
       "A descriptor is a precise description of how wallet addresses and spending conditions are constructed. A public descriptor can contain extended public keys that describe many addresses. It reveals wallet activity but does not itself give spending authority.",
-      "Core 31.1 does not expose this descriptor export/import setup through ordinary GUI forms. This is the first justified console bridge in the practical course. Use it for this one setup task, then return to the GUI for PSBT handling. The commands execute locally in the selected wallet.",
+      "Core 31.1 does not expose this descriptor export/import setup through ordinary GUI forms. This setup needs a short, justified console step. Use it for this one setup task, then return to the GUI for PSBT handling. The commands execute locally in the selected wallet.",
     ],
     prerequisites: ["offline-device"],
     sources: [
@@ -2487,7 +2466,7 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     origin: "First-principles curriculum v4",
     guidedSteps: [
       {
@@ -2541,9 +2520,9 @@ export const part2Lessons: PlayerLesson[] = [
         help: "Two wallets can be at different positions in their address sequences. Check the same recorded address on both devices instead of generating a new address on each and expecting them to match.",
       },
     ],
-    chapter: "Learn offline signing",
+    chapter: "Complete an offline payment",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
       "Public receive and change descriptors let the coordinator track the wallet. Private-key material must stay on the signer.",
   },
@@ -2558,7 +2537,7 @@ export const part2Lessons: PlayerLesson[] = [
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     explanation: [
       "You have already imported the signer’s public descriptors into the online watch-only wallet. Return to the GUI for the payment cycle: build the proposal online, sign on the offline computer, return the signed file and broadcast from the online node.",
       "A payment consumes inputs, the previously received outputs selected to spend, and creates new outputs for the recipient and any change. In the PSBT dialog, review every output and the total fee. The displayed Total Amount can include change; it is not necessarily the amount paid to the recipient.",
@@ -2634,8 +2613,8 @@ export const part2Lessons: PlayerLesson[] = [
         help: "Do not pass a PSBT string to sendrawtransaction: that RPC expects a finalized raw transaction. In a CLI workflow, check finalizepsbt.complete before using its hex result.",
       },
     ],
-    prerequisites: ["watch-only-setup", "offline-device", "ops-malware"],
-    contentUpdated: "2026-09-13",
+    prerequisites: ["watch-only-setup"],
+    contentUpdated: "2026-09-14",
     notes: [],
     why: "The online node can prepare and broadcast while the spending keys stay on a disconnected machine.",
     risk: "A malicious or mistaken transaction must be caught before the offline wallet signs it.",
@@ -2644,8 +2623,8 @@ export const part2Lessons: PlayerLesson[] = [
       scope:
         "Official Core 31.1 macOS GUI: load PSBT, review outputs/fee, unlock, Sign Tx and Broadcast Tx on isolated Regtest. Separate automated zero-block signer test; no physical Debian air-gap claim.",
     },
-    chapter: "Learn offline signing",
-    sourceReviewed: "2026-09-13",
+    chapter: "Complete an offline payment",
+    sourceReviewed: "2026-09-14",
     takeaway:
       "A PSBT carries a payment between preparation and signing. Review the destination, change and fee before signing, then return it for broadcast.",
   },
@@ -2662,9 +2641,9 @@ export const part2Lessons: PlayerLesson[] = [
     verification: "source-reviewed",
     referenceVersion: "Debian Stable · Bitcoin Core 31.1",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     explanation: [
-      "Independent recovery means the original computer and its working disk are not supplying anything needed to recover. Keep them intact but set them aside. Restore the private-key wallet only on a trusted replacement that is already offline.",
+      "Independent recovery means the original computer and its working disk are not supplying anything needed to recover. Keep them intact but set them aside. Restore the private-key wallet only on a trusted replacement that is already offline. This is where you now test physical replacement, beyond the same-computer recovery you proved before the one-wallet checkpoint.",
       "The online coordinator is simply the online Core computer that prepares and tracks payments. Rebuild its watch-only wallet from public descriptors, then repeat a small Signet payment with both replacements. A balance on a screen is not enough: the replacement signer must approve the payment and the replacement online node must broadcast it.",
     ],
     sources: [
@@ -2718,10 +2697,10 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     prerequisites: ["offline-psbt"],
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     notes: [],
-    chapter: "Learn offline signing",
-    sourceReviewed: "2026-09-13",
+    chapter: "Recover without the originals",
+    sourceReviewed: "2026-09-14",
     why: "Recover and send using the backups and instructions, with the originals set aside.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -2740,7 +2719,7 @@ export const part2Lessons: PlayerLesson[] = [
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     explanation: [
       "A recovery card is a written guide to the setup: what each computer does, which wallet is used, where its backup is stored and how to recover the password separately. Recovery material means the files, devices and records the procedure needs. The card itself should not contain a private key or password.",
       "Try following the card with your Signet test files. Whenever you have to guess, add the missing instruction. Then have the person who could act if you died or became unavailable try it too. Practice with test material rather than sharing real wallet secrets for an exercise.",
@@ -2786,10 +2765,10 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     prerequisites: ["offline-recovery"],
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     notes: [],
-    chapter: "Learn offline signing",
-    sourceReviewed: "2026-09-13",
+    chapter: "Recover without the originals",
+    sourceReviewed: "2026-09-14",
     why: "Write recovery instructions that do not depend on your memory or the original computers.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -2813,19 +2792,14 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     estimatedTime: "8–12 min",
     kind: "checkpoint",
     explanation: [
       "Do this without following the earlier lesson line by line. If you need the instructions, return to the exercise, repeat it, and try again later.",
       "Tick each outcome only after you have demonstrated it. These checks record your own assessment in this browser; they are not a certification or a substitute for the actual exercise.",
     ],
-    prerequisites: [
-      "ops-documentation",
-      "watch-only-setup",
-      "offline-psbt",
-      "offline-recovery",
-    ],
+    prerequisites: ["ops-documentation"],
     sources: [
       {
         label: "Bitcoin Core 31.1: wallet creation, backup and restoration",
@@ -2833,7 +2807,7 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     origin: "First-principles curriculum v4",
     checklist: [
       "I can build a PSBT online and identify the recipient, amount, fee and change.",
@@ -2842,9 +2816,9 @@ export const part2Lessons: PlayerLesson[] = [
       "I can explain why the signer has no blockchain and why the coordinator has no private keys.",
       "I have recovered the signing wallet on a replacement machine and completed a new test payment.",
     ],
-    chapter: "Learn offline signing",
+    chapter: "Recover without the originals",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
       "You can keep private keys offline while receiving, coordinating, signing and recovering through a separate online node.",
   },
@@ -2860,12 +2834,12 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
-      "Security is not set once for eternity. A growing balance can change who might target you; hardware can improve; the cost of password guessing can fall. Review calmly and deliberately instead of adding devices in response to every headline.",
-      "Schedule one full annual recovery review and earlier reviews after a material change. Adjust any lighter checks to your media and circumstances. A password change requires new backups and a plan for old snapshots; it is not the same as replacing compromised Bitcoin keys.",
+      "Security is maintained, not frozen on setup day. A wallet’s balance or purchasing power may grow, computing and attack tools may improve, or your recovery procedure may become harder to perform. Revisit the assumptions calmly instead of adding components in response to every headline.",
+      "Schedule a full annual custody and recovery review, with earlier reviews after material changes. Change a passphrase when that review identifies a need, not merely because a date has arrived. If the margin is still enormous and recovery works, unnecessary changes add work and opportunities for error.",
     ],
     prerequisites: ["offline-mastery"],
     sources: [
@@ -2883,14 +2857,14 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     origin: "First-principles curriculum v4",
     guidedSteps: [
       {
         id: "threat-review-v4",
         title: "Revisit the original threat model",
         instructions: [
-          "Ask whether the value protected, people involved, storage locations, physical access or plausible attacker has changed. List any new dependency introduced during the year.",
+          "Has the BTC balance or its purchasing power changed materially? Have the people involved, storage locations, physical access or plausible attackers changed? Have you added dependencies? Can the intended recovery person still perform the procedure?",
         ],
         expectedResult:
           "You can explain whether the current architecture still fits.",
@@ -2900,7 +2874,8 @@ export const part2Lessons: PlayerLesson[] = [
         id: "strength-review-v4",
         title: "Review the passphrase method and margin",
         instructions: [
-          "Check the generation method and exact wordlist recorded in your plan. Consider whether developments in computing or a new threat justify a stronger phrase. If you change it, follow the tested change-passphrase and old-backup procedure.",
+          "Check the recorded generation method and wordlist. Has available computing power changed materially? Have attack tools improved? Is the attack margin still very large under demanding assumptions, including future value growth? Has typing or recovering the credential become harder?",
+          "If the evidence justifies strengthening the phrase, generate a fresh one, use Core’s Change Passphrase operation, make current backups and test restoration and signing with the new phrase. Review old snapshots separately: their old phrases still apply. Do not rotate a sound credential without a reason, and do not confuse a password change with revoking exposed Bitcoin keys.",
         ],
         expectedResult:
           "The phrase retains a generous margin without relying on a precise attack-price estimate.",
@@ -2910,7 +2885,7 @@ export const part2Lessons: PlayerLesson[] = [
         id: "media-review-v4",
         title: "Inspect and restore the copies",
         instructions: [
-          "Check that the intended copies exist in their intended locations, connectors and readers still work, and authorized people can locate the instructions. Restore a copy in a clean test environment and verify a known address.",
+          "Are all intended backup copies present and readable? Do connectors and readers still work? Can authorized people find the instructions and separate password record? Restore a copy in the correct clean environment, verify a known address and prove signing; a file listing alone is not a recovery test.",
           "For a real offline wallet, keep the restored signer offline and use an appropriate controlled signing test. Do not expose the real private keys online merely to simplify a maintenance exercise.",
         ],
         expectedResult:
@@ -2938,9 +2913,9 @@ export const part2Lessons: PlayerLesson[] = [
         help: "Stop at this step if the result differs. Recheck the selected network, wallet and files, then review the linked official documentation. Do not mark the result as confirmed until you can explain the difference.",
       },
     ],
-    chapter: "Maintain the system",
+    chapter: "Maintain the setup",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
       "Custody is maintained over time. Review changing threats, password strength, backup health and the ability to restore.",
   },
@@ -2956,7 +2931,7 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
@@ -2972,7 +2947,7 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     origin: "First-principles curriculum v4",
     guidedSteps: [
       {
@@ -2986,9 +2961,9 @@ export const part2Lessons: PlayerLesson[] = [
         help: "Stop at this step if the result differs. Recheck the selected network, wallet and files, then review the linked official documentation. Do not mark the result as confirmed until you can explain the difference.",
       },
     ],
-    chapter: "Maintain the system",
+    chapter: "Maintain the setup",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
       "Someone else needs a workable route to recovery when you cannot help. Rehearse that route without exposing the secrets during teaching.",
   },
@@ -3004,21 +2979,15 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     estimatedTime: "8–12 min",
     kind: "checkpoint",
     explanation: [
       "Do this without following the earlier lesson line by line. If you need the instructions, return to the exercise, repeat it, and try again later.",
       "Tick each outcome only after you have demonstrated it. These checks record your own assessment in this browser; they are not a certification or a substitute for the actual exercise.",
+      "If this system covers your actual threat model, you do not need a more complex spending policy. You may finish the course here. Part III is optional work for a specific authorization problem, not the next compulsory level of expertise.",
     ],
-    prerequisites: [
-      "ops-inheritance",
-      "foundations-checkpoint",
-      "signet-readiness",
-      "backup-mastery",
-      "offline-mastery",
-      "ops-routine",
-    ],
+    prerequisites: ["ops-inheritance"],
     sources: [
       {
         label: "Bitcoin Core 31.1: wallet creation, backup and restoration",
@@ -3026,7 +2995,7 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     origin: "First-principles curriculum v4",
     checklist: [
       "I can explain my threat model and justify every component.",
@@ -3038,11 +3007,162 @@ export const part2Lessons: PlayerLesson[] = [
       "I have a written annual review and recovery procedure.",
       "I can explain why a large balance alone does not require multisig.",
     ],
-    chapter: "Maintain the system",
+    chapter: "Maintain the setup",
     optional: false,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     takeaway:
-      "You can operate and recover one encrypted Core wallet confidently. More backup copies do not require more signing authorities.",
+      "A tested single-sig setup can be your completed custody system. Add another spending authority only when it solves a concrete threat.",
+  },
+  {
+    id: "optional-dice",
+    slug: "optional-physical-dice-passphrase",
+    title: "Optional: generate the passphrase with physical dice",
+    summary: "Use manual randomness only for a reason you can explain.",
+    objective:
+      "Evaluate the extra work, then demonstrate correct dice generation with test material.",
+    what: "Add an outer layer only for a named threat, such as wallet metadata exposure.",
+    why: "A protection earns its place by addressing a specific threat or educational purpose.",
+    risk: "Transcription and lookup mistakes can undermine a long manual procedure.",
+    status: "published",
+    verification: "source-reviewed",
+    referenceVersion: "Original EFF large list · 7,776 distinct entries",
+    contentUpdated: "2026-09-14",
+    estimatedTime: "20–40 min active",
+    kind: "practice",
+    explanation: [
+      "Physical dice can produce excellent entropy when used correctly. They are not the recommended workflow here because they add manual work without solving a threat present in the default clean-Linux architecture. If you cannot name the threat that dice solve in your setup, use KeePassXC.",
+      "Possible reasons include an independently observable physical randomness requirement, unusual distrust of the computer RNG, research or education. State the reason first. Dice do not make a compromised computer safe when you later enter the phrase or create wallet keys on it.",
+      "The original EFF large list has 7,776 entries: one for every ordered result of five fair six-sided die readings. Eight words require 40 readings plus recording and lookup. Skipped, duplicated or mistyped results, wrong lookups and repetition by another operator are practical costs. Correct execution can be strong; extra ceremony alone is not a security benefit.",
+    ],
+    prerequisites: ["generate-passphrase"],
+    sources: [
+      {
+        label: "EFF: original large wordlist",
+        url: "https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt",
+      },
+      {
+        label: "EFF: creating strong passphrases",
+        url: "https://www.eff.org/dice",
+      },
+    ],
+    reviewNote:
+      "v4.1 source and sequence review. Debian package files and generator implementation were inspected; this is not a physical Debian installation or a funded Signet test.",
+    origin: "First-principles curriculum v4",
+    guidedSteps: [
+      {
+        id: "reason",
+        title: "Name the reason for using dice",
+        instructions: [
+          "Physical dice can produce excellent entropy when used correctly. They are not recommended for routine use here: forty readings, transcription and lookup add manual work and error opportunities without solving a threat in the default clean-Linux setup.",
+          "Write the threat, research question or educational purpose that justifies the extra procedure. For ordinary custody on this course’s clean Debian system, keep KeePassXC as the default.",
+        ],
+        expectedResult:
+          "You can explain why you are accepting the additional manual work.",
+        help: "If the reason is only that rolling feels more secure, return to the default generator.",
+      },
+      {
+        id: "roll",
+        title: "Generate a disposable phrase from the original EFF list",
+        instructions: [
+          "Use the original EFF large list linked below, whose five-digit lookup codes use only digits 1–6. It has 7,776 entries. The smaller KeePassXC bundled file is not a substitute for this five-dice lookup table.",
+          "For each word, roll one fair six-sided die five times, recording every result in order. Alternatively use five dice with a fixed reading order declared before rolling. Look up that exact code, record the corresponding word and repeat independently eight times. Keep repeated words; do not reroll because a word is inconvenient.",
+        ],
+        expectedResult:
+          "Forty ordered die readings identify eight words through an unambiguous lookup process.",
+        help: "Do not guess a missing reading or word. Establish a clear record with disposable test material before relying on this procedure.",
+      },
+      {
+        id: "verify",
+        title: "Check the record and test recovery",
+        instructions: [
+          "Compare each recorded five-digit code with its word, then write the phrase in order with unambiguous case and separators. Eight independent choices from the original 7,776-word list give about 103.40 bits.",
+          "Use this phrase only in a disposable Signet wallet. Encrypt, back up, restore and test signing using the separately kept phrase record. Record the added time and any errors before deciding whether this method belongs in your actual recovery plan.",
+        ],
+        expectedResult:
+          "The test phrase and backup work together, and you can assess the operational cost.",
+        help: "A successful practice exercise does not remove the need for separate backup and passphrase protection.",
+      },
+    ],
+    optional: true,
+    chapter: "Optional extensions",
+    sourceReviewed: "2026-09-14",
+    takeaway:
+      "Correct dice can be strong. Use them only when a concrete threat or educational purpose justifies the extra work.",
+    notes: [],
+  },
+  {
+    id: "optional-veracrypt",
+    slug: "optional-veracrypt",
+    title: "Optional: put the backup inside an encrypted container",
+    summary:
+      "Add an outer layer only for a named threat, such as wallet metadata exposure.",
+    objective:
+      "Add an outer layer only for a named threat, such as wallet metadata exposure.",
+    what: "Add an outer layer only for a named threat, such as wallet metadata exposure.",
+    why: "Core wallet encryption protects private key material without encrypting every wallet record.",
+    risk: "A second encryption layer can become a second way to lock yourself out.",
+    status: "published",
+    verification: "source-reviewed",
+    referenceVersion: "Bitcoin Core 31.1",
+    contentUpdated: "2026-09-14",
+    estimatedTime: "20–40 min active",
+    kind: "practice",
+    explanation: [
+      "VeraCrypt can hold an encrypted Core backup inside a separate encrypted volume. This can protect information outside Core’s private-key encryption boundary, including metadata, when that additional privacy matters to your threat model.",
+      "It adds software, a volume format, a second credential and another recovery operation. You still need the Core wallet passphrase after opening the container. A lost or damaged container header can create a further recovery dependency.",
+      "The default course does not require VeraCrypt. If you choose it, follow its official volume-creation and backup documentation and prove the whole two-stage recovery with a disposable copy before depending on it.",
+    ],
+    prerequisites: ["backup-media"],
+    sources: [
+      {
+        label: "VeraCrypt: volume backup and recovery dependencies",
+        url: "https://veracrypt.io/en/How%20to%20Back%20Up%20Securely.html",
+      },
+      {
+        label: "Bitcoin Core 31.1: wallet creation, backup and restoration",
+        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/managing-wallets.md",
+      },
+    ],
+    reviewNote:
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
+    origin: "First-principles curriculum v4",
+    guidedSteps: [
+      {
+        id: "justify-layer-v4",
+        title: "Name the extra threat",
+        instructions: [
+          "Write what the outer container protects that your current file encryption and physical storage do not. Identify the VeraCrypt version, password record and any header-backup plan the official documentation requires.",
+        ],
+        expectedResult:
+          "The extra software and recovery dependencies have a reason.",
+        help: "Check whether the problem is opening the container or unlocking the wallet inside it. Each layer needs its own software and credential; test them separately using disposable copies.",
+      },
+      {
+        id: "copy-test-v4",
+        title: "Use a copy in a fresh test container",
+        instructions: [
+          "Create a standard file container through VeraCrypt’s documented wizard on your test computer. Put a copy of an already encrypted test wallet backup inside it. Keep the original backup separately; do not move your only copy into an untested volume. Dismount the container.",
+        ],
+        expectedResult:
+          "The test container can be closed and reopened with its own credential.",
+        help: "Check whether the problem is opening the container or unlocking the wallet inside it. Each layer needs its own software and credential; test them separately using disposable copies.",
+      },
+      {
+        id: "two-stage-v4",
+        title: "Prove both stages elsewhere",
+        instructions: [
+          "On a separate maintained test environment, open the copied container, extract the wallet backup and restore it in Bitcoin Core. Unlock the restored test wallet with its separate Core passphrase and complete a test signing operation.",
+        ],
+        expectedResult:
+          "Both the outer container and inner wallet are recoverable without the original machine.",
+        help: "Check whether the problem is opening the container or unlocking the wallet inside it. Each layer needs its own software and credential; test them separately using disposable copies.",
+      },
+    ],
+    optional: true,
+    chapter: "Optional extensions",
+    sourceReviewed: "2026-09-14",
+    takeaway:
+      "An encrypted container can address an additional privacy need, but its software, password and recovery procedure become new dependencies.",
   },
   {
     id: "mainnet-separate-wallet",
@@ -3089,7 +3209,7 @@ export const part2Lessons: PlayerLesson[] = [
     chapter: "Optional extensions",
     sourceReviewed: "2026-09-13",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     why: "Reuse the procedure you practiced, never the test keys or passwords.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -3108,9 +3228,9 @@ export const part2Lessons: PlayerLesson[] = [
     verification: "source-reviewed",
     referenceVersion: "Debian Stable · Bitcoin Core 31.1",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     explanation: [
-      "Generate a fresh real-wallet passphrase offline using the verified EFF large list and the eight-independent-word method you already rehearsed. Never reuse a test phrase. If the record is in an encrypted password database, that database and its own unlocking credential become part of recovery.",
+      "Generate a fresh real-wallet passphrase with KeePassXC on the prepared offline signer. Use the verified bundled large list and the eight-independent-word default you rehearsed. Never reuse a test phrase. If the record is stored in an encrypted password database, that database and its unlocking credential become part of recovery.",
       "Keep the real wallet in its own Core data folder, separate from Signet practice files. Make the wallet backup after enabling encryption. Recovery needs both the backup file and the wallet password. Store them so that one failed device cannot take away both.",
     ],
     sources: [
@@ -3141,7 +3261,7 @@ export const part2Lessons: PlayerLesson[] = [
         id: "password",
         title: "Generate and preserve a new password offline",
         instructions: [
-          "On the trusted offline signer, repeat the method you rehearsed: eight independent selections from the verified original EFF large list, using dice or the verified KeePassXC custom-wordlist workflow. Use a fresh real-wallet passphrase. Do not invent a pattern, use a browser generator or reuse a test phrase.",
+          "On the trusted offline signer, repeat the KeePassXC method: Passphrase, (SYSTEM) eff_large.wordlist, eight words, lower case and a space separator. Generate a fresh real-wallet passphrase. Do not invent a pattern, use a browser generator or reuse a test phrase. Physical dice remain an optional alternative only when you can explain the additional threat or purpose.",
           "Preserve it in a recoverable offline record or encrypted password-manager database. Check that you can retrieve it before using it. If using a database, keep its own password recoverable too. You must be able to recover the password even if the device holding the wallet backup fails.",
         ],
         expectedResult:
@@ -3177,10 +3297,10 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     prerequisites: ["mainnet-separate-wallet"],
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-14",
     notes: [],
     chapter: "Optional extensions",
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-14",
     why: "Create an encrypted wallet and make sure you can recover both its backup and password.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -3199,7 +3319,7 @@ export const part2Lessons: PlayerLesson[] = [
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     explanation: [
       "An empty-wallet recovery test uses your actual mainnet backup before it holds funds. Set aside the original signer, restore the file on a trusted offline replacement and check the address you recorded when creating the wallet.",
       "Loading a wallet and unlocking it are different actions. Loading makes its records available in Core. Unlocking uses the password to make protected private keys temporarily available for signing. You must check that the recovered password works; seeing an address alone does not prove that. The later small-value payment will test actual spending.",
@@ -3311,7 +3431,7 @@ export const part2Lessons: PlayerLesson[] = [
     chapter: "Optional extensions",
     sourceReviewed: "2026-09-13",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     why: "Confirm the empty-wallet recovery before risking even the first test amount.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -3330,7 +3450,7 @@ export const part2Lessons: PlayerLesson[] = [
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     explanation: [
       "A successful Signet exercise shows that you learned the procedure. It does not test the real wallet's backup and password. This exercise makes a small mainnet deposit, then spends from the wallet restored using those actual recovery records.",
       "Keep the original signer out of the process. Choose a test amount that covers the payment and fees and whose loss you could tolerate. Record the confirmed transaction and any corrections to your written instructions. A successful test is evidence that this setup worked; you must still maintain and protect it afterward.",
@@ -3431,7 +3551,7 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     origin: "First-principles curriculum v4",
     guidedSteps: [
       {
@@ -3663,7 +3783,7 @@ export const part2Lessons: PlayerLesson[] = [
     chapter: "Optional extensions",
     sourceReviewed: "2026-09-13",
     reviewNote:
-      "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
+      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     why: "Understand the simpler hot-wallet approach and its exposure to online attacks.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:

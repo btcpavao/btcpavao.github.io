@@ -1,0 +1,59 @@
+{
+  "reviewDate": "2026-09-14",
+  "debian": "13 Stable (trixie), amd64",
+  "keepassxc": "keepassxc-minimal 2.7.10+dfsg1-1",
+  "botan": "libbotan-2-19 2.19.5+dfsg-4",
+  "scope": "Package extraction and source/configuration inspection on macOS; no Debian runtime or physical installation is certified.",
+  "hashes": {
+    "keepassxc-minimal.deb": "d5532645d9763d0ce3e276ae20aeaff66d300a9fa0d0471d3a898084872c41c1",
+    "keepassxc.orig.tar.xz": "c0a14b1e1c897f5664f74284db8b339e686411cbcd300d39be8eabd424f7a325",
+    "keepassxc.debian.tar.xz": "23df11fc5be1febe04607286785ebeb14f8df817604bbddadfb7c5e91eb5be4f",
+    "botan-dev.deb": "f5aa28dded5da9de524fc3a28036a26e523f84767513d36dc28e5f8153614a37",
+    "botan-lib.deb": "ea6e3e42c2220f3df9fd5235872d0548f6243dedc0078fc3d4c85eb1d29ed791",
+    "botan-debian.tar.xz": "5f1cb26014738628308766b107c39c57920ba89fd84f91c528563f6c5970f72b",
+    "keepassxc-2.7.10/src/core/PassphraseGenerator.cpp": "7323ddf4a17326600d00fd11d003314e132439f32dba37f1f7626491fe32332d",
+    "keepassxc-2.7.10/src/crypto/Random.cpp": "1a703a79ab3fb049d66f948f46ef5d01facc845286481763c4cc873694a34713",
+    "deb/usr/share/keepassxc/wordlists/eff_large.wordlist": "df895130803573b14caa684e8cba982a9ed21f4898c98c711f204acf600efedd",
+    "botan-dev/usr/include/botan-2/botan/build.h": "7d1535e6239bccd8931e2e9eb0c4196454b3bb6248ffe7188c056c392830eb62",
+    "botan-sys.cpp": "6a68ab82e83cb424a50a22b86e3535f7d4433c13e657ac140d58dc9e5cf47dbf"
+  },
+  "wordlist": {
+    "path": "/usr/share/keepassxc/wordlists/eff_large.wordlist",
+    "lines": 7772,
+    "distinct": 7772,
+    "distinctLowercase": 7772,
+    "matchesSourceBytes": true
+  },
+  "randomness": {
+    "keepassxcBackend": "Botan::System_RNG",
+    "BOTAN_HAS_SYSTEM_RNG": true,
+    "BOTAN_TARGET_OS_HAS_DEV_RANDOM": true,
+    "BOTAN_TARGET_OS_HAS_GETRANDOM": false,
+    "BOTAN_SYSTEM_RNG_DEVICE": "/dev/urandom",
+    "binaryStrings": [
+      "/dev/urandom",
+      "System_RNG read failed",
+      "System_RNG EOF on device"
+    ],
+    "accepted32BitDraws": 4294962640,
+    "rejected32BitDraws": 4656,
+    "drawsPerIndex": 552620,
+    "remainder": 0
+  },
+  "entropyBits": {
+    "1": 12.924070185585345,
+    "5": 64.62035092792672,
+    "6": 77.54442111351207,
+    "8": 103.39256148468276
+  },
+  "originalEffEightWordsBits": 103.39850002884624,
+  "guiSource": "PasswordGeneratorWidget.cpp/.ui and MainWindow.ui from the same Debian source package; lower case, space, (SYSTEM) eff_large.wordlist, explicitly select 8 (source default 7).",
+  "upstreamTagComparison": {
+    "version": "2.7.10",
+    "byteIdenticalToDebianSource": [
+      "src/crypto/Random.cpp",
+      "src/core/PassphraseGenerator.cpp",
+      "share/wordlists/eff_large.wordlist"
+    ]
+  }
+}

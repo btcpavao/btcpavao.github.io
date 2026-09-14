@@ -515,7 +515,15 @@ export function CurriculumLesson({
       )}
       {missing.length > 0 && (
         <aside className="course-prerequisites">
-          <strong>{t.prerequisites}</strong>
+          <strong>
+            {completed ? "New steps in the updated course" : t.prerequisites}
+          </strong>
+          {completed && (
+            <p>
+              Your earlier work is saved. Review these new steps to complete the
+              updated learning path.
+            </p>
+          )}
           <ul>
             {missing.map((l) => (
               <li key={l.id}>
@@ -753,10 +761,10 @@ export function CurriculumLesson({
               ? t.unavailable
               : !allChecks
                 ? t.remaining
-                : missing.length
-                  ? t.prerequisites
-                  : completed
-                    ? t.completed
+                : completed
+                  ? t.completed
+                  : missing.length
+                    ? t.prerequisites
                     : t[kind]}
           </strong>
           <p>{t.saved}</p>
