@@ -55,7 +55,6 @@
   display: flex;
   align-items: flex-start;
   gap: 0.65rem;
-  height: 100%;
   padding: 0.8rem;
   border: 1px solid var(--border);
   border-radius: 0.65rem;
@@ -95,6 +94,12 @@
   font-size: 0.75rem;
   font-weight: 700;
   flex-shrink: 0;
+}
+.cv-node {
+  display: flex;
+}
+.cv-node > .cv-card {
+  flex: 1;
 }
 .cv-flow .cv-node {
   position: relative;
@@ -181,7 +186,7 @@
   border: 1px dashed var(--muted-foreground);
   font-size: 0.8rem;
 }
-.cv-recovery .cv-signing-map > .cv-card {
+.curriculum-visual--recovery .cv-signing-map > .cv-card {
   margin-top: 0.75rem;
 }
 .cv-equation {

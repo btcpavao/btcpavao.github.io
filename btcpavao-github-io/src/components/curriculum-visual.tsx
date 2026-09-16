@@ -62,7 +62,7 @@ function Card({
   active = false,
 }: VisualNode & { active?: boolean }) {
   return (
-    <div className={`cv-card${active ? "cv-card--active" : ""}`}>
+    <div className={active ? "cv-card cv-card--active" : "cv-card"}>
       <Icon name={icon} />
       <div>
         <strong>{title}</strong>
@@ -90,7 +90,7 @@ function Zone({
   children: ReactNode
 }) {
   return (
-    <section className={`cv-zone${offline ? "cv-zone--offline" : ""}`}>
+    <section className={offline ? "cv-zone cv-zone--offline" : "cv-zone"}>
       <h4>
         {offline ? <WifiOff aria-hidden="true" /> : <Wifi aria-hidden="true" />}
         {name}
@@ -476,7 +476,7 @@ function Diagram({
   return (
     <div className={d.boundary ? "cv-container-boundary" : undefined}>
       {d.boundary && <span className="cv-boundary-label">{d.boundary}</span>}
-      <div className={`cv-grid${d.layout === "flow" ? "cv-flow" : ""}`}>
+      <div className={d.layout === "flow" ? "cv-grid cv-flow" : "cv-grid"}>
         {nodes.map((n, i) => (
           <div className="cv-node" key={n.title}>
             {d.layout === "flow" && <span className="cv-number">{i + 1}</span>}
@@ -497,7 +497,7 @@ export function CurriculumVisual({
   if (!definition) return null
   const figure = (
     <figure
-      className={`curriculum-visual cv-${definition.layout}`}
+      className={`curriculum-visual curriculum-visual--${definition.layout}`}
       data-visual={placement.visual}
       aria-labelledby={`${id}-title`}
       aria-describedby={`${id}-caption`}

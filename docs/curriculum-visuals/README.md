@@ -51,10 +51,12 @@ The visual transaction uses explicitly illustrative satoshi amounts. Its fee is 
 
 The visual checks are included in the existing pull-request curriculum workflow. No Bitcoin custody exercises were executed and no real wallets were used.
 
-## Outstanding review gate
+## Layout correction and browser check — 2026-09-16
 
-**Desktop/mobile browser QA is not completed.** The Cloud browser rejected both local HTTP preview URLs and the shared local file URL under its security policy. No alternate browser or policy bypass was attempted.
+The scene wrapper reused `cv-scene`, so the image's 320px maximum height also capped the entire figure. Its image and caption then overflowed into navigation and the next section. Figure modifiers now use a separate `curriculum-visual--*` namespace; this also isolates verification-list and encryption-container styles from their outer figures.
 
-Consequently, this draft must remain a draft until a reviewer checks actual layout, every diagram family, mobile overflow, 200% text size, dark mode, keyboard focus, Previous/Continue, native details, the three existing interactive tools, direct links and progress reload in a supported preview. Static renderer and progress tests do not establish those browser behaviors. No fabricated screenshot evidence is included.
+Three conditional class strings lacked separators: offline zones, active cards and flow grids. Fixed all three so offline boundaries, focused signing/recovery cards and numbered grids receive their intended styles. Removed the general card `height: 100%`; equal-height grid cards now stretch through flex parents without making stacked cards consume the full parent's height.
 
-Implementation is present; browser validation is the remaining blocker. Nothing in this change merges or publishes the site.
+Browser verification used the real shared renderer and existing site CSS for all **61 placements** at **832px, 360px and 280px content widths**, in **light and dark themes** (366 cases). Fixtures preserved reading/practice wrappers and expanded optional visuals for inspection. All passed DOM geometry checks for figure overflow, caption overlap and navigation overlap; intentional horizontal scrolling inside narrow comparison tables was excluded from horizontal-overflow failures. Inspected the actual entropy reading screen and a narrow dark PSBT diagram visually. The actual entropy screen's Previous/Continue controls were exercised. Production build and all 285 renderer-state checks passed again.
+
+These targeted layout checks do not claim a full mobile-device, 200% text-size, keyboard, interactive-tool or persisted-progress browser audit. The PR remains a draft for final review. The private review copy is updated separately; the public btcpavao.com site is unchanged.
