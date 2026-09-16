@@ -1,6 +1,16 @@
 # Ask Pavao: Cloudflare activation
 
-Prepared 16 September 2026. Repository implementation is complete; production Cloudflare configuration and inbox delivery have **not** been activated or tested. No real email was sent during development.
+Activated 16 September 2026 after the site release at `2cc762b`.
+
+- Production Worker `btcpavao-ask-pavao`, version `4795a60f-6578-45df-949e-db5ab0f6ca43`, serves `btcpavao.com/api/ask-pavao*`.
+- Email Routing is enabled/ready; `pavao@hey.com` is a verified destination. Sender and destination restrictions remain in the binding.
+- The production Managed Turnstile widget is configured for `btcpavao.com`; its secret is stored on the Worker. The temporary local secret file was deleted.
+- The public GitHub variable `TURNSTILE_SITE_KEY` is set. [Pages activation build](https://github.com/btcpavao/btcpavao.github.io/actions/runs/35093771181) succeeded.
+- All eight apex A/AAAA records are proxied; the GitHub Pages origin addresses are unchanged. TLS mode is Full (strict).
+- Live checks: GET returns JSON 405; empty POST returns `invalid_payload`/400; invalid Turnstile token returns `turnstile_failed`/400. The live form loads the production widget and enables Send.
+- No real test email was sent, following the task constraint. Actual inbox arrival still needs the optional manual smoke test below.
+
+The remaining sections document setup and maintenance; the activation prerequisites above are now complete.
 
 ## Existing hosting and intended route
 

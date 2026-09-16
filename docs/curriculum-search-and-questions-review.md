@@ -1,6 +1,6 @@
 # Curriculum search and Ask Pavao review
 
-16 September 2026. Work is on local `main`, updated from `origin/main` at `54083e6eb8a52c4570bf20bae1a1ac7e36f14cb0`. Earlier requested curriculum v4.2 edits remain in the same working tree; this implementation adds search and the question flow without changing unrelated articles. Nothing has been pushed or deployed.
+16 September 2026. Work is on local `main`, updated from `origin/main` at `54083e6eb8a52c4570bf20bae1a1ac7e36f14cb0`. Earlier requested curriculum v4.2 edits remain in the same working tree; this implementation adds search and the question flow without changing unrelated articles. The implementation was subsequently pushed and published in commit `2cc762b`; Cloudflare activation is recorded in the setup document.
 
 ## Search
 
@@ -83,7 +83,7 @@ The final static production preview was also checked at 1440/320 px. It returns 
 
 ## Activation and smoke testing
 
-Follow [Ask Pavao Cloudflare setup](ask-pavao-cloudflare-setup.md) for the exact dashboard steps, first deploy with a required secret, later updates, local development and six-step production smoke test. Remaining manual prerequisites are: proxied API hostname, email-domain onboarding and verified destination, production Turnstile widget/secret/public build variable, Worker deployment, and Pages rebuild. Account configuration and actual inbox arrival are **not verified** by local tests.
+Follow [Ask Pavao Cloudflare setup](ask-pavao-cloudflare-setup.md) for the exact dashboard steps, first deploy with a required secret, later updates, local development and six-step production smoke test. Production prerequisites were completed on 16 September 2026: proxied API hostname, Email Routing ready, verified destination, production Turnstile widget and secret, public build variable, Worker deployment and successful Pages rebuild. Live rejection checks passed. Actual inbox arrival remains untested because no real test email was sent.
 
 ## Screenshots and preview
 
