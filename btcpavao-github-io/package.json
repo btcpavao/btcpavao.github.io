@@ -23,7 +23,8 @@
     "worker:check": "wrangler deploy --dry-run --outdir .cache/worker-build",
     "worker:dev": "wrangler dev --config wrangler.local.jsonc --ip 127.0.0.1 --port 8787",
     "worker:deploy": "wrangler deploy --config wrangler.jsonc",
-    "dev:questions": "npm run prepare:social-cards && VITE_TURNSTILE_SITE_KEY=1x00000000000000000000AA vite --host 127.0.0.1 --port 4176"
+    "dev:questions": "npm run prepare:social-cards && VITE_TURNSTILE_SITE_KEY=1x00000000000000000000AA vite --host 127.0.0.1 --port 4176",
+    "verify:visuals": "node scripts/verify-curriculum-visuals.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.8",

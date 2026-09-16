@@ -1,0 +1,31 @@
+{
+  "date": "2026-09-16",
+  "tool": "image_gen built-in",
+  "reference": "https://btcpavao.com/bitcoin-core-entropija-02.webp",
+  "reviewedReferences": [
+    "https://btcpavao.com/bitcoin-core-entropija-02.webp",
+    "https://btcpavao.com/bitcoin-core-entropija-06.webp",
+    "https://btcpavao.com/bitcoin-core-entropija-10.webp"
+  ],
+  "styleSuffix": "Style reference: match the supplied reference's warm limestone, off-white, Adriatic blue and restrained brass, materially believable editorial rendering and natural light, but much less glow, very few objects and ample negative space. No text, QR codes, branded UI, neon, decorative shields or marketing.",
+  "assets": [
+    [
+      "clean-start",
+      "Create one calm editorial landscape illustration for an educational course, 16:9. Two worktables in a sunlit Mediterranean limestone study by the Adriatic. Left: a used ordinary laptop and a few experimental cables and notebooks. Right: a clean dedicated ordinary laptop on an uncluttered table. A hand carries only a small paper notebook of understood instructions from left toward right; no cable, disk, software image or USB crosses between devices. Clear separation, no security shields. Concept is learning transfers, experimental operating system does not. This is not a firmware repair claim."
+    ],
+    [
+      "entropy",
+      "Create one restrained conceptual educational landscape illustration 16:9. On a warm limestone surface an ordinary laptop sits beside a simple transparent mixing chamber. One dominant broad blue stream symbolizes operating-system randomness entering the chamber; two much subtler brass blue traces are supplemental inputs. A single abstract fine gold pattern emerges, representing secret material, no coin or Bitcoin logo. No arithmetic, no labels, no UI, no claim this is the exact algorithm. Very simple 3 main objects, clear when small. Adriatic daylight and muted sea blue background."
+    ],
+    [
+      "continuity",
+      "Create one educational editorial landscape illustration 16:9. Three generations of ordinary replaceable laptops on a long limestone desk, from slightly old to contemporary to a neutral unbranded replacement, NOT futuristic. Beside each sits a small notebook and backup drive. One person is checking the notebook and replacement device, showing active maintenance and recovery tests, not a sealed time capsule. Three grouped stations clearly separated; serene Mediterranean daylight, soft Adriatic blue beyond a window."
+    ],
+    [
+      "handover",
+      "Create one educational editorial landscape illustration 16:9. In a calm Mediterranean limestone room, an adult learner independently follows a paper recovery guide at an ordinary replacement laptop. The author sits farther back observing with hands resting, not pointing or coaching. A small backup drive and a closed credential envelope are brought separately by the learner, not a combined package; no readable secrets. A closed original laptop sits aside unused. Focus on the learner's independent action, modest realistic scene, no triumph or guarantee."
+    ]
+  ],
+  "entropyRevision": "Edit only the small gold output pattern in front of the glass chamber: remove the Bitcoin symbol entirely, replacing it with an abstract irregular fine gold pattern with no letter, logo, coin, symbol, or readable content. Keep the laptop, input streams, chamber, colors, scene, framing and everything else unchanged. The output represents private key material, not bitcoin or a coin.",
+  "review": "All four generated scenes inspected. Rejected the first entropy image because it introduced a Bitcoin logo; the selected revision removes it. Screens are illustrative, not application screenshots. WebP exports are 1200×675."
+}
