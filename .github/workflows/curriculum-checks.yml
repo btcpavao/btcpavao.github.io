@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'btcpavao-github-io/src/**'
+      - 'btcpavao-github-io/public/curriculum-visuals/**'
+      - 'docs/curriculum-visuals/**'
       - 'btcpavao-github-io/scripts/**'
       - 'btcpavao-github-io/worker/**'
       - 'btcpavao-github-io/wrangler*.jsonc'
@@ -35,6 +37,7 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run verify:curriculum
+      - run: npm run verify:visuals
       - run: npm run verify:search
       - run: npm run verify:questions
       - run: npm run verify:worker

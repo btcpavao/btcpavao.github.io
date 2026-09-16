@@ -1,0 +1,817 @@
+{
+  "threat-model": {
+    "title": "Start with the failure",
+    "caption": "Examples to rank for your own circumstances; each control leaves dependencies.",
+    "layout": "compare",
+    "nodes": [
+      {
+        "title": "Data lost",
+        "body": "A damaged drive → separate current backups. Still depends on readable media and recovery credentials.",
+        "icon": "drive"
+      },
+      {
+        "title": "Unauthorized spend",
+        "body": "A compromised online computer → offline signing and output review. Still depends on the signer and your checks.",
+        "icon": "key"
+      },
+      {
+        "title": "Recovery knowledge lost",
+        "body": "Someone else must recover → a rehearsed guide. Still depends on their access to the required material.",
+        "icon": "person"
+      }
+    ]
+  },
+  "trust-test": {
+    "title": "One test, a specific conclusion",
+    "caption": "A restore-and-sign test proves a recovery path worked then. It cannot establish protection against every future threat.",
+    "layout": "flow",
+    "nodes": [
+      {
+        "title": "Assumption",
+        "body": "“This backup will work.”",
+        "icon": "file"
+      },
+      {
+        "title": "Experiment",
+        "body": "Restore a separate copy and sign a test payment.",
+        "icon": "computer"
+      },
+      {
+        "title": "Evidence and limit",
+        "body": "Recovery worked; future theft resistance remains a separate question.",
+        "icon": "check"
+      }
+    ]
+  },
+  "copies-authority": {
+    "title": "Copies preserve access. Policies assign authority.",
+    "caption": "A copy of key A is still key A. Independent keys are not fragments of one secret.",
+    "layout": "compare",
+    "nodes": [
+      {
+        "title": "Single-sig: A · A · A",
+        "body": "Separate encrypted copies of the same signing authority. Any recovered copy can sign. Maintain locations, credentials and freshness.",
+        "icon": "copy"
+      },
+      {
+        "title": "2-of-3: A + B, A + C, or B + C",
+        "body": "Three distinct key identities; any two must sign. Maintain each signer AND the complete policy.",
+        "icon": "keys"
+      }
+    ]
+  },
+  "core-roles": {
+    "title": "Two jobs inside Bitcoin Core",
+    "caption": "The roles can run together or on separate computers. A wallet can sign only when it has the required private keys.",
+    "layout": "compare",
+    "nodes": [
+      {
+        "title": "Node",
+        "body": "Checks blocks and transactions against consensus rules.",
+        "icon": "network"
+      },
+      {
+        "title": "Wallet",
+        "body": "Recognizes its outputs, tracks payments and, with keys, signs.",
+        "icon": "wallet"
+      }
+    ],
+    "boundary": "Bitcoin Core capabilities"
+  },
+  "ibd": {
+    "title": "Two activities can progress together",
+    "caption": "Wait for synchronization before the course’s receive/send exercise; empty-wallet practice can proceed meanwhile.",
+    "layout": "table",
+    "headers": ["Lane", "While the node synchronizes", "When ready"],
+    "rows": [
+      [
+        "Node",
+        "Download → independently validate blocks",
+        "Current validated chain"
+      ],
+      [
+        "Learner",
+        "Empty wallet → backup → restore → notes",
+        "Receive and send test coins"
+      ]
+    ]
+  },
+  "several-signers": {
+    "title": "One verified chain, separate signing devices",
+    "caption": "PSBT files are individual transfers, not permanent network links. This arrangement alone does not define a multisig policy.",
+    "layout": "branches",
+    "nodes": [
+      {
+        "title": "Online node",
+        "body": "Validates history and coordinates proposals.",
+        "icon": "network"
+      },
+      {
+        "title": "Offline signer A",
+        "body": "Receives a PSBT file, reviews and signs with its own keys.",
+        "icon": "computer"
+      },
+      {
+        "title": "Offline signer B",
+        "body": "Receives a separate PSBT file; no blockchain download required.",
+        "icon": "computer"
+      }
+    ]
+  },
+  "backup-models": {
+    "title": "Root material and a wallet snapshot",
+    "caption": "Both models require a tested recovery procedure. Neither is a complete custody system by itself.",
+    "layout": "table",
+    "headers": ["Recovery model", "Contains", "Keep separately / additionally"],
+    "rows": [
+      [
+        "BIP39",
+        "Words encode entropy and a checksum; a seed is derived using the optional BIP39 passphrase.",
+        "Any BIP39 passphrase; required paths, script types, policies and instructions."
+      ],
+      [
+        "Core wallet backup",
+        "Key material, descriptors and wallet metadata as of the backup.",
+        "Encryption passphrase and recovery instructions; current policy information."
+      ]
+    ]
+  },
+  "entropy": {
+    "title": "Randomness creates secret material",
+    "caption": "Conceptual metaphor, not the exact RNG algorithm. Operating-system randomness is a principal input; extra inputs do not justify adding arbitrary entropy totals.",
+    "layout": "scene",
+    "src": "/curriculum-visuals/entropy.webp",
+    "alt": "A dominant blue input enters a simple mixing chamber beside a laptop; an abstract gold pattern represents newly generated secret material."
+  },
+  "generation-encryption": {
+    "title": "Generation and encryption do different jobs",
+    "caption": "The wallet passphrase protects existing secret material. It is not the source of the Bitcoin signing keys.",
+    "layout": "compare",
+    "nodes": [
+      {
+        "title": "Generate",
+        "body": "Core’s random-number system supplies material for wallet secrets.",
+        "icon": "spark"
+      },
+      {
+        "title": "Encrypt",
+        "body": "The wallet passphrase protects access to private key material in the file.",
+        "icon": "lock"
+      }
+    ]
+  },
+  "checksum-randomness": {
+    "title": "A format check cannot measure unpredictability",
+    "caption": "A valid checksum answers a formatting question. The generation method must supply the randomness.",
+    "layout": "compare",
+    "nodes": [
+      {
+        "title": "Checksum: format",
+        "body": "Does this representation satisfy its checksum rule?",
+        "icon": "check"
+      },
+      {
+        "title": "Randomness: generation",
+        "body": "Could an attacker predict how the secret was chosen? A checksum cannot answer.",
+        "icon": "spark"
+      }
+    ]
+  },
+  "continuity": {
+    "title": "Recovery is maintained across replacements",
+    "caption": "Keep instructions usable, backups readable and recovery tested as hardware and software change. No particular program or vendor is guaranteed to last for decades.",
+    "layout": "scene",
+    "src": "/curriculum-visuals/continuity.webp",
+    "alt": "Three generations of ordinary computers, each with maintained notes and backup media; a person tests the replacement."
+  },
+  "ai-review": {
+    "title": "Turn a suggestion into a checked experiment",
+    "caption": "If the observed result differs, stop and investigate the mismatch before trying more commands.",
+    "layout": "flow",
+    "nodes": [
+      {
+        "title": "Explain",
+        "body": "What changes? Which files and permissions are involved?",
+        "icon": "question"
+      },
+      {
+        "title": "Verify",
+        "body": "Compare the proposal with the project’s documentation.",
+        "icon": "file"
+      },
+      {
+        "title": "Test",
+        "body": "Use disposable data and a harmless, reversible task.",
+        "icon": "computer"
+      },
+      {
+        "title": "Observe",
+        "body": "Compare the result with the expected behavior.",
+        "icon": "check"
+      }
+    ],
+    "boundary": "AI suggestion → your review"
+  },
+  "software-review": {
+    "title": "Review what you let run",
+    "caption": "A signed repository helps establish origin and integrity. It does not prove every package harmless.",
+    "layout": "compare",
+    "nodes": [
+      {
+        "title": "Source",
+        "body": "Where did this program come from?",
+        "icon": "network"
+      },
+      {
+        "title": "Maintainer",
+        "body": "Who maintains and updates it?",
+        "icon": "person"
+      },
+      {
+        "title": "Permissions",
+        "body": "What can it read or change?",
+        "icon": "key"
+      },
+      {
+        "title": "Need",
+        "body": "Does this dedicated computer need it?",
+        "icon": "question"
+      }
+    ]
+  },
+  "clean-start": {
+    "title": "Carry forward understanding",
+    "caption": "Keep reviewed notes and required verified files. Reinstall the operating system for the dedicated setup; do not clone the experimental system. Reinstallation does not repair compromised firmware.",
+    "layout": "scene",
+    "src": "/curriculum-visuals/clean-start.webp",
+    "alt": "Two separate worktables: an experimental laptop and a clean dedicated laptop. Only a notebook of understood instructions crosses between them."
+  },
+  "verification": {
+    "title": "Three checks, three different questions",
+    "caption": "Builder signing keys are not wallet keys. A matching hash and signature do not replace code review.",
+    "layout": "verification",
+    "states": [
+      "Current check: compare the downloaded archive with its listed SHA256 digest.",
+      "Current check: verify signatures over the listed checksums.",
+      "Current check: independently confirm the builder-key fingerprints."
+    ]
+  },
+  "builds": {
+    "title": "Independent builders compare artifacts",
+    "caption": "Matching builds connect artifacts to a defined source and build process. They do not prove the source free of vulnerabilities.",
+    "layout": "flow",
+    "nodes": [
+      {
+        "title": "Same source + build conditions",
+        "body": "Pinned inputs and an agreed build procedure.",
+        "icon": "file"
+      },
+      {
+        "title": "Independent builders",
+        "body": "Each produces and attests to its artifacts.",
+        "icon": "computer"
+      },
+      {
+        "title": "Compare results",
+        "body": "Matching outputs provide reproducibility evidence.",
+        "icon": "check"
+      }
+    ]
+  },
+  "networks": {
+    "title": "Separate networks, separate practice",
+    "caption": "Check the chain field in Core. Test coins do not turn into mainnet bitcoin.",
+    "layout": "compare",
+    "nodes": [
+      {
+        "title": "Signet",
+        "body": "chain: signet • test history and test-wallet context.",
+        "icon": "flask"
+      },
+      {
+        "title": "Mainnet",
+        "body": "chain: main • real bitcoin and a new wallet setup.",
+        "icon": "network"
+      }
+    ]
+  },
+  "pruning": {
+    "title": "Validation first; storage choice second",
+    "caption": "Both validate the chain. A rescan needs the relevant historical blocks; pruning can require downloading missing history again.",
+    "layout": "table",
+    "headers": ["Node mode", "Checks", "Retains"],
+    "rows": [
+      ["Archival", "Full validation", "All block history + current state"],
+      ["Pruned", "Full validation", "Recent block files + current state"]
+    ]
+  },
+  "separate-credentials": {
+    "title": "Recovery needs both, kept separately",
+    "caption": "If credentials are in a password-manager database, plan recovery of that database too. Avoid circular dependencies.",
+    "layout": "compare",
+    "nodes": [
+      {
+        "title": "Backup location",
+        "body": "Encrypted wallet backup. Protect availability and confidentiality.",
+        "icon": "drive"
+      },
+      {
+        "title": "Separate credential location",
+        "body": "Recoverable passphrase record. Do not store only beside the backup.",
+        "icon": "key"
+      },
+      {
+        "title": "Recovery procedure",
+        "body": "Bring both to the intended recovery device when needed.",
+        "icon": "file"
+      }
+    ]
+  },
+  "first-encryption": {
+    "title": "First encryption requires a fresh backup",
+    "caption": "The old file is not encrypted retroactively. Core 31.1 creates fresh active descriptors on first encryption; preserve the post-encryption state using Core’s backup function.",
+    "layout": "flow",
+    "nodes": [
+      {
+        "title": "Before",
+        "body": "An old unencrypted snapshot remains an old unencrypted file.",
+        "icon": "file"
+      },
+      {
+        "title": "Encrypt current wallet",
+        "body": "Private key material is protected; active descriptors are refreshed.",
+        "icon": "lock"
+      },
+      {
+        "title": "After",
+        "body": "Create and test a new encrypted backup.",
+        "icon": "drive"
+      }
+    ]
+  },
+  "transaction": {
+    "title": "Follow every output",
+    "caption": "Illustrative test transaction in satoshis. Both payment and change belong to you in this self-transfer exercise. The fee is the difference, not an output.",
+    "layout": "transaction"
+  },
+  "coin-linkage": {
+    "title": "Combining inputs can link their histories",
+    "caption": "Observers may infer common ownership. Fee depends on transaction size and feerate, not simply on the BTC value transferred.",
+    "layout": "merge",
+    "nodes": [
+      {
+        "title": "Input A",
+        "body": "Previously separate history.",
+        "icon": "file"
+      },
+      {
+        "title": "Input B",
+        "body": "Another previously separate history.",
+        "icon": "file"
+      },
+      {
+        "title": "One transaction",
+        "body": "Both are spent together; their relationship becomes visible.",
+        "icon": "network"
+      }
+    ]
+  },
+  "restore": {
+    "title": "Restore into a separate wallet",
+    "caption": "Keep the original closed. After any required rescan, compare known addresses and transactions; the next exercise proves signing.",
+    "layout": "flow",
+    "nodes": [
+      {
+        "title": "Original wallet",
+        "body": "Close it; preserve it outside this recovery test.",
+        "icon": "computer"
+      },
+      {
+        "title": "Backup snapshot",
+        "body": "Restore through Core under a new name.",
+        "icon": "drive"
+      },
+      {
+        "title": "Restored wallet",
+        "body": "Check history and then prove it can sign.",
+        "icon": "wallet"
+      }
+    ]
+  },
+  "old-backup": {
+    "title": "A password change does not rewrite copies",
+    "caption": "Both snapshots retain the same Bitcoin signing authority. A new passphrase neither revokes a copied key nor changes the password on an old file.",
+    "layout": "table",
+    "headers": ["File", "Unlocks with", "Signing authority"],
+    "rows": [
+      ["Old backup, made before change", "Old passphrase", "Same Bitcoin keys"],
+      ["Current wallet / new backup", "New passphrase", "Same Bitcoin keys"]
+    ]
+  },
+  "lifecycle": {
+    "title": "Repeat the complete cycle",
+    "caption": "Repeat in separate sessions with disposable wallets. This map records no completion and introduces no additional required clicks.",
+    "layout": "flow",
+    "nodes": [
+      {
+        "title": "1 · Create and protect",
+        "body": "Create → encrypt → backup.",
+        "icon": "wallet"
+      },
+      {
+        "title": "2 · Use",
+        "body": "Receive → review → send.",
+        "icon": "network"
+      },
+      {
+        "title": "3 · Recover",
+        "body": "Restore → sign a test transaction.",
+        "icon": "drive"
+      },
+      {
+        "title": "4 · Change and retest",
+        "body": "Change passphrase → new backup → restore and sign again.",
+        "icon": "check"
+      }
+    ]
+  },
+  "wallet-node-data": {
+    "title": "Different data, different recovery",
+    "caption": "Bitcoin is recorded by the network, not stored as coins in wallet.dat. Make wallet backups through Core; do not copy an open database.",
+    "layout": "compare",
+    "nodes": [
+      {
+        "title": "blocks/",
+        "body": "Public block history. Can be downloaded again.",
+        "icon": "blocks"
+      },
+      {
+        "title": "chainstate/",
+        "body": "Validation state derived from block history. Can be rebuilt.",
+        "icon": "network"
+      },
+      {
+        "title": "wallets/…/wallet.dat",
+        "body": "Wallet keys, descriptors and metadata. Preserve a tested backup.",
+        "icon": "wallet"
+      }
+    ],
+    "boundary": "Core data directory"
+  },
+  "backup-matrix": {
+    "title": "Independence and freshness are separate axes",
+    "caption": "An old snapshot may miss a required change; receiving each new payment does not automatically require a backup. Keep the passphrase record separately.",
+    "layout": "table",
+    "headers": ["Failure domain", "Old snapshot", "Current required state"],
+    "rows": [
+      [
+        "Same location / shared risk",
+        "May lose both access and needed changes",
+        "Current, but one event can destroy all copies"
+      ],
+      [
+        "Independent location / risk",
+        "Survives local loss, may miss needed changes",
+        "Independent current copy — still test recovery"
+      ]
+    ]
+  },
+  "encryption-boundary": {
+    "title": "What Core wallet encryption protects",
+    "caption": "Encryption protects private key material. Public keys, addresses, labels and history may remain readable; an external container adds a separate credential and recovery dependency.",
+    "layout": "encryption"
+  },
+  "architecture": {
+    "title": "Online coordination · offline signing",
+    "caption": "Private signing keys stay offline. Review every transfer and verify payment details on the signer.",
+    "layout": "architecture"
+  },
+  "wallet-roles": {
+    "title": "Connection and signing authority are different properties",
+    "caption": "Watch-only information can expose financial activity. “Offline” describes the device’s network state, not a special kind of key.",
+    "layout": "table",
+    "headers": ["Role", "Device", "Private keys", "Signs?"],
+    "rows": [
+      ["Hot wallet", "Online", "Yes", "Yes"],
+      ["Watch-only coordinator", "Online in this setup", "No", "No"],
+      ["Offline signer", "Disconnected", "Yes", "Yes; no current chain needed"]
+    ]
+  },
+  "media-roles": {
+    "title": "Give each medium one role",
+    "caption": "Transfer files are untrusted input to review. A transfer drive must not double as a private wallet backup or credential record.",
+    "layout": "compare",
+    "nodes": [
+      {
+        "title": "Transfer medium",
+        "body": "Public descriptors and PSBT files only.",
+        "icon": "transfer"
+      },
+      {
+        "title": "Private backup medium",
+        "body": "Encrypted wallet backup; kept outside transfer workflow.",
+        "icon": "drive"
+      },
+      {
+        "title": "Credential record",
+        "body": "Passphrase, recoverable separately.",
+        "icon": "key"
+      }
+    ]
+  },
+  "tamper-response": {
+    "title": "A credible concern changes the recovery path",
+    "caption": "Being left unattended is not itself proof of compromise. Follow the stop conditions in your threat model.",
+    "layout": "flow",
+    "nodes": [
+      {
+        "title": "Stop",
+        "body": "Take the suspect signer out of service.",
+        "icon": "stop"
+      },
+      {
+        "title": "Replace",
+        "body": "Prepare a trusted replacement and recover offline.",
+        "icon": "computer"
+      },
+      {
+        "title": "If keys may be copied",
+        "body": "Generate new keys and verify a transfer to the new wallet. Replacing hardware alone cannot revoke old keys.",
+        "icon": "key"
+      }
+    ]
+  },
+  "offline-preparation": {
+    "title": "Finish setup before secrets exist",
+    "caption": "Disconnect before creating or restoring keys. A successful cold boot checks persistence; it is not an independent backup recovery test.",
+    "layout": "flow",
+    "nodes": [
+      {
+        "title": "Preparation · no secrets",
+        "body": "Install and verify the OS and Core; finish downloads.",
+        "icon": "network"
+      },
+      {
+        "title": "Disconnect boundary",
+        "body": "Disable networking before introducing wallet secrets.",
+        "icon": "stop"
+      },
+      {
+        "title": "Offline use",
+        "body": "Create or restore; back up; cold-boot and check. Do not return this signer to downloading software.",
+        "icon": "key"
+      }
+    ]
+  },
+  "descriptors": {
+    "title": "Public descriptions cross; signing keys stay",
+    "caption": "Both receive and change branches let the coordinator recognize the same outputs. Public descriptors grant no signature authority, but can reveal financial activity.",
+    "layout": "descriptors"
+  },
+  "import-metadata": {
+    "title": "Descriptor expression ≠ import options",
+    "caption": "Schematic field guide only. Use the actual test descriptor and values from the lesson; do not import this illustration.",
+    "layout": "table",
+    "headers": ["Part", "Meaning"],
+    "rows": [
+      ["desc", "The output descriptor expression, with its checksum."],
+      ["timestamp", "Where historical scanning must begin."],
+      ["range / next_index", "Derivation range and the next address index."],
+      ["active", "Whether this descriptor supplies new addresses."],
+      ["internal", "Change branch (true) versus receiving branch (false)."]
+    ]
+  },
+  "psbt-flow": {
+    "title": "The same payment, different states",
+    "caption": "Saving is not signing; signing is not broadcasting. Core’s GUI may combine finalization and extraction with the final broadcast action.",
+    "layout": "psbt",
+    "states": [
+      "Current step: prepare and save the unsigned PSBT online.",
+      "Current step: review every proposed output on the offline signer.",
+      "Current step: sign and save on the offline device.",
+      "Current step: return the PSBT online, finalize, extract and broadcast."
+    ]
+  },
+  "recovery-both": {
+    "title": "Recover without either original",
+    "caption": "Bring the private backup and its separate credential only to the replacement offline signer. The replacement online coordinator receives public descriptors.",
+    "layout": "recovery",
+    "states": [
+      "Current step: restore the replacement offline signer.",
+      "Current step: rebuild the replacement watch-only coordinator.",
+      "Current step: prove a confirmed payment using only the replacements."
+    ]
+  },
+  "handover": {
+    "title": "Can another person follow the guide?",
+    "caption": "Rehearse with a disposable wallet while the author observes without hidden instructions. Access to recovery material and legal ownership are separate questions.",
+    "layout": "scene",
+    "src": "/curriculum-visuals/handover.webp",
+    "alt": "A learner follows a written guide on a replacement laptop while the author observes silently; backup media and the credential record are handled separately."
+  },
+  "container": {
+    "title": "Two encryption layers, two recovery stages",
+    "caption": "Keep container recovery instructions and required header-recovery material available. Do not put the only credential record inside the container it unlocks.",
+    "layout": "flow",
+    "nodes": [
+      {
+        "title": "Outer container",
+        "body": "VeraCrypt credential opens the container.",
+        "icon": "lock"
+      },
+      {
+        "title": "Core backup inside",
+        "body": "Extract the already encrypted wallet backup.",
+        "icon": "drive"
+      },
+      {
+        "title": "Wallet unlock",
+        "body": "The Core wallet passphrase unlocks its private key material.",
+        "icon": "key"
+      }
+    ]
+  },
+  "migration": {
+    "title": "Reuse block files; rebuild derived state",
+    "caption": "Use your own complete archive, with Core shut down. Pruned history has gaps and is not enough for a full local rebuild. Wallets and configuration follow separate procedures.",
+    "layout": "flow",
+    "nodes": [
+      {
+        "title": "Source blocks/",
+        "body": "Copy the whole directory, including xor.dat when present.",
+        "icon": "blocks"
+      },
+      {
+        "title": "Replacement node",
+        "body": "Rebuild block index and chainstate from those block files.",
+        "icon": "computer"
+      }
+    ]
+  },
+  "tails-storage": {
+    "title": "Session, persistent storage, independent backup",
+    "caption": "Persistent Storage uses its own credential; the Core wallet has a separate passphrase. Tails does not repair compromised hardware or firmware.",
+    "layout": "compare",
+    "nodes": [
+      {
+        "title": "Live session",
+        "body": "Temporary data disappears on shutdown.",
+        "icon": "computer"
+      },
+      {
+        "title": "Persistent Storage",
+        "body": "Only selected persistent data survives, on this USB device.",
+        "icon": "lock"
+      },
+      {
+        "title": "Independent backup",
+        "body": "Core backup on a separate medium, with tested recovery. Persistence alone is not a backup.",
+        "icon": "drive"
+      }
+    ],
+    "boundary": "The same underlying hardware and firmware"
+  },
+  "lab-host": {
+    "title": "Two processes, one physical host",
+    "caption": "A disposable Regtest lab demonstrates software roles. It does not create physical isolation or an air gap.",
+    "layout": "compare",
+    "nodes": [
+      {
+        "title": "Node process",
+        "body": "Temporary node directory; networkactive=false.",
+        "icon": "network"
+      },
+      {
+        "title": "Signer process",
+        "body": "Separate temporary wallet directory; still the same host.",
+        "icon": "key"
+      }
+    ],
+    "boundary": "One physical computer · shared OS and hardware"
+  },
+  "descriptor-policy": {
+    "title": "wsh(sortedmulti(2,A,B,C))",
+    "caption": "Schematic notation, not an executable descriptor. A, B and C stand for complete key expressions; real values and checksum come from the lab.",
+    "layout": "table",
+    "headers": ["Expression", "Meaning"],
+    "rows": [
+      ["wsh(…)", "Witness-script-hash output."],
+      [
+        "sortedmulti(2,…)",
+        "Any two designated keys; public keys sorted in the script."
+      ],
+      ["A, B, C", "Three independent key identities, not pieces of one key."],
+      [
+        "Import options",
+        "timestamp, range and active are outside the descriptor string."
+      ]
+    ]
+  },
+  "psbt-states": {
+    "title": "Signatures are only one part of the process",
+    "caption": "The combiner merges information for the same unsigned transaction. A finalized or broadcast transaction is not yet a block confirmation.",
+    "layout": "flow",
+    "nodes": [
+      {
+        "title": "Unsigned / partial",
+        "body": "Input data and zero or some required signatures.",
+        "icon": "file"
+      },
+      {
+        "title": "Enough signatures",
+        "body": "Each input has the required signing contributions.",
+        "icon": "keys"
+      },
+      {
+        "title": "Finalize and extract",
+        "body": "Build scriptSig/witness, then extract the raw transaction.",
+        "icon": "check"
+      },
+      {
+        "title": "Broadcast",
+        "body": "Submit to the node; acceptance and confirmation remain separate.",
+        "icon": "network"
+      }
+    ]
+  },
+  "combine": {
+    "title": "Independent signatures, one transaction",
+    "caption": "A and B each sign the same original proposal. C is an alternative signer, not a required third signature. Never combine different transactions.",
+    "layout": "combine"
+  },
+  "policy-backup": {
+    "title": "Recovery needs keys AND the complete policy",
+    "caption": "The public policy is privacy-sensitive: preserve it, do not publish it. Keep each signer’s private contribution protected separately.",
+    "layout": "merge",
+    "nodes": [
+      {
+        "title": "Complete public policy",
+        "body": "All required public keys, derivation information and script structure.",
+        "icon": "file"
+      },
+      {
+        "title": "Private contributions",
+        "body": "Enough recovered independent signers to meet the threshold.",
+        "icon": "keys"
+      },
+      {
+        "title": "Recovery proof",
+        "body": "Derive matching outputs, sign and verify the intended spend.",
+        "icon": "check"
+      }
+    ]
+  },
+  "quorum-tests": {
+    "title": "Predict the 2-of-3 result, then test",
+    "caption": "Observed results belong in your own lab record and remain unfilled here. These expectations assume the complete correct policy and transaction.",
+    "layout": "table",
+    "headers": ["Available keys", "Expected", "Observed"],
+    "rows": [
+      ["A alone", "Insufficient", "Not recorded"],
+      ["B alone", "Insufficient", "Not recorded"],
+      ["C alone", "Insufficient", "Not recorded"],
+      ["A + B", "Enough", "Not recorded"],
+      ["A + C", "Enough", "Not recorded"],
+      ["B + C", "Enough", "Not recorded"],
+      ["Restored A + B", "Enough, if restore is correct", "Not recorded"]
+    ]
+  },
+  "taproot": {
+    "title": "Alternative paths, not automatic quorum",
+    "caption": "Adding a threshold script does not remove key-path authority. A plain tr(KEY) in this lab is a key-path single-sig example.",
+    "layout": "taproot"
+  },
+  "relative-delay": {
+    "title": "The output starts its own clock",
+    "caption": "Regtest wsh example: ordinary 2-of-3 OR recovery child key C with older(6). A signature can exist before the delay is satisfied; transaction version and sequence must also be correct.",
+    "layout": "timelock"
+  },
+  "path-tests": {
+    "title": "Test the policy actually constructed",
+    "caption": "The delayed wsh experiment and the plain Taproot key-path experiment are separate. This does not claim arbitrary Taproot script trees have been tested.",
+    "layout": "table",
+    "headers": ["Policy / branch", "Keys and time", "Expected", "Observed"],
+    "rows": [
+      [
+        "wsh · ordinary",
+        "Any two; no recovery delay",
+        "Accept if otherwise valid",
+        "Not recorded"
+      ],
+      ["wsh · recovery", "C child key; too early", "Reject", "Not recorded"],
+      [
+        "wsh · recovery",
+        "C child key; delay satisfied",
+        "Accept if otherwise valid",
+        "Not recorded"
+      ],
+      [
+        "tr(KEY) · key path",
+        "Matching key",
+        "Accept if otherwise valid",
+        "Not recorded"
+      ],
+      ["Either policy", "Wrong / insufficient keys", "Reject", "Not recorded"]
+    ]
+  }
+}

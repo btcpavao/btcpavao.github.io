@@ -1,4 +1,5 @@
 import { ArrowDownUp, Wifi, WifiOff } from "lucide-react"
+import { CurriculumVisual } from "./curriculum-visual"
 
 export function CustodyArchitecture({
   language = "en",
@@ -6,6 +7,17 @@ export function CustodyArchitecture({
   language?: "en" | "hr"
 }) {
   const tr = (en: string, hr: string) => (language === "en" ? en : hr)
+  if (language === "en")
+    return (
+      <CurriculumVisual
+        placement={{
+          id: "overview-architecture",
+          visual: "architecture",
+          display: "core",
+          target: { kind: "background" },
+        }}
+      />
+    )
   return (
     <figure className="custody-architecture">
       <figcaption>

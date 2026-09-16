@@ -1,0 +1,657 @@
+{
+  "0.2": [
+    {
+      "id": "0.2:S2:threat-model",
+      "visual": "threat-model",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "rank-threats"
+      }
+    }
+  ],
+  "trust-and-verification": [
+    {
+      "id": "trust-and-verification:R3:trust-test",
+      "visual": "trust-test",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "Write one assumption from your threat model beside a check: “I depend on this backup being usable; I will restore and sign from it.” A familiar filename proves less. Ask what the check leaves untested too."
+      }
+    }
+  ],
+  "0.3": [
+    {
+      "id": "0.3:R2:copies-authority",
+      "visual": "copies-authority",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "Consider a second backup in another location. It addresses loss of the first location. Consider instead a second required signer: it changes who can authorize a payment. Those are different problems, even if both arrangements happen to involve two objects."
+      }
+    }
+  ],
+  "2.1": [
+    {
+      "id": "2.1:R1:core-roles",
+      "visual": "core-roles",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "The wallet keeps the information needed to receive and authorize payments. The node downloads Bitcoin data and checks it against consensus rules: the rules that determine which transactions and blocks it will accept."
+      }
+    }
+  ],
+  "ibd-separation": [
+    {
+      "id": "ibd-separation:R3:ibd",
+      "visual": "ibd",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "While the node works, write your threat model, create empty test wallets, understand encryption, rehearse backups and prepare an offline signer. Receiving and spending exercises wait for the online node to catch up. You do not need to put serious capital into the system to learn it."
+      }
+    }
+  ],
+  "2.5": [
+    {
+      "id": "2.5:R2:several-signers",
+      "visual": "several-signers",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "The online node follows the chain, identifies spendable coins, prepares the transaction and broadcasts the completed result. The offline computer checks the PSBT and authorizes it. Five offline signers do not require five copies of the blockchain."
+      }
+    }
+  ],
+  "1.4": [
+    {
+      "id": "1.4:R3:backup-models",
+      "visual": "backup-models",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "This course instead backs up the encrypted Bitcoin Core wallet file and keeps its encryption passphrase separately. The file includes wallet keys and descriptors—the instructions describing the wallet’s addresses and spending conditions—along with wallet metadata present when the backup was made. It is broader than a mnemonic root secret, but does not contain future edits or replace your recovery instructions."
+      }
+    }
+  ],
+  "signet-entropy-deep-dive": [
+    {
+      "id": "signet-entropy-deep-dive:R3:entropy",
+      "visual": "entropy",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "GetStrongRandBytes uses Core’s cryptographically secure random-generation path and mixes operating-system randomness with other collected inputs. A CSPRNG is a generator designed to make its output unpredictable to an attacker when it has been securely seeded. Core does not ask you to invent or select the root secret."
+      }
+    },
+    {
+      "id": "signet-entropy-deep-dive:R4:generation-encryption",
+      "visual": "generation-encryption",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "The encryption passphrase has a different job: it protects the generated private key material in the wallet file. Changing that passphrase does not replace the wallet’s Bitcoin keys."
+      }
+    }
+  ],
+  "1.2": [
+    {
+      "id": "1.2:R1:checksum-randomness",
+      "visual": "checksum-randomness",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "A mnemonic checksum detects some transcription errors. It is calculated from the encoded data; it cannot tell whether a person, a secure generator or a published example chose that data."
+      }
+    }
+  ],
+  "software-continuity": [
+    {
+      "id": "software-continuity:R4:continuity",
+      "visual": "continuity",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "Keep version information, verified installers where useful and understandable recovery instructions with your plan. Rehearse on maintained software while you are able to fix compatibility problems. Long-term custody is maintained continuity, not a file abandoned in a drawer."
+      }
+    }
+  ],
+  "ai-as-a-tutor": [
+    {
+      "id": "ai-as-a-tutor:R2:ai-review",
+      "visual": "ai-review",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "Treat each suggestion as a hypothesis. Inspect the proposed command, ask which files and permissions it affects, and compare it with official documentation. Before an unfamiliar privileged command, understand the changes and how to undo them. Prefer distribution repositories to random scripts."
+      }
+    }
+  ],
+  "software-responsibility": [
+    {
+      "id": "software-responsibility:R2:software-review",
+      "visual": "software-review",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "A Debian repository package, a GitHub repository, an arbitrary shell script and curl … | sh have different trust paths. A signed repository authenticates a distribution source; it does not prove every package harmless. A published repository makes inspection possible; its hosting site does not certify the code. Piping a download directly to a shell executes what arrives before you inspect it."
+      }
+    }
+  ],
+  "start-clean": [
+    {
+      "id": "start-clean:C:clean-start",
+      "visual": "clean-start",
+      "display": "core",
+      "target": {
+        "kind": "checkpoint"
+      }
+    }
+  ],
+  "what-verification-proves": [
+    {
+      "id": "what-verification-proves:R1:verification",
+      "visual": "verification",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "Begin at the official Bitcoin Core download page. A SHA256 checksum tests whether your archive matches a particular digest. A signed checksum file connects that digest to signing keys. Comparing full signer fingerprints with independently authenticated information gives those keys an identity."
+      }
+    },
+    {
+      "id": "what-verification-proves:R2:builds",
+      "visual": "builds",
+      "display": "expandable",
+      "target": {
+        "kind": "reading",
+        "anchor": "A matching hash and valid signatures establish specific relationships between bytes and keys. They do not prove bug-free code, honest maintainers or a clean computer. Multiple identified builders and reproducible builds provide further evidence about how the bytes were produced."
+      }
+    }
+  ],
+  "signet-install-verify": [
+    {
+      "id": "signet-install-verify:S5:verification",
+      "visual": "verification",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "hash"
+      },
+      "active": 0
+    },
+    {
+      "id": "signet-install-verify:S8:verification",
+      "visual": "verification",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "fingerprints"
+      },
+      "active": 2
+    },
+    {
+      "id": "signet-install-verify:S9:verification",
+      "visual": "verification",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "signature"
+      },
+      "active": 1
+    }
+  ],
+  "signet-vs-mainnet": [
+    {
+      "id": "signet-vs-mainnet:R2:networks",
+      "visual": "networks",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "Core's console is a panel inside the application where you can enter text commands. The command getblockchaininfo reports the selected network in a field named chain. The value signet means our practice network; main means real Bitcoin. Check that value instead of guessing from a wallet name or an address. Addresses on some other test networks look like Signet addresses."
+      }
+    }
+  ],
+  "2.3": [
+    {
+      "id": "2.3:R1:pruning",
+      "visual": "pruning",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "An archival full node keeps the old blocks after checking them. A pruned full node checks the same Bitcoin rules but deletes older block files to save disk space. Pruning does not mean trusting someone else to validate the transactions, and an archival node is not required for safe wallet operation."
+      }
+    }
+  ],
+  "generate-passphrase": [
+    {
+      "id": "generate-passphrase:S2:separate-credentials",
+      "visual": "separate-credentials",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "record-v4"
+      }
+    }
+  ],
+  "signet-encrypt-new-backup": [
+    {
+      "id": "signet-encrypt-new-backup:S3:first-encryption",
+      "visual": "first-encryption",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "backup"
+      }
+    }
+  ],
+  "signet-receive-send": [
+    {
+      "id": "signet-receive-send:S4:transaction",
+      "visual": "transaction",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "change"
+      }
+    }
+  ],
+  "coin-control-fees": [
+    {
+      "id": "coin-control-fees:S1:coin-linkage",
+      "visual": "coin-linkage",
+      "display": "expandable",
+      "target": {
+        "kind": "step",
+        "stepId": "enable-v4"
+      }
+    }
+  ],
+  "signet-restore": [
+    {
+      "id": "signet-restore:S2:restore",
+      "visual": "restore",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "restore"
+      }
+    }
+  ],
+  "wallet-lock-change": [
+    {
+      "id": "wallet-lock-change:S4:old-backup",
+      "visual": "old-backup",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "old-state-v4"
+      }
+    }
+  ],
+  "repetition-drills": [
+    {
+      "id": "repetition-drills:S4:lifecycle",
+      "visual": "lifecycle",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "lifecycle-v41"
+      }
+    }
+  ],
+  "2.6": [
+    {
+      "id": "2.6:R1:wallet-node-data",
+      "visual": "wallet-node-data",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "Core's data directory is the folder where it stores its working files. It can contain blockchain blocks, a database called chainstate that tracks currently unspent amounts, and wallet folders. wallet.dat is a wallet database file, not the blockchain itself."
+      }
+    }
+  ],
+  "backup-redundancy-freshness": [
+    {
+      "id": "backup-redundancy-freshness:C:backup-matrix",
+      "visual": "backup-matrix",
+      "display": "core",
+      "target": {
+        "kind": "checkpoint"
+      }
+    }
+  ],
+  "encrypted-backup-privacy": [
+    {
+      "id": "encrypted-backup-privacy:C:encryption-boundary",
+      "visual": "encryption-boundary",
+      "display": "core",
+      "target": {
+        "kind": "checkpoint"
+      }
+    }
+  ],
+  "2.4": [
+    {
+      "id": "2.4:R2:architecture",
+      "visual": "architecture",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "You move the PSBT to the offline signer, check the recipient, amounts, change and fee, then approve it with the private keys. You return the signed file to the online node for broadcast, which means sending the transaction to the network. The private keys remain offline. The signer checks the proposal; it does not independently check the whole blockchain or whether an input has already been spent."
+      }
+    }
+  ],
+  "2.8": [
+    {
+      "id": "2.8:R1:wallet-roles",
+      "visual": "wallet-roles",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "A hot wallet holds signing keys on a network-connected computer. A watch-only wallet has public information for recognizing addresses and transactions but no private keys to sign a spend. An offline signing wallet holds the private keys on a disconnected computer and approves a payment prepared elsewhere."
+      }
+    }
+  ],
+  "ops-malware": [
+    {
+      "id": "ops-malware:S1:media-roles",
+      "visual": "media-roles",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "media"
+      }
+    }
+  ],
+  "ops-physical": [
+    {
+      "id": "ops-physical:S2:tamper-response",
+      "visual": "tamper-response",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "replacement-plan"
+      }
+    }
+  ],
+  "offline-device": [
+    {
+      "id": "offline-device:S2:offline-preparation",
+      "visual": "offline-preparation",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "isolate"
+      }
+    }
+  ],
+  "watch-only-setup": [
+    {
+      "id": "watch-only-setup:S1:descriptors",
+      "visual": "descriptors",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "export"
+      }
+    },
+    {
+      "id": "watch-only-setup:S3:import-metadata",
+      "visual": "import-metadata",
+      "display": "expandable",
+      "target": {
+        "kind": "step",
+        "stepId": "import"
+      }
+    }
+  ],
+  "offline-psbt": [
+    {
+      "id": "offline-psbt:S1:psbt-flow",
+      "visual": "psbt-flow",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "proposal"
+      },
+      "active": 0
+    },
+    {
+      "id": "offline-psbt:S2:psbt-flow",
+      "visual": "psbt-flow",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "review"
+      },
+      "active": 1
+    },
+    {
+      "id": "offline-psbt:S2:transaction",
+      "visual": "transaction",
+      "display": "expandable",
+      "target": {
+        "kind": "step",
+        "stepId": "review"
+      }
+    },
+    {
+      "id": "offline-psbt:S3:psbt-flow",
+      "visual": "psbt-flow",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "sign"
+      },
+      "active": 2
+    },
+    {
+      "id": "offline-psbt:S4:psbt-flow",
+      "visual": "psbt-flow",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "broadcast"
+      },
+      "active": 3
+    }
+  ],
+  "offline-recovery": [
+    {
+      "id": "offline-recovery:S1:recovery-both",
+      "visual": "recovery-both",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "signer"
+      },
+      "active": 0
+    },
+    {
+      "id": "offline-recovery:S2:recovery-both",
+      "visual": "recovery-both",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "coordinator"
+      },
+      "active": 1
+    },
+    {
+      "id": "offline-recovery:S3:recovery-both",
+      "visual": "recovery-both",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "sign-again"
+      },
+      "active": 2
+    }
+  ],
+  "ops-inheritance": [
+    {
+      "id": "ops-inheritance:S1:handover",
+      "visual": "handover",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "handover-test-v4"
+      }
+    }
+  ],
+  "optional-veracrypt": [
+    {
+      "id": "optional-veracrypt:S3:container",
+      "visual": "container",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "two-stage-v4"
+      }
+    }
+  ],
+  "move-to-real-bitcoin": [
+    {
+      "id": "move-to-real-bitcoin:C:clean-start",
+      "visual": "clean-start",
+      "display": "core",
+      "target": {
+        "kind": "checkpoint"
+      },
+      "caption": "Carry forward skills and reviewed instructions, not practice keys or passphrases. Prepare a clean system, create a new wallet, prove restore, then make a small mainnet test."
+    }
+  ],
+  "node-migration": [
+    {
+      "id": "node-migration:S2:migration",
+      "visual": "migration",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "copy-blocks-v4"
+      }
+    }
+  ],
+  "optional-tails": [
+    {
+      "id": "optional-tails:S3:tails-storage",
+      "visual": "tails-storage",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "persistence"
+      }
+    }
+  ],
+  "multisig-why": [
+    {
+      "id": "multisig-why:R1:copies-authority",
+      "visual": "copies-authority",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "A 2-of-3 policy requires signatures from any two of three designated keys. It changes who can authorize a payment. Saying “I use it so I can lose one key” describes a redundancy goal, but redundant encrypted single-sig backups can already survive loss of a device or location."
+      }
+    }
+  ],
+  "lab-method": [
+    {
+      "id": "lab-method:B:lab-host",
+      "visual": "lab-host",
+      "display": "core",
+      "target": {
+        "kind": "background"
+      }
+    }
+  ],
+  "lab-descriptors": [
+    {
+      "id": "lab-descriptors:S1:descriptor-policy",
+      "visual": "descriptor-policy",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "parse-v4"
+      }
+    }
+  ],
+  "lab-psbt": [
+    {
+      "id": "lab-psbt:S1:psbt-states",
+      "visual": "psbt-states",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "decode-v4"
+      }
+    }
+  ],
+  "multisig-signet": [
+    {
+      "id": "multisig-signet:S2:combine",
+      "visual": "combine",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "combine-signatures-v42"
+      }
+    }
+  ],
+  "multisig-backup": [
+    {
+      "id": "multisig-backup:S1:policy-backup",
+      "visual": "policy-backup",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "backup-policy-v4"
+      }
+    }
+  ],
+  "multisig-failures": [
+    {
+      "id": "multisig-failures:S1:quorum-tests",
+      "visual": "quorum-tests",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "quorum-drill-v4"
+      }
+    }
+  ],
+  "taproot-model": [
+    {
+      "id": "taproot-model:R2:taproot",
+      "visual": "taproot",
+      "display": "core",
+      "target": {
+        "kind": "reading",
+        "anchor": "A plain tr(KEY) descriptor is a key-path single-sig example. Putting a 2-of-3 script inside tr does not itself disable the key path. If someone knows the relevant internal private key, that alternate authority must be accounted for."
+      }
+    }
+  ],
+  "timelocked-recovery": [
+    {
+      "id": "timelocked-recovery:S3:relative-delay",
+      "visual": "relative-delay",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "mature-v4"
+      }
+    }
+  ],
+  "taproot-path-tests": [
+    {
+      "id": "taproot-path-tests:S1:path-tests",
+      "visual": "path-tests",
+      "display": "core",
+      "target": {
+        "kind": "step",
+        "stepId": "matrix-v4"
+      }
+    }
+  ]
+}

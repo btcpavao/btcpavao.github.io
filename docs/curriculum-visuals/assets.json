@@ -1,0 +1,30 @@
+[
+  {
+    "file": "btcpavao-github-io/public/curriculum-visuals/clean-start.webp",
+    "bytes": 110056,
+    "sha256": "1c894d3f47e36f768ed32115f4a66212736f252871a79c6667d296e8d3ef2004",
+    "width": 1200,
+    "height": 675
+  },
+  {
+    "file": "btcpavao-github-io/public/curriculum-visuals/continuity.webp",
+    "bytes": 95516,
+    "sha256": "41c933502bea79aec6c194bdff2dca3ae3a25967ba1997f001cf906cd20a8876",
+    "width": 1200,
+    "height": 675
+  },
+  {
+    "file": "btcpavao-github-io/public/curriculum-visuals/entropy.webp",
+    "bytes": 92248,
+    "sha256": "92718d4985105f4255450671d6617796f011cda75750c1e0ffdbf1db4bef5602",
+    "width": 1200,
+    "height": 675
+  },
+  {
+    "file": "btcpavao-github-io/public/curriculum-visuals/handover.webp",
+    "bytes": 106718,
+    "sha256": "fc6f4a6534dc6df09733fe3f7768853bbfc57bfa3618ae20aa7bd1bc36e6f68d",
+    "width": 1200,
+    "height": 675
+  }
+]
