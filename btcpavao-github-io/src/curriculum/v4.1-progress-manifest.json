@@ -1,0 +1,1135 @@
+[
+  {
+    "id": "0.1",
+    "slug": "what-self-custody-really-means",
+    "prerequisites": [],
+    "checks": [
+      "lesson-0.1:reading-v4:0",
+      "lesson-0.1:reading-v4:1",
+      "lesson-0.1:reading-v4:2",
+      "lesson-0.1:reading-v4:3",
+      "lesson-0.1:checklist-v4:0"
+    ]
+  },
+  {
+    "id": "0.2",
+    "slug": "threat-model-before-tools",
+    "prerequisites": [
+      "0.1"
+    ],
+    "checks": [
+      "lesson-0.2:guided-v4:assets-horizon",
+      "lesson-0.2:guided-v4:rank-threats",
+      "lesson-0.2:guided-v4:revisit"
+    ]
+  },
+  {
+    "id": "0.3",
+    "slug": "security-is-a-process",
+    "prerequisites": [
+      "0.2"
+    ],
+    "checks": [
+      "lesson-0.3:reading-v4:0",
+      "lesson-0.3:reading-v4:1",
+      "lesson-0.3:reading-v4:2",
+      "lesson-0.3:checklist-v4:0"
+    ]
+  },
+  {
+    "id": "custody-economics",
+    "slug": "custody-economics",
+    "prerequisites": [
+      "0.3"
+    ],
+    "checks": [
+      "lesson-custody-economics:reading-v4:0",
+      "lesson-custody-economics:reading-v4:1",
+      "lesson-custody-economics:reading-v4:2"
+    ]
+  },
+  {
+    "id": "2.1",
+    "slug": "what-is-bitcoin-core",
+    "prerequisites": [
+      "custody-economics"
+    ],
+    "checks": [
+      "lesson-2.1:reading-v4:0",
+      "lesson-2.1:reading-v4:1",
+      "lesson-2.1:reading-v4:2"
+    ]
+  },
+  {
+    "id": "own-node",
+    "slug": "your-node-matters-first-to-you",
+    "prerequisites": [
+      "2.1"
+    ],
+    "checks": [
+      "lesson-own-node:reading-v4:0",
+      "lesson-own-node:reading-v4:1",
+      "lesson-own-node:reading-v4:2"
+    ]
+  },
+  {
+    "id": "1.3",
+    "slug": "electrum-workflow-and-security-assumptions",
+    "prerequisites": [
+      "own-node"
+    ],
+    "checks": [
+      "lesson-1.3:reading-v4:0",
+      "lesson-1.3:reading-v4:1",
+      "lesson-1.3:reading-v4:2",
+      "lesson-1.3:reading-v4:3"
+    ]
+  },
+  {
+    "id": "ibd-separation",
+    "slug": "ibd-does-not-block-wallet-learning",
+    "prerequisites": [
+      "1.3"
+    ],
+    "checks": [
+      "lesson-ibd-separation:reading-v4:0",
+      "lesson-ibd-separation:reading-v4:1",
+      "lesson-ibd-separation:reading-v4:2"
+    ]
+  },
+  {
+    "id": "core-not-server",
+    "slug": "core-is-neither-a-server-nor-useless",
+    "prerequisites": [
+      "ibd-separation"
+    ],
+    "checks": [
+      "lesson-core-not-server:reading-v4:0",
+      "lesson-core-not-server:reading-v4:1",
+      "lesson-core-not-server:reading-v4:2"
+    ]
+  },
+  {
+    "id": "2.5",
+    "slug": "why-the-signer-does-not-need-the-blockchain",
+    "prerequisites": [
+      "core-not-server"
+    ],
+    "checks": [
+      "lesson-2.5:reading-v4:0",
+      "lesson-2.5:reading-v4:1",
+      "lesson-2.5:reading-v4:2"
+    ]
+  },
+  {
+    "id": "1.1",
+    "slug": "hardware-wallet-as-a-tradeoff",
+    "prerequisites": [
+      "2.5"
+    ],
+    "checks": [
+      "lesson-1.1:reading-v4:0",
+      "lesson-1.1:reading-v4:1",
+      "lesson-1.1:reading-v4:2",
+      "lesson-1.1:reading-v4:3",
+      "lesson-1.1:reading-v4:4",
+      "lesson-1.1:reading-v4:5",
+      "lesson-1.1:reading-v4:6",
+      "lesson-1.1:reading-v4:7"
+    ]
+  },
+  {
+    "id": "1.5",
+    "slug": "core-as-a-tool-not-an-identity",
+    "prerequisites": [
+      "1.1",
+      "0.2"
+    ],
+    "checks": [
+      "lesson-1.5:reading-v4:0",
+      "lesson-1.5:reading-v4:1",
+      "lesson-1.5:reading-v4:2",
+      "lesson-1.5:reading-v4:3"
+    ]
+  },
+  {
+    "id": "1.4",
+    "slug": "bip39-cryptography-and-backup-model",
+    "prerequisites": [
+      "1.5"
+    ],
+    "checks": [
+      "lesson-1.4:reading-v4:0",
+      "lesson-1.4:reading-v4:1",
+      "lesson-1.4:reading-v4:2",
+      "lesson-1.4:reading-v4:3",
+      "lesson-1.4:reading-v4:4",
+      "lesson-1.4:checklist-v4:0",
+      "lesson-1.4:checklist-v4:1",
+      "lesson-1.4:checklist-v4:2"
+    ]
+  },
+  {
+    "id": "signet-entropy-deep-dive",
+    "slug": "where-the-private-key-comes-from",
+    "prerequisites": [
+      "1.4"
+    ],
+    "checks": [
+      "lesson-signet-entropy-deep-dive:reading-v4:0",
+      "lesson-signet-entropy-deep-dive:reading-v4:1",
+      "lesson-signet-entropy-deep-dive:reading-v4:2",
+      "lesson-signet-entropy-deep-dive:reading-v4:3"
+    ]
+  },
+  {
+    "id": "1.2",
+    "slug": "sparrow-workflow-and-security-assumptions",
+    "prerequisites": [
+      "signet-entropy-deep-dive"
+    ],
+    "checks": [
+      "lesson-1.2:reading-v4:0",
+      "lesson-1.2:reading-v4:1",
+      "lesson-1.2:reading-v4:2",
+      "lesson-1.2:reading-v4:3"
+    ]
+  },
+  {
+    "id": "software-continuity",
+    "slug": "software-continuity",
+    "prerequisites": [
+      "1.2"
+    ],
+    "checks": [
+      "lesson-software-continuity:reading-v4:0",
+      "lesson-software-continuity:reading-v4:1",
+      "lesson-software-continuity:reading-v4:2",
+      "lesson-software-continuity:reading-v4:3"
+    ]
+  },
+  {
+    "id": "core-development",
+    "slug": "battle-tested-does-not-mean-bug-free",
+    "prerequisites": [
+      "software-continuity"
+    ],
+    "checks": [
+      "lesson-core-development:reading-v4:0",
+      "lesson-core-development:reading-v4:1",
+      "lesson-core-development:reading-v4:2"
+    ]
+  },
+  {
+    "id": "foundations-checkpoint",
+    "slug": "foundations-checkpoint",
+    "prerequisites": [
+      "core-development",
+      "0.2",
+      "0.3",
+      "custody-economics",
+      "2.1",
+      "own-node",
+      "1.3",
+      "ibd-separation",
+      "core-not-server",
+      "2.5",
+      "1.1",
+      "1.5",
+      "1.4",
+      "signet-entropy-deep-dive",
+      "1.2",
+      "software-continuity"
+    ],
+    "checks": [
+      "lesson-foundations-checkpoint:checklist-v4:0",
+      "lesson-foundations-checkpoint:checklist-v4:1",
+      "lesson-foundations-checkpoint:checklist-v4:2",
+      "lesson-foundations-checkpoint:checklist-v4:3",
+      "lesson-foundations-checkpoint:checklist-v4:4"
+    ]
+  },
+  {
+    "id": "real-device",
+    "slug": "choose-a-computer-and-model-malware-risk",
+    "prerequisites": [
+      "foundations-checkpoint"
+    ],
+    "checks": [
+      "lesson-real-device:guided-v4:assign-v4",
+      "lesson-real-device:guided-v4:media-v4",
+      "lesson-real-device:guided-v4:prepare-v4"
+    ]
+  },
+  {
+    "id": "debian-setup",
+    "slug": "debian-setup",
+    "prerequisites": [
+      "real-device"
+    ],
+    "checks": [
+      "lesson-debian-setup:guided-v4:image",
+      "lesson-debian-setup:guided-v4:verify-image",
+      "lesson-debian-setup:guided-v4:boot-install",
+      "lesson-debian-setup:guided-v4:update",
+      "lesson-debian-setup:guided-v4:minimum",
+      "lesson-debian-setup:guided-v4:record"
+    ]
+  },
+  {
+    "id": "signet-install-verify",
+    "slug": "install-and-verify-bitcoin-core",
+    "prerequisites": [
+      "debian-setup"
+    ],
+    "checks": [
+      "lesson-signet-install-verify:guided-v4:tools-check",
+      "lesson-signet-install-verify:guided-v4:tools-install",
+      "lesson-signet-install-verify:guided-v4:platform",
+      "lesson-signet-install-verify:guided-v4:folder",
+      "lesson-signet-install-verify:guided-v4:hash",
+      "lesson-signet-install-verify:guided-v4:builder-repo",
+      "lesson-signet-install-verify:guided-v4:builder-import",
+      "lesson-signet-install-verify:guided-v4:fingerprints",
+      "lesson-signet-install-verify:guided-v4:signature",
+      "lesson-signet-install-verify:guided-v4:extract"
+    ]
+  },
+  {
+    "id": "signet-why",
+    "slug": "learn-first-with-valueless-bitcoin",
+    "prerequisites": [
+      "signet-install-verify"
+    ],
+    "checks": [
+      "lesson-signet-why:reading-v4:0",
+      "lesson-signet-why:reading-v4:1",
+      "lesson-signet-why:checklist-v4:0",
+      "lesson-signet-why:checklist-v4:1",
+      "lesson-signet-why:checklist-v4:2"
+    ]
+  },
+  {
+    "id": "signet-vs-mainnet",
+    "slug": "mainnet-vs-signet",
+    "prerequisites": [
+      "signet-why"
+    ],
+    "checks": [
+      "lesson-signet-vs-mainnet:reading-v4:0",
+      "lesson-signet-vs-mainnet:reading-v4:1"
+    ]
+  },
+  {
+    "id": "signet-start",
+    "slug": "start-bitcoin-core-on-signet",
+    "prerequisites": [
+      "signet-vs-mainnet"
+    ],
+    "checks": [
+      "lesson-signet-start:guided-v4:launch-v4",
+      "lesson-signet-start:guided-v4:inspect-gui-v4"
+    ]
+  },
+  {
+    "id": "2.3",
+    "slug": "full-vs-pruned-node",
+    "prerequisites": [
+      "signet-start"
+    ],
+    "checks": [
+      "lesson-2.3:reading-v4:0",
+      "lesson-2.3:reading-v4:1"
+    ]
+  },
+  {
+    "id": "signet-first-wallet",
+    "slug": "first-signet-wallet-and-address",
+    "prerequisites": [
+      "signet-start"
+    ],
+    "checks": [
+      "lesson-signet-first-wallet:guided-v4:create",
+      "lesson-signet-first-wallet:guided-v4:receive-gui-v4",
+      "lesson-signet-first-wallet:checklist-v4:0"
+    ]
+  },
+  {
+    "id": "passphrase-strength",
+    "slug": "passphrase-strength",
+    "prerequisites": [
+      "signet-first-wallet"
+    ],
+    "checks": [
+      "lesson-passphrase-strength:reading-v4:0",
+      "lesson-passphrase-strength:reading-v4:1",
+      "lesson-passphrase-strength:reading-v4:2",
+      "lesson-passphrase-strength:reading-v4:3",
+      "lesson-passphrase-strength:reading-v4:4",
+      "lesson-passphrase-strength:reading-v4:5",
+      "lesson-passphrase-strength:reading-v4:6",
+      "lesson-passphrase-strength:reading-v4:7"
+    ]
+  },
+  {
+    "id": "brute-force-economics",
+    "slug": "brute-force-economics",
+    "prerequisites": [
+      "passphrase-strength"
+    ],
+    "checks": [
+      "lesson-brute-force-economics:reading-v4:0",
+      "lesson-brute-force-economics:reading-v4:1",
+      "lesson-brute-force-economics:reading-v4:2",
+      "lesson-brute-force-economics:reading-v4:3",
+      "lesson-brute-force-economics:reading-v4:4",
+      "lesson-brute-force-economics:reading-v4:5"
+    ]
+  },
+  {
+    "id": "generate-passphrase",
+    "slug": "generate-passphrase",
+    "prerequisites": [
+      "brute-force-economics"
+    ],
+    "checks": [
+      "lesson-generate-passphrase:guided-v4:keepass-bundled-v41",
+      "lesson-generate-passphrase:guided-v4:record-v4",
+      "lesson-generate-passphrase:guided-v4:record-check-v4"
+    ]
+  },
+  {
+    "id": "signet-encrypt-new-backup",
+    "slug": "encrypt-signet-wallet-and-create-new-backup",
+    "prerequisites": [
+      "generate-passphrase"
+    ],
+    "checks": [
+      "lesson-signet-encrypt-new-backup:guided-v4:context-gui-v4",
+      "lesson-signet-encrypt-new-backup:guided-v4:encrypt",
+      "lesson-signet-encrypt-new-backup:guided-v4:backup",
+      "lesson-signet-encrypt-new-backup:guided-v4:record"
+    ]
+  },
+  {
+    "id": "signet-receive-send",
+    "slug": "first-signet-receive-and-send",
+    "prerequisites": [
+      "signet-encrypt-new-backup"
+    ],
+    "checks": [
+      "lesson-signet-receive-send:guided-v4:receive",
+      "lesson-signet-receive-send:guided-v4:confirmed",
+      "lesson-signet-receive-send:guided-v4:send",
+      "lesson-signet-receive-send:guided-v4:change"
+    ]
+  },
+  {
+    "id": "coin-control-fees",
+    "slug": "coin-control-fees",
+    "prerequisites": [
+      "signet-receive-send"
+    ],
+    "checks": [
+      "lesson-coin-control-fees:guided-v4:enable-v4",
+      "lesson-coin-control-fees:guided-v4:fee-v4",
+      "lesson-coin-control-fees:guided-v4:review-v4"
+    ]
+  },
+  {
+    "id": "signet-restore",
+    "slug": "back-up-remove-test-wallet-and-restore",
+    "prerequisites": [
+      "coin-control-fees"
+    ],
+    "checks": [
+      "lesson-signet-restore:guided-v4:record",
+      "lesson-signet-restore:guided-v4:restore",
+      "lesson-signet-restore:guided-v4:compare"
+    ]
+  },
+  {
+    "id": "signet-transact-again",
+    "slug": "send-again-after-signet-recovery",
+    "prerequisites": [
+      "signet-restore"
+    ],
+    "checks": [
+      "lesson-signet-transact-again:guided-v4:selected",
+      "lesson-signet-transact-again:guided-v4:spend"
+    ]
+  },
+  {
+    "id": "wallet-lock-change",
+    "slug": "wallet-lock-change",
+    "prerequisites": [
+      "signet-transact-again"
+    ],
+    "checks": [
+      "lesson-wallet-lock-change:guided-v4:state-v4",
+      "lesson-wallet-lock-change:guided-v4:old-copy-v4",
+      "lesson-wallet-lock-change:guided-v4:change-v4",
+      "lesson-wallet-lock-change:guided-v4:old-state-v4"
+    ]
+  },
+  {
+    "id": "repetition-drills",
+    "slug": "repetition-drills",
+    "prerequisites": [
+      "wallet-lock-change"
+    ],
+    "checks": [
+      "lesson-repetition-drills:guided-v4:ten-v4",
+      "lesson-repetition-drills:guided-v4:three-v4",
+      "lesson-repetition-drills:guided-v4:restore-repeat-v4",
+      "lesson-repetition-drills:guided-v4:lifecycle-v41"
+    ]
+  },
+  {
+    "id": "signet-readiness",
+    "slug": "mainnet-readiness-signet-checkpoint",
+    "prerequisites": [
+      "repetition-drills"
+    ],
+    "checks": [
+      "lesson-signet-readiness:checklist-v4:0",
+      "lesson-signet-readiness:checklist-v4:1",
+      "lesson-signet-readiness:checklist-v4:2"
+    ]
+  },
+  {
+    "id": "2.6",
+    "slug": "wallet-backup-vs-node-data",
+    "prerequisites": [
+      "signet-readiness"
+    ],
+    "checks": [
+      "lesson-2.6:reading-v4:0",
+      "lesson-2.6:reading-v4:1"
+    ]
+  },
+  {
+    "id": "backup-redundancy-freshness",
+    "slug": "more-copies-do-not-mean-a-current-backup",
+    "prerequisites": [
+      "2.6"
+    ],
+    "checks": [
+      "lesson-backup-redundancy-freshness:checklist-v4:0",
+      "lesson-backup-redundancy-freshness:checklist-v4:1",
+      "lesson-backup-redundancy-freshness:checklist-v4:2",
+      "lesson-backup-redundancy-freshness:checklist-v4:3"
+    ]
+  },
+  {
+    "id": "encrypted-backup-privacy",
+    "slug": "digital-and-cloud-backup-privacy-model",
+    "prerequisites": [
+      "backup-redundancy-freshness"
+    ],
+    "checks": [
+      "lesson-encrypted-backup-privacy:checklist-v4:0",
+      "lesson-encrypted-backup-privacy:checklist-v4:1",
+      "lesson-encrypted-backup-privacy:checklist-v4:2"
+    ]
+  },
+  {
+    "id": "backup-media",
+    "slug": "backup-media",
+    "prerequisites": [
+      "encrypted-backup-privacy"
+    ],
+    "checks": [
+      "lesson-backup-media:reading-v4:0",
+      "lesson-backup-media:reading-v4:1",
+      "lesson-backup-media:reading-v4:2"
+    ]
+  },
+  {
+    "id": "recovery-failure-drills",
+    "slug": "recovery-failure-drills",
+    "prerequisites": [
+      "backup-media"
+    ],
+    "checks": [
+      "lesson-recovery-failure-drills:guided-v4:isolate-original-v4",
+      "lesson-recovery-failure-drills:guided-v4:restore-survivor-v4",
+      "lesson-recovery-failure-drills:guided-v4:failed-usb-v4"
+    ]
+  },
+  {
+    "id": "backup-mastery",
+    "slug": "backup-mastery",
+    "prerequisites": [
+      "recovery-failure-drills"
+    ],
+    "checks": [
+      "lesson-backup-mastery:checklist-v4:0",
+      "lesson-backup-mastery:checklist-v4:1",
+      "lesson-backup-mastery:checklist-v4:2",
+      "lesson-backup-mastery:checklist-v4:3",
+      "lesson-backup-mastery:checklist-v4:4"
+    ]
+  },
+  {
+    "id": "one-wallet-mastery",
+    "slug": "one-wallet-mastery",
+    "prerequisites": [
+      "backup-mastery"
+    ],
+    "checks": [
+      "lesson-one-wallet-mastery:checklist-v4:0",
+      "lesson-one-wallet-mastery:checklist-v4:1",
+      "lesson-one-wallet-mastery:checklist-v4:2",
+      "lesson-one-wallet-mastery:checklist-v4:3",
+      "lesson-one-wallet-mastery:checklist-v4:4",
+      "lesson-one-wallet-mastery:checklist-v4:5",
+      "lesson-one-wallet-mastery:checklist-v4:6",
+      "lesson-one-wallet-mastery:checklist-v4:7",
+      "lesson-one-wallet-mastery:checklist-v4:8",
+      "lesson-one-wallet-mastery:checklist-v4:9",
+      "lesson-one-wallet-mastery:checklist-v4:10",
+      "lesson-one-wallet-mastery:checklist-v4:11"
+    ]
+  },
+  {
+    "id": "architecture-choice",
+    "slug": "simple-wallet-or-offline-signer",
+    "prerequisites": [
+      "one-wallet-mastery"
+    ],
+    "checks": [
+      "lesson-architecture-choice:reading-v4:0",
+      "lesson-architecture-choice:reading-v4:1",
+      "lesson-architecture-choice:reading-v4:2",
+      "lesson-architecture-choice:reading-v4:3"
+    ]
+  },
+  {
+    "id": "2.4",
+    "slug": "online-node-and-offline-signer",
+    "prerequisites": [
+      "architecture-choice"
+    ],
+    "checks": [
+      "lesson-2.4:reading-v4:0",
+      "lesson-2.4:reading-v4:1"
+    ]
+  },
+  {
+    "id": "2.8",
+    "slug": "hot-watch-only-and-signing-wallet",
+    "prerequisites": [
+      "2.4"
+    ],
+    "checks": [
+      "lesson-2.8:reading-v4:0",
+      "lesson-2.8:reading-v4:1",
+      "lesson-2.8:checklist-v4:0",
+      "lesson-2.8:checklist-v4:1",
+      "lesson-2.8:checklist-v4:2"
+    ]
+  },
+  {
+    "id": "ops-malware",
+    "slug": "malware-usb-and-destination-verification",
+    "prerequisites": [
+      "2.8"
+    ],
+    "checks": [
+      "lesson-ops-malware:guided-v4:media",
+      "lesson-ops-malware:guided-v4:destination"
+    ]
+  },
+  {
+    "id": "ops-physical",
+    "slug": "physical-security-and-backup-media",
+    "prerequisites": [
+      "ops-malware"
+    ],
+    "checks": [
+      "lesson-ops-physical:guided-v4:physical-plan",
+      "lesson-ops-physical:guided-v4:replacement-plan"
+    ]
+  },
+  {
+    "id": "offline-device",
+    "slug": "prepare-offline-signer",
+    "prerequisites": [
+      "ops-physical"
+    ],
+    "checks": [
+      "lesson-offline-device:guided-v4:debian-preparation",
+      "lesson-offline-device:guided-v4:isolate",
+      "lesson-offline-device:guided-v4:debian-datadir",
+      "lesson-offline-device:guided-v4:wallet",
+      "lesson-offline-device:guided-v4:coldboot"
+    ]
+  },
+  {
+    "id": "watch-only-setup",
+    "slug": "watch-only-setup",
+    "prerequisites": [
+      "offline-device"
+    ],
+    "checks": [
+      "lesson-watch-only-setup:guided-v4:export",
+      "lesson-watch-only-setup:guided-v4:watchonly-gui-v4",
+      "lesson-watch-only-setup:guided-v4:import",
+      "lesson-watch-only-setup:guided-v4:address"
+    ]
+  },
+  {
+    "id": "offline-psbt",
+    "slug": "first-offline-signed-transaction",
+    "prerequisites": [
+      "watch-only-setup"
+    ],
+    "checks": [
+      "lesson-offline-psbt:guided-v4:proposal",
+      "lesson-offline-psbt:guided-v4:review",
+      "lesson-offline-psbt:guided-v4:sign",
+      "lesson-offline-psbt:guided-v4:broadcast"
+    ]
+  },
+  {
+    "id": "offline-recovery",
+    "slug": "recovery-drill-without-original-coordinator",
+    "prerequisites": [
+      "offline-psbt"
+    ],
+    "checks": [
+      "lesson-offline-recovery:guided-v4:signer",
+      "lesson-offline-recovery:guided-v4:coordinator",
+      "lesson-offline-recovery:guided-v4:sign-again"
+    ]
+  },
+  {
+    "id": "ops-documentation",
+    "slug": "document-the-procedure-without-exposing-secrets",
+    "prerequisites": [
+      "offline-recovery"
+    ],
+    "checks": [
+      "lesson-ops-documentation:guided-v4:card",
+      "lesson-ops-documentation:guided-v4:rehearse",
+      "lesson-ops-documentation:guided-v4:operator-unavailable"
+    ]
+  },
+  {
+    "id": "offline-mastery",
+    "slug": "offline-mastery",
+    "prerequisites": [
+      "ops-documentation"
+    ],
+    "checks": [
+      "lesson-offline-mastery:checklist-v4:0",
+      "lesson-offline-mastery:checklist-v4:1",
+      "lesson-offline-mastery:checklist-v4:2",
+      "lesson-offline-mastery:checklist-v4:3",
+      "lesson-offline-mastery:checklist-v4:4"
+    ]
+  },
+  {
+    "id": "ops-routine",
+    "slug": "regular-tests-and-annual-recovery-drill",
+    "prerequisites": [
+      "offline-mastery"
+    ],
+    "checks": [
+      "lesson-ops-routine:guided-v4:threat-review-v4",
+      "lesson-ops-routine:guided-v4:strength-review-v4",
+      "lesson-ops-routine:guided-v4:media-review-v4",
+      "lesson-ops-routine:guided-v4:software-review-v4",
+      "lesson-ops-routine:guided-v4:write-review-v4"
+    ]
+  },
+  {
+    "id": "ops-inheritance",
+    "slug": "inheritance-and-other-people",
+    "prerequisites": [
+      "ops-routine"
+    ],
+    "checks": [
+      "lesson-ops-inheritance:guided-v4:handover-test-v4"
+    ]
+  },
+  {
+    "id": "single-sig-mastery",
+    "slug": "single-sig-mastery",
+    "prerequisites": [
+      "ops-inheritance"
+    ],
+    "checks": [
+      "lesson-single-sig-mastery:checklist-v4:0",
+      "lesson-single-sig-mastery:checklist-v4:1",
+      "lesson-single-sig-mastery:checklist-v4:2",
+      "lesson-single-sig-mastery:checklist-v4:3",
+      "lesson-single-sig-mastery:checklist-v4:4",
+      "lesson-single-sig-mastery:checklist-v4:5",
+      "lesson-single-sig-mastery:checklist-v4:6",
+      "lesson-single-sig-mastery:checklist-v4:7"
+    ]
+  },
+  {
+    "id": "optional-dice",
+    "slug": "optional-physical-dice-passphrase",
+    "prerequisites": [
+      "generate-passphrase"
+    ],
+    "checks": [
+      "lesson-optional-dice:guided-v4:reason",
+      "lesson-optional-dice:guided-v4:roll",
+      "lesson-optional-dice:guided-v4:verify"
+    ]
+  },
+  {
+    "id": "optional-veracrypt",
+    "slug": "optional-veracrypt",
+    "prerequisites": [
+      "backup-media"
+    ],
+    "checks": [
+      "lesson-optional-veracrypt:guided-v4:justify-layer-v4",
+      "lesson-optional-veracrypt:guided-v4:copy-test-v4",
+      "lesson-optional-veracrypt:guided-v4:two-stage-v4"
+    ]
+  },
+  {
+    "id": "mainnet-separate-wallet",
+    "slug": "do-not-turn-signet-wallet-into-mainnet-wallet",
+    "prerequisites": [
+      "single-sig-mastery"
+    ],
+    "checks": [
+      "lesson-mainnet-separate-wallet:reading-v4:0",
+      "lesson-mainnet-separate-wallet:reading-v4:1",
+      "lesson-mainnet-separate-wallet:checklist-v4:0",
+      "lesson-mainnet-separate-wallet:checklist-v4:1",
+      "lesson-mainnet-separate-wallet:checklist-v4:2"
+    ]
+  },
+  {
+    "id": "real-encryption",
+    "slug": "encryption-and-passphrase",
+    "prerequisites": [
+      "mainnet-separate-wallet"
+    ],
+    "checks": [
+      "lesson-real-encryption:guided-v4:password",
+      "lesson-real-encryption:guided-v4:mainnet",
+      "lesson-real-encryption:guided-v4:create"
+    ]
+  },
+  {
+    "id": "real-restore",
+    "slug": "restore-in-a-clean-test-environment",
+    "prerequisites": [
+      "real-encryption"
+    ],
+    "checks": [
+      "lesson-real-restore:guided-v4:restore",
+      "lesson-real-restore:guided-v4:unlock",
+      "lesson-real-restore:guided-v4:public"
+    ]
+  },
+  {
+    "id": "mainnet-readiness",
+    "slug": "mainnet-readiness-before-first-deposit",
+    "prerequisites": [
+      "real-restore"
+    ],
+    "checks": [
+      "lesson-mainnet-readiness:checklist-v4:0",
+      "lesson-mainnet-readiness:checklist-v4:1",
+      "lesson-mainnet-readiness:checklist-v4:2",
+      "lesson-mainnet-readiness:checklist-v4:3"
+    ]
+  },
+  {
+    "id": "mainnet-small-test",
+    "slug": "first-small-mainnet-test",
+    "prerequisites": [
+      "mainnet-readiness"
+    ],
+    "checks": [
+      "lesson-mainnet-small-test:guided-v4:deposit",
+      "lesson-mainnet-small-test:guided-v4:spend",
+      "lesson-mainnet-small-test:guided-v4:confirm"
+    ]
+  },
+  {
+    "id": "node-migration",
+    "slug": "migrate-node-data-or-validate-from-scratch",
+    "prerequisites": [
+      "single-sig-mastery"
+    ],
+    "checks": [
+      "lesson-node-migration:guided-v4:prepare-copy-v4",
+      "lesson-node-migration:guided-v4:copy-blocks-v4",
+      "lesson-node-migration:guided-v4:rebuild-v4",
+      "lesson-node-migration:guided-v4:check-migration-v4"
+    ]
+  },
+  {
+    "id": "optional-tails",
+    "slug": "optional-tails-offline-environment",
+    "prerequisites": [
+      "offline-mastery"
+    ],
+    "checks": [
+      "lesson-optional-tails:guided-v4:tails-benefit",
+      "lesson-optional-tails:guided-v4:boot",
+      "lesson-optional-tails:guided-v4:persistence",
+      "lesson-optional-tails:guided-v4:datadir",
+      "lesson-optional-tails:guided-v4:wallet",
+      "lesson-optional-tails:guided-v4:coldboot"
+    ]
+  },
+  {
+    "id": "architecture-path-a",
+    "slug": "path-a-online-encrypted-core-wallet",
+    "prerequisites": [
+      "single-sig-mastery"
+    ],
+    "checks": [
+      "lesson-architecture-path-a:reading-v4:0",
+      "lesson-architecture-path-a:reading-v4:1"
+    ]
+  },
+  {
+    "id": "multisig-why",
+    "slug": "why-multisig-and-when-not-to-use-it",
+    "prerequisites": [
+      "single-sig-mastery"
+    ],
+    "checks": [
+      "lesson-multisig-why:reading-v4:0",
+      "lesson-multisig-why:reading-v4:1",
+      "lesson-multisig-why:reading-v4:2",
+      "lesson-multisig-why:reading-v4:3"
+    ]
+  },
+  {
+    "id": "multi-vendor-cost",
+    "slug": "multi-vendor-cost",
+    "prerequisites": [
+      "single-sig-mastery",
+      "multisig-why"
+    ],
+    "checks": [
+      "lesson-multi-vendor-cost:reading-v4:0",
+      "lesson-multi-vendor-cost:reading-v4:1",
+      "lesson-multi-vendor-cost:reading-v4:2"
+    ]
+  },
+  {
+    "id": "complex-simple",
+    "slug": "complex-wallet-simple-recovery",
+    "prerequisites": [
+      "single-sig-mastery",
+      "multi-vendor-cost"
+    ],
+    "checks": [
+      "lesson-complex-simple:checklist-v4:0",
+      "lesson-complex-simple:checklist-v4:1"
+    ]
+  },
+  {
+    "id": "lab-method",
+    "slug": "how-to-run-a-self-custody-experiment",
+    "prerequisites": [
+      "single-sig-mastery",
+      "complex-simple"
+    ],
+    "checks": [
+      "lesson-lab-method:guided-v4:scope-v4"
+    ]
+  },
+  {
+    "id": "lab-regtest",
+    "slug": "regtest-and-failure-scenarios",
+    "prerequisites": [
+      "single-sig-mastery",
+      "lab-method"
+    ],
+    "checks": [
+      "lesson-lab-regtest:guided-v4:run-v4",
+      "lesson-lab-regtest:guided-v4:helpers-v4",
+      "lesson-lab-regtest:guided-v4:identity-v4",
+      "lesson-lab-regtest:guided-v4:cleanup-plan-v4"
+    ]
+  },
+  {
+    "id": "lab-rpc",
+    "slug": "rpc-and-cli",
+    "prerequisites": [
+      "single-sig-mastery",
+      "lab-regtest"
+    ],
+    "checks": [
+      "lesson-lab-rpc:guided-v4:help-v4",
+      "lesson-lab-rpc:guided-v4:wallet-v4"
+    ]
+  },
+  {
+    "id": "2.2",
+    "slug": "node-wallet-and-blockchain-are-not-the-same",
+    "prerequisites": [
+      "single-sig-mastery",
+      "lab-rpc"
+    ],
+    "checks": [
+      "lesson-2.2:guided-v4:inspect-v4"
+    ]
+  },
+  {
+    "id": "lab-descriptors",
+    "slug": "descriptor-experiments",
+    "prerequisites": [
+      "single-sig-mastery",
+      "2.2"
+    ],
+    "checks": [
+      "lesson-lab-descriptors:guided-v4:parse-v4",
+      "lesson-lab-descriptors:guided-v4:derive-v4"
+    ]
+  },
+  {
+    "id": "lab-psbt",
+    "slug": "psbt-debugging",
+    "prerequisites": [
+      "single-sig-mastery",
+      "lab-descriptors"
+    ],
+    "checks": [
+      "lesson-lab-psbt:guided-v4:decode-v4"
+    ]
+  },
+  {
+    "id": "multisig-signet",
+    "slug": "2-of-3-on-signet",
+    "prerequisites": [
+      "single-sig-mastery",
+      "lab-psbt"
+    ],
+    "checks": [
+      "lesson-multisig-signet:guided-v4:one-signature-v4",
+      "lesson-multisig-signet:guided-v4:two-signatures-v4",
+      "lesson-multisig-signet:guided-v4:verify-broadcast-v4"
+    ]
+  },
+  {
+    "id": "multisig-backup",
+    "slug": "keys-are-not-the-whole-multisig-recovery",
+    "prerequisites": [
+      "single-sig-mastery",
+      "multisig-signet"
+    ],
+    "checks": [
+      "lesson-multisig-backup:guided-v4:backup-policy-v4"
+    ]
+  },
+  {
+    "id": "multisig-failures",
+    "slug": "failure-simulations",
+    "prerequisites": [
+      "single-sig-mastery",
+      "multisig-backup"
+    ],
+    "checks": [
+      "lesson-multisig-failures:guided-v4:quorum-drill-v4"
+    ]
+  },
+  {
+    "id": "taproot-model",
+    "slug": "taproot-mental-model",
+    "prerequisites": [
+      "single-sig-mastery",
+      "multisig-failures"
+    ],
+    "checks": [
+      "lesson-taproot-model:reading-v4:0",
+      "lesson-taproot-model:reading-v4:1",
+      "lesson-taproot-model:reading-v4:2"
+    ]
+  },
+  {
+    "id": "taproot-descriptors",
+    "slug": "taproot-descriptors-and-recovery-artifacts",
+    "prerequisites": [
+      "single-sig-mastery",
+      "taproot-model"
+    ],
+    "checks": [
+      "lesson-taproot-descriptors:guided-v4:taproot-inspect-v4"
+    ]
+  },
+  {
+    "id": "timelocked-recovery",
+    "slug": "timelocked-recovery",
+    "prerequisites": [
+      "single-sig-mastery",
+      "taproot-descriptors"
+    ],
+    "checks": [
+      "lesson-timelocked-recovery:guided-v4:policy-v4",
+      "lesson-timelocked-recovery:guided-v4:sign-delayed-v4",
+      "lesson-timelocked-recovery:guided-v4:mature-v4"
+    ]
+  },
+  {
+    "id": "taproot-path-tests",
+    "slug": "test-every-recovery-path",
+    "prerequisites": [
+      "single-sig-mastery",
+      "timelocked-recovery"
+    ],
+    "checks": [
+      "lesson-taproot-path-tests:guided-v4:matrix-v4"
+    ]
+  },
+  {
+    "id": "advanced-mastery",
+    "slug": "advanced-mastery",
+    "prerequisites": [
+      "single-sig-mastery",
+      "taproot-path-tests"
+    ],
+    "checks": [
+      "lesson-advanced-mastery:checklist-v4:0",
+      "lesson-advanced-mastery:checklist-v4:1",
+      "lesson-advanced-mastery:checklist-v4:2",
+      "lesson-advanced-mastery:checklist-v4:3",
+      "lesson-advanced-mastery:checklist-v4:4",
+      "lesson-advanced-mastery:checklist-v4:5"
+    ]
+  },
+  {
+    "id": "core-explorer",
+    "slug": "core-explorer",
+    "prerequisites": [
+      "single-sig-mastery",
+      "advanced-mastery"
+    ],
+    "checks": [
+      "lesson-core-explorer:reading-v4:0",
+      "lesson-core-explorer:reading-v4:1",
+      "lesson-core-explorer:reading-v4:2"
+    ]
+  },
+  {
+    "id": "lab-community",
+    "slug": "community-questions-and-clarifications",
+    "prerequisites": [
+      "single-sig-mastery",
+      "core-explorer"
+    ],
+    "checks": [
+      "lesson-lab-community:reading-v4:0",
+      "lesson-lab-community:reading-v4:1",
+      "lesson-lab-community:reading-v4:2",
+      "lesson-lab-community:checklist-v4:0"
+    ]
+  }
+]

@@ -226,6 +226,27 @@ try:
 
     coordinator, signers, address = policy_wallets('multisig', lambda k: 'wsh(sortedmulti(2,' + ','.join(k) + '))')
     multisig_address = address
+    for method in ['createwallet', 'getnewaddress', 'getaddressinfo', 'getwalletinfo', 'getblockchaininfo', 'combinepsbt']:
+        check(bool(online.rpc('help', method)), 'installed 31.1 RPC help: ' + method)
+    rpc_address = online.rpc('getnewaddress', wallet='miner')
+    check(online.rpc('getaddressinfo', rpc_address, wallet='miner')['ismine'], 'basic RPC address belongs to the selected test wallet')
+    # Two independently signed copies must combine into the same spend.
+    separate_psbt = funded_policy(coordinator, address)
+    partials = []
+    for wallet in signers[:2]:
+        offline.rpc('walletpassphrase', OLD, 60, wallet=wallet)
+        partial = offline.rpc('walletprocesspsbt', separate_psbt, True, 'ALL', True, False, wallet=wallet)['psbt']
+        offline.rpc('walletlock', wallet=wallet)
+        check(not online.rpc('finalizepsbt', partial)['complete'], 'independent partial is insufficient: ' + wallet)
+        partials.append(partial)
+    combined = online.rpc('combinepsbt', partials)
+    combined_final = online.rpc('finalizepsbt', combined)
+    check(combined_final['complete'], 'combinepsbt assembles two independent signatures')
+    check(online.rpc('testmempoolaccept', [combined_final['hex']])[0]['allowed'], 'combined independent signatures pass validation')
+    combined_txid = online.rpc('sendrawtransaction', combined_final['hex'])
+    mine()
+    check(online.rpc('gettransaction', combined_txid, wallet=coordinator)['confirmations'] > 0, 'combined PSBT spend confirms')
+
     for pair in itertools.combinations(range(3), 2):
         psbt = funded_policy(coordinator, address)
         check(not sign(psbt, [signers[pair[0]]])['complete'], '2-of-3: one signature is insufficient for pair ' + str(pair))

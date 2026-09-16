@@ -1,3 +1,4 @@
+import { CurriculumHelp } from "@/components/curriculum-context"
 import {
   EntropyTable,
   BruteForceExplorer,
@@ -700,6 +701,24 @@ export function CurriculumLesson({
             allowFullScreen
           />
         </div>
+      )}
+      {[
+        "0.2",
+        "move-to-real-bitcoin",
+        "mainnet-readiness",
+        "complexity-after-the-lab",
+        "advanced-mastery",
+        "backup-redundancy-freshness",
+        "lab-community",
+      ].includes(lesson.id) && (
+        <CurriculumHelp
+          key={`help-${lesson.id}`}
+          context={{
+            section: phase.title,
+            lesson: lesson.title,
+            slug: lesson.slug,
+          }}
+        />
       )}
       <section className="course-takeaway">
         <h2>What you should now understand</h2>

@@ -1,10 +1,11 @@
+import { trustLesson, selfRelianceLessons } from "./self-reliance"
 import type { PlayerLesson } from "../bitcoin-core-curriculum-player-en-data"
 
 export const part1Lessons: PlayerLesson[] = [
   {
     id: "0.1",
     slug: "what-self-custody-really-means",
-    title: "Start with the threat, then choose the tools",
+    title: "Self-custody means control and understanding",
     summary: "Understand the decisions this course will teach you to make.",
     objective: "Understand the decisions this course will teach you to make.",
     what: "Understand the decisions this course will teach you to make.",
@@ -17,7 +18,7 @@ export const part1Lessons: PlayerLesson[] = [
     estimatedTime: "8–12 min",
     kind: "reading",
     explanation: [
-      "Do not begin with a product. Begin with a threat. A private key is a secret that lets you authorize a Bitcoin payment. Self-custody means you take responsibility for protecting that authority and recovering it when equipment fails.",
+      "Self-custody is not ownership of a gadget. Begin with the authority you control and the threats it must withstand. A private key is a secret that lets you authorize a Bitcoin payment. Self-custody means you take responsibility for protecting that authority and recovering it when equipment fails.",
       "This course recommends Bitcoin Core on dedicated generic computers running Debian Stable. You will first understand why, then practice a simple encrypted single-sig wallet, and only then consider policies that need several signers. Single-sig means one signing key is sufficient for a particular payment.",
       "The main path needs no real bitcoin. You will use Signet, a public practice network whose coins have no intended monetary value. Some advanced exercises use Regtest, a private test chain on which you create your own blocks.",
       "You finish by being able to explain your choices and recover your wallet. A bigger collection of devices is not the goal. The goal is the simplest system that robustly covers your actual threats.",
@@ -114,6 +115,7 @@ export const part1Lessons: PlayerLesson[] = [
     takeaway:
       "Your threat model names the failures you need to survive, the people who might attack you and the people who must be able to recover.",
   },
+  trustLesson,
   {
     id: "0.3",
     slug: "security-is-a-process",
@@ -134,7 +136,7 @@ export const part1Lessons: PlayerLesson[] = [
       "Consider a second backup in another location. It addresses loss of the first location. Consider instead a second required signer: it changes who can authorize a payment. Those are different problems, even if both arrangements happen to involve two objects.",
       "For every proposed layer, finish this sentence: “I am adding this because it prevents ___, and I will maintain it by ___.” If you cannot complete both parts, leave it out until you can.",
     ],
-    prerequisites: ["0.2"],
+    prerequisites: ["trust-and-verification"],
     sources: [
       {
         label: "Bitcoin Core 31.1: wallet creation, backup and restoration",
@@ -207,7 +209,7 @@ export const part1Lessons: PlayerLesson[] = [
     kind: "reading",
     explanation: [
       "The wallet keeps the information needed to receive and authorize payments. The node downloads Bitcoin data and checks it against consensus rules: the rules that determine which transactions and blocks it will accept.",
-      "A full validating node checks the chain locally. Bitcoin Core therefore gives you a wallet and a verifier in the same maintained project. Its graphical application runs both; you do not need a separate server program just to use its windows and menus.",
+      "A full validating node checks the chain locally. Bitcoin Core therefore gives you a wallet and a verifier in the same maintained project. We start here to understand Bitcoin through fewer additional layers. Core still depends on its implementation, your operating system and hardware. Its graphical application runs both; you do not need a separate server program just to use its windows and menus.",
       "The jobs can also be separated. An online computer can validate and prepare payments without having private keys. An offline computer can hold the keys and sign a prepared payment without downloading the blockchain.",
     ],
     prerequisites: ["custody-economics"],
@@ -438,14 +440,10 @@ export const part1Lessons: PlayerLesson[] = [
   },
   {
     id: "1.1",
-    title: "Why this course rejects Bitcoin-specific hardware wallets",
+    title: "Why this course starts with general-purpose hardware",
     summary:
       "Follow the category-level argument from the malware problem to the recommended alternative.",
     status: "published",
-    notes: [
-      "The five-year bug shows that publishing code is not enough to ensure a critical defect will be found. It does not, by itself, reveal why the defect escaped review. We need evidence of actual review work, including checks of how the device behaves as shipped.",
-      "Our recommendation remains a dedicated offline Core signer on generic hardware, with separately recoverable backups and passwords. We prefer reducing Bitcoin-specific targeting and vendor dependencies to adding another wallet product to manage. That advantage must be combined with careful isolation and recovery; an ordinary computer used for everything would defeat the setup we are teaching.",
-    ],
     sources: [
       {
         label: "Core 31.1 · Offline signing",
@@ -502,6 +500,11 @@ export const part1Lessons: PlayerLesson[] = [
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
     explanation: [
+      "I recommend dedicated generic hardware because it is replaceable, widely available and lets you choose the operating system and software. Recovery should not require one wallet-device manufacturer to remain in business.",
+      "A clean Linux computer gives us software we can inspect and documented operations we can repeat. Commodity hardware still has firmware and supply-chain trust; inspectable software does not make every chip verifiable. Dedicated signing appliances can constrain interaction, but add their own firmware, vendor and recovery dependencies.",
+      "Use a supported ordinary computer, dedicate it to the task and keep the installation small. The argument is continuity and visible trust. The examples below explain particular failure classes; they are additional reading, not a reason to act from fear.",
+    ],
+    notes: [
       "Hardware wallets addressed a real problem: private keys on everyday computers can be exposed to malware. The comparison in this course is between a specialized Bitcoin device and a dedicated generic computer with a clean Linux installation and Bitcoin Core.",
       "I recommend the second architecture. A Bitcoin-specific device makes its intended use legible to a seller, shipping provider or attacker who encounters it. A generic laptop is bought for many purposes. Its model alone gives much less evidence that its owner will store Bitcoin keys.",
       "That difference changes the economics of targeting. A list of wallet-device customers concentrates likely cryptocurrency users in one place. Finding a similarly relevant set of buyers among ordinary-computer customers takes additional information. This is an architectural judgment about target selection, not a measured claim that all attacks on generic hardware cost more.",
@@ -915,6 +918,7 @@ export const part1Lessons: PlayerLesson[] = [
     takeaway:
       "Core is the chosen foundation, but a compromised operating system, exposed passphrase or missing backup can still defeat the setup.",
   },
+  ...selfRelianceLessons,
   {
     id: "foundations-checkpoint",
     slug: "foundations-checkpoint",
@@ -936,6 +940,7 @@ export const part1Lessons: PlayerLesson[] = [
     ],
     prerequisites: [
       "core-development",
+      "what-verification-proves",
       "0.2",
       "0.3",
       "custody-economics",
@@ -962,13 +967,15 @@ export const part1Lessons: PlayerLesson[] = [
       "Content and cited sources reviewed on 2026-09-13. Any hands-on evidence is listed separately. Source review is not a claim that every platform or physical procedure was tested.",
     origin: "First-principles curriculum v4",
     checklist: [
+      "I can investigate a harmless Linux change, explain the command and check its result.",
+      "I can use AI without exposing secrets and explain why the playground must be replaced by a clean installation.",
       "I can describe my actual threats and the costs of the controls I chose.",
       "I can explain why this course recommends generic hardware, Debian Stable and Bitcoin Core.",
       "I can explain what my own node verifies and why initial synchronization is useful work.",
       "I can distinguish an offline signer from an online node and explain why only the node needs the chain.",
       "I can distinguish a readable root secret from the passphrase protecting an encrypted wallet file.",
     ],
-    chapter: "Choose the foundation",
+    chapter: "Start clean and verify",
     optional: false,
     sourceReviewed: "2026-09-13",
     takeaway:

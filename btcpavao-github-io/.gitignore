@@ -24,3 +24,11 @@ public/social-cards
 *.njsproj
 *.sln
 *.sw?
+
+# Cloudflare secrets and local state
+.dev.vars*
+!.dev.vars.example
+.wrangler/
+
+.env*
+!.env.example

@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ask-pavao-local-only",
+  "main": "worker/local.ts",
+  "compatibility_date": "2026-09-16",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "vars": {"APP_ORIGIN":"http://127.0.0.1:4176", "TURNSTILE_SECRET_KEY":"1x0000000000000000000000000000000AA"},
+  "ratelimits": [{"name":"ASK_PAVAO_LIMITER","namespace_id":"2026091601","simple":{"limit":5,"period":60}}],
+  "observability": {"enabled":false}
+}

@@ -427,6 +427,10 @@ export function Homepage() {
               )
             })}
           </div>
+          <p className="mt-7 max-w-3xl text-sm leading-7 text-muted-foreground">
+            In my framework, budgeting, debt freedom, giving and a balanced personal balance sheet come before optimizing custody. Understand the money you intend to keep, then learn how to secure it.{' '}
+            <a className="text-primary underline underline-offset-4" href={EN_BITCOIN_CORE_CURRICULUM_PATH}>Start with the self-custody introduction</a>.
+          </p>
         </section>
 
         <section className="border-y border-border/60 bg-card/54">

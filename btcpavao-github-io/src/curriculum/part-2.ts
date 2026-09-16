@@ -1,3 +1,4 @@
+import { basicRpcLesson, productionLesson } from "./self-reliance"
 import type { PlayerLesson } from "../bitcoin-core-curriculum-player-en-data"
 
 export const part2Lessons: PlayerLesson[] = [
@@ -94,7 +95,7 @@ export const part2Lessons: PlayerLesson[] = [
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
-      "Use the current Debian Stable installer from debian.org for your processor. The main examples use amd64, the name Debian uses for ordinary 64-bit Intel and AMD computers. Check that your hardware is supported before erasing anything.",
+      "This is the clean second installation after the Linux playground. Preserve only needed files on a checked independent backup; reinstall instead of carrying over the experimental environment. Use the current Debian Stable installer from debian.org for your processor. The main examples use amd64, the name Debian uses for ordinary 64-bit Intel and AMD computers. Check that your hardware is supported before erasing anything.",
       "Installation wipes the selected disk. This exercise is for a dedicated computer with no files you still need. Disconnect other storage devices and identify the destination by model and capacity. If that identification is uncertain, stop before the installer writes to disk.",
     ],
     prerequisites: ["real-device"],
@@ -139,7 +140,7 @@ export const part2Lessons: PlayerLesson[] = [
         help: "Identify the selected installer, key fingerprint and target disk before retrying. A missing verification tool is a preparation problem; install it from your existing system’s trusted package source. Never bypass an image mismatch or guess which disk will be overwritten.",
       },
       {
-        id: "boot-install",
+        id: "boot-install-clean-v42",
         title: "Write the installer and select the destination",
         instructions: [
           "Use the graphical disk-image writer included with your preparation system, or the method documented in Debian’s installation guide. Select the disposable installer USB by model and capacity; writing the image overwrites it. Boot the dedicated computer from that USB.",
@@ -424,7 +425,7 @@ export const part2Lessons: PlayerLesson[] = [
     verification: "source-reviewed",
     referenceVersion: "BIP 325 / Bitcoin Core 31.1",
     explanation: [
-      "Signet is a separate network for practicing with Bitcoin software. Its test coins are not intended to have monetary value. You can receive them, send them, make mistakes and repeat the exercise without putting your savings at risk. Mainnet is the real Bitcoin network, where payments transfer bitcoin that has monetary value.",
+      "Linux customization was our computer sandbox. Signet/Regtest is our Bitcoin sandbox. Signet is a separate network for practicing with Bitcoin software. Its test coins are not intended to have monetary value. You can receive them, send them, make mistakes and repeat the exercise without putting your savings at risk. Mainnet is the real Bitcoin network, where payments transfer bitcoin that has monetary value.",
       "You will receive test coins, send a small amount, save a wallet backup and restore the wallet from that file. Then you will send again using the restored wallet. That final payment checks whether the backup restores your ability to spend. Simply copying the file does not establish that.",
     ],
     checklist: [
@@ -1470,6 +1471,7 @@ export const part2Lessons: PlayerLesson[] = [
     takeaway:
       "Core unlocks protected keys when signing needs them. Changing the passphrase does not update old backup copies or replace copied private keys.",
   },
+  basicRpcLesson,
   {
     id: "repetition-drills",
     slug: "repetition-drills",
@@ -1489,7 +1491,7 @@ export const part2Lessons: PlayerLesson[] = [
       "Keep this session entirely on Signet. Use the prefix PRACTICE and never reuse these wallets, addresses or passphrases for savings. The point is to make mistakes while they have no financial consequence.",
       "Do the repetitions across more than one session. Speed is not the metric. You should be able to predict the result and explain a discrepancy.",
     ],
-    prerequisites: ["wallet-lock-change"],
+    prerequisites: ["basic-rpc"],
     sources: [
       {
         label: "Bitcoin Core 31.1: wallet creation, backup and restoration",
@@ -3164,6 +3166,7 @@ export const part2Lessons: PlayerLesson[] = [
     takeaway:
       "An encrypted container can address an additional privacy need, but its software, password and recovery procedure become new dependencies.",
   },
+  productionLesson,
   {
     id: "mainnet-separate-wallet",
     slug: "do-not-turn-signet-wallet-into-mainnet-wallet",
@@ -3203,10 +3206,10 @@ export const part2Lessons: PlayerLesson[] = [
     origin: "New curriculum v2 lesson",
     optional: true,
     kind: "reading",
-    prerequisites: ["single-sig-mastery"],
+    prerequisites: ["single-sig-mastery", "move-to-real-bitcoin"],
     contentUpdated: "2026-09-13",
     notes: [],
-    chapter: "Optional extensions",
+    chapter: "Move to real Bitcoin",
     sourceReviewed: "2026-09-13",
     reviewNote:
       "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
@@ -3296,10 +3299,10 @@ export const part2Lessons: PlayerLesson[] = [
           "Keep mainnet keys and passwords separate from all Signet material. The signer stays offline.",
       },
     ],
-    prerequisites: ["mainnet-separate-wallet"],
+    prerequisites: ["mainnet-separate-wallet", "move-to-real-bitcoin"],
     contentUpdated: "2026-09-14",
     notes: [],
-    chapter: "Optional extensions",
+    chapter: "Move to real Bitcoin",
     sourceReviewed: "2026-09-14",
     why: "Create an encrypted wallet and make sure you can recover both its backup and password.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
@@ -3372,10 +3375,10 @@ export const part2Lessons: PlayerLesson[] = [
         help: "Do not reuse the Signet descriptor file. If a future restore needs pruned historical blocks, recover against complete relevant history rather than skipping the scan.",
       },
     ],
-    prerequisites: ["real-encryption"],
+    prerequisites: ["real-encryption", "move-to-real-bitcoin"],
     contentUpdated: "2026-09-13",
     notes: [],
-    chapter: "Optional extensions",
+    chapter: "Move to real Bitcoin",
     sourceReviewed: "2026-09-13",
     why: "Check the backup, password and receiving address on a replacement offline signer.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
@@ -3425,10 +3428,10 @@ export const part2Lessons: PlayerLesson[] = [
     origin: "New mainnet checkpoint in curriculum v2.1",
     optional: true,
     kind: "checkpoint",
-    prerequisites: ["real-restore"],
+    prerequisites: ["real-restore", "move-to-real-bitcoin"],
     contentUpdated: "2026-09-13",
     notes: [],
-    chapter: "Optional extensions",
+    chapter: "Move to real Bitcoin",
     sourceReviewed: "2026-09-13",
     reviewNote:
       "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
@@ -3512,10 +3515,10 @@ export const part2Lessons: PlayerLesson[] = [
         help: "A successful small test is evidence about this setup, not a guarantee against later device compromise or loss of all backups.",
       },
     ],
-    prerequisites: ["mainnet-readiness"],
+    prerequisites: ["mainnet-readiness", "move-to-real-bitcoin"],
     contentUpdated: "2026-09-13",
     notes: [],
-    chapter: "Optional extensions",
+    chapter: "Move to real Bitcoin",
     sourceReviewed: "2026-09-13",
     why: "Prove the actual recovery procedure with an amount you can afford to lose.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",

@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "btcpavao-ask-pavao",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-16",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{"pattern": "btcpavao.com/api/ask-pavao*", "zone_name": "btcpavao.com"}],
+  "vars": {"APP_ORIGIN": "https://btcpavao.com"},
+  "secrets": {"required": ["TURNSTILE_SECRET_KEY"]},
+  "send_email": [{
+    "name": "ASK_PAVAO_EMAIL",
+    "destination_address": "pavao@hey.com",
+    "allowed_sender_addresses": ["curriculum@btcpavao.com"]
+  }],
+  "ratelimits": [{"name": "ASK_PAVAO_LIMITER", "namespace_id": "2026091601", "simple": {"limit": 5, "period": 60}}],
+  "observability": {"enabled": false}
+}

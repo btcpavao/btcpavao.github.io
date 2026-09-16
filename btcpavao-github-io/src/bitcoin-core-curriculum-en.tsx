@@ -5,6 +5,8 @@ import {
 } from "@/curriculum-milestones"
 import {
   retainedV4Completions,
+  retainedV41Completions,
+  validatedV41Completions,
   validatedV4Completions,
 } from "@/curriculum-progress-migration"
 import { CurriculumOverview } from "@/components/curriculum-overview"
@@ -25,6 +27,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   ShieldAlert,
+  Search,
   X,
 } from "lucide-react"
 
@@ -51,6 +54,7 @@ const SITE_URL = "https://btcpavao.com"
 const PROGRESS_STORAGE_KEY = "btcpavao-core-curriculum-en-progress-v1"
 const CHECKLIST_STORAGE_KEY = "btcpavao-core-curriculum-en-checklists-v2"
 const RETAINED_PROGRESS_KEY = "btcpavao-core-curriculum-en-retained-v4.1"
+const RETAINED_V41_KEY = "btcpavao-core-curriculum-en-retained-v4.2"
 const LAST_LESSON_STORAGE_KEY =
   "btcpavao-core-curriculum-en-last-available-lesson-v3"
 
@@ -76,7 +80,9 @@ function setMetaContent(
 
 function useCurriculumMetadata() {
   useEffect(() => {
-    const { title, description } = findContentByPath("/en/bitcoin-core/self-custody/")!
+    const { title, description } = findContentByPath(
+      "/en/bitcoin-core/self-custody/"
+    )!
     const url = `${SITE_URL}${EN_BITCOIN_CORE_CURRICULUM_PATH}`
 
     document.documentElement.lang = "en"
@@ -324,6 +330,9 @@ export function BitcoinCoreCurriculumEnPage() {
   const [retainedSnapshot, setRetainedSnapshot] = useState<Set<string>>(
     new Set()
   )
+  const [retainedV41Snapshot, setRetainedV41Snapshot] = useState<Set<string>>(
+    new Set()
+  )
   const [checklistItems, setChecklistItems] = useState<Set<string>>(new Set())
   const completedLessons = useMemo(
     () =>
@@ -331,9 +340,25 @@ export function BitcoinCoreCurriculumEnPage() {
         curriculumLessons.map((entry) => entry.lesson),
         completionMarks,
         checklistItems,
-        retainedV4Completions(retainedSnapshot, completionMarks, checklistItems)
+        new Set([
+          ...retainedV4Completions(
+            retainedSnapshot,
+            completionMarks,
+            checklistItems
+          ),
+          ...retainedV41Completions(
+            retainedV41Snapshot,
+            completionMarks,
+            checklistItems,
+            retainedV4Completions(
+              retainedSnapshot,
+              completionMarks,
+              checklistItems
+            )
+          ),
+        ])
       ),
-    [completionMarks, checklistItems, retainedSnapshot]
+    [completionMarks, checklistItems, retainedSnapshot, retainedV41Snapshot]
   )
   const [storageReady, setStorageReady] = useState(false)
   const [mobileOutlineOpen, setMobileOutlineOpen] = useState(false)
@@ -390,6 +415,20 @@ export function BitcoinCoreCurriculumEnPage() {
         /* In-memory progress still works without storage. */
       }
       try {
+        if (localStorage.getItem(RETAINED_V41_KEY) === null) {
+          const oldCredit = retainedV4Completions(
+            readStoredSet(RETAINED_PROGRESS_KEY),
+            marks,
+            checks
+          )
+          const retained = validatedV41Completions(marks, checks, oldCredit)
+          writeStoredSet(RETAINED_V41_KEY, retained)
+          setRetainedV41Snapshot(retained)
+        } else setRetainedV41Snapshot(readStoredSet(RETAINED_V41_KEY))
+      } catch {
+        /* Local learning also works without persistent storage. */
+      }
+      try {
         const storedSlug = localStorage.getItem(LAST_LESSON_STORAGE_KEY)
         setLastAvailableSlug(
           storedSlug
@@ -405,6 +444,9 @@ export function BitcoinCoreCurriculumEnPage() {
     const syncFromUrl = () => {
       const slug = getHashLessonSlug()
       setActiveSlug(slug)
+      if (!slug)
+        document.title =
+          "Practical Bitcoin Self-Custody with Bitcoin Core | BTC Pavao"
       if (
         slug &&
         window.location.hash !== `#lesson/${encodeURIComponent(slug)}`
@@ -540,6 +582,8 @@ export function BitcoinCoreCurriculumEnPage() {
     setCompletedLessons(new Set())
     setChecklistItems(new Set())
     setRetainedSnapshot(new Set())
+    setRetainedV41Snapshot(new Set())
+    writeStoredSet(RETAINED_V41_KEY, new Set())
     writeStoredSet(RETAINED_PROGRESS_KEY, new Set())
     setLastAvailableSlug(null)
     try {
@@ -587,6 +631,22 @@ export function BitcoinCoreCurriculumEnPage() {
             Bitcoin self-custody
           </button>
           <div className="curriculum-header__actions">
+            {activeLesson && (
+              <button
+                type="button"
+                className="course-search-shortcut"
+                onClick={() => {
+                  showOverview()
+                  window.setTimeout(
+                    () => document.getElementById("curriculum-search")?.focus(),
+                    0
+                  )
+                }}
+              >
+                <Search aria-hidden="true" />
+                <span>Search curriculum</span>
+              </button>
+            )}
             <a
               href={EN_BITCOIN_CORE_SERIES_PATH}
               className="curriculum-back-link"
@@ -698,6 +758,18 @@ export function BitcoinCoreCurriculumEnPage() {
                     </p>
                     <button
                       type="button"
+                      className="course-action course-action--primary"
+                      onClick={() =>
+                        openLesson(
+                          findLessonBySlug("move-to-real-bitcoin")!.lesson
+                        )
+                      }
+                    >
+                      Review the production checkpoint
+                      <ArrowRight aria-hidden="true" />
+                    </button>
+                    <button
+                      type="button"
                       className="course-action course-action--secondary"
                       onClick={() => openLesson(curriculumPhases[2].lessons[0])}
                     >
@@ -746,6 +818,7 @@ export function BitcoinCoreCurriculumEnPage() {
               className={`course-drawer-backdrop ${mobileOutlineOpen ? "is-open" : ""}`}
               onClick={() => setMobileOutlineOpen(false)}
               aria-label="Close navigation"
+              aria-hidden={!mobileOutlineOpen}
               tabIndex={mobileOutlineOpen ? 0 : -1}
             />
             <aside
@@ -800,7 +873,9 @@ export function BitcoinCoreCurriculumEnPage() {
               if (first) openLesson(first)
             }}
             onSelectLesson={openLesson}
-            hasRetainedProgress={retainedSnapshot.size > 0}
+            hasRetainedProgress={
+              retainedSnapshot.size > 0 || retainedV41Snapshot.size > 0
+            }
             onReset={resetProgress}
           />
         )}

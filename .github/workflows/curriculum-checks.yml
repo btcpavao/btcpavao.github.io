@@ -5,6 +5,9 @@ on:
     paths:
       - 'btcpavao-github-io/src/**'
       - 'btcpavao-github-io/scripts/**'
+      - 'btcpavao-github-io/worker/**'
+      - 'btcpavao-github-io/wrangler*.jsonc'
+      - 'btcpavao-github-io/tsconfig.worker.json'
       - 'btcpavao-github-io/package*.json'
       - '.github/workflows/curriculum-checks.yml'
   workflow_dispatch:
@@ -32,5 +35,10 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run verify:curriculum
+      - run: npm run verify:search
+      - run: npm run verify:questions
+      - run: npm run verify:worker
+      - run: npm run typecheck:worker
+      - run: npm run worker:check
       - run: npm run build
       - run: npm run verify:assets

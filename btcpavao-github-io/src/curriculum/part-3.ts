@@ -1,3 +1,4 @@
+import { complexityLesson } from "./self-reliance"
 import type { PlayerLesson } from "../bitcoin-core-curriculum-player-en-data"
 
 export const part3Lessons: PlayerLesson[] = [
@@ -573,11 +574,12 @@ export const part3Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-09-16",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
       "Use Regtest for the first run so you can generate confirmations immediately. The old lesson URL is retained. The same descriptor and PSBT principles apply to Signet, where public test coins and confirmations must be obtained separately.",
+      "Before signing, open the downloaded lab and follow createwallet, getdescriptorinfo and importdescriptors. Identify the three signer wallets, the coordinator with private keys disabled, and the exact policy imported into each. The script prepares these objects so you can inspect every step; it is not a production wallet installer.",
       "The laboratory has three independent generated roots and a watch-only coordinator. It imports the full policy into each signer with only that signer’s private contribution. All processes run on this host: a real distributed-authority setup must separate the people and devices as its threat model requires.",
       "These commands use publicly documented disposable test passwords. They must never be adapted by placing a real wallet passphrase in shell history. In ordinary custody, use the GUI unlock prompt; this is an inspectable software laboratory.",
     ],
@@ -613,15 +615,15 @@ export const part3Lessons: PlayerLesson[] = [
         help: "Stop at this step if the result differs. Recheck the selected network, wallet and files, then review the linked official documentation. Do not mark the result as confirmed until you can explain the difference.",
       },
       {
-        id: "two-signatures-v4",
-        title: "Add the second independent signature",
+        id: "combine-signatures-v42",
+        title: "Sign independently, then combine",
         instructions: [
-          "Give the partly signed package to the second test signer. Review it, unlock briefly, sign and lock. Core should now be able to assemble a complete transaction.",
+          "Give the same original unsigned package to the second test signer. Review it, unlock briefly, sign and lock. Combine the two independently signed copies with combinepsbt; finalization then assembles the completed transaction. Passing the first partial copy to the second signer would also accumulate signatures, but this run makes the combining step explicit.",
         ],
         expectedResult:
           "finalizepsbt returns complete true and a hex transaction.",
         command:
-          'offline -rpcwallet=multisig-signer-1 walletpassphrase PUBLIC-REGTEST-OLD-DO-NOT-USE 60\nSECOND=$(offline -rpcwallet=multisig-signer-1 walletprocesspsbt "$PARTIAL" true ALL true false)\noffline -rpcwallet=multisig-signer-1 walletlock\nSIGNED=$(printf \'%s\' "$SECOND" | python3 -c \'import json,sys; print(json.load(sys.stdin)["psbt"])\')\nFINAL=$(online finalizepsbt "$SIGNED")\nprintf \'%s\\n\' "$FINAL"',
+          'offline -rpcwallet=multisig-signer-1 walletpassphrase PUBLIC-REGTEST-OLD-DO-NOT-USE 60\nSECOND=$(offline -rpcwallet=multisig-signer-1 walletprocesspsbt "$UNSIGNED_PSBT" true ALL true false)\noffline -rpcwallet=multisig-signer-1 walletlock\nSIGNED=$(printf \'%s\' "$SECOND" | python3 -c \'import json,sys; print(json.load(sys.stdin)["psbt"])\')\nCOMBINED=$(online combinepsbt "[\\"$PARTIAL\\",\\"$SIGNED\\"]")\nFINAL=$(online finalizepsbt "$COMBINED")\nprintf \'%s\\n\' "$FINAL"',
         commandContext: "System terminal · disposable Regtest signer 1",
         help: "Stop at this step if the result differs. Recheck the selected network, wallet and files, then review the linked official documentation. Do not mark the result as confirmed until you can explain the difference.",
       },
@@ -642,11 +644,11 @@ export const part3Lessons: PlayerLesson[] = [
     ],
     chapter: "Build and recover policies",
     optional: true,
-    sourceReviewed: "2026-09-13",
+    sourceReviewed: "2026-09-16",
     practicalReview: {
-      date: "2026-09-13",
+      date: "2026-09-16",
       scope:
-        "Automated Core 31.1 Regtest integration: encrypted recovery, offline PSBT, all 2-of-3 pairs, Taproot key path and delayed Miniscript recovery. Physical distribution is outside this test.",
+        "Core 31.1 Regtest: independent signatures from the same PSBT, combinepsbt, finalization, all 2-of-3 pairs and recovery. The displayed signing/combination/broadcast commands were also replayed literally. Physical distribution is outside this test.",
     },
     takeaway:
       "In this tested 2-of-3 policy, one signature is insufficient and any of the three possible pairs can authorize spending.",
@@ -770,6 +772,7 @@ export const part3Lessons: PlayerLesson[] = [
     takeaway:
       "Test loss scenarios by proving which remaining participants can spend, rather than assuming a threshold label proves recovery.",
   },
+  complexityLesson,
   {
     id: "taproot-model",
     slug: "taproot-mental-model",
@@ -790,7 +793,7 @@ export const part3Lessons: PlayerLesson[] = [
       "A plain tr(KEY) descriptor is a key-path single-sig example. Putting a 2-of-3 script inside tr does not itself disable the key path. If someone knows the relevant internal private key, that alternate authority must be accounted for.",
       "Core 31.1 supports tr, multi_a and sortedmulti_a in Taproot script trees, and supported Miniscript expressions inside wsh and tr. “Supported” does not mean every imaginable policy is accepted. Core checks expression and safety constraints; the test must also prove that the policy matches your intention.",
     ],
-    prerequisites: ["single-sig-mastery", "multisig-failures"],
+    prerequisites: ["single-sig-mastery", "complexity-after-the-lab"],
     sources: [
       {
         label: "Bitcoin Core 31.1: descriptors and Miniscript",
@@ -1062,6 +1065,8 @@ export const part3Lessons: PlayerLesson[] = [
       "I can explain all spending paths, including any Taproot key path and delayed recovery branch.",
       "I have observed both valid spends and the expected rejected attempts.",
       "I can restore the required signer wallets and complete public policy from backups.",
+      "I can identify the metadata that must survive and the person who must understand this after I am gone.",
+      "I have compared the policy with a simpler system that might solve the same problem.",
       "I can explain the added device, software, human and maintenance costs.",
       "I know which software tests I performed and which physical or organizational assumptions remain untested.",
     ],
@@ -1090,8 +1095,8 @@ export const part3Lessons: PlayerLesson[] = [
     estimatedTime: "8–12 min",
     kind: "reading",
     explanation: [
-      "Core Explorer is an experimental desktop interface to Bitcoin Core’s JSON-RPC. Its stated scope includes descriptor inspection, coin selection, PSBT review, multisig policy construction and offline signing. Bitcoin Core remains the backend for keys, signing and validation.",
-      "The interface is optional. The base course and the advanced laboratory work without it. Learn the underlying Core primitives first so that a friendly screen does not conceal what is being requested.",
+      "Core Explorer aims to be a user-friendly interface for advanced Bitcoin Core capabilities through its JSON-RPC. Its stated scope includes descriptor inspection, coin selection, PSBT review, multisig policy construction and offline signing. Bitcoin Core remains the backend for keys, signing and validation.",
+      "The interface is optional. The base course and the advanced laboratory work without it. Learn the underlying Core primitives first. The GUI can then reduce operational work: abstraction after understanding, not abstraction instead of understanding.",
       "Core Explorer is the author’s experimental, unaudited interface. Its repository is currently private, and this course provides no public installation path. Its documented testing is mainly macOS and Regtest; it is not a recommendation for meaningful mainnet funds. An additional interface is still additional software to verify and maintain: using Core for cryptography does not make every request from that interface harmless.",
     ],
     prerequisites: ["single-sig-mastery", "advanced-mastery"],

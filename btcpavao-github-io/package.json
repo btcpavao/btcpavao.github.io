@@ -14,7 +14,16 @@
     "verify:assets": "node scripts/verify-assets.mjs",
     "verify:links": "node scripts/verify-site-links.mjs",
     "preview": "vite preview",
-    "verify:curriculum": "node scripts/verify-curriculum.mjs"
+    "verify:curriculum": "node scripts/verify-curriculum.mjs",
+    "verify:search": "node scripts/verify-curriculum-search.mjs",
+    "verify:questions": "node scripts/verify-curriculum-questions.mjs",
+    "verify:worker": "node scripts/verify-ask-pavao-worker.mjs",
+    "typecheck:worker": "tsc -p tsconfig.worker.json",
+    "worker:types": "wrangler types worker/env.d.ts --env-interface AskPavaoEnv --include-runtime false --strict-vars false",
+    "worker:check": "wrangler deploy --dry-run --outdir .cache/worker-build",
+    "worker:dev": "wrangler dev --config wrangler.local.jsonc --ip 127.0.0.1 --port 8787",
+    "worker:deploy": "wrangler deploy --config wrangler.jsonc",
+    "dev:questions": "npm run prepare:social-cards && VITE_TURNSTILE_SITE_KEY=1x00000000000000000000AA vite --host 127.0.0.1 --port 4176"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.8",
@@ -26,12 +35,13 @@
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260916.1",
     "@eslint/js": "^9.39.1",
+    "@tailwindcss/vite": "^4.1.17",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
-    "@tailwindcss/vite": "^4.1.17",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
@@ -41,6 +51,7 @@
     "tailwindcss": "^4.1.17",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "wrangler": "^4.132.0"
   }
 }

@@ -33,6 +33,9 @@ try {
   const v4 = JSON.parse(
     await readFile("src/curriculum/v4-progress-manifest.json", "utf8")
   )
+  const v41 = JSON.parse(
+    await readFile("src/curriculum/v4.1-progress-manifest.json", "utf8")
+  )
   const {
     canCompleteLesson,
     effectiveCompletions,
@@ -72,17 +75,17 @@ try {
     console.log(`✓ ${name}`)
   }
   check(
-    "87 unique lessons in three parts; 57 lessons on the foundation and single-sig path",
+    "99 unique lessons in three parts; 67 lessons on the foundation and single-sig path",
     () => {
-      assert.equal(en.CURRICULUM_VERSION, "4.1")
+      assert.equal(en.CURRICULUM_VERSION, "4.2")
       assert.deepEqual(
         en.curriculumPhases.map((p) => p.lessons.length),
-        [18, 50, 19]
+        [27, 52, 20]
       )
-      assert.equal(lessons.length, 87)
-      assert.equal(new Set(ids).size, 87)
-      assert.equal(new Set(lessons.map((l) => l.slug)).size, 87)
-      assert.equal(en.primaryCurriculumLessons.length, 57)
+      assert.equal(lessons.length, 99)
+      assert.equal(new Set(ids).size, 99)
+      assert.equal(new Set(lessons.map((l) => l.slug)).size, 99)
+      assert.equal(en.primaryCurriculumLessons.length, 67)
       for (const e of entries) {
         assert.equal(en.findLessonBySlug(e.lesson.slug)?.lesson.id, e.lesson.id)
         assert.ok(e.lessonNumber.startsWith(`${Number(e.phase.id) + 1}.`))
@@ -217,11 +220,11 @@ try {
     }
   )
   check(
-    "With all declared results, all 87 lessons are reachable; removing foundation results revokes downstream completion",
+    "With all declared results, all 99 lessons are reachable; removing foundation results revokes downstream completion",
     () => {
       const marks = new Set(ids),
         checks = new Set(lessons.flatMap(requiredChecks))
-      assert.equal(effectiveCompletions(lessons, marks, checks).size, 87)
+      assert.equal(effectiveCompletions(lessons, marks, checks).size, 99)
       checks.delete(readingKey("0.1", 0))
       assert.equal(effectiveCompletions(lessons, marks, checks).size, 0)
     }
@@ -490,13 +493,13 @@ try {
     }
   )
   check(
-    "Ten milestones expose every required step; optional content never reduces main-path completion",
+    "Twelve milestones expose every required step; optional content never reduces main-path completion",
     () => {
       const groups = milestone.curriculumMilestones(en.curriculumPhases)
-      assert.equal(groups.length, 10)
+      assert.equal(groups.length, 12)
       assert.deepEqual(
         groups.map((g) => g.phaseId),
-        ["0", "0", "0", "1", "1", "1", "1", "1", "1", "1"]
+        ["0", "0", "0", "0", "0", "1", "1", "1", "1", "1", "1", "1"]
       )
       assert.deepEqual(
         groups.flatMap((g) => g.lessons.map((l) => l.id)),
@@ -506,7 +509,7 @@ try {
       assert.equal(
         milestone.milestoneProgress(groups, main).filter((g) => g.complete)
           .length,
-        10
+        12
       )
       assert.equal(
         milestone
@@ -554,17 +557,21 @@ try {
       )
       const missingOld = v4.filter((l) => !completed.has(l.id)).map((l) => l.id)
       assert.deepEqual(missingOld, [
+        "foundations-checkpoint",
         "architecture-choice",
+        "debian-setup",
         "passphrase-strength",
         "brute-force-economics",
         "generate-passphrase",
         "repetition-drills",
+        "multisig-signet",
+        "advanced-mastery",
       ])
       assert.ok(completed.has("offline-recovery"))
       assert.ok(!completed.has("one-wallet-mastery"))
       assert.equal(
         resumeEntry(entries, completed).lesson.id,
-        "passphrase-strength"
+        "trust-and-verification"
       )
       assert.ok(oldChecks.has("lesson-generate-passphrase:guided-v4:method-v4"))
       assert.ok(
@@ -623,6 +630,164 @@ try {
       assert.equal((ceiling + 1) % limit, 0)
       assert.equal((ceiling + 1) / limit, 552620)
       assert.equal(2 ** 32 - (ceiling + 1), 4656)
+    }
+  )
+
+  check(
+    "V4.1 credit survives new prerequisites without awarding new skills",
+    () => {
+      const oldMarks = new Set(v41.map((l) => l.id))
+      const oldChecks = new Set(v41.flatMap((l) => l.checks))
+      const snapshot = migration.validatedV41Completions(oldMarks, oldChecks)
+      assert.equal(snapshot.size, 87)
+      const retained = migration.retainedV41Completions(
+        snapshot,
+        oldMarks,
+        oldChecks
+      )
+      const completed = effectiveCompletions(
+        lessons,
+        oldMarks,
+        oldChecks,
+        retained
+      )
+      for (const id of [
+        "offline-recovery",
+        "single-sig-mastery",
+        "mainnet-small-test",
+      ])
+        assert.ok(completed.has(id), id)
+      for (const id of [
+        "trust-and-verification",
+        "linux-playground",
+        "basic-rpc",
+        "move-to-real-bitcoin",
+        "complexity-after-the-lab",
+      ])
+        assert.ok(!completed.has(id), id)
+      assert.equal(
+        resumeEntry(entries, completed).lesson.id,
+        "trust-and-verification"
+      )
+      assert.ok(!completed.has("debian-setup"))
+      assert.ok(!completed.has("foundations-checkpoint"))
+      assert.ok(!completed.has("multisig-signet"))
+      assert.equal(
+        migration.retainedV41Completions(new Set(), oldMarks, oldChecks).size,
+        0
+      )
+      for (const old of v41)
+        assert.equal(en.findLessonBySlug(old.slug)?.lesson.id, old.id)
+      oldChecks.delete(readingKey("0.1", 0))
+      assert.equal(
+        migration.retainedV41Completions(snapshot, oldMarks, oldChecks).size,
+        0
+      )
+      assert.equal(effectiveCompletions(lessons, oldMarks, oldChecks).size, 0)
+    }
+  )
+  check(
+    "Partial v4.1 and migrated v4 users keep only demonstrated old work",
+    () => {
+      const firstIds = new Set(v41.slice(0, 10).map((l) => l.id))
+      const partialChecks = new Set(v41.slice(0, 10).flatMap((l) => l.checks))
+      assert.equal(
+        migration.validatedV41Completions(firstIds, partialChecks).size,
+        10
+      )
+      assert.equal(
+        migration.validatedV41Completions(firstIds, new Set()).size,
+        0
+      )
+      const marks = new Set(v4.map((l) => l.id)),
+        checks = new Set(v4.flatMap((l) => l.checks))
+      const old = migration.validatedV4Completions(marks, checks)
+      assert.equal(
+        migration.validatedV41Completions(marks, checks, old).size,
+        80
+      )
+    }
+  )
+  check(
+    "Linux experimentation, AI discipline and clean preparation precede Core",
+    () => {
+      const path = [
+        "why-linux",
+        "why-debian-stable",
+        "linux-playground",
+        "ai-as-a-tutor",
+        "linux-make-it-yours",
+        "software-responsibility",
+        "start-clean",
+        "what-verification-proves",
+        "foundations-checkpoint",
+        "debian-setup",
+        "signet-install-verify",
+        "signet-start",
+      ]
+      for (let i = 1; i < path.length; i++)
+        assert.ok(ancestors(path[i]).has(path[i - 1]), path[i])
+      for (const word of [
+        "seed words",
+        "private keys",
+        "xprv",
+        "wallet passphrases",
+        "wallet.dat",
+        "Never reconnect",
+      ])
+        assert.ok(text(find("ai-as-a-tutor")).includes(word), word)
+      assert.match(text(find("linux-make-it-yours")), /Num Lock/)
+      assert.match(text(find("start-clean")), /second installation/)
+      assert.ok(ancestors("one-wallet-mastery").has("basic-rpc"))
+    }
+  )
+  check(
+    "Production remains optional and new mainnet confirmations require its new checkpoint",
+    () => {
+      const production = find("move-to-real-bitcoin")
+      assert.equal(production.optional, true)
+      for (const id of [
+        "single-sig-mastery",
+        "basic-rpc",
+        "foundations-checkpoint",
+        "what-verification-proves",
+      ])
+        assert.ok(production.prerequisites.includes(id), id)
+      for (const id of [
+        "real-encryption",
+        "real-restore",
+        "mainnet-readiness",
+        "mainnet-small-test",
+      ]) {
+        const l = find(id)
+        assert.ok(l.prerequisites.includes(production.id), id)
+        const credit = new Set(
+          l.prerequisites.filter((p) => p !== production.id)
+        )
+        assert.equal(
+          canCompleteLesson(l, new Set(requiredChecks(l)), credit),
+          false,
+          id
+        )
+      }
+      for (const l of en.curriculumPhases[2].lessons)
+        assert.ok(!ancestors(l.id).has(production.id))
+    }
+  )
+  check(
+    "The lab makes independent combination explicit before the complexity decision",
+    () => {
+      assert.match(text(find("multisig-signet")), /combinepsbt/)
+      assert.ok(ancestors("complexity-after-the-lab").has("multisig-failures"))
+      assert.ok(ancestors("advanced-mastery").has("complexity-after-the-lab"))
+      assert.match(
+        text(find("complexity-after-the-lab")),
+        /metadata must survive/
+      )
+      assert.match(
+        text(find("core-explorer")),
+        /abstraction after understanding/
+      )
     }
   )
 

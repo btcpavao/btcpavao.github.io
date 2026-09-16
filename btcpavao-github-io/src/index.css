@@ -7832,3 +7832,84 @@ input:focus-visible + .curriculum-checkbox {
   .course-milestone li > button { align-items: flex-start; flex-direction: column; gap: .25rem; padding: 1rem; }
 }
 .course-table-scroll th:first-child { white-space: nowrap; }
+
+/* Context stays within the established course palette and spacing. */
+.course-gateway,
+.course-human-help {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  margin-block: 0 2rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--card);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.course-gateway { max-width: 70rem; }
+.course-gateway h2 { max-width: 30ch; font-size: clamp(1.4rem, 2.5vw, 2rem); line-height: 1.2; }
+.course-gateway p, .course-human-help p { max-width: 78ch; margin-block: 1rem; line-height: 1.75; }
+.course-gateway .course-gateway__eyebrow { margin-top: 0; font-size: .75rem; color: var(--muted-foreground); }
+.course-human-help { margin-top: 1.5rem; }
+.course-human-help h2 { font-size: 1.05rem; line-height: 1.5; }
+.course-gateway .course-copy-link, .course-human-help .course-copy-link { text-align: left; }
+.course-lesson--focused .course-lesson-details, .course-gateway .course-lesson-details { padding: 1rem; }
+@media (min-width: 768px) {
+  .course-lesson--focused .course-lesson-details, .course-gateway .course-lesson-details,
+  .course-prerequisites, .course-guided__result, .course-guided__warning { padding: 1.5rem; }
+}
+
+.course-guided__instructions p + p { margin-top: 1rem; }
+
+/* Curriculum search uses the existing surfaces, typography and focus color. */
+.course-search { max-width: 76rem; margin: 1.5rem auto; padding-inline: clamp(1rem, 4vw, 2rem); }
+.course-search label { display: block; margin-bottom: .6rem; font-weight: 650; }
+.course-search__input-row { display: flex; align-items: center; gap: .75rem; padding: 0 1rem; border: 1px solid var(--border); border-radius: .75rem; background: var(--card); }
+.course-search__input-row > svg { width: 1.1rem; height: 1.1rem; flex-shrink: 0; color: var(--muted-foreground); }
+.course-search input { flex: 1; min-width: 0; min-height: 52px; padding-block: .75rem; border: 0; background: transparent; color: inherit; font: inherit; font-size: 1rem; }
+.course-search input::-webkit-search-cancel-button { display: none; }
+.course-search__input-row:focus-within { outline: 2px solid #f7931a; outline-offset: 3px; }
+.course-search input:focus-visible { outline: none; }
+.course-search__input-row button { display: flex; align-items: center; gap: .35rem; min-height: 44px; background: transparent; color: inherit; font: inherit; border: 0; cursor: pointer; }
+.course-search__input-row button svg { width: 1rem; height: 1rem; }
+.course-search form > p, .course-search__status, .course-search__section { color: var(--muted-foreground); font-size: .8rem; line-height: 1.6; }
+.course-search form > p { margin-top: .65rem; }
+.course-search__status:empty { display: none; }
+.course-search__status { margin-top: 1.5rem; }
+.course-search__results > h1 { margin: .75rem 0 1.25rem; font-size: clamp(1.5rem, 3vw, 2rem); }
+.course-search__results ul { list-style: none; margin: 0; padding: 0; }
+.course-search__results li { border-top: 1px solid var(--border); }
+.course-search__results li > a { display: block; padding: 1.25rem 1rem; border-radius: .5rem; color: inherit; text-decoration: none; overflow-wrap: anywhere; }
+.course-search__results li > a:hover { background: var(--accent); }
+.course-search__results h2 { margin: .35rem 0 .5rem; font-size: 1.1rem; line-height: 1.4; }
+.course-search__results li p, .course-search__empty p, .course-search__coverage { max-width: 85ch; font-size: .95rem; line-height: 1.7; }
+.course-search__coverage, .course-search__empty { margin-block: 1rem; padding: 1rem; border: 1px solid var(--border); border-radius: .75rem; }
+@media (min-width: 768px) {
+  .course-search__input-row { padding-inline: 1.5rem; }
+  .course-search__results li > a, .course-search__coverage, .course-search__empty { padding: 1.5rem; }
+}
+@media (max-width: 380px) { .course-search__input-row button span { display: none; } }
+
+.course-question-panel { margin-top: 1rem; }
+.course-question-panel > summary { cursor: pointer; font-weight: 600; padding-block: .75rem; line-height: 1.6; }
+.course-question { display: grid; gap: .65rem; margin-top: 1rem; }
+.course-question label { margin-top: .6rem; font-weight: 600; font-size: .9rem; }
+.course-question input, .course-question textarea { width: 100%; min-width: 0; min-height: 44px; padding: 1rem; border: 1px solid var(--border); border-radius: .6rem; background: var(--background); color: inherit; font: inherit; }
+.course-question textarea { resize: vertical; }
+.course-question input:focus-visible, .course-question textarea:focus-visible { outline: 2px solid #f7931a; outline-offset: 3px; }
+.course-human-help .course-question p { margin-block: .3rem; font-size: .85rem; line-height: 1.7; }
+.course-question__security { font-weight: 650; }
+.course-question__context { color: var(--muted-foreground); overflow-wrap: anywhere; }
+.course-question__error { color: var(--foreground); font-weight: 650; border-left: 3px solid #d97706; padding-left: 1rem; }
+.course-question__unavailable { padding: 1rem; border: 1px solid var(--border); border-radius: .6rem; }
+.course-question button { margin-top: .5rem; justify-self: start; }
+.course-question__receipt:focus { outline: 2px solid #f7931a; outline-offset: 5px; }
+.course-search__empty > .course-human-help { margin-bottom: 0; }
+@media (min-width: 768px) {
+  .course-question input, .course-question textarea, .course-question__unavailable { padding-inline: 1.5rem; }
+}
+.course-search-shortcut { display: inline-flex; align-items: center; gap: .4rem; padding: .6rem; background: transparent; color: inherit; border: 0; font: inherit; font-size: .8rem; cursor: pointer; }
+.course-search-shortcut svg { width: 1rem; height: 1rem; }
+@media (max-width: 640px) { .course-search-shortcut span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); } }
+/* Keep the question itself spacious; avoid nested cards in the empty state. */
+.course-search__empty { padding: 0; border: 0; }
+.course-page:has(.course-question-panel[open]) .value-for-value-rail { display: none; }
+.course-search-shortcut { min-height: 44px; min-width: 44px; justify-content: center; }
