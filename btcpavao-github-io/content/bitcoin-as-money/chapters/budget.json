@@ -1,0 +1,117 @@
+{
+  "slug": "budget",
+  "title": "Give today’s money a job",
+  "part": "I · Put money in order",
+  "deck": "A bank balance tells you where money is. A budget tells you what it must do, when it is needed and what changes when you choose something else.",
+  "question": "How much of the money you can see is actually available to choose with?",
+  "minutes": 9,
+  "video": null,
+  "sections": [
+    {
+      "id": "balance-is-not-permission",
+      "title": "The number on the screen leaves something out",
+      "paragraphs": [
+        "Emily opens her banking app before buying something small. The balance looks reassuring. A few days later rent leaves the account, a prescription needs paying for and the same balance feels alarmingly thin. Nothing mysterious happened. Several different purposes had been hiding inside one number.",
+        "A budget reveals those purposes before the money moves. It gives you a clear answer to a useful question: if I spend this money here, what will no longer be funded elsewhere?",
+        "That question matters even when there is plenty in the account. Ten thousand dollars might include taxes, a move, a car repair, three months between contracts and money intended for long-term saving. Calling the whole balance spare money does not make those jobs disappear. It only postpones the moment when they become visible.",
+        "The first relief of budgeting is often not a larger balance. It is the end of guessing. You can see which part is committed, which part can wait and which part is genuinely open to a new decision."
+      ],
+      "principle": "Available to spend is a category decision, not an account balance."
+    },
+    {
+      "id": "accounts-and-categories",
+      "title": "Where it sits and what it is for",
+      "paragraphs": [
+        "An account describes a location: a bank account, cash in a wallet, an exchange account or a Bitcoin wallet. A category describes a purpose: groceries, rent, health, transport, a future repair or long-term money. The two are related, but they answer different questions.",
+        "You can keep several categories in one bank account. You can also keep one category across several accounts. The bookkeeping must preserve both views. Moving one hundred dollars from your checking account into your pocket changes its location; it does not turn the money into groceries, nor does it create one hundred dollars of income.",
+        "This distinction prevents a common form of double counting. A savings account is not an additional pile of money when it already appears in the budget. A bank-to-bank transfer is not a fresh receipt. A credit-card payment should not count as new consumption if the purchase has already been recorded as an expense. A budgeting application can help with these mechanics, but you need to understand what actually happened.",
+        "Keep a separate view for assets that belong on the balance sheet but are not available for everyday allocation. A home, business interest or long-term Bitcoin holding matters to net worth. It does not automatically supply money for this week’s food. In some budgeting tools this is the distinction between budget accounts and tracking accounts. Choose a structure that preserves the distinction rather than chasing a particular label."
+      ],
+      "diagram": "accounts"
+    },
+    {
+      "id": "zero-based-budget",
+      "title": "Zero means everything has a purpose",
+      "paragraphs": [
+        "A zero-based budget assigns all money currently available until the amount still waiting for a job is zero. It does not mean you spend every dollar. Saving is a job. Preparing for a future expense is a job. Keeping a reserve is a job. Money can remain in the account for months while being fully assigned.",
+        "Begin with cleared balances and physical cash you can actually use. Leave next week’s salary, an unpaid invoice and a possible bonus out of the allocation. Those may belong in a forecast, which describes what could happen. They enter the budget when they arrive. A forecast is useful precisely because it remains distinguishable from current money.",
+        "Arrange the first categories around your actual life: housing, utilities, food, transport, health, dependents, known future costs, a reserve and some deliberate personal spending. Debt payments receive explicit jobs while debt remains. Systematic giving is introduced after zero debt in the later chapter, rather than used to disguise an unfinished debt plan.",
+        "Make enough categories to guide choices, but no more than you will maintain. Separating groceries from restaurants can reveal a useful pattern. Creating twelve nearly identical grocery categories may only create work. The right test is whether a distinction changes a decision.",
+        "If the total you want to assign exceeds the money that exists, the shortfall is information. Change the plan openly. Reduce, defer or renegotiate something, or find a real additional source of money. A budget built on an imaginary future receipt is already a promise to solve the same problem later."
+      ],
+      "tool": "budget",
+      "example": {
+        "title": "Emily’s $352",
+        "paragraphs": [
+          "Emily has $312 in the bank and $40 in cash. She assigns $120 to food, $45 to transport, $60 to utilities, $30 to medicine, $40 to debt repayment and $20 to a family expense. Those jobs total $315. The remaining $37 is all she has left to allocate.",
+          "She assigns $20 to an upcoming cost and $17 to a small buffer. Nothing remains unassigned, but she still owns $352. Zero describes the unassigned amount, not the money in her accounts."
+        ]
+      }
+    },
+    {
+      "id": "rebudgeting",
+      "title": "A change of plan should name what changes",
+      "paragraphs": [
+        "The first plan will be wrong in places. Food may cost more than expected. A journey may be canceled. A dentist may recommend treatment sooner. Revising the budget is not an admission that budgeting failed; it is how the plan stays useful.",
+        "Suppose transport needs thirty dollars more and eating out has forty dollars left. Moving thirty between those categories makes the choice explicit. The account balance does not change. Your intentions do. If eating out still happens as though its full forty remains available, you have funded the same money twice.",
+        "Shared budgets benefit from this clarity. Michael and Sarah do not need to turn every purchase into a referendum on who is responsible. They can ask which category pays and, when necessary, which other purpose gives way. A family agreement can allow small independent changes while reserving larger reallocations for a conversation.",
+        "Do not use the budget as surveillance of another adult. Its purpose is to make shared obligations and tradeoffs visible. Separate personal spending categories can give each person room without requiring a defense of every coffee or book. A system that works only when one partner surrenders all judgment is unlikely to last."
+      ]
+    },
+    {
+      "id": "future-expenses",
+      "title": "An annual bill is not an emergency",
+      "paragraphs": [
+        "A car needs registration, tires and maintenance. School expenses arrive even when they are not monthly. Appliances age. Birthdays recur. You may not know the exact amount of every future cost, but uncertainty about the amount is different from surprise that the cost exists.",
+        "Convert these irregular expenses into a rhythm. If a six-hundred-dollar payment is six months away and nothing is set aside, prepare one hundred dollars a month. If two hundred dollars is already assigned, only four hundred remains to be prepared, or about $66.67 a month over six months. The general calculation is: amount still needed divided by months remaining.",
+        "When the date is near, the monthly preparation can be uncomfortable. That discomfort is a truthful description of time. Calling the payment an emergency will not give you six extra months. Start from the actual date and revise other categories if necessary.",
+        "Known expenses and emergency reserves have different purposes. A reserve is for uncertainty you cannot reasonably schedule: a loss of income, an urgent journey or an unexpected repair. If predictable costs repeatedly drain it, the budget needs better categories. A reserve that quietly pays for normal life will not be there when normal life changes.",
+        "People with seasonal or variable income need an additional calendar. A good summer month may fund a quiet winter. A large client payment may cover several months of work already delivered. Divide that money by the months it must support before calling it a surplus. The strongest month is rarely a sensible definition of the usual month."
+      ],
+      "tool": "expenses"
+    },
+    {
+      "id": "record-and-reconcile",
+      "title": "A plan becomes trustworthy through the record",
+      "paragraphs": [
+        "Each transaction needs a date, an amount, an account, a payer or payee and a category. Add a short note when the purpose may be unclear later. A purchase containing groceries and household supplies can be split between categories while remaining one payment from the account.",
+        "Record spending while it is still familiar. Same-day entry or a short daily check is easier than reconstructing three weeks of small transactions. Imported transactions can help, but they still need review: software does not always know whether a payment is business, personal, a transfer or a refund.",
+        "Reconciliation compares the budget’s account balance with the real balance. If the bank shows $842.30 and your record shows $847.30, find the missing five dollars. Check for an omitted payment, a duplicate entry, an incorrect amount or an unsettled transaction. A small unexplained discrepancy is a reason to investigate, not a reason to assume that the whole system is useless.",
+        "Before a large payment, reconcile first. Otherwise an apparently comfortable category may only look comfortable because yesterday’s transactions have not arrived. Accuracy need not become obsession; it should be sufficient that the numbers can carry a real decision."
+      ]
+    },
+    {
+      "id": "business-boundary",
+      "title": "A business account is not a household reserve",
+      "paragraphs": [
+        "David can access the company account, but access does not make every dollar his to spend. Payroll, suppliers, taxes, customer refunds, equipment and quiet months all make claims on business cash. Revenue is not profit, profit is not collected cash and collected cash is not automatically an owner distribution.",
+        "Keep separate business and personal budgets. The business budget names its own obligations and working needs. The household budget begins with money actually and appropriately paid to the household. A transfer between them needs a clear legal and accounting basis, not merely a convenient label in an app.",
+        "This boundary protects the business as much as the family. A profitable season should not disappear into private spending before the company has funded its next obligations. Equally, the family’s long-term Bitcoin should not become an invisible overdraft that rescues every underpriced project.",
+        "For a sole proprietor the legal distinction may differ from that of a company, but the planning distinction remains valuable. Keep business receipts, costs, tax provisions and owner pay understandable. Ask the relevant professional how those flows should be recorded in your jurisdiction rather than assuming that a budgeting category settles their legal treatment."
+      ]
+    },
+    {
+      "id": "the-weekly-meeting",
+      "title": "Build a record that improves next month",
+      "paragraphs": [
+        "Give the budget a regular appointment. Once a week, record missing transactions, reconcile accounts, review thin categories and look ahead at the next obligations. Assign new receipts only after they have arrived. If money is shared, include a short shared review often enough that the system does not live inside one person’s head.",
+        "Once a month, look for patterns. If food always exceeds the plan, the plan may be unrealistic. If a reserve repeatedly funds recreation, recreation has been understated. If Bitcoin purchases grow while the card balance grows too, the purchases are not coming from free capital.",
+        "Three months begin to show habits; a full year reveals expenses hidden by seasonality. Compare income with actual spending, examine category trends and distinguish a rising account balance from a genuinely improving net worth. Measures such as the average age of money can be informative, but they are indicators rather than goals to optimize for their own sake.",
+        "The result is a growing memory of your financial life. You no longer have to guess whether a cost is unusual or whether an income jump is dependable. The record does not tell you what to value. It gives your values a more accurate place to act."
+      ]
+    }
+  ],
+  "checks": [
+    "I can distinguish an account from a category and a transfer from an expense.",
+    "I have assigned only money that actually exists, including a job for savings and reserves.",
+    "I can move money between categories without pretending the original purpose is still funded.",
+    "I can calculate monthly preparation for a known future expense.",
+    "I have a repeatable transaction and reconciliation routine.",
+    "Where relevant, business obligations and household money have separate budgets."
+  ],
+  "summary": [
+    "Zero-based budgeting names every unit of current money; zero unassigned does not mean zero saved.",
+    "Known future expenses deserve categories, and uncertainty deserves a reserve.",
+    "A reliable weekly record is the foundation for debt, giving and Bitcoin decisions."
+  ]
+}

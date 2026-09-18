@@ -48,7 +48,10 @@ async function startApp() {
   }
 
   let routedPage: ReactNode
-  if (initialPath === "/") {
+  if (initialPath.startsWith("/en/bitcoin-standard/")) {
+    const { BitcoinAsMoney } = await import("./book/book")
+    routedPage = <BitcoinAsMoney path={initialPath} />
+  } else if (initialPath === "/") {
     const { Homepage } = await import("./homepage")
     routedPage = <Homepage />
   } else if (initialPath === BITCOIN_CORE_CURRICULUM_PATH) {

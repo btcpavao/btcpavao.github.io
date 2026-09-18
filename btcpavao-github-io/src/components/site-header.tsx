@@ -29,6 +29,7 @@ const navigationGroups = [
   {
     label: "Bitcoin Standard",
     links: [
+      { label: "Read Bitcoin as Money", href: "/en/bitcoin-standard/" },
       { label: "Advisory approach", href: "/#bitcoin-standard" },
       { label: "Work with me", href: "/#work-with-me" },
       { label: "Book a conversation", href: BOOKING_URL, external: true },

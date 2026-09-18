@@ -1,0 +1,2368 @@
+{
+  "schema_version": 1,
+  "title": "Bitcoin as Money — visual audit and production manifest",
+  "style_reference": {
+    "primary": "single-sig-multisig-visuals.zip: 14 supplied PNGs, prompts.json and generation-manifest.json",
+    "reviewed": "All fourteen illustrations inspected in the contact sheet; complete source prompts and generation manifests reviewed.",
+    "style": "Opaque warm ivory paper, restrained dark ink, natural muted accents, clear human relationships, generous negative space.",
+    "override": "The user brief explicitly supersedes source-book AGENTS.md black-and-white/SVG-only guidance for editorial illustrations. Exact financial information remains coded.",
+    "exactness_rule": "Any visual requiring accurate numbers, formulas, trends, thresholds, flows or comparisons is HTML/SVG/chart code. Generated art carries no essential text or quantities."
+  },
+  "source_chapters": [
+    "00-predgovor.md",
+    "01-zasto-bitcoin-kao-novac.md",
+    "02-proracun.md",
+    "03-dug.md",
+    "04-davanje.md",
+    "05-ravnoteza-imovine.md",
+    "06-bitcoin-kroz-vrijeme.md",
+    "07-skrbnistvo-i-sigurnost.md",
+    "08-trideset-godina-kasnije.md"
+  ],
+  "hero_illustrations": [
+    {
+      "id": "start-hero",
+      "module": "start",
+      "section": "module-opening",
+      "title": "A household system, not a speculation screen",
+      "placement": "After module introduction, before first teaching section",
+      "role": "narrative illustration",
+      "why": "Makes Bitcoin as money tangible through household responsibilities rather than price speculation.",
+      "asset_type": "raster editorial illustration",
+      "implementation": "ImageGen",
+      "generation_prompt": "Create one finished standalone landscape 16:9 editorial textbook illustration for Bitcoin as Money. Use the supplied single-sig/multisig reference images as the visual canon: continuous fully opaque warm ivory paper (#F5F0E6), subtle paper grain, fine dark-brown ink contours, restrained muted sand, clay, sage and Adriatic navy fills, very small Bitcoin-orange accents. Simple dignified human figures, familiar household objects, crisp spatial relationships, hand-drawn print quality and generous negative space. The atmosphere is calm, practical and thoughtful. Keep the meaningful scene inside the central 80% with ample safe margins. No words, labels, letters, numbers, currency amounts, equations, graph axes or charts anywhere. The Bitcoin symbol may appear once as a small accent if requested. No watermarks, advertising gloss, 3D renders, neon, flying coins, rockets, price tickers, chains around people, fear imagery or product-brand hardware. Do not crop people or important objects. Show a person seated at an ordinary wooden table, thoughtfully arranging a notebook, a modest stack of money tokens, a small house model, a practical tool and a sealed giving envelope. A partner sits beside them as an equal participant. Group the objects into a readable arrangement around the open notebook, suggesting everyday financial order. One small orange Bitcoin symbol on the money container identifies the money being organized. A simple window and a faint Adriatic-blue horizon may sit in the far background, but this is an educational household scene rather than a scenic terrace photograph. The people are looking at their plan, not at the viewer.",
+      "alt_text": "Two people review a household notebook beside money, a home model and a giving envelope.",
+      "caption": null,
+      "aspect_ratio": "16:9",
+      "mobile_behavior": "Show full composition at 100% width with intrinsic ratio; no crop and no embedded explanatory text; adjacent prose carries the complete meaning.",
+      "priority": "high",
+      "asset_path": "/bitcoin-as-money/start.webp",
+      "status": "asset-present; decoded successfully; contact-sheet visual review complete",
+      "intrinsic_dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "responsive_asset_path": "/bitcoin-as-money/start-800.webp",
+      "visual_review": "All ten 800px variants inspected in contact sheet; coherent editorial style and clear conceptual scenes, no substantive embedded financial text. Browser layout review remains separate."
+    },
+    {
+      "id": "budget-hero",
+      "module": "budget",
+      "section": "module-opening",
+      "title": "Give current money jobs",
+      "placement": "After module introduction, before first teaching section",
+      "role": "conceptual illustration",
+      "why": "Distinguishes money already available from hoped-for income and makes assigned jobs visible.",
+      "asset_type": "raster editorial illustration",
+      "implementation": "ImageGen",
+      "generation_prompt": "Create one finished standalone landscape 16:9 editorial textbook illustration for Bitcoin as Money. Use the supplied single-sig/multisig reference images as the visual canon: continuous fully opaque warm ivory paper (#F5F0E6), subtle paper grain, fine dark-brown ink contours, restrained muted sand, clay, sage and Adriatic navy fills, very small Bitcoin-orange accents. Simple dignified human figures, familiar household objects, crisp spatial relationships, hand-drawn print quality and generous negative space. The atmosphere is calm, practical and thoughtful. Keep the meaningful scene inside the central 80% with ample safe margins. No words, labels, letters, numbers, currency amounts, equations, graph axes or charts anywhere. The Bitcoin symbol may appear once as a small accent if requested. No watermarks, advertising gloss, 3D renders, neon, flying coins, rockets, price tickers, chains around people, fear imagery or product-brand hardware. Do not crop people or important objects. Draw a tabletop diagram-scene with a person arranging a finite pile of plain tokens into a few separate shallow trays. The trays contain simple visual cues: groceries, a home, a calendar, a repair tool and an envelope. The tokens being allocated originate from one visibly present pile, while a faint closed future calendar stands apart at the back and contributes no tokens. This is a metaphor for allocating money already held, not a numerical worked example. Make the trays visually distinct without any writing.",
+      "alt_text": "A person sorts money already on the table into trays for household purposes; future income remains separate.",
+      "caption": null,
+      "aspect_ratio": "16:9",
+      "mobile_behavior": "Show full composition at 100% width with intrinsic ratio; no crop and no embedded explanatory text; adjacent prose carries the complete meaning.",
+      "priority": "high",
+      "asset_path": "/bitcoin-as-money/budget.webp",
+      "status": "asset-present; decoded successfully; contact-sheet visual review complete",
+      "intrinsic_dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "responsive_asset_path": "/bitcoin-as-money/budget-800.webp",
+      "visual_review": "All ten 800px variants inspected in contact sheet; coherent editorial style and clear conceptual scenes, no substantive embedded financial text. Browser layout review remains separate."
+    },
+    {
+      "id": "debt-hero",
+      "module": "debt",
+      "section": "module-opening",
+      "title": "Future income already spoken for",
+      "placement": "After module introduction, before first teaching section",
+      "role": "narrative illustration",
+      "why": "Shows the time claim created by debt and the purpose of eliminating it.",
+      "asset_type": "raster editorial illustration",
+      "implementation": "ImageGen",
+      "generation_prompt": "Create one finished standalone landscape 16:9 editorial textbook illustration for Bitcoin as Money. Use the supplied single-sig/multisig reference images as the visual canon: continuous fully opaque warm ivory paper (#F5F0E6), subtle paper grain, fine dark-brown ink contours, restrained muted sand, clay, sage and Adriatic navy fills, very small Bitcoin-orange accents. Simple dignified human figures, familiar household objects, crisp spatial relationships, hand-drawn print quality and generous negative space. The atmosphere is calm, practical and thoughtful. Keep the meaningful scene inside the central 80% with ample safe margins. No words, labels, letters, numbers, currency amounts, equations, graph axes or charts anywhere. The Bitcoin symbol may appear once as a small accent if requested. No watermarks, advertising gloss, 3D renders, neon, flying coins, rockets, price tickers, chains around people, fear imagery or product-brand hardware. Do not crop people or important objects. Create a quiet two-part narrative composition with the same person moving from the left side to the right. On the left, a long strip of blank future calendar pages extends across the desk and several plain money tokens from those future pages are already routed into a creditor folder at the near edge. On the right, the person closes the settled folder and the future calendar opens into clear working space. Use a single fine ink connection to establish the relationship, not a dramatic chain. Do not depict a rising portfolio, guaranteed wealth or instant effortless debt escape. The emotional meaning is reclaiming control of future work.",
+      "alt_text": "Future income is committed to a debt folder; after that folder closes, the calendar becomes clear space again.",
+      "caption": null,
+      "aspect_ratio": "16:9",
+      "mobile_behavior": "Show full composition at 100% width with intrinsic ratio; no crop and no embedded explanatory text; adjacent prose carries the complete meaning.",
+      "priority": "high",
+      "asset_path": "/bitcoin-as-money/debt.webp",
+      "status": "asset-present; decoded successfully; contact-sheet visual review complete",
+      "intrinsic_dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "responsive_asset_path": "/bitcoin-as-money/debt-800.webp",
+      "visual_review": "All ten 800px variants inspected in contact sheet; coherent editorial style and clear conceptual scenes, no substantive embedded financial text. Browser layout review remains separate."
+    },
+    {
+      "id": "giving-hero",
+      "module": "giving",
+      "section": "module-opening",
+      "title": "Money ready to meet a real need",
+      "placement": "After module introduction, before first teaching section",
+      "role": "narrative illustration",
+      "why": "Makes giving a prepared money category while avoiding salary-percentage and guaranteed-return imagery.",
+      "asset_type": "raster editorial illustration",
+      "implementation": "ImageGen",
+      "generation_prompt": "Create one finished standalone landscape 16:9 editorial textbook illustration for Bitcoin as Money. Use the supplied single-sig/multisig reference images as the visual canon: continuous fully opaque warm ivory paper (#F5F0E6), subtle paper grain, fine dark-brown ink contours, restrained muted sand, clay, sage and Adriatic navy fills, very small Bitcoin-orange accents. Simple dignified human figures, familiar household objects, crisp spatial relationships, hand-drawn print quality and generous negative space. The atmosphere is calm, practical and thoughtful. Keep the meaningful scene inside the central 80% with ample safe margins. No words, labels, letters, numbers, currency amounts, equations, graph axes or charts anywhere. The Bitcoin symbol may appear once as a small accent if requested. No watermarks, advertising gloss, 3D renders, neon, flying coins, rockets, price tickers, chains around people, fear imagery or product-brand hardware. Do not crop people or important objects. Show a modest household table with an organized money container and a distinct giving envelope already set aside beside it. One person calmly passes that envelope toward another person across the table at equal eye level. There is no debtor folder or lender in the scene. A small repaired chair and a book near the receiving person hint at ordinary human needs. Keep the exchange dignified and reciprocal in posture, without saintly lighting, poverty stereotypes, an oversized heart, applause or money flowing back to the giver. The visible envelope comes from an existing money reserve, not a payslip.",
+      "alt_text": "An envelope set aside from existing household money is offered to another person with dignity.",
+      "caption": null,
+      "aspect_ratio": "16:9",
+      "mobile_behavior": "Show full composition at 100% width with intrinsic ratio; no crop and no embedded explanatory text; adjacent prose carries the complete meaning.",
+      "priority": "high",
+      "asset_path": "/bitcoin-as-money/giving.webp",
+      "status": "asset-present; decoded successfully; contact-sheet visual review complete",
+      "responsive_asset_path": "/bitcoin-as-money/giving-800.webp",
+      "visual_review": "All ten 800px variants inspected in contact sheet; coherent editorial style and clear conceptual scenes, no substantive embedded financial text. Browser layout review remains separate.",
+      "intrinsic_dimensions": {
+        "width": 1600,
+        "height": 900
+      }
+    },
+    {
+      "id": "living-hero",
+      "module": "living",
+      "section": "module-opening",
+      "title": "Two working layers of money",
+      "placement": "After module introduction, before first teaching section",
+      "role": "conceptual illustration",
+      "why": "Separates fiat operating liquidity from long-term money and normalizes deliberate spending.",
+      "asset_type": "raster editorial illustration",
+      "implementation": "ImageGen",
+      "generation_prompt": "Create one finished standalone landscape 16:9 editorial textbook illustration for Bitcoin as Money. Use the supplied single-sig/multisig reference images as the visual canon: continuous fully opaque warm ivory paper (#F5F0E6), subtle paper grain, fine dark-brown ink contours, restrained muted sand, clay, sage and Adriatic navy fills, very small Bitcoin-orange accents. Simple dignified human figures, familiar household objects, crisp spatial relationships, hand-drawn print quality and generous negative space. The atmosphere is calm, practical and thoughtful. Keep the meaningful scene inside the central 80% with ample safe margins. No words, labels, letters, numbers, currency amounts, equations, graph axes or charts anywhere. The Bitcoin symbol may appear once as a small accent if requested. No watermarks, advertising gloss, 3D renders, neon, flying coins, rockets, price tickers, chains around people, fear imagery or product-brand hardware. Do not crop people or important objects. Compose an educational household scene with a small accessible tray near the front holding everyday payment cues: groceries, a transit ticket and a plain bank card. Behind it, a larger calm money reserve is represented by a closed simple ledger with one small orange Bitcoin symbol. A narrow unobtrusive two-way pathway between the layers passes through a small neutral conversion desk. A person draws a modest amount from the operating tray to buy useful groceries. Do not suggest that all savings are kept on an exchange, that payment rails are savings, or that spending money is a failure. No coin showers or security iconography.",
+      "alt_text": "A small everyday payment tray connects through a conversion step to a separate long-term money reserve.",
+      "caption": null,
+      "aspect_ratio": "16:9",
+      "mobile_behavior": "Show full composition at 100% width with intrinsic ratio; no crop and no embedded explanatory text; adjacent prose carries the complete meaning.",
+      "priority": "high",
+      "asset_path": "/bitcoin-as-money/living.webp",
+      "status": "asset-present; decoded successfully; contact-sheet visual review complete",
+      "intrinsic_dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "responsive_asset_path": "/bitcoin-as-money/living-800.webp",
+      "visual_review": "All ten 800px variants inspected in contact sheet; coherent editorial style and clear conceptual scenes, no substantive embedded financial text. Browser layout review remains separate."
+    },
+    {
+      "id": "net-worth-hero",
+      "module": "net-worth",
+      "section": "module-opening",
+      "title": "A map of what the household owns",
+      "placement": "After module introduction, before first teaching section",
+      "role": "conceptual illustration",
+      "why": "Makes functional classification visible before exact rule-of-thirds calculations.",
+      "asset_type": "raster editorial illustration",
+      "implementation": "ImageGen",
+      "generation_prompt": "Create one finished standalone landscape 16:9 editorial textbook illustration for Bitcoin as Money. Use the supplied single-sig/multisig reference images as the visual canon: continuous fully opaque warm ivory paper (#F5F0E6), subtle paper grain, fine dark-brown ink contours, restrained muted sand, clay, sage and Adriatic navy fills, very small Bitcoin-orange accents. Simple dignified human figures, familiar household objects, crisp spatial relationships, hand-drawn print quality and generous negative space. The atmosphere is calm, practical and thoughtful. Keep the meaningful scene inside the central 80% with ample safe margins. No words, labels, letters, numbers, currency amounts, equations, graph axes or charts anywhere. The Bitcoin symbol may appear once as a small accent if requested. No watermarks, advertising gloss, 3D renders, neon, flying coins, rockets, price tickers, chains around people, fear imagery or product-brand hardware. Do not crop people or important objects. Arrange three equally legible groups on a large table viewed at a gentle angle: a simple liquid money container, a comfortable home model with a modest car, and workshop tools with a productive workbench model. A person uses a notebook to examine the whole arrangement. One large house model must not dwarf the other groups. Do not use a pie chart, balance scales or exact equal amounts: this is classification, not numerical allocation. A small blank map outline beneath the objects suggests seeing the whole balance sheet.",
+      "alt_text": "Money, household consumption assets and productive tools are laid out as distinct parts of one balance sheet.",
+      "caption": null,
+      "aspect_ratio": "16:9",
+      "mobile_behavior": "Show full composition at 100% width with intrinsic ratio; no crop and no embedded explanatory text; adjacent prose carries the complete meaning.",
+      "priority": "high",
+      "asset_path": "/bitcoin-as-money/net-worth.webp",
+      "status": "asset-present; decoded successfully; contact-sheet visual review complete",
+      "intrinsic_dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "responsive_asset_path": "/bitcoin-as-money/net-worth-800.webp",
+      "visual_review": "All ten 800px variants inspected in contact sheet; coherent editorial style and clear conceptual scenes, no substantive embedded financial text. Browser layout review remains separate."
+    },
+    {
+      "id": "long-term-trend-hero",
+      "module": "long-term-trend",
+      "section": "module-opening",
+      "title": "A map is not the terrain",
+      "placement": "After module introduction, before first teaching section",
+      "role": "conceptual illustration",
+      "why": "Provides a memorable model-versus-reality metaphor; all market data and trend relationships remain in coded charts.",
+      "asset_type": "raster editorial illustration",
+      "implementation": "ImageGen",
+      "generation_prompt": "Create one finished standalone landscape 16:9 editorial textbook illustration for Bitcoin as Money. Use the supplied single-sig/multisig reference images as the visual canon: continuous fully opaque warm ivory paper (#F5F0E6), subtle paper grain, fine dark-brown ink contours, restrained muted sand, clay, sage and Adriatic navy fills, very small Bitcoin-orange accents. Simple dignified human figures, familiar household objects, crisp spatial relationships, hand-drawn print quality and generous negative space. The atmosphere is calm, practical and thoughtful. Keep the meaningful scene inside the central 80% with ample safe margins. No words, labels, letters, numbers, currency amounts, equations, graph axes or charts anywhere. The Bitcoin symbol may appear once as a small accent if requested. No watermarks, advertising gloss, 3D renders, neon, flying coins, rockets, price tickers, chains around people, fear imagery or product-brand hardware. Do not crop people or important objects. Show a thoughtful traveler at a low table examining an unfolded, completely unlabeled map beside a compass. Beyond the table, a broad winding coastal footpath passes through uneven terrain, rising and dipping with a visible unobstructed horizon but no guaranteed destination. The map and actual path are clearly separate objects. Keep this a restrained ink-and-wash conceptual vignette, not a fantasy landscape, price chart or prediction. The main idea is using a model for orientation while accepting an uncertain journey.",
+      "alt_text": "A traveler compares a map with uneven terrain, illustrating the difference between a model and the path actually travelled.",
+      "caption": null,
+      "aspect_ratio": "16:9",
+      "mobile_behavior": "Show full composition at 100% width with intrinsic ratio; no crop and no embedded explanatory text; adjacent prose carries the complete meaning.",
+      "priority": "medium",
+      "asset_path": "/bitcoin-as-money/long-term-trend.webp",
+      "status": "asset-present; decoded successfully; contact-sheet visual review complete",
+      "intrinsic_dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "responsive_asset_path": "/bitcoin-as-money/long-term-trend-800.webp",
+      "visual_review": "All ten 800px variants inspected in contact sheet; coherent editorial style and clear conceptual scenes, no substantive embedded financial text. Browser layout review remains separate."
+    },
+    {
+      "id": "spend-hold-invest-hero",
+      "module": "spend-hold-invest",
+      "section": "module-opening",
+      "title": "A deliberate choice has alternatives",
+      "placement": "After module introduction, before first teaching section",
+      "role": "conceptual illustration",
+      "why": "Shows opportunity cost and classification before the numerical comparison; no option is presented as an automatic winner.",
+      "asset_type": "raster editorial illustration",
+      "implementation": "ImageGen",
+      "generation_prompt": "Create one finished standalone landscape 16:9 editorial textbook illustration for Bitcoin as Money. Use the supplied single-sig/multisig reference images as the visual canon: continuous fully opaque warm ivory paper (#F5F0E6), subtle paper grain, fine dark-brown ink contours, restrained muted sand, clay, sage and Adriatic navy fills, very small Bitcoin-orange accents. Simple dignified human figures, familiar household objects, crisp spatial relationships, hand-drawn print quality and generous negative space. The atmosphere is calm, practical and thoughtful. Keep the meaningful scene inside the central 80% with ample safe margins. No words, labels, letters, numbers, currency amounts, equations, graph axes or charts anywhere. The Bitcoin symbol may appear once as a small accent if requested. No watermarks, advertising gloss, 3D renders, neon, flying coins, rockets, price tickers, chains around people, fear imagery or product-brand hardware. Do not crop people or important objects. Show one person at a clean table considering three uncluttered possibilities placed at equal visual weight: a useful everyday object for consumption, a closed money reserve for retaining purchasing options, and a practical workshop tool for productive work. The person has an open blank notebook and an unhurried posture. A faint branching ink line links the notebook to the three objects without arrows suggesting one is universally preferred. No winners, trophies, rising graphs or glamorous car. The reserve may carry one small Bitcoin symbol.",
+      "alt_text": "A person weighs useful consumption, retained money and a productive tool as three different uses of capital.",
+      "caption": null,
+      "aspect_ratio": "16:9",
+      "mobile_behavior": "Show full composition at 100% width with intrinsic ratio; no crop and no embedded explanatory text; adjacent prose carries the complete meaning.",
+      "priority": "medium",
+      "asset_path": "/bitcoin-as-money/spend-hold-invest.webp",
+      "status": "asset-present; decoded successfully; contact-sheet visual review complete",
+      "intrinsic_dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "responsive_asset_path": "/bitcoin-as-money/spend-hold-invest-800.webp",
+      "visual_review": "All ten 800px variants inspected in contact sheet; coherent editorial style and clear conceptual scenes, no substantive embedded financial text. Browser layout review remains separate."
+    },
+    {
+      "id": "custody-continuity-hero",
+      "module": "custody-continuity",
+      "section": "module-opening",
+      "title": "A plan another person can follow",
+      "placement": "After module introduction, before first teaching section",
+      "role": "narrative illustration",
+      "why": "Makes incapacity and family continuity a responsibility shared through understanding, without duplicating technical custody lessons.",
+      "asset_type": "raster editorial illustration",
+      "implementation": "ImageGen",
+      "generation_prompt": "Create one finished standalone landscape 16:9 editorial textbook illustration for Bitcoin as Money. Use the supplied single-sig/multisig reference images as the visual canon: continuous fully opaque warm ivory paper (#F5F0E6), subtle paper grain, fine dark-brown ink contours, restrained muted sand, clay, sage and Adriatic navy fills, very small Bitcoin-orange accents. Simple dignified human figures, familiar household objects, crisp spatial relationships, hand-drawn print quality and generous negative space. The atmosphere is calm, practical and thoughtful. Keep the meaningful scene inside the central 80% with ample safe margins. No words, labels, letters, numbers, currency amounts, equations, graph axes or charts anywhere. The Bitcoin symbol may appear once as a small accent if requested. No watermarks, advertising gloss, 3D renders, neon, flying coins, rockets, price tickers, chains around people, fear imagery or product-brand hardware. Do not crop people or important objects. Show two adult household members seated side by side at a table, both able to see a plain instruction folder, an ordinary laptop and a simple long-term savings ledger. One person explains the folder while the other actively follows its steps. Include a second closed copy of the instruction folder stored separately on a nearby shelf, with no keys or secret words exposed. There is no hardware-wallet product, no seed phrase, no cryptographic diagram and no screen typography. The center of attention is shared understanding and continuity, not a device or a padlock.",
+      "alt_text": "Two household members review accessible instructions together so the financial plan does not depend on one person.",
+      "caption": null,
+      "aspect_ratio": "16:9",
+      "mobile_behavior": "Show full composition at 100% width with intrinsic ratio; no crop and no embedded explanatory text; adjacent prose carries the complete meaning.",
+      "priority": "high",
+      "asset_path": "/bitcoin-as-money/custody-continuity.webp",
+      "status": "asset-present; decoded successfully; contact-sheet visual review complete",
+      "intrinsic_dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "responsive_asset_path": "/bitcoin-as-money/custody-continuity-800.webp",
+      "visual_review": "All ten 800px variants inspected in contact sheet; coherent editorial style and clear conceptual scenes, no substantive embedded financial text. Browser layout review remains separate."
+    },
+    {
+      "id": "put-it-into-practice-hero",
+      "module": "put-it-into-practice",
+      "section": "module-opening",
+      "title": "From an idea to a recurring habit",
+      "placement": "After module introduction, before first teaching section",
+      "role": "narrative illustration",
+      "why": "Connects reading to concrete implementation and ongoing review.",
+      "asset_type": "raster editorial illustration",
+      "implementation": "ImageGen",
+      "generation_prompt": "Create one finished standalone landscape 16:9 editorial textbook illustration for Bitcoin as Money. Use the supplied single-sig/multisig reference images as the visual canon: continuous fully opaque warm ivory paper (#F5F0E6), subtle paper grain, fine dark-brown ink contours, restrained muted sand, clay, sage and Adriatic navy fills, very small Bitcoin-orange accents. Simple dignified human figures, familiar household objects, crisp spatial relationships, hand-drawn print quality and generous negative space. The atmosphere is calm, practical and thoughtful. Keep the meaningful scene inside the central 80% with ample safe margins. No words, labels, letters, numbers, currency amounts, equations, graph axes or charts anywhere. The Bitcoin symbol may appear once as a small accent if requested. No watermarks, advertising gloss, 3D renders, neon, flying coins, rockets, price tickers, chains around people, fear imagery or product-brand hardware. Do not crop people or important objects. Show an ordinary household desk with an open blank policy notebook, a neatly arranged calendar represented by three broad blank panels, and several simple checkmarks on a separate small review card. A person writes in the notebook while another checks the calendar, suggesting an agreed routine rather than a one-time finish. Reuse the budget tray, giving envelope and money reserve motifs very subtly in the background. No graduation trophy, finish line or promise of wealth. Warm patient morning light and a clean working surface convey that the next practical action is possible.",
+      "alt_text": "A household writes its money policy and schedules repeated reviews rather than treating the plan as finished.",
+      "caption": null,
+      "aspect_ratio": "16:9",
+      "mobile_behavior": "Show full composition at 100% width with intrinsic ratio; no crop and no embedded explanatory text; adjacent prose carries the complete meaning.",
+      "priority": "high",
+      "asset_path": "/bitcoin-as-money/put-it-into-practice.webp",
+      "status": "asset-present; decoded successfully; contact-sheet visual review complete",
+      "intrinsic_dimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "responsive_asset_path": "/bitcoin-as-money/put-it-into-practice-800.webp",
+      "visual_review": "All ten 800px variants inspected in contact sheet; coherent editorial style and clear conceptual scenes, no substantive embedded financial text. Browser layout review remains separate."
+    }
+  ],
+  "sections": [
+    {
+      "module": "start",
+      "section": "the-question",
+      "section_title": "The question after buying Bitcoin",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The module opening illustration already grounds this tension in a household scene; the short prose should keep its direct opening rhythm.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 241,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "start",
+      "section": "why-this-book",
+      "section_title": "From an early purchase to a usable system",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "A personal account and recurring-household introduction need readable prose; a timeline would add dates without teaching a new relationship.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 243,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "start",
+      "section": "money-and-wealth",
+      "section_title": "Money carries a claim on future choices",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The native HTML worked example makes saving versus enterprise risk concrete; the opening household illustration introduces the objects without numerical claims.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 277,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "start",
+      "section": "how-the-rules-work",
+      "section_title": "Enough of the technology to understand the responsibility",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The explanation is conceptual and hands detailed technical teaching to Core. An exact miniature UTXO split is a useful optional enhancement, recorded separately.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 433,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "start",
+      "section": "volatility-and-time",
+      "section_title": "Hard supply does not mean a stable price",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "No new chart here: precise price/trend work belongs later. The distinction between Friday bills and years-long savings is legible in prose.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 195,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "start",
+      "section": "the-order",
+      "section_title": "Read in order; put each discipline to work",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The module roadmap and next-module navigation provide the sequence; a second roadmap image would duplicate working navigation.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 228,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "budget",
+      "section": "balance-is-not-permission",
+      "section_title": "The number on the screen leaves something out",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The budget hero and following accounts diagram together establish the missing meaning of a bank balance.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 180,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "budget",
+      "section": "accounts-and-categories",
+      "section_title": "Where it sits and what it is for",
+      "placement": "Within the section after the conceptual explanation; controls before practical application",
+      "decision": [
+        "precise HTML/SVG diagram"
+      ],
+      "asset_ids": [
+        "diagram-accounts"
+      ],
+      "role": "Explain and test the relationship",
+      "why": "Money locations and money purposes are two views of the same total.",
+      "implementation": "coded",
+      "alt_text": "Two views show the same money by location and by assigned purpose.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack labels, controls and outputs; preserve exact information in text.",
+      "priority": "high",
+      "word_count": 234,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "budget",
+      "section": "zero-based-budget",
+      "section_title": "Zero means everything has a purpose",
+      "placement": "Within the section after the conceptual explanation; controls before practical application",
+      "decision": [
+        "micro-interaction"
+      ],
+      "asset_ids": [
+        "tool-budget"
+      ],
+      "role": "Explain and test the relationship",
+      "why": "Shows the remaining unassigned amount and the opportunity cost of moving funds between categories.",
+      "implementation": "coded",
+      "alt_text": "Editable current-money allocations with a labelled unassigned balance.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack labels, controls and outputs; preserve exact information in text.",
+      "priority": "high",
+      "word_count": 257,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "budget",
+      "section": "rebudgeting",
+      "section_title": "A change of plan should name what changes",
+      "placement": "Reuse the earlier interactive component in this module; do not render a duplicate instance.",
+      "decision": [
+        "micro-interaction"
+      ],
+      "asset_ids": [
+        "tool-budget"
+      ],
+      "role": "Interpret or change an already introduced interaction",
+      "why": "Use the budget allocation controls already introduced; moving an amount between categories exposes what the changed plan gives up.",
+      "implementation": "coded (reused)",
+      "alt_text": "Editable current-money allocations with a labelled unassigned balance.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "One-column controls, touch-size targets, stacked output cards, chart summary and explicit table scrolling where needed.",
+      "priority": "high",
+      "word_count": 197,
+      "status": "mapped-to-existing-component"
+    },
+    {
+      "module": "budget",
+      "section": "future-expenses",
+      "section_title": "An annual bill is not an emergency",
+      "placement": "Within the section after the conceptual explanation; controls before practical application",
+      "decision": [
+        "calculator"
+      ],
+      "asset_ids": [
+        "tool-expenses"
+      ],
+      "role": "Explain and test the relationship",
+      "why": "Converts an irregular known bill into a monthly provision using amount still needed and months remaining.",
+      "implementation": "coded",
+      "alt_text": "An editable future bill is divided into monthly amounts to set aside.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack labels, controls and outputs; preserve exact information in text.",
+      "priority": "high",
+      "word_count": 257,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "budget",
+      "section": "record-and-reconcile",
+      "section_title": "A plan becomes trustworthy through the record",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "A concise transaction and reconciliation example is clearer in selectable HTML than an illustrated mock bank statement.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 192,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "budget",
+      "section": "business-boundary",
+      "section_title": "A business account is not a household reserve",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The prose states the account boundary directly; avoid another flow picture that could imply business funds are automatically personal income.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 194,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "budget",
+      "section": "the-weekly-meeting",
+      "section_title": "Build a record that improves next month",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The action list and self-checks provide the rhythm; a decorative meeting image would add no new concept.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 203,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "debt",
+      "section": "the-standard",
+      "section_title": "The target is zero",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The debt opening illustration supplies the time-claim metaphor; the written rule must remain unambiguous and accessible.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 212,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "debt",
+      "section": "the-cost-beyond-interest",
+      "section_title": "Debt changes the experience of time",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The opening future-calendar metaphor already carries this point; prose develops psychological consequences without additional art.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 258,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "debt",
+      "section": "stop-and-inventory",
+      "section_title": "Stop adding claims, then list every one",
+      "placement": "Within the section after the conceptual explanation; controls before practical application",
+      "decision": [
+        "calculator"
+      ],
+      "asset_ids": [
+        "tool-debt"
+      ],
+      "role": "Explain and test the relationship",
+      "why": "Shows payoff time and total interest without assuming an investment return beats the borrowing cost.",
+      "implementation": "coded",
+      "alt_text": "Debt payoff changes when balance, interest and available payment change.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack labels, controls and outputs; preserve exact information in text.",
+      "priority": "high",
+      "word_count": 225,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "debt",
+      "section": "sell-assets",
+      "section_title": "A sale can buy back room to decide",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The worked household example should be an HTML card with exact figures; an illustration cannot reliably show proceeds after costs.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 230,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "debt",
+      "section": "mortgage-and-location",
+      "section_title": "The home matters; the mortgage still counts",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The worked sale example exposes settlement and relocation costs. A house caricature would oversimplify an important family decision.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 271,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "debt",
+      "section": "business-debt",
+      "section_title": "Business language does not remove the obligation",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The household narrative carries the business-risk tradeoff; a new visual would repeat the inventory and settlement logic.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 209,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "debt",
+      "section": "when-exit-takes-time",
+      "section_title": "Choose a repayment method after reviewing assets",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "Comparison prose and the existing debt calculator serve this decision; avoid a second payoff plot with different assumptions.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 259,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "giving",
+      "section": "after-zero-debt",
+      "section_title": "The sequence protects the gift",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The opening giving scene supplies the narrative visual; the prerequisite is communicated in real text and the gated calculator.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 197,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "giving",
+      "section": "the-money-layer",
+      "section_title": "Ten to twenty percent of money, not income",
+      "placement": "Within the section after the conceptual explanation; controls before practical application",
+      "decision": [
+        "calculator"
+      ],
+      "asset_ids": [
+        "tool-giving"
+      ],
+      "role": "Explain and test the relationship",
+      "why": "Makes the zero-debt gate and the correct 10–20% money denominator unmistakable.",
+      "implementation": "coded",
+      "alt_text": "The giving range is calculated from current money after confirming zero debt.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack labels, controls and outputs; preserve exact information in text.",
+      "priority": "high",
+      "word_count": 274,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "giving",
+      "section": "one-sixtieth",
+      "section_title": "Why the one-sixtieth check appears",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "Keep the exact threshold as accessible prose and formula text; do not imply it is an annual payment target or confuse it with the separate decision-review threshold.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 236,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "giving",
+      "section": "planned-and-open",
+      "section_title": "Prepare some directions; leave some room",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "A paired example or two HTML cards is sufficient to separate planned and discretionary responses; no additional raster image is needed.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 190,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "giving",
+      "section": "judgment-and-boundaries",
+      "section_title": "A request is not an automatic claim",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "Judgment, dignity and pressure are better expressed directly than represented by stereotyped recipient figures.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 259,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "giving",
+      "section": "earning-and-serving",
+      "section_title": "Giving does not redeem honest earnings",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "Prose preserves the non-mechanical relationship between giving, attention and useful work; a return-flow arrow would falsely promise repayment.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 229,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "giving",
+      "section": "giving-with-bitcoin",
+      "section_title": "When the money itself can become harder to release",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The opening envelope scene and money calculator cover the key concepts; the final prose clarifies agency, household agreement and work.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 285,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "living",
+      "section": "from-position-to-money",
+      "section_title": "A different question at the kitchen table",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The household opening illustration grounds the shift from a speculative position to a daily money system. Another image would repeat it.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 188,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "living",
+      "section": "income-is-not-surplus",
+      "section_title": "Let income pass through the budget first",
+      "placement": "Within the section after the conceptual explanation; controls before practical application",
+      "decision": [
+        "precise HTML/SVG diagram"
+      ],
+      "asset_ids": [
+        "diagram-free-capital"
+      ],
+      "role": "Explain and test the relationship",
+      "why": "Makes tax, operating commitments, future expenses and reserves visible before discretionary use.",
+      "implementation": "coded",
+      "alt_text": "Received income is assigned to obligations and reserves before any amount is called free capital.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack labels, controls and outputs; preserve exact information in text.",
+      "priority": "high",
+      "word_count": 236,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "living",
+      "section": "fiat-operating-money",
+      "section_title": "Fiat can be a rail rather than the destination",
+      "placement": "Within the section after the conceptual explanation; controls before practical application",
+      "decision": [
+        "precise HTML/SVG diagram"
+      ],
+      "asset_ids": [
+        "diagram-layers"
+      ],
+      "role": "Explain and test the relationship",
+      "why": "Separates payment convenience, counterparty exposure and bearer ownership.",
+      "implementation": "coded",
+      "alt_text": "A small fiat operating layer connects through a conversion provider to separately controlled long-term Bitcoin.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack labels, controls and outputs; preserve exact information in text.",
+      "priority": "high",
+      "word_count": 249,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "living",
+      "section": "conversion-rhythm",
+      "section_title": "Make conversion a routine with explicit limits",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "The preceding layers diagram already supplies the flow. Keep timing, fees and currency consistency as precise prose rather than a second exchange picture.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 253,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "living",
+      "section": "spend-without-guilt",
+      "section_title": "Money is allowed to leave",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "Concrete health and household examples carry the judgment. Avoid a moral permission symbol or implying that a purchase is automatically wise.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 252,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "living",
+      "section": "quality-and-lifestyle",
+      "section_title": "Buy a life you want to maintain",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "Useful ordinary objects in the module illustration support durable consumption; the prose should handle the difference between quality and an expensive label.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 245,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "living",
+      "section": "household-routine",
+      "section_title": "Make the plan intelligible to the people living it",
+      "placement": "No additional standalone visual within this section",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Preserve narrative or use the existing worked example/navigation",
+      "why": "Review questions are actionable in text and completion controls; a decorative family meeting would duplicate the continuity module.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Comfortable one-column prose with readable example cards and no extra image payload.",
+      "priority": "intentional omission",
+      "word_count": 171,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "net-worth",
+      "section": "a-map-not-a-score",
+      "section_title": "Look beyond the monthly flow",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Retain clear narrative and worked examples",
+      "why": "The module hero already shows a balance sheet as a map of functions; keep the distinction between financial net worth and personal worth in direct prose.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "One-column prose and readable example cards.",
+      "priority": "intentional omission",
+      "word_count": 218,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "net-worth",
+      "section": "honest-values",
+      "section_title": "Use values someone might actually pay",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Retain clear narrative and worked examples",
+      "why": "Valuation assumptions require readable currency/date/cost notes, not a stylized asset-price image.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "One-column prose and readable example cards.",
+      "priority": "intentional omission",
+      "word_count": 251,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "net-worth",
+      "section": "three-functions",
+      "section_title": "Give each asset its real name",
+      "placement": "Within the section after conceptual explanation",
+      "decision": [
+        "micro-interaction"
+      ],
+      "asset_ids": [
+        "tool-classification"
+      ],
+      "role": "Make assumptions and relationships inspectable",
+      "why": "Provides immediate explanations for money, consumed assets and genuinely productive assets.",
+      "implementation": "coded",
+      "alt_text": "Household examples are assigned to money, consumption or productive capital.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack controls and labelled outputs; preserve exact values as text.",
+      "priority": "high",
+      "word_count": 257,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "net-worth",
+      "section": "home-is-not-money",
+      "section_title": "A home can be valuable without being your savings account",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Retain clear narrative and worked examples",
+      "why": "The classification exercise and ordinary home motif already establish the distinction. Exact liquidity tradeoffs belong in the worked example.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "One-column prose and readable example cards.",
+      "priority": "intentional omission",
+      "word_count": 258,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "net-worth",
+      "section": "the-thirds-compass",
+      "section_title": "A minimum for money; limits for the other two groups",
+      "placement": "Within the section after conceptual explanation",
+      "decision": [
+        "precise HTML/SVG diagram",
+        "calculator"
+      ],
+      "asset_ids": [
+        "diagram-thirds",
+        "tool-thirds"
+      ],
+      "role": "Make assumptions and relationships inspectable",
+      "why": "A labelled comparison reveals imbalance without treating every asset as spendable money. Turns three broad functional categories into exact proportions and reference ranges.",
+      "implementation": "coded",
+      "alt_text": "Money has a target floor of one third; consumption and productive assets each have a target ceiling of one third. Editable category values produce the money share and consumption and productive asset shares.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack controls and labelled outputs; preserve exact values as text.",
+      "priority": "high",
+      "word_count": 306,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "net-worth",
+      "section": "concentration-and-optionality",
+      "section_title": "Ask what happens in the same bad year",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Retain clear narrative and worked examples",
+      "why": "Dependency reasoning is stated directly; no additional allocation chart should imply that three categories guarantee diversification.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "One-column prose and readable example cards.",
+      "priority": "intentional omission",
+      "word_count": 194,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "net-worth",
+      "section": "review-and-next-move",
+      "section_title": "Change the direction of the next decision",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Retain clear narrative and worked examples",
+      "why": "A list of possible actions and the self-checks provide the application; a celebratory outcome image would overpromise.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "One-column prose and readable example cards.",
+      "priority": "intentional omission",
+      "word_count": 168,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "long-term-trend",
+      "section": "price-and-path",
+      "section_title": "Today’s price is not the whole story",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Retain clear narrative and worked examples",
+      "why": "The optional map-versus-terrain illustration introduces uncertainty; exact observed-versus-model lines are reserved for the actual trend tool.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "One-column prose and readable example cards.",
+      "priority": "intentional omission",
+      "word_count": 205,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "long-term-trend",
+      "section": "scales",
+      "section_title": "Why the shape of a chart depends on its scale",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Retain clear narrative and worked examples",
+      "why": "Scale definitions must be tied to the implemented root-scaled chart. Avoid a generic logarithmic chart that misrepresents the actual axis.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "One-column prose and readable example cards.",
+      "priority": "intentional omission",
+      "word_count": 246,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "long-term-trend",
+      "section": "block-time",
+      "section_title": "The network has a clock of its own",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Retain clear narrative and worked examples",
+      "why": "Readable exact H-time examples bridge block height and the household calendar; the interactive model follows. A compact coded comparison is recommended below.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "One-column prose and readable example cards.",
+      "priority": "intentional omission",
+      "word_count": 215,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "long-term-trend",
+      "section": "power-law-in-plain-english",
+      "section_title": "What the power law actually says",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Retain clear narrative and worked examples",
+      "why": "A compact exact H-squared teaching table would make changing additions and percentages visible; all numbers must remain in HTML.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "One-column prose and readable example cards.",
+      "priority": "intentional omission",
+      "word_count": 265,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "long-term-trend",
+      "section": "read-the-model",
+      "section_title": "Use the interactive map with its labels intact",
+      "placement": "Within the section after conceptual explanation",
+      "decision": [
+        "chart"
+      ],
+      "asset_ids": [
+        "tool-trend"
+      ],
+      "role": "Make assumptions and relationships inspectable",
+      "why": "Separates observed price, model values and illustrative forward scenarios with synchronized assumptions.",
+      "implementation": "coded",
+      "alt_text": "Market price and model trend can be compared over time, with selected values available as text.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack controls and labelled outputs; preserve exact values as text.",
+      "priority": "high",
+      "word_count": 176,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "long-term-trend",
+      "section": "two-growth-rates",
+      "section_title": "Two annualized rates answer different questions",
+      "placement": "Reuse the earlier interactive component in this module; do not render a duplicate instance.",
+      "decision": [
+        "chart"
+      ],
+      "asset_ids": [
+        "tool-trend"
+      ],
+      "role": "Interpret or change an already introduced interaction",
+      "why": "Reuse the model calculator outputs and compare their starting values; a second chart would risk divergent assumptions.",
+      "implementation": "coded (reused)",
+      "alt_text": "Market price and model trend can be compared over time, with selected values available as text.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "One-column controls, touch-size targets, stacked output cards, chart summary and explicit table scrolling where needed.",
+      "priority": "high",
+      "word_count": 245,
+      "status": "mapped-to-existing-component"
+    },
+    {
+      "module": "long-term-trend",
+      "section": "above-near-below",
+      "section_title": "Context changes the questions, not the rules",
+      "placement": "Reuse the earlier interactive component in this module; do not render a duplicate instance.",
+      "decision": [
+        "chart"
+      ],
+      "asset_ids": [
+        "tool-trend"
+      ],
+      "role": "Interpret or change an already introduced interaction",
+      "why": "Reuse the selected-date price/model comparison; contextual states must not become automatic trading signals.",
+      "implementation": "coded (reused)",
+      "alt_text": "Market price and model trend can be compared over time, with selected values available as text.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "One-column controls, touch-size targets, stacked output cards, chart summary and explicit table scrolling where needed.",
+      "priority": "high",
+      "word_count": 184,
+      "status": "mapped-to-existing-component"
+    },
+    {
+      "module": "long-term-trend",
+      "section": "secure-known-consumption",
+      "section_title": "A strong period can fund something already planned",
+      "placement": "Within the section after conceptual explanation",
+      "decision": [
+        "precise HTML/SVG diagram"
+      ],
+      "asset_ids": [
+        "diagram-timeline"
+      ],
+      "role": "Make assumptions and relationships inspectable",
+      "why": "Shows the difference between monthly conversion and carefully prepaying an existing commitment.",
+      "implementation": "coded",
+      "alt_text": "Known monthly obligations remain the same whether funded gradually or prepaid under suitable terms.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack controls and labelled outputs; preserve exact values as text.",
+      "priority": "high",
+      "word_count": 207,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "long-term-trend",
+      "section": "limits",
+      "section_title": "A historical fit is not a probability of success",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Retain clear narrative and worked examples",
+      "why": "Model limits deserve direct prose; a decorative warning image would overemphasize danger while teaching little.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "One-column prose and readable example cards.",
+      "priority": "intentional omission",
+      "word_count": 186,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "spend-hold-invest",
+      "section": "classify-the-choice",
+      "section_title": "Start by naming the decision",
+      "placement": "Within the section after its explanation",
+      "decision": [
+        "precise HTML/SVG diagram"
+      ],
+      "asset_ids": [
+        "diagram-decision"
+      ],
+      "role": "Expose exact relationships and assumptions",
+      "why": "Shows that budget, debt, liquidity and balance-sheet checks precede a model-led comparison.",
+      "implementation": "coded",
+      "alt_text": "A large decision passes through financial readiness, purpose, alternatives and a downside review.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack labelled controls and results; exact values remain available as text.",
+      "priority": "high",
+      "word_count": 193,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "spend-hold-invest",
+      "section": "bitcoin-hurdle",
+      "section_title": "A gain in euros can be a loss in Bitcoin",
+      "placement": "Within the section after its explanation",
+      "decision": [
+        "calculator"
+      ],
+      "asset_ids": [
+        "tool-investment"
+      ],
+      "role": "Expose exact relationships and assumptions",
+      "why": "Explains why a nominal gain can still lose purchasing opportunity measured in Bitcoin.",
+      "implementation": "coded",
+      "alt_text": "The same investment result is shown in fiat and Bitcoin terms.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack labelled controls and results; exact values remain available as text.",
+      "priority": "high",
+      "word_count": 265,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "spend-hold-invest",
+      "section": "productive-thesis",
+      "section_title": "Write what must happen in the real world",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Retain narrative and readable worked examples",
+      "why": "The investment thesis is a set of questions and evidence, not a predicted growth chart. Keep the narrative and written example readable.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "One-column prose with accessible example cards.",
+      "priority": "intentional omission",
+      "word_count": 219,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "spend-hold-invest",
+      "section": "time-and-delegation",
+      "section_title": "Your attention belongs in the calculation",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Retain narrative and readable worked examples",
+      "why": "The source gives concrete hours and an education example; exact HTML comparisons preserve the caveats better than a productivity illustration.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "One-column prose with accessible example cards.",
+      "priority": "intentional omission",
+      "word_count": 265,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "spend-hold-invest",
+      "section": "own-or-rent",
+      "section_title": "Separate paying for use from paying for ownership",
+      "placement": "Within the section after its explanation",
+      "decision": [
+        "calculator"
+      ],
+      "asset_ids": [
+        "tool-decision"
+      ],
+      "role": "Expose exact relationships and assumptions",
+      "why": "Compares total cash cost, final wealth, BTC consumed, break-evens and liquidity across assumptions.",
+      "implementation": "coded",
+      "alt_text": "Ownership and rental paths show their costs, remaining Bitcoin, terminal asset value and funding needs.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack labelled controls and results; exact values remain available as text.",
+      "priority": "high",
+      "word_count": 246,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "spend-hold-invest",
+      "section": "read-the-outputs",
+      "section_title": "Read final wealth and funding requirements together",
+      "placement": "Reuse the earlier interactive component in this module; do not render a duplicate instance.",
+      "decision": [
+        "calculator"
+      ],
+      "asset_ids": [
+        "tool-decision"
+      ],
+      "role": "Interpret or change an already introduced interaction",
+      "why": "The preceding calculator supplies the precise cash-cost, final-wealth and break-even outputs explained here.",
+      "implementation": "coded (reused)",
+      "alt_text": "Ownership and rental paths show their costs, remaining Bitcoin, terminal asset value and funding needs.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "One-column controls, touch-size targets, stacked output cards, chart summary and explicit table scrolling where needed.",
+      "priority": "high",
+      "word_count": 279,
+      "status": "mapped-to-existing-component"
+    },
+    {
+      "module": "spend-hold-invest",
+      "section": "path-dependence",
+      "section_title": "The route matters when money leaves along the way",
+      "placement": "Reuse the earlier interactive component in this module; do not render a duplicate instance.",
+      "decision": [
+        "calculator"
+      ],
+      "asset_ids": [
+        "tool-decision"
+      ],
+      "role": "Interpret or change an already introduced interaction",
+      "why": "Switch the preceding calculator between smooth and early-drawdown price paths with the same endpoints; compare exact satoshis consumed.",
+      "implementation": "coded (reused)",
+      "alt_text": "Ownership and rental paths show their costs, remaining Bitcoin, terminal asset value and funding needs.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "One-column controls, touch-size targets, stacked output cards, chart summary and explicit table scrolling where needed.",
+      "priority": "high",
+      "word_count": 175,
+      "status": "mapped-to-existing-component"
+    },
+    {
+      "module": "spend-hold-invest",
+      "section": "decision-note",
+      "section_title": "Write the decision before making the transaction",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Retain narrative and readable worked examples",
+      "why": "The actual policy tool later captures the written decision discipline; no approval badge should imply that the calculator decides for the household.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "One-column prose with accessible example cards.",
+      "priority": "intentional omission",
+      "word_count": 202,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "custody-continuity",
+      "section": "two-sides-of-security",
+      "section_title": "Protection and access belong in the same sentence",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Keep direct narrative, readable examples or real navigation controls",
+      "why": "The household continuity hero establishes the human purpose. The two security goals are stated directly rather than depicted with oversized locks.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Readable single-column prose, examples and controls.",
+      "priority": "intentional omission",
+      "word_count": 197,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "custody-continuity",
+      "section": "operational-layer",
+      "section_title": "An exchange can be a useful part of the operation",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Keep direct narrative, readable examples or real navigation controls",
+      "why": "The operating/conversion/savings diagram was already introduced in living; reuse that mental model and keep this section focused on counterparty distinctions.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Readable single-column prose, examples and controls.",
+      "priority": "intentional omission",
+      "word_count": 226,
+      "status": "reviewed-no-new-asset",
+      "related_asset_ids": [
+        "diagram-layers"
+      ]
+    },
+    {
+      "module": "custody-continuity",
+      "section": "separate-by-purpose",
+      "section_title": "Convenience should not set the size of the treasury",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Keep direct narrative, readable examples or real navigation controls",
+      "why": "Emily’s map example supplies a concrete HTML break. Do not imply exact monetary thresholds for custody architecture.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Readable single-column prose, examples and controls.",
+      "priority": "intentional omission",
+      "word_count": 234,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "custody-continuity",
+      "section": "map-and-authority",
+      "section_title": "Separate the map from the means of spending",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Keep direct narrative, readable examples or real navigation controls",
+      "why": "Roles and legal versus technical access are best stated explicitly; the continuity diagram next makes the contingency sequence visible.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Readable single-column prose, examples and controls.",
+      "priority": "intentional omission",
+      "word_count": 226,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "custody-continuity",
+      "section": "household-continuity",
+      "section_title": "One interested person is not yet a family system",
+      "placement": "Within the section after the concept explanation",
+      "decision": [
+        "precise HTML/SVG diagram"
+      ],
+      "asset_ids": [
+        "diagram-continuity"
+      ],
+      "role": "Expose exact relationships and responsibilities",
+      "why": "Turns vague inheritance intentions into responsibilities and verified access pathways.",
+      "implementation": "coded",
+      "alt_text": "An unavailable primary person is followed by named responsibilities, findable instructions and an appropriate custody handoff.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack labelled controls and outputs; retain relationships in accessible text.",
+      "priority": "high",
+      "word_count": 236,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "custody-continuity",
+      "section": "test-and-review",
+      "section_title": "A plan needs evidence that people can follow it",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Keep direct narrative, readable examples or real navigation controls",
+      "why": "The actionable review questions and Core handoff provide enough structure; a generated recovery screenshot would be misleading.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Readable single-column prose, examples and controls.",
+      "priority": "intentional omission",
+      "word_count": 236,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "custody-continuity",
+      "section": "continue-with-core",
+      "section_title": "Turn the responsibility into a practiced system",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Keep direct narrative, readable examples or real navigation controls",
+      "why": "The real accessible CTA into Core is the visual and navigational treatment. Do not add a second technical curriculum diagram.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Readable single-column prose, examples and controls.",
+      "priority": "intentional omission",
+      "word_count": 164,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "put-it-into-practice",
+      "section": "the-audit",
+      "section_title": "Find the first unfinished foundation",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Keep direct narrative, readable examples or real navigation controls",
+      "why": "Use the actual completion/audit controls and plain questions; another checklist illustration would duplicate usable controls.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Readable single-column prose, examples and controls.",
+      "priority": "intentional omission",
+      "word_count": 217,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "put-it-into-practice",
+      "section": "first-thirty-days",
+      "section_title": "Days 1–30: make reality visible",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Keep direct narrative, readable examples or real navigation controls",
+      "why": "Keep sequential actions readable and explicit; a small calendar pictogram is optional, with no fake progress or assumed debt clearance.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Readable single-column prose, examples and controls.",
+      "priority": "intentional omission",
+      "word_count": 184,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "put-it-into-practice",
+      "section": "sixty-and-ninety-days",
+      "section_title": "Days 31–90: turn the record into a routine",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Keep direct narrative, readable examples or real navigation controls",
+      "why": "The worked ninety-day example provides a natural reading break. Dates organize effort; they do not override the zero-debt prerequisite.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Readable single-column prose, examples and controls.",
+      "priority": "intentional omission",
+      "word_count": 229,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "put-it-into-practice",
+      "section": "personal-policy",
+      "section_title": "Write the rules you want available on a difficult day",
+      "placement": "Within the section after the concept explanation",
+      "decision": [
+        "micro-interaction"
+      ],
+      "asset_ids": [
+        "tool-policy"
+      ],
+      "role": "Expose exact relationships and responsibilities",
+      "why": "Turns the whole book into explicit responsibilities, thresholds and review rules.",
+      "implementation": "coded",
+      "alt_text": "A local policy form combines household decisions into readable text.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Stack labelled controls and outputs; retain relationships in accessible text.",
+      "priority": "high",
+      "word_count": 281,
+      "status": "mapped-to-content"
+    },
+    {
+      "module": "put-it-into-practice",
+      "section": "annual-review",
+      "section_title": "Keep the system current without living inside it",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Keep direct narrative, readable examples or real navigation controls",
+      "why": "The checklist-like prose carries the review order. An adjacent policy tool already gives the reader an artifact to revisit.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Readable single-column prose, examples and controls.",
+      "priority": "intentional omission",
+      "word_count": 200,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "put-it-into-practice",
+      "section": "two-futures",
+      "section_title": "Put two paths on paper",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Keep direct narrative, readable examples or real navigation controls",
+      "why": "Use prose to compare possible lives without plotting invented future wealth or implying a guaranteed outcome from good habits.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Readable single-column prose, examples and controls.",
+      "priority": "intentional omission",
+      "word_count": 196,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "put-it-into-practice",
+      "section": "ana-thirty-years",
+      "section_title": "Emily’s table",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Keep direct narrative, readable examples or real navigation controls",
+      "why": "The repaired table and preserved budgeting habit deserve a narrative breathing point. Moving the existing closing hero here is recommended below rather than duplicating it.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Readable single-column prose, examples and controls.",
+      "priority": "intentional omission",
+      "word_count": 299,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "put-it-into-practice",
+      "section": "family-and-business",
+      "section_title": "A home, a workshop and the ability to stop",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Keep direct narrative, readable examples or real navigation controls",
+      "why": "Literary household scenes develop the meaning of changed habits; avoid a speculative wealth chart or success trophy.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Readable single-column prose, examples and controls.",
+      "priority": "intentional omission",
+      "word_count": 338,
+      "status": "reviewed-no-new-asset"
+    },
+    {
+      "module": "put-it-into-practice",
+      "section": "a-wider-horizon",
+      "section_title": "What patient capital might make possible",
+      "placement": "Before the shift from household stories to community-scale hopes",
+      "decision": [
+        "pictogram"
+      ],
+      "asset_ids": [],
+      "role": "Mark a change of narrative scale",
+      "why": "A small reusable pictogram group can mark the move from household to community without pretending to visualize predicted societal outcomes.",
+      "implementation": "coded (reusable icon family)",
+      "alt_text": "Repairable things, useful work and family continuity.",
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Three labelled pictograms wrap as needed; labels remain visible and icons decorative.",
+      "priority": "medium",
+      "word_count": 351,
+      "status": "recommended-implementation"
+    },
+    {
+      "module": "put-it-into-practice",
+      "section": "the-first-hour",
+      "section_title": "Bring the horizon back to today",
+      "placement": "No additional standalone visual",
+      "decision": [
+        "no visual needed"
+      ],
+      "asset_ids": [],
+      "role": "Keep direct narrative, readable examples or real navigation controls",
+      "why": "Finish with direct action and the actual next-step controls. Another closing illustration would weaken the final practical instruction.",
+      "implementation": "native HTML text",
+      "alt_text": null,
+      "caption": null,
+      "aspect_ratio": null,
+      "mobile_behavior": "Readable single-column prose, examples and controls.",
+      "priority": "intentional omission",
+      "word_count": 185,
+      "status": "reviewed-no-new-asset"
+    }
+  ],
+  "audit_status": "Complete: all 76 final section IDs across 10 modules audited. Production briefs and implementation review notes are separate from browser QA.",
+  "coded_assets": [
+    {
+      "id": "diagram-accounts",
+      "module": "budget",
+      "component_id": "accounts",
+      "title": "Accounts and categories",
+      "asset_type": "precise HTML/SVG diagram",
+      "implementation": "coded",
+      "placement": "Adjacent to the first explanation of this relationship",
+      "role": "Make a relationship explicit",
+      "why": "Money locations and money purposes are two views of the same total.",
+      "alt_text": "Two views show the same money by location and by assigned purpose.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Reflow as a vertical sequence or labelled cards without clipping; retain all labels in DOM.",
+      "priority": "high",
+      "accuracy_notes": "Never add the two totals together; a transfer between accounts leaves categories unchanged.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "diagram-free-capital",
+      "module": "living",
+      "component_id": "free-capital",
+      "title": "From income to genuinely free capital",
+      "asset_type": "precise HTML/SVG diagram",
+      "implementation": "coded",
+      "placement": "Adjacent to the first explanation of this relationship",
+      "role": "Make a relationship explicit",
+      "why": "Makes tax, operating commitments, future expenses and reserves visible before discretionary use.",
+      "alt_text": "Received income is assigned to obligations and reserves before any amount is called free capital.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Reflow as a vertical sequence or labelled cards without clipping; retain all labels in DOM.",
+      "priority": "high",
+      "accuracy_notes": "Do not budget promised future income; do not begin systematic giving while debt remains.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "diagram-layers",
+      "module": "living",
+      "component_id": "layers",
+      "title": "Operating money, conversion and long-term savings",
+      "asset_type": "precise HTML/SVG diagram",
+      "implementation": "coded",
+      "placement": "Adjacent to the first explanation of this relationship",
+      "role": "Make a relationship explicit",
+      "why": "Separates payment convenience, counterparty exposure and bearer ownership.",
+      "alt_text": "A small fiat operating layer connects through a conversion provider to separately controlled long-term Bitcoin.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Reflow as a vertical sequence or labelled cards without clipping; retain all labels in DOM.",
+      "priority": "high",
+      "accuracy_notes": "Bidirectional flows; no product endorsement or claim that custody eliminates all risk.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "diagram-timeline",
+      "module": "long-term-trend",
+      "component_id": "timeline",
+      "title": "Known obligations across time",
+      "asset_type": "precise HTML/SVG diagram",
+      "implementation": "coded",
+      "placement": "Adjacent to the first explanation of this relationship",
+      "role": "Make a relationship explicit",
+      "why": "Shows the difference between monthly conversion and carefully prepaying an existing commitment.",
+      "alt_text": "Known monthly obligations remain the same whether funded gradually or prepaid under suitable terms.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Reflow as a vertical sequence or labelled cards without clipping; retain all labels in DOM.",
+      "priority": "high",
+      "accuracy_notes": "Payment timing changes liquidity and counterparty risk; never imply a universal prepay rule.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "diagram-thirds",
+      "module": "net-worth",
+      "component_id": "thirds",
+      "title": "Three functions of net worth",
+      "asset_type": "precise HTML/SVG diagram",
+      "implementation": "coded",
+      "placement": "Adjacent to the first explanation of this relationship",
+      "role": "Make a relationship explicit",
+      "why": "A labelled comparison reveals imbalance without treating every asset as spendable money.",
+      "alt_text": "Money has a target floor of one third; consumption and productive assets each have a target ceiling of one third.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Reflow as a vertical sequence or labelled cards without clipping; retain all labels in DOM.",
+      "priority": "high",
+      "accuracy_notes": "Use inequalities, not compulsory equal pie slices. Compute from the same disclosed balance-sheet denominator.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "diagram-decision",
+      "module": "spend-hold-invest",
+      "component_id": "decision",
+      "title": "A sequence before committing capital",
+      "asset_type": "precise HTML/SVG diagram",
+      "implementation": "coded",
+      "placement": "Adjacent to the first explanation of this relationship",
+      "role": "Make a relationship explicit",
+      "why": "Shows that budget, debt, liquidity and balance-sheet checks precede a model-led comparison.",
+      "alt_text": "A large decision passes through financial readiness, purpose, alternatives and a downside review.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Reflow as a vertical sequence or labelled cards without clipping; retain all labels in DOM.",
+      "priority": "high",
+      "accuracy_notes": "No branch should tell the reader to buy or rent solely from a model forecast.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "diagram-continuity",
+      "module": "custody-continuity",
+      "component_id": "continuity",
+      "title": "Who can continue the household plan?",
+      "asset_type": "precise HTML/SVG diagram",
+      "implementation": "coded",
+      "placement": "Adjacent to the first explanation of this relationship",
+      "role": "Make a relationship explicit",
+      "why": "Turns vague inheritance intentions into responsibilities and verified access pathways.",
+      "alt_text": "An unavailable primary person is followed by named responsibilities, findable instructions and an appropriate custody handoff.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "Reflow as a vertical sequence or labelled cards without clipping; retain all labels in DOM.",
+      "priority": "high",
+      "accuracy_notes": "Show practical access and legal authority as different responsibilities; never display recovery secrets.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "tool-budget",
+      "module": "budget",
+      "component_id": "budget",
+      "title": "Allocate and rebudget current money",
+      "asset_type": "micro-interaction",
+      "implementation": "coded",
+      "placement": "After plain-English explanation and worked example, before practical application",
+      "role": "Let the reader change an assumption and observe the consequence",
+      "why": "Shows the remaining unassigned amount and the opportunity cost of moving funds between categories.",
+      "alt_text": "Editable current-money allocations with a labelled unassigned balance.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "One-column controls, touch-size targets, stacked output cards, chart summary and explicit table scrolling where needed.",
+      "priority": "high",
+      "accuracy_notes": "Recalculate in browser; zero unassigned is successful allocation, not zero cash.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "tool-expenses",
+      "module": "budget",
+      "component_id": "expenses",
+      "title": "Provide for known future bills",
+      "asset_type": "calculator",
+      "implementation": "coded",
+      "placement": "After plain-English explanation and worked example, before practical application",
+      "role": "Let the reader change an assumption and observe the consequence",
+      "why": "Converts an irregular known bill into a monthly provision using amount still needed and months remaining.",
+      "alt_text": "An editable future bill is divided into monthly amounts to set aside.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "One-column controls, touch-size targets, stacked output cards, chart summary and explicit table scrolling where needed.",
+      "priority": "high",
+      "accuracy_notes": "State timing convention; handle already-funded, zero-month and overdue cases explicitly.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "tool-debt",
+      "module": "debt",
+      "component_id": "debt",
+      "title": "Make the debt claim visible",
+      "asset_type": "calculator",
+      "implementation": "coded",
+      "placement": "After plain-English explanation and worked example, before practical application",
+      "role": "Let the reader change an assumption and observe the consequence",
+      "why": "Shows payoff time and total interest without assuming an investment return beats the borrowing cost.",
+      "alt_text": "Debt payoff changes when balance, interest and available payment change.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "One-column controls, touch-size targets, stacked output cards, chart summary and explicit table scrolling where needed.",
+      "priority": "high",
+      "accuracy_notes": "Payments too small to reduce principal must not produce a plausible payoff date.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "tool-giving",
+      "module": "giving",
+      "component_id": "giving",
+      "title": "Set the money-layer giving category",
+      "asset_type": "calculator",
+      "implementation": "coded",
+      "placement": "After plain-English explanation and worked example, before practical application",
+      "role": "Let the reader change an assumption and observe the consequence",
+      "why": "Makes the zero-debt gate and the correct 10–20% money denominator unmistakable.",
+      "alt_text": "The giving range is calculated from current money after confirming zero debt.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "One-column controls, touch-size targets, stacked output cards, chart summary and explicit table scrolling where needed.",
+      "priority": "high",
+      "accuracy_notes": "Not a salary percentage or annual giving quota; preserve the source threshold distinction.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "tool-classification",
+      "module": "net-worth",
+      "component_id": "classification",
+      "title": "Classify by function",
+      "asset_type": "micro-interaction",
+      "implementation": "coded",
+      "placement": "After plain-English explanation and worked example, before practical application",
+      "role": "Let the reader change an assumption and observe the consequence",
+      "why": "Provides immediate explanations for money, consumed assets and genuinely productive assets.",
+      "alt_text": "Household examples are assigned to money, consumption or productive capital.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "One-column controls, touch-size targets, stacked output cards, chart summary and explicit table scrolling where needed.",
+      "priority": "high",
+      "accuracy_notes": "Allow context to alter a classification; a personal home and a rental property have different functions.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "tool-thirds",
+      "module": "net-worth",
+      "component_id": "thirds",
+      "title": "Inspect the balance-sheet compass",
+      "asset_type": "calculator",
+      "implementation": "coded",
+      "placement": "After plain-English explanation and worked example, before practical application",
+      "role": "Let the reader change an assumption and observe the consequence",
+      "why": "Turns three broad functional categories into exact proportions and reference ranges.",
+      "alt_text": "Editable category values produce the money share and consumption and productive asset shares.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "One-column controls, touch-size targets, stacked output cards, chart summary and explicit table scrolling where needed.",
+      "priority": "high",
+      "accuracy_notes": "Do not force equality; disclose debt treatment and handle zero or negative net worth.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "tool-trend",
+      "module": "long-term-trend",
+      "component_id": "trend",
+      "title": "Explore price, trend and H-time",
+      "asset_type": "chart",
+      "implementation": "coded",
+      "placement": "After plain-English explanation and worked example, before practical application",
+      "role": "Let the reader change an assumption and observe the consequence",
+      "why": "Separates observed price, model values and illustrative forward scenarios with synchronized assumptions.",
+      "alt_text": "Market price and model trend can be compared over time, with selected values available as text.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "One-column controls, touch-size targets, stacked output cards, chart summary and explicit table scrolling where needed.",
+      "priority": "high",
+      "accuracy_notes": "One model source of truth; freshness and assumptions labelled; table alternative and non-colour line distinctions.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "tool-investment",
+      "module": "spend-hold-invest",
+      "component_id": "investment",
+      "title": "Compare a return in two units",
+      "asset_type": "calculator",
+      "implementation": "coded",
+      "placement": "After plain-English explanation and worked example, before practical application",
+      "role": "Let the reader change an assumption and observe the consequence",
+      "why": "Explains why a nominal gain can still lose purchasing opportunity measured in Bitcoin.",
+      "alt_text": "The same investment result is shown in fiat and Bitcoin terms.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "One-column controls, touch-size targets, stacked output cards, chart summary and explicit table scrolling where needed.",
+      "priority": "high",
+      "accuracy_notes": "Include costs and initial and final BTC price assumptions; no expected-return claim.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "tool-decision",
+      "module": "spend-hold-invest",
+      "component_id": "decision",
+      "title": "Own or Rent?",
+      "asset_type": "calculator",
+      "implementation": "coded",
+      "placement": "After plain-English explanation and worked example, before practical application",
+      "role": "Let the reader change an assumption and observe the consequence",
+      "why": "Compares total cash cost, final wealth, BTC consumed, break-evens and liquidity across assumptions.",
+      "alt_text": "Ownership and rental paths show their costs, remaining Bitcoin, terminal asset value and funding needs.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "One-column controls, touch-size targets, stacked output cards, chart summary and explicit table scrolling where needed.",
+      "priority": "high",
+      "accuracy_notes": "Preserve car mathematics; demonstrate identical-endpoint path dependence and mark insufficient funds.",
+      "status": "selected-for-implementation"
+    },
+    {
+      "id": "tool-policy",
+      "module": "put-it-into-practice",
+      "component_id": "policy",
+      "title": "Write a usable household Bitcoin policy",
+      "asset_type": "micro-interaction",
+      "implementation": "coded",
+      "placement": "After plain-English explanation and worked example, before practical application",
+      "role": "Let the reader change an assumption and observe the consequence",
+      "why": "Turns the whole book into explicit responsibilities, thresholds and review rules.",
+      "alt_text": "A local policy form combines household decisions into readable text.",
+      "caption": null,
+      "aspect_ratio": "responsive",
+      "mobile_behavior": "One-column controls, touch-size targets, stacked output cards, chart summary and explicit table scrolling where needed.",
+      "priority": "high",
+      "accuracy_notes": "No secrets; financial inputs stay local and are not saved automatically; progress is separate from policy values.",
+      "status": "selected-for-implementation"
+    }
+  ],
+  "pictogram_system": {
+    "implementation": "small reusable coded SVG/HTML icon family",
+    "style": "Thin ink stroke, warm paper and one restrained accent; consistent optical size and rounded joins.",
+    "concepts": [
+      "money",
+      "fiat-operating-balance",
+      "bitcoin",
+      "budget",
+      "debt",
+      "known-expense",
+      "giving",
+      "home",
+      "car",
+      "productive-business",
+      "tools",
+      "investment",
+      "calendar",
+      "family",
+      "custody",
+      "exchange",
+      "self-custody",
+      "trend",
+      "volatility",
+      "review"
+    ],
+    "accessibility": "Decorative icons have aria-hidden; adjacent visible text supplies their meaning. An icon used alone must have an accessible label.",
+    "placement": "Roadmap, repeated teaching labels, examples, summaries and practical checks",
+    "priority": "medium"
+  },
+  "coverage_checklist": [
+    {
+      "concept": "Bitcoin as money versus a productive investment",
+      "module": "start",
+      "treatment": "hero plus HTML worked example; investment calculator revisits denomination"
+    },
+    {
+      "concept": "Account balance versus assigned jobs",
+      "module": "budget",
+      "treatment": "diagram-accounts"
+    },
+    {
+      "concept": "Zero-based allocation and rebudgeting",
+      "module": "budget",
+      "treatment": "tool-budget; moving money must expose the category sacrificed"
+    },
+    {
+      "concept": "Current money versus future income",
+      "module": "budget",
+      "treatment": "budget-hero and tool-budget input scope"
+    },
+    {
+      "concept": "Known expenses versus emergencies",
+      "module": "budget",
+      "treatment": "tool-expenses"
+    },
+    {
+      "concept": "Debt as future income already spent",
+      "module": "debt",
+      "treatment": "debt-hero and tool-debt"
+    },
+    {
+      "concept": "Selling assets to restore cash flow",
+      "module": "debt",
+      "treatment": "HTML worked example with proceeds, settlement, costs and residual liquidity"
+    },
+    {
+      "concept": "Giving as an outward money flow",
+      "module": "giving",
+      "treatment": "giving-hero and tool-giving"
+    },
+    {
+      "concept": "Fiat operating money versus long-term money",
+      "module": "living",
+      "treatment": "living-hero and diagram-layers"
+    },
+    {
+      "concept": "Free capital",
+      "module": "living",
+      "treatment": "diagram-free-capital"
+    },
+    {
+      "concept": "Conversion rhythm",
+      "module": "living",
+      "treatment": "diagram-layers plus explicit scheduling example"
+    },
+    {
+      "concept": "Spending Bitcoin without guilt",
+      "module": "living",
+      "treatment": "living-hero and readable example; no shame or automatic approval visual"
+    },
+    {
+      "concept": "Quality versus disposable consumption",
+      "module": "living",
+      "treatment": "ordinary useful household objects in illustration; prose handles value judgment"
+    },
+    {
+      "concept": "Net worth as a map",
+      "module": "net-worth",
+      "treatment": "net-worth-hero"
+    },
+    {
+      "concept": "Money, consumption and productive assets",
+      "module": "net-worth",
+      "treatment": "tool-classification"
+    },
+    {
+      "concept": "Illiquid wealth versus optionality",
+      "module": "net-worth",
+      "treatment": "contrasting HTML household example and tool-thirds"
+    },
+    {
+      "concept": "Rule of thirds",
+      "module": "net-worth",
+      "treatment": "diagram-thirds and tool-thirds"
+    },
+    {
+      "concept": "Price versus trend and waves around a model",
+      "module": "long-term-trend",
+      "treatment": "tool-trend"
+    },
+    {
+      "concept": "Above, near and below trend",
+      "module": "long-term-trend",
+      "treatment": "coded chart values plus labelled contextual states, never trading signals"
+    },
+    {
+      "concept": "Block time versus human calendar",
+      "module": "long-term-trend",
+      "treatment": "coded model outputs with plain-language H-time explanation"
+    },
+    {
+      "concept": "Funding known obligations during stronger purchasing power",
+      "module": "long-term-trend",
+      "treatment": "diagram-timeline and HTML prepayment example"
+    },
+    {
+      "concept": "Buy now versus pay over time",
+      "module": "spend-hold-invest",
+      "treatment": "tool-decision"
+    },
+    {
+      "concept": "Path dependence of monthly BTC sales",
+      "module": "spend-hold-invest",
+      "treatment": "tool-decision smooth versus early-drawdown paths with equal endpoints"
+    },
+    {
+      "concept": "Return in fiat versus return in Bitcoin",
+      "module": "spend-hold-invest",
+      "treatment": "tool-investment"
+    },
+    {
+      "concept": "Exchange/custodian versus self-custody",
+      "module": "custody-continuity",
+      "treatment": "diagram-layers reused with counterparty labels"
+    },
+    {
+      "concept": "Household continuity when the primary person is unavailable",
+      "module": "custody-continuity",
+      "treatment": "custody-continuity-hero and diagram-continuity"
+    },
+    {
+      "concept": "The final Bitcoin policy",
+      "module": "put-it-into-practice",
+      "treatment": "tool-policy and implementation rhythm"
+    }
+  ],
+  "review_notes": [
+    {
+      "module": "start",
+      "section": "how-the-rules-work",
+      "recommendation": "Optional exact UTXO mini-diagram if the long technical section remains. Show 0.05 BTC input as 0.02 BTC payment + 0.02999 BTC change + 0.00001 BTC fee, explicitly illustrative. Do not generate this arithmetic as raster art.",
+      "priority": "medium",
+      "status": "sent-to-implementer"
+    },
+    {
+      "module": "giving",
+      "section": "planned-and-open",
+      "recommendation": "Add an HTML worked example or two compact cards for Planned giving and Open giving. This divides approximately 1,200 words after the calculator without another raster image.",
+      "priority": "high",
+      "status": "sent-to-author-and-implementer"
+    },
+    {
+      "module": "long-term-trend",
+      "section": "block-time",
+      "recommendation": "Add exact HTML cards for 840,000 blocks → H=4 and 945,000 blocks → H=4.5. This separates network progress from calendar years.",
+      "priority": "medium",
+      "status": "sent-to-implementer"
+    },
+    {
+      "module": "long-term-trend",
+      "section": "power-law-in-plain-english",
+      "recommendation": "Add a compact HTML worked table for explicitly illustrative P=100H²: H 2/3/4 yields P 400/900/1600. The table exposes rising absolute additions and falling percentage growth without invented market data.",
+      "priority": "medium",
+      "status": "sent-to-implementer"
+    },
+    {
+      "module": "put-it-into-practice",
+      "section": "ana-thirty-years",
+      "recommendation": "Move the existing put-it-into-practice hero from module opening to before this literary scene, rather than duplicate it; later use a compact repair/work/family pictogram row at a-wider-horizon. This breaks roughly 1,570 words following the policy tool.",
+      "priority": "high",
+      "status": "sent-to-implementer"
+    }
+  ],
+  "validation": {
+    "authored_module_count": 10,
+    "authored_section_count": 76,
+    "mapped_section_count": 76,
+    "all_section_ids_match": true,
+    "all_asset_references_resolve": true,
+    "hero_count": 10,
+    "coded_asset_count": 17,
+    "teaching_moment_count": 27
+  },
+  "asset_integrity_issues": [
+    "giving: cannot identify image file 'btcpavao/btcpavao-github-io/public/bitcoin-as-money/giving.webp'"
+  ]
+}

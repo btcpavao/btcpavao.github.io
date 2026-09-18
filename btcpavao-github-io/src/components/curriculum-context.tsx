@@ -2,22 +2,13 @@ import { useState } from "react"
 import { CurriculumQuestionForm } from "@/components/curriculum-question-form"
 import type { QuestionContext } from "@/curriculum-questions"
 
-const standard = "https://btcpavao.gitbook.io/practical-bitcoin-standard"
+const standard = "/en/bitcoin-standard"
 const financialTopics = [
-  ["Zero-based budget", "/money-management-wisdom/plan-your-money"],
-  ["Becoming debt-free", "/money-management-wisdom/live-debt-free"],
-  [
-    "Systematic giving",
-    "/money-management-wisdom/set-aside-and-keep-10-20-of-your-budget-for-giving",
-  ],
-  [
-    "A balanced personal balance sheet",
-    "/bitcoin-in-your-total-net-worth/keep-your-net-worth-composition-in-balance",
-  ],
-  [
-    "Long-term expectations and volatility",
-    "/bitcoin-in-your-total-net-worth/managing-future-bitcoin-price-expectations-and-handling-volatility",
-  ],
+  ["Zero-based budget", "/budget/"],
+  ["Becoming debt-free", "/debt/"],
+  ["Systematic giving", "/giving/"],
+  ["A balanced personal balance sheet", "/net-worth/"],
+  ["Long-term expectations and volatility", "/long-term-trend/"],
 ]
 
 export function CurriculumGateway() {
@@ -68,8 +59,8 @@ export function CurriculumGateway() {
           </ul>
         </nav>
         <p>
-          The linked Practical Bitcoin Standard is my open guide. Its long-term
-          price models are frameworks for thinking, not guarantees about future
+          Bitcoin as Money is my open interactive book. Its long-term price
+          models are frameworks for thinking, not guarantees about future
           purchasing power.
         </p>
       </details>

@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - 'btcpavao-github-io/src/**'
+      - 'btcpavao-github-io/content/**'
+      - 'btcpavao-github-io/tests/**'
+      - 'btcpavao-github-io/public/bitcoin-as-money/**'
       - 'btcpavao-github-io/scripts/**'
       - 'btcpavao-github-io/worker/**'
       - 'btcpavao-github-io/wrangler*.jsonc'
@@ -34,6 +37,7 @@ jobs:
           cache-dependency-path: btcpavao-github-io/package-lock.json
       - run: npm ci
       - run: npm run lint
+      - run: npm run test:book
       - run: npm run verify:curriculum
       - run: npm run verify:search
       - run: npm run verify:questions

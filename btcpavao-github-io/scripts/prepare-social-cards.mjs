@@ -9,6 +9,7 @@ const cacheDirectory = new URL("../.cache/", import.meta.url)
 const manifestUrl = new URL("social-card-manifest.json", cacheDirectory)
 
 const sources = {
+  bitcoinAsMoney: "bitcoin-as-money/start.webp",
   homepage: "btcpavao-home-share-v3.jpg",
   default: "og-image-v2.jpg",
   bitcoinCore: "bitcoin-core-entropija-cover-v2-share.jpg",

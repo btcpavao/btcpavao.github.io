@@ -2,6 +2,7 @@ import { StrictMode } from "react"
 import { renderToString } from "react-dom/server"
 
 import App from "./App.tsx"
+import { BitcoinAsMoney } from "./book/book"
 import { CurriculumRedirect } from "./components/curriculum-redirect.tsx"
 import { BitcoinCoreCurriculumEnPage } from "./bitcoin-core-curriculum-en.tsx"
 import { BitcoinCoreStartPage } from "./bitcoin-core-start.tsx"
@@ -32,41 +33,42 @@ import {
 
 export function renderPage(pathname: string) {
   const initialPath = normalizePath(pathname)
-  const page =
-    initialPath === "/" ? (
-      <Homepage />
-    ) : initialPath === BITCOIN_CORE_CURRICULUM_PATH ? (
-      <CurriculumRedirect />
-    ) : initialPath === EN_BITCOIN_CORE_CURRICULUM_PATH ? (
-      <BitcoinCoreCurriculumEnPage />
-    ) : initialPath === START_HERE_PATH ? (
-      <BitcoinCoreStartPage />
-    ) : initialPath === BITCOIN_CORE_WALLET_GUIDE_PATH ? (
-      <BitcoinCoreWalletGuidePage />
-    ) : initialPath === SUPPORT_THANK_YOU_PATH ? (
-      <SupportThankYouPage />
-    ) : initialPath === SUPPORT_PATH ? (
-      <SupportPage />
-    ) : initialPath === NOT_FOUND_PATH ? (
-      <NotFoundPage />
-    ) : (
-      <App
-        initialPath={initialPath}
-        initialBitcoinCoreArticleSource={
-          needsBitcoinCoreArticleSource(initialPath)
-            ? initialPath === EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH
-              ? bitcoinCoreArticleEnglishSource
-              : bitcoinCoreArticleSource
-            : ""
-        }
-        initialLongRoadArticleSource={
-          needsLongRoadArticleSource(initialPath) ? longRoadArticleSource : ""
-        }
-        initialBip39ArticleSource={
-          needsBip39ArticleSource(initialPath) ? bip39ArticleSource : ""
-        }
-      />
-    )
+  const page = initialPath.startsWith("/en/bitcoin-standard/") ? (
+    <BitcoinAsMoney path={initialPath} />
+  ) : initialPath === "/" ? (
+    <Homepage />
+  ) : initialPath === BITCOIN_CORE_CURRICULUM_PATH ? (
+    <CurriculumRedirect />
+  ) : initialPath === EN_BITCOIN_CORE_CURRICULUM_PATH ? (
+    <BitcoinCoreCurriculumEnPage />
+  ) : initialPath === START_HERE_PATH ? (
+    <BitcoinCoreStartPage />
+  ) : initialPath === BITCOIN_CORE_WALLET_GUIDE_PATH ? (
+    <BitcoinCoreWalletGuidePage />
+  ) : initialPath === SUPPORT_THANK_YOU_PATH ? (
+    <SupportThankYouPage />
+  ) : initialPath === SUPPORT_PATH ? (
+    <SupportPage />
+  ) : initialPath === NOT_FOUND_PATH ? (
+    <NotFoundPage />
+  ) : (
+    <App
+      initialPath={initialPath}
+      initialBitcoinCoreArticleSource={
+        needsBitcoinCoreArticleSource(initialPath)
+          ? initialPath === EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH
+            ? bitcoinCoreArticleEnglishSource
+            : bitcoinCoreArticleSource
+          : ""
+      }
+      initialLongRoadArticleSource={
+        needsLongRoadArticleSource(initialPath) ? longRoadArticleSource : ""
+      }
+      initialBip39ArticleSource={
+        needsBip39ArticleSource(initialPath) ? bip39ArticleSource : ""
+      }
+    />
+  )
 
   return renderToString(
     <StrictMode>

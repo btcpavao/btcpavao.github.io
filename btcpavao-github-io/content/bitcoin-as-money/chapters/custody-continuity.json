@@ -1,0 +1,108 @@
+{
+  "slug": "custody-continuity",
+  "title": "Make the money usable beyond one person",
+  "part": "VIII · Custody and continuity",
+  "deck": "Operational services, long-term custody and family instructions have different jobs. A sound plan protects the money and gives the right people a path to it.",
+  "question": "If the person who understands Bitcoin is unavailable tomorrow, what happens next?",
+  "minutes": 8,
+  "video": null,
+  "sections": [
+    {
+      "id": "two-sides-of-security",
+      "title": "Protection and access belong in the same sentence",
+      "paragraphs": [
+        "Bitcoin gives an individual the possibility of holding money directly. That is a major part of the monetary thesis. It also changes responsibility: there is no central administrator obliged or able to reconstruct a lost private key or reverse an authorized transaction sent to the wrong recipient.",
+        "A financial plan therefore needs more than a balance. It needs to explain where funds are, what they are for, who can use them, how access survives disruption and which risks are accepted. That work begins before the amount becomes large enough to feel intimidating.",
+        "Security has two sides. Wrong people should not be able to spend the money. Right people should have a workable route to it when they are entitled to act. A setup that prevents theft but leaves a family unable to recover its funds is incomplete. A setup that anyone can operate immediately may expose too much to mistake or coercion.",
+        "This chapter establishes the financial and human responsibilities. Wallet construction, offline signing, backups, recovery and advanced spending policies belong in the Bitcoin Core curriculum. Keeping that boundary clear lets this book answer what the system must accomplish before another path teaches how to implement it."
+      ],
+      "principle": "The right people need a tested path, not an invitation to improvise under stress."
+    },
+    {
+      "id": "operational-layer",
+      "title": "An exchange can be a useful part of the operation",
+      "paragraphs": [
+        "Most households still need a bank account for fiat income and payments. They may need an exchange, broker or custodian for conversion. A small working balance can remain there briefly while the next operational step is completed. These services are real tools with real purposes.",
+        "They also introduce counterparties. A platform’s balance is a claim on its ability and willingness to deliver. Access may depend on credentials, verification, banking partners, internal controls, legal conditions and the business remaining solvent. A withdrawal may take longer than expected even without a permanent loss.",
+        "That differs from directly controlled Bitcoin on the base network. The platform may use Bitcoin, but your relationship to it is mediated by an institution. A familiar interface, a well-known name or a balance labeled BTC does not erase that distinction.",
+        "Specify the role rather than arguing from purity. Which service converts income? What is the normal maximum working amount? How long should money remain there? Who verifies a changed destination or unexpected request? What happens if conversion or withdrawal is temporarily unavailable?",
+        "A beginner may use temporary custody while learning. A deliberate transition with clear limits is more useful than either indefinite complacency or a rushed transfer into an untested self-custody arrangement. The aim for meaningful long-term savings is a clear, practiced path to direct custody, with operational services kept in their defined role."
+      ]
+    },
+    {
+      "id": "separate-by-purpose",
+      "title": "Convenience should not set the size of the treasury",
+      "paragraphs": [
+        "A small daily layer serves ordinary payments, experiments and learning. It is convenient by design. Its amount should reflect the consequences of losing access or making a mistake there. The fact that adding more is easy is not a reason to let it grow without review.",
+        "A planned-use layer serves known transfers or larger near-term needs. It needs an accessible process, suitable records and a relationship to the budget. It should not be confused with a long-term reserve simply because both are denominated in Bitcoin.",
+        "The long-term treasury has another job. It should resist casual use and survive changes in devices, people and circumstances. Its process can include deliberate friction: preparation, verification and documented authority appropriate to the household. More complexity is justified only when it addresses a real risk and can be maintained.",
+        "These are purposes, not mandatory product categories. They do not require a collection of different brands or a specific number of wallets. A simpler tested setup may be more reliable than an elaborate arrangement no one fully understands. Nor does a dollar amount alone decide whether a particular cryptographic policy is appropriate.",
+        "The budget, asset map and custody map must agree. Money assigned to a near-term obligation cannot be called available if its access process takes longer than the obligation allows. Money designated for long-term saving should not continually pass through a convenience layer because no routine has been established."
+      ],
+      "example": {
+        "title": "Emily makes a map before making changes",
+        "paragraphs": [
+          "Emily lists her conversion service, the small amount used for learning and the money intended for longer-term holding. She records each purpose and the last time access was checked. She does not include private keys or passwords in this overview.",
+          "The map shows that the convenient layer holds more than its stated purpose needs. She plans a deliberate move after completing the relevant practice. Her first improvement is clarity about responsibility, not buying a device because someone else owns one."
+        ]
+      }
+    },
+    {
+      "id": "map-and-authority",
+      "title": "Separate the map from the means of spending",
+      "paragraphs": [
+        "Create a non-secret overview of the system. It can identify the types of accounts and wallets, their purposes, relevant institutions, responsible people and where approved instructions can be found. It should not become a single document containing everything an attacker would need to spend.",
+        "Legal entitlement, operational authority and technical ability are different. A spouse may be legally entitled to inherit but lack the practical knowledge to act. An employee may be technically able to sign a transaction but not authorized to move company money. A professional may advise without holding any spending power. Document those roles accurately.",
+        "Keep personal and business systems separate. Company money needs the company’s records, approvals and continuity arrangements. A business treasury should not depend on the owner remembering a private household procedure or being available to explain it from a hospital bed.",
+        "Be especially careful when a helper’s role expands. Helping locate instructions is not the same as receiving every secret. Providing technical assistance is not the same as becoming the beneficiary. A good design can make help possible without casually handing over the entire asset.",
+        "The technical details of backups, encryption, signing arrangements and recovery belong in the Core lessons. The principle here is that each sensitive element has a known purpose and a documented place in the process, rather than being scattered among old devices and half-remembered experiments."
+      ]
+    },
+    {
+      "id": "household-continuity",
+      "title": "One interested person is not yet a family system",
+      "paragraphs": [
+        "Michael has spent years learning about Bitcoin. Sarah trusts his care but does not follow every technical topic. “He handles that” sounds harmless until he is absent and a payment must be made. Their improvement begins when he explains the plan in language she can use.",
+        "She does not need to become a protocol expert. She needs to know that the plan exists, which person or document supplies the first safe step, what she is authorized to do and what she must never disclose. She should understand enough to recognize a false support message or a demand for an urgent transfer.",
+        "Instructions should cover incapacity as well as death. Someone may be alive but unable to communicate for a period. The household needs access to ordinary living money without immediately disturbing its deepest reserve. That is another reason the operating layer and long-term treasury have distinct roles.",
+        "When death occurs, legal processes and technical control must be coordinated. A will does not itself sign a Bitcoin transaction. A recoverable wallet does not itself settle inheritance rights. Appropriate estate advice and technical planning need to meet without exposing secrets unnecessarily in documents that may later be shared or become public.",
+        "Children can learn privacy and responsibility without being given adult amounts or access. As adults, heirs need a clear path and appropriate preparation. Passing assets on is not the same as passing competence on; both deserve attention."
+      ],
+      "diagram": "continuity"
+    },
+    {
+      "id": "test-and-review",
+      "title": "A plan needs evidence that people can follow it",
+      "paragraphs": [
+        "A plan can seem complete because nothing has gone wrong. That is weak evidence. A useful review asks what would happen after a lost device, an unavailable provider, illness, a failed transaction or the absence of the person who usually manages the system.",
+        "Practice safely through the technical curriculum before relying on a new arrangement for meaningful savings. Test the relevant recovery process with suitable test funds or test networks and a clearly understood procedure. Do not improvise destructive experiments on the only working copy of a live wallet.",
+        "The family review has a simpler starting point. Can the intended person find the non-secret instructions? Are the contacts current? Can they explain the first step and the actions that are prohibited? Do they know that an unsolicited helper asking for wallet secrets is not following the plan?",
+        "Schedule at least an annual review and revisit after major changes: marriage, separation, a death, a move, business ownership changes or a significant shift in the amount held. A review does not mean constantly rebuilding the system. Often the correct result is to confirm that it still fits and update a contact or document.",
+        "David and Rachel’s mature system assigns business responsibilities explicitly and keeps the household treasury separate. They review records with the appropriate professionals and test what depends on a particular person. Their measure of improvement is fewer unresolved dependencies, not a more impressive list of devices."
+      ]
+    },
+    {
+      "id": "continue-with-core",
+      "title": "Turn the responsibility into a practiced system",
+      "paragraphs": [
+        "The next technical work is to learn how to verify software, create and protect a wallet, handle backups, recover access and spend through a process you understand. The Bitcoin Core self-custody curriculum provides that separate practical path.",
+        "Use your financial plan to define the technical requirements. What amount belongs to long-term money? What access delay is acceptable? Which real-world failures matter? Who must be able to act, and under what conditions? Those answers make the curriculum’s choices concrete.",
+        "Move deliberately. Keep the existing situation understandable while learning, and increase responsibility only after the relevant process has been practiced. An unfinished transition should have a next action and a limit, not become a permanent vague promise to sort custody out later.",
+        "The goal is money that can remain quiet without becoming inaccessible. It can wait through ordinary years, fund an intended purpose and reach the right people when life changes. That is what makes custody part of personal finance rather than a separate technical hobby."
+      ]
+    }
+  ],
+  "checks": [
+    "I can distinguish a custodial claim from Bitcoin controlled directly through my own spending system.",
+    "I have identified the purposes and limits of conversion, daily-use and long-term layers.",
+    "I have a non-secret overview that does not combine all means of access in one document.",
+    "The appropriate person knows where the plan begins if I am unavailable.",
+    "I understand that legal authority and technical access need separate, coordinated planning.",
+    "I have scheduled a review and identified the relevant Bitcoin Core lessons for practical implementation."
+  ],
+  "summary": [
+    "Operational custodians can be useful rails, but they retain counterparty and access risks.",
+    "Separate purposes, responsibilities and access requirements; complexity must earn its place.",
+    "Family continuity and tested recovery turn a personal interest into a durable money system."
+  ]
+}

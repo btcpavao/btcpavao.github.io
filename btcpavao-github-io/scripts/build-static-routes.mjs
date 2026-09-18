@@ -41,6 +41,7 @@ function replaceMeta(html, selector, replacement) {
 }
 
 function cardFor(entry) {
+  if (entry.section === "bitcoin-standard") return socialCards.bitcoinAsMoney
   return socialCards[entry.socialCardKey] ?? socialCards.default
 }
 

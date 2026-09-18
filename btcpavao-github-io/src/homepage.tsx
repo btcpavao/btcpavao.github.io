@@ -27,7 +27,7 @@ import {
 import { BOOKING_URL } from "@/site-config"
 
 const PRACTICAL_BITCOIN_STANDARD_URL =
-  "https://btcpavao.gitbook.io/practical-bitcoin-standard/"
+  "/en/bitcoin-standard/"
 
 const pathTopics = [
   {
@@ -42,8 +42,8 @@ const pathTopics = [
       "Practical Bitcoin processes for small companies",
       "A gradual path toward self-custody",
     ],
-    cta: "Book a Bitcoin Standard conversation",
-    href: BOOKING_URL,
+    cta: "Read Bitcoin as Money",
+    href: "/en/bitcoin-standard/",
     icon: RefreshCcw,
   },
   {
@@ -422,6 +422,7 @@ export function Homepage() {
                         <ArrowRight className="size-4" aria-hidden="true" />
                       </a>
                     </Button>
+                    {index === 0 && <a href={BOOKING_URL} className="mt-4 text-sm underline underline-offset-4">Book a Value for Value conversation</a>}
                   </CardContent>
                 </Card>
               )

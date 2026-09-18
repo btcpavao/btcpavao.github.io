@@ -1,0 +1,110 @@
+{
+  "slug": "net-worth",
+  "title": "Know what your wealth is doing",
+  "part": "V · Build a strong balance sheet",
+  "deck": "Money, consumption assets and productive assets can have identical price tags and very different consequences. The balance sheet makes those differences visible.",
+  "question": "Does what you own give you choices, or does it quietly demand more money and attention?",
+  "minutes": 9,
+  "video": null,
+  "sections": [
+    {
+      "id": "a-map-not-a-score",
+      "title": "Look beyond the monthly flow",
+      "paragraphs": [
+        "A budget describes the jobs of current money. A balance sheet describes the whole financial position at a point in time. Both are necessary. A household can balance each month while owning almost nothing it can readily use in a crisis. Another can have substantial money while allowing a growing collection of commitments to consume it.",
+        "Net worth is assets minus liabilities. List what you own at reasonable current values, list what you owe and subtract. The resulting map shows the financial resources available for your next decisions.",
+        "If a home is worth $180,000 and the mortgage settlement balance is $110,000, the home contributes $70,000 of equity before selling costs. If a car is worth $18,000 and the related financing is $12,000, the net contribution is $6,000 before costs. Counting the whole asset while mentally putting the debt elsewhere produces a misleading picture.",
+        "You can draw this map while debt remains; it is especially useful for planning debt elimination. The rule of thirds that follows is easiest to interpret on the debt-free balance sheet the framework targets. If net worth is zero or negative, percentage allocations do not provide a useful compass. Work with actual balances, essential liquidity and the debt plan first."
+      ],
+      "principle": "Net worth tells you how much remains. Classification tells you what that remainder can do."
+    },
+    {
+      "id": "honest-values",
+      "title": "Use values someone might actually pay",
+      "paragraphs": [
+        "List bank money, cash, Bitcoin, other financial assets, property, vehicles, meaningful equipment, business interests and realistically collectible receivables. Avoid inflating the map with every household object at its original purchase price. The used value of many ordinary possessions is small.",
+        "Value the whole balance sheet in dollars on a consistent date. Use a USD-per-BTC quote for Bitcoin and convert any foreign-currency assets at that date’s exchange rate. Keep liabilities at their relevant settlement amounts. Add notes for assets whose values are uncertain, restricted or costly to realize.",
+        "A business valuation deserves particular restraint. David once valued his company by imagining an ideal buyer paying for its future potential. Rachel asked what remained if he stopped answering every customer call. A profitable job with some equipment is not automatically a readily saleable enterprise. Dependence on the owner, one customer or a fragile supplier changes what a buyer can reasonably acquire.",
+        "Human skills and relationships are immensely valuable, but you cannot simply sell your future earning capacity like a used vehicle. Keep investment in skills visible in the narrative of your plan without inventing a liquid asset value that makes the ratios look comfortable. Similarly, do not count company assets individually and then count the full value of the same company again.",
+        "An honest estimate may look less impressive than a hopeful one. That is useful. The purpose is to plan with resources that can actually support the household, not to manufacture a number large enough to justify the next purchase."
+      ]
+    },
+    {
+      "id": "three-functions",
+      "title": "Give each asset its real name",
+      "paragraphs": [
+        "Money preserves the ability to choose a later exchange. You hold it neither to live inside it nor to use it as a machine. In this framework Bitcoin is the main long-term form of money; fiat has a defined operating role. Both belong to the monetary view, although their risks and short-term usefulness differ.",
+        "Consumption assets serve life directly. The home you live in, a family car, furniture and personal equipment belong here. Consumption is not a criticism. A warm home and reliable transport can be excellent uses of resources. Classifying them honestly prevents those resources from simultaneously pretending to be a liquid reserve.",
+        "Productive assets are committed to creating goods, services or income. A business, a working machine, a leased-out property or a stake in a productive enterprise belongs here. Such assets can earn returns, but they bring operating, market, liquidity and management risks. Calling something productive does not prove that it produces enough.",
+        "Some assets serve mixed purposes. A building partly occupied by the family and partly rented to a tenant has both functions. A vehicle can support both business and private use. Divide the value on a reasonable, documented basis instead of choosing whichever classification makes the balance sheet look best.",
+        "Intent matters, but actual use is the stronger test. A vacation apartment used by the family for most of the year does not become entirely productive because it earns a little rent. A costly tool bought for an imagined business should not receive the same treatment as a tool regularly serving paying customers."
+      ],
+      "tool": "classification"
+    },
+    {
+      "id": "home-is-not-money",
+      "title": "A home can be valuable without being your savings account",
+      "paragraphs": [
+        "A home carries family history and a sense of stability. Owning something tangible can feel more trustworthy than a financial institution’s statement. That attachment is real. So are the practical limits: a home is difficult to divide, expensive to sell and unavailable for an unexpected payment until its equity is released.",
+        "A building ages and requires maintenance. Land and location can gain value as an area changes; the building’s dollar price may also rise because the unit used to price it loses purchasing power. A larger nominal price therefore does not by itself reveal a larger real return. Include maintenance, improvements, costs and the comparison period before reaching a conclusion.",
+        "A property can earn income, satisfy a need for shelter or serve both purposes. It cannot simultaneously do all of those jobs and remain an untouched cash reserve. Realizing the equity may require selling, moving or borrowing, each with consequences. The practical weakness appears when the family discovers this only after needing money quickly.",
+        "The monetary thesis offers a different division of labor. If people have money they consider suitable for long-term saving, the home can be chosen primarily for living. Some demand for housing as a substitute savings vehicle may then move elsewhere, alongside the local forces that shape each property market.",
+        "The aim is to respect a home without requiring it to serve as the entire financial plan. A household can love a house and still acknowledge that too much of its resources are tied up in it."
+      ]
+    },
+    {
+      "id": "the-thirds-compass",
+      "title": "A minimum for money; limits for the other two groups",
+      "paragraphs": [
+        "The book’s compass is at least one third of debt-free net worth in money, no more than one third in consumption assets and no more than one third in productive assets. The first is a floor. The other two are ceilings. It is not an instruction to create three exactly equal piles.",
+        "You do not need to invent an investment to fill the productive third. An attractive opportunity must earn its place. A person with 70% in money and 30% in useful consumption assets is not required by this framework to buy a business or fund. Money can wait.",
+        "At $300,000 of debt-free net worth, the compass points toward at least $100,000 in money, with at most $100,000 in each of the other categories. A $150,000 home and $15,000 car would exceed the consumption ceiling together, even if the home alone seems affordable. The whole group matters.",
+        "The purpose is to resist two opposite forms of concentration. Lifestyle can absorb nearly everything in a large home and expensive possessions. Productive ambition can absorb nearly everything in a single company or collection of projects. In both cases the owner may feel wealthy while lacking room to choose.",
+        "A ratio is a signal for review, not an automatic trade instruction. Do not sell a home or business simply because a daily price move changed a percentage. Consider new savings, a slower pace of consumption, orderly asset sales and future distributions. The direction is deliberate; the method needs to fit the circumstances.",
+        "Bitcoin’s rising price can increase the money share without requiring an immediate purchase of something else. It can also increase the significance of custody, giving and family plans. A falling price may reduce that share. The correct response begins with what is needed and what is feasible, not a mechanical command to restore a number by tomorrow."
+      ],
+      "diagram": "thirds",
+      "tool": "thirds",
+      "example": {
+        "title": "Similar wealth, different room to move",
+        "paragraphs": [
+          "A debt-free family has $150,000 of assets: $120,000 in its home, $15,000 in a car and $15,000 in money. Money is 10%; consumption assets are 90%. A high proportion of the family’s resources must be sold or otherwise changed before it can support a new purpose.",
+          "Another debt-free household has $60,000: $30,000 in money, $20,000 in productive equipment and $10,000 in a car. Its groups are 50%, roughly 33% and roughly 17%. This fits the compass, but the equipment still needs a productive use and the money still needs suitable short-term access. Good ratios are not the whole assessment."
+        ]
+      }
+    },
+    {
+      "id": "concentration-and-optionality",
+      "title": "Ask what happens in the same bad year",
+      "paragraphs": [
+        "Concentration is not only a large percentage in one labeled asset. David’s income, business value, client relationships and commercial property may all weaken in the same poor season. Four lines on a spreadsheet can depend on one economic engine.",
+        "Look at connections. Does the family’s income depend on the same business that holds most of its wealth? Could a fall in demand also make the equipment difficult to sell? Could a market decline coincide with reduced work or a provider restricting withdrawals? Counting categories cannot replace thinking about these dependencies.",
+        "Optionality means having workable choices. Money can let you wait, decline an unsuitable project, help someone or act on a well-understood opportunity. Bitcoin can serve long-term optionality while a suitable operating plan serves near-term access. Neither word should hide the actual conditions under which funds are usable.",
+        "Emily’s smaller balance sheet teaches the same principle. She does not need a large property portfolio before liquidity matters. A modest amount of accurately assigned money can prevent an ordinary repair from becoming a new loan. The first aim is not to imitate a wealthy household’s numbers; it is to make her own next decision less forced."
+      ]
+    },
+    {
+      "id": "review-and-next-move",
+      "title": "Change the direction of the next decision",
+      "paragraphs": [
+        "Choose one concrete adjustment. Keep a serviceable car longer. Sell equipment that no longer earns its place. Direct an appropriate business distribution into personal money instead of another project. Delay a cosmetic renovation. Investigate a housing change rather than dismissing it without calculation.",
+        "Use a written review for decisions large enough to change the map. One sixtieth of net worth is a useful teaching threshold: $2,000 at $120,000 or $10,000 at $600,000. It is a prompt to pause, not an exemption for a series of smaller purchases that together create the same commitment.",
+        "Review the broad picture periodically and conduct a fuller review annually. Update realistic values, dependencies, liquidity, giving and custody. Compare the change with last year rather than opening the sheet every time the market moves.",
+        "The map becomes useful when the next decision knows what it does to the whole. Money preserves choices. Consumption serves life. Productive capital creates value. Keeping those functions clear lets you pursue each without allowing one to take over everything."
+      ]
+    }
+  ],
+  "checks": [
+    "I can calculate net worth without omitting debt or counting the same assets twice.",
+    "I use conservative values and a consistent currency and date.",
+    "I can classify money, consumption assets and productive assets by their actual function.",
+    "I understand the thirds as at least one third in money and at most one third in each other group.",
+    "I know why a home is not a liquid reserve and why business value can depend on the owner.",
+    "I have chosen a practical next move toward the compass rather than an automatic trade."
+  ],
+  "summary": [
+    "Net worth maps your financial resources. Liquidity and dependencies matter alongside the total.",
+    "The thirds protect monetary optionality while limiting concentration in lifestyle and productive risk.",
+    "Use the ratios to guide decisions over time; do not mistake them for a daily rebalancing command."
+  ]
+}
