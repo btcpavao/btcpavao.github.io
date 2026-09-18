@@ -1,0 +1,127 @@
+{
+  "slug": "spend-hold-invest",
+  "title": "Make the next large decision clearly",
+  "part": "VII · Spend, hold or invest",
+  "deck": "A worthwhile purchase, a productive investment and money held for later have different purposes. Compare them honestly without asking a calculator to choose your life.",
+  "question": "What are you giving up, what do you expect to receive, and which assumptions make the decision work?",
+  "minutes": 11,
+  "video": null,
+  "sections": [
+    {
+      "id": "classify-the-choice",
+      "title": "Start by naming the decision",
+      "paragraphs": [
+        "You can hold money for later, spend it on something that serves life or commit it to an activity intended to produce a return. All three can be sensible. Confusion begins when one is disguised as another.",
+        "A family car may make daily life easier without being an investment. A machine used for paid work may be productive capital, but only if there is a plausible connection to revenue or cost savings. A more expensive home can be a valuable consumption choice without needing a story about guaranteed appreciation to justify it.",
+        "Some choices combine purposes. A course may be personally enjoyable and improve earning power. A vehicle may carry both family and work. Separate the reasons where possible. You can decide that a benefit is worth paying for without pretending that it will return more Bitcoin than you gave up.",
+        "Holding Bitcoin is also a decision. It preserves monetary exposure and the option to choose later. It does not eliminate risk, and it does not need to be defended by inventing an investment you understand poorly. There will always be opportunities that succeed without you. Missing them is not a financial obligation."
+      ],
+      "diagram": "decision",
+      "principle": "Classify the purpose before comparing the numbers."
+    },
+    {
+      "id": "bitcoin-hurdle",
+      "title": "A gain in euros can be a loss in Bitcoin",
+      "paragraphs": [
+        "If Bitcoin is your money, a productive investment must be evaluated against keeping that money. It is not enough for an asset’s fiat price to rise. You need to know what it returns in the unit you chose to hold and what risks, costs and time produced that result.",
+        "Suppose you give up 0.1 BTC when Bitcoin trades at €100,000. You invest €10,000. Later the investment is worth €15,000, while Bitcoin trades at €200,000. The investment gained 50% in euros before costs, but its proceeds buy only 0.075 BTC. Relative to retaining 0.1 BTC, that is a 25% reduction in Bitcoin value.",
+        "The reverse is also possible. If Bitcoin’s ending price were €80,000, the same €15,000 would buy 0.1875 BTC. The comparison is conditional on both outcomes. Calling Bitcoin the hurdle does not allow you to assume that it always rises or that another asset always fails.",
+        "For a single initial outlay and a single final receipt, the calculation is straightforward: initial BTC = initial fiat outlay / starting BTC price; final BTC = net final fiat proceeds / ending BTC price; BTC return = final BTC / initial BTC − 1. Costs belong in the outlay or deducted proceeds consistently.",
+        "Interim cash flows require more care. A dividend received halfway through is not the same as one received on the final date. If you convert each receipt into Bitcoin, use the exchange rate at each receipt. If you retain it in fiat, state that choice. A simplified end-value calculator cannot fully represent a business with complex cash flows unless those assumptions are made explicit."
+      ],
+      "tool": "investment"
+    },
+    {
+      "id": "productive-thesis",
+      "title": "Write what must happen in the real world",
+      "paragraphs": [
+        "A productive investment needs a qualitative case and a quantitative one. The first explains what problem is solved, who will pay and why the activity can serve them well. The second describes the capital required, likely receipts, costs, timing and what would count as failure.",
+        "Before putting money in, write a short thesis. Name what you are buying, the expected source of return, the time horizon and the evidence that would weaken your belief. Include an entry plan and an exit or review rule. An illiquid business may not offer a clean exit date, but you can still define when further funding stops and what evidence triggers a reassessment.",
+        "Consider a favourable, ordinary and adverse case. What if the customer pipeline develops more slowly? What if maintenance costs more? What if the key person leaves? What if the investment rises in fiat terms but still buys less Bitcoin? The aim is not a perfectly quantified future; it is a decision that has met more than its favourite story.",
+        "Position size should reflect uncertainty and the balance sheet. A plausible idea does not deserve unlimited money. The productive-assets ceiling from the previous chapter remains relevant, as do the funded needs of the household. If an investment requires debt or raids essential categories, its attractive projection has not solved that problem."
+      ],
+      "example": {
+        "title": "Expected value is an exercise, not a guarantee",
+        "paragraphs": [
+          "Assume, purely for illustration, an 80% chance of receiving 2 BTC and a 20% chance of receiving 0.5 BTC from a 1 BTC commitment. The weighted average is 0.8 × 2 + 0.2 × 0.5 = 1.7 BTC, before fees, tax and time.",
+          "That average is neither a promised outcome nor necessarily an outcome you can receive. The probabilities themselves may be guesses. If the adverse case is zero, the average becomes 1.6 BTC, but the household still faces a possibility of losing the entire commitment. An attractive average does not make a ruinous downside affordable."
+        ]
+      }
+    },
+    {
+      "id": "time-and-delegation",
+      "title": "Your attention belongs in the calculation",
+      "paragraphs": [
+        "Two hundred hours is five forty-hour working weeks. An investment that demands that attention has a cost beyond the money transferred. Compare it with what those hours could accomplish in a field where you already have skill, customers and trust, as well as with the family time you would give up.",
+        "Ana considers a €280 course requiring forty hours of study. In her fictional case, the relevant skill can help her move into a role paying €120 more a month. That is a clearer thesis than buying an unfamiliar asset because other people seem excited about it. The improvement is still conditional on learning the skill and finding the role; paying for a certificate is not itself a guaranteed raise.",
+        "Marin is invited into a new venture. Once he includes the likely 150 hours of help the team will need, improving collection and delivery in his existing business looks more useful. He can decline a promising project without declaring that the project is bad. It may simply be a poor use of his comparative advantage.",
+        "Delegating investment work can sometimes make sense. It adds questions rather than removing them: who controls the money, how is performance measured, what are the fees, how liquid is the arrangement and what can happen in the adverse case? A confident manager’s reputation is not a substitute for understanding the agreement.",
+        "Diversification can reduce dependence on a single outcome, but ten poorly understood investments are not automatically safer than a few carefully considered ones. Look at shared dependencies and the attention each position requires. Waiting while you learn remains available."
+      ]
+    },
+    {
+      "id": "own-or-rent",
+      "title": "Separate paying for use from paying for ownership",
+      "paragraphs": [
+        "A large durable purchase asks a question beyond its sticker price: should I give up a substantial amount of money now to own this asset, or retain more money and pay for access over time? The same underlying comparison can apply to a car, a home, equipment or another durable asset.",
+        "Begin with ordinary cash costs. Ownership includes purchase price, acquisition fees, maintenance, insurance, taxes and eventual sale proceeds. Renting includes upfront charges, periodic payments, any escalation and end-of-term costs. A productive asset may also produce income. Include that income only if it belongs to the modelled activity and has not already been reflected elsewhere.",
+        "Domains differ. A home may appreciate or require major repairs, and buying or selling it can be expensive. A vehicle usually loses resale value and can differ significantly in insurance and maintenance between the two arrangements. A machine may earn revenue but also need installation, training or downtime. A preset is a starting structure, not permission to ignore the actual contract.",
+        "Renting is not borrowing merely because payments recur, but a lease may contain a long commitment, penalties, financing terms or a purchase obligation. The label alone does not settle how it relates to the book’s debt rule. Read the substance of the agreement and its exit conditions.",
+        "The calculator compares selected assumptions. It does not decide how much you value stability, location, availability, control or the ability to alter an asset. Those benefits belong in the decision alongside the numbers."
+      ],
+      "tool": "decision"
+    },
+    {
+      "id": "read-the-outputs",
+      "title": "Read final wealth and funding requirements together",
+      "paragraphs": [
+        "Nominal cash cost adds the amounts paid and subtracts resale proceeds without assigning a return to money retained. It is a useful first view. Final wealth asks what remains at the end after the modelled payments and asset sale value, given the assumed Bitcoin path and starting balance.",
+        "Bitcoin opportunity cost expresses money given up or consumed in Bitcoin terms. Break-even Bitcoin growth asks which assumed rate makes the two paths end at the same wealth, if a solution exists within the model. Break-even resale value asks what the owned asset would need to sell for to make the comparison equal, holding other assumptions fixed.",
+        "Neither break-even result says that the required condition is likely. A calculated resale value above any plausible market price is evidence about the assumptions, not a reason to enter that value into a sales plan. A break-even growth rate is a mathematical boundary rather than an expected return.",
+        "Minimum starting balance answers a different question: how much Bitcoin is needed to fund every scheduled payment along the path? An option can appear attractive at the end while running out of money in the middle. A negative Bitcoin balance is a funding failure, not available wealth. The model should flag it rather than quietly imply that borrowing fills the gap.",
+        "Compare equivalent service, the same currency and the same time horizon. State whether recurring payments are funded by selling the starting Bitcoin, by future income or by some combination the tool explicitly models. Do not keep the Bitcoin on one side while assuming salary pays its expenses, then charge the other side entirely to savings. A fair comparison gives both options the same external resources."
+      ]
+    },
+    {
+      "id": "path-dependence",
+      "title": "The route matters when money leaves along the way",
+      "paragraphs": [
+        "The same beginning and ending Bitcoin prices do not guarantee the same result when expenses occur in between. A weak early period requires more satoshis to meet the same fiat payment. Those extra satoshis are no longer there when the price later recovers.",
+        "This is path dependence. A smooth CAGR scenario hides it because the intermediate prices follow a tidy curve. A stress path can reach the same endpoint after an early drawdown and still leave the household with less money. The expense schedule connects the market path to the remaining balance.",
+        "Try both paths in the calculator. Then vary rent, resale value, duration and growth assumptions. Look for which changes reverse the apparent advantage and which cause funding failure. The most useful result is often the discovery that a decision rests on one fragile input.",
+        "No path shown is a forecast. The aim is to learn what kinds of uncertainty the decision carries. A person who sees only the final Bitcoin price can miss the cost of every monthly sale needed to get there."
+      ],
+      "example": {
+        "title": "Same endpoint, more satoshis spent",
+        "paragraphs": [
+          "Imagine two €1,000 payments, with no fees. Bitcoin starts at €100,000 and ends at €100,000 in both scenarios. In the flat scenario it is €100,000 at both payment dates, so each payment uses 0.01 BTC: 0.02 BTC in total.",
+          "In the drawdown scenario it is €50,000 at the first payment date and €100,000 at the second. The payments use 0.02 BTC and 0.01 BTC: 0.03 BTC in total. Both scenarios pay €2,000 and finish at the same Bitcoin price, yet the drawdown uses an extra 0.01 BTC, worth €1,000 at the endpoint. The intermediate prices changed the result."
+        ]
+      }
+    },
+    {
+      "id": "decision-note",
+      "title": "Write the decision before making the transaction",
+      "paragraphs": [
+        "For a large choice, prepare a short note a second adult can understand. State the purpose, alternatives, all-in costs, funding source, effect on the balance sheet, assumptions, adverse case and what would make you change course. Include the time it requires and the people affected.",
+        "One sixtieth of net worth can mark the point where this review becomes routine. The threshold does not make smaller decisions risk-free. Several related payments should be considered together, and a recurring commitment can be significant even when its first payment is small.",
+        "If the numbers favour renting, write: under these assumptions, renting leaves this much more final wealth after this many years. If they favour ownership, write the same conditional statement for ownership. Then explain which assumptions create the result. Avoid turning a contingent calculation into a permanent identity as someone who always buys or always rents.",
+        "A worthwhile decision can still turn out worse than an alternative you did not choose. Good judgment uses the information available, prepares for uncertainty and avoids unaffordable consequences. It does not require perfect hindsight. Once you have chosen deliberately, the money can do its job and your attention can return to the life the decision was meant to serve."
+      ]
+    }
+  ],
+  "checks": [
+    "I can distinguish consumption, holding money and productive investment without forcing every benefit into a return calculation.",
+    "I can calculate a simple investment’s fiat return and Bitcoin-denominated return.",
+    "I have included time, costs, adverse outcomes and an exit or review condition in the thesis.",
+    "I understand the own-or-rent tool’s funding assumptions and compare equivalent options.",
+    "I can explain why an early drawdown changes the sats consumed by recurring fiat payments.",
+    "I can read a break-even result as a condition rather than a forecast.",
+    "I have written the next major decision in language the affected household can understand."
+  ],
+  "summary": [
+    "Productive investment must justify its risk against holding money, including costs and attention.",
+    "Ownership and renting require both a nominal cost comparison and an explicit funding-and-price-path comparison.",
+    "Tools expose conditional outcomes. The decision remains yours, and it includes values the model cannot price."
+  ]
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "start",
+    "title": "What changes when Bitcoin is your money?",
+    "deck": "Conviction is a beginning. A budget, a clean balance sheet and a household that understands the plan turn conviction into a way of living.",
+    "part": "Start here",
+    "minutes": 9
+  },
+  {
+    "slug": "budget",
+    "title": "Give today\u2019s money a job",
+    "deck": "A bank balance tells you where money is. A budget tells you what it must do, when it is needed and what changes when you choose something else.",
+    "part": "I \u00b7 Put money in order",
+    "minutes": 9
+  },
+  {
+    "slug": "debt",
+    "title": "Bring the future back home",
+    "deck": "Debt assigns future income before that income exists. This framework aims for zero debt, including obligations that have acquired respectable names.",
+    "part": "II \u00b7 Get the future back",
+    "minutes": 10
+  },
+  {
+    "slug": "giving",
+    "title": "Give money a direction beyond yourself",
+    "deck": "After zero debt, giving becomes a funded category in the money layer. It trains attention toward the people your work and resources can serve.",
+    "part": "III \u00b7 Money that moves toward others",
+    "minutes": 10
+  },
+  {
+    "slug": "living",
+    "title": "Let Bitcoin serve an ordinary life",
+    "deck": "Income, bills, saving and spending need a workable rhythm. Bitcoin becomes money through its place in those decisions, not through a refusal ever to use it.",
+    "part": "IV \u00b7 Live with Bitcoin as money",
+    "minutes": 8
+  },
+  {
+    "slug": "net-worth",
+    "title": "Know what your wealth is doing",
+    "deck": "Money, consumption assets and productive assets can have identical price tags and very different consequences. The balance sheet makes those differences visible.",
+    "part": "V \u00b7 Build a strong balance sheet",
+    "minutes": 9
+  },
+  {
+    "slug": "long-term-trend",
+    "title": "Read the price through time",
+    "deck": "A long-term model can put today\u2019s exchange rate in context. Its usefulness depends on keeping history, assumptions and household obligations distinct.",
+    "part": "VI \u00b7 Bitcoin through time",
+    "minutes": 11
+  },
+  {
+    "slug": "spend-hold-invest",
+    "title": "Make the next large decision clearly",
+    "deck": "A worthwhile purchase, a productive investment and money held for later have different purposes. Compare them honestly without asking a calculator to choose your life.",
+    "part": "VII \u00b7 Spend, hold or invest",
+    "minutes": 11
+  },
+  {
+    "slug": "custody-continuity",
+    "title": "Make the money usable beyond one person",
+    "deck": "Operational services, long-term custody and family instructions have different jobs. A sound plan protects the money and gives the right people a path to it.",
+    "part": "VIII \u00b7 Custody and continuity",
+    "minutes": 8
+  },
+  {
+    "slug": "put-it-into-practice",
+    "title": "Build the next thirty years from an ordinary hour",
+    "deck": "Bring the pieces into a written policy, a realistic sequence and a review rhythm. Then look far enough ahead to see why the ordinary work matters.",
+    "part": "IX \u00b7 Put it into practice",
+    "minutes": 13
+  }
+]

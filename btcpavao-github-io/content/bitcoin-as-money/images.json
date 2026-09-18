@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "start",
+    "alt": "Two people arrange household money, a calendar and everyday objects around a shared written plan.",
+    "width": 1600,
+    "height": 900
+  },
+  {
+    "slug": "budget",
+    "alt": "A person sorts money already on the table into trays for household purposes; future income remains separate.",
+    "width": 1600,
+    "height": 900
+  },
+  {
+    "slug": "debt",
+    "alt": "Future income is committed to a debt folder; after that folder closes, the calendar becomes clear space again.",
+    "width": 1600,
+    "height": 900
+  },
+  {
+    "slug": "giving",
+    "alt": "An envelope set aside from existing household money is offered to another person with dignity.",
+    "width": 1600,
+    "height": 900
+  },
+  {
+    "slug": "living",
+    "alt": "A small everyday payment tray connects through a conversion step to a separate long-term money reserve.",
+    "width": 1600,
+    "height": 900
+  },
+  {
+    "slug": "net-worth",
+    "alt": "Money, household consumption assets and productive tools are laid out as distinct parts of one balance sheet.",
+    "width": 1600,
+    "height": 900
+  },
+  {
+    "slug": "long-term-trend",
+    "alt": "A traveler compares a map with uneven terrain, illustrating the difference between a model and the path actually travelled.",
+    "width": 1600,
+    "height": 900
+  },
+  {
+    "slug": "spend-hold-invest",
+    "alt": "A person weighs useful consumption, retained money and a productive tool as three different uses of capital.",
+    "width": 1600,
+    "height": 900
+  },
+  {
+    "slug": "custody-continuity",
+    "alt": "Two household members review accessible instructions together so the financial plan does not depend on one person.",
+    "width": 1600,
+    "height": 900
+  },
+  {
+    "slug": "put-it-into-practice",
+    "alt": "A household writes its money policy and schedules repeated reviews rather than treating the plan as finished.",
+    "width": 1600,
+    "height": 900
+  }
+]

@@ -13,6 +13,7 @@ const footerGroups = [
   {
     label: "Bitcoin Standard",
     links: [
+      { label: "Read Bitcoin as Money", href: "/en/bitcoin-standard/" },
       { label: "Advisory approach", href: "/#bitcoin-standard" },
       { label: "Work with me", href: "/#work-with-me" },
     ],

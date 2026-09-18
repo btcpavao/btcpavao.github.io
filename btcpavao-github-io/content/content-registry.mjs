@@ -1,9 +1,18 @@
+import bookIndex from "./bitcoin-as-money/index.json" with { type: "json" }
 export const SITE_URL = "https://btcpavao.com"
 
 const coreEn = "/en/bitcoin-core/"
 const coreHr = "/hr/bitcoin-core/"
 
+const bookEntries = [{slug: "", title: "Bitcoin as Money", deck: "An open interactive book about budgeting, debt freedom, giving and living on a Bitcoin standard."}, ...bookIndex].map((chapter, index) => ({
+ id: `bitcoin-as-money-${chapter.slug || "home"}`, path: `/en/bitcoin-standard/${chapter.slug ? chapter.slug + "/" : ""}`, locale: "en",
+ title: `${chapter.title} | Bitcoin as Money | BTC Pavao`, description: chapter.deck, contentType: chapter.slug ? "tutorial" : "collection", section: "bitcoin-standard",
+ publishedAt: "2026-09-18", updatedAt: "2026-09-18", featured: !chapter.slug, order: 100 + index, status: "published", socialCardKey: "homepage",
+ heroImage: `/bitcoin-as-money/${chapter.slug || "start"}.webp`, translationPath: null, indexable: true, rss: false,
+ imageAlt: "Bitcoin as Money — a practical system for living on a Bitcoin standard.", imageWidth: 1600, imageHeight: 900,
+}))
 export const contentRegistry = [
+ ...bookEntries,
   {
     id: "home",
     path: "/",

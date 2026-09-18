@@ -1,0 +1,94 @@
+{
+  "slug": "start",
+  "title": "What changes when Bitcoin is your money?",
+  "part": "Start here",
+  "deck": "Conviction is a beginning. A budget, a clean balance sheet and a household that understands the plan turn conviction into a way of living.",
+  "question": "If Bitcoin is money, what must change outside the wallet?",
+  "minutes": 9,
+  "video": null,
+  "sections": [
+    {
+      "id": "the-question",
+      "title": "The question after buying Bitcoin",
+      "paragraphs": [
+        "You can understand Bitcoin and still make a mess of your money. You can explain the supply limit while carrying a credit-card balance. You can protect private keys carefully while leaving next month’s rent unplanned. You can be right about a monetary idea and have no useful answer when your partner asks how the family would manage without you.",
+        "This book begins in that gap. Its question is not simply whether Bitcoin deserves a place in your life. It asks what follows if you take Bitcoin seriously as money. How do you receive income, pay bills, close debts, give, save, buy a home, fund a business and pass responsibility to someone else? What does better money require of the person using it?",
+        "My position is clear: I regard Bitcoin as the best form of money humanity has had the opportunity to use. That is the thesis behind this book, not a promise about tomorrow’s price. Bitcoin has characteristics I want in long-term money: a supply governed by rules users can verify, global transferability and the possibility of holding it without relying on another party to repay a claim.",
+        "Those qualities do not organize a household. Your children cannot eat a monetary thesis. An overdue invoice does not become harmless because your savings may appreciate. A strong conviction needs a practical structure around it. Without that structure, Bitcoin can amplify impatience, secrecy and confusion just as readily as it can support patience."
+      ],
+      "principle": "Better money does not make decisions for you. It makes the quality of your decisions matter more."
+    },
+    {
+      "id": "why-this-book",
+      "title": "From an early purchase to a usable system",
+      "paragraphs": [
+        "I first bought Bitcoin in 2014, at a price I remember as roughly six hundred dollars. I did not have the framework described here. I knew I had encountered something interesting, but I had no settled way to connect it with my budget, my responsibilities or a long horizon. There were pauses, mistakes and an unhelpful detour through other tokens before the subject became a serious discipline.",
+        "Years of reading, work in the Bitcoin industry and conversations with people at very different stages exposed a recurring problem. Some people knew an extraordinary amount about Bitcoin while remaining unsure what their existing money was for. Others had no appetite for hundreds of hours of monetary theory but were willing to learn a sensible way to manage their lives.",
+        "Both deserve a useful book. You should not need to become a protocol developer to keep a household budget, and you should not mistake technical knowledge for financial maturity. The purpose here is to give the ideas an order, make the tradeoffs visible and shorten the distance between understanding and practice.",
+        "The households you will meet are fictional. Ana begins with limited income and a few obligations that weigh heavily on her. Marko and Ivana have children, a home and a respectable-looking life with too much future income already committed. Marin and Petra have a business and substantial assets, but much of their apparent strength is tied to complexity. Their circumstances differ; the disciplines connect them."
+      ]
+    },
+    {
+      "id": "money-and-wealth",
+      "title": "Money carries a claim on future choices",
+      "paragraphs": [
+        "Wealth includes useful things: food, shelter, tools, skills, energy, productive land and the capacity to cooperate. Money helps us exchange those things across people and time. A baker need not find a shoemaker who happens to want bread at exactly the right moment. Both can accept money because others will accept it later.",
+        "Good money travels across distance, divides into useful amounts and preserves the ability to exchange in the future. These are different tasks. A payment network may move value conveniently without providing good long-term savings. A physical commodity may resist easy production while being awkward to verify, divide or transport.",
+        "Gold historically served as hard money because increasing its supply required costly work. Its physical nature also encouraged people to rely on vaults and claims. Modern bank money travels conveniently, but a deposit is a claim on an institution. Commercial-bank lending commonly creates a deposit alongside a loan; a promise of future repayment becomes part of today’s spendable money.",
+        "The book’s criticism of the fiat system is that this arrangement normalizes spending the future and weakens the position of people who save in money. Money-supply growth and consumer-price inflation are different measures; neither by itself describes every household’s experience. The practical concern is simpler: when people distrust money as a store of value, they feel pushed into property, financial risk or purchases merely to avoid holding it.",
+        "Bitcoin offers another possibility. In direct self-custody it is not a promise from an issuer to deliver money later. Its purchasing power still changes, sometimes severely. The distinction is between holding the monetary asset and holding another party’s obligation; it is not a claim that all risks disappear."
+      ],
+      "example": {
+        "title": "Saving and investing do different jobs",
+        "paragraphs": [
+          "Exchanging euros for Bitcoin changes the form in which you hold money. Buying a machine with that Bitcoin commits money to a productive activity. The machine must find work, function reliably and earn enough to justify its costs. The first decision concerns your money; the second adds the risks of an enterprise."
+        ]
+      }
+    },
+    {
+      "id": "how-the-rules-work",
+      "title": "Enough of the technology to understand the responsibility",
+      "paragraphs": [
+        "Digital information is easy to copy. Money cannot remain scarce if the same units can be spent repeatedly. Bitcoin addresses that problem with a public history of transactions, rules independently checked by nodes and proof of work that makes rewriting that history costly.",
+        "A node is a computer running software that verifies the rules. Miners propose blocks of transactions and compete to find proof of work. A valid proof is difficult to discover and inexpensive to check. Miners do not receive permission to ignore the rules because they have spent energy. A node rejects a block that creates more bitcoin than the rules allow, regardless of the work behind it.",
+        "Under Bitcoin’s current consensus rules, issuance follows a schedule with an ultimate limit of approximately twenty-one million bitcoin. One bitcoin contains one hundred million satoshis. The block subsidy halves every 210,000 blocks. Mining difficulty adjusts every 2,016 blocks to bring the average interval toward ten minutes. Individual blocks can arrive much sooner or much later.",
+        "Greater mining effort does not permit an arbitrary expansion of supply. It can make competing for blocks harder, after difficulty adjusts. Energy and equipment are part of the cost of securing the history. That does not mean electricity determines Bitcoin’s market value, or that every mining operation has the same environmental or economic effects. Local energy alternatives and operating conditions matter.",
+        "A wallet uses secret information to satisfy the conditions for spending. In a simple case it creates a digital signature that others can verify without learning the private key. The chain records unspent transaction outputs, usually shortened to UTXOs, rather than personal bank accounts. Spending consumes existing outputs and creates new ones, often including change back to the sender.",
+        "For example, spending from an output worth 0.05 BTC might create a 0.02 BTC payment and change slightly below 0.03 BTC, with the difference paid as the transaction fee. The wallet’s displayed balance is a useful summary of spendable outputs. It is not money stored inside the screen.",
+        "Before confirmation, a transaction may be held in nodes’ local waiting areas, called mempools. A confirmed transaction is included in a block; subsequent blocks add confirmations. Confidence in settlement increases as more work accumulates, but finality is economic and probabilistic. There is no central help desk that can reverse a valid payment because the sender regrets it.",
+        "You do not need to master the mechanics here. You do need to understand why control, recovery and verification matter. Detailed practice belongs in the separate Bitcoin Core self-custody curriculum. This book prepares the financial and household responsibilities that technical system will serve."
+      ]
+    },
+    {
+      "id": "volatility-and-time",
+      "title": "Hard supply does not mean a stable price",
+      "paragraphs": [
+        "A predictable supply does not make demand predictable. Bitcoin’s exchange rate changes as people reassess it, liquidity changes and holders decide to buy or sell. It can fall substantially against the currency in which your bills are due. A long-term monetary thesis cannot remove that short-term fact.",
+        "This is why time belongs inside every decision. Money needed on Friday has a different job from money you can leave untouched for years. Believing that Bitcoin may gain purchasing power does not make a Friday obligation optional. Nor does a disappointing price mean that every part of your system has failed.",
+        "Opportunity cost is the best alternative you give up. If money pays for a car, the same money cannot also remain available for education, giving or later consumption. Bitcoin makes this tradeoff conspicuous, but the tradeoff existed before Bitcoin. A useful system lets you see it without turning every purchase into a source of guilt.",
+        "Other digital assets do not inherit Bitcoin’s monetary properties merely because they use cryptography. Each has its own issuance, governance, security and dependencies. This book does not treat a collection of tokens as a substitute for understanding the money you choose."
+      ]
+    },
+    {
+      "id": "the-order",
+      "title": "Read in order; put each discipline to work",
+      "paragraphs": [
+        "The sequence starts with money that already exists. Assign it jobs. Then work toward zero debt, including mortgages and business borrowing. After debt is gone, establish giving as a real share of the money layer. Learn to operate between fiat payments and Bitcoin savings, then map the whole balance sheet into money, consumption assets and productive assets.",
+        "Only after those foundations do we use long-term models and compare large decisions. A chart cannot override a bill or grant permission to borrow. Custody and family continuity then connect the financial plan with a system the right people can actually use. Immediate protection of existing funds should never wait for completion of a reading sequence.",
+        "Read the explanations, try the exercises and apply one change at a time. A completion mark means you chose to mark the module complete. It is not a certification of your finances or understanding. If you share money, the important decisions belong in a shared conversation; the book is not a weapon for the more enthusiastic partner.",
+        "The framework is deliberately opinionated. The worked numbers are educational examples, not promised returns or individualized financial, tax or legal advice. Use the tools to expose assumptions and obtain case-specific professional help where the consequences require it. The first useful step is available without a forecast: write down what your money must do before the next payment arrives."
+      ]
+    }
+  ],
+  "checks": [
+    "I can explain the difference between holding Bitcoin as money and funding a productive investment.",
+    "I understand why a predictable supply does not guarantee stable short-term purchasing power.",
+    "I can name one gap between my Bitcoin conviction and my household’s actual system.",
+    "I know that the book’s order begins with current money and a budget, followed by zero debt."
+  ],
+  "summary": [
+    "Bitcoin is the primary long-term money in this framework; the household still operates in a world of fiat obligations.",
+    "The protocol can enforce monetary rules, but a person must organize spending, debt, giving and continuity.",
+    "Begin with existing money and real responsibilities. Models and technical tools come into a system, not in place of one."
+  ]
+}

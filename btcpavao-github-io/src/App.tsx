@@ -214,7 +214,7 @@ const socialLinks = [
   { label: "GitHub", href: "https://github.com/btcpavao" },
   {
     label: "GitBook",
-    href: "https://btcpavao.gitbook.io/practical-bitcoin-standard/",
+    href: "/en/bitcoin-standard/",
   },
 ]
 

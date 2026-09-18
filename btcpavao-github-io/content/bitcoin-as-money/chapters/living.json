@@ -1,0 +1,101 @@
+{
+  "slug": "living",
+  "title": "Let Bitcoin serve an ordinary life",
+  "part": "IV · Live with Bitcoin as money",
+  "deck": "Income, bills, saving and spending need a workable rhythm. Bitcoin becomes money through its place in those decisions, not through a refusal ever to use it.",
+  "question": "Can your system pay for life calmly without making every week a market decision?",
+  "minutes": 8,
+  "video": null,
+  "sections": [
+    {
+      "id": "from-position-to-money",
+      "title": "A different question at the kitchen table",
+      "paragraphs": [
+        "Owning Bitcoin can remain a separate activity for years. You earn, spend and borrow in one system, then check a price chart in another. The holdings may be meaningful, but they have no settled relationship with what the household needs or what the rest of its assets do.",
+        "Treating Bitcoin as money brings those worlds together. It becomes the long-term monetary reference for saving and major decisions. The question changes from how much a position has risen to what your money is for, how much of it is needed and whether a proposed use deserves it.",
+        "This does not require pretending that the surrounding economy has already changed. Your employer may pay euros. Your landlord may require them. A supplier may accept Bitcoin while your tax obligation is still measured and settled in state currency. Good money management must cross those boundaries accurately.",
+        "The practical aim is a rhythm with few surprises: receive income, identify its jobs, prepare obligations, convert according to the plan, protect long-term money and spend when the purpose warrants it. A household should not need a fresh monetary debate every time it buys food."
+      ],
+      "principle": "A Bitcoin standard should make ordinary decisions clearer, not make ordinary life impossible."
+    },
+    {
+      "id": "income-is-not-surplus",
+      "title": "Let income pass through the budget first",
+      "paragraphs": [
+        "A payment arriving is the beginning of allocation. It is not proof of a surplus. If your salary lands today, it may need to fund the period until the next salary, rebuild a depleted category and prepare an annual cost. If a client pays a large invoice, part may already belong to tax or business obligations.",
+        "Free capital is money genuinely available for a new choice after the existing plan is funded. It is discovered by assigning jobs, not by glancing at a balance or choosing a percentage that feels ambitious. With zero debt and systematic giving in place, the remaining choice might be long-term Bitcoin, a useful tool, an optional experience or additional resilience.",
+        "Suppose a household has €3,000 of current operating money. It needs €1,800 for near-term living costs, €400 for known future expenses, €300 to bring a reserve to its agreed level and €300 for its giving allocation within the broader current-money calculation. Only €200 remains for a new decision in this simplified budget. The exact categories matter more than the neatness of the numbers.",
+        "Do not subtract the same obligation twice or count the same reserve twice. If the €400 was already excluded from the available balance, subtracting it again understates the remainder. If a separate-looking savings account is included in the total, it is not an additional resource. A trustworthy free-capital number has a traceable relationship to the accounts and categories."
+      ],
+      "diagram": "free-capital"
+    },
+    {
+      "id": "fiat-operating-money",
+      "title": "Fiat can be a rail rather than the destination",
+      "paragraphs": [
+        "A rail is a way to move value where it needs to go. A bank account can receive pay, settle a tax payment or pay a utility. An exchange or broker can convert between fiat and Bitcoin. Using these services operationally does not require treating them as the permanent home of long-term savings.",
+        "The mature destination described in this book is demanding: Bitcoin holds nearly all the long-term money, while fiat is a small working balance. In a well-developed setup, that may mean only several days or about a week of ordinary fiat spending. This is a description of the intended destination, not a safe universal starting balance.",
+        "Work toward it through demonstrated ability. Conversion delays, banking outages, irregular income, a family member’s needs and upcoming fiat liabilities determine what your operation actually requires. Someone who has not tested the withdrawal path should not empty the bank account merely to make the proportions look pure.",
+        "There is also a transition to manage. A household learning to budget or facing a known near-term payment may hold more fiat while it prepares the rest of the system. Name the purpose and review date. That is different from keeping a large undefined fiat balance indefinitely because no decision has been made.",
+        "The aim is to reduce unnecessary fiat exposure without creating avoidable forced Bitcoin sales. Those two goals must be considered together. Removing the operating balance while leaving all the operating dependencies unchanged is an accounting gesture, not an improvement in resilience."
+      ],
+      "diagram": "layers"
+    },
+    {
+      "id": "conversion-rhythm",
+      "title": "Make conversion a routine with explicit limits",
+      "paragraphs": [
+        "Choose a conversion rhythm that follows cash flow. A salaried household might allocate each receipt and convert the part designated for long-term money on a regular schedule. A freelancer may wait until a payment has cleared and the corresponding tax and business categories are funded. Neither needs to predict next Tuesday’s price to have a useful process.",
+        "Record what crossed the boundary: fiat amount, Bitcoin amount, date, fees and the relevant account. The exchange rate should use the same currency as the expense being compared. A euro budget cannot be divided by a dollar Bitcoin quote without an exchange-rate conversion.",
+        "When income arrives in Bitcoin, the responsibility runs in the other direction. Receiving bitcoin does not remove taxes or fiat bills. Allocate the receipt and decide what must be converted or otherwise secured for those obligations. Keeping every satoshi while borrowing to pay an unavoidable bill would recreate the problem the debt chapter removed.",
+        "Costs and practical limits matter. Very small conversions can be disproportionately affected by fees or withdrawal charges. Leaving accumulated savings with a service merely to avoid every fee adds counterparty exposure. A sensible rhythm balances cost, access, records and the amount you are prepared to have temporarily with another party.",
+        "If a conversion fails, the operating plan should allow time to investigate through verified channels. It should not force you into an urgent transaction with an unfamiliar provider. The value of a small working buffer is partly the ability to solve a practical problem without inventing a new one."
+      ]
+    },
+    {
+      "id": "spend-without-guilt",
+      "title": "Money is allowed to leave",
+      "paragraphs": [
+        "Bitcoin can be saved, spent, given, invested and inherited. If every use feels like a betrayal of the future, it has become difficult to use as money. The possibility of greater purchasing power later is a reason to decide carefully, not a prohibition against living now.",
+        "A useful purchase may improve health, support a move, buy time with a parent, repair the home or enable work. Its value cannot always be expressed as a future Bitcoin balance. You can recognize opportunity cost and still decide that the present benefit deserves it.",
+        "The important distinction is between an intentional use and a sale forced by neglected responsibilities. Selling some Bitcoin for planned dental care can be entirely consistent with the system. Selling because an annual bill was ignored is a prompt to improve the budget. Even then, the lesson is to repair the process rather than turn the necessary payment into a source of shame.",
+        "The price you once paid is not the only useful reference. A past purchase price can explain a taxable gain or loss, but it does not decide whether today’s use serves your life. Nor does tomorrow’s possible increase make today’s considered choice automatically foolish.",
+        "Ana eventually uses a small part of her money to improve a skill. Marko and Ivana spend on a family need they have discussed and funded. Marin buys equipment only after a case for the work it will do. Each gives up some monetary optionality. The point is to receive something worth that sacrifice."
+      ]
+    },
+    {
+      "id": "quality-and-lifestyle",
+      "title": "Buy a life you want to maintain",
+      "paragraphs": [
+        "Hard money can change the question you ask about things. Instead of buying because money feels as though it must leave quickly, you can wait, inspect, compare and choose something that earns a durable place in your life.",
+        "This may favour repairable tools, well-made furniture, useful clothing and fewer objects bought from fatigue or social comparison. It does not establish that the most expensive option is best. A logo may cost more without improving function; a modest second-hand item may serve beautifully. Quality is a relationship between the object, its use and the resources it requires.",
+        "Include maintenance and attention in the price. A second car needs space, insurance, servicing and decisions. A larger home needs cleaning, repairs and heating. A holiday property can turn free weekends into maintenance obligations. Objects that look like stored wealth can quietly claim future income and time.",
+        "There is room for beauty and pleasure. A carefully chosen table, an instrument played regularly or a journey that matters can be a good use of money. The framework is not a competition to consume the least. It asks whether the purchase serves something you value and whether the whole cost is understood.",
+        "Do not let a period of strong Bitcoin purchasing power establish a permanent spending level that requires the same exchange rate forever. A one-off funded purchase and a recurring commitment behave differently. A good month can pay for an experience; it cannot make years of higher fixed costs disappear."
+      ]
+    },
+    {
+      "id": "household-routine",
+      "title": "Make the plan intelligible to the people living it",
+      "paragraphs": [
+        "One person may enjoy Bitcoin more than the rest of the household. That is normal. It becomes a problem when knowledge turns into unilateral authority over shared money. The person who understands the technical details still has to explain the financial purpose in ordinary language.",
+        "Agree on the operating balance, conversion routine, major-decision threshold and what happens if income slows. Discuss the consequences of an exchange-rate decline before living through one. The conversation should concern actual bills and choices, not who has stronger conviction.",
+        "At the monthly review, ask whether the system created fewer surprises. Were conversions routine? Were fees and records understandable? Did known expenses arrive with money prepared? Did a recurring purchase become larger than intended? Could another adult see what the money was doing?",
+        "A successful Bitcoin standard will often look undramatic from outside. Work gets done. Bills are paid. Gifts leave. Savings wait. Useful things are bought and maintained. The monetary foundation matters precisely because it leaves more of your attention available for the rest of life."
+      ]
+    }
+  ],
+  "checks": [
+    "I can distinguish new income from capital genuinely available after existing jobs are funded.",
+    "I have named the purpose and review rhythm of the fiat operating balance.",
+    "I understand that a mature small fiat balance is a destination to validate, not a universal starting instruction.",
+    "I can describe a conversion routine for both fiat income and Bitcoin income.",
+    "I can explain an intentional Bitcoin expenditure without treating every sale as failure.",
+    "Major shared money decisions can be understood by the other people affected."
+  ],
+  "summary": [
+    "Let receipts pass through the budget before calling them surplus.",
+    "Use fiat accounts and conversion services for defined operating jobs; match the working balance to real dependencies.",
+    "Save patiently and spend deliberately. Bitcoin is money that serves a life, not a score that forbids one."
+  ]
+}
