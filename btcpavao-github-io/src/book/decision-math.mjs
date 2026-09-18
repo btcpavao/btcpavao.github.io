@@ -1,5 +1,5 @@
-// Adapted from the tested September 2026 car calculator. EUR cash flows;
-// normalized BTC units valued at the initial EUR price. End-of-month payments.
+// Adapted from the tested September 2026 car calculator. USD cash flows;
+// normalized BTC units valued at the initial USD price. End-of-month payments.
 export function validateInputs(v) {
   for (const [key, min, max] of [
     ["purchase", 1, 1e8],

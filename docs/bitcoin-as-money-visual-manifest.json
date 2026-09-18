@@ -1545,7 +1545,7 @@
       ],
       "asset_ids": [],
       "role": "Keep direct narrative, readable examples or real navigation controls",
-      "why": "Ana’s map example supplies a concrete HTML break. Do not imply exact monetary thresholds for custody architecture.",
+      "why": "Emily’s map example supplies a concrete HTML break. Do not imply exact monetary thresholds for custody architecture.",
       "implementation": "native HTML text",
       "alt_text": null,
       "caption": null,
@@ -1762,7 +1762,7 @@
     {
       "module": "put-it-into-practice",
       "section": "ana-thirty-years",
-      "section_title": "Ana’s table",
+      "section_title": "Emily’s table",
       "placement": "No additional standalone visual",
       "decision": [
         "no visual needed"

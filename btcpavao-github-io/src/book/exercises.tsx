@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState } from "react"
 import { Bar, Field, ToolBox } from "./tool-common"
-import { euro, percent } from "./format"
+import { usd, percent } from "./format"
 import { investmentReturn } from "./decision-math.mjs"
 const Trend = lazy(() => import("./trend"))
 const Decision = lazy(() => import("./decision"))
@@ -64,10 +64,10 @@ function Debt() {
   return (
     <ToolBox
       title="Who has a claim on the next paycheck?"
-      caption="Illustrative monthly income: €2,500. Add a second payment to see how much future income is already committed."
+      caption="Illustrative monthly income: $2,500. Add a second payment to see how much future income is already committed."
     >
       <label className="bam-slider">
-        <span>First monthly debt payment: {euro(first)}</span>
+        <span>First monthly debt payment: {usd(first)}</span>
         <input
           type="range"
           min="0"
@@ -78,7 +78,7 @@ function Debt() {
         />
       </label>
       <label className="bam-slider">
-        <span>Second monthly debt payment: {euro(second)}</span>
+        <span>Second monthly debt payment: {usd(second)}</span>
         <input
           type="range"
           min="0"
@@ -100,9 +100,9 @@ function Debt() {
         ))}
       </div>
       <p className="bam-feedback" role="status">
-        {euro(first + second)} of each paycheck is already committed.{" "}
-        {euro(2500 - first - second)} remains before food, housing, taxes and
-        other needs. Future income is not guaranteed.
+        {usd(first + second)} of each paycheck is already committed.{" "}
+        {usd(2500 - first - second)} remains before food, housing, taxes and
+        other needs.
       </p>
     </ToolBox>
   )
@@ -180,15 +180,15 @@ function Giving() {
   return (
     <ToolBox
       title="A category in the money you have"
-      caption="This exercise applies after zero debt. It shows the book’s 10–20% money-layer framework, not a percentage of salary or a required annual donation."
+      caption="This exercise applies after zero debt. Set aside 10–20% of your current money in the giving category."
     >
-      <Field label="Total money layer (€)" value={money} onChange={set} />
+      <Field label="Total money layer (USD)" value={money} onChange={set} />
       {valid ? (
         <div className="bam-statline">
           {[0.1, 0.15, 0.2].map((p) => (
             <span key={p}>
               {percent(p)}
-              <strong>{euro(n * p)}</strong>
+              <strong>{usd(n * p)}</strong>
             </span>
           ))}
         </div>
@@ -196,9 +196,8 @@ function Giving() {
         <p role="alert">Please enter a non-negative money balance.</p>
       )}
       <p>
-        No percentage here is a moral score. The category is available for
-        deliberate giving; it is not an instruction to send the whole balance
-        immediately.
+        Keep this category funded and give deliberately as needs and commitments
+        arise.
       </p>
     </ToolBox>
   )
@@ -320,16 +319,18 @@ function Thirds() {
       caption="Use current realistic asset values. This example assumes no liabilities; clear debt separately rather than hiding it inside asset categories."
     >
       <div className="bam-fields">
-        {["Money (€)", "Consumption assets (€)", "Productive assets (€)"].map(
-          (l, i) => (
-            <Field
-              key={l}
-              label={l}
-              value={v[i]}
-              onChange={(x) => set(v.map((n, j) => (i === j ? x : n)))}
-            />
-          )
-        )}
+        {[
+          "Money (USD)",
+          "Consumption assets (USD)",
+          "Productive assets (USD)",
+        ].map((l, i) => (
+          <Field
+            key={l}
+            label={l}
+            value={v[i]}
+            onChange={(x) => set(v.map((n, j) => (i === j ? x : n)))}
+          />
+        ))}
       </div>
       {valid && total > 0 ? (
         <>
@@ -338,7 +339,7 @@ function Thirds() {
             labels={["Money", "Consumption", "Productive"]}
           />
           <p role="status">
-            Total assets: {euro(total)}. Money represents{" "}
+            Total assets: {usd(total)}. Money represents{" "}
             {percent(values[0] / total)}. Consumption represents{" "}
             {percent(values[1] / total)}. Productive assets represent{" "}
             {percent(values[2] / total)}.
@@ -373,8 +374,8 @@ function Investment() {
     >
       <div className="bam-fields">
         {[
-          "Value committed today (€)",
-          "Net terminal proceeds (€)",
+          "Value committed today (USD)",
+          "Net terminal proceeds (USD)",
           "Years",
           "Assumed annual BTC growth (%)",
         ].map((l, i) => (
@@ -399,9 +400,8 @@ function Investment() {
             </span>
           </div>
           <p role="status">
-            Keeping the initial money in BTC would end at {euro(result.hurdle)}{" "}
-            under the assumed growth path. This is a scenario, not an expected
-            return.
+            Keeping the initial money in BTC would end at {usd(result.hurdle)}{" "}
+            under the selected growth path.
           </p>
           <p className="bam-formula">
             BTC return = (future proceeds ÷ initial value) ÷ (1 + BTC growth)

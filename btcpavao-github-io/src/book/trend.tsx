@@ -114,7 +114,7 @@ export default function Trend() {
   return (
     <ToolBox
       title="Bitcoin through time"
-      caption="The original Bitcoin Wave model, drawn natively here. Explore its assumptions without turning a curve into a promise."
+      caption="Explore historical prices, model curves and Bitcoin’s block-based clock."
     >
       <div className="bam-source">
         <p role="status">
@@ -415,8 +415,7 @@ export default function Trend() {
             <table>
               <caption>
                 Selected coordinate: {date}. Dates and heights are related by
-                the source model’s calendar map, not guaranteed future block
-                times.
+                the source model’s calendar map.
               </caption>
               <tbody>
                 <tr>
@@ -483,7 +482,6 @@ export default function Trend() {
           {usd(powerLawPrice(h, 0))}. The price is{" "}
           {percent(Math.abs(comparisonPrice! / powerLawPrice(h, 0) - 1))}{" "}
           {comparisonPrice! >= powerLawPrice(h, 0) ? "above" : "below"} PL0.
-          This is model context, not a trading signal.
         </p>
       ) : (
         <p className="bam-note">
@@ -495,7 +493,7 @@ export default function Trend() {
       <h4>Two different annualized rates</h4>
       <p>
         The market-to-PL0 rate starts at the dated market price. The PL0 growth
-        rate starts on the model itself. Neither is a forecast of market return.
+        rate starts on the model itself.
       </p>
       {snapshot && baseDate ? (
         <div className="bam-table-wrap">
@@ -551,11 +549,11 @@ export default function Trend() {
       <p className="bam-note">
         * Beyond {data.modelDates.at(-1)}, the calendar is extrapolated using
         the original model’s target ten-minute block interval. The power-law
-        formula continues unchanged; neither future block timing nor price is
-        guaranteed. The historical chart is not extended with invented data.
+        formula continues unchanged. Historical observations remain separate
+        from these model projections.
       </p>
       <details>
-        <summary>Source, model and limitations</summary>
+        <summary>Source and model assumptions</summary>
         <p>
           Model: {data.version}. Historical dataset captured{" "}
           {data.provenance.capturedAt.slice(0, 10)} from{" "}
@@ -570,15 +568,13 @@ export default function Trend() {
           Price history ends near the snapshot capture date. A later quote is a
           separate point, not a reconstruction of missing daily prices. Early
           source prices rounded to zero are recovered from the source’s root
-          coordinate. PL0 = 10<sup>1.47</sup> × H<sup>5.38</sup>. Fit to past
-          data does not establish causation or guarantee survival of this
-          relationship. The public price endpoint receives no personal financial
-          inputs.
+          coordinate. PL0 = 10<sup>1.47</sup> × H<sup>5.38</sup>. The public
+          price endpoint receives no personal financial inputs.
         </p>
         <p>
           Annualized rate = (end value ÷ start value)<sup>1 / years</sup> − 1.
           Doubling over five years requires about 14.87% a year along a smooth
-          path; actual prices need not follow that path.
+          path.
         </p>
       </details>
     </ToolBox>

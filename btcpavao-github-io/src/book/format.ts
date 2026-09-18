@@ -1,9 +1,3 @@
-export const euro = (n: number) =>
-  new Intl.NumberFormat("en-GB", {
-    style: "currency",
-    currency: "EUR",
-    maximumFractionDigits: 0,
-  }).format(n)
 export const usd = (n: number) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -11,7 +5,7 @@ export const usd = (n: number) =>
     maximumFractionDigits: 0,
   }).format(n)
 export const percent = (n: number) =>
-  new Intl.NumberFormat("en-GB", {
+  new Intl.NumberFormat("en-US", {
     style: "percent",
     maximumFractionDigits: 2,
   }).format(n)

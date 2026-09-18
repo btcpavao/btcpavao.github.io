@@ -24,7 +24,7 @@
       "paragraphs": [
         "Most households still need a bank account for fiat income and payments. They may need an exchange, broker or custodian for conversion. A small working balance can remain there briefly while the next operational step is completed. These services are real tools with real purposes.",
         "They also introduce counterparties. A platform’s balance is a claim on its ability and willingness to deliver. Access may depend on credentials, verification, banking partners, internal controls, legal conditions and the business remaining solvent. A withdrawal may take longer than expected even without a permanent loss.",
-        "That differs from directly controlled Bitcoin on the base network. The platform may use Bitcoin, but your relationship to it is mediated by an institution. A familiar interface, a well-known name or a balance labelled BTC does not erase that distinction.",
+        "That differs from directly controlled Bitcoin on the base network. The platform may use Bitcoin, but your relationship to it is mediated by an institution. A familiar interface, a well-known name or a balance labeled BTC does not erase that distinction.",
         "Specify the role rather than arguing from purity. Which service converts income? What is the normal maximum working amount? How long should money remain there? Who verifies a changed destination or unexpected request? What happens if conversion or withdrawal is temporarily unavailable?",
         "A beginner may use temporary custody while learning. A deliberate transition with clear limits is more useful than either indefinite complacency or a rushed transfer into an untested self-custody arrangement. The aim for meaningful long-term savings is a clear, practiced path to direct custody, with operational services kept in their defined role."
       ]
@@ -40,9 +40,9 @@
         "The budget, asset map and custody map must agree. Money assigned to a near-term obligation cannot be called available if its access process takes longer than the obligation allows. Money designated for long-term saving should not continually pass through a convenience layer because no routine has been established."
       ],
       "example": {
-        "title": "Ana makes a map before making changes",
+        "title": "Emily makes a map before making changes",
         "paragraphs": [
-          "Ana lists her conversion service, the small amount used for learning and the money intended for longer-term holding. She records each purpose and the last time access was checked. She does not include private keys or passwords in this overview.",
+          "Emily lists her conversion service, the small amount used for learning and the money intended for longer-term holding. She records each purpose and the last time access was checked. She does not include private keys or passwords in this overview.",
           "The map shows that the convenient layer holds more than its stated purpose needs. She plans a deliberate move after completing the relevant practice. Her first improvement is clarity about responsibility, not buying a device because someone else owns one."
         ]
       }
@@ -62,7 +62,7 @@
       "id": "household-continuity",
       "title": "One interested person is not yet a family system",
       "paragraphs": [
-        "Marko has spent years learning about Bitcoin. Ivana trusts his care but does not follow every technical topic. “He handles that” sounds harmless until he is absent and a payment must be made. Their improvement begins when he explains the plan in language she can use.",
+        "Michael has spent years learning about Bitcoin. Sarah trusts his care but does not follow every technical topic. “He handles that” sounds harmless until he is absent and a payment must be made. Their improvement begins when he explains the plan in language she can use.",
         "She does not need to become a protocol expert. She needs to know that the plan exists, which person or document supplies the first safe step, what she is authorized to do and what she must never disclose. She should understand enough to recognize a false support message or a demand for an urgent transfer.",
         "Instructions should cover incapacity as well as death. Someone may be alive but unable to communicate for a period. The household needs access to ordinary living money without immediately disturbing its deepest reserve. That is another reason the operating layer and long-term treasury have distinct roles.",
         "When death occurs, legal processes and technical control must be coordinated. A will does not itself sign a Bitcoin transaction. A recoverable wallet does not itself settle inheritance rights. Appropriate estate advice and technical planning need to meet without exposing secrets unnecessarily in documents that may later be shared or become public.",
@@ -78,7 +78,7 @@
         "Practice safely through the technical curriculum before relying on a new arrangement for meaningful savings. Test the relevant recovery process with suitable test funds or test networks and a clearly understood procedure. Do not improvise destructive experiments on the only working copy of a live wallet.",
         "The family review has a simpler starting point. Can the intended person find the non-secret instructions? Are the contacts current? Can they explain the first step and the actions that are prohibited? Do they know that an unsolicited helper asking for wallet secrets is not following the plan?",
         "Schedule at least an annual review and revisit after major changes: marriage, separation, a death, a move, business ownership changes or a significant shift in the amount held. A review does not mean constantly rebuilding the system. Often the correct result is to confirm that it still fits and update a contact or document.",
-        "Marin and Petra’s mature system assigns business responsibilities explicitly and keeps the household treasury separate. They review records with the appropriate professionals and test what depends on a particular person. Their measure of improvement is fewer unresolved dependencies, not a more impressive list of devices."
+        "David and Rachel’s mature system assigns business responsibilities explicitly and keeps the household treasury separate. They review records with the appropriate professionals and test what depends on a particular person. Their measure of improvement is fewer unresolved dependencies, not a more impressive list of devices."
       ]
     },
     {

@@ -12,7 +12,7 @@
       "title": "Today’s price is not the whole story",
       "paragraphs": [
         "A price is immediate. Open a screen and there it is, apparently precise enough to settle an argument. Your household, however, lives across dates. Salary arrives, a lease expires, a child starts school and equipment needs replacement. The challenge is to connect a changing exchange rate with obligations that have their own calendar.",
-        "Bitcoin’s history contains long periods of growth interrupted by severe declines and uneven recoveries. A monetary-adoption thesis offers one explanation for a long upward movement in purchasing power: more people choose to hold and use a scarce asset. It does not supply a timetable or guarantee that the process continues.",
+        "Bitcoin’s history contains long periods of growth interrupted by severe declines and uneven recoveries. A monetary-adoption thesis offers one explanation for a long upward movement in purchasing power: more people choose to hold and use a scarce asset. The pace of that adoption, and the prices people pay along the way, can change.",
         "A trend is a model fitted to some aspect of that history. It can reveal a pattern obscured by the daily noise. Market price and model price remain different things. One is the rate people are trading at; the other is the output of a specified mathematical relationship.",
         "This chapter uses a block-time power-law framework informed by Bitcoin Rainbow Wave. The interactive map lets you compare a chosen date, a market price and the model’s central path. The important reader skill is understanding what the display represents before using its numbers in any other exercise."
       ],
@@ -22,11 +22,11 @@
       "id": "scales",
       "title": "Why the shape of a chart depends on its scale",
       "paragraphs": [
-        "On an ordinary price axis, equal distances mean equal additions. A move from €10 to €20 occupies almost no space beside a move from €100,000 to €200,000, although both double the price. When a history spans several orders of magnitude, early changes become difficult to see.",
+        "On an ordinary price axis, equal distances mean equal additions. A move from $10 to $20 occupies almost no space beside a move from $100,000 to $200,000, although both double the price. When a history spans several orders of magnitude, early changes become difficult to see.",
         "A logarithmic price axis gives equal ratios equal spacing. Ten to one hundred can occupy the same distance as one hundred to one thousand. A log-log chart also transforms the time axis. A power law appears as a straight line on those log-log axes because its relationship is expressed in ratios and powers.",
         "The interactive chart here retains a different transformation from its source: a root-scaled price axis. It takes a fixed root of each price to compress the much larger later numbers and make earlier and later waves easier to compare. The inverse transformation converts the displayed coordinate back into an ordinary price.",
-        "Root scaling is not the same as logarithmic scaling. Both can make a large range readable, but they produce different distances and shapes. A line that appears smooth or almost straight on a transformed chart has not thereby become a law of nature. Always read the actual values and the scale description together.",
-        "Try hiding extra bands first and looking only at observed prices and the central path. Add other lines one at a time. The purpose is to understand the relationship, not to make the image so elaborate that its apparent sophistication substitutes for judgment."
+        "Root scaling and logarithmic scaling compress prices differently, producing different distances and shapes. Read the actual values and the scale description together to understand what the visual pattern represents.",
+        "Try hiding extra bands first and looking only at observed prices and the central path. Add other lines one at a time, checking what each contributes to your understanding of the relationship."
       ]
     },
     {
@@ -36,13 +36,13 @@
         "Bitcoin’s issuance schedule counts blocks. A subsidy halving occurs after each interval of 210,000 blocks. Dividing the block height by 210,000 gives a convenient coordinate called H: H = block height / 210,000.",
         "At block 840,000, H equals 4. At block 945,000, H equals 4.5. The whole-number part identifies progress through halving intervals; the fractional part locates the network within the next interval. This is a coordinate, not a calendar date and not a number of years.",
         "H-time can express network progress in a way aligned with the protocol’s issuance rhythm. Your family still uses calendar time. A rent payment does not move because blocks arrive slowly. Connecting the two clocks therefore requires observed historical data or an explicit assumption about future block timing.",
-        "The tool relates calendar dates, days since genesis, H, block height and halving information. Historical mappings and projected mappings deserve different confidence. A future date derived from an average block interval is an estimate; the protocol does not promise a particular civil date for a future block.",
-        "Supply estimates are also descriptions of issuance under the rules, not counts of accessible coins. Some issued coins may be lost or otherwise unspendable. Do not read an scheduled issued-supply figure as a claim that every one of those coins can enter the market."
+        "The tool relates calendar dates, days since genesis, H, block height and halving information. Historical mappings use observed blocks. Projected mappings use an assumed average block interval, so their calendar dates shift as actual block timing differs from that assumption.",
+        "Scheduled issued supply counts coins produced under the protocol’s rules. It includes coins that may be lost or otherwise unspendable, so the amount accessible to holders can be smaller."
       ],
       "example": {
         "title": "Two clocks, two jobs",
         "paragraphs": [
-          "A planned school payment is due on 1 September. Its budget deadline is 1 September even if the network reaches a particular H value earlier or later than estimated. Block time helps describe the model. Calendar time determines when the household needs spendable money."
+          "A planned school payment is due on September 1. Its budget deadline is September 1 even if the network reaches a particular H value earlier or later than estimated. Block time helps describe the model. Calendar time determines when the household needs spendable money."
         ]
       }
     },
@@ -53,18 +53,18 @@
         "A power law relates one quantity to a power of another. In this framework the central price path, called PL0, has the form P(H) = 10^a × H^b. H is the block-time coordinate. The constants a and b set the level and shape of the fitted relationship; their values belong to the specified model version.",
         "In plain English, the model says that price grows with network age according to a particular scaling pattern. It does not say that price increases by a fixed amount each year. Nor does it imply the same percentage return for every future year. A power-law path and constant compound growth are different mathematical objects.",
         "Consider a deliberately simple teaching example unrelated to the live model parameters: P(H) = 100 × H². At H = 2, the model gives 400. At H = 3, it gives 900. At H = 4, it gives 1,600. The additions grow from 500 to 700, while the percentage increases fall from 125% to about 77.8%. A rising curve can therefore have a slowing percentage growth rate.",
-        "Giovanni Santostasi’s work supplies a widely discussed calendar-time power-law approach; Leo Heart’s Bitcoin Rainbow Wave work uses a block-based view. Geoffrey West’s writing on scaling provides broader background for why researchers investigate such relationships. A useful analogy with other scaling systems does not establish that Bitcoin must follow a fitted price curve.",
-        "Additional bands and wave functions are further modelling choices. They can illustrate historical variation around the path. They are not guaranteed floors or ceilings, and the market need not reach a projected wave at its illustrated date."
+        "Giovanni Santostasi’s work supplies a widely discussed calendar-time power-law approach; Leo Heart’s Bitcoin Rainbow Wave work uses a block-based view. Geoffrey West’s writing on scaling provides broader background for why researchers investigate such relationships. Each application depends on its own data, assumptions and evidence.",
+        "Additional bands and wave functions are further modeling choices. They describe historical variation around the path and extend those patterns forward. Actual prices can move beyond the bands and follow different timing."
       ]
     },
     {
       "id": "read-the-model",
       "title": "Use the interactive map with its labels intact",
       "paragraphs": [
-        "Select a date and compare the observed or entered market price with PL0. Read the data timestamp, model review information and whether the display is live, cached or an example. A current-looking interface cannot make an old observation current.",
-        "The percentage gap is the difference divided by the trend value. If a hypothetical market price is €65,000 and the model value is €50,000, the difference is €15,000. Dividing €15,000 by €50,000 gives 0.30, or 30% above the model. Written as a formula: deviation = (market price / trend price − 1) × 100%.",
-        "The denominator matters. A fall from €65,000 to €50,000 would be about 23.1% of the starting market price, not 30%. “Thirty percent above” and “thirty percent must fall” are not interchangeable statements.",
-        "A model can also express how far ahead or behind its own path the current price lies. That is a comparison with a mathematical schedule. It does not prove that the market has made an error or that a particular amount of calendar time must pass before the price moves again."
+        "Select a date and compare the observed or entered market price with PL0. Read the data timestamp, model review information and whether the display is live, cached or an example. Use the observation date when interpreting a price.",
+        "The percentage gap is the difference divided by the trend value. If a hypothetical market price is $65,000 and the model value is $50,000, the difference is $15,000. Dividing $15,000 by $50,000 gives 0.30, or 30% above the model. Written as a formula: deviation = (market price / trend price − 1) × 100%.",
+        "The denominator matters. A fall from $65,000 to $50,000 would be about 23.1% of the starting market price, not 30%. “Thirty percent above” and “thirty percent must fall” are not interchangeable statements.",
+        "A model can also express how far ahead or behind its own path the current price lies. This translates a price difference into distance along the model’s mathematical schedule. The market itself can move at a different pace."
       ],
       "tool": "trend"
     },
@@ -73,16 +73,16 @@
       "title": "Two annualized rates answer different questions",
       "paragraphs": [
         "Compound annual growth rate, or CAGR, translates a start value and an end value into the constant yearly rate that would connect them. It describes the endpoints as though growth were smooth. The formula is CAGR = (end value / start value)^(1 / years) − 1.",
-        "For example, moving from €100 to €121 over two years corresponds to 10% a year: €100 × 1.10 × 1.10 = €121. The calculation says nothing about the values in between. The path might have risen smoothly, fallen sharply and recovered, or spent nearly two years flat before a final jump.",
-        "The tool’s market-to-future-PL0 rate starts at the dated market reference and ends at the model’s central-path value on a chosen future date. It answers: what constant annualized rate would be mathematically required to connect these two points? It is not a forecast of market return.",
+        "For example, moving from $100 to $121 over two years corresponds to 10% a year: $100 × 1.10 × 1.10 = $121. The calculation says nothing about the values in between. The path might have risen smoothly, fallen sharply and recovered, or spent nearly two years flat before a final jump.",
+        "The tool’s market-to-future-PL0 rate starts at the dated market reference and ends at the model’s central-path value on a chosen future date. It answers: what constant annualized rate would connect these two points? The result depends on the selected endpoint and the time available to reach it.",
         "The growth of PL0 itself starts at the model value on that reference date and ends at its future model value. That describes the model path, not the market’s required journey from its actual current position. When market price is above the current model, the first rate can be lower than the second. When market price is below it, the first can be higher.",
         "Comparisons over one, five, ten and thirty years should keep those starting points visible. A long horizon can make a calculated rate look comfortable while concealing a large near-term funding problem. A smooth annualized number does not pay a bill during an early drawdown."
       ],
       "example": {
         "title": "Same future point, different starting points",
         "paragraphs": [
-          "Assume the dated market reference is €100,000, today’s PL0 is €80,000 and five-year PL0 is €160,000. Market-to-future-PL0 CAGR is 1.6^(1/5) − 1, about 9.86%. PL0’s own CAGR is 2^(1/5) − 1, about 14.87%.",
-          "Both calculations are correct under the stated assumptions. Neither predicts a return. They differ because the first starts at the market’s €100,000 and the second at the model’s €80,000."
+          "Assume the dated market reference is $100,000, PL0 on that date is $80,000 and five-year PL0 is $160,000. Market-to-future-PL0 CAGR is 1.6^(1/5) − 1, about 9.86%. PL0’s own CAGR is 2^(1/5) − 1, about 14.87%.",
+          "The calculations differ because the first starts at the market’s $100,000 and the second at the model’s $80,000. Both connect their respective starting points to the assumed $160,000 endpoint."
         ]
       }
     },
@@ -93,17 +93,17 @@
         "Far above the chosen trend, review what stronger purchasing power has changed. Has the money layer grown enough to require a custody review? Is giving still properly funded? Is there a planned life purchase worth reconsidering? Are you confusing a temporary exchange rate with permission for a permanently larger lifestyle?",
         "Near the trend, ordinary work remains valuable. Keep records, earn, give, maintain useful assets and learn. You do not need to invent a dramatic financial action because the chart is available.",
         "Below the trend, first check the system. Is a proposed purchase funded by genuinely free money? Would it weaken a known expense category? Are you about to sell because a predictable bill was ignored? Has the underlying thesis changed, or are you reacting to the discomfort of a lower quoted price?",
-        "Being below a fitted model does not prove undervaluation. The model can be wrong. Being above it does not require selling. Across all three conditions the same rules remain: no borrowing to exploit the chart, no reassignment of essential money without acknowledging what loses funding, and no unilateral decision with shared resources."
+        "Treat the gap as a reason to examine the position. Review whether the model remains useful and what the household actually needs. Across all three conditions the same rules remain: no borrowing to exploit the chart, no reassignment of essential money without acknowledging what loses funding, and no unilateral decision with shared resources."
       ]
     },
     {
       "id": "secure-known-consumption",
       "title": "A strong period can fund something already planned",
       "paragraphs": [
-        "Suppose Marko and Ivana already intend to rent the same suitable home for another year. The rent is €600 a month, or €7,200 over twelve months. Their landlord offers a genuine 10% discount for annual prepayment, making the price €6,480. They consider it during a period when Bitcoin’s purchasing power is strong relative to their chosen model.",
-        "At an illustrative Bitcoin price of €120,000, €6,480 requires 0.054 BTC before conversion costs. They are buying a defined twelve months of housing, not predicting a market top. Paying in advance reduces the need for later Bitcoin sales for those particular rental months.",
+        "Suppose Michael and Sarah already intend to rent the same suitable home for another year. The rent is $600 a month, or $7,200 over twelve months. Their landlord offers a genuine 10% discount for annual prepayment, making the price $6,480. They consider it during a period when Bitcoin’s purchasing power is strong relative to their chosen model.",
+        "At a Bitcoin price of $120,000, $6,480 requires 0.054 BTC before conversion costs. They are buying a defined twelve months of housing. Paying in advance reduces the need for later Bitcoin sales for those particular rental months.",
         "It also exchanges flexible money for a contractual claim on future accommodation. They need to understand the landlord’s reliability, the lease, what happens if they move, refund terms, and whether the payment leaves sufficient operating flexibility. A discount is not the only consideration.",
-        "Prepaying in January covers the next twelve agreed months, not an unspecified future downturn years later. If Bitcoin later rises, paying monthly might have used fewer satoshis; if it falls, prepayment may have avoided selling more during that period. The outcome is uncertain. The rational question is whether the known discount and reduced cash-flow exposure justify the loss of flexibility under their actual circumstances."
+        "Prepaying in January covers the next twelve agreed months. If Bitcoin later rises, paying monthly might have used fewer satoshis; if it falls, prepayment may have avoided selling more during that period. The question is whether the known discount and reduced cash-flow exposure justify the loss of flexibility under their actual circumstances."
       ],
       "diagram": "timeline"
     },
@@ -113,7 +113,7 @@
       "paragraphs": [
         "R² describes how closely the selected data fit a mathematical relationship under particular transformations and assumptions. A high value is not a probability that the future will follow the line. It can coexist with large practical errors, persistent deviations and a model that stops being useful.",
         "Overfitting happens when a model follows past data partly because enough choices were tailored to that past. Additional curves, bands and adjustments may improve appearance without improving future performance. Ask whether parameters remain stable and how the model performs on observations that were not used to select it.",
-        "Markets can change regime. Demand, regulation, technology, liquidity and user behaviour can change in ways a time-based model does not explain. Neither elapsed days nor produced blocks force buyers to pay a specified price.",
+        "Markets can change regime. Demand, regulation, technology, liquidity and user behavior can change in ways a time-based model does not explain. Neither elapsed days nor produced blocks force buyers to pay a specified price.",
         "Choose a model deliberately, keep its version visible and resist searching for a different chart whenever one fails to support your preferred decision. Most importantly, test what your household would do if the model failed for years. If the plan can only survive a particular future price, the household has given the model a responsibility it cannot carry."
       ]
     }
@@ -129,7 +129,7 @@
   ],
   "summary": [
     "Price, trend and deviation are different observations. Above, near and below are context, not trading commands.",
-    "Annualized model comparisons describe endpoints and assumptions; they do not forecast returns or remove path risk.",
+    "Annualized model comparisons connect selected endpoints; payment timing determines the Bitcoin needed along the way.",
     "Use strong purchasing power thoughtfully for existing plans, while keeping obligations and model limitations visible."
   ]
 }

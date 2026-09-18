@@ -69,7 +69,7 @@ const maps: Record<
       ["home", "Consumption", "No more than one third."],
       ["spend-hold-invest", "Productive assets", "No more than one third."],
     ],
-    note: "These are the author’s directional limits, not a command to sell mechanically or buy productive assets just to fill a slice.",
+    note: "Use these proportions to guide saving, spending and investment decisions over time.",
   },
   decision: {
     title: "What job will this money do?",

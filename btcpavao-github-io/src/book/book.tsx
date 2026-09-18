@@ -120,8 +120,7 @@ function Extra({ slug, id }: { slug: string; id: string }) {
           </div>
         </div>
         <p className="bam-note">
-          The amounts sum to the input. These are illustrative values, not a fee
-          recommendation.
+          The payment, change and fee add up to the input.
         </p>
       </figure>
     )
@@ -250,9 +249,7 @@ export function BitcoinAsMoney({ path = BOOK_PATH }: { path?: string }) {
           <main id="book-main">
             <section className="bam-landing-hero bam-shell">
               <div className="bam-hero-copy">
-                <p className="bam-eyebrow">
-                  An open interactive book · Pavao Pahljina
-                </p>
+                <p className="bam-eyebrow">An open interactive book</p>
                 <h1>
                   Bitcoin
                   <br />
@@ -538,8 +535,7 @@ export function BitcoinAsMoney({ path = BOOK_PATH }: { path?: string }) {
                       .length
                   }{" "}
                   / {chapter.checks.length} actions checked. Completion is your
-                  own assessment; this website has not verified your finances or
-                  understanding.
+                  own assessment.
                 </p>
               </section>
               <nav className="bam-next" aria-label="Chapter navigation">
@@ -565,11 +561,6 @@ export function BitcoinAsMoney({ path = BOOK_PATH }: { path?: string }) {
           </main>
         )}
         <div className="bam-shell bam-endnote">
-          <p>
-            Educational material describing Pavao’s framework, not personalized
-            financial advice. Growth scenarios are assumptions, not expected
-            returns. Tax and legal treatment vary.
-          </p>
           <p>
             {unavailable
               ? "Browser storage is unavailable. Progress is kept only for this session."

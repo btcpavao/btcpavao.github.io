@@ -10,7 +10,7 @@ import type { DecisionInputs, DecisionResult } from "./decision-math.mjs"
 import { modelGrowth } from "./model/helpers.mjs"
 import { useModel } from "./use-model"
 import { Field, ToolBox } from "./tool-common"
-import { btc, euro, percent } from "./format"
+import { btc, usd, percent } from "./format"
 const presets: Record<string, DecisionInputs> = {
   Car: {
     purchase: 34490,
@@ -54,13 +54,13 @@ const presets: Record<string, DecisionInputs> = {
   },
 }
 const fields: [keyof DecisionInputs, string][] = [
-  ["purchase", "All-in purchase price (€)"],
-  ["rent", "Monthly rent (€)"],
-  ["ownership", "Monthly ownership costs (€)"],
-  ["residual", "Net resale proceeds at the end (€)"],
+  ["purchase", "All-in purchase price (USD)"],
+  ["rent", "Monthly rent (USD)"],
+  ["ownership", "Monthly ownership costs (USD)"],
+  ["residual", "Net resale proceeds at the end (USD)"],
   ["months", "Duration (months)"],
-  ["capital", "Starting BTC balance, valued in euros"],
-  ["upfront", "Non-refundable upfront rental fee (€)"],
+  ["capital", "Starting BTC balance, valued in US dollars"],
+  ["upfront", "Non-refundable upfront rental fee (USD)"],
   ["escalation", "Annual rent escalation (%)"],
 ]
 const strings = (v: DecisionInputs) =>
@@ -70,11 +70,10 @@ export default function Decision() {
   const [preset, setPreset] = useState("Car"),
     [raw, setRaw] = useState(strings(presets.Car)),
     [rate, setRate] = useState("10"),
-    [spot, setSpot] = useState("70000"),
+    [spot, setSpot] = useState("78158"),
     [path, setPath] = useState("smooth"),
     [mode, setMode] = useState("custom"),
-    [date, setDate] = useState("2026-09-10"),
-    [marketUsd, setUsd] = useState("78158")
+    [date, setDate] = useState("2026-09-10")
   let x: DecisionResult | undefined,
     v: DecisionInputs | undefined,
     roots: ReturnType<typeof breakEvenRates> | undefined,
@@ -91,7 +90,7 @@ export default function Decision() {
       +spot <= 0
     )
       throw Error(
-        "Please enter valid amounts and a positive starting BTC/EUR price."
+        "Please enter valid amounts and a positive starting BTC/USD price."
       )
     v = Object.fromEntries(
       Object.entries(raw).map(([k, n]) => [k, Number(n)])
@@ -101,7 +100,7 @@ export default function Decision() {
         throw Error(
           "The model is unavailable. Please use a custom growth assumption or retry after loading."
         )
-      const g = modelGrowth(data, date, v.months / 12, +marketUsd)
+      const g = modelGrowth(data, date, v.months / 12, +spot)
       effectiveRate = g.marketRate
       modelTarget = g.target
     } else if (
@@ -122,11 +121,11 @@ export default function Decision() {
   const outcome = (r: DecisionResult) =>
     Math.abs(r.advantage) < 0.01
       ? "Equal final cost"
-      : `${r.advantage > 0 ? "Rent" : "Own"}: ${euro(Math.abs(r.advantage))} lower opportunity-adjusted cost`
+      : `${r.advantage > 0 ? "Rent" : "Own"}: ${usd(Math.abs(r.advantage))} lower opportunity-adjusted cost`
   return (
     <ToolBox
       title="Own or rent? Make the assumptions visible."
-      caption="Compare equivalent use over the same period. The presets are editable teaching examples, not quotes or purchase recommendations."
+      caption="Compare equivalent use over the same period. Edit a preset to match the decision you are considering."
     >
       <label className="bam-field">
         <span>Example</span>
@@ -158,7 +157,7 @@ export default function Decision() {
       <h4>The Bitcoin scenario</h4>
       <div className="bam-fields">
         <Field
-          label="Starting BTC price (€ per BTC)"
+          label="Starting BTC price (USD per BTC)"
           value={spot}
           min={0.01}
           onChange={setSpot}
@@ -190,12 +189,6 @@ export default function Decision() {
                 onChange={(e) => setDate(e.target.value)}
               />
             </label>
-            <Field
-              label="BTC market price on that date (USD)"
-              value={marketUsd}
-              min={1}
-              onChange={setUsd}
-            />
           </>
         )}
         <label className="bam-field">
@@ -208,14 +201,12 @@ export default function Decision() {
       </div>
       {mode === "model" && (
         <p className="bam-note">
-          The initial example is frozen at 10 September 2026. Changing the date
-          does not fetch that date’s market price: please enter the matching USD
-          quote. The USD model’s percentage change is applied to BTC/EUR under a
-          constant EUR/USD assumption. Beyond the published calendar, the
-          original model extends time at a target ten-minute block interval;
-          this is an additional assumption, not known future timing.{" "}
+          The initial example uses September 10, 2026. For another date, enter
+          its USD quote in the starting-price field. Beyond the published
+          calendar, the model extends time at a target ten-minute block
+          interval.{" "}
           {modelTarget && v
-            ? `PL0 on ${addMonths(date, v.months)}: $${modelTarget.toFixed(0)}. Required scenario rate: ${percent(effectiveRate)} a year.`
+            ? `PL0 on ${addMonths(date, v.months)}: ${usd(modelTarget)}. Required scenario rate: ${percent(effectiveRate)} a year.`
             : ""}
         </p>
       )}
@@ -234,7 +225,7 @@ export default function Decision() {
               <h4>
                 {Math.abs(x.advantage) < 0.01
                   ? "The paths leave equal final wealth."
-                  : `${x.advantage > 0 ? "Renting" : "Owning"} leaves ${euro(Math.abs(x.advantage))} more final wealth.`}
+                  : `${x.advantage > 0 ? "Renting" : "Owning"} leaves ${usd(Math.abs(x.advantage))} more final wealth.`}
               </h4>
             ) : (
               <>
@@ -245,9 +236,6 @@ export default function Decision() {
                 </p>
               </>
             )}
-            <p>
-              The result follows your assumptions. It does not choose for you.
-            </p>
           </div>
           <div className="bam-table-wrap">
             <table>
@@ -265,8 +253,8 @@ export default function Decision() {
               <tbody>
                 <tr>
                   <th>Nominal net cash cost</th>
-                  <td>{euro(x.nominalBuy)}</td>
-                  <td>{euro(x.nominalRent)}</td>
+                  <td>{usd(x.nominalBuy)}</td>
+                  <td>{usd(x.nominalRent)}</td>
                 </tr>
                 <tr>
                   <th>Minimum initial BTC to fund the full path</th>
@@ -274,21 +262,21 @@ export default function Decision() {
                   <td>{btc(x.requiredRent / +spot)}</td>
                 </tr>
                 <tr>
-                  <th>Same minimum, at initial EUR price</th>
-                  <td>{euro(x.requiredBuy)}</td>
-                  <td>{euro(x.requiredRent)}</td>
+                  <th>Same minimum, at initial USD price</th>
+                  <td>{usd(x.requiredBuy)}</td>
+                  <td>{usd(x.requiredRent)}</td>
                 </tr>
                 <tr>
                   <th>Final wealth (includes resale for own)</th>
                   <td>
                     {x.buyEnd === null
                       ? `Unfunded from month ${x.buyExhaustion}`
-                      : euro(x.buyEnd)}
+                      : usd(x.buyEnd)}
                   </td>
                   <td>
                     {x.rentEnd === null
                       ? `Unfunded from month ${x.rentExhaustion}`
-                      : euro(x.rentEnd)}
+                      : usd(x.rentEnd)}
                   </td>
                 </tr>
                 <tr>
@@ -302,8 +290,7 @@ export default function Decision() {
           <p className="bam-note">
             Minimum starting BTC must cover every payment before the final
             resale. The resale proceeds cannot pay earlier bills. A negative net
-            opportunity cost means modeled resale exceeds the BTC spent; it is
-            not a guaranteed profit.
+            opportunity cost means modeled resale exceeds the BTC spent.
           </p>
           <div className="bam-statline">
             <span>
@@ -321,13 +308,12 @@ export default function Decision() {
               <strong>
                 {x.residualBreak < 0
                   ? "No non-negative threshold"
-                  : euro(x.residualBreak)}
+                  : usd(x.residualBreak)}
               </strong>
             </span>
           </div>
           <p className="bam-note">
-            Growth crossings searched from −90% to 500% a year; this bounded
-            scan does not prove there are no other crossings. The resale
+            Growth crossings are searched from −90% to 500% a year. The resale
             threshold uses the selected path.{" "}
             {x.residualBreak < 0
               ? "Ownership has lower modeled cost even at zero resale under this scenario."
@@ -338,8 +324,8 @@ export default function Decision() {
           <div className="bam-table-wrap">
             <table>
               <caption>
-                Both paths begin at {euro(+spot)}/BTC and finish at{" "}
-                {euro(+spot * x.g)}/BTC.
+                Both paths begin at {usd(+spot)}/BTC and finish at{" "}
+                {usd(+spot * x.g)}/BTC.
               </caption>
               <thead>
                 <tr>
@@ -366,7 +352,7 @@ export default function Decision() {
             </table>
           </div>
           <p>
-            For the same euro payment, a lower BTC price consumes more sats.{" "}
+            For the same dollar payment, a lower BTC price consumes more sats.{" "}
             {v.months === 1
               ? "At one month, these paths are identical: there is no intermediate waypoint."
               : `The waypoint path uses ${btc(Math.abs(stress.requiredRent - smooth.requiredRent) / +spot)} ${stress.requiredRent > smooth.requiredRent ? "more" : "less"} BTC for rent than the smooth path.`}{" "}
@@ -408,7 +394,7 @@ export default function Decision() {
           <h4>What if resale is wrong?</h4>
           <p>
             A 20% lower resale estimate changes the relative final-wealth
-            difference by {euro(v.residual * 0.2)} against ownership. A 20%
+            difference by {usd(v.residual * 0.2)} against ownership. A 20%
             higher estimate changes it by the same amount in favour of
             ownership. It does not solve an earlier funding shortfall.
           </p>
@@ -416,8 +402,8 @@ export default function Decision() {
             <summary>Assumptions and exclusions</summary>
             <ul>
               <li>
-                All cash costs are gross euros. Include transaction charges and
-                purchase taxes in the all-in purchase price; use net resale
+                All cash costs are gross US dollars. Include transaction charges
+                and purchase taxes in the all-in purchase price; use net resale
                 proceeds after costs and taxes.
               </li>
               <li>
@@ -441,11 +427,10 @@ export default function Decision() {
                 details, moving costs and rent controls.
               </li>
               <li>
-                BTC prices may fall or fail to follow any path. The early
-                drawdown example halves the initial price over the first{" "}
-                {Math.min(12, Math.floor(v.months / 2))} months, then moves to
-                the same endpoint. If the endpoint is below half the initial
-                price, it continues falling; at one month the paths are
+                The early drawdown example halves the initial price over the
+                first {Math.min(12, Math.floor(v.months / 2))} months, then
+                moves to the same endpoint. If the endpoint is below half the
+                initial price, it continues falling; at one month the paths are
                 identical.
               </li>
             </ul>

@@ -42,7 +42,7 @@ The bundled market snapshot is a dated reference, never a live claim. Explicit q
 
 ## Own or Rent generalization
 
-`src/book/decision-math.mjs` adapts the existing September 2026 vehicle calculator and preserves its original eight regression checks in `tests/original-vehicle.test.mjs`. Car, home, equipment and custom presets share pure cash-flow functions. Purchase and ownership fields explicitly include applicable fees/costs; this first version uses EUR throughout. EUR/USD is held constant when a USD model target supplies a growth assumption.
+`src/book/decision-math.mjs` adapts the existing September 2026 vehicle calculator and preserves its original eight regression checks in `tests/original-vehicle.test.mjs`. Car, home, equipment and custom presets share pure cash-flow functions. Purchase and ownership fields explicitly include applicable fees/costs; the revised book uses USD throughout. A single starting BTC/USD price now supplies both the BTC conversion and market-to-model growth calculation.
 
 Both paths start with the same BTC balance. Upfront costs occur at time zero; recurring payments occur at month end; ownership ends with the entered resale proceeds. There is no borrowing or future salary contribution. Rent escalation compounds smoothly each month from its annual assumption. Residual value is not used to fund earlier bills. Funding failure suppresses final wealth instead of displaying negative BTC as money.
 
@@ -69,3 +69,9 @@ Only chapter checkmarks, completion and last chapter use localStorage (`btcpavao
 - Browser interaction checks passed for keyboard budget allocation, completion after reload, reset, calculator underfunding/zero growth, chart zoom/H4 selection, historical tables, 30-year extrapolation and policy text disappearing after reload. Policy download could not be confirmed by the cloud browser’s download event; the complete copyable fallback was verified.
 - The public quote endpoint returned a valid live JSON response from the build environment. Refresh was unavailable in the review browser; the dated fallback and failure label were verified. Confirm live refresh from the final public domain before merge.
 - Future chapter videos can be added through existing metadata. Professional legal/tax implementation and physical custody testing remain outside this educational site's validation.
+
+## Author-requested editorial revision
+
+The September 18 review removes the author byline, applies Geist sans serif throughout the book, and uses US household names consistently: Emily; Michael and Sarah; David and Rachel; Jessica and James. Teaching amounts are now USD examples with the same arithmetic, rather than claimed historical exchange-rate conversions. Dollar formatting and calculator labels match. The duplicate market-price input and EUR/USD assumption are removed from the decision tool.
+
+Repeated defensive disclaimers and generic advice warnings have been removed from prose and interactive copy. Concrete definitions, calculation inputs, funding failures, source dates and privacy behavior remain part of the explanation. Existing chapter/section URLs and saved chapter-completion identifiers are preserved.
