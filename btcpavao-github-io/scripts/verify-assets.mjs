@@ -698,7 +698,7 @@ assert(
 )
 assert(
   distIndexHtml.includes("Start with first principles") &&
-    distIndexHtml.includes("Book a Value for Value conversation") &&
+    distIndexHtml.includes("Book a 15-minute introduction") &&
     !distIndexHtml.includes("Read the latest writing") &&
     !distIndexHtml.includes("Read latest writing"),
   "Homepage CTAs do not match the approved hierarchy"
@@ -895,7 +895,7 @@ assert(
 )
 assert(
   supportThankYouRouteHtml.includes("Thank you for returning value.") &&
-    supportThankYouRouteHtml.includes("Schedule a Value for Value call") &&
+    supportThankYouRouteHtml.includes("Book a 15-minute introduction") &&
     supportThankYouRouteHtml.includes(
       "https://cal.com/btcpavao/introductory-call"
     ) &&
