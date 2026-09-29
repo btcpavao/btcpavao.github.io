@@ -31,7 +31,7 @@ const navigationGroups = [
     links: [
       { label: "Advisory approach", href: "/#bitcoin-standard" },
       { label: "Work with me", href: "/#work-with-me" },
-      { label: "Book a conversation", href: BOOKING_URL, external: true },
+      { label: "Book a 15-minute introduction", href: BOOKING_URL, external: true },
     ],
   },
   {
@@ -155,7 +155,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <ThemeToggle />
           <Button asChild className="hidden min-h-11 rounded-full px-5 xl:inline-flex">
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Book a call</a>
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Book a 15-minute introduction</a>
           </Button>
           <Button
             ref={menuButtonRef}

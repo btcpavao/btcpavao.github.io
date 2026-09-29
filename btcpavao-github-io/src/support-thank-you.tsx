@@ -121,8 +121,9 @@ export function SupportThankYouPage() {
                   if any, you want to return based on how useful it was to you.
                 </p>
                 <p>
-                  You can schedule a call directly in my calendar, or simply
-                  send me an email. I try to answer every email and take every
+                  The calendar opens a 15-minute introduction to discuss your
+                  question and whether a longer session would help. You can
+                  also send me an email. I try to answer every email and take every
                   useful conversation I reasonably can, subject to the time I
                   have available.
                 </p>
@@ -139,11 +140,12 @@ export function SupportThankYouPage() {
                 </span>
                 <div>
                   <h3 className="font-display text-xl font-bold tracking-[-0.03em]">
-                    A useful conversation, then you decide.
+                    Start with a short introduction.
                   </h3>
                   <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                    No fixed consulting price. We talk first; afterwards you
-                    decide what the conversation was worth to you.
+                    If we arrange a longer advisory conversation, there is no
+                    fixed consulting price. Afterwards you decide what it was
+                    worth to you.
                   </p>
                 </div>
               </div>
@@ -154,7 +156,7 @@ export function SupportThankYouPage() {
                 className="mt-7 min-h-12 w-full rounded-full px-6"
               >
                 <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                  Schedule a Value for Value call
+                  Book a 15-minute introduction
                   <ArrowUpRight aria-hidden="true" />
                 </a>
               </Button>
