@@ -28,6 +28,7 @@ import {
   type Bip39ArticleBlock,
 } from "@/bip39-article"
 import { SiteBrandLink } from "@/components/site-brand"
+import { ConsultingInvitation } from "@/components/consulting-invitation"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { TechnicalArticleInfo } from "@/components/technical-article-info"
@@ -2187,6 +2188,14 @@ function BitcoinCoreArticlePage({
               ) : null}
             </div>
 
+            {isEnglish ? (
+              <ConsultingInvitation
+                question="Want to test the assumptions behind your custody plan?"
+                detail="Bring a concrete question about Bitcoin Core, entropy, or your wallet process. We can identify what to verify before you entrust it with real funds."
+                className="article-shell mt-14"
+              />
+            ) : null}
+
             <ValueForValueCard
               language={language}
               className="article-shell mt-14"
@@ -2498,6 +2507,11 @@ function Bip39ArticlePage({
               {!articleSource ? <p>Loading article…</p> : null}
             </div>
 
+            <ConsultingInvitation
+              question="Would your backup actually restore your wallet?"
+              detail="Bring a question about backup artifacts, passphrase separation, or a recovery drill. We can work out which assumption you need to test next."
+              className="article-shell mt-14"
+            />
             <ValueForValueCard language="en" className="article-shell mt-14" />
 
             <nav
@@ -2732,6 +2746,11 @@ function MultisigArticlePage() {
               })}
             </div>
 
+            <ConsultingInvitation
+              question="Does multisig solve a threat you actually face?"
+              detail="Bring your authorization and recovery requirements. We can examine whether one signer or a threshold policy fits the problem you are trying to solve."
+              className="article-shell mt-14"
+            />
             <ValueForValueCard language="en" className="article-shell mt-14" />
 
             <nav
@@ -3058,6 +3077,11 @@ function LongRoadArticlePage({
               {!articleSource ? <p>Loading article…</p> : null}
             </div>
 
+            <ConsultingInvitation
+              question="Want a Bitcoin Core process you can explain and recover?"
+              detail="Bring the part of your current setup that feels fragile, from choosing a wallet workflow to testing recovery. We can define one useful next step."
+              className="article-shell mt-14"
+            />
             <ValueForValueCard language="en" className="article-shell mt-14" />
 
             <nav

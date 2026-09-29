@@ -42,7 +42,7 @@ const pathTopics = [
       "Practical Bitcoin processes for small companies",
       "A gradual path toward self-custody",
     ],
-    cta: "Book a Bitcoin Standard conversation",
+    cta: "Discuss your Bitcoin Standard question",
     href: BOOKING_URL,
     icon: RefreshCcw,
   },
@@ -310,13 +310,14 @@ export function Homepage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Book a Value for Value conversation
+                    Book a 15-minute introduction
                   </a>
                 </Button>
               </div>
               <p className="mt-4 max-w-xl text-sm leading-6 text-muted-foreground">
-                Advisory calls are offered on a value-for-value basis: after the
-                conversation, contribute what it was worth to you.
+                Start with a 15-minute introduction. If a longer advisory
+                session would help, we can arrange it on a Value for Value
+                basis: afterwards, you decide what it was worth.
               </p>
             </div>
           </div>
@@ -885,8 +886,10 @@ export function Homepage() {
                 Understand one step, verify it, and continue.
               </p>
               <p className="mt-5 max-w-2xl text-sm leading-7 text-white/72">
-                Advisory calls work on a value-for-value basis. There is no
-                fixed fee: contribute what the conversation was worth to you.
+                The calendar opens a 15-minute introduction. If we arrange a
+                longer advisory session, it works on a Value for Value basis:
+                afterwards, you decide what it was worth. No fixed fee or
+                obligation.
               </p>
               <p className="mt-6 text-sm text-white/60">
                 Practical education and guidance. Not investment, legal, or tax
@@ -900,7 +903,7 @@ export function Homepage() {
                 className="h-auto min-h-12 max-w-full whitespace-normal rounded-full py-3 text-center bg-white px-6 text-[#0d3153] hover:bg-white/90"
               >
                 <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                  Book a Value for Value conversation
+                  Book a 15-minute introduction
                 </a>
               </Button>
               <Button

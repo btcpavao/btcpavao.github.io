@@ -28,6 +28,7 @@ import {
 } from "lucide-react"
 
 import { SiteHeader } from "@/components/site-header"
+import { ConsultingInvitation } from "@/components/consulting-invitation"
 import { TutorialMetadata } from "@/components/tutorial-metadata"
 import {
   ValueForValueCard,
@@ -1653,6 +1654,11 @@ export function BitcoinCoreWalletGuidePage() {
           <a className="mb-10 inline-flex min-h-12 items-center rounded-full bg-primary px-6 py-3 text-center text-sm font-semibold text-primary-foreground" href={EN_BITCOIN_CORE_CURRICULUM_PATH}>
             Continue with the self-custody curriculum
           </a>
+          <ConsultingInvitation
+            question="Want to prove your own backup and recovery plan?"
+            detail="Bring one question from this exercise: what to back up, how to separate credentials, or how to check a restore before using real funds."
+            className="mb-10"
+          />
           <ValueForValueCard language="en" />
         </div>
       </main>
