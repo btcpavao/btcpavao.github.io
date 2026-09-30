@@ -1,0 +1,1795 @@
+[
+  {
+    "lessonId": "0.1",
+    "slug": "what-self-custody-really-means",
+    "title": "1.1 Self-custody means control and understanding",
+    "auditDecision": "Maybe",
+    "originalPlacement": "R4, nakon završnog odlomka; mali inline format, bez hero slike iznad naslova.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Self-custody is not ownership of a gadget. Begin with the authority you control and the… | Bez dodatnog vizuala |\n| R2 · This course recommends Bitcoin Core on dedicated generic computers running Debian Stable.… | Bez dodatnog vizuala |\n| R3 · The main path needs no real bitcoin. You will use Signet, a public practice network whose… | Bez dodatnog vizuala |\n| R4 · You finish by being able to explain your choices and recover your wallet. A bigger… | Predloženi vizual — Maybe |",
+    "implementation": [],
+    "decision": "Omitted: the short introductory reading already sets the recovery goal. The later handover scene gives that metaphor a concrete exercise.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "0.2",
+    "slug": "threat-model-before-tools",
+    "title": "1.2 Write your threat model before choosing a solution",
+    "auditDecision": "Yes",
+    "originalPlacement": "S2 „Rank the failures”, prije pisanja vlastitog popisa.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Name the asset and the time horizon | Bez dodatnog vizuala |\n| S2 · Rank the failures | Predloženi vizual — Yes |\n| S3 · Set the review trigger | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "0.2:S2:threat-model",
+        "visual": "threat-model",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "rank-threats"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "trust-and-verification",
+    "slug": "trust-and-verification",
+    "title": "1.3 Make the remaining trust visible",
+    "auditDecision": "Yes",
+    "originalPlacement": "R3, neposredno nakon primjera vraćanja backupa.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Trust means depending on something you have not fully established yourself. Verification… | Bez dodatnog vizuala |\n| R2 · Attack surface is the set of ways something can interact with or undermine your system:… | Bez dodatnog vizuala |\n| R3 · Write one assumption from your threat model beside a check: “I depend on this backup being… | Predloženi vizual — Yes |",
+    "implementation": [
+      {
+        "id": "trust-and-verification:R3:trust-test",
+        "visual": "trust-test",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "Write one assumption from your threat model beside a check: “I depend on this backup being usable; I will restore and sign from it.” A familiar filename proves less. Ask what the check leaves untested too."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "0.3",
+    "slug": "security-is-a-process",
+    "title": "1.4 Complexity has a security and economic cost",
+    "auditDecision": "Yes",
+    "originalPlacement": "R2, uz usporedbu drugog backupa i drugog potrebnog potpisnika.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Security complexity is a cost. Add complexity only when it solves a threat that actually… | Bez dodatnog vizuala |\n| R2 · Consider a second backup in another location. It addresses loss of the first location.… | Predloženi vizual — Yes |\n| R3 · For every proposed layer, finish this sentence: “I am adding this because it prevents ___,… | Bez dodatnog vizuala |",
+    "implementation": [
+      {
+        "id": "0.3:R2:copies-authority",
+        "visual": "copies-authority",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "Consider a second backup in another location. It addresses loss of the first location. Consider instead a second required signer: it changes who can authorize a payment. Those are different problems, even if both arrangements happen to involve two objects."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "custody-economics",
+    "slug": "custody-economics",
+    "title": "1.5 Bitcoin custody does not scale like a gold vault",
+    "auditDecision": "Maybe",
+    "originalPlacement": "R2, uz usporedbu fizičkog zlata i potpisivanja.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · More physical gold can mean more space, heavier transport, stronger storage and additional… | Bez dodatnog vizuala |\n| R2 · Bitcoin is controlled through information. An ordinary used computer can create signatures… | Predloženi vizual — Maybe |\n| R3 · A larger balance may attract a more capable attacker, justify different physical… | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "Omitted: physical weight imagery adds little to the short contrast and risks suggesting that balance never affects threats.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "2.1",
+    "slug": "what-is-bitcoin-core",
+    "title": "1.6 Bitcoin Core is a wallet and your own verifier",
+    "auditDecision": "Yes",
+    "originalPlacement": "R1, odmah nakon opisa dvaju poslova; na R3 samo poveznica na isti prikaz.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · The wallet keeps the information needed to receive and authorize payments. The node… | Predloženi vizual — Yes |\n| R2 · A full validating node checks the chain locally. Bitcoin Core therefore gives you a wallet… | Bez dodatnog vizuala |\n| R3 · The jobs can also be separated. An online computer can validate and prepare payments… | Bez dodatnog vizuala |",
+    "implementation": [
+      {
+        "id": "2.1:R1:core-roles",
+        "visual": "core-roles",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "The wallet keeps the information needed to receive and authorize payments. The node downloads Bitcoin data and checks it against consensus rules: the rules that determine which transactions and blocks it will accept."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "own-node",
+    "slug": "your-node-matters-first-to-you",
+    "title": "1.7 Verification belongs inside the custody model",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · If you received a gold bar, holding it would not establish its purity. With Bitcoin,… | Bez dodatnog vizuala |\n| R2 · This course treats independent verification as part of custody: I control the signing… | Bez dodatnog vizuala |\n| R3 · Your node validates for you. It does not give you control over other people’s rules or… | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "1.3",
+    "slug": "electrum-workflow-and-security-assumptions",
+    "title": "1.8 Electrum: the trade for an instant start",
+    "auditDecision": "Maybe",
+    "originalPlacement": "R3, nakon objašnjenja upita serveru; opcionalno proširenje.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Electrum was created by Thomas Voegtlin in November 2011. It offered a useful answer to a… | Bez dodatnog vizuala |\n| R2 · Electrum asks servers that index Bitcoin data for the information it needs. It checks… | Bez dodatnog vizuala |\n| R3 · The server can learn which addresses or related script identifiers the client asks about,… | Predloženi vizual — Maybe |\n| R4 · Electrum is capable software. The historical lesson here is the decision: immediacy was… | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "Omitted: the optional SPV comparison would introduce another architecture before the main node/wallet model; existing text includes SPV limits.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "ibd-separation",
+    "slug": "ibd-does-not-block-wallet-learning",
+    "title": "1.9 Initial block download is a feature of sovereignty",
+    "auditDecision": "Yes",
+    "originalPlacement": "R3, nakon popisa aktivnosti koje se mogu raditi tijekom IBD-a.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Initial block download, or IBD, is the first process of downloading and validating the… | Bez dodatnog vizuala |\n| R2 · Bitcoin’s declining block subsidy extends issuance for more than a century after the… | Bez dodatnog vizuala |\n| R3 · While the node works, write your threat model, create empty test wallets, understand… | Predloženi vizual — Yes |",
+    "implementation": [
+      {
+        "id": "ibd-separation:R3:ibd",
+        "visual": "ibd",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "While the node works, write your threat model, create empty test wallets, understand encryption, rehearse backups and prepare an offline signer. Receiving and spending exercises wait for the online node to catch up. You do not need to put serious capital into the system to learn it."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "core-not-server",
+    "slug": "core-is-neither-a-server-nor-useless",
+    "title": "1.10 Keep the verification work you have already done",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Blocks are reusable data. When replacing a node, you can transfer your own block files and… | Bez dodatnog vizuala |\n| R2 · The migration exercise in Part II deliberately separates block files from wallet backups,… | Bez dodatnog vizuala |\n| R3 · A pruned node has deleted old block files after checking them. It cannot supply history it… | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "2.5",
+    "slug": "why-the-signer-does-not-need-the-blockchain",
+    "title": "1.11 One chain, several offline signers",
+    "auditDecision": "Yes",
+    "originalPlacement": "R2, nakon rečenice o više signera.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · An offline signer creates and holds private keys, then signs a prepared payment. A… | Bez dodatnog vizuala |\n| R2 · The online node follows the chain, identifies spendable coins, prepares the transaction… | Predloženi vizual — Yes |\n| R3 · Offline does not mean unable to check anything. The signer must review the recipient,… | Bez dodatnog vizuala |",
+    "implementation": [
+      {
+        "id": "2.5:R2:several-signers",
+        "visual": "several-signers",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "The online node follows the chain, identifies spendable coins, prepares the transaction and broadcasts the completed result. The offline computer checks the PSBT and authorizes it. Five offline signers do not require five copies of the blockchain."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "1.1",
+    "slug": "hardware-wallet-as-a-tradeoff",
+    "title": "1.12 Why this course starts with general-purpose hardware",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · I recommend dedicated generic hardware because it is replaceable, widely available and… | Bez dodatnog vizuala |\n| R2 · A clean Linux computer gives us software we can inspect and documented operations we can… | Bez dodatnog vizuala |\n| R3 · Use a supported ordinary computer, dedicate it to the task and keep the installation… | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "1.5",
+    "slug": "core-as-a-tool-not-an-identity",
+    "title": "1.13 Generic hardware, dedicated Debian, Bitcoin Core",
+    "auditDecision": "Maybe",
+    "originalPlacement": "R1, mala prateća ilustracija; ne ponavljati kompletan PSBT flow.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Use an ordinary supported laptop or desktop, reserve it for Bitcoin and install Debian… | Predloženi vizual — Maybe |\n| R2 · The online machine runs Bitcoin Core to verify the chain and coordinate payments. The… | Bez dodatnog vizuala |\n| R3 · Buying generic hardware avoids declaring a Bitcoin-specific use through the product… | Bez dodatnog vizuala |\n| R4 · Tails is an optional live operating system started from USB. Consider it later if… | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "Omitted: hardware, OS and application are already named clearly; another laptop scene would repeat the nearby foundation illustration.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "1.4",
+    "slug": "bip39-cryptography-and-backup-model",
+    "title": "1.14 BIP39: a readable root secret and its backup consequences",
+    "auditDecision": "Yes",
+    "originalPlacement": "R3, nakon opisa sadržaja Core backupa.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · BIP39 describes a way to encode wallet seed entropy as words plus a checksum, then derive… | Bez dodatnog vizuala |\n| R2 · The cryptography is not “broken.” The custody question is what happens when the root… | Bez dodatnog vizuala |\n| R3 · This course instead backs up the encrypted Bitcoin Core wallet file and keeps its… | Predloženi vizual — Yes |\n| R4 · Redundancy and secret exposure should not have to be the same thing. Copies of an… | Bez dodatnog vizuala |\n| R5 · The recommendation follows the whole architecture: generic hardware, Linux, Core and… | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "1.4:R3:backup-models",
+        "visual": "backup-models",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "This course instead backs up the encrypted Bitcoin Core wallet file and keeps its encryption passphrase separately. The file includes wallet keys and descriptors—the instructions describing the wallet’s addresses and spending conditions—along with wallet metadata present when the backup was made. It is broader than a mnemonic root secret, but does not contain future edits or replace your recovery instructions."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "signet-entropy-deep-dive",
+    "slug": "where-the-private-key-comes-from",
+    "title": "1.15 Where Core gets its wallet secrets",
+    "auditDecision": "Yes",
+    "originalPlacement": "R3: pojednostavljena ilustracija izvora slučajnosti; R4: mali precizan dijagram različitih uloga.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · People invent patterns: quotations, familiar words, repeated letters and meaningful dates.… | Bez dodatnog vizuala |\n| R2 · For a new descriptor wallet, Core 31.1 calls GenerateRandomKey, which uses… | Bez dodatnog vizuala |\n| R3 · GetStrongRandBytes uses Core’s cryptographically secure random-generation path and mixes… | Predloženi vizual — Yes |\n| R4 · The encryption passphrase has a different job: it protects the generated private key… | Predloženi vizual — Yes |",
+    "implementation": [
+      {
+        "id": "signet-entropy-deep-dive:R3:entropy",
+        "visual": "entropy",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "GetStrongRandBytes uses Core’s cryptographically secure random-generation path and mixes operating-system randomness with other collected inputs. A CSPRNG is a generator designed to make its output unpredictable to an attacker when it has been securely seeded. Core does not ask you to invent or select the root secret."
+        }
+      },
+      {
+        "id": "signet-entropy-deep-dive:R4:generation-encryption",
+        "visual": "generation-encryption",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "The encryption passphrase has a different job: it protects the generated private key material in the wallet file. Changing that passphrase does not replace the wallet’s Bitcoin keys."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "1.2",
+    "slug": "sparrow-workflow-and-security-assumptions",
+    "title": "1.16 Sparrow case study: a valid checksum is not good randomness",
+    "auditDecision": "Yes",
+    "originalPlacement": "R1, uz objašnjenje checksum provjere.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · A mnemonic checksum detects some transcription errors. It is calculated from the encoded… | Predloženi vizual — Yes |\n| R2 · In Sparrow 2.5.4, we opened New Wallet → New or Imported Software Wallet → Mnemonic Words… | Bez dodatnog vizuala |\n| R3 · This does not mean Sparrow’s Generate New produces weak randomness. Importing existing… | Bez dodatnog vizuala |\n| R4 · Core’s normal create-wallet flow generates its own root key material and does not present… | Bez dodatnog vizuala |",
+    "implementation": [
+      {
+        "id": "1.2:R1:checksum-randomness",
+        "visual": "checksum-randomness",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "A mnemonic checksum detects some transcription errors. It is calculated from the encoded data; it cannot tell whether a person, a secure generator or a published example chose that data."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "software-continuity",
+    "slug": "software-continuity",
+    "title": "1.17 Choose recovery dependencies for 20, 40 or 80 years",
+    "auditDecision": "Yes",
+    "originalPlacement": "R4, završni inline prikaz.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · A computer eventually fails. A company may stop supporting a product. The long-term… | Bez dodatnog vizuala |\n| R2 · Bitcoin Core descends from Bitcoin’s original reference implementation and remains a… | Bez dodatnog vizuala |\n| R3 · Which recovery dependency would you rather still need in 20, 40 or 80 years: a… | Bez dodatnog vizuala |\n| R4 · Keep version information, verified installers where useful and understandable recovery… | Predloženi vizual — Yes |",
+    "implementation": [
+      {
+        "id": "software-continuity:R4:continuity",
+        "visual": "continuity",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "Keep version information, verified installers where useful and understandable recovery instructions with your plan. Rehearse on maintained software while you are able to fix compatibility problems. Long-term custody is maintained continuity, not a file abandoned in a drawer."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "core-development",
+    "slug": "battle-tested-does-not-mean-bug-free",
+    "title": "1.18 What this foundation cannot do for you",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Bitcoin Core does not make a compromised computer trustworthy. A malicious operating… | Bez dodatnog vizuala |\n| R2 · Core cannot recover a forgotten strong passphrase for you. A backup can be lost, corrupted… | Bez dodatnog vizuala |\n| R3 · These are the boundaries of the model we recommend, not reasons to abandon it. The… | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "why-linux",
+    "slug": "why-linux",
+    "title": "1.19 Linux is something you can learn",
+    "auditDecision": "Maybe",
+    "originalPlacement": "R3, mala scena uz odabir prvog bezopasnog cilja.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · You do not need to become a Linux guru, programmer or system administrator. You need to… | Bez dodatnog vizuala |\n| R2 · If you can use a computer, search the web and ask good questions, modern AI tools can help… | Bez dodatnog vizuala |\n| R3 · Choose one small thing you would like your computer to do differently. Keep that goal for… | Predloženi vizual — Maybe |",
+    "implementation": [],
+    "decision": "Omitted: the harmless first goal is already actionable in text. Another computer scene would add atmosphere more than instruction.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "why-debian-stable",
+    "slug": "why-debian-stable",
+    "title": "1.20 Why Debian Stable",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Debian has a long project history, a broad community and a large package ecosystem. Stable… | Bez dodatnog vizuala |\n| R2 · This course uses Debian Stable for the dedicated online Core computer and the persistent… | Bez dodatnog vizuala |\n| R3 · Fedora, NixOS and Arch are legitimate Linux systems with different maintenance choices.… | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "linux-playground",
+    "slug": "linux-playground",
+    "title": "1.21 Install Linux and make it yours",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Install Debian on the spare computer | Bez dodatnog vizuala |\n| S2 · Locate yourself in the terminal | Bez dodatnog vizuala |\n| S3 · Update and install one small application | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "ai-as-a-tutor",
+    "slug": "ai-as-a-tutor",
+    "title": "1.22 AI is a tutor, not a root of trust",
+    "auditDecision": "Yes",
+    "originalPlacement": "R2, nakon upute da se provjere naredba, dozvole i dokumentacija.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Instead of piecing together old forum posts, ask: “What does this command do?” “Explain… | Bez dodatnog vizuala |\n| R2 · Treat each suggestion as a hypothesis. Inspect the proposed command, ask which files and… | Predloženi vizual — Yes |\n| R3 · Inspect the actual result. If it fails, use that failure as information: stop, read it and… | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "ai-as-a-tutor:R2:ai-review",
+        "visual": "ai-review",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "Treat each suggestion as a hypothesis. Inspect the proposed command, ask which files and permissions it affects, and compare it with official documentation. Before an unfamiliar privileged command, understand the changes and how to undo them. Prefer distribution repositories to random scripts."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "linux-make-it-yours",
+    "slug": "linux-make-it-yours",
+    "title": "1.23 Make one change you understand",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Change and reverse a desktop preference | Bez dodatnog vizuala |\n| S2 · Inspect the setting behind the interface | Bez dodatnog vizuala |\n| S3 · Investigate “I want Num Lock enabled at login” | Bez dodatnog vizuala |\n| S4 · Explain it without the chat | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "software-responsibility",
+    "slug": "software-responsibility",
+    "title": "1.24 Freedom creates responsibility",
+    "auditDecision": "Yes",
+    "originalPlacement": "R2, uz usporedbu repozitorija, GitHuba i skripti.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · You just changed your computer yourself. You can install almost anything too. That means… | Bez dodatnog vizuala |\n| R2 · A Debian repository package, a GitHub repository, an arbitrary shell script and curl … \\|… | Predloženi vizual — Yes |\n| R3 · Take the application you installed. Find its source and maintainer, explain its… | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "software-responsibility:R2:software-review",
+        "visual": "software-review",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "A Debian repository package, a GitHub repository, an arbitrary shell script and curl … | sh have different trust paths. A signed repository authenticates a distribution source; it does not prove every package harmless. A published repository makes inspection possible; its hosting site does not certify the code. Piping a download directly to a shell executes what arrives before you inspect it."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "start-clean",
+    "slug": "start-clean",
+    "title": "1.25 Start clean",
+    "auditDecision": "Yes",
+    "originalPlacement": "Između drugog odlomka i checkliste checkpointa.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| C · Tekst i svi ishodi checkpointa | Predloženi vizual — Yes |",
+    "implementation": [
+      {
+        "id": "start-clean:C:clean-start",
+        "visual": "clean-start",
+        "display": "core",
+        "target": {
+          "kind": "checkpoint"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "what-verification-proves",
+    "slug": "what-verification-proves",
+    "title": "1.26 What exactly am I verifying?",
+    "auditDecision": "Yes",
+    "originalPlacement": "R1: tri provjere; R2: proširivi dodatak o Guix/build dokazima.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Begin at the official Bitcoin Core download page. A SHA256 checksum tests whether your… | Predloženi vizual — Yes |\n| R2 · A matching hash and valid signatures establish specific relationships between bytes and… | Predloženi vizual — Yes |\n| R3 · Part II already contains the complete download procedure. When you reach it, predict what… | Bez dodatnog vizuala |",
+    "implementation": [
+      {
+        "id": "what-verification-proves:R1:verification",
+        "visual": "verification",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "Begin at the official Bitcoin Core download page. A SHA256 checksum tests whether your archive matches a particular digest. A signed checksum file connects that digest to signing keys. Comparing full signer fingerprints with independently authenticated information gives those keys an identity."
+        }
+      },
+      {
+        "id": "what-verification-proves:R2:builds",
+        "visual": "builds",
+        "display": "expandable",
+        "target": {
+          "kind": "reading",
+          "anchor": "A matching hash and valid signatures establish specific relationships between bytes and keys. They do not prove bug-free code, honest maintainers or a clean computer. Multiple identified builders and reproducible builds provide further evidence about how the bytes were produced."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "foundations-checkpoint",
+    "slug": "foundations-checkpoint",
+    "title": "1.27 Before practice: explain your chosen foundation",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| C · Tekst i svi ishodi checkpointa | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "real-device",
+    "slug": "choose-a-computer-and-model-malware-risk",
+    "title": "2.1 Choose one dedicated computer for practice",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Assign the practice computer | Bez dodatnog vizuala |\n| S2 · Choose separate backup storage | Bez dodatnog vizuala |\n| S3 · Continue to the Debian installation | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "debian-setup",
+    "slug": "debian-setup",
+    "title": "2.2 Install a small, dedicated Debian system",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Get the installer and its authentication files | Bez dodatnog vizuala |\n| S2 · Authenticate before writing the USB | Bez dodatnog vizuala |\n| S3 · Write the installer and select the destination | Bez dodatnog vizuala |\n| S4 · Update through Debian’s signed package system | Bez dodatnog vizuala |\n| S5 · Install only the tools the next task needs | Bez dodatnog vizuala |\n| S6 · Record the installation and prepare for Core | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "signet-install-verify",
+    "slug": "install-and-verify-bitcoin-core",
+    "title": "2.3 Download Core and check that it is the intended release",
+    "auditDecision": "Yes",
+    "originalPlacement": "S5 „Check the archive’s checksum”: mali prikaz preuzet iz 1.26; S8 i S9 isti asset s istaknutim odgovarajućim odnosom.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Check the verification tools | Bez dodatnog vizuala |\n| S2 · Install missing Debian packages | Bez dodatnog vizuala |\n| S3 · Download the matching package | Bez dodatnog vizuala |\n| S4 · Check which folder the terminal is using | Bez dodatnog vizuala |\n| S5 · Check the archive's checksum | Predloženi vizual — Yes |\n| S6 · Obtain the builder public keys | Bez dodatnog vizuala |\n| S7 · Import the public keys locally | Bez dodatnog vizuala |\n| S8 · Identify the keys you will trust | Predloženi vizual — Yes |\n| S9 · Verify who signed those checksums | Predloženi vizual — Yes |\n| S10 · Extract the verified program | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "signet-install-verify:S5:verification",
+        "visual": "verification",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "hash"
+        },
+        "active": 0
+      },
+      {
+        "id": "signet-install-verify:S8:verification",
+        "visual": "verification",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "fingerprints"
+        },
+        "active": 2
+      },
+      {
+        "id": "signet-install-verify:S9:verification",
+        "visual": "verification",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "signature"
+        },
+        "active": 1
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "signet-why",
+    "slug": "learn-first-with-valueless-bitcoin",
+    "title": "2.4 Practice with test coins first",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Linux customization was our computer sandbox. Signet/Regtest is our Bitcoin sandbox.… | Bez dodatnog vizuala |\n| R2 · You will receive test coins, send a small amount, save a wallet backup and restore the… | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "signet-vs-mainnet",
+    "slug": "mainnet-vs-signet",
+    "title": "2.5 Check whether you are using test coins or real bitcoin",
+    "auditDecision": "Yes",
+    "originalPlacement": "R2, ispod objašnjenja chain polja.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Mainnet and Signet keep separate transaction histories. A Signet payment does not move… | Bez dodatnog vizuala |\n| R2 · Core's console is a panel inside the application where you can enter text commands. The… | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "signet-vs-mainnet:R2:networks",
+        "visual": "networks",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "Core's console is a panel inside the application where you can enter text commands. The command getblockchaininfo reports the selected network in a field named chain. The value signet means our practice network; main means real Bitcoin. Check that value instead of guessing from a wallet name or an address. Addresses on some other test networks look like Signet addresses."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "signet-start",
+    "slug": "start-bitcoin-core-on-signet",
+    "title": "2.6 Open Core on the Signet practice network",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Launch the verified application on Signet | Bez dodatnog vizuala |\n| S2 · Verify the network and synchronization | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "2.3",
+    "slug": "full-vs-pruned-node",
+    "title": "2.7 Keep every block or save disk space with pruning",
+    "auditDecision": "Yes",
+    "originalPlacement": "R1, iza definicije archival/pruned; uz R2 mala oznaka potrebne povijesti za rescan.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · An archival full node keeps the old blocks after checking them. A pruned full node checks… | Predloženi vizual — Yes |\n| R2 · The difference matters when restoring a wallet. Core may need old blocks to find its… | Bez dodatnog vizuala |",
+    "implementation": [
+      {
+        "id": "2.3:R1:pruning",
+        "visual": "pruning",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "An archival full node keeps the old blocks after checking them. A pruned full node checks the same Bitcoin rules but deletes older block files to save disk space. Pruning does not mean trusting someone else to validate the transactions, and an archival node is not required for safe wallet operation."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "signet-first-wallet",
+    "slug": "first-signet-wallet-and-address",
+    "title": "2.8 Create a wallet used only for practice",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Create signet-training-wallet | Bez dodatnog vizuala |\n| S2 · Create and record a practice receiving address | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "passphrase-strength",
+    "slug": "passphrase-strength",
+    "title": "2.9 How strong does my wallet passphrase need to be?",
+    "auditDecision": "Maybe",
+    "originalPlacement": "R1 uz neovisne odabire; postojeću entropy-table komponentu zadržati.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · If a list contains N different words, one equally likely selection has N possibilities.… | Predloženi vizual — Maybe |\n| R2 · A bit represents a doubling of the possibilities. The expression log2(N) counts how many… | Bez dodatnog vizuala |\n| R3 · The bundled large list in the reviewed Debian KeePassXC package contains 7,772 distinct… | Bez dodatnog vizuala |\n| R4 · Eight independently random words are the conservative course default for a long-term… | Bez dodatnog vizuala |\n| R5 · More words keep multiplying the search space, but their practical benefit diminishes once… | Bez dodatnog vizuala |\n| R6 · A Core passphrase protects private key material in an encrypted file. BIP39 words encode a… | Bez dodatnog vizuala |\n| R7 · Our default generator is KeePassXC on the clean dedicated Debian computer. It requests… | Bez dodatnog vizuala |\n| R8 · Core itself depends on secure computer-generated randomness to create wallet keys. Using a… | Bez dodatnog vizuala |\n| Postojeći widget `entropy-table` | Zadržati; nije potrebno duplicirati njegovu ulogu slikom |",
+    "implementation": [],
+    "decision": "Omitted: the existing entropy table already explains independent choices and provides exact figures; preserve its focus.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "brute-force-economics",
+    "slug": "brute-force-economics",
+    "title": "2.10 Explore the cost of guessing",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · The calculator models uniformly random words, a fixed aggregate guess rate and a fixed… | Bez dodatnog vizuala |\n| R2 · The default rate of one billion guesses a second is deliberately hypothetical. It is not a… | Bez dodatnog vizuala |\n| R3 · Core 31.1 encrypts private key material using AES-256-CBC and derives an encryption key… | Bez dodatnog vizuala |\n| R4 · A real attack depends on the wallet’s stored derivation parameters, hardware, software… | Bez dodatnog vizuala |\n| R5 · An attacker who obtains an encrypted wallet can try guesses without asking you or this… | Bez dodatnog vizuala |\n| R6 · Compare one, five, six and eight words, then change the assumptions. The aim is intuition,… | Bez dodatnog vizuala |\n| Postojeći widget `brute-force` | Zadržati; nije potrebno duplicirati njegovu ulogu slikom |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "generate-passphrase",
+    "slug": "generate-passphrase",
+    "title": "2.11 Generate the passphrase with KeePassXC",
+    "auditDecision": "Yes",
+    "originalPlacement": "S2 „Record exactly what was generated”, ispod upute o odvojenom zapisu.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Select the bundled generator settings | Bez dodatnog vizuala |\n| S2 · Record exactly what was generated | Predloženi vizual — Yes |\n| S3 · Check the written record before using it | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "generate-passphrase:S2:separate-credentials",
+        "visual": "separate-credentials",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "record-v4"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "signet-encrypt-new-backup",
+    "slug": "encrypt-signet-wallet-and-create-new-backup",
+    "title": "2.12 Protect the test wallet with a password and back it up",
+    "auditDecision": "Yes",
+    "originalPlacement": "S3 „Save a post-encryption backup”, neposredno prije naredbe izbornika za backup.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Confirm the selected wallet and network | Bez dodatnog vizuala |\n| S2 · Encrypt the test wallet | Bez dodatnog vizuala |\n| S3 · Save a post-encryption backup | Predloženi vizual — Yes |\n| S4 · Record what recovery needs | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "signet-encrypt-new-backup:S3:first-encryption",
+        "visual": "first-encryption",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "backup"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "signet-receive-send",
+    "slug": "first-signet-receive-and-send",
+    "title": "2.13 Receive test coins and send a small payment to yourself",
+    "auditDecision": "Yes",
+    "originalPlacement": "S4 „Identify the fee and change”, prije očekivanog rezultata.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Request test coins | Bez dodatnog vizuala |\n| S2 · Wait until the received coins have a confirmation | Bez dodatnog vizuala |\n| S3 · Review a small self-transfer | Bez dodatnog vizuala |\n| S4 · Identify the fee and change | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "signet-receive-send:S4:transaction",
+        "visual": "transaction",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "change"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "coin-control-fees",
+    "slug": "coin-control-fees",
+    "title": "2.14 Choose coins, fees and the final transaction deliberately",
+    "auditDecision": "Maybe",
+    "originalPlacement": "S1 „Enable the GUI’s coin-selection controls”: opcionalni mali dodatak nakon pregleda inputa.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Enable the GUI’s coin-selection controls | Predloženi vizual — Maybe |\n| S2 · Choose and explain the fee | Bez dodatnog vizuala |\n| S3 · Read the transaction, then send test coins | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "coin-control-fees:S1:coin-linkage",
+        "visual": "coin-linkage",
+        "display": "expandable",
+        "target": {
+          "kind": "step",
+          "stepId": "enable-v4"
+        }
+      }
+    ],
+    "decision": "Implemented as an expandable input-linkage diagram; adds the visible relationship between otherwise separate histories without repeating the fee diagram.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "signet-restore",
+    "slug": "back-up-remove-test-wallet-and-restore",
+    "title": "2.15 Rebuild the test wallet from its backup",
+    "auditDecision": "Yes",
+    "originalPlacement": "S2 „Restore under a new name”.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Record the payment details and close the original wallet | Bez dodatnog vizuala |\n| S2 · Restore under a new name | Predloženi vizual — Yes |\n| S3 · Compare the restored wallet with your records | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "signet-restore:S2:restore",
+        "visual": "restore",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "restore"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "signet-transact-again",
+    "slug": "send-again-after-signet-recovery",
+    "title": "2.16 Prove that the restored wallet can send",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Select only the restored wallet | Bez dodatnog vizuala |\n| S2 · Sign and confirm another test transaction | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "wallet-lock-change",
+    "slug": "wallet-lock-change",
+    "title": "2.17 Lock, unlock and change the wallet passphrase",
+    "auditDecision": "Yes",
+    "originalPlacement": "S4 „Restore the old snapshot and explain it”, prije provjere stare passphrase.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Observe the locked wallet | Bez dodatnog vizuala |\n| S2 · Make the before-change backup | Bez dodatnog vizuala |\n| S3 · Change the live test wallet’s passphrase | Bez dodatnog vizuala |\n| S4 · Restore the old snapshot and explain it | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "wallet-lock-change:S4:old-backup",
+        "visual": "old-backup",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "old-state-v4"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "basic-rpc",
+    "slug": "basic-rpc",
+    "title": "2.18 See what the GUI is asking Core to do",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Check the practice network | Bez dodatnog vizuala |\n| S2 · Inspect the selected wallet | Bez dodatnog vizuala |\n| S3 · Read help for a familiar operation | Bez dodatnog vizuala |\n| S4 · Request one public test address | Bez dodatnog vizuala |\n| S5 · Check the address belongs to this wallet | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "repetition-drills",
+    "slug": "repetition-drills",
+    "title": "2.19 Repeat until the wallet lifecycle feels ordinary",
+    "auditDecision": "Yes",
+    "originalPlacement": "S4 „Repeat the complete lifecycle across separate sessions”, prije uputa ponavljanja.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Create ten named test wallets | Bez dodatnog vizuala |\n| S2 · Compare three test passphrases | Bez dodatnog vizuala |\n| S3 · Repeat backup and restoration | Bez dodatnog vizuala |\n| S4 · Repeat the complete lifecycle across separate sessions | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "repetition-drills:S4:lifecycle",
+        "visual": "lifecycle",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "lifecycle-v41"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "signet-readiness",
+    "slug": "mainnet-readiness-signet-checkpoint",
+    "title": "2.20 Check that you completed the whole practice cycle",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| C · Tekst i svi ishodi checkpointa | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "2.6",
+    "slug": "wallet-backup-vs-node-data",
+    "title": "2.21 Find the wallet data that needs a backup",
+    "auditDecision": "Yes",
+    "originalPlacement": "R1, nakon opisa data directoryja.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Core's data directory is the folder where it stores its working files. It can contain… | Predloženi vizual — Yes |\n| R2 · Use Core's File → Backup Wallet command to make a wallet backup. Do not assume that… | Bez dodatnog vizuala |",
+    "implementation": [
+      {
+        "id": "2.6:R1:wallet-node-data",
+        "visual": "wallet-node-data",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "Core's data directory is the folder where it stores its working files. It can contain blockchain blocks, a database called chainstate that tracks currently unspent amounts, and wallet folders. wallet.dat is a wallet database file, not the blockchain itself."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "backup-redundancy-freshness",
+    "slug": "more-copies-do-not-mean-a-current-backup",
+    "title": "2.22 Keep backups separate and up to date",
+    "auditDecision": "Yes",
+    "originalPlacement": "Nakon R1/R2 teksta checkpointa, prije checkliste.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| C · Tekst i svi ishodi checkpointa | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "backup-redundancy-freshness:C:backup-matrix",
+        "visual": "backup-matrix",
+        "display": "core",
+        "target": {
+          "kind": "checkpoint"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "encrypted-backup-privacy",
+    "slug": "digital-and-cloud-backup-privacy-model",
+    "title": "2.23 Understand what an encrypted backup still reveals",
+    "auditDecision": "Yes",
+    "originalPlacement": "Nakon dvaju odlomaka checkpointa, prije provjere razumijevanja.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| C · Tekst i svi ishodi checkpointa | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "encrypted-backup-privacy:C:encryption-boundary",
+        "visual": "encryption-boundary",
+        "display": "core",
+        "target": {
+          "kind": "checkpoint"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "backup-media",
+    "slug": "backup-media",
+    "title": "2.24 Choose backup media by failure mode",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Redundancy means having recoverable copies after one fails. A control policy defines who… | Bez dodatnog vizuala |\n| R2 · Start with a current Core backup, a separately recoverable passphrase and at least two… | Bez dodatnog vizuala |\n| R3 · No medium has a guaranteed unattended lifetime. Bit rot means stored bits changing or… | Bez dodatnog vizuala |\n| Postojeći widget `backup-media` | Zadržati; nije potrebno duplicirati njegovu ulogu slikom |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "recovery-failure-drills",
+    "slug": "recovery-failure-drills",
+    "title": "2.25 Recover after losing the local wallet or a backup device",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Remove only the disposable local test copy | Bez dodatnog vizuala |\n| S2 · Restore the surviving backup | Bez dodatnog vizuala |\n| S3 · Pretend one USB has failed | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "backup-mastery",
+    "slug": "backup-mastery",
+    "title": "2.26 Checkpoint — prove backup and recovery",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| C · Tekst i svi ishodi checkpointa | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "one-wallet-mastery",
+    "slug": "one-wallet-mastery",
+    "title": "2.27 Mastery checkpoint — I can operate one Core wallet",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| C · Tekst i svi ishodi checkpointa | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "architecture-choice",
+    "slug": "simple-wallet-or-offline-signer",
+    "title": "2.28 Separate the jobs you already know",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · You already know how a Core wallet receives, signs, encrypts and recovers. We are now… | Bez dodatnog vizuala |\n| R2 · The online computer verifies blockchain history, keeps the current wallet view, constructs… | Bez dodatnog vizuala |\n| R3 · Prepare a second dedicated generic Debian computer as the signer. Its wallet uses the same… | Bez dodatnog vizuala |\n| R4 · Create fresh practice keys after disconnecting the signer. Do not turn the previous online… | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "2.4",
+    "slug": "online-node-and-offline-signer",
+    "title": "2.29 How the online computer and offline signer work together",
+    "auditDecision": "Yes",
+    "originalPlacement": "R2, inline unutar aktivne kartice. Postojeći prikaz ispod checkliste premjestiti ili ponuditi kao proširivu referencu bez duplikata.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · The online jobs are blockchain verification, the current wallet view, transaction… | Bez dodatnog vizuala |\n| R2 · You move the PSBT to the offline signer, check the recipient, amounts, change and fee,… | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |\n| Postojeći prikaz arhitekture | Doraditi i smjestiti uz R2; izbjeći duplikat ispod lekcije |",
+    "implementation": [
+      {
+        "id": "2.4:R2:architecture",
+        "visual": "architecture",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "You move the PSBT to the offline signer, check the recipient, amounts, change and fee, then approve it with the private keys. You return the signed file to the online node for broadcast, which means sending the transaction to the network. The private keys remain offline. The signer checks the proposal; it does not independently check the whole blockchain or whether an input has already been spent."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "2.8",
+    "slug": "hot-watch-only-and-signing-wallet",
+    "title": "2.30 Three wallet roles you will encounter",
+    "auditDecision": "Yes",
+    "originalPlacement": "R1, nakon definicije triju uloga.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · A hot wallet holds signing keys on a network-connected computer. A watch-only wallet has… | Predloženi vizual — Yes |\n| R2 · In our two-computer setup, the online wallet is watch-only and the offline wallet signs.… | Bez dodatnog vizuala |",
+    "implementation": [
+      {
+        "id": "2.8:R1:wallet-roles",
+        "visual": "wallet-roles",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "A hot wallet holds signing keys on a network-connected computer. A watch-only wallet has public information for recognizing addresses and transactions but no private keys to sign a spend. An offline signing wallet holds the private keys on a disconnected computer and approves a payment prepared elsewhere."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "ops-malware",
+    "slug": "malware-usb-and-destination-verification",
+    "title": "2.31 Transfer payment files safely between the computers",
+    "auditDecision": "Yes",
+    "originalPlacement": "S1 „Limit which files you transfer”, uz popis dopuštenih datoteka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Limit which files you transfer | Predloženi vizual — Yes |\n| S2 · Plan an independent destination check | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "ops-malware:S1:media-roles",
+        "visual": "media-roles",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "media"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "ops-physical",
+    "slug": "physical-security-and-backup-media",
+    "title": "2.32 Know when physical tampering means you should stop",
+    "auditDecision": "Yes",
+    "originalPlacement": "S2 „Plan replacement and possible key migration”, nakon pravila zaustavljanja.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Write down when to stop using the signer | Bez dodatnog vizuala |\n| S2 · Plan replacement and possible key migration | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "ops-physical:S2:tamper-response",
+        "visual": "tamper-response",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "replacement-plan"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "offline-device",
+    "slug": "prepare-offline-signer",
+    "title": "2.33 Prepare the offline signer and check it after shutdown",
+    "auditDecision": "Yes",
+    "originalPlacement": "S2 „Disconnect before creating or restoring keys”, uz restart provjeru.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Finish software setup before creating keys | Bez dodatnog vizuala |\n| S2 · Disconnect before creating or restoring keys | Predloženi vizual — Yes |\n| S3 · Start Core with a separate offline data folder | Bez dodatnog vizuala |\n| S4 · Create and back up the offline Signet wallet | Bez dodatnog vizuala |\n| S5 · Verify after a complete shutdown | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "offline-device:S2:offline-preparation",
+        "visual": "offline-preparation",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "isolate"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "watch-only-setup",
+    "slug": "watch-only-setup",
+    "title": "2.34 Connect the wallets using public descriptors",
+    "auditDecision": "Yes",
+    "originalPlacement": "S1 „Export only public descriptors”: uloge; S3 „Import both descriptor branches”: mali proširivi detalj JSON polja.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Export only public descriptors | Predloženi vizual — Yes |\n| S2 · Create the watch-only coordinator in the GUI | Bez dodatnog vizuala |\n| S3 · Import both descriptor branches | Predloženi vizual — Yes |\n| S4 · Check a receiving address on the signer | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "watch-only-setup:S1:descriptors",
+        "visual": "descriptors",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "export"
+        }
+      },
+      {
+        "id": "watch-only-setup:S3:import-metadata",
+        "visual": "import-metadata",
+        "display": "expandable",
+        "target": {
+          "kind": "step",
+          "stepId": "import"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "offline-psbt",
+    "slug": "first-offline-signed-transaction",
+    "title": "2.35 Build online, sign offline, return and broadcast",
+    "auditDecision": "Yes",
+    "originalPlacement": "S1–S4: jedna kompaktna trajna mapa s istaknutim aktualnim korakom; u S2 dodati proširivu kontrolnu skicu outputa iz 2.13.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Save an unsigned transaction | Predloženi vizual — Yes |\n| S2 · Review every output offline | Predloženi vizual — Yes |\n| S3 · Sign and save on the offline device | Predloženi vizual — Yes |\n| S4 · Broadcast from the online node | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "offline-psbt:S1:psbt-flow",
+        "visual": "psbt-flow",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "proposal"
+        },
+        "active": 0
+      },
+      {
+        "id": "offline-psbt:S2:psbt-flow",
+        "visual": "psbt-flow",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "review"
+        },
+        "active": 1
+      },
+      {
+        "id": "offline-psbt:S2:transaction",
+        "visual": "transaction",
+        "display": "expandable",
+        "target": {
+          "kind": "step",
+          "stepId": "review"
+        }
+      },
+      {
+        "id": "offline-psbt:S3:psbt-flow",
+        "visual": "psbt-flow",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "sign"
+        },
+        "active": 2
+      },
+      {
+        "id": "offline-psbt:S4:psbt-flow",
+        "visual": "psbt-flow",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "broadcast"
+        },
+        "active": 3
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "offline-recovery",
+    "slug": "recovery-drill-without-original-coordinator",
+    "title": "2.36 Replace both computers and repeat the payment",
+    "auditDecision": "Yes",
+    "originalPlacement": "S1: prikaz materijala za zamjenu; isti asset u S2 i S3 s istaknutim odgovarajućim uređajem.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Restore a replacement offline signer | Predloženi vizual — Yes |\n| S2 · Rebuild a watch-only coordinator | Predloženi vizual — Yes |\n| S3 · Spend using only the replacements | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "offline-recovery:S1:recovery-both",
+        "visual": "recovery-both",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "signer"
+        },
+        "active": 0
+      },
+      {
+        "id": "offline-recovery:S2:recovery-both",
+        "visual": "recovery-both",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "coordinator"
+        },
+        "active": 1
+      },
+      {
+        "id": "offline-recovery:S3:recovery-both",
+        "visual": "recovery-both",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "sign-again"
+        },
+        "active": 2
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "ops-documentation",
+    "slug": "document-the-procedure-without-exposing-secrets",
+    "title": "2.37 Write a recovery guide someone else can follow",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Write the recovery guide | Bez dodatnog vizuala |\n| S2 · Use the card in a Signet rehearsal | Bez dodatnog vizuala |\n| S3 · Check that someone else can follow the guide | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "offline-mastery",
+    "slug": "offline-mastery",
+    "title": "2.38 Before maintenance: operate without the original signer",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| C · Tekst i svi ishodi checkpointa | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "ops-routine",
+    "slug": "regular-tests-and-annual-recovery-drill",
+    "title": "2.39 Review the custody system every year",
+    "auditDecision": "Maybe",
+    "originalPlacement": "S5 „Record outcomes and the next date”, kao završni sažetak.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Revisit the original threat model | Bez dodatnog vizuala |\n| S2 · Review the passphrase method and margin | Bez dodatnog vizuala |\n| S3 · Inspect and restore the copies | Bez dodatnog vizuala |\n| S4 · Plan verified software maintenance | Bez dodatnog vizuala |\n| S5 · Record outcomes and the next date | Predloženi vizual — Maybe |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "Omitted: the existing five guided actions and date record already form the maintenance loop; a second summary repeats them.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "ops-inheritance",
+    "slug": "inheritance-and-other-people",
+    "title": "2.40 Make recovery understandable to another person",
+    "auditDecision": "Yes",
+    "originalPlacement": "S1 „Rehearse a handover with a disposable wallet”, prije vježbe; jedna prateća scena.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Rehearse a handover with a disposable wallet | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "ops-inheritance:S1:handover",
+        "visual": "handover",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "handover-test-v4"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "single-sig-mastery",
+    "slug": "single-sig-mastery",
+    "title": "2.41 Master the simple system before adding a spending policy",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| C · Tekst i svi ishodi checkpointa | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "optional-dice",
+    "slug": "optional-physical-dice-passphrase",
+    "title": "2.42 Optional: generate the passphrase with physical dice",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Name the reason for using dice | Bez dodatnog vizuala |\n| S2 · Generate a disposable phrase from the original EFF list | Bez dodatnog vizuala |\n| S3 · Check the record and test recovery | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "optional-veracrypt",
+    "slug": "optional-veracrypt",
+    "title": "2.43 Optional: put the backup inside an encrypted container",
+    "auditDecision": "Yes",
+    "originalPlacement": "S3 „Prove both stages elsewhere”, uz dvostupanjski recovery.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Name the extra threat | Bez dodatnog vizuala |\n| S2 · Use a copy in a fresh test container | Bez dodatnog vizuala |\n| S3 · Prove both stages elsewhere | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "optional-veracrypt:S3:container",
+        "visual": "container",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "two-stage-v4"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "move-to-real-bitcoin",
+    "slug": "move-to-real-bitcoin",
+    "title": "2.44 Move to real Bitcoin — deliberately",
+    "auditDecision": "Yes",
+    "originalPlacement": "Nakon teksta checkpointa, prije potvrde spremnosti.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| C · Tekst i svi ishodi checkpointa | Predloženi vizual — Yes |",
+    "implementation": [
+      {
+        "id": "move-to-real-bitcoin:C:clean-start",
+        "visual": "clean-start",
+        "display": "core",
+        "target": {
+          "kind": "checkpoint"
+        },
+        "caption": "Carry forward skills and reviewed instructions, not practice keys or passphrases. Prepare a clean system, create a new wallet, prove restore, then make a small mainnet test."
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "mainnet-separate-wallet",
+    "slug": "do-not-turn-signet-wallet-into-mainnet-wallet",
+    "title": "2.45 Start a new wallet for real bitcoin",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Mainnet is Bitcoin's real network. Create new keys, a new wallet password and separately… | Bez dodatnog vizuala |\n| R2 · The roles remain the same: a disconnected computer holds the encrypted private-key wallet,… | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "real-encryption",
+    "slug": "encryption-and-passphrase",
+    "title": "2.46 Create the real wallet and its password offline",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Generate and preserve a new password offline | Bez dodatnog vizuala |\n| S2 · Start a distinct mainnet data directory | Bez dodatnog vizuala |\n| S3 · Create and back up savings-offline | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "real-restore",
+    "slug": "restore-in-a-clean-test-environment",
+    "title": "2.47 Restore the empty real wallet before depositing",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Restore on a replacement offline system | Bez dodatnog vizuala |\n| S2 · Check the recovered password on the signer | Bez dodatnog vizuala |\n| S3 · Prepare the mainnet watch-only coordinator | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "mainnet-readiness",
+    "slug": "mainnet-readiness-before-first-deposit",
+    "title": "2.48 Check the setup before a small real-bitcoin test",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| C · Tekst i svi ishodi checkpointa | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "mainnet-small-test",
+    "slug": "first-small-mainnet-test",
+    "title": "2.49 Send a small real payment from the restored wallet",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Receive only the test amount | Bez dodatnog vizuala |\n| S2 · Use the restored offline signer | Bez dodatnog vizuala |\n| S3 · Record the successful recovery spend | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "node-migration",
+    "slug": "migrate-node-data-or-validate-from-scratch",
+    "title": "2.50 Reuse your own block files and rebuild validation state",
+    "auditDecision": "Yes",
+    "originalPlacement": "S2 „Copy the whole blocks directory from your own archive”, uz popis sadržaja.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Record and shut down the source | Bez dodatnog vizuala |\n| S2 · Copy the whole blocks directory from your own archive | Predloženi vizual — Yes |\n| S3 · Rebuild the practice node | Bez dodatnog vizuala |\n| S4 · Verify the resulting node | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "node-migration:S2:migration",
+        "visual": "migration",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "copy-blocks-v4"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "optional-tails",
+    "slug": "optional-tails-offline-environment",
+    "title": "2.51 Optional: use Tails as the offline operating system",
+    "auditDecision": "Yes",
+    "originalPlacement": "S3 „Create storage that survives shutdown”, uz opis dviju lozinki; ograničenje hardvera ostaje uz S1.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Decide whether Tails addresses a risk you face | Bez dodatnog vizuala |\n| S2 · Boot verified Tails without networking | Bez dodatnog vizuala |\n| S3 · Create storage that survives shutdown | Predloženi vizual — Yes |\n| S4 · Put Core and its data in Persistent | Bez dodatnog vizuala |\n| S5 · Create and back up an offline test wallet | Bez dodatnog vizuala |\n| S6 · Verify after a complete shutdown | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "optional-tails:S3:tails-storage",
+        "visual": "tails-storage",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "persistence"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "architecture-path-a",
+    "slug": "path-a-online-encrypted-core-wallet",
+    "title": "2.52 Optional: keep a small spending wallet online",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · A hot wallet holds private keys on a device connected to a network. The same computer can… | Bez dodatnog vizuala |\n| R2 · A simpler setup can reduce mistakes if you cannot reliably operate a more involved one.… | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "multisig-why",
+    "slug": "why-multisig-and-when-not-to-use-it",
+    "title": "3.1 Multisig is a spending policy, not a backup strategy",
+    "auditDecision": "Yes",
+    "originalPlacement": "R1, nakon definicije politike.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · A 2-of-3 policy requires signatures from any two of three designated keys. It changes who… | Predloženi vizual — Yes |\n| R2 · Ask first: must several independent people approve? Does authority need organizational or… | Bez dodatnog vizuala |\n| R3 · A company treasury requiring two officers, genuinely shared family ownership or… | Bez dodatnog vizuala |\n| R4 · Single-sig is not inherently less serious. A large balance may change the threat model,… | Bez dodatnog vizuala |",
+    "implementation": [
+      {
+        "id": "multisig-why:R1:copies-authority",
+        "visual": "copies-authority",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "A 2-of-3 policy requires signatures from any two of three designated keys. It changes who can authorize a payment. Saying “I use it so I can lose one key” describes a redundancy goal, but redundant encrypted single-sig backups can already survive loss of a device or location."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "multi-vendor-cost",
+    "slug": "multi-vendor-cost",
+    "title": "3.2 Count the cost of three vendor ecosystems",
+    "auditDecision": "Maybe",
+    "originalPlacement": "R2, opcionalni proširivi dodatak.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · A 2-of-3 arrangement with three hardware-wallet vendors means three devices, firmware… | Bez dodatnog vizuala |\n| R2 · Vendor diversity can reduce dependence on one implementation. It does not remove firmware,… | Predloženi vizual — Maybe |\n| R3 · More components do not automatically equal more security. The course’s recommended… | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "Omitted: the short optional reading already lists the maintenance axes and diversity benefit; a repetitive vendor grid adds height.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "complex-simple",
+    "slug": "complex-wallet-simple-recovery",
+    "title": "3.3 Write the policy in ordinary language first",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| C · Tekst i svi ishodi checkpointa | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "lab-method",
+    "slug": "how-to-run-a-self-custody-experiment",
+    "title": "3.4 Make a reproducible, disposable experiment",
+    "auditDecision": "Yes",
+    "originalPlacement": "Background odlomak R2; kao mali dodatak, ne iznad glavnog S1.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · State the experiment and its limits | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Predloženi opcionalni vizual |",
+    "implementation": [
+      {
+        "id": "lab-method:B:lab-host",
+        "visual": "lab-host",
+        "display": "core",
+        "target": {
+          "kind": "background"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "lab-regtest",
+    "slug": "regtest-and-failure-scenarios",
+    "title": "3.5 Run the Core 31.1 laboratory",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Run the disposable lab | Bez dodatnog vizuala |\n| S2 · Inspect and load your test helpers | Bez dodatnog vizuala |\n| S3 · Confirm both test nodes independently | Bez dodatnog vizuala |\n| S4 · Know how to stop the lab | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "lab-rpc",
+    "slug": "rpc-and-cli",
+    "title": "3.6 Use RPC only when you need its precision",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Read the installed release’s help | Bez dodatnog vizuala |\n| S2 · Select the wallet explicitly | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "2.2",
+    "slug": "node-wallet-and-blockchain-are-not-the-same",
+    "title": "3.7 Separate node state from wallet state in RPC",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Compare the two kinds of state | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "lab-descriptors",
+    "slug": "descriptor-experiments",
+    "title": "3.8 Read and verify a descriptor",
+    "auditDecision": "Yes",
+    "originalPlacement": "S1 „Inspect the 2-of-3 expression”, iznad read-only poziva.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Inspect the 2-of-3 expression | Predloženi vizual — Yes |\n| S2 · Derive the address from that exact policy | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "lab-descriptors:S1:descriptor-policy",
+        "visual": "descriptor-policy",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "parse-v4"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "lab-psbt",
+    "slug": "psbt-debugging",
+    "title": "3.9 Inspect the PSBT before adding signatures",
+    "auditDecision": "Yes",
+    "originalPlacement": "S1 „Inspect and explain the proposed transaction”, ispod decode/analyze upute.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Inspect and explain the proposed transaction | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "lab-psbt:S1:psbt-states",
+        "visual": "psbt-states",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "decode-v4"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "multisig-signet",
+    "slug": "2-of-3-on-signet",
+    "title": "3.10 Build and spend a 2-of-3 policy",
+    "auditDecision": "Yes",
+    "originalPlacement": "S2 „Sign independently, then combine”, prije combinepsbt.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Add one signature and check the missing quorum | Bez dodatnog vizuala |\n| S2 · Sign independently, then combine | Predloženi vizual — Yes |\n| S3 · Check acceptance and broadcast on Regtest | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "multisig-signet:S2:combine",
+        "visual": "combine",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "combine-signatures-v42"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "multisig-backup",
+    "slug": "keys-are-not-the-whole-multisig-recovery",
+    "title": "3.11 Back up the policy as well as the keys",
+    "auditDecision": "Yes",
+    "originalPlacement": "S1 „Inspect and back up a test signer”, uz usporedbu descriptor podataka prije/poslije restorea.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Inspect and back up a test signer | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "multisig-backup:S1:policy-backup",
+        "visual": "policy-backup",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "backup-policy-v4"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "multisig-failures",
+    "slug": "failure-simulations",
+    "title": "3.12 Test the missing-signer cases",
+    "auditDecision": "Yes",
+    "originalPlacement": "S1 „Predict, run and explain each pair”, prije izvođenja testa.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Predict, run and explain each pair | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "multisig-failures:S1:quorum-tests",
+        "visual": "quorum-tests",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "quorum-drill-v4"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "complexity-after-the-lab",
+    "slug": "complexity-after-the-lab",
+    "title": "3.13 Did the extra signers earn their place?",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Compare the two recovery procedures | Bez dodatnog vizuala |\n| S2 · Decide whether the simpler system already works | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "taproot-model",
+    "slug": "taproot-mental-model",
+    "title": "3.14 Taproot is an output format, not an automatic quorum",
+    "auditDecision": "Yes",
+    "originalPlacement": "R2, uz objašnjenje tr(KEY) i dodatne script grane.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Taproot outputs can be spent through a key path, with a signature for the output key, or… | Bez dodatnog vizuala |\n| R2 · A plain tr(KEY) descriptor is a key-path single-sig example. Putting a 2-of-3 script… | Predloženi vizual — Yes |\n| R3 · Core 31.1 supports tr, multi_a and sortedmulti_a in Taproot script trees, and supported… | Bez dodatnog vizuala |",
+    "implementation": [
+      {
+        "id": "taproot-model:R2:taproot",
+        "visual": "taproot",
+        "display": "core",
+        "target": {
+          "kind": "reading",
+          "anchor": "A plain tr(KEY) descriptor is a key-path single-sig example. Putting a 2-of-3 script inside tr does not itself disable the key path. If someone knows the relevant internal private key, that alternate authority must be accounted for."
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "taproot-descriptors",
+    "slug": "taproot-descriptors-and-recovery-artifacts",
+    "title": "3.15 Inspect a Taproot descriptor and its actual spending authority",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Check the actual policy | Bez dodatnog vizuala |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "timelocked-recovery",
+    "slug": "timelocked-recovery",
+    "title": "3.16 Add a delayed recovery path only when you mean it",
+    "auditDecision": "Yes",
+    "originalPlacement": "S3 „Compare rejection and acceptance”, prije provjere nakon novih blokova.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Read the precise recovery condition | Bez dodatnog vizuala |\n| S2 · Sign before the time condition is satisfied | Bez dodatnog vizuala |\n| S3 · Compare rejection and acceptance | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "timelocked-recovery:S3:relative-delay",
+        "visual": "relative-delay",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "mature-v4"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "taproot-path-tests",
+    "slug": "test-every-recovery-path",
+    "title": "3.17 Test every permitted path and every intended rejection",
+    "auditDecision": "Yes",
+    "originalPlacement": "S1 „Write and execute the policy matrix”, uz vlastiti zapis testova.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| S1 · Write and execute the policy matrix | Predloženi vizual — Yes |\n| B · Why? / Technical details, dodatni tekst i tehničke napomene | Bez dodatnog arta; zadržati tekst i kod |",
+    "implementation": [
+      {
+        "id": "taproot-path-tests:S1:path-tests",
+        "visual": "path-tests",
+        "display": "core",
+        "target": {
+          "kind": "step",
+          "stepId": "matrix-v4"
+        }
+      }
+    ],
+    "decision": "Implemented as specified.",
+    "verification": "PASS: mapping, exact active-screen rendering and asset availability. Generated scenes inspected. Browser layout/keyboard/interaction QA not executed.",
+    "blocker": "Cloud browser security policy blocks local HTTP preview and file URLs; desktop/mobile, zoom, keyboard and live navigation checks remain outstanding."
+  },
+  {
+    "lessonId": "advanced-mastery",
+    "slug": "advanced-mastery",
+    "title": "3.18 Before adopting a policy: justify and recover it",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| C · Tekst i svi ishodi checkpointa | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "core-explorer",
+    "slug": "core-explorer",
+    "title": "3.19 Optional: Core Explorer as an advanced interface",
+    "auditDecision": "Maybe",
+    "originalPlacement": "R2, opcionalni mali prikaz; upozorenje iz R3 ostaje uz njega.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · Core Explorer aims to be a user-friendly interface for advanced Bitcoin Core capabilities… | Bez dodatnog vizuala |\n| R2 · The interface is optional. The base course and the advanced laboratory work without it.… | Predloženi vizual — Maybe |\n| R3 · Core Explorer is the author’s experimental, unaudited interface. Its repository is… | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "Omitted: three short paragraphs already distinguish optional interface, Core and review risk; no fabricated application screen.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  },
+  {
+    "lessonId": "lab-community",
+    "slug": "community-questions-and-clarifications",
+    "title": "3.20 Ask a technical question without exposing a wallet",
+    "auditDecision": "No",
+    "originalPlacement": "Nema nove slike; zadržati postojeći raspored svih koraka.",
+    "screenDecisions": "| Ekran ili korak | Odluka |\n| --- | --- |\n| R1 · State the Core version, operating system, network, exact operation, expected result and… | Bez dodatnog vizuala |\n| R2 · Do not publish a real wallet file, private descriptor, passphrase, seed, authentication… | Bez dodatnog vizuala |\n| R3 · Use the project’s established public issue or discussion channels. A private message from… | Bez dodatnog vizuala |",
+    "implementation": [],
+    "decision": "No additional visual; preserve text, code, checks and existing tools.",
+    "verification": "PASS: no additional visual on the lesson’s active screens in the 285-state renderer test.",
+    "blocker": null
+  }
+]

@@ -4,7 +4,7 @@ import {
   BruteForceExplorer,
   BackupMediaExplorer,
 } from "@/components/curriculum-explorers"
-import { CustodyArchitecture } from "@/components/custody-architecture"
+import { LessonVisuals } from "@/components/curriculum-visual"
 import {
   useEffect,
   useRef,
@@ -278,6 +278,10 @@ function GuidedExercise({
           language={language}
         />
       )}
+      <LessonVisuals
+        lessonId={lesson.id}
+        target={{ kind: "step", stepId: step.id }}
+      />
       <div className="course-guided__result">
         <strong>{t.result}</strong>
         <p>{step.expectedResult}</p>
@@ -381,6 +385,10 @@ function ReadingExercise({
       </div>
       <div aria-live="polite" aria-atomic="true">
         <p>{paragraph}</p>
+        <LessonVisuals
+          lessonId={lesson.id}
+          target={{ kind: "reading", anchor: paragraph }}
+        />
       </div>
       <div className="course-guided__actions">
         {index > 0 && (
@@ -569,6 +577,7 @@ export function CurriculumLesson({
           {paragraphs.map((p) => (
             <p key={p}>{p}</p>
           ))}
+          <LessonVisuals lessonId={lesson.id} target={{ kind: "checkpoint" }} />
         </section>
       )}
       {lesson.widget === "entropy-table" && <EntropyTable />}
@@ -612,7 +621,6 @@ export function CurriculumLesson({
           </div>
         </section>
       ) : null}
-      {lesson.id === "2.4" && <CustodyArchitecture language={language} />}
       {Boolean(
         (lesson.guidedSteps?.length && paragraphs.length) ||
         lesson.callouts?.length ||
@@ -625,6 +633,7 @@ export function CurriculumLesson({
       ) && (
         <details className="course-lesson-details">
           <summary>{t.background}</summary>
+          <LessonVisuals lessonId={lesson.id} target={{ kind: "background" }} />
           {(lesson.guidedSteps?.length ? paragraphs : []).map((p) => (
             <p key={p}>{p}</p>
           ))}

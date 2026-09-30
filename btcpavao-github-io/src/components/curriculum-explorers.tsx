@@ -20,6 +20,38 @@ function duration(seconds: number) {
     ? `${magnitude(seconds / 3600)} hours`
     : `${magnitude(seconds / SECONDS_PER_YEAR)} years`
 }
+function dollarsInWords(value: number) {
+  if (value === 0) return "zero dollars"
+  if (value < 0.01) return "less than one cent"
+  if (value < 1) {
+    const cents = Number((value * 100).toPrecision(2))
+    return `${cents} ${cents === 1 ? "cent" : "cents"}`
+  }
+  const rounded = Number(value.toPrecision(2))
+  const scales = [
+    "", "thousand", "million", "billion", "trillion", "quadrillion",
+    "quintillion", "sextillion", "septillion", "octillion", "nonillion",
+    "decillion",
+  ]
+  const group = Math.floor(Math.log10(rounded) / 3)
+  if (group >= scales.length) {
+    const [coefficient, exponent] = rounded.toExponential(1).split("e")
+    return `${coefficient.replace(".", "")} followed by ${Number(exponent) - 1} zeros, in dollars`
+  }
+  const amount = new Intl.NumberFormat("en-US", {
+    maximumSignificantDigits: 2,
+  }).format(rounded / 1000 ** group)
+  return `${amount}${group ? ` ${scales[group]}` : ""} ${rounded === 1 ? "dollar" : "dollars"}`
+}
+function DollarAmount({ value }: { value: number }) {
+  return (
+    <>
+      <span>≈ USD {magnitude(value)}</span>
+      <br />
+      <span className="course-dollar-words">{dollarsInWords(value)}</span>
+    </>
+  )
+}
 export function EntropyTable() {
   return (
     <section className="course-explorer" aria-label="Random word entropy">
@@ -193,11 +225,11 @@ export function BruteForceExplorer() {
             </div>
             <div>
               <dt>Average electricity-only cost</dt>
-              <dd>≈ USD {magnitude(model.averageElectricityCost)}</dd>
+              <dd><DollarAmount value={model.averageElectricityCost} /></dd>
             </div>
             <div>
               <dt>Alternative average compute rental</dt>
-              <dd>≈ USD {magnitude(model.averageComputeCost)}</dd>
+              <dd><DollarAmount value={model.averageComputeCost} /></dd>
             </div>
           </dl>
           <p>
@@ -235,7 +267,7 @@ export function BruteForceExplorer() {
                       <tr key={n}>
                         <th scope="row">{n}</th>
                         <td>≈ {duration(r.averageSeconds)}</td>
-                        <td>USD {magnitude(r.averageElectricityCost)}</td>
+                        <td><DollarAmount value={r.averageElectricityCost} /></td>
                       </tr>
                     )
                   })}
