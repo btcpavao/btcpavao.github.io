@@ -7950,12 +7950,19 @@ input:focus-visible + .curriculum-checkbox {
 .published-related a { display: flex; justify-content: space-between; gap: 1.25rem; padding: 1.25rem 0; border-top: 1px solid var(--border); font-weight: 600; line-height: 1.5; }
 .published-related a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .published-related span { flex-shrink: 0; }
-.debian-images-notice { margin-block: 3rem; padding: 2rem; border: 1px solid var(--border); border-left: 4px solid var(--primary); border-radius: 0 24px 24px 0; background: var(--card); }
+.debian-images-notice { display: grid; grid-template-columns: minmax(0, 1fr) clamp(9rem, 17vw, 13rem); align-items: center; gap: 2rem; margin-block: 3rem; padding: 2rem; border: 1px solid var(--border); border-left: 4px solid var(--primary); border-radius: 0 24px 24px 0; background: var(--card); scroll-margin-top: 6rem; }
+.debian-images-notice__copy { min-width: 0; }
+.debian-images-notice__tux { display: block; width: 100%; height: auto; justify-self: end; outline: none; }
 .debian-images-eyebrow { font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 650; color: var(--muted-foreground); }
 .debian-images-notice h2 { margin: .75rem 0 1rem; font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.2; font-weight: 700; letter-spacing: -.025em; }
 .debian-images-notice p:not(.debian-images-eyebrow) { max-width: 75ch; line-height: 1.75; margin-bottom: .75rem; }
 .debian-images-notice a { display: inline-block; padding-top: .65rem; padding-bottom: .25rem; font-weight: 650; }
 .debian-images-notice--compact { margin-block: 1.5rem; }
+.course-overview-details > .debian-images-notice { max-width: 70rem; margin-inline: 0; }
+@media (max-width: 760px) {
+  .debian-images-notice { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .debian-images-notice__tux { width: 7.5rem; }
+}
 .debian-images-page { max-width: 1120px; margin: 0 auto; }
 .debian-images-page header { max-width: 850px; margin-bottom: 4rem; }
 .debian-images-page header > .debian-images-eyebrow { margin-top: 2.75rem; }
@@ -7968,6 +7975,20 @@ input:focus-visible + .curriculum-checkbox {
 .debian-role-grid li { padding-block: .5rem; line-height: 1.7; }
 .debian-detail { color: var(--muted-foreground); font-size: .875rem; }
 .debian-role-grid a, .debian-release-plan a { display: inline-block; padding-block: .6rem; font-weight: 650; }
+.debian-role-grid p a, .debian-role-grid li a { display: inline; padding: 0; }
+.debian-software-row { display: flex; flex-wrap: wrap; align-items: start; gap: 1rem; margin-block: 1.75rem; }
+.debian-software-row a { display: flex; flex: 0 0 5rem; flex-direction: column; align-items: center; gap: .6rem; padding: 0; font-size: .75rem; line-height: 1.4; text-align: center; text-decoration: none; }
+.debian-software-row a:hover span:last-child { text-decoration: underline; text-underline-offset: 4px; }
+.debian-software-icon { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 14px; background: #fff; }
+.debian-software-icon img { width: 48px; height: 48px; object-fit: contain; outline: none; }
+.debian-session-note { margin-block: 2rem; padding-left: 1.5rem; border-left: 3px solid var(--primary); }
+.debian-session-note h3 { font-size: 1.25rem; font-weight: 700; }
+.debian-session-note summary { cursor: pointer; font-weight: 600; padding-block: .5rem; }
+.debian-session-note details p { color: var(--muted-foreground); font-size: .9375rem; }
+.debian-verification { max-width: 850px; padding-block: 2.5rem; border-top: 1px solid var(--border); scroll-margin-top: 6rem; }
+.debian-verification p, .debian-verification li { line-height: 1.8; margin-block: 1rem; }
+.debian-verification ol { padding-left: 1.5rem; list-style: decimal; }
+.debian-verification li { padding-left: .5rem; }
 .debian-release-plan { padding: 2.25rem; background: var(--secondary); border-radius: 24px; margin-top: 1.5rem; }
 @media (max-width: 600px) {
   .published-article-page, .debian-images-page { padding-inline: 20px; padding-bottom: 3rem; }

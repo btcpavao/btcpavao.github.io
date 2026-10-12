@@ -1,4 +1,5 @@
 import publishedArticlePaths from "./published-articles/paths.json"
+import { DEBIAN_IMAGES_PATH } from "./components/debian-images-notice"
 import { StrictMode, type ReactNode } from "react"
 import { createRoot, hydrateRoot } from "react-dom/client"
 
@@ -52,6 +53,9 @@ async function startApp() {
   if (publishedArticlePaths.includes(initialPath)) {
     const { PublishedArticleRoute } = await import("./published-article")
     routedPage = <PublishedArticleRoute path={initialPath} />
+  } else if (initialPath === DEBIAN_IMAGES_PATH) {
+    const { DebianImagesPage } = await import("./debian-images")
+    routedPage = <DebianImagesPage />
   } else if (initialPath === "/") {
     const { Homepage } = await import("./homepage")
     routedPage = <Homepage />

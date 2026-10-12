@@ -1,4 +1,6 @@
 import { PublishedArticlePage } from "./published-article"
+import { DebianImagesPage } from "./debian-images"
+import { DEBIAN_IMAGES_PATH } from "./components/debian-images-notice"
 import { findPublishedArticle } from "./published-articles/data"
 import { StrictMode } from "react"
 import { renderToString } from "react-dom/server"
@@ -37,6 +39,8 @@ export function renderPage(pathname: string) {
   const publishedArticle = findPublishedArticle(initialPath)
   const page = publishedArticle ? (
     <PublishedArticlePage article={publishedArticle} />
+  ) : initialPath === DEBIAN_IMAGES_PATH ? (
+    <DebianImagesPage />
   ) : initialPath === "/" ? (
     <Homepage />
   ) : initialPath === BITCOIN_CORE_CURRICULUM_PATH ? (

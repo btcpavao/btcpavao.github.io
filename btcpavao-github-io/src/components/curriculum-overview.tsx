@@ -152,8 +152,8 @@ export function CurriculumOverview({
             )}
           </aside>
         </section>
-        <DebianImagesNotice compact />
         <section className="course-overview-details">
+          <DebianImagesNotice compact />
           <CurriculumGateway />
           <section
             className="course-three-parts"

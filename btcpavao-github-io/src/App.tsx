@@ -1,5 +1,4 @@
 import publishedArticlePaths from "@/published-articles/paths.json"
-import { DebianImagesPage } from "@/debian-images"
 import {
   DebianImagesNotice,
   DEBIAN_IMAGES_PATH,
@@ -3574,6 +3573,12 @@ export function LearningArticlePage({
   )
 }
 
+const DebianImagesPage = lazy(() =>
+  import("@/debian-images").then((module) => ({
+    default: module.DebianImagesPage,
+  }))
+)
+
 const PublishedArticleRoute = lazy(() =>
   import("@/published-article").then((module) => ({
     default: module.PublishedArticleRoute,
@@ -3653,7 +3658,13 @@ export function App({
       </Suspense>
     )
   }
-  if (currentPath === DEBIAN_IMAGES_PATH) return <DebianImagesPage />
+  if (currentPath === DEBIAN_IMAGES_PATH) {
+    return (
+      <Suspense fallback={null}>
+        <DebianImagesPage />
+      </Suspense>
+    )
+  }
 
   const migratedDestination = migratedAiDestinations[currentPath]
   if (migratedDestination) {

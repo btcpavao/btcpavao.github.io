@@ -79,7 +79,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "debian-setup": {
     image:
-      "Prepared minimal Debian ISOs are coming for the offline signer, Bitcoin Core Vault and online node. Until the release links and verification instructions are available, follow the Debian installation below. A future image's documentation must state whether this is a live session or an installed system, where wallet files persist, and which packages are included.",
+      "Prepared minimal Debian ISOs are coming for the offline signer, Bitcoin Core Vault and online node. The signer is live RAM only; Vault can run live or install its operating system while keeping its private working session in RAM. The online node retains its chain and watch-only data. Until the downloads are available, follow the Debian installation below. The image page explains the software, storage boundaries and independent verification plan.",
   },
   "generate-passphrase": {
     image:
@@ -116,7 +116,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "offline-device": {
     image:
-      "A minimal Core offline-signer image and the broader Bitcoin Core Vault environment are in development. Use the release instructions for the image you choose: a live session without configured persistence must not be treated like the persistent installation below. Before shutting down, make independently recoverable backups outside the session and test the intended recovery workflow. ISO links will be inserted here when released.",
+      "The minimal Core offline-signer image will run exclusively as a live RAM session. Bitcoin Core Vault can run live or be installed, but its private home and wallet workspace remain in RAM in both modes. These prepared environments therefore differ from the persistent generic Debian installation below. Export encrypted backups and signed PSBTs to removable media before ending the session, and prove recovery. The image page explains the storage boundaries; ISO links will be inserted here on release.",
   },
   "ops-documentation": {
     notes: [
@@ -132,7 +132,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "real-encryption": {
     image:
-      "Bitcoin Core Vault is intended to bring Core, KeePassXC and encrypted-backup tools into a small offline environment for this stage. It is still forthcoming. When released, this lesson will link to its verified image and the relevant creation, encryption and backup instructions; the empty-wallet restore and small-payment tests remain necessary.",
+      "Bitcoin Core Vault brings Core, KeePassXC and encrypted-backup tools into an offline environment with a RAM-only private workspace, whether run live or with its operating system installed. Export the encrypted wallet and any other files you need to removable media before shutdown; unsaved session data does not persist. The image is still forthcoming. Release links will appear here alongside the creation, encryption and backup instructions; the empty-wallet restore and small-payment tests remain necessary.",
   },
   "multisig-why": {
     notes: [
