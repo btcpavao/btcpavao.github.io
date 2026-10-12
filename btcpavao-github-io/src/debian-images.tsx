@@ -7,6 +7,11 @@ import { ValueForValueCard } from "@/components/value-for-value"
 const lesson = (slug: string) => `/en/bitcoin-core/self-custody/#lesson/${slug}`
 
 const software = {
+  debian: {
+    name: "Debian GNU/Linux",
+    url: "https://www.debian.org/",
+    logo: "/software/debian.svg",
+  },
   core: {
     name: "Bitcoin Core",
     url: "https://bitcoincore.org/",
@@ -105,6 +110,14 @@ export function DebianImagesPage() {
             Ordinary hardware.
             <br />A dedicated environment.
           </h1>
+          <img
+            className="debian-images-header-tux"
+            src="/illustrations/tux-bitcoin.webp"
+            alt="Tux, the Linux penguin, with the Bitcoin logo on its belly"
+            width="600"
+            height="670"
+            decoding="async"
+          />
           <p className="debian-images-lede">
             I am preparing stripped-down Debian ISO images for three Bitcoin
             Core roles: offline signing, wallet creation and backup, and running
@@ -140,8 +153,8 @@ export function DebianImagesPage() {
               is lost when the session ends.
             </p>
             <SoftwareRow
-              ids={["core"]}
-              label="Offline signer software — official project"
+              ids={["debian", "core"]}
+              label="Offline signer software — official projects"
             />
             <a href={lesson("prepare-offline-signer")}>
               Learn the offline-signer workflow →
@@ -163,6 +176,7 @@ export function DebianImagesPage() {
             </p>
             <SoftwareRow
               ids={[
+                "debian",
                 "core",
                 "keepassxc",
                 "sevenzip",
@@ -281,8 +295,8 @@ export function DebianImagesPage() {
               workspace on the offline signer and Vault.
             </p>
             <SoftwareRow
-              ids={["core"]}
-              label="Online node software — official project"
+              ids={["debian", "core"]}
+              label="Online node software — official projects"
             />
             <a href={lesson("online-node-and-offline-signer")}>
               Understand the two-machine architecture →

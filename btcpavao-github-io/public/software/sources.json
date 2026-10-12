@@ -1,5 +1,13 @@
 [
   {
+    "name": "debian",
+    "file": "debian.svg",
+    "source": "https://www.debian.org/logos/openlogo-nd.svg",
+    "license": "CC-BY-SA-3.0",
+    "attribution": "Raul Silva; Copyright (c) 1999 Software in the Public Interest, Inc.",
+    "note": "Debian Open Use Logo without wordmark. Artwork unchanged."
+  },
+  {
     "name": "keepassxc",
     "file": "keepassxc.png",
     "source": "https://github.com/keepassxreboot/keepassxc/blob/9e0f57a4a4c6c629fa6d0a593acb7d089b1d95cd/share/branding/png/keepassxc-128x128.png"
