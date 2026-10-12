@@ -874,7 +874,7 @@ assert(
   (bitcoinCoreWalletGuideRouteHtml.match(/aria-valuemax="11"/g) ?? []).length >=
     1 &&
     bitcoinCoreWalletGuideRouteHtml.includes(
-      "Optional: Make the backup less obvious"
+      "Optional: Encrypt the whole backup"
     ) &&
     bitcoinCoreWalletGuideRouteHtml.includes(
       "prove that the restored keys can"
@@ -888,7 +888,7 @@ assert(
     bitcoinCoreWalletGuideSource.includes(
       "btcpavao-core-wallet-guide-steps-v1"
     ),
-  "Wallet guide step count, appendix, restored-spend guidance, or progress migration is incomplete"
+  "Wallet guide step count, optional backup section, restored-spend guidance, or progress migration is incomplete"
 )
 assert(
   enBitcoinCoreArticleRouteHtml.includes(

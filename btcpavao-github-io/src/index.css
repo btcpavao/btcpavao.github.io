@@ -7923,6 +7923,22 @@ input:focus-visible + .curriculum-checkbox {
 .published-article-description { max-width: 65ch; font-size: clamp(1.125rem, 2vw, 1.4rem); line-height: 1.65; color: var(--muted-foreground); }
 .published-article-source { margin: 1.5rem 0 2.5rem; font-size: .875rem; line-height: 1.7; }
 .published-article-cover { display: block; width: 100%; height: auto; border-radius: 24px; }
+.article-image-zoom { cursor: zoom-in; }
+.article-image-zoom:focus-visible { outline: 3px solid var(--primary); outline-offset: 5px; }
+.article-hero-content { pointer-events: none; }
+.article-hero-copy { pointer-events: auto; }
+.article-image-viewer { position: fixed; inset: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; border: 0; padding: 5.5rem 1.5rem 1.5rem; color: #fff; background: #06131ff5; }
+.article-image-viewer[open] { display: grid; place-items: center; }
+.article-image-viewer::backdrop { background: #06131f; }
+.article-image-viewer__close { position: absolute; top: max(1.5rem, env(safe-area-inset-top)); right: max(1.5rem, env(safe-area-inset-right)); display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%; background: #fff; color: #0d3153; cursor: pointer; }
+.article-image-viewer__close:hover { background: #dceaf4; }
+.article-image-viewer__close:focus-visible { outline: 3px solid #f7931a; outline-offset: 4px; }
+.article-image-viewer__image { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100dvh - 7rem); object-fit: contain; outline: none; }
+@media (max-width: 600px) {
+  .article-image-viewer { padding: 5rem 1rem 1rem; }
+  .article-image-viewer__close { top: max(1rem, env(safe-area-inset-top)); right: max(1rem, env(safe-area-inset-right)); }
+  .article-image-viewer__image { max-height: calc(100dvh - 6rem); }
+}
 .published-article-reading { max-width: 800px; margin: 3rem auto 0; }
 .published-article-toc { margin-bottom: 3.5rem; padding: 1.25rem 1.5rem; border-block: 1px solid var(--border); }
 .published-article-toc summary { cursor: pointer; font-weight: 650; min-height: 24px; }
@@ -7950,8 +7966,11 @@ input:focus-visible + .curriculum-checkbox {
 .published-related a { display: flex; justify-content: space-between; gap: 1.25rem; padding: 1.25rem 0; border-top: 1px solid var(--border); font-weight: 600; line-height: 1.5; }
 .published-related a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .published-related span { flex-shrink: 0; }
-.debian-images-notice { display: grid; grid-template-columns: minmax(0, 1fr) clamp(9rem, 17vw, 13rem); align-items: center; gap: 2rem; margin-block: 3rem; padding: 2rem; border: 1px solid var(--border); border-left: 4px solid var(--primary); border-radius: 0 24px 24px 0; background: var(--card); scroll-margin-top: 6rem; }
+.debian-images-notice { display: grid; grid-template-columns: minmax(0, 1fr) clamp(12rem, 22vw, 17rem); align-items: center; gap: 2rem; margin-block: 3rem; padding: 2rem; border: 1px solid var(--border); border-left: 4px solid var(--primary); border-radius: 0 24px 24px 0; background: var(--card); scroll-margin-top: 6rem; }
 .debian-images-notice__copy { min-width: 0; }
+.debian-images-notice__art { display: grid; grid-template-columns: 4rem minmax(0, 1fr); align-items: center; gap: 1.25rem; }
+.debian-images-notice a.debian-images-notice__debian { display: flex; flex-direction: column; align-items: center; gap: .5rem; padding: 0; font-size: .75rem; line-height: 1.4; text-align: center; text-decoration: none; }
+.debian-images-notice__debian:hover span:last-child { text-decoration: underline; text-underline-offset: 4px; }
 .debian-images-notice__tux { display: block; width: 100%; height: auto; justify-self: end; outline: none; }
 .debian-images-eyebrow { font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 650; color: var(--muted-foreground); }
 .debian-images-notice h2 { margin: .75rem 0 1rem; font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.2; font-weight: 700; letter-spacing: -.025em; }
@@ -7961,6 +7980,7 @@ input:focus-visible + .curriculum-checkbox {
 .course-overview-details > .debian-images-notice { max-width: 70rem; margin-inline: 0; }
 @media (max-width: 760px) {
   .debian-images-notice { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .debian-images-notice__art { grid-template-columns: 4rem 7.5rem; justify-self: end; }
   .debian-images-notice__tux { width: 7.5rem; }
 }
 .debian-images-page { max-width: 1120px; margin: 0 auto; }

@@ -20,15 +20,28 @@ export function DebianImagesNotice({ compact = false }: { compact?: boolean }) {
         </p>
         <a href={DEBIAN_IMAGES_PATH}>See what is coming →</a>
       </div>
-      <img
-        className="debian-images-notice__tux"
-        src="/illustrations/tux-bitcoin.webp"
-        alt="Linux Tux with the orange Bitcoin logo on his belly"
-        width="600"
-        height="670"
-        loading="lazy"
-        decoding="async"
-      />
+      <div className="debian-images-notice__art">
+        <a
+          className="debian-images-notice__debian"
+          href="https://www.debian.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span className="debian-software-icon">
+            <img src="/software/debian.svg" alt="" width="48" height="48" loading="lazy" decoding="async" />
+          </span>
+          <span>Debian GNU/Linux</span>
+        </a>
+        <img
+          className="debian-images-notice__tux"
+          src="/illustrations/tux-bitcoin.webp"
+          alt="Linux Tux with the orange Bitcoin logo on his belly"
+          width="600"
+          height="670"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
     </aside>
   )
 }

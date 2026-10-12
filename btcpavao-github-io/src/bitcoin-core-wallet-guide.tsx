@@ -1,5 +1,6 @@
 import { findContentByPath } from "@/content-registry"
 import { CustodyArchitecture } from "@/components/custody-architecture"
+import { DEBIAN_IMAGES_PATH } from "@/components/debian-images-notice"
 import {
   useCallback,
   useEffect,
@@ -51,7 +52,9 @@ const BITCOIN_CORE_DOWNLOAD_URL = "https://bitcoincore.org/en/download/"
 const KEEPASSXC_DOWNLOAD_URL = "https://packages.debian.org/trixie/keepassxc-minimal"
 const DEBIAN_DOWNLOAD_URL = "https://www.debian.org/distrib/"
 const TAILS_INSTALL_URL = "https://tails.net/install/"
-const GNUPG_DOWNLOAD_URL = "https://gnupg.org/download/"
+const SEVEN_ZIP_DOWNLOAD_URL = "https://www.7-zip.org/download.html"
+const ARQIVER_URL = "https://github.com/tsujan/Arqiver"
+const KEKA_URL = "https://www.keka.io/en/"
 
 type GuideImage = {
   src: string
@@ -547,8 +550,11 @@ const legacySteps: GuideStep[] = [
         <p>
           One digital backup is not enough. Create redundant copies across more
           than one failure domain: USB drives, external drives, optical media,
-          another computer, geographically separated storage, or encrypted cloud
-          storage may all be appropriate depending on the threat model.
+          another computer, or geographically separated storage. For an
+          additional cloud copy, first encrypt the complete backup locally using
+          the <a href="#optional-backup-protection" className="font-semibold text-primary underline underline-offset-4">optional .7z archive workflow below</a>.
+          Upload only the finished archive, never the bare wallet file or its
+          passphrases.
         </p>
       </>
     ),
@@ -574,7 +580,11 @@ const legacySteps: GuideStep[] = [
     ],
     content: (
       <p>
-        Choose <strong>File → Restore Wallet</strong>. Restoring an encrypted
+        If you used the optional archive layer, first extract the wallet backup
+        from the <code>.7z</code> archive in your trusted recovery environment,
+        using the archive passphrase. Then choose <strong>File → Restore Wallet</strong>.
+        Bitcoin Core restores the extracted wallet file, not the archive.
+        Restoring an encrypted
         wallet does not necessarily trigger a passphrase prompt. Bitcoin Core
         can load the wallet and show metadata while the private keys remain
         locked. The passphrase is required later when those keys must sign or
@@ -595,7 +605,8 @@ const legacySteps: GuideStep[] = [
     ],
     content: (
       <p>
-        Navigate to the backup location, select the wallet <code>.dat</code>
+        Navigate to the backup location or your private extraction folder,
+        select the wallet <code>.dat</code>
         file, and choose <strong>Open</strong>. For a real recovery test, use a
         safe environment and confirm that you selected the intended backup
         rather than an unrelated file with a similar name.
@@ -671,8 +682,9 @@ const legacySteps: GuideStep[] = [
     ],
     content: (
       <p>
-        Open <strong>Restore Wallet</strong> again, select
-        <code> archive.dat</code>, and complete the import. Confirm that the
+        Open <strong>Restore Wallet</strong> again, select the extracted or
+        directly saved wallet backup (<code>archive.dat</code> in this
+        screenshot), and complete the import. Confirm that the
         expected wallet loads and that its labels, addresses, and history are
         present. If the backup was encrypted, that encryption remains in effect.
         Loading the wallet and unlocking its private keys are still two separate
@@ -1161,7 +1173,7 @@ function Lightbox({
   )
 }
 
-function OptionalObfuscation({
+function OptionalBackupProtection({
   onOpen,
 }: {
   onOpen: (image: GuideImage, opener: HTMLButtonElement) => void
@@ -1191,50 +1203,131 @@ function OptionalObfuscation({
   ]
 
   return (
-    <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
+    <section id="optional-backup-protection" aria-labelledby="backup-protection-title" className="mx-auto max-w-5xl scroll-mt-24 px-4 py-10 sm:px-6 sm:py-14">
       <div className="overflow-hidden rounded-[30px] bg-[#0d3153] text-white shadow-[var(--shadow-elevated)]">
-        <div className="grid gap-8 p-6 sm:p-9 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
-          <div className="lg:sticky lg:top-24">
-            <span className="inline-flex min-h-10 items-center rounded-full bg-white/10 px-3 text-[11px] font-bold tracking-[0.16em] text-white/72 uppercase">
-              Privacy layer
-            </span>
-            <h2 className="mt-5 max-w-[14ch] font-display text-3xl leading-[1.02] font-bold tracking-[-0.045em] text-balance sm:text-5xl">
-              Optional: Make the backup less obvious
-            </h2>
-            <p className="mt-5 text-base leading-8 text-pretty text-white/74">
-              A generic filename such as <code>archive.bin</code> makes the file
-              less obvious to a casual observer. The underlying bytes do not
-              change. This is obfuscation, not cryptographic security.
-            </p>
-            <p className="mt-4 text-sm leading-7 text-white/66">
-              Avoid names such as <code>bitcoin-wallet.dat</code>,
-              <code> cold-storage-wallet.dat</code>, or
-              <code> life-savings.dat</code>. A technically capable observer may
-              still identify the file format.
-            </p>
-            <p className="mt-4 text-sm leading-7 text-white/66">
-              If the whole backup must remain confidential, place the already
-              encrypted Bitcoin Core wallet inside an additional encrypted
-              archive or container, such as{" "}
-              <ResourceLink href={GNUPG_DOWNLOAD_URL} inverse>
-                GPG/OpenPGP
-              </ResourceLink>{" "}
-              symmetric encryption, an AES-encrypted archive, or an encrypted
-              container.
-            </p>
-          </div>
+        <div className="p-6 sm:p-9">
+          <h2 id="backup-protection-title" className="max-w-[23ch] font-display text-3xl leading-[1.08] font-bold tracking-[-0.03em] text-balance sm:text-5xl">
+            Optional: Encrypt the whole backup
+          </h2>
+          <p className="mt-5 max-w-[70ch] text-base leading-8 text-white/80">
+            Bitcoin Core protects the private keys with its wallet passphrase.
+            An additional encrypted <code>.7z</code> archive protects the complete
+            wallet backup, including its metadata. This is my primary optional
+            privacy layer. Renaming the file is a second option for reducing
+            casual attention; it does not encrypt anything.
+          </p>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            {screenshots.map((screenshot, index) => (
-              <div
-                key={screenshot.src}
-                className={
-                  index === screenshots.length - 1 ? "sm:col-span-2" : undefined
-                }
-              >
-                <ScreenshotButton screenshot={screenshot} onOpen={onOpen} />
+          <div className="mt-8 max-w-[75ch] space-y-5 text-base leading-8 text-white/80 [&_strong]:text-white">
+            <h3 className="text-2xl leading-tight font-bold text-white">Option 1: Create an encrypted .7z archive</h3>
+            <p>
+              Use <ResourceLink href={SEVEN_ZIP_DOWNLOAD_URL} inverse>7-Zip</ResourceLink> on Windows,
+              or <ResourceLink href={ARQIVER_URL} inverse>Arqiver</ResourceLink> with 7-Zip on Debian/Linux.
+              For a macOS practice session, <ResourceLink href={KEKA_URL} inverse>Keka</ResourceLink> supports the same format.
+              Install from the official project or authenticated distribution
+              repository. Keep wallet work in your trusted, dedicated environment.
+            </p>
+            <ol className="list-decimal space-y-4 pl-6 marker:font-bold marker:text-white [&_li]:pl-2">
+              <li>
+                <strong>Start with a fresh Core backup.</strong> Use File → Backup Wallet
+                after enabling wallet encryption. Work with that saved snapshot,
+                not a file copied from a running wallet’s data directory. Keep it
+                outside cloud-synced folders.
+              </li>
+              <li>
+                <strong>Generate a separate archive passphrase.</strong> Use{" "}
+                <ResourceLink href="https://keepassxc.org/" inverse>KeePassXC</ResourceLink>{" "}
+                with the random-word procedure in step 4. Do not reuse the Core
+                passphrase. Back up both credentials separately from the archive;
+                never put the only recovery record inside the archive it unlocks.
+              </li>
+              <li>
+                <strong>Create a new archive.</strong> In 7-Zip, select the saved
+                wallet file and click Add to open the Add to Archive dialog. Set Archive format
+                to <strong>7z</strong>, Encryption method to <strong>AES-256</strong>,
+                enter and confirm the archive passphrase, and enable{" "}
+                <strong>Encrypt file names</strong>. Use a neutral name such as{" "}
+                <code>archive-2026-10-12.7z</code>. Compression alone is not encryption.
+                Leave deletion of the original file disabled.
+                <p className="mt-3"><strong>Using another tool instead?</strong> In
+                Arqiver, create a 7z archive with password protection and encrypted
+                file names. In Keka, select 7z, fill Password and Repeat, enable
+                Encrypt filenames, then add the backup file. Keep the archive and
+                temporary working files outside cloud sync until verification is complete.</p>
+              </li>
+              <li>
+                <strong>Test the complete recovery path.</strong> Close the archiver,
+                reopen the saved archive, and confirm that its file list requires
+                the archive passphrase. Extract into a separate private recovery
+                directory, preferably RAM on the offline machine, and restore the
+                extracted <code>wallet.dat</code> in Core. Check addresses and labels,
+                then prove signing with the disposable test wallet. Keep the original
+                backup until this succeeds. The Core passphrase is still needed to
+                unlock the restored private keys.
+              </li>
+            </ol>
+            <p className="text-sm leading-7">
+              References: <ResourceLink href="https://www.7-zip.org/7z.html" inverse>7z encryption</ResourceLink>{" "}
+              and <ResourceLink href="https://github.com/aonez/Keka/wiki/Compressing-with-Keka#password-protected-and-encrypted-files" inverse>Keka’s encryption settings</ResourceLink>.
+            </p>
+
+            <h3 className="pt-4 text-2xl leading-tight font-bold text-white">An additional cloud backup</h3>
+            <p>
+              With a strong, unique archive passphrase, encrypted contents and
+              file names, and a successful recovery test, I consider the finished
+              archive suitable for an additional cloud backup. Encrypt locally
+              before uploading; transfer only the closed <code>.7z</code> archive
+              to the online computer. Keep both passphrases away from that cloud
+              account and retain independent offline copies.
+            </p>
+            <p>
+              Anyone who obtains the archive can try password guesses offline.
+              The provider can still see its outer filename, size and upload timing,
+              and the account or file can be lost. Cloud storage adds another
+              location; it does not replace offline recovery. Download a copy and
+              test extraction and restoration in the trusted environment before
+              counting it as a working backup. Never decrypt it in the browser or
+              a synced folder.
+            </p>
+
+            <h3 className="pt-4 text-2xl leading-tight font-bold text-white">Already prepared in Bitcoin Core Vault</h3>
+            <p>
+              The current <a href={`${DEBIAN_IMAGES_PATH}#vault`} className="font-semibold text-white underline underline-offset-4">Bitcoin Core Vault ISO build</a>{" "}
+              already includes 7-Zip, Arqiver and the <strong>Wallet Backup</strong>{" "}
+              workflow. It creates a standard encrypted <code>.7z</code> archive
+              containing the complete <code>wallet.dat</code>, encrypts its file
+              names, and verifies the export. Wallet snapshots and verification
+              work stay in RAM. Attach backup media, open Wallet Backup, choose a
+              new archive filename, enter and confirm its passphrase, then wait
+              for verification. Practice extraction and Core recovery in a fresh
+              session too. Public ISO downloads are coming soon.
+            </p>
+
+            <h3 className="pt-4 text-2xl leading-tight font-bold text-white">Option 2: Use a less revealing filename</h3>
+            <p>
+              A neutral filename such as <code>archive.bin</code> may be appropriate
+              when your threat model includes a casual observer noticing a file
+              named <code>bitcoin-wallet.dat</code>. Renaming changes no contents
+              and adds no cryptographic protection; someone inspecting the file
+              can still recognize its format. It is not a substitute for the
+              encrypted archive before a cloud upload. You can also give the
+              encrypted archive a neutral name while keeping its <code>.7z</code> extension.
+            </p>
+            <details className="border-t border-white/20 pt-4">
+              <summary className="cursor-pointer py-2 font-semibold text-white">Optional filename example on macOS</summary>
+              <p className="my-4">
+                In Finder, use Get Info → Name &amp; Extension to rename a backup
+                copy. If the restore dialog hides the <code>.bin</code> file,
+                change its extension back to <code>.dat</code> before selecting it.
+                These screenshots demonstrate renaming only.
+              </p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {screenshots.map((screenshot, index) => (
+                  <div key={screenshot.src} className={index === screenshots.length - 1 ? "sm:col-span-2" : undefined}>
+                    <ScreenshotButton screenshot={screenshot} onOpen={onOpen} />
+                  </div>
+                ))}
               </div>
-            ))}
+            </details>
           </div>
         </div>
       </div>
@@ -1444,7 +1537,7 @@ export function BitcoinCoreWalletGuidePage() {
             }
             prerequisites="Bitcoin Core installed from an official source, an empty practice environment, and a separate place for passphrase notes."
             outcome="A restored practice wallet whose addresses and metadata match the original."
-            lastReviewed="Technical walkthrough: 31 August 2026. Curriculum and passphrase alignment: 14 September 2026; physical Debian rehearsal not claimed."
+            lastReviewed="Technical walkthrough: 31 August 2026. Curriculum and passphrase alignment: 14 September 2026. Optional .7z backup and Vault workflow: 12 October 2026; physical Debian rehearsal not claimed."
           />
 
           <div className="mt-10 grid gap-4 rounded-[28px] bg-card p-5 shadow-[var(--shadow-border)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-7">
@@ -1571,8 +1664,8 @@ export function BitcoinCoreWalletGuidePage() {
                 </div>
               </section>
 
-              {step.number === 9 ? (
-                <OptionalObfuscation onOpen={openImage} />
+              {step.number === 7 ? (
+                <OptionalBackupProtection onOpen={openImage} />
               ) : null}
               {index < steps.length - 1 ? (
                 <div className="mx-auto h-px max-w-5xl bg-border/70" />

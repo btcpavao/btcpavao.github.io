@@ -1,4 +1,5 @@
 import { ConsultingInvitation } from "@/components/consulting-invitation"
+import { ZoomableImage } from "@/components/zoomable-image"
 import { useEffect } from "react"
 import { articles, findPublishedArticle } from "./published-articles/data"
 import { SiteHeader } from "@/components/site-header"
@@ -57,7 +58,7 @@ export function PublishedArticlePage({
               {article.description}
             </p>
             <p className="published-article-source">
-              By Pavao Pahljina ·{" "}
+              By btcpavao ·{" "}
               <a
                 href={article.sourceUrl}
                 target="_blank"
@@ -66,7 +67,7 @@ export function PublishedArticlePage({
                 Originally published on X ↗
               </a>
             </p>
-            <img
+            <ZoomableImage
               className="published-article-cover"
               src={article.hero.src}
               srcSet={`${article.hero.smallSrc} ${article.hero.smallWidth}w, ${article.hero.src} ${article.hero.width}w`}
@@ -94,7 +95,7 @@ export function PublishedArticlePage({
                 if (block.type === "image")
                   return (
                     <figure key={key}>
-                      <img
+                      <ZoomableImage
                         src={block.src}
                         srcSet={`${block.smallSrc} ${block.smallWidth}w, ${block.src} ${block.width}w`}
                         sizes="(max-width: 840px) calc(100vw - 32px), 800px"

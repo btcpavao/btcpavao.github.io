@@ -322,7 +322,7 @@ export const contentRegistry = [
     contentType: "tutorial",
     section: "core-practical",
     publishedAt: "2026-08-18",
-    updatedAt: "2026-09-14",
+    updatedAt: "2026-10-12",
     featured: true,
     order: 5,
     status: "published",

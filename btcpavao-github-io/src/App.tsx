@@ -1,3 +1,4 @@
+import { ZoomableImage } from "@/components/zoomable-image"
 import publishedArticlePaths from "@/published-articles/paths.json"
 import {
   DebianImagesNotice,
@@ -1126,7 +1127,7 @@ export function ArticlePage({
         <article className="article-layout">
           <header className="article-hero-bleed">
             <picture className="article-hero-background">
-              <img
+              <ZoomableImage
                 src={ARTICLE_HERO_IMAGE}
                 srcSet={`${ARTICLE_HERO_IMAGE_SMALL} 840w, ${ARTICLE_HERO_IMAGE} 1672w`}
                 sizes="(max-width: 760px) 100vw, 60vw"
@@ -1222,7 +1223,7 @@ export function ArticlePage({
                   {section.heading === BOOK_SECTION_HEADING ? (
                     <figure className="space-y-3">
                       <picture>
-                        <img
+                        <ZoomableImage
                           src="/bitcoin-kao-novac-cover.webp"
                           srcSet="/bitcoin-kao-novac-cover-724.webp 724w, /bitcoin-kao-novac-cover.webp 1448w"
                           sizes="(max-width: 768px) calc(100vw - 2rem), 48rem"
@@ -1254,7 +1255,7 @@ export function ArticlePage({
                           className="space-y-3 rounded-[28px] border border-border/70 bg-card/78 p-3 shadow-soft sm:p-4"
                         >
                           <picture>
-                            <img
+                            <ZoomableImage
                               src={site.src}
                               srcSet={`${site.smallSrc} 800w, ${site.mediumSrc} 1600w, ${site.src} ${site.width}w`}
                               sizes="(max-width: 768px) calc(100vw - 3.5rem), 44rem"
@@ -1796,7 +1797,7 @@ function BitcoinCoreArticleVisual({
           srcSet={visual.smallSrc}
           type="image/webp"
         />
-        <img
+        <ZoomableImage
           src={visual.src}
           srcSet={`${visual.smallSrc} 840w, ${visual.src} 1122w`}
           sizes="(max-width: 840px) calc(100vw - 32px), 832px"
@@ -2024,7 +2025,7 @@ function BitcoinCoreArticlePage({
         <article>
           <header className="article-hero-bleed bitcoin-core-article-hero entropy-cover-hero">
             <picture className="article-hero-background">
-              <img
+              <ZoomableImage
                 src={BITCOIN_CORE_ARTICLE_HERO_IMAGE}
                 srcSet={`${BITCOIN_CORE_ARTICLE_HERO_IMAGE_SMALL} 840w, ${BITCOIN_CORE_ARTICLE_HERO_IMAGE} 1672w`}
                 sizes="100vw"
@@ -2258,7 +2259,7 @@ function Bip39ArticleVisual({ number }: { number: number }) {
           srcSet={visual.smallSrc}
           type="image/webp"
         />
-        <img
+        <ZoomableImage
           src={visual.src}
           srcSet={`${visual.smallSrc} 840w, ${visual.src} 1920w`}
           sizes="(max-width: 840px) calc(100vw - 32px), 1152px"
@@ -2367,7 +2368,7 @@ function Bip39ArticlePage({
                 srcSet={BIP39_WRONG_THING_ARTICLE_HERO_IMAGE_SMALL}
                 type="image/webp"
               />
-              <img
+              <ZoomableImage
                 src={BIP39_WRONG_THING_ARTICLE_HERO_IMAGE}
                 srcSet={`${BIP39_WRONG_THING_ARTICLE_HERO_IMAGE_SMALL} 840w, ${BIP39_WRONG_THING_ARTICLE_HERO_IMAGE} 1920w`}
                 sizes="100vw"
@@ -2571,7 +2572,7 @@ function MultisigArticleVisual({ number }: { number: number }) {
           srcSet={visual.smallSrc}
           type="image/webp"
         />
-        <img
+        <ZoomableImage
           src={visual.src}
           srcSet={`${visual.smallSrc} 840w, ${visual.src} 1920w`}
           sizes="(max-width: 840px) calc(100vw - 32px), 1152px"
@@ -2647,7 +2648,7 @@ function MultisigArticlePage() {
                 srcSet={MULTISIG_ARTICLE_HERO_IMAGE_SMALL}
                 type="image/webp"
               />
-              <img
+              <ZoomableImage
                 src={MULTISIG_ARTICLE_HERO_IMAGE}
                 srcSet={`${MULTISIG_ARTICLE_HERO_IMAGE_SMALL} 840w, ${MULTISIG_ARTICLE_HERO_IMAGE} 2000w`}
                 sizes="100vw"
@@ -2810,7 +2811,7 @@ function LongRoadArticleVisual({ number }: { number: number }) {
           srcSet={visual.smallSrc}
           type="image/webp"
         />
-        <img
+        <ZoomableImage
           src={visual.src}
           srcSet={`${visual.smallSrc} 840w, ${visual.src} ${visual.width}w`}
           sizes="(max-width: 840px) calc(100vw - 32px), 1152px"
@@ -2921,7 +2922,7 @@ function LongRoadArticlePage({
                 srcSet={LONG_ROAD_ARTICLE_HERO_IMAGE_SMALL}
                 type="image/webp"
               />
-              <img
+              <ZoomableImage
                 src={LONG_ROAD_ARTICLE_HERO_IMAGE}
                 srcSet={`${LONG_ROAD_ARTICLE_HERO_IMAGE_SMALL} 840w, ${LONG_ROAD_ARTICLE_HERO_IMAGE} 1774w`}
                 sizes="(max-width: 760px) 100vw, 100vw"
@@ -3165,7 +3166,7 @@ function WorkflowSectionVisual({
   return (
     <figure className="surface-shadow-soft my-7 overflow-hidden rounded-[28px] bg-card/82">
       <picture>
-        <img
+        <ZoomableImage
           src={visual.src}
           srcSet={`${visual.smallSrc} 840w, ${visual.src} 1672w`}
           sizes="(max-width: 768px) calc(100vw - 2rem), 48rem"
@@ -3282,7 +3283,7 @@ export function WorkflowArticlePage({
         <article>
           <header className="article-hero-bleed">
             <picture className="article-hero-background">
-              <img
+              <ZoomableImage
                 src={ARTICLE_HERO_IMAGE}
                 srcSet={`${ARTICLE_HERO_IMAGE_SMALL} 840w, ${ARTICLE_HERO_IMAGE} 1672w`}
                 sizes="(max-width: 760px) 100vw, 60vw"
@@ -3457,7 +3458,7 @@ export function LearningArticlePage({
         <article>
           <header className="article-hero-bleed">
             <picture className="article-hero-background">
-              <img
+              <ZoomableImage
                 src={LEARNING_ARTICLE_HERO_IMAGE}
                 srcSet={`${LEARNING_ARTICLE_HERO_IMAGE_SMALL} 840w, ${LEARNING_ARTICLE_HERO_IMAGE} 1672w`}
                 sizes="(max-width: 760px) 100vw, 60vw"

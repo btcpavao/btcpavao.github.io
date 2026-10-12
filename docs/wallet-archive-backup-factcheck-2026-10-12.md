@@ -1,0 +1,28 @@
+# Wallet archive backup: separate verification pass
+
+Scope: the optional backup section, its adjacent backup/restore instructions and the shared Debian announcement. Checked after the first draft on 2026-10-12. Existing guide instructions outside this change were not re-audited. The established project docs directory is retained for audit output.
+
+## Claim ledger
+
+| Claim or instruction | Evidence | Finding |
+| --- | --- | --- |
+| A 7z archive can encrypt the wallet file with AES-256. | https://www.7-zip.org/7z.html | Confirmed, high confidence. Compression alone is explicitly distinguished from encryption. |
+| The Windows creation dialog exposes archive format, password confirmation, encryption method, filename encryption and optional source deletion. | https://raw.githubusercontent.com/ip7z/7zip/main/CPP/7zip/UI/GUI/CompressDialog.rc | Confirmed, high confidence. Corrected the draft's ambiguous “Add → Add to Archive” to clicking Add to open the dialog. |
+| Keka creates AES-256-encrypted 7z archives and supports encrypted file names. | https://github.com/aonez/Keka/wiki/Compressing-with-Keka#password-protected-and-encrypted-files and https://www.keka.io/en/ | Confirmed, high confidence. Instructions specify 7z rather than implying every supported format has equivalent encryption. |
+| Arqiver is a 7z frontend with password protection and header encryption support. | https://github.com/tsujan/Arqiver and https://raw.githubusercontent.com/tsujan/Arqiver/master/backends.cpp (encryptedList_, -mhe=on) | Confirmed, high confidence. Alternative-tool settings are inside the archive-creation step so readers do not mistake them for a second encryption operation. |
+| Current Vault preparation includes 7-Zip, Arqiver and Wallet Backup; it creates a standard .7z containing wallet.dat with encrypted contents and names. | Read-only inspection of core-signer-os README, lines 55–94; config/package-lists/core-vault-backup.list.chroot; config/includes.chroot/usr/local/bin/core-vault-wallet-backup. Repository HEAD b6cd40f3f0e4479f78597e2e40fa6fdb2dcc4e27. | Confirmed from current project source, high confidence as a description of the build configuration. This website task did not boot/test an ISO. Public downloads remain described as coming soon. |
+| Vault snapshots and read-back verification stay in RAM; exports are verified; archive testing alone does not prove wallet recovery. | Same Vault README and launcher. | Confirmed as documented workflow. No claim of an independent runtime audit or guaranteed memory sanitization. |
+| Restore requires extracting the archive first; any independent Core passphrase remains needed for private-key use. | Same Vault README, recovery procedure. Existing guide already distinguishes Core loading from unlocking. | Confirmed, high confidence. Adjacent restore steps now say to select the extracted .dat file, not the .7z archive. |
+| Renaming leaves file contents unchanged and provides no encryption. | Filesystem operation semantics; existing demonstrated rename workflow. | Confirmed. Rename screenshots are retained in a collapsed secondary example, with extension restoration explained. |
+| A locally encrypted, tested archive can be an additional cloud backup, with a strong independent passphrase and retained offline copies. | Inference from the archive encryption mechanism and storage architecture, presented explicitly as the author's recommendation. | Appropriate conditional recommendation, not an unconditional safety guarantee. The text identifies offline guessing, visible outer metadata, account/file loss, credential separation and recovery testing. |
+| A new archive passphrase should be independent, generated randomly and backed up outside the archive; staging/extraction should avoid synced directories. | Operational recommendation consistent with the guide's existing KeePassXC generator procedure and the stated confidentiality boundary. | Clearly instructional rather than a product guarantee. No claims that cloud provider encryption, filename changes or compression alone suffice. |
+
+Overall confidence: high for the scoped documentary and source checks; cloud suitability is a conditional architectural recommendation. Source review is not a substitute for a physical recovery drill, and none is claimed.
+
+## Publication checks
+
+Keep the guide's existing 11 progress steps and storage keys. The optional section now follows step 7 (backup), before restoration. Use the existing Debian Open Use Logo and its retained attribution; no new generated artwork. Update the guide's review date and content registry date to 2026-10-12. Verify production build, internal links, desktop/mobile clearance and live output before reporting completion.
+
+Validation completed: production build, asset checks, 2,588 internal links and targeted ESLint passed. Desktop (1280px) and mobile (390px) checks covered homepage, curriculum, Core hub and wallet guide; no horizontal overflow. Announcement content keeps at least 25px mobile clearance and the backup section 24px. Optional filename examples expand correctly. The 11-step progress model and saved keys are unchanged.
+
+Follow-up requests in the same publication: all shared imported-article bylines now read “By btcpavao”. Article images in both renderer families, including covers, use a shared native modal viewer with the full-size source, a top-right 48px close button, Escape handling, keyboard activation, background scroll lock and focus restoration. Browser checks confirmed X/Escape closure, Enter activation, unchanged scroll position after closing, and portrait/landscape images fitting desktop and mobile viewports. Existing guide screenshot viewing remains available.
