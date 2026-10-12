@@ -16,6 +16,12 @@ export interface ContentRegistryEntry {
   status: ContentStatus
   socialCardKey:
     | "homepage"
+    | "xArticle0"
+    | "xArticle1"
+    | "xArticle2"
+    | "xArticle3"
+    | "xArticle4"
+
     | "default"
     | "workflow"
     | "learning"

@@ -7913,3 +7913,67 @@ input:focus-visible + .curriculum-checkbox {
 .course-search__empty { padding: 0; border: 0; }
 .course-page:has(.course-question-panel[open]) .value-for-value-rail { display: none; }
 .course-search-shortcut { min-height: 44px; min-width: 44px; justify-content: center; }
+
+/* Essays imported from the author's published X Articles. */
+.published-article-page, .debian-images-page { padding: clamp(2.5rem, 6vw, 5rem) 24px 5rem; }
+.published-article-header { max-width: 1120px; margin: 0 auto; }
+.published-article-back, .published-article-source a { text-decoration: underline; text-underline-offset: 4px; }
+.published-article-meta { margin-top: 2.5rem; font-size: .875rem; color: var(--muted-foreground); }
+.published-article-header h1, .debian-images-page h1 { max-width: 20ch; margin: 1rem 0 1.5rem; font-size: clamp(2.35rem, 5.6vw, 4.75rem); line-height: 1.06; font-weight: 750; letter-spacing: -.055em; text-wrap: balance; }
+.published-article-description { max-width: 65ch; font-size: clamp(1.125rem, 2vw, 1.4rem); line-height: 1.65; color: var(--muted-foreground); }
+.published-article-source { margin: 1.5rem 0 2.5rem; font-size: .875rem; line-height: 1.7; }
+.published-article-cover { display: block; width: 100%; height: auto; border-radius: 24px; }
+.published-article-reading { max-width: 800px; margin: 3rem auto 0; }
+.published-article-toc { margin-bottom: 3.5rem; padding: 1.25rem 1.5rem; border-block: 1px solid var(--border); }
+.published-article-toc summary { cursor: pointer; font-weight: 650; min-height: 24px; }
+.published-article-toc ol { padding-left: 1.25rem; margin-top: 1rem; list-style: decimal; }
+.published-article-toc a { display: inline-block; padding: .45rem 0; text-decoration: underline; text-underline-offset: 4px; }
+.published-article-body { font-size: clamp(1.0625rem, 2vw, 1.1875rem); line-height: 1.85; overflow-wrap: anywhere; }
+.published-article-body > p { margin: 0 0 1.35rem; }
+.published-article-body h2 { margin: 3.5rem 0 1.4rem; font-size: clamp(1.65rem, 3vw, 2.3rem); font-weight: 700; line-height: 1.2; letter-spacing: -.025em; scroll-margin-top: 100px; text-wrap: balance; }
+.published-article-body strong { font-weight: 700; }
+.published-article-body a, .article-next-step a, .debian-images-page a, .debian-images-notice a { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.published-article-body a:hover, .published-article-toc a:hover { text-decoration-thickness: 2px; }
+.published-article-body figure { margin: 2.75rem 0; }
+.published-article-body figure img { width: 100%; height: auto; border-radius: 16px; }
+.published-article-body figcaption { margin-top: .75rem; font-size: .875rem; color: var(--muted-foreground); line-height: 1.6; }
+.published-article-body blockquote { border-left: 3px solid var(--primary); padding-left: 1.5rem; margin: 2rem 0; font-size: 1.15em; }
+.published-article-body hr { margin: 3rem 0; border-color: var(--border); }
+.published-article-list-item { padding-left: 1.3rem; position: relative; }
+.published-article-list-item::before { content: "•"; position: absolute; left: 0; }
+.article-next-step { margin-top: 3.5rem; padding: 2rem; background: var(--secondary); border-radius: 24px; }
+.article-next-step h2 { font-size: 1.6rem; font-weight: 700; line-height: 1.25; }
+.article-next-step p { margin: 1rem 0; line-height: 1.75; }
+.article-next-step a { display: block; padding-block: .65rem; font-weight: 600; }
+.published-related { margin-top: 3.5rem; }
+.published-related h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
+.published-related a { display: flex; justify-content: space-between; gap: 1.25rem; padding: 1.25rem 0; border-top: 1px solid var(--border); font-weight: 600; line-height: 1.5; }
+.published-related a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.published-related span { flex-shrink: 0; }
+.debian-images-notice { margin-block: 3rem; padding: 2rem; border: 1px solid var(--border); border-left: 4px solid var(--primary); border-radius: 0 24px 24px 0; background: var(--card); }
+.debian-images-eyebrow { font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 650; color: var(--muted-foreground); }
+.debian-images-notice h2 { margin: .75rem 0 1rem; font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.2; font-weight: 700; letter-spacing: -.025em; }
+.debian-images-notice p:not(.debian-images-eyebrow) { max-width: 75ch; line-height: 1.75; margin-bottom: .75rem; }
+.debian-images-notice a { display: inline-block; padding-top: .65rem; padding-bottom: .25rem; font-weight: 650; }
+.debian-images-notice--compact { margin-block: 1.5rem; }
+.debian-images-page { max-width: 1120px; margin: 0 auto; }
+.debian-images-page header { max-width: 850px; margin-bottom: 4rem; }
+.debian-images-page header > .debian-images-eyebrow { margin-top: 2.75rem; }
+.debian-images-page header > p:not(.debian-images-eyebrow) { margin-top: 1.5rem; line-height: 1.8; max-width: 65ch; }
+.debian-images-lede { font-size: clamp(1.125rem, 2vw, 1.4rem); }
+.debian-role-grid section { padding-block: 2.5rem; border-top: 1px solid var(--border); max-width: 850px; scroll-margin-top: 100px; }
+.debian-images-page h2 { margin: .75rem 0 1.25rem; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.2; letter-spacing: -.03em; font-weight: 700; }
+.debian-role-grid p:not(.debian-images-eyebrow), .debian-release-plan p:not(.debian-images-eyebrow) { line-height: 1.8; margin: 1rem 0; }
+.debian-role-grid ul { list-style: disc; padding-left: 1.4rem; }
+.debian-role-grid li { padding-block: .5rem; line-height: 1.7; }
+.debian-detail { color: var(--muted-foreground); font-size: .875rem; }
+.debian-role-grid a, .debian-release-plan a { display: inline-block; padding-block: .6rem; font-weight: 650; }
+.debian-release-plan { padding: 2.25rem; background: var(--secondary); border-radius: 24px; margin-top: 1.5rem; }
+@media (max-width: 600px) {
+  .published-article-page, .debian-images-page { padding-inline: 20px; padding-bottom: 3rem; }
+  .published-article-cover { border-radius: 16px; }
+  .published-article-toc { padding-inline: 0; }
+  .article-next-step, .debian-images-notice, .debian-release-plan { padding: 1.5rem; }
+  .published-article-body figure { margin-inline: 0; }
+  .published-article-header h1 { overflow-wrap: break-word; }
+}

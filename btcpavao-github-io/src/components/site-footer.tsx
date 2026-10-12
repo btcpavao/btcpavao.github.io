@@ -7,6 +7,7 @@ const footerGroups = [
     links: [
       { label: "Self-custody curriculum", href: "/en/bitcoin-core/self-custody/" },
       { label: "Quick Core practice", href: "/en/bitcoin-core/start-here/" },
+      { label: "Debian images · coming soon", href: "/en/bitcoin-core/debian-images/" },
       { label: "Wallet guide", href: "/en/bitcoin-core/wallet-setup-backup-recovery/" },
     ],
   },

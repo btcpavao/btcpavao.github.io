@@ -1,3 +1,4 @@
+import { DebianImagesNotice } from "@/components/debian-images-notice"
 import { CurriculumSearch } from "@/components/curriculum-search"
 import {
   CurriculumGateway,
@@ -151,6 +152,7 @@ export function CurriculumOverview({
             )}
           </aside>
         </section>
+        <DebianImagesNotice compact />
         <section className="course-overview-details">
           <CurriculumGateway />
           <section

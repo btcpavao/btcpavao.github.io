@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { BOOKING_URL } from "@/site-config"
 import { ArrowUpRight, Zap } from "lucide-react"
 
 export const OPENNODE_CHECKOUT_URL =
@@ -120,6 +121,19 @@ export function ValueForValueCard({
         <p className="value-for-value-card__description">
           {labels.description}
         </p>
+        {language === "hr" && (
+          <p className="value-for-value-card__description">
+            Trebaš pomoć s vlastitim postavom, backupom ili oporavkom?{" "}
+            <a
+              className="underline underline-offset-4"
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Dogovori uvodni razgovor od 15 minuta.
+            </a>
+          </p>
+        )}
         <p className="value-for-value-card__principle">{labels.principle}</p>
         <a
           href={OPENNODE_CHECKOUT_URL}

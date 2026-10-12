@@ -7,6 +7,12 @@ First-principles Bitcoin Core and Bitcoin Standard education: define the threat 
 - [Quick Bitcoin Core practice — disposable hands-on exercise](https://btcpavao.com/en/bitcoin-core/start-here/)
 - [Wallet setup, backup and recovery guide — focused mechanical reference](https://btcpavao.com/en/bitcoin-core/wallet-setup-backup-recovery/)
 - [Bitcoin Core research and essays](https://btcpavao.com/en/bitcoin-core/#essays)
+- [Dedicated Debian images — coming soon](https://btcpavao.com/en/bitcoin-core/debian-images/)
+- [Hardware Wallets Are an Economic Security Failure](https://btcpavao.com/en/bitcoin-core/hardware-wallets-are-an-economic-security-failure/)
+- [Bitcoin Self-Custody Got Weird. It’s Time to Simplify It.](https://btcpavao.com/en/bitcoin-core/bitcoin-self-custody-got-weird/)
+- [Single-Sig and Multisig from First Principles](https://btcpavao.com/en/bitcoin-core/single-sig-and-multisig-from-first-principles/)
+- [The Hardware Wallet Detour](https://btcpavao.com/en/bitcoin-core/the-hardware-wallet-detour/)
+- [We Made Bitcoin Self-Custody Harder Than It Had to Be](https://btcpavao.com/en/bitcoin-core/we-made-bitcoin-self-custody-harder-than-it-had-to-be/)
 - [Support](https://btcpavao.com/support/)
 
 The curriculum is the canonical learning path. It recommends Bitcoin Core on dedicated generic hardware with Debian Stable, encrypted redundant wallet backups and a separately recoverable passphrase. Learn one wallet before separating node and signer; add advanced spending policies only when the threat model requires them.

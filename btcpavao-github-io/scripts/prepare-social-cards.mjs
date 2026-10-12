@@ -9,6 +9,12 @@ const cacheDirectory = new URL("../.cache/", import.meta.url)
 const manifestUrl = new URL("social-card-manifest.json", cacheDirectory)
 
 const sources = {
+  xArticle0: "articles/hardware-wallets-are-an-economic-security-failure/00.webp",
+  xArticle1: "articles/bitcoin-self-custody-got-weird/00.webp",
+  xArticle2: "articles/single-sig-and-multisig-from-first-principles/00.webp",
+  xArticle3: "articles/the-hardware-wallet-detour/00.webp",
+  xArticle4: "articles/we-made-bitcoin-self-custody-harder-than-it-had-to-be/00.webp",
+
   homepage: "btcpavao-home-share-v3.jpg",
   default: "og-image-v2.jpg",
   bitcoinCore: "bitcoin-core-entropija-cover-v2-share.jpg",

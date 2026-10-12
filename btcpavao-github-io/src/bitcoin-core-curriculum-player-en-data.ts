@@ -1,3 +1,4 @@
+import { enrichFromArticles } from "@/curriculum/article-enrichment"
 import type { LearningRequirements } from "@/curriculum-learning"
 import type {
   CurriculumCodeBlock,
@@ -9,13 +10,13 @@ import { part1Lessons } from "@/curriculum/part-1"
 import { part2Lessons } from "@/curriculum/part-2"
 import { part3Lessons } from "@/curriculum/part-3"
 
-export const CURRICULUM_VERSION = "4.2"
+export const CURRICULUM_VERSION = "4.3"
 export const CORE_REFERENCE_VERSION = "Bitcoin Core 31.1"
 export const SPARROW_REFERENCE_VERSION = "Sparrow 2.5.4"
 export const ELECTRUM_REFERENCE_VERSION =
   "Electrum history and server architecture"
 export const LAST_TECHNICAL_REVIEW = "2026-09-14"
-export const CUSTODY_CONTENT_UPDATED = "2026-09-16"
+export const CUSTODY_CONTENT_UPDATED = "2026-10-12"
 
 export const legacyEnglishLessonSlugAliases: Record<string, string> = {
   "sto-self-custody-stvarno-znaci": "what-self-custody-really-means",
@@ -175,7 +176,7 @@ export const curriculumPhases: CurriculumPhase[] = [
     outcome: "Why Bitcoin Core?",
     status: "published",
     estimatedTime: "Understand the foundation",
-    lessons: part1Lessons,
+    lessons: enrichFromArticles(part1Lessons),
   },
   {
     id: "1",
@@ -187,7 +188,7 @@ export const curriculumPhases: CurriculumPhase[] = [
     outcome: "Single-sig Bitcoin Core",
     status: "published",
     estimatedTime: "Practice over several sessions",
-    lessons: part2Lessons,
+    lessons: enrichFromArticles(part2Lessons),
   },
   {
     id: "2",
@@ -199,7 +200,7 @@ export const curriculumPhases: CurriculumPhase[] = [
     outcome: "Only when the threat model requires them",
     status: "published",
     estimatedTime: "Optional, after mastery",
-    lessons: part3Lessons,
+    lessons: enrichFromArticles(part3Lessons),
   },
 ]
 export const curriculumLessons = curriculumPhases.flatMap((phase) =>

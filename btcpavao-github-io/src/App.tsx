@@ -1,3 +1,9 @@
+import publishedArticlePaths from "@/published-articles/paths.json"
+import { DebianImagesPage } from "@/debian-images"
+import {
+  DebianImagesNotice,
+  DEBIAN_IMAGES_PATH,
+} from "@/components/debian-images-notice"
 import { CurriculumRedirect } from "@/components/curriculum-redirect"
 import {
   createElement,
@@ -1744,6 +1750,8 @@ function BitcoinCoreSeriesPage({
             </aside>
           ) : null}
         </section>
+
+        {isEnglish && <DebianImagesNotice />}
 
         <section id="essays" className="mt-16 scroll-mt-24 border-t border-border/60 pt-16">
           <SectionHeader
@@ -3566,6 +3574,12 @@ export function LearningArticlePage({
   )
 }
 
+const PublishedArticleRoute = lazy(() =>
+  import("@/published-article").then((module) => ({
+    default: module.PublishedArticleRoute,
+  }))
+)
+
 function HomePage() {
   return (
     <Suspense fallback={null}>
@@ -3631,6 +3645,15 @@ export function App({
   const currentPath = initialPath
     ? normalizePath(initialPath)
     : getCurrentPath()
+
+  if (publishedArticlePaths.includes(currentPath)) {
+    return (
+      <Suspense fallback={null}>
+        <PublishedArticleRoute path={currentPath} />
+      </Suspense>
+    )
+  }
+  if (currentPath === DEBIAN_IMAGES_PATH) return <DebianImagesPage />
 
   const migratedDestination = migratedAiDestinations[currentPath]
   if (migratedDestination) {

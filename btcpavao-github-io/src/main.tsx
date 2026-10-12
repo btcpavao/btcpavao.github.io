@@ -1,3 +1,4 @@
+import publishedArticlePaths from "./published-articles/paths.json"
 import { StrictMode, type ReactNode } from "react"
 import { createRoot, hydrateRoot } from "react-dom/client"
 
@@ -48,7 +49,10 @@ async function startApp() {
   }
 
   let routedPage: ReactNode
-  if (initialPath === "/") {
+  if (publishedArticlePaths.includes(initialPath)) {
+    const { PublishedArticleRoute } = await import("./published-article")
+    routedPage = <PublishedArticleRoute path={initialPath} />
+  } else if (initialPath === "/") {
     const { Homepage } = await import("./homepage")
     routedPage = <Homepage />
   } else if (initialPath === BITCOIN_CORE_CURRICULUM_PATH) {

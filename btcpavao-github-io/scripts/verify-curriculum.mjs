@@ -77,7 +77,7 @@ try {
   check(
     "99 unique lessons in three parts; 67 lessons on the foundation and single-sig path",
     () => {
-      assert.equal(en.CURRICULUM_VERSION, "4.2")
+      assert.equal(en.CURRICULUM_VERSION, "4.3")
       assert.deepEqual(
         en.curriculumPhases.map((p) => p.lessons.length),
         [27, 52, 20]

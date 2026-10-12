@@ -463,17 +463,17 @@ assert(
   sitemapSource.includes(
     "https://btcpavao.com/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/"
   ) &&
-    sitemapSource.includes(
-      "https://btcpavao.com/bip39-wrong-thing-cover.webp"
-    ),
+    sitemapSource.includes("https://btcpavao.com/bip39-wrong-thing-cover.webp"),
   "Sitemap is missing the BIP39 article or cover"
 )
 
 const publishedContent = getPublishedContent()
 const feedItemLinks = new Set(
-  [...feedSource.matchAll(/<item>[\s\S]*?<link>(.*?)<\/link>[\s\S]*?<\/item>/g)].map(
-    (match) => match[1]
-  )
+  [
+    ...feedSource.matchAll(
+      /<item>[\s\S]*?<link>(.*?)<\/link>[\s\S]*?<\/item>/g
+    ),
+  ].map((match) => match[1])
 )
 
 assert(
@@ -588,7 +588,8 @@ for (const { relativePath, html } of distHtmlDocuments) {
   if (
     relativePath.startsWith("hr/ai-u-praksi/") ||
     relativePath === "hr/bitcoin-core/self-custody/index.html"
-  ) continue
+  )
+    continue
   assertSocialMetadata(html, relativePath, allowedSocialCardImages)
   assert(
     !html.includes("bip39-wrong-thing-cover-share.jpg?v=20260821"),
@@ -722,14 +723,20 @@ assert(
     ),
   "Homepage still includes Croatian writing"
 )
-assert(
-  distIndexHtml.includes("Multisig Is Not a Dollar Amount"),
-  "Homepage is missing the Multisig article"
-)
-assert(
-  distIndexHtml.includes("BIP39 Made the Wrong Thing Human-Readable"),
-  "Homepage is missing the BIP39 article"
-)
+for (const entry of contentRegistry
+  .filter(
+    (item) =>
+      item.locale === "en" &&
+      item.contentType === "article" &&
+      item.status === "published"
+  )
+  .sort((a, b) => String(b.publishedAt).localeCompare(String(a.publishedAt)))
+  .slice(0, 3)) {
+  assert(
+    distIndexHtml.includes(entry.path),
+    `Homepage is missing latest article ${entry.id}`
+  )
+}
 assert(
   !sitemapSource.includes("/hr/ai-u-praksi/") &&
     !feedSource.includes("/hr/ai-u-praksi/"),
@@ -844,24 +851,34 @@ for (const [label, html] of [
 }
 
 assert(
-  hrBitcoinCoreCurriculumRouteHtml.includes('name="robots" content="noindex,follow"') &&
-    hrBitcoinCoreCurriculumRouteHtml.includes('rel="canonical" href="https://btcpavao.com/en/bitcoin-core/self-custody/"') &&
-    hrBitcoinCoreCurriculumRouteHtml.includes("englishCurriculumDestination(location.search,location.hash)") &&
+  hrBitcoinCoreCurriculumRouteHtml.includes(
+    'name="robots" content="noindex,follow"'
+  ) &&
+    hrBitcoinCoreCurriculumRouteHtml.includes(
+      'rel="canonical" href="https://btcpavao.com/en/bitcoin-core/self-custody/"'
+    ) &&
+    hrBitcoinCoreCurriculumRouteHtml.includes(
+      "englishCurriculumDestination(location.search,location.hash)"
+    ) &&
     !hrBitcoinCoreCurriculumRouteHtml.includes("course-title"),
   "Retired Croatian curriculum must redirect to English, preserving lesson bookmarks"
 )
 assert(
   !enBitcoinCoreCurriculumRouteHtml.includes('hreflang="hr"') &&
-    !enBitcoinCoreCurriculumRouteHtml.includes('property="og:locale:alternate"'),
+    !enBitcoinCoreCurriculumRouteHtml.includes(
+      'property="og:locale:alternate"'
+    ),
   "English curriculum must not advertise a retired Croatian translation"
 )
 assert(
-  (bitcoinCoreWalletGuideRouteHtml.match(/aria-valuemax="11"/g) ?? [])
-    .length >= 1 &&
+  (bitcoinCoreWalletGuideRouteHtml.match(/aria-valuemax="11"/g) ?? []).length >=
+    1 &&
     bitcoinCoreWalletGuideRouteHtml.includes(
       "Optional: Make the backup less obvious"
     ) &&
-    bitcoinCoreWalletGuideRouteHtml.includes("prove that the restored keys can") &&
+    bitcoinCoreWalletGuideRouteHtml.includes(
+      "prove that the restored keys can"
+    ) &&
     bitcoinCoreWalletGuideSource.includes(
       "btcpavao-core-wallet-guide-steps-v2"
     ) &&
@@ -877,10 +894,10 @@ assert(
   enBitcoinCoreArticleRouteHtml.includes(
     "When you create a new wallet in Bitcoin Core"
   ) &&
-    distIndexHtml.includes(
+    enBitcoinCoreSeriesRouteHtml.includes(
       "How Bitcoin Core Generates Entropy When You Create a New Wallet"
     ),
-  "English Bitcoin Core article or homepage card was not prerendered"
+  "English Bitcoin Core article or collection card was not prerendered"
 )
 assert(
   longRoadArticleRouteHtml.includes(
