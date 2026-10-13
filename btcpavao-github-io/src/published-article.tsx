@@ -84,7 +84,9 @@ export function PublishedArticlePage({
               <ol>
                 {article.headings.map((heading) => (
                   <li key={heading.id}>
-                    <a href={`#${heading.id}`}>{heading.text}</a>
+                    <a href={`#${heading.id}`}>
+                      {heading.text.replace(/^\s*\d+[.)]\s+/, "")}
+                    </a>
                   </li>
                 ))}
               </ol>
