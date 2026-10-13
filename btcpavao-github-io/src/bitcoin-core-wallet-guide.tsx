@@ -1,13 +1,12 @@
+import { ImageViewer, type Gallery } from "@/components/zoomable-image"
 import { findContentByPath } from "@/content-registry"
 import { CustodyArchitecture } from "@/components/custody-architecture"
 import { DEBIAN_IMAGES_PATH } from "@/components/debian-images-notice"
 import {
-  useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
-  type MutableRefObject,
   type ReactNode,
 } from "react"
 import {
@@ -24,7 +23,6 @@ import {
   UserRoundX,
   Wifi,
   WifiOff,
-  X,
   type LucideIcon,
 } from "lucide-react"
 
@@ -1093,6 +1091,7 @@ function ScreenshotButton({
       type="button"
       className="group relative block w-full overflow-hidden rounded-[20px] bg-muted shadow-[var(--shadow-border)] transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[var(--shadow-elevated)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary active:scale-[0.96]"
       onClick={(event) => onOpen(screenshot, event.currentTarget)}
+      data-gallery-image
       aria-label={`Open larger image: ${screenshot.alt}`}
     >
       <img
@@ -1108,68 +1107,6 @@ function ScreenshotButton({
         <Maximize2 className="size-4" aria-hidden="true" />
       </span>
     </button>
-  )
-}
-
-function Lightbox({
-  image,
-  onClose,
-  returnFocus,
-}: {
-  image: GuideImage | null
-  onClose: () => void
-  returnFocus: MutableRefObject<HTMLButtonElement | null>
-}) {
-  const closeRef = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    if (!image) return undefined
-    const opener = returnFocus.current
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = "hidden"
-    closeRef.current?.focus()
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose()
-    }
-    window.addEventListener("keydown", onKeyDown)
-
-    return () => {
-      document.body.style.overflow = previousOverflow
-      window.removeEventListener("keydown", onKeyDown)
-      opener?.focus()
-    }
-  }, [image, onClose, returnFocus])
-
-  if (!image) return null
-
-  return (
-    <div
-      className="fixed inset-0 z-50 grid place-items-center bg-[#06131f]/94 p-3 backdrop-blur-sm sm:p-6"
-      role="dialog"
-      aria-modal="true"
-      aria-label={image.alt}
-      onMouseDown={(event) => {
-        if (event.currentTarget === event.target) onClose()
-      }}
-    >
-      <button
-        ref={closeRef}
-        type="button"
-        className="absolute top-4 right-4 grid size-11 place-items-center rounded-full bg-white text-[#0d3153] shadow-xl transition-transform duration-200 active:scale-[0.96] sm:top-6 sm:right-6"
-        onClick={onClose}
-        aria-label="Close enlarged image"
-      >
-        <X className="size-5" aria-hidden="true" />
-      </button>
-      <img
-        src={image.src}
-        alt={image.alt}
-        width={image.width}
-        height={image.height}
-        className="max-h-[88vh] max-w-full rounded-xl object-contain outline -outline-offset-1 outline-white/15"
-      />
-    </div>
   )
 }
 
@@ -1445,7 +1382,7 @@ export function BitcoinCoreWalletGuidePage() {
     Array(finalChecklist.length).fill(false)
   )
   const [storageReady, setStorageReady] = useState(false)
-  const [lightboxImage, setLightboxImage] = useState<GuideImage | null>(null)
+  const [gallery, setGallery] = useState<Gallery | null>(null)
   const lightboxOpener = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
@@ -1478,9 +1415,13 @@ export function BitcoinCoreWalletGuidePage() {
 
   const openImage = (selectedImage: GuideImage, opener: HTMLButtonElement) => {
     lightboxOpener.current = opener
-    setLightboxImage(selectedImage)
+    const screenshots = [...(opener.closest("main")?.querySelectorAll<HTMLImageElement>("[data-gallery-image] img") ?? [])]
+    const selected = opener.querySelector("img")
+    setGallery({
+      images: screenshots.length ? screenshots.map(item => ({ src: item.src, alt: item.alt })) : [selectedImage],
+      startIndex: Math.max(0, selected ? screenshots.indexOf(selected) : 0),
+    })
   }
-  const closeLightbox = useCallback(() => setLightboxImage(null), [])
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
@@ -1763,11 +1704,7 @@ export function BitcoinCoreWalletGuidePage() {
         </p>
       </footer>
 
-      <Lightbox
-        image={lightboxImage}
-        onClose={closeLightbox}
-        returnFocus={lightboxOpener}
-      />
+      {gallery && <ImageViewer {...gallery} opener={lightboxOpener} onClose={() => setGallery(null)} />}
     </div>
   )
 }

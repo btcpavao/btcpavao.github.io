@@ -797,7 +797,8 @@ const practicalOperateIndex = enBitcoinCoreSeriesRouteHtml.indexOf(
 
 assert(
   enBitcoinCoreSeriesRouteHtml.includes("Practical path") &&
-    enBitcoinCoreSeriesRouteHtml.includes("Research &amp; essays") &&
+    enBitcoinCoreSeriesRouteHtml.includes('id="essays"') &&
+    enBitcoinCoreSeriesRouteHtml.includes('id="essay-search-input"') &&
     practicalStartIndex >= 0 &&
     practicalOperateIndex >= 0 &&
     practicalOperateIndex < practicalStartIndex &&

@@ -7927,18 +7927,49 @@ input:focus-visible + .curriculum-checkbox {
 .article-image-zoom:focus-visible { outline: 3px solid var(--primary); outline-offset: 5px; }
 .article-hero-content { pointer-events: none; }
 .article-hero-copy { pointer-events: auto; }
-.article-image-viewer { position: fixed; inset: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; border: 0; padding: 5.5rem 1.5rem 1.5rem; color: #fff; background: #06131ff5; }
-.article-image-viewer[open] { display: grid; place-items: center; }
+.article-image-viewer { position: fixed; inset: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; border: 0; padding: 0; color: #fff; background: #06131ff5; overflow: hidden; }
 .article-image-viewer::backdrop { background: #06131f; }
-.article-image-viewer__close { position: absolute; top: max(1.5rem, env(safe-area-inset-top)); right: max(1.5rem, env(safe-area-inset-right)); display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%; background: #fff; color: #0d3153; cursor: pointer; }
-.article-image-viewer__close:hover { background: #dceaf4; }
-.article-image-viewer__close:focus-visible { outline: 3px solid #f7931a; outline-offset: 4px; }
-.article-image-viewer__image { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100dvh - 7rem); object-fit: contain; outline: none; }
+.article-image-viewer__stage { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 5.5rem 6rem; touch-action: pan-y pinch-zoom; }
+.article-image-viewer button { position: absolute; z-index: 1; display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%; background: #fff; color: #0d3153; cursor: pointer; }
+.article-image-viewer__close { top: max(1.5rem, env(safe-area-inset-top)); right: max(1.5rem, env(safe-area-inset-right)); }
+.article-image-viewer__previous { left: max(1.5rem, env(safe-area-inset-left)); top: calc(50% - 24px); }
+.article-image-viewer__next { right: max(1.5rem, env(safe-area-inset-right)); top: calc(50% - 24px); }
+.article-image-viewer button:hover { background: #dceaf4; }
+.article-image-viewer button:focus-visible { outline: 3px solid #f7931a; outline-offset: 4px; }
+.article-image-viewer__image { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; outline: none; user-select: none; }
+.article-image-viewer__position { position: absolute; bottom: max(1.5rem, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); margin: 0; font-size: .9375rem; font-variant-numeric: tabular-nums; }
 @media (max-width: 600px) {
-  .article-image-viewer { padding: 5rem 1rem 1rem; }
+  .article-image-viewer__stage { padding: 5rem 1rem 6rem; }
   .article-image-viewer__close { top: max(1rem, env(safe-area-inset-top)); right: max(1rem, env(safe-area-inset-right)); }
-  .article-image-viewer__image { max-height: calc(100dvh - 6rem); }
+  .article-image-viewer__previous, .article-image-viewer__next { top: auto; bottom: max(1rem, env(safe-area-inset-bottom)); }
+  .article-image-viewer__previous { left: max(1rem, env(safe-area-inset-left)); }
+  .article-image-viewer__next { right: max(1rem, env(safe-area-inset-right)); }
+  .article-image-viewer__position { bottom: max(1.8rem, calc(env(safe-area-inset-bottom) + .8rem)); }
 }
+.essay-search { margin: 2rem 0 1.5rem; }
+.essay-search label { display: block; margin-bottom: .6rem; font-size: .9375rem; font-weight: 650; }
+.essay-search__field { display: flex; align-items: center; gap: .75rem; max-width: 40rem; min-height: 60px; padding: 0 1.5rem; border: 1px solid var(--border); border-radius: 12px; background: var(--card); color: var(--muted-foreground); }
+.essay-search__field:focus-within { outline: 2px solid var(--primary); outline-offset: 3px; }
+.essay-search__field > svg { flex-shrink: 0; }
+.essay-search input { flex: 1; min-width: 0; height: 58px; outline: none; color: var(--foreground); background: transparent; font-size: 1rem; caret-color: var(--primary); }
+.essay-search input::placeholder { color: var(--muted-foreground); }
+.essay-search input::-webkit-search-cancel-button { display: none; }
+.essay-search button { display: grid; place-items: center; flex-shrink: 0; width: 44px; height: 44px; margin-right: -.5rem; border-radius: 8px; cursor: pointer; }
+.essay-search button:hover { background: var(--muted); color: var(--foreground); }
+.essay-search button:focus-visible { outline: 2px solid var(--primary); }
+.essay-search__status { margin-top: .75rem; color: var(--muted-foreground); font-size: .875rem; line-height: 1.6; }
+.essay-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+.essay-card { display: block; min-width: 0; overflow: hidden; border: 1px solid var(--border); border-radius: 16px; background: var(--card); transition: border-color .2s ease; }
+.essay-card:hover { border-color: var(--primary); }
+.essay-card:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; }
+.essay-card > img { display: block; width: 100%; height: auto; aspect-ratio: 5 / 2; object-fit: cover; }
+.essay-card__copy { padding: 1.5rem; }
+.essay-card h3 { font-size: clamp(1.3rem, 2vw, 1.55rem); line-height: 1.25; font-weight: 700; letter-spacing: -.025em; text-wrap: balance; }
+.essay-card p { margin-top: .875rem; font-size: 1rem; line-height: 1.7; color: var(--muted-foreground); }
+.essay-search__empty { padding: 1.5rem 0; max-width: 50ch; line-height: 1.7; color: var(--muted-foreground); }
+@media (min-width: 700px) { .essay-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1200px) { .essay-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .essay-search__field { padding-inline: 1rem; } .essay-card__copy { padding: 1.25rem; } }
 .published-article-reading { max-width: 800px; margin: 3rem auto 0; }
 .published-article-toc { margin-bottom: 3.5rem; padding: 1.25rem 1.5rem; border-block: 1px solid var(--border); }
 .published-article-toc summary { cursor: pointer; font-weight: 650; min-height: 24px; }

@@ -1,4 +1,5 @@
 import { ZoomableImage } from "@/components/zoomable-image"
+import { EssayBrowser } from "@/components/essay-browser"
 import publishedArticlePaths from "@/published-articles/paths.json"
 import {
   DebianImagesNotice,
@@ -1448,9 +1449,6 @@ function SeriesCard({ post }: { post: SeriesPost }) {
           {post.category}
         </span>
         <span className="surface-ring rounded-full bg-background/70 px-3 py-1">
-          {post.language}
-        </span>
-        <span className="surface-ring rounded-full bg-background/70 px-3 py-1">
           {post.date}
         </span>
       </div>
@@ -1657,7 +1655,7 @@ function BitcoinCoreSeriesPage({
     >
       <main
         id="main-content"
-        className="relative mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
+        className="bitcoin-core-series-page relative mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
       >
         <section className="bitcoin-core-series-intro">
           <div>
@@ -1754,22 +1752,15 @@ function BitcoinCoreSeriesPage({
         {isEnglish && <DebianImagesNotice />}
 
         <section id="essays" className="mt-16 scroll-mt-24 border-t border-border/60 pt-16">
-          <SectionHeader
-            eyebrow={isEnglish ? "Research & essays" : "Istraživanja i eseji"}
-            title={
-              isEnglish ? "The reasoning behind the recommendation" : "Razlozi iza preporuke"
-            }
-          />
+          <h2 className="font-display text-3xl font-bold tracking-[-0.03em] text-foreground sm:text-4xl">{isEnglish ? "Essays" : "Eseji"}</h2>
           <p className="mt-5 max-w-3xl text-base leading-8 text-muted-foreground">
             {isEnglish
               ? "Essays examine the evidence, history and architectural choices behind the course. They complement the curriculum; the quick exercise and wallet guide provide focused hands-on references."
               : "Eseji istražuju dokaze, povijest i arhitektonske odluke iza kurikuluma. Nadopunjuju glavni put učenja; kratka vježba i wallet vodič služe kao praktične reference."}
           </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {researchPosts.map((post) => (
-              <SeriesCard key={post.href} post={post} />
-            ))}
-          </div>
+          {isEnglish ? <EssayBrowser /> : <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {researchPosts.map((post) => <SeriesCard key={post.href} post={post} />)}
+          </div>}
         </section>
       </main>
     </PageChrome>

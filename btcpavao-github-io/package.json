@@ -16,6 +16,7 @@
     "preview": "vite preview",
     "verify:curriculum": "node scripts/verify-curriculum.mjs",
     "verify:search": "node scripts/verify-curriculum-search.mjs",
+    "verify:articles": "node scripts/verify-article-browser.mjs",
     "verify:questions": "node scripts/verify-curriculum-questions.mjs",
     "verify:worker": "node scripts/verify-ask-pavao-worker.mjs",
     "typecheck:worker": "tsc -p tsconfig.worker.json",
