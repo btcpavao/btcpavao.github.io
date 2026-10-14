@@ -1,8 +1,11 @@
 import {
+  AttackEstimate,
+  GuessingCalculation,
+} from "@/components/passphrase-calculation"
+import {
   KEEPASS_WORD_COUNT,
   wordEntropy,
   attackModel,
-  SECONDS_PER_YEAR,
   WALLET_BENCHMARK_RATE,
   GPU_RENTAL_PER_HOUR,
   fullNumber,
@@ -82,31 +85,18 @@ export function PassphraseComparison() {
             0,
             GPU_RENTAL_PER_HOUR
           )
-          const years = model.averageSeconds / SECONDS_PER_YEAR
-          return (
-            <div key={words}>
-              <h3>{words} random words</h3>
-              <dl>
-                <dt>Average time</dt>
-                <dd>
-                  ≈ {fullNumber(years)} years
-                  <br />({namedNumber(years)} years)
-                </dd>
-                <dt>Average GPU rental cost</dt>
-                <dd>
-                  ≈ USD {fullNumber(model.averageComputeCost)}
-                  <br />({namedNumber(model.averageComputeCost)} dollars)
-                </dd>
-              </dl>
-            </div>
-          )
+          return <AttackEstimate key={words} words={words} model={model} />
         })}
       </div>
+      <GuessingCalculation
+        gpuCount={1}
+        rate={WALLET_BENCHMARK_RATE}
+        rental={GPU_RENTAL_PER_HOUR}
+      />
       <p>
-        Calculation: average seconds = 7,772^word-count ÷ (2 × 32,880); dollars
-        = seconds ÷ 3,600 × 0.89. Figures are rounded to three significant
-        digits. Searching the entire space takes twice the average time and
-        cost.
+        <a href="/en/bitcoin-core/self-custody/#lesson/brute-force-economics">
+          Change the GPU count in the interactive calculator →
+        </a>
       </p>
       <h2>What do those dollar amounts look like?</h2>
       <p>

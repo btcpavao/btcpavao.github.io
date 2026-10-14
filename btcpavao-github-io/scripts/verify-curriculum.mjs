@@ -428,6 +428,39 @@ try {
     }
   )
 
+  check("Parallel GPUs reduce elapsed time without changing total work or cost", () => {
+    const near = (actual, expected) => assert.ok(Math.abs(actual / expected - 1) < 1e-12)
+    for (const words of [6, 8]) {
+      const baseline = math.attackModel(words, 32880, 0.55, 0.15, 0.89)
+      for (const count of [1, 10, 1000, 1000000]) {
+        const parallel = math.parallelAttackModel(words, count, 32880, 0.55, 0.15, 0.89)
+        near(parallel.averageSeconds * count, baseline.averageSeconds)
+        near(parallel.fullSeconds, parallel.averageSeconds * 2)
+        near(parallel.totalGuessesPerSecond, 32880 * count)
+        near(parallel.totalPowerKw, 0.55 * count)
+        near(parallel.totalRentalPerHour, 0.89 * count)
+        near(parallel.averageGpuHours, parallel.averageSeconds / 3600 * count)
+        near(parallel.averageComputeCost, parallel.averageSeconds / 3600 * parallel.totalRentalPerHour)
+        near(parallel.averageElectricityCost, parallel.averageSeconds / 3600 * parallel.totalPowerKw * 0.15)
+        assert.equal(parallel.averageComputeCost, baseline.averageComputeCost)
+        assert.equal(parallel.averageKwh, baseline.averageKwh)
+        assert.equal(parallel.averageElectricityCost, baseline.averageElectricityCost)
+      }
+    }
+    const six = math.parallelAttackModel(6, 1000, 32880, 0.55, 0.15, 0.89)
+    const eight = math.parallelAttackModel(8, 1000, 32880, 0.55, 0.15, 0.89)
+    near(six.averageSeconds / math.SECONDS_PER_YEAR, 106201580.48830782)
+    near(eight.averageSeconds / math.SECONDS_PER_YEAR, 6414998568590458)
+    near(eight.averageSeconds / six.averageSeconds, 60403984)
+    for (const count of [0, -1, 1.5, 1000001, NaN, Infinity])
+      assert.throws(() => math.parallelAttackModel(6, count, 32880, 0.55, 0.15, 0.89), RangeError)
+    assert.equal(math.fullNumber(0.0000001234), "0.000000123")
+    assert.equal(math.namedNumber(0.0000001234), "zero point zero zero zero zero zero zero one two three")
+    assert.equal(math.namedNumber(999999), "one million")
+    assert.equal(math.namedNumber(1e27), "one octillion")
+    assert.equal(math.fullNumber(5e22), "50,000,000,000,000,000,000,000")
+  })
+
   check(
     "All 85 existing English IDs and bookmarks survive the refinement",
     () => {

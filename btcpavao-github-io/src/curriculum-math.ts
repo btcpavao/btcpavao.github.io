@@ -11,12 +11,25 @@ export const GPU_RENTAL_PER_HOUR = 0.89
 export function fullNumber(value: number) {
   return Number(value.toPrecision(3)).toLocaleString("en-US", {
     notation: "standard",
-    maximumFractionDigits: value < 1000 ? 3 : 0,
+    maximumSignificantDigits: 3,
   })
 }
 
 export function namedNumber(value: number) {
+  // Pick the unit after rounding, so 999,999 becomes one million.
+  value = Number(value.toPrecision(3))
   const units = [
+    [1e54, "septendecillion"],
+    [1e51, "sexdecillion"],
+    [1e48, "quindecillion"],
+    [1e45, "quattuordecillion"],
+    [1e42, "tredecillion"],
+    [1e39, "duodecillion"],
+    [1e36, "undecillion"],
+    [1e33, "decillion"],
+    [1e30, "nonillion"],
+    [1e27, "octillion"],
+    [1e24, "septillion"],
     [1e21, "sextillion"],
     [1e18, "quintillion"],
     [1e15, "quadrillion"],
@@ -76,7 +89,7 @@ export function namedNumber(value: number) {
     .toLocaleString("en-US", {
       notation: "standard",
       useGrouping: false,
-      maximumFractionDigits: 3,
+      maximumSignificantDigits: 3,
     })
     .split(".")
   const words =
@@ -126,5 +139,37 @@ export function attackModel(
     averageKwh: averageHours * powerKw,
     averageElectricityCost: averageHours * powerKw * electricityPerKwh,
     averageComputeCost: averageHours * computePerHour,
+  }
+}
+
+// Ideal independent workers divide the search without duplicate guesses.
+// All hardware inputs are per GPU; aggregate rates and costs scale together.
+export function parallelAttackModel(
+  words: number,
+  gpuCount: number,
+  guessesPerGpuSecond: number,
+  powerPerGpuKw: number,
+  electricityPerKwh: number,
+  rentalPerGpuHour: number
+) {
+  if (!Number.isSafeInteger(gpuCount) || gpuCount < 1 || gpuCount > 1_000_000)
+    throw new RangeError("Use a whole GPU count from 1 to 1,000,000")
+  const single = attackModel(
+    words,
+    guessesPerGpuSecond,
+    powerPerGpuKw,
+    electricityPerKwh,
+    rentalPerGpuHour
+  )
+  return {
+    ...single,
+    gpuCount,
+    totalGuessesPerSecond: guessesPerGpuSecond * gpuCount,
+    totalPowerKw: powerPerGpuKw * gpuCount,
+    totalRentalPerHour: rentalPerGpuHour * gpuCount,
+    averageSeconds: single.averageSeconds / gpuCount,
+    fullSeconds: single.fullSeconds / gpuCount,
+    averageGpuHours: single.averageSeconds / 3600,
+    // Total work, energy and costs stay invariant under ideal linear scaling.
   }
 }

@@ -1,14 +1,19 @@
 import { useState } from "react"
+import { Cpu, Zap } from "lucide-react"
+import {
+  AttackEstimate,
+  GuessingCalculation,
+  ReadableAmount,
+  SearchDuration,
+} from "@/components/passphrase-calculation"
 import { PassphraseComparison } from "@/components/passphrase-comparison"
 import {
-  attackModel,
+  parallelAttackModel,
   KEEPASS_WORD_COUNT,
-  SECONDS_PER_YEAR,
   wordEntropy,
   WALLET_BENCHMARK_RATE,
   GPU_RENTAL_PER_HOUR,
   fullNumber,
-  namedNumber,
 } from "@/curriculum-math"
 
 function magnitude(value: number) {
@@ -18,15 +23,6 @@ function magnitude(value: number) {
   return new Intl.NumberFormat("en", { maximumSignificantDigits: 2 }).format(
     value
   )
-}
-function dollars(value: number) {
-  return `${fullNumber(value)} (${namedNumber(value)} dollars)`
-}
-function duration(seconds: number) {
-  if (seconds < 3600) return `${magnitude(seconds)} seconds`
-  return seconds < SECONDS_PER_YEAR
-    ? `${magnitude(seconds / 3600)} hours`
-    : `${fullNumber(seconds / SECONDS_PER_YEAR)} years (${namedNumber(seconds / SECONDS_PER_YEAR)})`
 }
 export function EntropyTable() {
   return (
@@ -78,158 +74,237 @@ export function EntropyTable() {
   )
 }
 export function BruteForceExplorer() {
-  const [words, setWords] = useState(6)
+  const [gpus, setGpus] = useState("1")
   const [rate, setRate] = useState(String(WALLET_BENCHMARK_RATE))
   const [power, setPower] = useState("0.55")
   const [energy, setEnergy] = useState("0.15")
   const [compute, setCompute] = useState(String(GPU_RENTAL_PER_HOUR))
-  const inputs = [rate, power, energy, compute]
-  const valid =
-    inputs.every(
+  const gpuCount = Number(gpus)
+  const gpuValid =
+    gpus.trim() !== "" &&
+    Number.isSafeInteger(gpuCount) &&
+    gpuCount >= 1 &&
+    gpuCount <= 1_000_000
+  const inputsValid =
+    [rate, power, energy, compute].every(
       (v) =>
         v.trim() !== "" &&
         Number.isFinite(Number(v)) &&
         Number(v) >= 0 &&
-        Number(v) <= 1e24
+        Number(v) <= 1e12
     ) && Number(rate) >= 1
-  const model = valid
-    ? attackModel(
-        words,
-        Number(rate),
-        Number(power),
-        Number(energy),
-        Number(compute)
-      )
-    : null
+  const valid = gpuValid && inputsValid
+  const estimate = (words: number) =>
+    parallelAttackModel(
+      words,
+      gpuCount,
+      Number(rate),
+      Number(power),
+      Number(energy),
+      Number(compute)
+    )
+  const models = valid ? [6, 8].map(estimate) : []
   return (
     <section
-      className="course-explorer"
+      className="course-explorer parallel-explorer"
       aria-label="Illustrative brute-force model"
     >
-      <h2>Change the assumptions</h2>
+      <h2>
+        <Cpu aria-hidden="true" />
+        What changes with more GPUs?
+      </h2>
       <p>
-        This is an illustration anchored to a published wallet benchmark,{" "}
-        <strong>not a measurement of your wallet</strong>. Enter public numbers
-        only. No password is requested or analyzed. Six KeePassXC words are the
-        course default. Choose eight if memorizing two extra words is
-        comfortable for you. Compare the search spaces and recovery burden.
+        Compare six and eight independent KeePassXC words with the same attack
+        assumptions. Six words are the course default; choose eight if two extra
+        words are comfortable to memorize. Enter public numbers only, never your
+        passphrase.
       </p>
-      <p>
-        This model uses the verified bundled list of{" "}
-        {KEEPASS_WORD_COUNT.toLocaleString("en")} distinct words. The starting
-        rate is 32,880 guesses/second from the{" "}
-        <a href="https://hashcat.net/forum/thread-13338-post-63594.html">
-          RTX 4090 wallet benchmark
-        </a>
-        . Rental starts at USD 0.89/hour, using the{" "}
-        <a href="https://www.runpod.io/gpu-models/rtx-4090">
-          Runpod headline price
-        </a>{" "}
-        checked October 14, 2026. Power of 0.55 kW and electricity at USD
-        0.15/kWh are separate illustrative assumptions, not benchmark
-        measurements.
-      </p>
+      <div className="parallel-explorer__gpu">
+        <label htmlFor="attack-gpus">Number of GPUs</label>
+        <input
+          id="attack-gpus"
+          type="number"
+          min="1"
+          max="1000000"
+          step="1"
+          value={gpus}
+          aria-invalid={!gpuValid}
+          aria-describedby="attack-gpu-help"
+          onChange={(e) => setGpus(e.target.value)}
+        />
+        <div
+          className="parallel-explorer__presets"
+          role="group"
+          aria-label="GPU count presets"
+        >
+          {[1, 10, 100, 1000].map((n) => (
+            <button
+              key={n}
+              type="button"
+              aria-pressed={gpuCount === n && gpuValid}
+              onClick={() => setGpus(String(n))}
+            >
+              {n.toLocaleString("en-US")} {n === 1 ? "GPU" : "GPUs"}
+            </button>
+          ))}
+        </div>
+        <p id="attack-gpu-help">
+          Choose a whole number from 1 to 1,000,000. Each GPU does the same
+          amount of work per second; they search different candidates.
+        </p>
+      </div>
       <div className="course-explorer__inputs">
-        <label>
-          Independent KeePassXC words
-          <select
-            value={words}
-            onChange={(e) => setWords(Number(e.target.value))}
-          >
-            {[1, 5, 6, 8, 12, 24].map((n) => (
-              <option key={n} value={n}>
-                {n} {n === 1 ? "word" : "words"}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Guesses per second, entire system
+        <label htmlFor="attack-rate">
+          Guesses per second, per GPU
           <input
+            id="attack-rate"
             type="number"
             min="1"
-            max="1e24"
+            max="1000000000000"
+            step="any"
             value={rate}
             onChange={(e) => setRate(e.target.value)}
           />
         </label>
-        <label>
-          Power of that system, kW
+        <label htmlFor="attack-rental">
+          Rental, USD per GPU-hour
           <input
+            id="attack-rental"
             type="number"
             min="0"
-            max="1e24"
-            value={power}
-            onChange={(e) => setPower(e.target.value)}
-          />
-        </label>
-        <label>
-          Electricity price, USD per kWh
-          <input
-            type="number"
-            min="0"
-            max="1e24"
-            step="0.01"
-            value={energy}
-            onChange={(e) => setEnergy(e.target.value)}
-          />
-        </label>
-        <label>
-          Alternative compute rental, USD/hour
-          <input
-            type="number"
-            min="0"
-            max="1e24"
+            max="1000000000000"
+            step="any"
             value={compute}
             onChange={(e) => setCompute(e.target.value)}
           />
         </label>
       </div>
-      {!model ? (
+      <details className="parallel-explorer__energy">
+        <summary>
+          <Zap aria-hidden="true" />
+          Electricity-only alternative
+        </summary>
+        <p>
+          For owned hardware, estimate electricity separately. Include the GPU’s
+          share of host-system power. This excludes buying the equipment,
+          cooling and other overheads. Do not add it to rent that already
+          includes electricity.
+        </p>
+        <div className="course-explorer__inputs">
+          <label htmlFor="attack-power">
+            Power per GPU, including host share, kW
+            <input
+              id="attack-power"
+              type="number"
+              min="0"
+              max="1000000000000"
+              step="any"
+              value={power}
+              onChange={(e) => setPower(e.target.value)}
+            />
+          </label>
+          <label htmlFor="attack-energy">
+            Electricity price, USD per kWh
+            <input
+              id="attack-energy"
+              type="number"
+              min="0"
+              max="1000000000000"
+              step="any"
+              value={energy}
+              onChange={(e) => setEnergy(e.target.value)}
+            />
+          </label>
+        </div>
+        <p>
+          Starting assumptions: 0.55 kW per GPU including its host share, and
+          USD 0.15 per kWh. These are illustrative inputs, not benchmark
+          measurements.
+        </p>
+      </details>
+      {!valid ? (
         <p role="alert">
-          Use a guess rate of at least 1 and non-negative finite power and
-          costs, up to 1e24. Fill every field.
+          {!gpuValid
+            ? "Enter a whole GPU count from 1 to 1,000,000."
+            : "Fill every assumption: use at least 1 guess per second and non-negative power and prices, each no higher than 1,000,000,000,000."}
         </p>
       ) : (
-        <div aria-live="polite" aria-atomic="true">
-          <dl className="course-explorer__results">
-            <div>
-              <dt>Search space</dt>
-              <dd>≈ {magnitude(model.possibilities)} sequences</dd>
-            </div>
-            <div>
-              <dt>Entropy from this method</dt>
-              <dd>{model.bits.toFixed(2)} bits</dd>
-            </div>
-            <div>
-              <dt>Average search, half the space</dt>
-              <dd>≈ {duration(model.averageSeconds)}</dd>
-            </div>
-            <div>
-              <dt>Theoretical full search</dt>
-              <dd>≈ {duration(model.fullSeconds)}</dd>
-            </div>
-            <div>
-              <dt>Average electricity use</dt>
-              <dd>≈ {magnitude(model.averageKwh)} kWh</dd>
-            </div>
-            <div>
-              <dt>Average electricity-only cost</dt>
-              <dd>≈ USD {dollars(model.averageElectricityCost)}</dd>
-            </div>
-            <div>
-              <dt>Alternative average compute rental</dt>
-              <dd>≈ USD {dollars(model.averageComputeCost)}</dd>
-            </div>
-          </dl>
-          <p>
-            Full-search energy and costs are twice the averages shown.
-            Electricity-only cost excludes equipment. Rental is a separate
-            alternative; do not add the two if rental already includes
-            electricity.
+        <>
+          <p className="parallel-explorer__summary" role="status">
+            {gpuCount.toLocaleString("en-US")} {gpuCount === 1 ? "GPU" : "GPUs"}{" "}
+            ·{" "}
+            {models[0].totalGuessesPerSecond.toLocaleString("en-US", {
+              maximumSignificantDigits: 15,
+            })}{" "}
+            guesses per second in total.{" "}
+            {gpuCount === 1
+              ? "The single-GPU baseline."
+              : `${gpuCount.toLocaleString("en-US")} times faster than one GPU; the same total rental cost.`}
           </p>
+          <div
+            className="passphrase-cost-grid"
+            role="group"
+            aria-label="Six and eight word attack estimates"
+          >
+            {models.map((model, i) => (
+              <AttackEstimate key={i} words={i === 0 ? 6 : 8} model={model} />
+            ))}
+          </div>
+          <p>
+            <strong>More GPUs shorten the wait.</strong> Under ideal linear
+            scaling, doubling the GPU count halves elapsed time and doubles
+            hourly rent. Total GPU-hours, rental cost and electricity use stay
+            the same. Eight words require 60,403,984 times the work of six, for
+            the same attacker.
+          </p>
+          <GuessingCalculation
+            gpuCount={gpuCount}
+            rate={Number(rate)}
+            rental={Number(compute)}
+          />
           <details className="course-lesson-details">
-            <summary>Compare one, five, six and eight words</summary>
+            <summary>Full search, GPU-hours and electricity</summary>
+            <div className="passphrase-cost-grid">
+              {models.map((model, i) => (
+                <div key={i}>
+                  <h3>{i === 0 ? 6 : 8} random words</h3>
+                  <dl>
+                    <dt>Full-search time</dt>
+                    <dd>
+                      <SearchDuration seconds={model.fullSeconds} />
+                    </dd>
+                    <dt>Full-search rental cost</dt>
+                    <dd>
+                      <ReadableAmount
+                        value={model.averageComputeCost * 2}
+                        unit="dollars"
+                        prefix="USD "
+                      />
+                    </dd>
+                    <dt>Average total GPU-hours</dt>
+                    <dd>≈ {fullNumber(model.averageGpuHours)} GPU-hours</dd>
+                    <dt>Average total electricity</dt>
+                    <dd>≈ {fullNumber(model.averageKwh)} kWh</dd>
+                    <dt>Average electricity-only cost</dt>
+                    <dd>
+                      <ReadableAmount
+                        value={model.averageElectricityCost}
+                        unit="dollars"
+                        prefix="USD "
+                      />
+                    </dd>
+                  </dl>
+                </div>
+              ))}
+            </div>
+            <p>
+              Average electricity = average elapsed hours × GPU count × kW per
+              GPU. Multiply by USD per kWh for the electricity-only cost.
+              Full-search electricity and costs are twice the averages.
+            </p>
+          </details>
+          <details className="course-lesson-details">
+            <summary>Compare shorter phrases: one and five words</summary>
             <div
               className="course-table-scroll"
               tabIndex={0}
@@ -240,39 +315,74 @@ export function BruteForceExplorer() {
                 <thead>
                   <tr>
                     <th>Words</th>
-                    <th>Average search</th>
-                    <th>Average electricity cost</th>
+                    <th>Average time</th>
+                    <th>Average rental</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {[1, 5, 6, 8].map((n) => {
-                    const r = attackModel(
-                      n,
-                      Number(rate),
-                      Number(power),
-                      Number(energy),
-                      Number(compute)
-                    )
+                  {[1, 5].map((words) => {
+                    const model = estimate(words)
                     return (
-                      <tr key={n}>
-                        <th scope="row">{n}</th>
-                        <td>≈ {duration(r.averageSeconds)}</td>
-                        <td>USD {dollars(r.averageElectricityCost)}</td>
+                      <tr key={words}>
+                        <th scope="row">{words}</th>
+                        <td>
+                          <SearchDuration seconds={model.averageSeconds} />
+                        </td>
+                        <td>
+                          <ReadableAmount
+                            value={model.averageComputeCost}
+                            unit="dollars"
+                            prefix="USD "
+                          />
+                        </td>
                       </tr>
                     )
                   })}
                 </tbody>
               </table>
             </div>
+            <p>
+              The same GPU count and per-GPU assumptions apply. These shorter
+              choices are comparisons, not recommendations.
+            </p>
           </details>
-        </div>
+        </>
       )}
-      <p className="course-local-note">
-        The assumed rate, power and rental price must describe the same
-        aggregate attacker system. Huge durations are mathematical
-        extrapolations under fixed assumptions, not predictions about future
-        computers, energy markets or the lifetime of the universe.
-      </p>
+      <details className="course-lesson-details">
+        <summary>Sources and limits of this model</summary>
+        <p>
+          The verified KeePassXC bundled list has 7,772 distinct words. Each
+          selection is independent and equally likely; repeated words are
+          allowed. The attacker knows the wordlist, word count and separator,
+          but no words. Fixed separators add no entropy.
+        </p>
+        <p>
+          The starting rate is 32,880 guesses/second for one RTX 4090 from a{" "}
+          <a href="https://hashcat.net/forum/thread-13338-post-63594.html">
+            published Hashcat 7.0.0 wallet.dat benchmark
+          </a>{" "}
+          (mode 11300, reporting 200,459 iterations). The{" "}
+          <a href="https://www.runpod.io/gpu-models/rtx-4090">
+            Runpod headline RTX 4090 price
+          </a>{" "}
+          was USD 0.89 per GPU-hour when checked October 14, 2026; prices and
+          availability vary.
+        </p>
+        <p>
+          <strong>This is not a measurement of your wallet.</strong> Real speed
+          depends on wallet derivation settings, candidate length, hardware and
+          software; benchmark kernels may have length limits. Ideal scaling
+          assumes no duplicate guesses, coordination overhead or rental
+          minimums. A large GPU count does not imply that fleet is available.
+        </p>
+        <p>
+          Huge durations and costs are mathematical extrapolations at fixed
+          rates, not predictions or feasible budgets. Future hardware, disclosed
+          words and malware change the situation. Rental excludes storage, taxes
+          and other overheads. This models a Core wallet passphrase, not a 7z
+          archive or KeePassXC database.
+        </p>
+      </details>
     </section>
   )
 }

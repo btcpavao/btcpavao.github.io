@@ -37,3 +37,28 @@ Six words is the user's requested recommendation; eight is the extra-margin opti
 Removed the dice lesson and all dice recommendations from the live curriculum and guide, plus inconsistent recommendation sentences in linked essays. The historical progress manifests remain immutable. Old dice lesson bookmarks resolve to the KeePassXC lesson. Existing screenshots illustrating eight words are explicitly labeled as the optional setting.
 
 Confidence: high for source counts, formulae, arithmetic and transcription of the cited benchmark. The rental input is an explicit assumption with a dated source; projections are conditional, not a security guarantee. No new physical wallet or Linux-runtime certification is claimed.
+
+## Parallel-GPU calculator verification
+
+Rechecked after the parallel calculator edit with Python `Decimal` at 80-digit precision, separately from the TypeScript implementation. For GPU count G, per-GPU rate r, per-GPU hourly rental c, and search space N = 7,772^words:
+
+- Average elapsed seconds = N / (2 × r × G).
+- Full-search seconds = N / (r × G).
+- Average GPU-hours = average elapsed seconds / 3,600 × G = N / (2 × r × 3,600).
+- Average rental = average GPU-hours × c.
+- Average electricity = average GPU-hours × per-GPU kW, including an assumed host share. Electricity-only cost multiplies this by USD/kWh.
+
+The cancellation of G is intentional: with identical GPUs, fixed per-GPU rates and prices, and ideal linear scaling, total work and cost are unchanged. The implementation derives invariant totals from the single-GPU calculation so floating-point roundoff cannot make cost drift with GPU count. It divides elapsed time and multiplies aggregate throughput, hourly rental and power. Real coordination, duplicated work, rental minimums, hardware availability and other overheads are excluded and disclosed.
+
+| Words | GPUs | Average years (high-precision reference) | Average rental, USD (reference rounded to cents) |
+| --- | --- | --- | --- |
+| 6 | 1 | 106,201,580,488.307815646693 | 828,557,118,558,850.62 |
+| 6 | 1,000 | 106,201,580.488307815647 | 828,557,118,558,850.62 |
+| 8 | 1 | 6,414,998,568,590,457,483.397772779973 | 50,048,150,932,514,915,766,523.74 |
+| 8 | 1,000 | 6,414,998,568,590,457.483397772780 | 50,048,150,932,514,915,766,523.74 |
+
+The earlier table used ordinary floating point; the insignificant last-digit differences above are resolved by high-precision arithmetic and do not affect any three-significant-digit public result. At 1,000 GPUs the public average times are 106,000,000 years and 6,410,000,000,000,000 years. Costs remain USD 829,000,000,000,000 and USD 50,000,000,000,000,000,000,000.
+
+Automated checks cover counts 1, 10, 1,000 and 1,000,000 for both word counts; aggregate throughput/rental/power; half/full search; GPU-hours; invariant electricity/rental totals; the 60,403,984 ratio; invalid counts; very small decimal amounts; and rounding across named-number scale boundaries. GPU input accepts integers from 1 through 1,000,000. Other public inputs are capped at 1,000,000,000,000; all arithmetic runs before display rounding. No passphrase or wallet data is accepted or sent.
+
+Local UI verification: calculator, passphrase-strength lesson and wallet guide inspected at 1280×720 and 390×844 in the Codex in-app browser. Document scroll width equals viewport width; comparison panels have 24px desktop and 20px mobile padding. Checked side-by-side/stacked results, pictograms and calculation steps. UI checks confirmed 1,000 and 1,000,000 GPU results, preset selection, keyboard increment, rejection of zero/fractional/empty counts, doubled rental when the per-GPU price doubles, and full-search/electricity details. Production build, ESLint, 28 curriculum checks, 11 search checks and asset/internal-link verification passed.

@@ -8057,3 +8057,44 @@ input:focus-visible + .curriculum-checkbox {
 .passphrase-cost-grid dt { margin-top: 1rem; font-size: .75rem; font-weight: 600; }
 .passphrase-cost-grid dd { margin: .4rem 0 0; font-size: .875rem; line-height: 1.7; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 @media (max-width: 600px) { .passphrase-cost-grid { grid-template-columns: 1fr; } .passphrase-cost-grid > div { padding: 1rem; } }
+
+/* Keep the calculation readable as a sequence, with open comparison columns. */
+.parallel-explorer h2, .passphrase-cost-grid h3, .passphrase-cost-grid dt { display: flex; align-items: center; gap: .6rem; }
+.parallel-explorer h2 svg, .passphrase-cost-grid svg, .passphrase-calculation svg, .parallel-explorer__energy summary svg { width: 1.15rem; height: 1.15rem; flex: 0 0 auto; color: var(--primary); }
+.parallel-explorer__gpu { margin-top: 1.5rem; }
+.parallel-explorer__gpu > input { max-width: 14rem; margin-top: .55rem; }
+.parallel-explorer input { padding-inline: 1.5rem; }
+.parallel-explorer input[aria-invalid="true"] { border-color: var(--foreground); }
+.parallel-explorer__presets { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+.parallel-explorer__presets button { min-height: 44px; padding: .6rem 1.5rem; border: 1px solid var(--border); border-radius: .5rem; background: transparent; color: inherit; font: inherit; font-size: .8rem; cursor: pointer; }
+.parallel-explorer__presets button:hover { border-color: var(--primary); }
+.parallel-explorer__presets button[aria-pressed="true"] { color: var(--primary-foreground); background: var(--primary); border-color: var(--primary); }
+.parallel-explorer__presets button:focus-visible, .parallel-explorer summary:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+.parallel-explorer__gpu > p { margin-top: .75rem; color: var(--muted-foreground); font-size: .8rem; }
+.parallel-explorer__energy { margin-block: 1.5rem; }
+.parallel-explorer__energy summary { cursor: pointer; font-size: .85rem; font-weight: 600; padding-block: .5rem; }
+.parallel-explorer__energy summary svg { display: inline-block; vertical-align: text-bottom; margin-inline: .35rem; }
+.parallel-explorer__energy > p { margin-top: .75rem; }
+.parallel-explorer__summary { margin-top: 2rem; font-weight: 600; }
+.passphrase-cost-grid { column-gap: 2rem; row-gap: 2rem; margin-block: 1.5rem 2rem; }
+.passphrase-cost-grid > div { padding: 0; border: 0; border-radius: 0; }
+.passphrase-cost-grid h3 { margin-bottom: .4rem; }
+.passphrase-cost-grid .passphrase-entropy { margin: 0 0 1.25rem; font-size: .8rem; color: var(--muted-foreground); }
+.passphrase-cost-grid dt { margin-top: 1.25rem; line-height: 1.5; }
+.passphrase-cost-grid dt svg { width: 1rem; height: 1rem; }
+.passphrase-number { display: block; font-size: .95rem; font-weight: 600; line-height: 1.65; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.passphrase-number-words { display: block; margin-top: .25rem; color: var(--muted-foreground); font-size: .8rem; line-height: 1.65; overflow-wrap: anywhere; }
+.passphrase-calculation { margin-block: 2rem; }
+.passphrase-calculation h3 { font-size: 1rem; font-weight: 650; margin-bottom: 1.25rem; }
+.course-explorer .passphrase-calculation ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; }
+.course-explorer .passphrase-calculation li { display: grid; grid-template-columns: 1.25rem minmax(0, 1fr); gap: .85rem; padding: 0; margin: 0; }
+.passphrase-calculation li > svg { margin-top: .2rem; }
+.passphrase-calculation li strong { font-size: .875rem; }
+.course-explorer .passphrase-calculation li p { margin: .35rem 0 0; font-size: .85rem; overflow-wrap: anywhere; }
+.passphrase-calculation > p { margin-top: 1.5rem; }
+.parallel-explorer > p, .parallel-explorer > details { overflow-wrap: anywhere; }
+.parallel-explorer > [role="alert"] { padding-block: 1rem; font-weight: 600; }
+@media (max-width: 767px) {
+  .parallel-explorer input, .parallel-explorer__presets button { padding-inline: 1rem; }
+  .passphrase-cost-grid { grid-template-columns: 1fr; }
+}
