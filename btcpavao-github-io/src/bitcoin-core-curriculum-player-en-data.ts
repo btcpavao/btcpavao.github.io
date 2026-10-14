@@ -16,9 +16,10 @@ export const SPARROW_REFERENCE_VERSION = "Sparrow 2.5.4"
 export const ELECTRUM_REFERENCE_VERSION =
   "Electrum history and server architecture"
 export const LAST_TECHNICAL_REVIEW = "2026-09-14"
-export const CUSTODY_CONTENT_UPDATED = "2026-10-12"
+export const CUSTODY_CONTENT_UPDATED = "2026-10-14"
 
 export const legacyEnglishLessonSlugAliases: Record<string, string> = {
+  "optional-physical-dice-passphrase": "generate-passphrase",
   "sto-self-custody-stvarno-znaci": "what-self-custody-really-means",
   "threat-model-prije-alata": "threat-model-before-tools",
   "sigurnost-je-proces": "security-is-a-process",
@@ -212,7 +213,10 @@ export const curriculumLessons = curriculumPhases.flatMap((phase) =>
 )
 export function findLessonBySlug(slug: string | null | undefined) {
   if (!slug) return null
-  return curriculumLessons.find(({ lesson }) => lesson.slug === slug) ?? null
+  const currentSlug = legacyEnglishLessonSlugAliases[slug] ?? slug
+  return (
+    curriculumLessons.find(({ lesson }) => lesson.slug === currentSlug) ?? null
+  )
 }
 export const publishedCurriculumLessons = curriculumLessons.filter(
   ({ lesson }) => lesson.status === "published"

@@ -177,7 +177,10 @@ export function enrichFromArticles(lessons: PlayerLesson[]): PlayerLesson[] {
     ]
     return {
       ...lesson,
-      contentUpdated: "2026-10-12",
+      contentUpdated:
+        lesson.contentUpdated && lesson.contentUpdated > "2026-10-12"
+          ? lesson.contentUpdated
+          : "2026-10-12",
       notes: [...(lesson.notes ?? []), ...(addition.notes ?? [])],
       sources: [
         ...(lesson.sources ?? []),

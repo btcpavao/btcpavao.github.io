@@ -75,16 +75,16 @@ try {
     console.log(`✓ ${name}`)
   }
   check(
-    "99 unique lessons in three parts; 67 lessons on the foundation and single-sig path",
+    "98 unique lessons in three parts; 67 lessons on the foundation and single-sig path",
     () => {
       assert.equal(en.CURRICULUM_VERSION, "4.3")
       assert.deepEqual(
         en.curriculumPhases.map((p) => p.lessons.length),
-        [27, 52, 20]
+        [27, 51, 20]
       )
-      assert.equal(lessons.length, 99)
-      assert.equal(new Set(ids).size, 99)
-      assert.equal(new Set(lessons.map((l) => l.slug)).size, 99)
+      assert.equal(lessons.length, 98)
+      assert.equal(new Set(ids).size, 98)
+      assert.equal(new Set(lessons.map((l) => l.slug)).size, 98)
       assert.equal(en.primaryCurriculumLessons.length, 67)
       for (const e of entries) {
         assert.equal(en.findLessonBySlug(e.lesson.slug)?.lesson.id, e.lesson.id)
@@ -220,11 +220,11 @@ try {
     }
   )
   check(
-    "With all declared results, all 99 lessons are reachable; removing foundation results revokes downstream completion",
+    "With all declared results, all 98 lessons are reachable; removing foundation results revokes downstream completion",
     () => {
       const marks = new Set(ids),
         checks = new Set(lessons.flatMap(requiredChecks))
-      assert.equal(effectiveCompletions(lessons, marks, checks).size, 99)
+      assert.equal(effectiveCompletions(lessons, marks, checks).size, 98)
       checks.delete(readingKey("0.1", 0))
       assert.equal(effectiveCompletions(lessons, marks, checks).size, 0)
     }
@@ -322,7 +322,6 @@ try {
       for (const id of [
         "optional-tails",
         "optional-veracrypt",
-        "optional-dice",
       ]) {
         assert.equal(find(id).optional, true)
         for (const l of lessons.filter((l) => !l.optional))
@@ -408,6 +407,16 @@ try {
       assert.equal(a.averageElectricityCost, a.averageKwh * 0.1)
       assert.equal(a.averageComputeCost, (a.averageSeconds / 3600) * 1000)
       assert.equal(math.attackModel(8, 1, 0, 0, 0).averageElectricityCost, 0)
+      const six = math.attackModel(6, math.WALLET_BENCHMARK_RATE, 0, 0, math.GPU_RENTAL_PER_HOUR)
+      const eight = math.attackModel(8, math.WALLET_BENCHMARK_RATE, 0, 0, math.GPU_RENTAL_PER_HOUR)
+      assert.ok(Math.abs(six.averageSeconds / math.SECONDS_PER_YEAR / 106201580488.30782 - 1) < 1e-12)
+      assert.ok(Math.abs(eight.averageComputeCost / six.averageComputeCost / 60403984 - 1) < 1e-12)
+      assert.equal(math.fullNumber(six.averageComputeCost), "829,000,000,000,000")
+      assert.equal(math.fullNumber(eight.averageComputeCost), "50,000,000,000,000,000,000,000")
+      assert.equal(math.namedNumber(six.averageComputeCost), "eight hundred twenty-nine trillion")
+      assert.equal(math.namedNumber(eight.averageComputeCost), "fifty sextillion")
+      assert.equal(math.fullNumber(0.89), "0.89")
+
       for (const args of [
         [8, 0, 1, 1, 1],
         [8, -1, 1, 1, 1],
@@ -424,7 +433,7 @@ try {
     () => {
       assert.equal(v4.length, 85)
       for (const old of v4)
-        assert.equal(en.findLessonBySlug(old.slug)?.lesson.id, old.id)
+        assert.equal(en.findLessonBySlug(old.slug)?.lesson.id, old.id === "optional-dice" ? "generate-passphrase" : old.id)
     }
   )
   check(
@@ -606,7 +615,7 @@ try {
     }
   )
   check(
-    "The packaged KeePassXC workflow is the default; dice are isolated and the eight-word setting is not a minimum",
+    "KeePassXC uses six words by default, eight for extra margin; retired dice links resolve to that workflow",
     () => {
       const gen = find("generate-passphrase")
       assert.match(text(gen), /2\.7\.10\+dfsg1-1/)
@@ -621,8 +630,12 @@ try {
         text(find("passphrase-strength")),
         /not a cryptographic minimum/
       )
-      assert.match(text(find("optional-dice")), /40 readings/)
-      assert.equal(find("optional-dice").optional, true)
+      assert.ok(!ids.includes("optional-dice"))
+      assert.doesNotMatch(text(lessons), /physical dice|dice rolling|roll a fair/i)
+      assert.match(text(gen.guidedSteps), /Word Count to 6/)
+      assert.match(text(gen), /77\.54 bits/)
+      assert.match(text(gen), /103\.39 bits/)
+      assert.equal(en.findLessonBySlug("optional-physical-dice-passphrase")?.lesson.id, "generate-passphrase")
       // The exact rejection interval in reviewed Random.cpp has equal buckets.
       const limit = math.KEEPASS_WORD_COUNT,
         max = 2 ** 32 - 1,
@@ -677,7 +690,7 @@ try {
         0
       )
       for (const old of v41)
-        assert.equal(en.findLessonBySlug(old.slug)?.lesson.id, old.id)
+        assert.equal(en.findLessonBySlug(old.slug)?.lesson.id, old.id === "optional-dice" ? "generate-passphrase" : old.id)
       oldChecks.delete(readingKey("0.1", 0))
       assert.equal(
         migration.retainedV41Completions(snapshot, oldMarks, oldChecks).size,

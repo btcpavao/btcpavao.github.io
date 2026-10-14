@@ -6682,7 +6682,7 @@
       },
       {
         "type": "paragraph",
-        "html": "The passphrase is backed up separately. It may be generated with properly executed dice rolls, <a href=\"https://keepassxc.org/\">KeePassXC</a> or another method that produces genuinely unpredictable words. It can also have redundant copies, provided they are never stored together with the corresponding wallet backup."
+        "html": "The passphrase is backed up separately. Use <a href=\"https://keepassxc.org/\">KeePassXC</a> on the prepared, trusted computer: six independently generated random words by default, or eight if memorizing two extra words is comfortable for you. It can also have redundant copies, provided they are never stored together with the corresponding wallet backup."
       },
       {
         "type": "paragraph",

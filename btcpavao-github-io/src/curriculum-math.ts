@@ -3,6 +3,89 @@ export const EFF_WORD_COUNT = 7776
 // Debian Stable KeePassXC 2.7.10+dfsg1-1: actual bundled eff_large.wordlist.
 export const KEEPASS_WORD_COUNT = 7772
 export const SECONDS_PER_YEAR = 365.25 * 24 * 60 * 60
+// Published RTX 4090 / Hashcat 7.0.0 mode 11300 result; not every wallet's rate.
+export const WALLET_BENCHMARK_RATE = 32880
+// Illustrative rental input, based on Runpod's headline rate checked 2026-10-14.
+export const GPU_RENTAL_PER_HOUR = 0.89
+
+export function fullNumber(value: number) {
+  return Number(value.toPrecision(3)).toLocaleString("en-US", {
+    notation: "standard",
+    maximumFractionDigits: value < 1000 ? 3 : 0,
+  })
+}
+
+export function namedNumber(value: number) {
+  const units = [
+    [1e21, "sextillion"],
+    [1e18, "quintillion"],
+    [1e15, "quadrillion"],
+    [1e12, "trillion"],
+    [1e9, "billion"],
+    [1e6, "million"],
+    [1e3, "thousand"],
+  ] as const
+  const unit = units.find(([scale]) => value >= scale)
+  const scaled = Number((unit ? value / unit[0] : value).toPrecision(3))
+  const small = [
+    "zero",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+  ]
+  const tens = [
+    "",
+    "",
+    "twenty",
+    "thirty",
+    "forty",
+    "fifty",
+    "sixty",
+    "seventy",
+    "eighty",
+    "ninety",
+  ]
+  const speak = (n: number): string => {
+    if (n < 20) return small[n]
+    if (n < 100)
+      return tens[Math.floor(n / 10)] + (n % 10 ? `-${small[n % 10]}` : "")
+    if (n < 1000)
+      return (
+        `${small[Math.floor(n / 100)]} hundred` +
+        (n % 100 ? ` ${speak(n % 100)}` : "")
+      )
+    return fullNumber(n)
+  }
+  const [whole, fraction] = scaled
+    .toLocaleString("en-US", {
+      notation: "standard",
+      useGrouping: false,
+      maximumFractionDigits: 3,
+    })
+    .split(".")
+  const words =
+    speak(Number(whole)) +
+    (fraction
+      ? ` point ${[...fraction].map((n) => small[Number(n)]).join(" ")}`
+      : "")
+  return unit ? `${words} ${unit[1]}` : words
+}
 export function wordEntropy(words: number, listSize = KEEPASS_WORD_COUNT) {
   if (
     !Number.isInteger(words) ||

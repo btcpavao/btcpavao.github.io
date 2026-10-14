@@ -1,4 +1,5 @@
 import { ImageViewer, type Gallery } from "@/components/zoomable-image"
+import { PassphraseComparison } from "@/components/passphrase-comparison"
 import { findContentByPath } from "@/content-registry"
 import { CustodyArchitecture } from "@/components/custody-architecture"
 import { DEBIAN_IMAGES_PATH } from "@/components/debian-images-notice"
@@ -264,10 +265,9 @@ const legacySteps: GuideStep[] = [
       <>
         <p>
           Use <ResourceLink href={KEEPASSXC_DOWNLOAD_URL}>KeePassXC</ResourceLink>{" "}
-          on a clean, verified Debian environment. The course uses eight
-          independently generated random words as a conservative default.
-          Eight is not a cryptographic minimum. The goal is a large security
-          margin with a recovery process you can operate.
+          on a clean, verified Debian environment. Start with six independently
+          generated random words. Choose eight if memorizing two extra words is
+          comfortable for you and you want a larger margin against guessing.
         </p>
         <p>
           The reviewed Debian 13 Stable package is <code>keepassxc-minimal
@@ -281,7 +281,7 @@ const legacySteps: GuideStep[] = [
         </p>
         <p>
           Open Tools → Password Generator → Passphrase. Choose{" "}
-          <code>(SYSTEM) eff_large.wordlist</code>, set Word Count to 8, lower
+          <code>(SYSTEM) eff_large.wordlist</code>, set Word Count to 6 (or 8 for extra margin), lower
           case and a single space separator, then generate. This verified
           bundled list contains 7,772 distinct words; no custom wordlist import
           is needed. Keep repeated words and the generated order. You do not
@@ -292,15 +292,11 @@ const legacySteps: GuideStep[] = [
           words. See the curriculum’s{" "}
           <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/passphrase-strength`}>entropy explanation</a>{" "}
           and <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/brute-force-economics`}>attack-economics exercise</a>.
-          The screenshots show a macOS practice session; the versioned Debian
-          procedure above is the course default.
+          The screenshots show a macOS practice session with the optional
+          eight-word setting. Select six for the default; follow the versioned
+          Debian procedure above for the real workflow.
         </p>
-        <p>
-          Physical dice can produce strong entropy, but add time, transcription
-          and procedural error. This guide therefore uses KeePassXC by default.
-          The <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/optional-physical-dice-passphrase`}>optional dice exercise</a>{" "}
-          is for a specific threat or educational purpose that justifies that work.
-        </p>
+        <PassphraseComparison />
         <GuideIconList
           tone="warning"
           items={[

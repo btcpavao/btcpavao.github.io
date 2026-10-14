@@ -2098,7 +2098,7 @@ function BitcoinCoreArticlePage({
                   {isEnglish ? "Follow the reviewed KeePassXC procedure" : "Provjereni postupak s KeePassXC-om (engleski)"}
                 </a>{" · "}
                 <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/passphrase-strength`}>
-                  {isEnglish ? "Why eight words are the course default" : "Zašto je osam riječi zadani izbor kurikuluma (engleski)"}
+                  {isEnglish ? "Compare six and eight random words" : "Usporedi šest i osam nasumičnih riječi (engleski)"}
                 </a>
               </p>
             </aside>

@@ -714,18 +714,18 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-14",
+    contentUpdated: "2026-10-14",
     estimatedTime: "8–12 min",
     kind: "reading",
     explanation: [
       "If a list contains N different words, one equally likely selection has N possibilities. Choosing another word independently multiplies that count by N again. Word order matters, and a repeated word is a valid random result.",
       "A bit represents a doubling of the possibilities. The expression log2(N) counts how many doublings produce N. For n independent, equally likely choices, entropy is n × log2(N) bits. This describes the selection process; a sentence you invent does not become random because it contains the same number of words.",
       "The bundled large list in the reviewed Debian KeePassXC package contains 7,772 distinct lowercase words. The table uses that actual count: one word gives about 12.92 bits, five 64.62, six 77.54 and eight 103.39. A fixed space between words adds no extra entropy.",
-      "Eight independently random words are the conservative course default for a long-term wallet, not a cryptographic minimum. Five and six words already produce enormous search spaces. Their suitability depends on the generation method and the attack assumptions; fewer than eight is not automatically unsafe. The default gives an enormous margin without requiring each beginner to design a separate policy.",
-      "More words keep multiplying the search space, but their practical benefit diminishes once guessing is already economically implausible with a large margin. Extra words still have to be recorded, typed, protected and recovered. Twenty-four words do not automatically produce a better custody system than eight.",
+      "Six independently generated KeePassXC words are the course recommendation: about 77.54 bits of selection entropy, with fewer words to memorize, type and recover. Choose eight if you are comfortable memorizing two more words: about 103.39 bits and a larger margin against offline guessing. This is a practical recommendation, not a cryptographic minimum or a guarantee for every future attacker.",
+      "Going from six to eight independent words adds about 25.85 bits and multiplies the search space by 7,772² = 60,403,984, about 60.4 million. At the same guess rate, an exhaustive search and its average cost grow by that factor. The advantage of six is the shorter phrase; the advantage of eight is extra guessing resistance for two more words. Neither protects against malware, disclosure or a lost recovery record. Keep a separately protected backup even if you memorize the phrase.",
       "A Core passphrase protects private key material in an encrypted file. BIP39 words encode a root recovery secret. Their roles differ; neither a word count nor a readable format tells you whether the generating process was sound.",
       "Our default generator is KeePassXC on the clean dedicated Debian computer. It requests secure random bytes from Linux and uses them to select words. Linux gathers unpredictable input from device activity and other sources, mixes it into protected internal state and uses cryptography to produce bytes. A CSPRNG is a cryptographically secure pseudorandom number generator: its calculations are deterministic, but an attacker without its secret internal state should not be able to predict the output when it is properly initialized.",
-      "Core itself depends on secure computer-generated randomness to create wallet keys. Using a reviewed generator on this same prepared foundation is consistent with that trust. Correct dice can be strong too, but manual rolls, transcription and lookup add work and errors without addressing a threat in our default model. Use KeePassXC unless you can explain the extra protection or educational purpose of dice. The next calculator helps you judge the margin before generating a phrase.",
+      "Core itself depends on secure computer-generated randomness to create wallet keys. Using KeePassXC on this same prepared foundation is consistent with that trust. Use its verified bundled list and keep every generated word in order, including repetitions. The next calculator helps you judge the guessing margin before generating a phrase.",
     ],
     prerequisites: ["signet-first-wallet"],
     sources: [
@@ -758,7 +758,7 @@ export const part2Lessons: PlayerLesson[] = [
     optional: false,
     sourceReviewed: "2026-09-14",
     takeaway:
-      "Eight random words are a conservative default, not a minimum. Judge the generation method, attack margin and recovery burden together.",
+      "Use six random KeePassXC words as the default; choose eight if two extra words are comfortable to memorize. Compare 77.54 with 103.39 bits, and keep a separate recovery record in either case.",
   },
   {
     id: "brute-force-economics",
@@ -772,12 +772,12 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-14",
+    contentUpdated: "2026-10-14",
     estimatedTime: "8–12 min",
     kind: "reading",
     explanation: [
       "The calculator models uniformly random words, a fixed aggregate guess rate and a fixed price per hour for that whole guessing system. Average search is half the space; full search tries every candidate once. Neither is a promise about when a particular secret will be found.",
-      "The default rate of one billion guesses a second is deliberately hypothetical. It is not a Bitcoin Core cracking benchmark. Power and hourly compute costs must describe the same total equipment that achieves the chosen rate. Electricity is shown separately from compute rental to avoid adding the same energy cost twice.",
+      "The starting rate is 32,880 guesses per second, reported for one RTX 4090 in a Hashcat 7.0.0 Bitcoin/Litecoin wallet.dat benchmark (mode 11300, reporting 200,459 iterations). The USD 0.89 hourly rental input uses Runpod’s headline RTX 4090 price checked October 14, 2026. This is a benchmark-based illustration, not a measurement of your wallet. The 0.55 kW system power and USD 0.15/kWh electricity inputs are explicit assumptions. Electricity and rental are alternative cost views; do not add the same energy cost twice.",
       "Core 31.1 encrypts private key material using AES-256-CBC and derives an encryption key from the passphrase using salted, repeated SHA-512 work. Its implementation calibrates the iteration count to a target duration on the machine doing encryption, subject to a minimum. That slows each guess; it does not make a predictable passphrase random.",
       "A real attack depends on the wallet’s stored derivation parameters, hardware, software optimization, parallel machines, electricity and future improvements. Do not interpret the result as an insurance quote or aim for an estimated attack cost only slightly above the wallet’s value. Keep a large margin and review it over time.",
       "An attacker who obtains an encrypted wallet can try guesses without asking you or this website. The work consumes computing time, energy and equipment, and prevents those resources from being used elsewhere. This opportunity cost matters even when a machine is already owned.",
@@ -785,6 +785,8 @@ export const part2Lessons: PlayerLesson[] = [
     ],
     prerequisites: ["passphrase-strength"],
     sources: [
+      { label: "Hashcat 7.0.0: reported RTX 4090 wallet benchmark", url: "https://hashcat.net/forum/thread-13338-post-63594.html" },
+      { label: "Runpod RTX 4090 rental pricing", url: "https://www.runpod.io/gpu-models/rtx-4090" },
       {
         label: "Bitcoin Core 31.1: passphrase derivation and AES encryption",
         url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/wallet/crypter.cpp",
@@ -794,8 +796,8 @@ export const part2Lessons: PlayerLesson[] = [
         url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/wallet/wallet.cpp",
       },
       {
-        label: "EFF: original large wordlist (7,776 entries)",
-        url: "https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt",
+        label: "KeePassXC 2.7.10: bundled large wordlist (7,772 entries)",
+        url: "https://github.com/keepassxreboot/keepassxc/blob/2.7.10/share/wordlists/eff_large.wordlist",
       },
     ],
     reviewNote:
@@ -815,7 +817,7 @@ export const part2Lessons: PlayerLesson[] = [
     summary:
       "Use the secure randomness already available on your clean Debian system.",
     objective:
-      "Generate and record eight independent words using the verified bundled list.",
+      "Generate and record six independent words, or eight for extra margin, using the verified bundled list.",
     what: "Choose words by a random procedure you can explain.",
     why: "The strength calculation is only valid when the generating method matches it.",
     risk: "Picking attractive words, reusing an online password or losing the record defeats the intended protection.",
@@ -823,15 +825,15 @@ export const part2Lessons: PlayerLesson[] = [
     verification: "source-reviewed",
     referenceVersion:
       "KeePassXC 2.7.10+dfsg1-1 · Debian 13 Stable amd64 · Botan 2.19.5+dfsg-4",
-    contentUpdated: "2026-09-14",
+    contentUpdated: "2026-10-14",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
       "Use KeePassXC on the clean dedicated Debian environment. The computer is not inventing a clever password: the application requests secure random bytes from the operating system and uses them to select words. For this stage, generate a disposable Signet passphrase. The same method will later run on the prepared offline signer before any real wallet is created.",
       "Linux gathers unpredictable input from device activity and other sources, mixes it into protected internal state and uses cryptography to produce random bytes. A CSPRNG is a cryptographically secure pseudorandom number generator. Its calculations are deterministic, but an attacker without its secret internal state should not be able to predict the output. The relevant question is whether the source is properly initialized and the implementation is sound, not whether a human or a machine performed the procedure.",
-      "Bitcoin Core already relies on secure computer-generated randomness to create wallet keys. Our clean Linux and generic-hardware foundation therefore needs a trustworthy random source in either case. A correctly implemented password generator can turn that source into more than enough passphrase entropy. Replacing it with manual dice rolling adds no meaningful practical protection against a named threat in this course’s default model.",
-      "The reviewed Debian package includes eff_large.wordlist with 7,772 distinct words. Use it directly. Downloading and importing the original EFF list would change the eight-word figure from about 103.39 to 103.40 bits while adding another file and several manual steps. That does not justify the added work.",
-      "Physical dice can produce excellent entropy, but this course discourages them as the routine method. Transcribing rolls, looking up words and reproducing the procedure add time and opportunities for mistakes. An optional dice lesson remains available for an explicit threat, education or research. If you cannot name the threat that dice solve in your setup, use KeePassXC.",
+      "Bitcoin Core already relies on secure computer-generated randomness to create wallet keys. Our clean Linux and generic-hardware foundation therefore needs a trustworthy random source in either case. Use KeePassXC to turn that source into independent random word selections.",
+      "The reviewed Debian package includes eff_large.wordlist with 7,772 distinct words. Use it directly; no custom wordlist import is needed. Six independent choices give about 77.54 bits, and eight give about 103.39 bits.",
+      "Start with six words. If memorizing two additional words is comfortable for you, choose eight for a larger guessing margin. Keep a separate recovery record in either case; memorization is an additional way to access the credential, not the only backup.",
     ],
     prerequisites: ["brute-force-economics"],
     sources: [
@@ -872,11 +874,11 @@ export const part2Lessons: PlayerLesson[] = [
         id: "keepass-bundled-v41",
         title: "Select the bundled generator settings",
         instructions: [
-          "Open KeePassXC. You can use its generator without creating a password database. Choose Tools → Password Generator, then Passphrase. Select (SYSTEM) eff_large.wordlist, set Word Count to 8, choose lower case and use a single space as the word separator.",
+          "Open KeePassXC. You can use its generator without creating a password database. Choose Tools → Password Generator, then Passphrase. Select (SYSTEM) eff_large.wordlist, set Word Count to 6 (or 8 if you are comfortable memorizing two extra words), choose lower case and use a single space as the word separator.",
           "Check these settings yourself; they may reflect a previous session. Use the Generate control (the circular-arrow button) to create the test phrase. Keep exactly what the generator selects, including repeated words. Do not substitute words you prefer or keep regenerating until the result looks memorable.",
         ],
         expectedResult:
-          "The selected bundled list has 7,772 choices; eight generated words give about 103.39 bits. No custom file is needed.",
+          "The selected bundled list has 7,772 choices; six generated words give about 77.54 bits, or eight about 103.39 bits. No custom file is needed.",
         help: "If the list is missing, the word count is wrong or the result is empty, stop and check the installed package and generator settings. An unfamiliar version needs a fresh source/list comparison, not an assumed count.",
       },
       {
@@ -895,7 +897,7 @@ export const part2Lessons: PlayerLesson[] = [
         id: "record-check-v4",
         title: "Check the written record before using it",
         instructions: [
-          "Count the eight words and verify their order, case and separators against the generated result. Read it back carefully. The next lesson will use it in a disposable encrypted wallet and prove the record through signing.",
+          "Count the six words (or eight if selected) and verify their order, case and separators against the generated result. Read it back carefully. The next lesson will use it in a disposable encrypted wallet and prove the record through signing.",
         ],
         expectedResult:
           "The record unambiguously reproduces the generated test phrase; the following wallet exercise will test it.",
@@ -906,12 +908,12 @@ export const part2Lessons: PlayerLesson[] = [
     optional: false,
     sourceReviewed: "2026-09-14",
     takeaway:
-      "Use KeePassXC’s bundled large list on clean Debian: eight independent words provide about 103.39 bits with fewer manual operations.",
+      "Use KeePassXC’s bundled large list on clean Debian: six independent words by default, or eight for extra margin if the additional memorization is comfortable. Back up the phrase separately.",
     notes: [
       "Implementation reviewed: Debian 13 Stable amd64 keepassxc-minimal 2.7.10+dfsg1-1 with libbotan-2-19 2.19.5+dfsg-4. Random.cpp selects Botan::System_RNG. The inspected Debian Botan build enables the device RNG path and sets BOTAN_SYSTEM_RNG_DEVICE to /dev/urandom; its library contains that path. This is a request to Linux’s kernel random generator, not an internet service. Other versions or builds may use a different system interface.",
       "The device path reads bytes from /dev/urandom. It does not itself wait for initial seeding as Linux’s getrandom interface normally does. This procedure assumes a normally booted, maintained physical Debian desktop with initialized kernel randomness. Early-boot software, copied virtual-machine state and unusual embedded systems need their own review; this source inspection does not certify every platform.",
       "PassphraseGenerator.cpp loads words into a set that removes duplicates, then requests a random index for each word. Random::randomUInt rejects the small upper tail of a 32-bit draw before taking its remainder modulo the list size. Without that rejection, some indexes could receive more possible draws than others. For 7,772 words, 4,294,962,640 values are accepted, exactly 552,620 per index; 4,656 values are rejected and redrawn. Uniform bytes therefore produce uniform word selections.",
-      "The packaged list and source list were byte-identical, with 7,772 distinct entries even after lowercase conversion. Each word is chosen independently, with replacement, so duplicates in the generated phrase are allowed. The generator’s source default is seven words; explicitly select the course’s eight-word default rather than relying on a factory or saved setting.",
+      "The packaged list and source list were byte-identical, with 7,772 distinct entries even after lowercase conversion. Each word is chosen independently, with replacement, so duplicates in the generated phrase are allowed. The generator’s source default is seven words; explicitly select six words, or eight for extra margin rather than relying on a factory or saved setting.",
     ],
   },
   {
@@ -944,8 +946,8 @@ export const part2Lessons: PlayerLesson[] = [
         url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/qt/askpassphrasedialog.cpp",
       },
       {
-        label: "EFF: original large wordlist (7,776 entries)",
-        url: "https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt",
+        label: "KeePassXC 2.7.10: bundled large wordlist (7,772 entries)",
+        url: "https://github.com/keepassxreboot/keepassxc/blob/2.7.10/share/wordlists/eff_large.wordlist",
       },
     ],
     codeBlocks: [],
@@ -1484,7 +1486,7 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-14",
+    contentUpdated: "2026-10-14",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
@@ -1520,7 +1522,7 @@ export const part2Lessons: PlayerLesson[] = [
         id: "three-v4",
         title: "Compare three test passphrases",
         instructions: [
-          "Encrypt three empty disposable wallets: one with an obviously predictable test phrase, one with five independently generated KeePassXC words and one with eight from the same bundled large list. The predictable example is deliberately weak; five random words are a comparison, not automatically an unsafe choice.",
+          "Encrypt three empty disposable wallets: one with an obviously predictable test phrase, one with six independently generated KeePassXC words and one with eight from the same bundled large list. The predictable example is deliberately weak; compare the six-word default with the eight-word option.",
           "Observe that accepting a passphrase, looking locked or taking time to unlock does not demonstrate strong entropy. Record the generation method, not the words, in your comparison notes.",
         ],
         expectedResult:
@@ -1543,7 +1545,7 @@ export const part2Lessons: PlayerLesson[] = [
         id: "lifecycle-v41",
         title: "Repeat the complete lifecycle across separate sessions",
         instructions: [
-          "Using eight independently generated words, complete CREATE → ENCRYPT → BACK UP → RECEIVE → SPEND → RESTORE → CHANGE PASSWORD → RESTORE AGAIN. After changing the passphrase, make a fresh backup and restore that new copy with its new phrase. Prove signing from the restored copy.",
+          "Using six independently generated KeePassXC words (or eight if selected), complete CREATE → ENCRYPT → BACK UP → RECEIVE → SPEND → RESTORE → CHANGE PASSWORD → RESTORE AGAIN. After changing the passphrase, make a fresh backup and restore that new copy with its new phrase. Prove signing from the restored copy.",
           "Repeat this whole cycle in another session with a fresh disposable wallet and phrase. Keep originals closed during restore tests. Record the addresses, confirmed transactions and which phrase belongs to each backup. If anything differs, explain it before continuing.",
         ],
         expectedResult:
@@ -3016,83 +3018,6 @@ export const part2Lessons: PlayerLesson[] = [
       "A tested single-sig setup can be your completed custody system. Add another spending authority only when it solves a concrete threat.",
   },
   {
-    id: "optional-dice",
-    slug: "optional-physical-dice-passphrase",
-    title: "Optional: generate the passphrase with physical dice",
-    summary: "Use manual randomness only for a reason you can explain.",
-    objective:
-      "Evaluate the extra work, then demonstrate correct dice generation with test material.",
-    what: "Add an outer layer only for a named threat, such as wallet metadata exposure.",
-    why: "A protection earns its place by addressing a specific threat or educational purpose.",
-    risk: "Transcription and lookup mistakes can undermine a long manual procedure.",
-    status: "published",
-    verification: "source-reviewed",
-    referenceVersion: "Original EFF large list · 7,776 distinct entries",
-    contentUpdated: "2026-09-14",
-    estimatedTime: "20–40 min active",
-    kind: "practice",
-    explanation: [
-      "Physical dice can produce excellent entropy when used correctly. They are not the recommended workflow here because they add manual work without solving a threat present in the default clean-Linux architecture. If you cannot name the threat that dice solve in your setup, use KeePassXC.",
-      "Possible reasons include an independently observable physical randomness requirement, unusual distrust of the computer RNG, research or education. State the reason first. Dice do not make a compromised computer safe when you later enter the phrase or create wallet keys on it.",
-      "The original EFF large list has 7,776 entries: one for every ordered result of five fair six-sided die readings. Eight words require 40 readings plus recording and lookup. Skipped, duplicated or mistyped results, wrong lookups and repetition by another operator are practical costs. Correct execution can be strong; extra ceremony alone is not a security benefit.",
-    ],
-    prerequisites: ["generate-passphrase"],
-    sources: [
-      {
-        label: "EFF: original large wordlist",
-        url: "https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt",
-      },
-      {
-        label: "EFF: creating strong passphrases",
-        url: "https://www.eff.org/dice",
-      },
-    ],
-    reviewNote:
-      "v4.1 source and sequence review. Debian package files and generator implementation were inspected; this is not a physical Debian installation or a funded Signet test.",
-    origin: "First-principles curriculum v4",
-    guidedSteps: [
-      {
-        id: "reason",
-        title: "Name the reason for using dice",
-        instructions: [
-          "Physical dice can produce excellent entropy when used correctly. They are not recommended for routine use here: forty readings, transcription and lookup add manual work and error opportunities without solving a threat in the default clean-Linux setup.",
-          "Write the threat, research question or educational purpose that justifies the extra procedure. For ordinary custody on this course’s clean Debian system, keep KeePassXC as the default.",
-        ],
-        expectedResult:
-          "You can explain why you are accepting the additional manual work.",
-        help: "If the reason is only that rolling feels more secure, return to the default generator.",
-      },
-      {
-        id: "roll",
-        title: "Generate a disposable phrase from the original EFF list",
-        instructions: [
-          "Use the original EFF large list linked below, whose five-digit lookup codes use only digits 1–6. It has 7,776 entries. The smaller KeePassXC bundled file is not a substitute for this five-dice lookup table.",
-          "For each word, roll one fair six-sided die five times, recording every result in order. Alternatively use five dice with a fixed reading order declared before rolling. Look up that exact code, record the corresponding word and repeat independently eight times. Keep repeated words; do not reroll because a word is inconvenient.",
-        ],
-        expectedResult:
-          "Forty ordered die readings identify eight words through an unambiguous lookup process.",
-        help: "Do not guess a missing reading or word. Establish a clear record with disposable test material before relying on this procedure.",
-      },
-      {
-        id: "verify",
-        title: "Check the record and test recovery",
-        instructions: [
-          "Compare each recorded five-digit code with its word, then write the phrase in order with unambiguous case and separators. Eight independent choices from the original 7,776-word list give about 103.40 bits.",
-          "Use this phrase only in a disposable Signet wallet. Encrypt, back up, restore and test signing using the separately kept phrase record. Record the added time and any errors before deciding whether this method belongs in your actual recovery plan.",
-        ],
-        expectedResult:
-          "The test phrase and backup work together, and you can assess the operational cost.",
-        help: "A successful practice exercise does not remove the need for separate backup and passphrase protection.",
-      },
-    ],
-    optional: true,
-    chapter: "Optional extensions",
-    sourceReviewed: "2026-09-14",
-    takeaway:
-      "Correct dice can be strong. Use them only when a concrete threat or educational purpose justifies the extra work.",
-    notes: [],
-  },
-  {
     id: "optional-veracrypt",
     slug: "optional-veracrypt",
     title: "Optional: put the backup inside an encrypted container",
@@ -3233,7 +3158,7 @@ export const part2Lessons: PlayerLesson[] = [
     reviewNote:
       "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     explanation: [
-      "Generate a fresh real-wallet passphrase with KeePassXC on the prepared offline signer. Use the verified bundled large list and the eight-independent-word default you rehearsed. Never reuse a test phrase. If the record is stored in an encrypted password database, that database and its unlocking credential become part of recovery.",
+      "Generate a fresh real-wallet passphrase with KeePassXC on the prepared offline signer. Use the verified bundled large list and the six-word default you rehearsed, or eight if you are comfortable memorizing two extra words. Never reuse a test phrase. If the record is stored in an encrypted password database, that database and its unlocking credential become part of recovery.",
       "Keep the real wallet in its own Core data folder, separate from Signet practice files. Make the wallet backup after enabling encryption. Recovery needs both the backup file and the wallet password. Store them so that one failed device cannot take away both.",
     ],
     sources: [
@@ -3250,8 +3175,8 @@ export const part2Lessons: PlayerLesson[] = [
         url: "https://github.com/bitcoin/bitcoin/blob/v31.1/src/qt/askpassphrasedialog.cpp",
       },
       {
-        label: "EFF: original large wordlist (7,776 entries)",
-        url: "https://www.eff.org/files/2016/07/18/eff_large_wordlist.txt",
+        label: "KeePassXC 2.7.10: bundled large wordlist (7,772 entries)",
+        url: "https://github.com/keepassxreboot/keepassxc/blob/2.7.10/share/wordlists/eff_large.wordlist",
       },
     ],
     codeBlocks: [],
@@ -3264,7 +3189,7 @@ export const part2Lessons: PlayerLesson[] = [
         id: "password",
         title: "Generate and preserve a new password offline",
         instructions: [
-          "On the trusted offline signer, repeat the KeePassXC method: Passphrase, (SYSTEM) eff_large.wordlist, eight words, lower case and a space separator. Generate a fresh real-wallet passphrase. Do not invent a pattern, use a browser generator or reuse a test phrase. Physical dice remain an optional alternative only when you can explain the additional threat or purpose.",
+          "On the trusted offline signer, repeat the KeePassXC method: Passphrase, (SYSTEM) eff_large.wordlist, six words (or eight if you are comfortable memorizing two extra words), lower case and a space separator. Generate a fresh real-wallet passphrase. Do not invent a pattern, use a browser generator or reuse a test phrase.",
           "Preserve it in a recoverable offline record or encrypted password-manager database. Check that you can retrieve it before using it. If using a database, keep its own password recoverable too. You must be able to recover the password even if the device holding the wallet backup fails.",
         ],
         expectedResult:
@@ -3300,7 +3225,7 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     prerequisites: ["mainnet-separate-wallet", "move-to-real-bitcoin"],
-    contentUpdated: "2026-09-14",
+    contentUpdated: "2026-10-14",
     notes: [],
     chapter: "Move to real Bitcoin",
     sourceReviewed: "2026-09-14",

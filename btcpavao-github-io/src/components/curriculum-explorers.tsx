@@ -1,9 +1,14 @@
 import { useState } from "react"
+import { PassphraseComparison } from "@/components/passphrase-comparison"
 import {
   attackModel,
   KEEPASS_WORD_COUNT,
   SECONDS_PER_YEAR,
   wordEntropy,
+  WALLET_BENCHMARK_RATE,
+  GPU_RENTAL_PER_HOUR,
+  fullNumber,
+  namedNumber,
 } from "@/curriculum-math"
 
 function magnitude(value: number) {
@@ -14,63 +19,70 @@ function magnitude(value: number) {
     value
   )
 }
+function dollars(value: number) {
+  return `${fullNumber(value)} (${namedNumber(value)} dollars)`
+}
 function duration(seconds: number) {
   if (seconds < 3600) return `${magnitude(seconds)} seconds`
   return seconds < SECONDS_PER_YEAR
     ? `${magnitude(seconds / 3600)} hours`
-    : `${magnitude(seconds / SECONDS_PER_YEAR)} years`
+    : `${fullNumber(seconds / SECONDS_PER_YEAR)} years (${namedNumber(seconds / SECONDS_PER_YEAR)})`
 }
 export function EntropyTable() {
   return (
-    <section className="course-explorer" aria-label="Random word entropy">
-      <h2>The method determines the strength</h2>
-      <p>
-        Independent, equally likely choices from{" "}
-        {KEEPASS_WORD_COUNT.toLocaleString("en")} distinct words in the verified
-        KeePassXC bundled large list. Fixed separators add no extra entropy.
-      </p>
-      <div
-        className="course-table-scroll"
-        tabIndex={0}
-        role="region"
-        aria-label="Entropy comparison table"
-      >
-        <table>
-          <thead>
-            <tr>
-              <th>Words</th>
-              <th>Entropy</th>
-              <th>Possible sequences</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[1, 5, 6, 8].map((words) => {
-              const result = wordEntropy(words)
-              return (
-                <tr key={words}>
-                  <th scope="row">{words}</th>
-                  <td>{result.bits.toFixed(2)} bits</td>
-                  <td>≈ {magnitude(result.possibilities)}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
-      <p className="course-local-note">
-        Scientific notation: 1.0e+20 means 1 followed by 20 zeros. These values
-        are calculated from the list size, not estimated from the appearance of
-        a phrase.
-      </p>
-    </section>
+    <>
+      <PassphraseComparison />
+      <section className="course-explorer" aria-label="Random word entropy">
+        <h2>The method determines the strength</h2>
+        <p>
+          Independent, equally likely choices from{" "}
+          {KEEPASS_WORD_COUNT.toLocaleString("en")} distinct words in the
+          verified KeePassXC bundled large list. Fixed separators add no extra
+          entropy.
+        </p>
+        <div
+          className="course-table-scroll"
+          tabIndex={0}
+          role="region"
+          aria-label="Entropy comparison table"
+        >
+          <table>
+            <thead>
+              <tr>
+                <th>Words</th>
+                <th>Entropy</th>
+                <th>Possible sequences</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[1, 5, 6, 8].map((words) => {
+                const result = wordEntropy(words)
+                return (
+                  <tr key={words}>
+                    <th scope="row">{words}</th>
+                    <td>{result.bits.toFixed(2)} bits</td>
+                    <td>≈ {magnitude(result.possibilities)}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+        <p className="course-local-note">
+          Scientific notation: 1.0e+20 means 1 followed by 20 zeros. These
+          values are calculated from the list size, not estimated from the
+          appearance of a phrase.
+        </p>
+      </section>
+    </>
   )
 }
 export function BruteForceExplorer() {
-  const [words, setWords] = useState(8)
-  const [rate, setRate] = useState("1000000000")
-  const [power, setPower] = useState("1000")
-  const [energy, setEnergy] = useState("0.10")
-  const [compute, setCompute] = useState("1000")
+  const [words, setWords] = useState(6)
+  const [rate, setRate] = useState(String(WALLET_BENCHMARK_RATE))
+  const [power, setPower] = useState("0.55")
+  const [energy, setEnergy] = useState("0.15")
+  const [compute, setCompute] = useState(String(GPU_RENTAL_PER_HOUR))
   const inputs = [rate, power, energy, compute]
   const valid =
     inputs.every(
@@ -96,16 +108,26 @@ export function BruteForceExplorer() {
     >
       <h2>Change the assumptions</h2>
       <p>
-        This is an order-of-magnitude illustration,{" "}
-        <strong>not a Core cracking benchmark</strong>. Enter public numbers
-        only. No password is requested or analyzed. Eight words are a
-        conservative course default, not a cryptographic minimum. Compare the
-        search spaces and recovery burden, rather than simply choosing the
-        largest number.
+        This is an illustration anchored to a published wallet benchmark,{" "}
+        <strong>not a measurement of your wallet</strong>. Enter public numbers
+        only. No password is requested or analyzed. Six KeePassXC words are the
+        course default. Choose eight if memorizing two extra words is
+        comfortable for you. Compare the search spaces and recovery burden.
       </p>
       <p>
         This model uses the verified bundled list of{" "}
-        {KEEPASS_WORD_COUNT.toLocaleString("en")} distinct words.
+        {KEEPASS_WORD_COUNT.toLocaleString("en")} distinct words. The starting
+        rate is 32,880 guesses/second from the{" "}
+        <a href="https://hashcat.net/forum/thread-13338-post-63594.html">
+          RTX 4090 wallet benchmark
+        </a>
+        . Rental starts at USD 0.89/hour, using the{" "}
+        <a href="https://www.runpod.io/gpu-models/rtx-4090">
+          Runpod headline price
+        </a>{" "}
+        checked October 14, 2026. Power of 0.55 kW and electricity at USD
+        0.15/kWh are separate illustrative assumptions, not benchmark
+        measurements.
       </p>
       <div className="course-explorer__inputs">
         <label>
@@ -193,11 +215,11 @@ export function BruteForceExplorer() {
             </div>
             <div>
               <dt>Average electricity-only cost</dt>
-              <dd>≈ USD {magnitude(model.averageElectricityCost)}</dd>
+              <dd>≈ USD {dollars(model.averageElectricityCost)}</dd>
             </div>
             <div>
               <dt>Alternative average compute rental</dt>
-              <dd>≈ USD {magnitude(model.averageComputeCost)}</dd>
+              <dd>≈ USD {dollars(model.averageComputeCost)}</dd>
             </div>
           </dl>
           <p>
@@ -235,7 +257,7 @@ export function BruteForceExplorer() {
                       <tr key={n}>
                         <th scope="row">{n}</th>
                         <td>≈ {duration(r.averageSeconds)}</td>
-                        <td>USD {magnitude(r.averageElectricityCost)}</td>
+                        <td>USD {dollars(r.averageElectricityCost)}</td>
                       </tr>
                     )
                   })}
