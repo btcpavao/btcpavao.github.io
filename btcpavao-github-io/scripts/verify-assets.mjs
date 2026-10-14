@@ -905,7 +905,7 @@ assert(
     "For years, I was quietly searching for a better Bitcoin wallet."
   ) &&
     longRoadArticleRouteHtml.includes('aria-label="Back to top"') &&
-    longRoadArticleRouteHtml.includes(">Contents</p>") &&
+    longRoadArticleRouteHtml.includes("<summary>In this essay</summary>") &&
     longRoadArticleRouteHtml.includes(
       "https://checkout.opennode.com/p/5d3032e8-dc66-4e0f-9fbe-e523ea62dc05"
     ),
@@ -1004,7 +1004,7 @@ assert(
   ) &&
     !/\bfriend\b/i.test(bip39ArticleRouteHtml) &&
     bip39ArticleRouteHtml.includes('aria-label="Back to top"') &&
-    bip39ArticleRouteHtml.includes(">Contents</p>"),
+    bip39ArticleRouteHtml.includes("<summary>In this essay</summary>"),
   "The BIP39 article body or English navigation was not prerendered"
 )
 assert(

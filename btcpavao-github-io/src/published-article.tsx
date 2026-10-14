@@ -1,3 +1,4 @@
+import { ArticleContents } from "@/components/article-contents"
 import { ConsultingInvitation } from "@/components/consulting-invitation"
 import { ZoomableImage } from "@/components/zoomable-image"
 import { useEffect } from "react"
@@ -79,18 +80,7 @@ export function PublishedArticlePage({
             />
           </header>
           <div className="published-article-reading">
-            <details className="published-article-toc">
-              <summary>In this essay</summary>
-              <ol>
-                {article.headings.map((heading) => (
-                  <li key={heading.id}>
-                    <a href={`#${heading.id}`}>
-                      {heading.text.replace(/^\s*\d+[.)]\s+/, "")}
-                    </a>
-                  </li>
-                ))}
-              </ol>
-            </details>
+            <ArticleContents headings={article.headings} />
             <div className="published-article-body">
               {article.blocks.map((block, index) => {
                 const key = `${block.type}-${index}`

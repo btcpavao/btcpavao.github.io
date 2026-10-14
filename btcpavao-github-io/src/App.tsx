@@ -1,3 +1,4 @@
+import { ArticleContents } from "@/components/article-contents"
 import { ZoomableImage } from "@/components/zoomable-image"
 import { EssayBrowser } from "@/components/essay-browser"
 import publishedArticlePaths from "@/published-articles/paths.json"
@@ -1186,25 +1187,7 @@ export function ArticlePage({
               </p>
             </div>
 
-            <nav
-              aria-label="Sadržaj članka"
-              className="article-shell article-toc mt-10 rounded-[24px] border border-border/70 bg-card/78 p-4 shadow-soft"
-            >
-              <p className="text-[11px] font-semibold text-muted-foreground uppercase">
-                Sadržaj
-              </p>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                {articleHeadings.map((heading) => (
-                  <a
-                    key={heading}
-                    href={`#${toSectionId(heading)}`}
-                    className={`glimmer-button rounded-2xl border border-border/60 bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
-                  >
-                    {heading}
-                  </a>
-                ))}
-              </div>
-            </nav>
+            <ArticleContents className="article-shell mt-10" headings={articleHeadings.map(text => ({ id: toSectionId(text), text }))} />
 
             <div className="article-shell mt-10 space-y-10 text-lg leading-8 text-muted-foreground">
               <div className="space-y-6">
@@ -2120,25 +2103,7 @@ function BitcoinCoreArticlePage({
                 </a>
               </p>
             </aside>
-            <nav
-              aria-label={isEnglish ? "Article contents" : "Sadržaj članka"}
-              className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
-            >
-              <p className="text-[11px] font-semibold text-muted-foreground uppercase">
-                {isEnglish ? "Contents" : "Sadržaj"}
-              </p>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                {bitcoinCoreArticleHeadings.map((heading) => (
-                  <a
-                    key={heading.id}
-                    href={`#${heading.id}`}
-                    className={`glimmer-button surface-ring rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
-                  >
-                    {heading.text}
-                  </a>
-                ))}
-              </div>
-            </nav>
+            <ArticleContents className="article-shell mt-10" headings={bitcoinCoreArticleHeadings} />
 
             <div className="article-shell learning-article-body bitcoin-core-article-body mt-10">
               {bitcoinCoreArticle.blocks.map((block, index) => {
@@ -2427,25 +2392,7 @@ function Bip39ArticlePage({
                 },
               ]}
             />
-            <nav
-              aria-label="Article contents"
-              className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
-            >
-              <p className="text-[11px] font-semibold text-muted-foreground uppercase">
-                Contents
-              </p>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                {headings.map((heading) => (
-                  <a
-                    key={heading.id}
-                    href={`#${heading.id}`}
-                    className={`glimmer-button surface-ring rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
-                  >
-                    {heading.text}
-                  </a>
-                ))}
-              </div>
-            </nav>
+            <ArticleContents className="article-shell mt-10" headings={headings} />
 
             <div className="article-shell learning-article-body bitcoin-core-article-body long-road-article-body bip39-article-body mt-10">
               <blockquote className="long-road-article-quote bip39-hero-caption">
@@ -2683,25 +2630,7 @@ function MultisigArticlePage() {
           </header>
 
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-            <nav
-              aria-label="Article contents"
-              className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
-            >
-              <p className="text-[11px] font-semibold text-muted-foreground uppercase">
-                Contents
-              </p>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                {headings.map((heading) => (
-                  <a
-                    key={heading.id}
-                    href={`#${heading.id}`}
-                    className={`glimmer-button surface-ring rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
-                  >
-                    {heading.text}
-                  </a>
-                ))}
-              </div>
-            </nav>
+            <ArticleContents className="article-shell mt-10" headings={headings} />
 
             <div className="article-shell learning-article-body bitcoin-core-article-body long-road-article-body multisig-article-body mt-10">
               {article.blocks.map((block, index) => {
@@ -2981,25 +2910,7 @@ function LongRoadArticlePage({
                 },
               ]}
             />
-            <nav
-              aria-label="Article contents"
-              className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
-            >
-              <p className="text-[11px] font-semibold text-muted-foreground uppercase">
-                Contents
-              </p>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                {headings.map((heading) => (
-                  <a
-                    key={heading.id}
-                    href={`#${heading.id}`}
-                    className={`glimmer-button surface-ring rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
-                  >
-                    {heading.text}
-                  </a>
-                ))}
-              </div>
-            </nav>
+            <ArticleContents className="article-shell mt-10" headings={headings} />
 
             <div className="article-shell learning-article-body bitcoin-core-article-body long-road-article-body mt-10">
               {article.blocks.map((block, index) => {
@@ -3331,25 +3242,7 @@ export function WorkflowArticlePage({
               ))}
             </div>
 
-            <nav
-              aria-label="Sadržaj članka"
-              className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
-            >
-              <p className="text-[11px] font-semibold text-muted-foreground uppercase">
-                Sadržaj
-              </p>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                {sections.map((section) => (
-                  <a
-                    key={section.heading}
-                    href={`#${toSectionId(section.heading)}`}
-                    className={`glimmer-button surface-ring rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
-                  >
-                    {section.heading}
-                  </a>
-                ))}
-              </div>
-            </nav>
+            <ArticleContents className="article-shell mt-10" headings={sections.map(section => ({ id: toSectionId(section.heading), text: section.heading }))} />
 
             <div className="article-shell mt-10 space-y-10 text-lg leading-8 text-muted-foreground">
               {sections.map((section) => {
@@ -3498,25 +3391,7 @@ export function LearningArticlePage({
           </header>
 
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-            <nav
-              aria-label="Sadržaj članka"
-              className="article-shell article-toc surface-shadow-soft mt-10 rounded-[24px] bg-card/78 p-4 sm:p-6"
-            >
-              <p className="text-[11px] font-semibold text-muted-foreground uppercase">
-                Sadržaj
-              </p>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                {learningArticleHeadings.map((heading) => (
-                  <a
-                    key={heading.id}
-                    href={`#${heading.id}`}
-                    className={`glimmer-button surface-ring rounded-2xl bg-background/64 px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-card hover:text-foreground ${liftHover}`}
-                  >
-                    {heading.title}
-                  </a>
-                ))}
-              </div>
-            </nav>
+            <ArticleContents className="article-shell mt-10" headings={learningArticleHeadings.map(heading => ({ id: heading.id, text: heading.title }))} />
 
             {articleHtml ? (
               <div

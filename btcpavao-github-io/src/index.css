@@ -503,14 +503,6 @@
     display: none;
   }
 
-  .article-toc a {
-    transform: translateY(0) scale(1);
-  }
-
-  .article-toc a:active {
-    transform: translateY(1px) scale(0.96);
-  }
-
   .article-shell section > h2,
   .article-shell section > h3 {
     scroll-margin-top: 6rem;
@@ -7971,11 +7963,11 @@ input:focus-visible + .curriculum-checkbox {
 @media (min-width: 1200px) { .essay-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .essay-search__field { padding-inline: 1rem; } .essay-card__copy { padding: 1.25rem; } }
 .published-article-reading { max-width: 800px; margin: 3rem auto 0; }
-.published-article-toc { margin-bottom: 3.5rem; padding: 1.25rem 1.5rem; border-block: 1px solid var(--border); }
-.published-article-toc summary { cursor: pointer; font-weight: 650; min-height: 24px; }
-.published-article-toc ol { padding-left: 1.25rem; margin-top: 1rem; list-style: decimal; }
-.published-article-toc a { display: block; padding: .45rem 0; }
-.published-article-toc a, .article-toc a { text-decoration: none; }
+.article-contents { margin-bottom: 3.5rem; padding: 1.25rem 1.5rem; border-block: 1px solid var(--border); }
+.article-contents summary { cursor: pointer; font-weight: 650; min-height: 24px; }
+.article-contents ol { padding-left: 1.75rem; margin-top: 1rem; list-style: decimal; }
+.article-contents a { display: block; padding: .45rem 0; }
+.article-contents a { text-decoration: none; }
 .published-article-body { font-size: clamp(1.0625rem, 2vw, 1.1875rem); line-height: 1.85; overflow-wrap: anywhere; }
 .published-article-body > p { margin: 0 0 1.35rem; }
 .published-article-body h2 { margin: 3.5rem 0 1.4rem; font-size: clamp(1.65rem, 3vw, 2.3rem); font-weight: 700; line-height: 1.2; letter-spacing: -.025em; scroll-margin-top: 100px; text-wrap: balance; }
@@ -8053,7 +8045,7 @@ input:focus-visible + .curriculum-checkbox {
 @media (max-width: 600px) {
   .published-article-page, .debian-images-page { padding-inline: 20px; padding-bottom: 3rem; }
   .published-article-cover { border-radius: 16px; }
-  .published-article-toc { padding-inline: 1rem; }
+  .article-contents { padding-inline: 1rem; }
   .article-next-step, .debian-images-notice, .debian-release-plan { padding: 1.5rem; }
   .published-article-body figure { margin-inline: 0; }
   .published-article-header h1 { overflow-wrap: break-word; }
