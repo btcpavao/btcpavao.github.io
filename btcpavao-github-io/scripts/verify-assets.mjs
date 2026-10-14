@@ -1061,11 +1061,11 @@ assert(
     .length === 24 &&
     enBitcoinCoreArticleRouteHtml.includes("bitcoin-core-list") &&
     enBitcoinCoreArticleRouteHtml.includes('aria-label="Back to top"') &&
-    enBitcoinCoreArticleRouteHtml.includes("Croatian version") &&
+    !enBitcoinCoreArticleRouteHtml.includes("Croatian version") &&
     !enBitcoinCoreArticleRouteHtml.includes(
       "Kratki popis svih vizuala za članak"
     ),
-  "English Bitcoin Core article formatting, translation link, or navigation controls are incomplete"
+  "English Bitcoin Core article formatting or navigation controls are incomplete, or the removed translation link remains"
 )
 assert(
   (bitcoinCoreArticleSource.match(/\[\[VIZUAL \d+\]\]/g) ?? []).length === 11 &&

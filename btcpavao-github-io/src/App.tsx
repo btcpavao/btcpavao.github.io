@@ -1924,9 +1924,6 @@ function BitcoinCoreArticlePage({
   const seriesPath = isEnglish
     ? EN_BITCOIN_CORE_SERIES_PATH
     : BITCOIN_CORE_SERIES_PATH
-  const counterpartPath = isEnglish
-    ? BITCOIN_CORE_ENTROPY_ARTICLE_PATH
-    : EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH
 
   useBitcoinCoreArticleMetadata(language)
   useReadingProgress()
@@ -2028,13 +2025,15 @@ function BitcoinCoreArticlePage({
                   <span className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur">
                     Bitcoin Core
                   </span>
-                  <a
-                    href={counterpartPath}
-                    className="surface-ring inline-flex min-h-10 items-center rounded-full bg-background/78 px-3 py-1 backdrop-blur transition-[background-color,color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground active:scale-[0.96]"
-                    hrefLang={isEnglish ? "hr" : "en"}
-                  >
-                    {isEnglish ? "Croatian version" : "English version"}
-                  </a>
+                  {!isEnglish && (
+                    <a
+                      href={EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH}
+                      className="surface-ring inline-flex min-h-10 items-center rounded-full bg-background/78 px-3 py-1 backdrop-blur transition-[background-color,color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground active:scale-[0.96]"
+                      hrefLang="en"
+                    >
+                      English version
+                    </a>
+                  )}
                   <time
                     className="surface-ring rounded-full bg-background/78 px-3 py-1 backdrop-blur"
                     dateTime={BITCOIN_CORE_ARTICLE_DATE}
@@ -2091,8 +2090,8 @@ function BitcoinCoreArticlePage({
               </h2>
               <p className="mt-3 text-base leading-7 text-muted-foreground">
                 {isEnglish
-                  ? "The reason we rely on cryptographically secure computer-generated randomness for keys also applies to a wallet-encryption passphrase. On a clean, verified Linux environment, the curriculum uses KeePassXC for independent random word selections. Physical dice are optional; they add manual lookup, transcription and procedural work. The two applications need not have the same RNG implementation for that reasoning to hold."
-                  : "Razlog zbog kojeg se za ključeve oslanjamo na kriptografski sigurnu računalnu slučajnost vrijedi i za passphrase kojim šifriramo wallet. Na čistom i provjerenom Linux okruženju kurikulum koristi KeePassXC za neovisne nasumične odabire riječi. Fizičke kockice su opcija koja dodaje ručno traženje riječi, prepisivanje i dodatne korake. Taj zaključak ne zahtijeva da obje aplikacije imaju istu implementaciju generatora slučajnosti."}
+                  ? "The reason we rely on cryptographically secure computer-generated randomness for keys also applies to a wallet-encryption passphrase. On a clean, verified Linux environment, the curriculum uses KeePassXC for independent random word selections. The two applications need not have the same RNG implementation for that reasoning to hold."
+                  : "Razlog zbog kojeg se za ključeve oslanjamo na kriptografski sigurnu računalnu slučajnost vrijedi i za passphrase kojim šifriramo wallet. Na čistom i provjerenom Linux okruženju kurikulum koristi KeePassXC za neovisne nasumične odabire riječi. Taj zaključak ne zahtijeva da obje aplikacije imaju istu implementaciju generatora slučajnosti."}
               </p>
               <p className="mt-3 text-base leading-7">
                 <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/generate-passphrase`}>
