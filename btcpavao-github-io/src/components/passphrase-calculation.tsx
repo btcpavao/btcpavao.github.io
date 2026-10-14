@@ -1,4 +1,4 @@
-import { Banknote, Clock3, Cpu, KeyRound } from "lucide-react"
+import { Banknote, Building2, Clock3, Cpu, House, KeyRound } from "lucide-react"
 import {
   type attackModel,
   fullNumber,
@@ -42,9 +42,11 @@ export function SearchDuration({ seconds }: { seconds: number }) {
 export function AttackEstimate({
   words,
   model,
+  compareCosts = false,
 }: {
   words: number
   model: ReturnType<typeof attackModel>
+  compareCosts?: boolean
 }) {
   return (
     <div>
@@ -74,6 +76,47 @@ export function AttackEstimate({
             unit="dollars"
             prefix="USD "
           />
+        </dd>
+      </dl>
+      {compareCosts && <CostEquivalents cost={model.averageComputeCost} />}
+    </div>
+  )
+}
+
+export function CostEquivalents({
+  cost,
+  electricity = false,
+}: {
+  cost: number
+  electricity?: boolean
+}) {
+  return (
+    <div
+      className="passphrase-cost-equivalents"
+      role="group"
+      aria-label={
+        electricity ? "Electricity cost equivalents" : "Rental cost equivalents"
+      }
+    >
+      <p>
+        {electricity
+          ? "That electricity-only cost equals"
+          : "That rental cost equals"}
+      </p>
+      <dl>
+        <dt>
+          <House aria-hidden="true" />
+          Houses at USD 1,000,000 each
+        </dt>
+        <dd>
+          <ReadableAmount value={cost / 1_000_000} unit="houses" />
+        </dd>
+        <dt>
+          <Building2 aria-hidden="true" />
+          Projects at USD 1,000,000,000 each
+        </dt>
+        <dd>
+          <ReadableAmount value={cost / 1_000_000_000} unit="projects" />
         </dd>
       </dl>
     </div>

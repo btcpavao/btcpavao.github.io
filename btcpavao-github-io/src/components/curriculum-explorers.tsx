@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Cpu, Zap } from "lucide-react"
 import {
   AttackEstimate,
+  CostEquivalents,
   GuessingCalculation,
   ReadableAmount,
   SearchDuration,
@@ -247,9 +248,24 @@ export function BruteForceExplorer() {
             aria-label="Six and eight word attack estimates"
           >
             {models.map((model, i) => (
-              <AttackEstimate key={i} words={i === 0 ? 6 : 8} model={model} />
+              <AttackEstimate
+                key={i}
+                words={i === 0 ? 6 : 8}
+                model={model}
+                compareCosts
+              />
             ))}
           </div>
+          <p className="course-local-note">
+            For scale, imagine a house costing USD 1,000,000 (one million
+            dollars) or an infrastructure project costing USD 1,000,000,000 (one
+            billion dollars). Each equivalent is the average cost divided by
+            that price, calculated before rounding. These are hypothetical
+            comparisons, not market valuations or purchases anyone could
+            actually make at this scale. They update with the cost assumptions;
+            changing only the GPU count leaves them unchanged under ideal
+            scaling.
+          </p>
           <p>
             <strong>More GPUs shorten the wait.</strong> Under ideal linear
             scaling, doubling the GPU count halves elapsed time and doubles
@@ -294,6 +310,10 @@ export function BruteForceExplorer() {
                       />
                     </dd>
                   </dl>
+                  <CostEquivalents
+                    cost={model.averageElectricityCost}
+                    electricity
+                  />
                 </div>
               ))}
             </div>
