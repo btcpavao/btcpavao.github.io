@@ -461,6 +461,42 @@ try {
     assert.equal(math.fullNumber(5e22), "50,000,000,000,000,000,000,000")
   })
 
+  check("Word-count slider model agrees with integer search spaces and independent decimal references", () => {
+    const near = (actual, expected) => assert.ok(Math.abs(actual / expected - 1) < 1e-12, `${actual} ≠ ${expected}`)
+    for (const listSize of [7772, 7776]) {
+      for (let words = 1; words <= 12; words++) {
+        const space = Number(BigInt(listSize) ** BigInt(words))
+        for (const count of [1, 1000, 1000000]) {
+          const model = math.parallelAttackModel(words, count, 32880, 0.55, 0.15, 0.89, listSize)
+          near(model.possibilities, space)
+          near(model.bits, Math.log2(space))
+          near(model.averageSeconds, space / (2 * count * 32880))
+          near(model.averageComputeCost, space * 0.89 / (2 * 32880 * 3600))
+          assert.doesNotMatch(math.fullNumber(model.averageComputeCost), /e[+-]/i)
+          assert.doesNotMatch(math.namedNumber(model.averageComputeCost), /undefined|NaN|e[+-]/i)
+          if (words < 12) {
+            const next = math.parallelAttackModel(words + 1, count, 32880, 0.55, 0.15, 0.89, listSize)
+            near(next.averageSeconds / model.averageSeconds, listSize)
+            near(next.averageComputeCost / model.averageComputeCost, listSize)
+          }
+        }
+      }
+    }
+    // Python Decimal, 60-digit precision; EFF original list, three words.
+    const three = math.parallelAttackModel(3, 1, 32880, 0.55, 0.15, 0.89, 7776)
+    near(three.bits, 38.7744375108173427218060841592)
+    near(three.averageSeconds, 7150014.97226277372262773722628)
+    near(three.averageComputeCost, 1767.64259036496350364963503650)
+    assert.equal(math.fullNumber(three.averageComputeCost), "1,770")
+    assert.equal(math.namedNumber(three.averageComputeCost), "one point seven seven thousand")
+    near(math.parallelAttackModel(3, 1000, 32880, 0.55, 0.15, 0.89, 7776).averageSeconds / 3600, 1.986115270072992700729927)
+    near(math.parallelAttackModel(3, 1, 65760, 0.55, 0.15, 0.89, 7776).averageComputeCost, three.averageComputeCost / 2)
+    near(math.parallelAttackModel(3, 1, 32880, 0.55, 0.15, 1.78, 7776).averageComputeCost, three.averageComputeCost * 2)
+    assert.equal(math.parallelAttackModel(3, 1, 32880, 0, 0, 0, 7776).averageComputeCost, 0)
+    for (const size of [0, 1, 1.5, NaN, Infinity])
+      assert.throws(() => math.parallelAttackModel(3, 1, 32880, 0.55, 0.15, 0.89, size), RangeError)
+  })
+
   check(
     "All 85 existing English IDs and bookmarks survive the refinement",
     () => {

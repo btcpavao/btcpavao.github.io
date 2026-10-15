@@ -8102,6 +8102,34 @@ input:focus-visible + .curriculum-checkbox {
 }
 
 /* Shared reading rhythm for all Bitcoin Core essays; prose stays verbatim. */
+.word-count-control { margin-block: 1.25rem; }
+.word-count-control__heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1rem; font-weight: 650; }
+.word-count-control__heading output { font-size: 1.15rem; font-variant-numeric: tabular-nums; color: var(--foreground); }
+.parallel-explorer input[type="range"] { display: block; width: 100%; height: 44px; padding: 0; margin: .5rem 0 0; border: 0; box-shadow: none; background: transparent; accent-color: var(--primary); cursor: pointer; }
+.parallel-explorer input[type="range"]:focus-visible, .word-count-list select:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
+.word-count-control__ends { display: flex; justify-content: space-between; color: var(--muted-foreground); font-size: .75rem; }
+.course-explorer .word-count-control__guidance { margin-top: .5rem; font-size: .8rem; }
+.word-count-control .parallel-explorer__presets button { padding-inline: 1rem; }
+.word-count-result { padding-block: 1.25rem; border-block: 1px solid var(--border); }
+.course-explorer .word-count-result__context { margin: 0; font-size: .8rem; color: var(--muted-foreground); }
+.word-count-result__totals { grid-template-columns: minmax(0, 1fr); margin-block: 0 1.25rem; }
+.word-count-result__totals dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.word-count-result__totals dt { margin-top: 0; }
+.word-count-result__totals .passphrase-number { font-size: 1.25rem; line-height: 1.5; }
+.word-count-result > .course-local-note { margin: 0; }
+.word-count-list label { display: block; font-size: .875rem; font-weight: 600; }
+.word-count-list select { width: 100%; min-height: 48px; margin-block: .55rem .75rem; padding: .75rem 1.5rem; border: 1px solid var(--border); border-radius: .5rem; background: var(--background); color: var(--foreground); font: inherit; font-size: .875rem; }
+.word-count-equivalents { grid-template-columns: minmax(0, 1fr); margin-block: 1.5rem; }
+.word-count-equivalents .passphrase-cost-equivalents { margin-top: 0; }
+.word-count-equivalents dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.word-count-result .course-local-note { margin-top: .5rem; font-size: .75rem; }
+.word-count-settings > summary { min-height: 44px; padding-block: .75rem; }
+.word-count-settings[open] > summary { margin-bottom: 1.5rem; }
+@media (max-width: 767px) {
+  .word-count-result__totals dl, .word-count-equivalents dl { grid-template-columns: minmax(0, 1fr); }
+  .word-count-list select { padding-inline: 1rem; font-size: .8rem; }
+}
+
 .essay-prose { width: min(100%, 70ch); margin-inline: auto; padding-inline: 0; font-size: clamp(1.0625rem, 1rem + .3vw, 1.1875rem); line-height: 1.85; overflow-wrap: anywhere; }
 .essay-prose > p { margin-block: 0 1.25em; text-wrap: pretty; }
 .essay-prose h2.essay-section-heading { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr); gap: .85rem; align-items: start; max-width: none; margin: clamp(3rem, 6vw, 4.5rem) 0 1.25rem; font-size: clamp(1.45rem, 1.2rem + 1vw, 2rem); line-height: 1.25; letter-spacing: -.025em; font-weight: 700; scroll-margin-top: 7rem; text-wrap: pretty; }

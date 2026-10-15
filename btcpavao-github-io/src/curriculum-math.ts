@@ -115,7 +115,8 @@ export function attackModel(
   guessesPerSecond: number,
   powerKw: number,
   electricityPerKwh: number,
-  computePerHour: number
+  computePerHour: number,
+  listSize = KEEPASS_WORD_COUNT
 ) {
   if (
     ![guessesPerSecond, powerKw, electricityPerKwh, computePerHour].every(
@@ -127,7 +128,7 @@ export function attackModel(
     computePerHour < 0
   )
     throw new RangeError("Use positive guess rates and non-negative costs")
-  const { bits, possibilities } = wordEntropy(words)
+  const { bits, possibilities } = wordEntropy(words, listSize)
   const fullSeconds = possibilities / guessesPerSecond
   const averageSeconds = fullSeconds / 2
   const averageHours = averageSeconds / 3600
@@ -150,7 +151,8 @@ export function parallelAttackModel(
   guessesPerGpuSecond: number,
   powerPerGpuKw: number,
   electricityPerKwh: number,
-  rentalPerGpuHour: number
+  rentalPerGpuHour: number,
+  listSize = KEEPASS_WORD_COUNT
 ) {
   if (!Number.isSafeInteger(gpuCount) || gpuCount < 1 || gpuCount > 1_000_000)
     throw new RangeError("Use a whole GPU count from 1 to 1,000,000")
@@ -159,7 +161,8 @@ export function parallelAttackModel(
     guessesPerGpuSecond,
     powerPerGpuKw,
     electricityPerKwh,
-    rentalPerGpuHour
+    rentalPerGpuHour,
+    listSize
   )
   return {
     ...single,
