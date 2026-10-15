@@ -38,3 +38,9 @@ Amounts use three significant digits, full decimal notation and English words. T
 - Asset and internal-link checks pass; the entry bundle remains 359,215 bytes.
 - Codex in-app browser: verified range keyboard Home/End/arrows, pointer drag at a 390px mobile viewport, six/eight presets, list switching, 1,000 GPU preset, doubled rate/rent and invalid GPU recovery.
 - Desktop 1,280px and mobile 390px: no document overflow; calculator padding 24px / 20px. Tested long twelve-word outputs and compact six-word outputs. Numeric groups wrap at commas and entropy uses the foreground text color.
+
+## Shared placement follow-up
+
+The identical calculator now appears in wallet-guide step 4 and the curriculum's `passphrase-strength` lesson, as well as `brute-force-economics`. It is extracted into `components/passphrase-explorer.tsx` and imported by each placement. The previous static six/eight-word comparison and separate entropy table were removed; recommendation prose remains in the guide and lesson. The calculator function body was checked byte-for-byte against the previously deployed implementation after its export rename.
+
+Build, targeted ESLint, 29 curriculum checks, 11 search checks, assets and internal links pass. Both new placements were inspected in Codex's in-app browser at 1,280px and 390px widths, with no horizontal document overflow. Verified keyboard changes, six/eight presets, collapsed settings by default and the wallet-guide GPU presets. Calculator padding remains 24px desktop / 20px mobile; shared settings use 24px / 16px. The entry bundle remains 359,215 bytes.

@@ -1,7 +1,7 @@
 import { SectionIcon } from "@/components/section-icon"
 import { articleLinkProps } from "@/article-links"
 import { ImageViewer, type Gallery } from "@/components/zoomable-image"
-import { PassphraseComparison } from "@/components/passphrase-comparison"
+import { PassphraseExplorer } from "@/components/passphrase-explorer"
 import { findContentByPath } from "@/content-registry"
 import { CustodyArchitecture } from "@/components/custody-architecture"
 import { DEBIAN_IMAGES_PATH } from "@/components/debian-images-notice"
@@ -296,7 +296,7 @@ const legacySteps: GuideStep[] = [
           eight-word setting. Select six for the default; follow the versioned
           Debian procedure above for the real workflow.
         </p>
-        <PassphraseComparison />
+        <PassphraseExplorer />
         <GuideIconList
           tone="warning"
           items={[

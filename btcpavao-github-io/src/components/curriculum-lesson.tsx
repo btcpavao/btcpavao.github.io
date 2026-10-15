@@ -1,11 +1,8 @@
 import { SectionIcon } from "@/components/section-icon"
 import { articleLinkProps } from "@/article-links"
 import { CurriculumHelp } from "@/components/curriculum-context"
-import {
-  EntropyTable,
-  BruteForceExplorer,
-  BackupMediaExplorer,
-} from "@/components/curriculum-explorers"
+import { BackupMediaExplorer } from "@/components/curriculum-explorers"
+import { PassphraseExplorer } from "@/components/passphrase-explorer"
 import { CustodyArchitecture } from "@/components/custody-architecture"
 import {
   useEffect,
@@ -598,8 +595,9 @@ export function CurriculumLesson({
           ))}
         </section>
       )}
-      {lesson.widget === "entropy-table" && <EntropyTable />}
-      {lesson.widget === "brute-force" && <BruteForceExplorer />}
+      {(lesson.widget === "entropy-table" || lesson.widget === "brute-force") && (
+        <PassphraseExplorer />
+      )}
       {lesson.widget === "backup-media" && <BackupMediaExplorer />}
       {lesson.warnings?.map((p) => (
         <aside className="course-guided__warning" key={p}>

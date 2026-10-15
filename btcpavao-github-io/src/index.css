@@ -8125,6 +8125,11 @@ input:focus-visible + .curriculum-checkbox {
 .word-count-result .course-local-note { margin-top: .5rem; font-size: .75rem; }
 .word-count-settings > summary { min-height: 44px; padding-block: .75rem; }
 .word-count-settings[open] > summary { margin-bottom: 1.5rem; }
+.parallel-explorer .course-lesson-details { padding: 1rem; }
+.parallel-explorer .course-lesson-details h3 { margin-block: 1.75rem .8rem; font-size: 1.1rem; font-weight: 650; }
+@media (min-width: 768px) {
+  .parallel-explorer .course-lesson-details { padding: 1.5rem; }
+}
 @media (max-width: 767px) {
   .word-count-result__totals dl, .word-count-equivalents dl { grid-template-columns: minmax(0, 1fr); }
   .word-count-list select { padding-inline: 1rem; font-size: .8rem; }
