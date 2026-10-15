@@ -25,6 +25,7 @@ try {
   const en = await bundle("src/bitcoin-core-curriculum-player-en-data.ts", "en")
   const logic = await bundle("src/curriculum-learning.ts", "progress")
   const math = await bundle("src/curriculum-math.ts", "math")
+  const preferences = await bundle("src/passphrase-preferences.ts", "preferences")
   const migration = await bundle(
     "src/curriculum-progress-migration.ts",
     "migration"
@@ -495,6 +496,71 @@ try {
     assert.equal(math.parallelAttackModel(3, 1, 32880, 0, 0, 0, 7776).averageComputeCost, 0)
     for (const size of [0, 1, 1.5, NaN, Infinity])
       assert.throws(() => math.parallelAttackModel(3, 1, 32880, 0.55, 0.15, 0.89, size), RangeError)
+  })
+
+  check("Calculator preferences restore, synchronize and reset without changing course progress", () => {
+    const key = preferences.PASSPHRASE_PREFERENCES_KEY
+    const defaults = preferences.DEFAULT_PASSPHRASE_PREFERENCES
+    for (const raw of [null, "broken", "null", "[]", '{"version":2,"settings":{"words":8}}'])
+      assert.deepEqual(preferences.parsePassphrasePreferences(raw), defaults)
+    assert.deepEqual(preferences.parsePassphrasePreferences(JSON.stringify({version: 1, settings: {
+      words: 25, listSize: 10, gpus: "1.5", rate: "0", power: "-1", energy: "Infinity", compute: "",
+    }})), defaults)
+    const settings = {words: 8, listSize: 7776, gpus: "25", rate: "40000", power: "0.8", energy: "0.2", compute: "1.25"}
+    const memory = new Map([[key, JSON.stringify({version: 1, settings})], ["course-progress-test", "keep"]])
+    const events = new Map()
+    let writes = 0, notifications = 0, unavailable = false
+    const originalWindow = globalThis.window
+    globalThis.window = {
+      localStorage: {
+        getItem: (k) => { if (unavailable) throw Error("blocked"); return memory.get(k) ?? null },
+        setItem: (k, v) => { if (unavailable) throw Error("blocked"); writes++; memory.set(k, v) },
+        removeItem: (k) => { if (unavailable) throw Error("blocked"); memory.delete(k) },
+      },
+      addEventListener: (type, listener) => events.set(type, listener),
+      removeEventListener: (type) => events.delete(type),
+    }
+    let unsubscribe = () => {}
+    try {
+      assert.equal(preferences.getServerPassphraseSnapshot(), preferences.DEFAULT_PASSPHRASE_SNAPSHOT)
+      unsubscribe = preferences.subscribePassphrasePreferences(() => notifications++)
+      assert.deepEqual(preferences.getPassphraseSnapshot().settings, settings)
+      assert.equal(writes, 0, "Hydration must not overwrite saved settings")
+      preferences.updatePassphrasePreference("gpus", "1000")
+      preferences.updatePassphrasePreference("words", 3)
+      assert.equal(notifications, 2)
+      assert.equal(JSON.parse(memory.get(key)).settings.gpus, "1000")
+      preferences.updatePassphrasePreference("gpus", "")
+      assert.equal(preferences.getPassphraseSnapshot().settings.gpus, "")
+      assert.equal(JSON.parse(memory.get(key)).settings.gpus, "1000", "Do not persist incomplete numeric drafts")
+      unsubscribe()
+      unsubscribe = preferences.subscribePassphrasePreferences(() => notifications++)
+      assert.equal(preferences.getPassphraseSnapshot().settings.gpus, "1000")
+      assert.equal(preferences.getPassphraseSnapshot().settings.words, 3)
+      memory.set(key, JSON.stringify({version: 1, settings}))
+      events.get("storage")({key})
+      assert.deepEqual(preferences.getPassphraseSnapshot().settings, settings)
+      memory.set(key, JSON.stringify({version: 1, settings: {...settings, words: 9}}))
+      events.get("pageshow")({persisted: true})
+      assert.equal(preferences.getPassphraseSnapshot().settings.words, 9)
+      preferences.resetPassphrasePreferences()
+      assert.deepEqual(preferences.getPassphraseSnapshot().settings, defaults)
+      assert.equal(memory.has(key), false)
+      assert.equal(memory.get("course-progress-test"), "keep")
+      assert.deepEqual(preferences.getServerPassphraseSnapshot().settings, defaults)
+      unavailable = true
+      preferences.updatePassphrasePreference("words", 8)
+      assert.equal(preferences.getPassphraseSnapshot().settings.words, 8)
+      assert.equal(preferences.getPassphraseSnapshot().storageAvailable, false)
+      assert.doesNotThrow(() => preferences.resetPassphrasePreferences())
+      unsubscribe()
+      unsubscribe = preferences.subscribePassphrasePreferences(() => notifications++)
+      assert.equal(preferences.getPassphraseSnapshot().storageAvailable, false)
+    } finally {
+      unsubscribe()
+      if (originalWindow === undefined) delete globalThis.window
+      else globalThis.window = originalWindow
+    }
   })
 
   check(

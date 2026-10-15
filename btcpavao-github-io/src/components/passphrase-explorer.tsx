@@ -1,6 +1,6 @@
 import { articleLinkProps } from "@/article-links"
-import { useState } from "react"
-import { Cpu, Zap } from "lucide-react"
+import { useState, useSyncExternalStore } from "react"
+import { Cpu, RotateCcw, Zap } from "lucide-react"
 import {
   AttackEstimate,
   CostEquivalents,
@@ -13,19 +13,33 @@ import {
   KEEPASS_WORD_COUNT,
   EFF_WORD_COUNT,
   wordEntropy,
-  WALLET_BENCHMARK_RATE,
-  GPU_RENTAL_PER_HOUR,
   fullNumber,
 } from "@/curriculum-math"
 
+import {
+  getPassphraseSnapshot,
+  getServerPassphraseSnapshot,
+  subscribePassphrasePreferences,
+  updatePassphrasePreference,
+  resetPassphrasePreferences,
+} from "@/passphrase-preferences"
+
 export function PassphraseExplorer() {
-  const [words, setWords] = useState(6)
-  const [listSize, setListSize] = useState(KEEPASS_WORD_COUNT)
-  const [gpus, setGpus] = useState("1")
-  const [rate, setRate] = useState(String(WALLET_BENCHMARK_RATE))
-  const [power, setPower] = useState("0.55")
-  const [energy, setEnergy] = useState("0.15")
-  const [compute, setCompute] = useState(String(GPU_RENTAL_PER_HOUR))
+  const { settings, storageAvailable } = useSyncExternalStore(
+    subscribePassphrasePreferences,
+    getPassphraseSnapshot,
+    getServerPassphraseSnapshot
+  )
+  const { words, listSize, gpus, rate, power, energy, compute } = settings
+  const [resetNotice, setResetNotice] = useState("")
+  const update: typeof updatePassphrasePreference = (key, value) => {
+    setResetNotice("")
+    updatePassphrasePreference(key, value)
+  }
+  const reset = () => {
+    resetPassphrasePreferences()
+    setResetNotice("Calculator reset to its starting values.")
+  }
   const gpuCount = Number(gpus)
   const gpuValid =
     gpus.trim() !== "" &&
@@ -84,7 +98,7 @@ export function PassphraseExplorer() {
           value={words}
           aria-valuetext={`${words} ${words === 1 ? "word" : "words"}, ${entropy.bits.toFixed(2)} bits of entropy`}
           aria-describedby="attack-word-guidance"
-          onChange={(e) => setWords(Number(e.target.value))}
+          onChange={(e) => update("words", Number(e.target.value))}
         />
         <div className="word-count-control__ends" aria-hidden="true">
           <span>1 word</span>
@@ -106,14 +120,14 @@ export function PassphraseExplorer() {
           <button
             type="button"
             aria-pressed={words === 6}
-            onClick={() => setWords(6)}
+            onClick={() => update("words", 6)}
           >
             6 words · default
           </button>
           <button
             type="button"
             aria-pressed={words === 8}
-            onClick={() => setWords(8)}
+            onClick={() => update("words", 8)}
           >
             8 words · extra
           </button>
@@ -153,6 +167,20 @@ export function PassphraseExplorer() {
             : "Fill every assumption: use at least 1 guess per second and non-negative power and prices, each no higher than 1,000,000,000,000."}
         </p>
       )}
+      <div className="word-count-memory">
+        <p>
+          {storageAvailable
+            ? "Settings remembered in this browser across the guide and curriculum."
+            : "Browser storage is unavailable. Settings will not survive leaving this page."}
+        </p>
+        <button type="button" onClick={reset}>
+          <RotateCcw aria-hidden="true" />
+          Reset calculator
+        </button>
+      </div>
+      <p className="sr-only" role="status">
+        {resetNotice}
+      </p>
       <details className="course-lesson-details word-count-settings">
         <summary>Change GPU settings or see how this is calculated</summary>
         <div className="word-count-list">
@@ -160,7 +188,7 @@ export function PassphraseExplorer() {
           <select
             id="attack-wordlist"
             value={listSize}
-            onChange={(e) => setListSize(Number(e.target.value))}
+            onChange={(e) => update("listSize", Number(e.target.value))}
           >
             <option value={KEEPASS_WORD_COUNT}>
               KeePassXC 2.7.10 · 7,772 words
@@ -188,7 +216,7 @@ export function PassphraseExplorer() {
             value={gpus}
             aria-invalid={!gpuValid}
             aria-describedby="attack-gpu-help"
-            onChange={(e) => setGpus(e.target.value)}
+            onChange={(e) => update("gpus", e.target.value)}
           />
           <div
             className="parallel-explorer__presets"
@@ -200,7 +228,7 @@ export function PassphraseExplorer() {
                 key={n}
                 type="button"
                 aria-pressed={gpuCount === n && gpuValid}
-                onClick={() => setGpus(String(n))}
+                onClick={() => update("gpus", String(n))}
               >
                 {n.toLocaleString("en-US")} {n === 1 ? "GPU" : "GPUs"}
               </button>
@@ -221,7 +249,7 @@ export function PassphraseExplorer() {
               max="1000000000000"
               step="any"
               value={rate}
-              onChange={(e) => setRate(e.target.value)}
+              onChange={(e) => update("rate", e.target.value)}
             />
           </label>
           <label htmlFor="attack-rental">
@@ -233,7 +261,7 @@ export function PassphraseExplorer() {
               max="1000000000000"
               step="any"
               value={compute}
-              onChange={(e) => setCompute(e.target.value)}
+              onChange={(e) => update("compute", e.target.value)}
             />
           </label>
         </div>
@@ -258,7 +286,7 @@ export function PassphraseExplorer() {
                 max="1000000000000"
                 step="any"
                 value={power}
-                onChange={(e) => setPower(e.target.value)}
+                onChange={(e) => update("power", e.target.value)}
               />
             </label>
             <label htmlFor="attack-energy">
@@ -270,7 +298,7 @@ export function PassphraseExplorer() {
                 max="1000000000000"
                 step="any"
                 value={energy}
-                onChange={(e) => setEnergy(e.target.value)}
+                onChange={(e) => update("energy", e.target.value)}
               />
             </label>
           </div>
