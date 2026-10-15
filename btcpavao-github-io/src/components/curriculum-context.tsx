@@ -1,3 +1,5 @@
+import { articleLinkProps } from "@/article-links"
+import { SectionIcon } from "@/components/section-icon"
 import { useState } from "react"
 import { CurriculumQuestionForm } from "@/components/curriculum-question-form"
 import type { QuestionContext } from "@/curriculum-questions"
@@ -26,8 +28,9 @@ export function CurriculumGateway() {
       <p className="course-gateway__eyebrow">
         Before you begin · Pavao’s framework
       </p>
-      <h2 id="before-custody-title">
-        Self-custody is not necessarily step one.
+      <h2 id="before-custody-title" className="learning-heading">
+        <SectionIcon topic="first principles" />
+        <span>Self-custody is not necessarily step one.</span>
       </h2>
       <p>
         Bitcoin custody is part of a larger Bitcoin-as-money system. Before
@@ -62,7 +65,7 @@ export function CurriculumGateway() {
           <ul>
             {financialTopics.map(([label, path]) => (
               <li key={path}>
-                <a href={standard + path}>{label}</a>
+                <a {...articleLinkProps(standard + path)}>{label}</a>
               </li>
             ))}
           </ul>
@@ -77,7 +80,10 @@ export function CurriculumGateway() {
         You are welcome here wherever you are. You can continue the course now;
         keep the order of your own problems in view.
       </p>
-      <a href="/#bitcoin-standard" className="course-copy-link">
+      <a
+        {...articleLinkProps("/#bitcoin-standard")}
+        className="course-copy-link"
+      >
         See how the two paths connect
       </a>
     </section>

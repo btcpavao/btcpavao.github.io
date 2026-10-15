@@ -1,3 +1,5 @@
+import { SectionIcon } from "@/components/section-icon"
+import { articleLinkProps } from "@/article-links"
 import { CurriculumHelp } from "@/components/curriculum-context"
 import {
   EntropyTable,
@@ -156,7 +158,10 @@ function Command({
   return (
     <section className="course-code">
       <div className="course-code__header">
-        <h3>{block.title}</h3>
+        <h3 className="learning-heading">
+          <SectionIcon topic="core command" />
+          <span>{block.title}</span>
+        </h3>
         <button
           type="button"
           className="course-copy-button"
@@ -251,8 +256,14 @@ function GuidedExercise({
         max={steps.length}
         aria-label={`${t.step} ${index + 1} ${t.of} ${steps.length}`}
       />
-      <h2 ref={heading} tabIndex={-1} id="guided-step-title">
-        {step.title}
+      <h2
+        ref={heading}
+        tabIndex={-1}
+        id="guided-step-title"
+        className="learning-heading"
+      >
+        <SectionIcon topic={step.title} />
+        <span>{step.title}</span>
       </h2>
       {step.warning && (
         <aside className="course-guided__warning">
@@ -279,12 +290,18 @@ function GuidedExercise({
         />
       )}
       <div className="course-guided__result">
-        <strong>{t.result}</strong>
+        <strong className="learning-heading">
+          <SectionIcon topic="result" />
+          <span>{t.result}</span>
+        </strong>
         <p>{step.expectedResult}</p>
       </div>
       {step.help && (
         <details className="course-lesson-details">
-          <summary>{t.help}</summary>
+          <summary>
+            <SectionIcon topic="review" />
+            {t.help}
+          </summary>
           <p>{step.help}</p>
         </details>
       )}
@@ -374,7 +391,10 @@ function ReadingExercise({
       aria-label="Guided reading"
     >
       <div className="course-guided__position">
-        <span>Read and understand</span>
+        <span className="learning-heading">
+          <SectionIcon topic="reading" />
+          <span>Read and understand</span>
+        </span>
         <span>
           {index + 1} of {paragraphs.length}
         </span>
@@ -483,8 +503,9 @@ export function CurriculumLesson({
             {t.lesson} {lessonNumber}
           </span>
         </div>
-        <h1 id="lesson-title" tabIndex={-1}>
-          {lesson.title}
+        <h1 id="lesson-title" tabIndex={-1} className="learning-heading">
+          <SectionIcon topic={lesson.title} />
+          <span>{lesson.title}</span>
         </h1>
         <p className="course-lesson__objective">{lesson.objective}</p>
         <div className="course-lesson__meta">
@@ -539,11 +560,17 @@ export function CurriculumLesson({
       )}
       <dl className="course-purpose">
         <div>
-          <dt>Why it matters</dt>
+          <dt className="learning-heading">
+            <SectionIcon topic="reasoning" />
+            <span>Why it matters</span>
+          </dt>
           <dd>{lesson.why}</dd>
         </div>
         <div>
-          <dt>Threat / failure mode</dt>
+          <dt className="learning-heading">
+            <SectionIcon topic="threat" />
+            <span>Threat / failure mode</span>
+          </dt>
           <dd>{lesson.risk}</dd>
         </div>
       </dl>
@@ -582,7 +609,10 @@ export function CurriculumLesson({
       ))}
       {lesson.checklist?.length ? (
         <section className="course-checklist">
-          <h2>{kind === "reading" ? t.readingChecks : t.checks}</h2>
+          <h2 className="learning-heading">
+            <SectionIcon topic="check" />
+            <span>{kind === "reading" ? t.readingChecks : t.checks}</span>
+          </h2>
           <div className="course-checklist__items">
             {lesson.checklist.map((item, index) => {
               const key = checklistKey(lesson.id, index)
@@ -624,7 +654,10 @@ export function CurriculumLesson({
         lesson.technicalDetails
       ) && (
         <details className="course-lesson-details">
-          <summary>{t.background}</summary>
+          <summary>
+            <SectionIcon topic="reading" />
+            {t.background}
+          </summary>
           {(lesson.guidedSteps?.length ? paragraphs : []).map((p) => (
             <p key={p}>{p}</p>
           ))}
@@ -636,7 +669,7 @@ export function CurriculumLesson({
               <div>
                 <strong>
                   {callout.url ? (
-                    <a href={callout.url}>{callout.title}</a>
+                    <a {...articleLinkProps(callout.url)}>{callout.title}</a>
                   ) : (
                     callout.title
                   )}
@@ -657,7 +690,10 @@ export function CurriculumLesson({
           ))}
           {lesson.walkthrough && !lesson.guidedSteps?.length && (
             <>
-              <h3>{lesson.walkthrough.title}</h3>
+              <h3 className="learning-heading">
+                <SectionIcon topic={lesson.walkthrough.title} />
+                <span>{lesson.walkthrough.title}</span>
+              </h3>
               <p>{lesson.walkthrough.intro}</p>
               <ol>
                 {lesson.walkthrough.steps.map((s) => (
@@ -686,7 +722,10 @@ export function CurriculumLesson({
           ))}
           {lesson.technicalDetails && (
             <>
-              <h3>{t.details}</h3>
+              <h3 className="learning-heading">
+                <SectionIcon topic="core" />
+                <span>{t.details}</span>
+              </h3>
               <p>{lesson.technicalDetails}</p>
             </>
           )}
@@ -721,11 +760,15 @@ export function CurriculumLesson({
         />
       )}
       <section className="course-takeaway">
-        <h2>What you should now understand</h2>
+        <h2 className="learning-heading">
+          <SectionIcon topic="takeaway" />
+          <span>What you should now understand</span>
+        </h2>
         <p>{lesson.takeaway}</p>
       </section>
       <details className="course-lesson-details">
         <summary>
+          <SectionIcon topic="source" />
           {t.sources} · {t.metadata}
         </summary>
         <dl className="course-lesson__version">
@@ -764,7 +807,7 @@ export function CurriculumLesson({
           <ul className="course-source-links">
             {lesson.sources.map((s) => (
               <li key={s.url}>
-                <a href={s.url} target="_blank" rel="noreferrer">
+                <a {...articleLinkProps(s.url)}>
                   {s.label}
                   <ExternalLink aria-hidden="true" />
                 </a>

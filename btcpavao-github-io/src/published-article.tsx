@@ -1,3 +1,4 @@
+import { ReadingProgress } from "@/components/reading-progress"
 import { EssaySectionHeading } from "@/components/essay-section-heading"
 import { articleLinkProps, formatArticleHtml } from "@/article-links"
 import { ArticleContents } from "@/components/article-contents"
@@ -31,6 +32,7 @@ export function PublishedArticlePage({
         Skip to content
       </a>
       <SiteHeader />
+      <ReadingProgress />
       <ValueForValueRail language="en" />
       <main id="main-content" className="published-article-page">
         <article>
@@ -83,7 +85,7 @@ export function PublishedArticlePage({
           </header>
           <div className="published-article-reading">
             <ArticleContents headings={article.headings} />
-            <div className="published-article-body essay-prose">
+            <div data-reading-content className="published-article-body essay-prose">
               {article.blocks.map((block, index) => {
                 const key = `${block.type}-${index}`
                 if (block.type === "image")

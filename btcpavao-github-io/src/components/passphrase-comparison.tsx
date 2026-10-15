@@ -1,3 +1,5 @@
+import { articleLinkProps } from "@/article-links"
+import { SectionIcon } from "@/components/section-icon"
 import {
   AttackEstimate,
   GuessingCalculation,
@@ -15,7 +17,10 @@ import {
 export function PassphraseComparison() {
   return (
     <section className="course-explorer" aria-label="Six or eight random words">
-      <h2>Six words by default; eight for extra margin</h2>
+      <h2 className="learning-heading">
+        <SectionIcon topic="Six words by default; eight for extra margin" />
+        <span>Six words by default; eight for extra margin</span>
+      </h2>
       <div
         className="course-table-scroll"
         tabIndex={0}
@@ -63,7 +68,10 @@ export function PassphraseComparison() {
         unchanged guess rate, not a promise about a particular attacker or
         future hardware.
       </p>
-      <h2>A benchmark-based time and cost example</h2>
+      <h2 className="learning-heading">
+        <SectionIcon topic="A benchmark-based time and cost example" />
+        <span>A benchmark-based time and cost example</span>
+      </h2>
       <p>
         One RTX 4090 achieved 32,880 guesses per second in a published Hashcat
         7.0.0 Bitcoin/Litecoin wallet.dat benchmark (mode 11300, reporting
@@ -94,11 +102,18 @@ export function PassphraseComparison() {
         rental={GPU_RENTAL_PER_HOUR}
       />
       <p>
-        <a href="/en/bitcoin-core/self-custody/#lesson/brute-force-economics">
+        <a
+          {...articleLinkProps(
+            "/en/bitcoin-core/self-custody/#lesson/brute-force-economics"
+          )}
+        >
           Change the GPU count in the interactive calculator →
         </a>
       </p>
-      <h2>What do those dollar amounts look like?</h2>
+      <h2 className="learning-heading">
+        <SectionIcon topic="What do those dollar amounts look like?" />
+        <span>What do those dollar amounts look like?</span>
+      </h2>
       <p>
         Imagine a house costing USD 1,000,000 (one million dollars), or a major
         infrastructure project costing USD 1,000,000,000 (one billion dollars).
@@ -135,11 +150,15 @@ export function PassphraseComparison() {
       </p>
       <p>
         Sources:{" "}
-        <a href="https://hashcat.net/forum/thread-13338-post-63594.html">
+        <a
+          {...articleLinkProps(
+            "https://hashcat.net/forum/thread-13338-post-63594.html"
+          )}
+        >
           reported RTX 4090 benchmark, August 2025
         </a>
         ;{" "}
-        <a href="https://www.runpod.io/gpu-models/rtx-4090">
+        <a {...articleLinkProps("https://www.runpod.io/gpu-models/rtx-4090")}>
           Runpod RTX 4090 pricing
         </a>{" "}
         (headline USD 0.89/hour checked October 14, 2026; prices and

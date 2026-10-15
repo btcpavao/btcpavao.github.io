@@ -1,3 +1,5 @@
+import { SectionIcon } from "@/components/section-icon"
+import { articleLinkProps } from "@/article-links"
 import { ImageViewer, type Gallery } from "@/components/zoomable-image"
 import { PassphraseComparison } from "@/components/passphrase-comparison"
 import { findContentByPath } from "@/content-registry"
@@ -131,9 +133,7 @@ function ResourceLink({
 }) {
   return (
     <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
+      {...articleLinkProps(href)}
       className={`font-semibold underline decoration-1 underline-offset-4 transition-[color,text-decoration-color] duration-200 ${
         inverse
           ? "text-white decoration-white/45 hover:text-[#7cc9ff] hover:decoration-[#7cc9ff]"
@@ -274,7 +274,7 @@ const legacySteps: GuideStep[] = [
           2.7.10+dfsg1-1</code>. Install it through Debian’s authenticated
           repositories during preparation and use maintained updates. If the
           version differs, check it against the{" "}
-          <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/generate-passphrase`}>
+          <a className="font-semibold underline underline-offset-4" {...articleLinkProps(`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/generate-passphrase`)}>
             curriculum’s verified generator procedure
           </a>{" "}
           before assuming the same settings or wordlist count.
@@ -290,8 +290,8 @@ const legacySteps: GuideStep[] = [
         <p>
           KeePassXC uses computer-generated secure randomness to select the
           words. See the curriculum’s{" "}
-          <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/passphrase-strength`}>entropy explanation</a>{" "}
-          and <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/brute-force-economics`}>attack-economics exercise</a>.
+          <a className="font-semibold underline underline-offset-4" {...articleLinkProps(`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/passphrase-strength`)}>entropy explanation</a>{" "}
+          and <a className="font-semibold underline underline-offset-4" {...articleLinkProps(`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/brute-force-economics`)}>attack-economics exercise</a>.
           The screenshots show a macOS practice session with the optional
           eight-word setting. Select six for the default; follow the versioned
           Debian procedure above for the real workflow.
@@ -546,7 +546,7 @@ const legacySteps: GuideStep[] = [
           than one failure domain: USB drives, external drives, optical media,
           another computer, or geographically separated storage. For an
           additional cloud copy, first encrypt the complete backup locally using
-          the <a href="#optional-backup-protection" className="font-semibold text-primary underline underline-offset-4">optional .7z archive workflow below</a>.
+          the <a {...articleLinkProps("#optional-backup-protection")} className="font-semibold text-primary underline underline-offset-4">optional .7z archive workflow below</a>.
           Upload only the finished archive, never the bare wallet file or its
           passphrases.
         </p>
@@ -796,7 +796,7 @@ const steps: GuideStep[] = [
           sign a test payment while the original stays closed. Follow the
           complete one-wallet sequence in the{" "}
           <a
-            href={EN_BITCOIN_CORE_CURRICULUM_PATH}
+            {...articleLinkProps(EN_BITCOIN_CORE_CURRICULUM_PATH)}
             className="font-semibold text-primary underline decoration-primary/45 underline-offset-4"
           >
             self-custody curriculum
@@ -1139,8 +1139,8 @@ function OptionalBackupProtection({
     <section id="optional-backup-protection" aria-labelledby="backup-protection-title" className="mx-auto max-w-5xl scroll-mt-24 px-4 py-10 sm:px-6 sm:py-14">
       <div className="overflow-hidden rounded-[30px] bg-[#0d3153] text-white shadow-[var(--shadow-elevated)]">
         <div className="p-6 sm:p-9">
-          <h2 id="backup-protection-title" className="max-w-[23ch] font-display text-3xl leading-[1.08] font-bold tracking-[-0.03em] text-balance sm:text-5xl">
-            Optional: Encrypt the whole backup
+          <h2 id="backup-protection-title" className="learning-heading max-w-[23ch] font-display text-3xl leading-[1.08] font-bold tracking-[-0.03em] text-balance sm:text-5xl">
+            <SectionIcon topic="encrypt backup" /><span>Optional: Encrypt the whole backup</span>
           </h2>
           <p className="mt-5 max-w-[70ch] text-base leading-8 text-white/80">
             Bitcoin Core protects the private keys with its wallet passphrase.
@@ -1151,7 +1151,7 @@ function OptionalBackupProtection({
           </p>
 
           <div className="mt-8 max-w-[75ch] space-y-5 text-base leading-8 text-white/80 [&_strong]:text-white">
-            <h3 className="text-2xl leading-tight font-bold text-white">Option 1: Create an encrypted .7z archive</h3>
+            <h3 className="learning-heading text-2xl leading-tight font-bold text-white"><SectionIcon topic="encrypt" /><span>Option 1: Create an encrypted .7z archive</span></h3>
             <p>
               Use <ResourceLink href={SEVEN_ZIP_DOWNLOAD_URL} inverse>7-Zip</ResourceLink> on Windows,
               or <ResourceLink href={ARQIVER_URL} inverse>Arqiver</ResourceLink> with 7-Zip on Debian/Linux.
@@ -1203,7 +1203,7 @@ function OptionalBackupProtection({
               and <ResourceLink href="https://github.com/aonez/Keka/wiki/Compressing-with-Keka#password-protected-and-encrypted-files" inverse>Keka’s encryption settings</ResourceLink>.
             </p>
 
-            <h3 className="pt-4 text-2xl leading-tight font-bold text-white">An additional cloud backup</h3>
+            <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="backup" /><span>An additional cloud backup</span></h3>
             <p>
               With a strong, unique archive passphrase, encrypted contents and
               file names, and a successful recovery test, I consider the finished
@@ -1222,9 +1222,9 @@ function OptionalBackupProtection({
               a synced folder.
             </p>
 
-            <h3 className="pt-4 text-2xl leading-tight font-bold text-white">Already prepared in Bitcoin Core Vault</h3>
+            <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="core" /><span>Already prepared in Bitcoin Core Vault</span></h3>
             <p>
-              The current <a href={`${DEBIAN_IMAGES_PATH}#vault`} className="font-semibold text-white underline underline-offset-4">Bitcoin Core Vault ISO build</a>{" "}
+              The current <a {...articleLinkProps(`${DEBIAN_IMAGES_PATH}#vault`)} className="font-semibold text-white underline underline-offset-4">Bitcoin Core Vault ISO build</a>{" "}
               already includes 7-Zip, Arqiver and the <strong>Wallet Backup</strong>{" "}
               workflow. It creates a standard encrypted <code>.7z</code> archive
               containing the complete <code>wallet.dat</code>, encrypts its file
@@ -1235,7 +1235,7 @@ function OptionalBackupProtection({
               session too. Public ISO downloads are coming soon.
             </p>
 
-            <h3 className="pt-4 text-2xl leading-tight font-bold text-white">Option 2: Use a less revealing filename</h3>
+            <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="privacy" /><span>Option 2: Use a less revealing filename</span></h3>
             <p>
               A neutral filename such as <code>archive.bin</code> may be appropriate
               when your threat model includes a casual observer noticing a file
@@ -1354,8 +1354,8 @@ function ArchitectureDiagram() {
       <p className="text-[11px] font-bold tracking-[0.16em] text-primary uppercase">
         Later in the curriculum
       </p>
-      <h2 className="mt-4 max-w-[16ch] font-display text-3xl leading-[1.03] font-bold tracking-[-0.045em] text-balance sm:text-5xl">
-        Private keys stay offline
+      <h2 className="learning-heading mt-4 max-w-[16ch] font-display text-3xl leading-[1.03] font-bold tracking-[-0.045em] text-balance sm:text-5xl">
+        <SectionIcon topic="key" /><span>Private keys stay offline</span>
       </h2>
 
       <CustodyArchitecture />
@@ -1420,7 +1420,7 @@ export function BitcoinCoreWalletGuidePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased">
+    <div className="wallet-guide min-h-screen bg-background text-foreground antialiased">
       <a className="skip-link" href="#guide">
         Skip to guide
       </a>
@@ -1453,7 +1453,7 @@ export function BitcoinCoreWalletGuidePage() {
             A focused reference for the mechanics of one encrypted Bitcoin Core
             wallet: creation, backup and restoration. For the threat model,
             hardware choice, offline signing and advanced policies, follow the{" "}
-            <a className="font-semibold underline underline-offset-4" href={EN_BITCOIN_CORE_CURRICULUM_PATH}>full self-custody curriculum</a>.
+            <a className="font-semibold underline underline-offset-4" {...articleLinkProps(EN_BITCOIN_CORE_CURRICULUM_PATH)}>full self-custody curriculum</a>.
           </p>
 
           <TutorialMetadata
@@ -1546,9 +1546,9 @@ export function BitcoinCoreWalletGuidePage() {
                     </div>
                     <h2
                       id={`step-title-${step.number}`}
-                      className="mt-5 font-display text-3xl leading-[1.03] font-bold tracking-[-0.045em] text-balance"
+                      className="learning-heading guide-step-heading mt-5 font-display text-3xl font-bold"
                     >
-                      {step.title}
+                      <SectionIcon topic={step.title} /><span>{step.title}</span>
                     </h2>
                     <p className="mt-3 text-sm leading-6 text-pretty text-muted-foreground">
                       {step.summary}
@@ -1589,7 +1589,7 @@ export function BitcoinCoreWalletGuidePage() {
                         </div>
                       ))}
                     </div>
-                    <div className="mt-7 grid gap-4 text-base leading-8 text-pretty text-muted-foreground [&_code]:rounded-md [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[0.9em] [&_li]:pl-1 [&_strong]:font-semibold [&_strong]:text-foreground [&_ul]:grid [&_ul]:gap-2 [&_ul]:pl-5 [&_ul]:marker:text-primary">
+                    <div className="guide-step-prose mt-7 grid gap-4 text-base leading-8 text-pretty text-muted-foreground [&_code]:rounded-md [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[0.9em] [&_li]:pl-1 [&_strong]:font-semibold [&_strong]:text-foreground [&_ul]:grid [&_ul]:gap-2 [&_ul]:pl-5 [&_ul]:marker:text-primary">
                       {step.content}
                     </div>
                     {step.note ? (
@@ -1621,8 +1621,8 @@ export function BitcoinCoreWalletGuidePage() {
                 <p className="text-[11px] font-bold tracking-[0.16em] text-primary uppercase">
                   Final check
                 </p>
-                <h2 className="mt-4 max-w-[18ch] font-display text-3xl leading-[1.03] font-bold tracking-[-0.045em] text-balance sm:text-5xl">
-                  Before completing this practice
+                <h2 className="learning-heading mt-4 max-w-[18ch] font-display text-3xl leading-[1.03] font-bold tracking-[-0.045em] text-balance sm:text-5xl">
+                  <SectionIcon topic="check" /><span>Before completing this practice</span>
                 </h2>
               </div>
               <span className="rounded-full bg-primary/10 px-4 py-2 text-sm font-bold text-primary tabular-nums">
@@ -1681,7 +1681,7 @@ export function BitcoinCoreWalletGuidePage() {
         </section>
 
         <div className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 sm:pb-20">
-          <a className="mb-10 inline-flex min-h-12 items-center rounded-full bg-primary px-6 py-3 text-center text-sm font-semibold text-primary-foreground" href={EN_BITCOIN_CORE_CURRICULUM_PATH}>
+          <a className="mb-10 inline-flex min-h-12 items-center rounded-full bg-primary px-6 py-3 text-center text-sm font-semibold text-primary-foreground" {...articleLinkProps(EN_BITCOIN_CORE_CURRICULUM_PATH)}>
             Continue with the self-custody curriculum
           </a>
           <ConsultingInvitation

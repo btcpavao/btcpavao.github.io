@@ -391,28 +391,26 @@
 
   .reading-progress {
     position: fixed;
-    top: 0;
+    top: 72px;
     right: 0;
     left: 0;
-    z-index: 70;
-    height: 3px;
+    z-index: 60;
+    height: 4px;
     pointer-events: none;
-    background: color-mix(in oklab, var(--border) 45%, transparent);
+    opacity: 0;
+    background: color-mix(in oklab, var(--primary) 15%, var(--background));
   }
-
+  .reading-progress[data-active="true"] { opacity: 1; }
   .reading-progress::before {
     display: block;
     width: 100%;
     height: 100%;
     content: "";
-    background: linear-gradient(
-      90deg,
-      oklch(var(--hero-glow) / 0.95),
-      oklch(var(--hero-ember) / 0.92)
-    );
-    transform: scaleX(var(--reading-progress));
+    background: var(--primary);
+    transform: scaleX(var(--reading-progress, 0));
     transform-origin: left center;
   }
+  @media print { .reading-progress { display: none; } }
 
   .article-shell {
     display: block;
@@ -8126,4 +8124,38 @@ input:focus-visible + .curriculum-checkbox {
   .essay-prose blockquote, .essay-prose .bitcoin-core-article-quote { padding: 1rem; }
   .essay-prose h2.essay-section-heading { grid-template-columns: 1.25rem minmax(0, 1fr); gap: .65rem; }
   .essay-section-icon { width: 1.25rem; height: 1.25rem; }
+}
+
+/* Shared visual cues and reading rhythm for the guide and every curriculum lesson. */
+.learning-heading { display: grid; grid-template-columns: var(--pictogram-size, 1.25rem) minmax(0, 1fr); align-items: start; gap: .65rem; }
+.learning-heading > span { min-width: 0; }
+.section-pictogram { width: var(--pictogram-size, 1.25rem); height: var(--pictogram-size, 1.25rem); margin-top: .15em; flex: 0 0 auto; color: var(--primary); }
+.course-page .course-lesson--focused h1.learning-heading { --pictogram-size: clamp(1.5rem, 2.5vw, 2rem); max-width: 29ch; gap: .85rem; letter-spacing: -.03em; text-wrap: pretty; }
+.course-lesson .learning-heading { line-height: 1.4; }
+.course-lesson :is(h2, h3).learning-heading { font-weight: 650; }
+.course-lesson .course-purpose .learning-heading { --pictogram-size: 1rem; align-items: center; gap: .5rem; }
+.course-lesson .course-purpose dd { font-size: 1rem; line-height: 1.75; }
+.course-lesson :is(.course-guided__instructions, .course-reading, .course-lesson-details) p { max-width: 72ch; text-wrap: pretty; }
+.course-lesson .course-guided__instructions p, .course-reading--paged > div[aria-live] > p { font-size: 1.0625rem; line-height: 1.85; }
+.course-lesson .course-guided__instructions p + p { margin-top: 1.25rem; }
+.course-lesson .course-guided__result { border-left-width: 1px; }
+.course-lesson .course-takeaway { border-left-width: 1px; }
+.course-lesson .course-lesson-details > summary .section-pictogram { display: inline; vertical-align: -.2em; margin: 0 .55rem 0 0; }
+.course-lesson .course-lesson-details h3 { margin-block: 1.75rem .8rem; font-size: 1.1rem; font-weight: 650; }
+.course-lesson .course-lesson-details li { padding-left: .25rem; }
+.course-lesson .course-guided__position .learning-heading { --pictogram-size: 1rem; }
+.course-lesson .course-code__header .learning-heading { --pictogram-size: 1rem; align-items: center; }
+.course-page .course-roadmap__copy .learning-heading { --pictogram-size: 1.25rem; display: grid; margin-top: .1rem; text-wrap: pretty; }
+.wallet-guide .guide-step-heading { --pictogram-size: 1.5rem; line-height: 1.18; letter-spacing: -.025em; text-wrap: pretty; }
+.wallet-guide .guide-step-prose { max-width: 70ch; font-size: 1.0625rem; line-height: 1.85; gap: 1.25rem; }
+.wallet-guide .learning-heading:not(.guide-step-heading) { --pictogram-size: 1.5rem; gap: .8rem; text-wrap: pretty; }
+.wallet-guide #optional-backup-protection :is(h2,h3) { line-height: 1.25; }
+.wallet-guide #optional-backup-protection h3 { margin-top: 2rem; }
+.wallet-guide .guide-step-prose code { overflow-wrap: anywhere; }
+:is(.wallet-guide main, .course-lesson, .course-gateway) a:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
+@media (min-width: 768px) {
+  .wallet-guide .guide-step-prose li[class*="shadow-"], .wallet-guide label[class*="shadow-"] { padding: 1.5rem; }
+  .course-lesson .course-guided { padding: 1.75rem; }
+  .course-lesson .course-code__header { padding: 1.5rem; }
+  .course-lesson .course-code pre { padding-inline: 1.5rem; }
 }

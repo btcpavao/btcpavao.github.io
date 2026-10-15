@@ -1,3 +1,5 @@
+import { articleLinkProps } from "@/article-links"
+import { SectionIcon } from "@/components/section-icon"
 import { useState } from "react"
 import { Cpu, Zap } from "lucide-react"
 import {
@@ -30,7 +32,7 @@ export function EntropyTable() {
     <>
       <PassphraseComparison />
       <section className="course-explorer" aria-label="Random word entropy">
-        <h2>The method determines the strength</h2>
+        <h2 className="learning-heading"><SectionIcon topic="The method determines the strength" /><span>The method determines the strength</span></h2>
         <p>
           Independent, equally likely choices from{" "}
           {KEEPASS_WORD_COUNT.toLocaleString("en")} distinct words in the
@@ -378,11 +380,11 @@ export function BruteForceExplorer() {
         </p>
         <p>
           The starting rate is 32,880 guesses/second for one RTX 4090 from a{" "}
-          <a href="https://hashcat.net/forum/thread-13338-post-63594.html">
+          <a {...articleLinkProps("https://hashcat.net/forum/thread-13338-post-63594.html")}>
             published Hashcat 7.0.0 wallet.dat benchmark
           </a>{" "}
           (mode 11300, reporting 200,459 iterations). The{" "}
-          <a href="https://www.runpod.io/gpu-models/rtx-4090">
+          <a {...articleLinkProps("https://www.runpod.io/gpu-models/rtx-4090")}>
             Runpod headline RTX 4090 price
           </a>{" "}
           was USD 0.89 per GPU-hour when checked October 14, 2026; prices and
@@ -514,7 +516,7 @@ export function BackupMediaExplorer() {
   const item = media[selected]
   return (
     <section className="course-explorer" aria-label="Backup media comparison">
-      <h2>Compare one storage choice at a time</h2>
+      <h2 className="learning-heading"><SectionIcon topic="Compare one storage choice at a time" /><span>Compare one storage choice at a time</span></h2>
       <label className="course-explorer__choice">
         Medium or location
         <select

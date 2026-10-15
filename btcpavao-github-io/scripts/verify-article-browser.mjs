@@ -22,6 +22,14 @@ try {
   const { matchesEssay, normalizeEssaySearch } = await load("src/essay-search.ts", "search")
   const { essayBodies } = await load("src/essay-search-data.ts", "bodies")
   const { galleryIndex, swipeDirection } = await load("src/components/gallery-navigation.ts", "gallery")
+  const { readingProgress } = await load("src/reading-progress.ts", "reading-progress")
+  assert.equal(readingProgress(0, 80, 2080, 800), 0)
+  assert.equal(readingProgress(680, 80, 2080, 800), 0.5)
+  assert.equal(readingProgress(1280, 80, 2080, 800), 1, "Finish when the last article text enters the viewport, before the footer")
+  assert.equal(readingProgress(3000, 80, 2080, 800), 1)
+  assert.equal(readingProgress(-100, 80, 2080, 800), 0)
+  assert.equal(readingProgress(100, 80, 500, 800), 1, "A short article must not produce NaN or a negative range")
+  assert.equal(readingProgress(680, 80, 3280, 800), 0.25, "Recalculate when images expand the article")
   const { cleanArticleUrl, articleLinkProps, formatArticleHtml } = await load("src/article-links.ts", "links")
   assert.equal(cleanArticleUrl("https://example.com/a?chapter=2&utm_source=chatgpt.com&utm_medium=referral#backup"), "https://example.com/a?chapter=2#backup")
   assert.equal(cleanArticleUrl("/read?UTM_SOURCE=ChatGPT&keep=a%2Bb#part"), "/read?keep=a%2Bb#part")
@@ -49,7 +57,7 @@ try {
   assert.equal(swipeDirection(140, -12), -1)
   assert.equal(swipeDirection(20, 4), 0, "Tap / short movement must not navigate")
   assert.equal(swipeDirection(70, 120), 0, "Vertical scrolling must not navigate")
-  console.log(`Verified full-text coverage for ${essays.length} essays, query matching, gallery wrapping, swipe thresholds and article link normalization.`)
+  console.log(`Verified full-text coverage for ${essays.length} essays, query matching, gallery navigation, article links and reading-progress boundaries.`)
 } finally {
   await rm(temp, { recursive: true, force: true })
 }

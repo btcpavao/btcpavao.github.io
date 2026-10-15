@@ -1,3 +1,4 @@
+import { ReadingProgress } from "@/components/reading-progress"
 import { EssaySectionHeading } from "@/components/essay-section-heading"
 import { articleLinkProps, cleanArticleUrl } from "@/article-links"
 import { ArticleContents } from "@/components/article-contents"
@@ -988,36 +989,12 @@ function useBip39ArticleMetadata() {
   })
 }
 
-function useReadingProgress() {
-  useEffect(() => {
-    function updateProgress() {
-      const max = document.documentElement.scrollHeight - window.innerHeight
-      const progress = max <= 0 ? 0 : Math.min(window.scrollY / max, 1)
-      document.documentElement.style.setProperty(
-        "--reading-progress",
-        progress.toFixed(4)
-      )
-    }
-
-    updateProgress()
-    window.addEventListener("scroll", updateProgress, { passive: true })
-    window.addEventListener("resize", updateProgress)
-
-    return () => {
-      window.removeEventListener("scroll", updateProgress)
-      window.removeEventListener("resize", updateProgress)
-      document.documentElement.style.removeProperty("--reading-progress")
-    }
-  }, [])
-}
-
 export function ArticlePage({
   initialArticleData = null,
 }: {
   initialArticleData?: ArticleDataModule | null
 }) {
   useArticleMetadata()
-  useReadingProgress()
   const [articleData, setArticleData] = useState<ArticleDataModule | null>(
     initialArticleData
   )
@@ -1058,7 +1035,7 @@ export function ArticlePage({
   return (
     <div className="relative isolate min-h-screen overflow-x-clip bg-background text-foreground">
       <SkipLink label="Preskoči na sadržaj" />
-      <div className="reading-progress" aria-hidden="true" />
+      <ReadingProgress />
       <ValueForValueRail language="hr" />
       <div
         aria-hidden="true"
@@ -1134,7 +1111,7 @@ export function ArticlePage({
 
             <ArticleContents className="article-shell mt-10" headings={articleHeadings.map(text => ({ id: toSectionId(text), text }))} />
 
-            <div className="article-shell mt-10 space-y-10 text-lg leading-8 text-muted-foreground">
+            <div data-reading-content className="article-shell mt-10 space-y-10 text-lg leading-8 text-muted-foreground">
               <div className="space-y-6">
                 {articleIntro.map((paragraph) => (
                   <p key={paragraph}>{renderLinkedText(paragraph)}</p>
@@ -1849,7 +1826,6 @@ function BitcoinCoreArticlePage({
     : BITCOIN_CORE_SERIES_PATH
 
   useBitcoinCoreArticleMetadata(language)
-  useReadingProgress()
   const [articleSource, setArticleSource] = useState(initialArticleSource)
 
   useEffect(() => {
@@ -1913,7 +1889,7 @@ function BitcoinCoreArticlePage({
       sectionLabel={BITCOIN_CORE_SERIES_TITLE}
       language={language}
     >
-      <div className="reading-progress" aria-hidden="true" />
+      <ReadingProgress />
       <ValueForValueRail language={language} />
       <main id="main-content" className="relative pb-20">
         <article>
@@ -2027,7 +2003,7 @@ function BitcoinCoreArticlePage({
             </aside>
             <ArticleContents className="article-shell mt-10" headings={bitcoinCoreArticleHeadings} />
 
-            <div className="article-shell learning-article-body bitcoin-core-article-body essay-prose mt-10">
+            <div data-reading-content className="article-shell learning-article-body bitcoin-core-article-body essay-prose mt-10">
               {bitcoinCoreArticle.blocks.map((block, index) => {
                 if (block.type === "heading") {
                   return (
@@ -2155,7 +2131,6 @@ function Bip39ArticlePage({
   initialArticleSource?: string
 }) {
   useBip39ArticleMetadata()
-  useReadingProgress()
   const [articleSource, setArticleSource] = useState(initialArticleSource)
 
   useEffect(() => {
@@ -2210,7 +2185,7 @@ function Bip39ArticlePage({
       sectionLabel={BITCOIN_CORE_SERIES_TITLE}
       language="en"
     >
-      <div className="reading-progress" aria-hidden="true" />
+      <ReadingProgress />
       <ValueForValueRail language="en" />
       <main id="main-content" className="relative pb-20">
         <article>
@@ -2291,7 +2266,7 @@ function Bip39ArticlePage({
             />
             <ArticleContents className="article-shell mt-10" headings={headings} />
 
-            <div className="article-shell learning-article-body bitcoin-core-article-body essay-prose long-road-article-body bip39-article-body mt-10">
+            <div data-reading-content className="article-shell learning-article-body bitcoin-core-article-body essay-prose long-road-article-body bip39-article-body mt-10">
               <blockquote className="long-road-article-quote bip39-hero-caption">
                 <p>{article.heroCaption}</p>
               </blockquote>
@@ -2418,7 +2393,6 @@ function MultisigArticleVisual({ number }: { number: number }) {
 
 function MultisigArticlePage() {
   useMultisigArticleMetadata()
-  useReadingProgress()
 
   const article = parseMultisigArticle(multisigArticleSource)
   if (article.title !== MULTISIG_ARTICLE_TITLE) {
@@ -2445,7 +2419,7 @@ function MultisigArticlePage() {
       sectionLabel={BITCOIN_CORE_SERIES_TITLE}
       language="en"
     >
-      <div className="reading-progress" aria-hidden="true" />
+      <ReadingProgress />
       <ValueForValueRail language="en" />
       <main id="main-content" className="relative pb-20">
         <article>
@@ -2502,7 +2476,7 @@ function MultisigArticlePage() {
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <ArticleContents className="article-shell mt-10" headings={headings} />
 
-            <div className="article-shell learning-article-body bitcoin-core-article-body essay-prose long-road-article-body multisig-article-body mt-10">
+            <div data-reading-content className="article-shell learning-article-body bitcoin-core-article-body essay-prose long-road-article-body multisig-article-body mt-10">
               {article.blocks.map((block, index) => {
                 if (block.type === "heading") {
                   return (
@@ -2616,7 +2590,6 @@ function LongRoadArticlePage({
   initialArticleSource?: string
 }) {
   useLongRoadArticleMetadata()
-  useReadingProgress()
   const [articleSource, setArticleSource] = useState(initialArticleSource)
 
   useEffect(() => {
@@ -2674,7 +2647,7 @@ function LongRoadArticlePage({
       sectionLabel={BITCOIN_CORE_SERIES_TITLE}
       language="en"
     >
-      <div className="reading-progress" aria-hidden="true" />
+      <ReadingProgress />
       <ValueForValueRail language="en" />
       <main id="main-content" className="relative pb-20">
         <article>
@@ -2755,7 +2728,7 @@ function LongRoadArticlePage({
             />
             <ArticleContents className="article-shell mt-10" headings={headings} />
 
-            <div className="article-shell learning-article-body bitcoin-core-article-body essay-prose long-road-article-body mt-10">
+            <div data-reading-content className="article-shell learning-article-body bitcoin-core-article-body essay-prose long-road-article-body mt-10">
               {article.blocks.map((block, index) => {
                 if (block.type === "heading") {
                   return (
@@ -2968,7 +2941,6 @@ export function WorkflowArticlePage({
   initialArticleData?: ArticleDataModule | null
 }) {
   useWorkflowArticleMetadata()
-  useReadingProgress()
   const [articleData, setArticleData] = useState<ArticleDataModule | null>(
     initialArticleData
   )
@@ -3016,7 +2988,7 @@ export function WorkflowArticlePage({
 
   return (
     <PageChrome>
-      <div className="reading-progress" aria-hidden="true" />
+      <ReadingProgress />
       <ValueForValueRail language="hr" />
       <main id="main-content" className="relative pb-20">
         <article>
@@ -3081,7 +3053,7 @@ export function WorkflowArticlePage({
 
             <ArticleContents className="article-shell mt-10" headings={sections.map(section => ({ id: toSectionId(section.heading), text: section.heading }))} />
 
-            <div className="article-shell mt-10 space-y-10 text-lg leading-8 text-muted-foreground">
+            <div data-reading-content className="article-shell mt-10 space-y-10 text-lg leading-8 text-muted-foreground">
               {sections.map((section) => {
                 const sectionVisual = getWorkflowSectionVisual(section.heading)
 
@@ -3150,7 +3122,6 @@ export function LearningArticlePage({
   initialArticleHtml?: string
 }) {
   useLearningArticleMetadata()
-  useReadingProgress()
   const [articleHtml, setArticleHtml] = useState(initialArticleHtml)
 
   useEffect(() => {
@@ -3173,7 +3144,7 @@ export function LearningArticlePage({
 
   return (
     <PageChrome>
-      <div className="reading-progress" aria-hidden="true" />
+      <ReadingProgress />
       <ValueForValueRail language="hr" />
       <main id="main-content" className="relative pb-20">
         <article>
@@ -3232,7 +3203,7 @@ export function LearningArticlePage({
 
             {articleHtml ? (
               <div
-                className="article-shell learning-article-body mt-10"
+                data-reading-content className="article-shell learning-article-body mt-10"
                 dangerouslySetInnerHTML={{ __html: articleHtml }}
               />
             ) : (

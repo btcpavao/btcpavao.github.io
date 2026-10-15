@@ -1,3 +1,4 @@
+import { SectionIcon } from "@/components/section-icon"
 import { DebianImagesNotice } from "@/components/debian-images-notice"
 import { CurriculumSearch } from "@/components/curriculum-search"
 import {
@@ -159,7 +160,10 @@ export function CurriculumOverview({
             className="course-three-parts"
             aria-labelledby="course-parts-title"
           >
-            <h2 id="course-parts-title">Three parts. One foundation.</h2>
+            <h2 id="course-parts-title" className="learning-heading">
+              <SectionIcon topic="multisig" />
+              <span>Three parts. One foundation.</span>
+            </h2>
             <ol className="course-roadmap__grid">
               {phases.map((phase, index) => {
                 return (
@@ -169,7 +173,10 @@ export function CurriculumOverview({
                         {String(index + 1).padStart(2, "0")}
                       </span>
                       <span className="course-roadmap__copy">
-                        <strong>{phase.title}</strong>
+                        <strong className="learning-heading">
+                          <SectionIcon topic={phase.title} />
+                          <span>{phase.title}</span>
+                        </strong>
                         <span className="course-roadmap__subtitle">
                           {phase.outcome}
                         </span>
