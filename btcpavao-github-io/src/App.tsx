@@ -1,3 +1,5 @@
+import { EssaySectionHeading } from "@/components/essay-section-heading"
+import { articleLinkProps, cleanArticleUrl } from "@/article-links"
 import { ArticleContents } from "@/components/article-contents"
 import { ZoomableImage } from "@/components/zoomable-image"
 import { EssayBrowser } from "@/components/essay-browser"
@@ -8,26 +10,13 @@ import {
 } from "@/components/debian-images-notice"
 import { CurriculumRedirect } from "@/components/curriculum-redirect"
 import {
-  createElement,
   lazy,
   Suspense,
   type ReactNode,
   useEffect,
   useState,
 } from "react"
-import {
-  ArrowUp,
-  CircleCheckBig,
-  Cpu,
-  Dice5,
-  GitBranch,
-  KeyRound,
-  Mail,
-  ShieldCheck,
-  Shuffle,
-  TriangleAlert,
-  type LucideIcon,
-} from "lucide-react"
+import { ArrowUp, Mail } from "lucide-react"
 
 import {
   bip39Visuals,
@@ -561,39 +550,6 @@ const bitcoinCoreVisuals = [
   },
 ] as const
 
-function createBitcoinCorePictogram(Icon: LucideIcon) {
-  return createElement(Icon, { className: "size-5", strokeWidth: 1.85 })
-}
-
-const bitcoinCoreHeadingIcons: ReactNode[] = [
-  Dice5,
-  KeyRound,
-  GitBranch,
-  Shuffle,
-  Cpu,
-  Cpu,
-  Dice5,
-  Shuffle,
-  Cpu,
-  Shuffle,
-  Shuffle,
-  ShieldCheck,
-  KeyRound,
-  KeyRound,
-  KeyRound,
-  GitBranch,
-  GitBranch,
-  GitBranch,
-  ShieldCheck,
-  ShieldCheck,
-  TriangleAlert,
-  ShieldCheck,
-  ShieldCheck,
-].map(createBitcoinCorePictogram)
-
-const bitcoinCoreConclusionIcon = createBitcoinCorePictogram(CircleCheckBig)
-const bitcoinCoreFallbackIcon = createBitcoinCorePictogram(Dice5)
-
 const hrBitcoinCoreBoldStatements = new Set([
   "Kako stvoriti privatni ključ koji nitko drugi ne može pogoditi?",
   "Entropija je mjera nepredvidivosti.",
@@ -648,17 +604,6 @@ function isBitcoinCoreLead(text: string, language: BitcoinCoreLanguage) {
     text === "Why?" ||
     boldStatements.has(text)
   )
-}
-
-function getBitcoinCoreHeadingIcon(
-  heading: Extract<BitcoinCoreArticleBlock, { type: "heading" }>
-) {
-  if (heading.numbered) {
-    const number = Number.parseInt(heading.text, 10)
-    return bitcoinCoreHeadingIcons[number - 1] ?? bitcoinCoreFallbackIcon
-  }
-
-  return bitcoinCoreConclusionIcon
 }
 
 function parseBitcoinCoreArticle(
@@ -799,7 +744,7 @@ function renderLinkedText(text: string) {
 
     const trailingMatch = part.match(/[.,;:!?]+$/)
     const trailing = trailingMatch?.[0] ?? ""
-    const href = trailing ? part.slice(0, -trailing.length) : part
+    const href = cleanArticleUrl(trailing ? part.slice(0, -trailing.length) : part)
     const label = href.replace(/^https?:\/\//, "").replace(/\/$/, "")
 
     return (
@@ -1786,28 +1731,6 @@ function BitcoinCoreArticleVisual({
   )
 }
 
-function BitcoinCoreSectionHeading({
-  heading,
-  index,
-}: {
-  heading: Extract<BitcoinCoreArticleBlock, { type: "heading" }>
-  index: number
-}) {
-  const icon = getBitcoinCoreHeadingIcon(heading)
-
-  return (
-    <div
-      className="bitcoin-core-section-heading"
-      key={`${heading.id}-${index}`}
-    >
-      <span className="bitcoin-core-section-pictogram" aria-hidden="true">
-        {icon}
-      </span>
-      <h2 id={heading.id}>{heading.text}</h2>
-    </div>
-  )
-}
-
 function BitcoinCoreParagraph({
   text,
   language,
@@ -2094,25 +2017,21 @@ function BitcoinCoreArticlePage({
                   : "Razlog zbog kojeg se za ključeve oslanjamo na kriptografski sigurnu računalnu slučajnost vrijedi i za passphrase kojim šifriramo wallet. Na čistom i provjerenom Linux okruženju kurikulum koristi KeePassXC za neovisne nasumične odabire riječi. Taj zaključak ne zahtijeva da obje aplikacije imaju istu implementaciju generatora slučajnosti."}
               </p>
               <p className="mt-3 text-base leading-7">
-                <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/generate-passphrase`}>
+                <a className="font-semibold underline underline-offset-4" {...articleLinkProps(`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/generate-passphrase`)}>
                   {isEnglish ? "Follow the reviewed KeePassXC procedure" : "Provjereni postupak s KeePassXC-om (engleski)"}
                 </a>{" · "}
-                <a className="font-semibold underline underline-offset-4" href={`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/passphrase-strength`}>
+                <a className="font-semibold underline underline-offset-4" {...articleLinkProps(`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/passphrase-strength`)}>
                   {isEnglish ? "Compare six and eight random words" : "Usporedi šest i osam nasumičnih riječi (engleski)"}
                 </a>
               </p>
             </aside>
             <ArticleContents className="article-shell mt-10" headings={bitcoinCoreArticleHeadings} />
 
-            <div className="article-shell learning-article-body bitcoin-core-article-body mt-10">
+            <div className="article-shell learning-article-body bitcoin-core-article-body essay-prose mt-10">
               {bitcoinCoreArticle.blocks.map((block, index) => {
                 if (block.type === "heading") {
                   return (
-                    <BitcoinCoreSectionHeading
-                      key={`${block.id}-${index}`}
-                      heading={block}
-                      index={index}
-                    />
+                    <EssaySectionHeading key={`${block.id}-${index}`} id={block.id} text={block.text} />
                   )
                 }
 
@@ -2227,27 +2146,6 @@ function Bip39ArticleVisual({ number }: { number: number }) {
       </picture>
       <figcaption>{visual.caption}</figcaption>
     </figure>
-  )
-}
-
-function Bip39SectionHeading({
-  heading,
-  index,
-}: {
-  heading: Extract<Bip39ArticleBlock, { type: "heading" }>
-  index: number
-}) {
-  const icon =
-    bitcoinCoreHeadingIcons[index % bitcoinCoreHeadingIcons.length] ??
-    bitcoinCoreFallbackIcon
-
-  return (
-    <div className="bitcoin-core-section-heading">
-      <span className="bitcoin-core-section-pictogram" aria-hidden="true">
-        {icon}
-      </span>
-      <h2 id={heading.id}>{heading.text}</h2>
-    </div>
   )
 }
 
@@ -2393,7 +2291,7 @@ function Bip39ArticlePage({
             />
             <ArticleContents className="article-shell mt-10" headings={headings} />
 
-            <div className="article-shell learning-article-body bitcoin-core-article-body long-road-article-body bip39-article-body mt-10">
+            <div className="article-shell learning-article-body bitcoin-core-article-body essay-prose long-road-article-body bip39-article-body mt-10">
               <blockquote className="long-road-article-quote bip39-hero-caption">
                 <p>{article.heroCaption}</p>
               </blockquote>
@@ -2401,13 +2299,7 @@ function Bip39ArticlePage({
               {article.blocks.map((block, index) => {
                 if (block.type === "heading") {
                   return (
-                    <Bip39SectionHeading
-                      key={`${block.id}-${index}`}
-                      heading={block}
-                      index={headings.findIndex(
-                        (heading) => heading.id === block.id
-                      )}
-                    />
+                    <EssaySectionHeading key={`${block.id}-${index}`} id={block.id} text={block.text} />
                   )
                 }
 
@@ -2524,27 +2416,6 @@ function MultisigArticleVisual({ number }: { number: number }) {
   )
 }
 
-function MultisigSectionHeading({
-  heading,
-  index,
-}: {
-  heading: Extract<MultisigArticleBlock, { type: "heading" }>
-  index: number
-}) {
-  const icon =
-    bitcoinCoreHeadingIcons[index % bitcoinCoreHeadingIcons.length] ??
-    bitcoinCoreFallbackIcon
-
-  return (
-    <div className="bitcoin-core-section-heading">
-      <span className="bitcoin-core-section-pictogram" aria-hidden="true">
-        {icon}
-      </span>
-      <h2 id={heading.id}>{heading.text}</h2>
-    </div>
-  )
-}
-
 function MultisigArticlePage() {
   useMultisigArticleMetadata()
   useReadingProgress()
@@ -2631,17 +2502,11 @@ function MultisigArticlePage() {
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <ArticleContents className="article-shell mt-10" headings={headings} />
 
-            <div className="article-shell learning-article-body bitcoin-core-article-body long-road-article-body multisig-article-body mt-10">
+            <div className="article-shell learning-article-body bitcoin-core-article-body essay-prose long-road-article-body multisig-article-body mt-10">
               {article.blocks.map((block, index) => {
                 if (block.type === "heading") {
                   return (
-                    <MultisigSectionHeading
-                      key={`${block.id}-${index}`}
-                      heading={block}
-                      index={headings.findIndex(
-                        (heading) => heading.id === block.id
-                      )}
-                    />
+                    <EssaySectionHeading key={`${block.id}-${index}`} id={block.id} text={block.text} />
                   )
                 }
 
@@ -2742,27 +2607,6 @@ function LongRoadArticleVisual({ number }: { number: number }) {
         />
       </picture>
     </figure>
-  )
-}
-
-function LongRoadSectionHeading({
-  heading,
-  index,
-}: {
-  heading: Extract<LongRoadArticleBlock, { type: "heading" }>
-  index: number
-}) {
-  const icon =
-    bitcoinCoreHeadingIcons[index % bitcoinCoreHeadingIcons.length] ??
-    bitcoinCoreFallbackIcon
-
-  return (
-    <div className="bitcoin-core-section-heading">
-      <span className="bitcoin-core-section-pictogram" aria-hidden="true">
-        {icon}
-      </span>
-      <h2 id={heading.id}>{heading.text}</h2>
-    </div>
   )
 }
 
@@ -2911,17 +2755,11 @@ function LongRoadArticlePage({
             />
             <ArticleContents className="article-shell mt-10" headings={headings} />
 
-            <div className="article-shell learning-article-body bitcoin-core-article-body long-road-article-body mt-10">
+            <div className="article-shell learning-article-body bitcoin-core-article-body essay-prose long-road-article-body mt-10">
               {article.blocks.map((block, index) => {
                 if (block.type === "heading") {
                   return (
-                    <LongRoadSectionHeading
-                      key={`${block.id}-${index}`}
-                      heading={block}
-                      index={headings.findIndex(
-                        (heading) => heading.id === block.id
-                      )}
-                    />
+                    <EssaySectionHeading key={`${block.id}-${index}`} id={block.id} text={block.text} />
                   )
                 }
 

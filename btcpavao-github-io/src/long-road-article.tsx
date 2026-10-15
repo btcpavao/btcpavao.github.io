@@ -1,3 +1,4 @@
+import { articleLinkProps } from "@/article-links"
 import { Fragment, type ReactNode } from "react"
 
 import { EN_BITCOIN_CORE_CURRICULUM_PATH, EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH } from "@/routes"
@@ -223,13 +224,13 @@ export function renderLongRoadInline(text: string): ReactNode {
 
   return parts.map((part, index) => {
     if (part === "self-custody curriculum") {
-      return <a href={EN_BITCOIN_CORE_CURRICULUM_PATH} key={`curriculum-${index}`}>{part}</a>
+      return <a {...articleLinkProps(EN_BITCOIN_CORE_CURRICULUM_PATH)} key={`curriculum-${index}`}>{part}</a>
     }
 
     if (part === entropyArticleLinkText) {
       return (
         <a
-          href={EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH}
+          {...articleLinkProps(EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH)}
           key={`${part}-${index}`}
         >
           {part}

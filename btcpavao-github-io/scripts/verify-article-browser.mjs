@@ -22,6 +22,16 @@ try {
   const { matchesEssay, normalizeEssaySearch } = await load("src/essay-search.ts", "search")
   const { essayBodies } = await load("src/essay-search-data.ts", "bodies")
   const { galleryIndex, swipeDirection } = await load("src/components/gallery-navigation.ts", "gallery")
+  const { cleanArticleUrl, articleLinkProps, formatArticleHtml } = await load("src/article-links.ts", "links")
+  assert.equal(cleanArticleUrl("https://example.com/a?chapter=2&utm_source=chatgpt.com&utm_medium=referral#backup"), "https://example.com/a?chapter=2#backup")
+  assert.equal(cleanArticleUrl("/read?UTM_SOURCE=ChatGPT&keep=a%2Bb#part"), "/read?keep=a%2Bb#part")
+  assert.equal(cleanArticleUrl("https://example.com/?utm_source=chat%2Eopenai%2Ecom#one"), "https://example.com/#one")
+  assert.equal(cleanArticleUrl("https://example.com/?utm_source=newsletter&x=1#two"), "https://example.com/?utm_source=newsletter&x=1#two")
+  assert.equal(cleanArticleUrl("#same-page"), "#same-page")
+  assert.deepEqual(articleLinkProps("/article?utm_source=chatgpt.com"), { href: "/article", target: "_blank", rel: "noopener noreferrer" })
+  const linkedHtml = '<strong>Keep this wording.</strong> <a href="https://example.com/?page=2&amp;utm_source=chatgpt.com#one" target="_self" rel="opener">Read more</a>'
+  assert.equal(formatArticleHtml(linkedHtml), '<strong>Keep this wording.</strong> <a href="https://example.com/?page=2#one" target="_blank" rel="noopener noreferrer">Read more</a>')
+  assert.equal(formatArticleHtml("Plain text &amp; <em>emphasis</em>."), "Plain text &amp; <em>emphasis</em>.")
   const essays = contentRegistry.filter(e => e.status === "published" && e.locale === "en" && e.section === "core-research")
   for (const essay of essays) {
     assert.ok(essayBodies[essay.path]?.length > 100, `Full text missing: ${essay.title}`)
@@ -39,7 +49,7 @@ try {
   assert.equal(swipeDirection(140, -12), -1)
   assert.equal(swipeDirection(20, 4), 0, "Tap / short movement must not navigate")
   assert.equal(swipeDirection(70, 120), 0, "Vertical scrolling must not navigate")
-  console.log(`Verified full-text coverage for ${essays.length} essays, query matching, gallery wrapping and swipe thresholds.`)
+  console.log(`Verified full-text coverage for ${essays.length} essays, query matching, gallery wrapping, swipe thresholds and article link normalization.`)
 } finally {
   await rm(temp, { recursive: true, force: true })
 }

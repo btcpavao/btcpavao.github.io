@@ -1,3 +1,5 @@
+import { EssaySectionHeading } from "@/components/essay-section-heading"
+import { articleLinkProps, formatArticleHtml } from "@/article-links"
 import { ArticleContents } from "@/components/article-contents"
 import { ConsultingInvitation } from "@/components/consulting-invitation"
 import { ZoomableImage } from "@/components/zoomable-image"
@@ -61,7 +63,7 @@ export function PublishedArticlePage({
             <p className="published-article-source">
               By btcpavao ·{" "}
               <a
-                href={article.sourceUrl}
+                {...articleLinkProps(article.sourceUrl)}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -81,7 +83,7 @@ export function PublishedArticlePage({
           </header>
           <div className="published-article-reading">
             <ArticleContents headings={article.headings} />
-            <div className="published-article-body">
+            <div className="published-article-body essay-prose">
               {article.blocks.map((block, index) => {
                 const key = `${block.type}-${index}`
                 if (block.type === "image")
@@ -104,10 +106,10 @@ export function PublishedArticlePage({
                   )
                 if (block.type === "heading")
                   return (
-                    <h2
+                    <EssaySectionHeading
                       key={key}
-                      id={block.id}
-                      dangerouslySetInnerHTML={{ __html: block.html ?? "" }}
+                      id={block.id ?? ""}
+                      html={block.html ?? ""}
                     />
                   )
                 if (block.type === "divider") return <hr key={key} />
@@ -115,21 +117,40 @@ export function PublishedArticlePage({
                   return (
                     <blockquote
                       key={key}
-                      dangerouslySetInnerHTML={{ __html: block.html ?? "" }}
+                      dangerouslySetInnerHTML={{
+                        __html: formatArticleHtml(block.html ?? ""),
+                      }}
                     />
                   )
-                if (block.type === "list-item")
+                if (block.type === "list-item") {
+                  if (article.blocks[index - 1]?.type === "list-item")
+                    return null
+                  const items = []
+                  for (
+                    let i = index;
+                    article.blocks[i]?.type === "list-item";
+                    i++
+                  )
+                    items.push(article.blocks[i])
                   return (
-                    <p
-                      key={key}
-                      className="published-article-list-item"
-                      dangerouslySetInnerHTML={{ __html: block.html ?? "" }}
-                    />
+                    <ul className="essay-list" key={key}>
+                      {items.map((item, i) => (
+                        <li
+                          key={i}
+                          dangerouslySetInnerHTML={{
+                            __html: formatArticleHtml(item.html ?? ""),
+                          }}
+                        />
+                      ))}
+                    </ul>
                   )
+                }
                 return (
                   <p
                     key={key}
-                    dangerouslySetInnerHTML={{ __html: block.html ?? "" }}
+                    dangerouslySetInnerHTML={{
+                      __html: formatArticleHtml(block.html ?? ""),
+                    }}
                   />
                 )
               })}
@@ -141,10 +162,10 @@ export function PublishedArticlePage({
                 test coins. Learn to recover one wallet before moving signing
                 offline or adding a spending policy.
               </p>
-              <a href="/en/bitcoin-core/self-custody/">
+              <a {...articleLinkProps("/en/bitcoin-core/self-custody/")}>
                 Open the self-custody curriculum →
               </a>
-              <a href="/en/bitcoin-core/debian-images/">
+              <a {...articleLinkProps("/en/bitcoin-core/debian-images/")}>
                 Coming soon: dedicated Debian images →
               </a>
             </aside>
@@ -163,7 +184,7 @@ export function PublishedArticlePage({
                 .filter((other) => other.id !== article.id)
                 .slice(0, 3)
                 .map((other) => (
-                  <a key={other.id} href={other.path}>
+                  <a key={other.id} {...articleLinkProps(other.path)}>
                     {other.title}
                     <span aria-hidden="true">↗</span>
                   </a>

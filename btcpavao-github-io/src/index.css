@@ -8102,3 +8102,28 @@ input:focus-visible + .curriculum-checkbox {
   .parallel-explorer input, .parallel-explorer__presets button { padding-inline: 1rem; }
   .passphrase-cost-grid { grid-template-columns: 1fr; }
 }
+
+/* Shared reading rhythm for all Bitcoin Core essays; prose stays verbatim. */
+.essay-prose { width: min(100%, 70ch); margin-inline: auto; padding-inline: 0; font-size: clamp(1.0625rem, 1rem + .3vw, 1.1875rem); line-height: 1.85; overflow-wrap: anywhere; }
+.essay-prose > p { margin-block: 0 1.25em; text-wrap: pretty; }
+.essay-prose h2.essay-section-heading { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr); gap: .85rem; align-items: start; max-width: none; margin: clamp(3rem, 6vw, 4.5rem) 0 1.25rem; font-size: clamp(1.45rem, 1.2rem + 1vw, 2rem); line-height: 1.25; letter-spacing: -.025em; font-weight: 700; scroll-margin-top: 7rem; text-wrap: pretty; }
+.essay-section-icon { width: 1.5rem; height: 1.5rem; margin-top: .16em; color: var(--primary); }
+.essay-prose .essay-section-heading > span { min-width: 0; }
+.essay-prose blockquote, .essay-prose .bitcoin-core-article-quote { margin: 1.75rem 0; padding: 1.5rem; border: 0; border-left: 1px solid var(--primary); border-radius: 0; background: color-mix(in oklab, var(--primary) 4%, var(--background)); color: var(--foreground); font-size: 1.05em; line-height: 1.8; text-wrap: pretty; }
+.essay-prose blockquote > p { margin: 0; }
+.essay-prose > .essay-list, .essay-prose > .bitcoin-core-list { display: grid; gap: .65rem; margin: 1.75rem 0; padding: 0 0 0 1.5rem; border: 0; border-radius: 0; background: none; box-shadow: none; list-style: disc; }
+.essay-prose > .essay-list li, .essay-prose > .bitcoin-core-list li { min-width: 0; padding-left: .35rem; line-height: 1.8; }
+.essay-prose > .bitcoin-core-list li::before { display: none; }
+.essay-prose > .essay-list li::marker, .essay-prose > .bitcoin-core-list li::marker { content: normal; color: var(--primary); }
+.essay-prose a { text-decoration-thickness: 1px; text-underline-offset: .2em; }
+.essay-prose a:hover { text-decoration-thickness: 2px; }
+.essay-prose a:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; border-radius: 2px; }
+.essay-prose code { overflow-wrap: anywhere; font-size: .9em; }
+.essay-prose figure { margin-block: 2.75rem; }
+.essay-prose figcaption { line-height: 1.7; }
+.essay-prose hr { margin-block: 3rem; }
+@media (max-width: 767px) {
+  .essay-prose blockquote, .essay-prose .bitcoin-core-article-quote { padding: 1rem; }
+  .essay-prose h2.essay-section-heading { grid-template-columns: 1.25rem minmax(0, 1fr); gap: .65rem; }
+  .essay-section-icon { width: 1.25rem; height: 1.25rem; }
+}

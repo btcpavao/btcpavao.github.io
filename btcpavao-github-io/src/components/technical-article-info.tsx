@@ -1,3 +1,4 @@
+import { cleanArticleUrl } from "@/article-links"
 type SourceLink = {
   label: string
   href: string
@@ -82,9 +83,9 @@ export function TechnicalArticleInfo({
             <a
               key={source.href}
               className="font-medium text-bitcoin underline decoration-bitcoin/35 underline-offset-4 hover:decoration-bitcoin"
-              href={source.href}
+              href={cleanArticleUrl(source.href)}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               {source.label}
             </a>
@@ -93,7 +94,7 @@ export function TechnicalArticleInfo({
             className="font-medium text-bitcoin underline decoration-bitcoin/35 underline-offset-4 hover:decoration-bitcoin"
             href={correctionUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             {isEnglish ? "Report a correction" : "Prijavite ispravak"}
           </a>
@@ -101,7 +102,7 @@ export function TechnicalArticleInfo({
             className="font-medium text-bitcoin underline decoration-bitcoin/35 underline-offset-4 hover:decoration-bitcoin"
             href={`${REPOSITORY_URL}/blob/main/btcpavao-github-io/${sourcePath}`}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             {isEnglish ? "View source" : "Pogledajte izvor"}
           </a>

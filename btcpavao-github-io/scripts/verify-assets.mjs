@@ -1027,7 +1027,7 @@ assert(
       "/long-road-bitcoin-core-cover-840.webp"
     ) &&
     longRoadArticleRouteHtml.includes(
-      'href="/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/">Bitcoin Core’s entropy generation</a>'
+      'href="/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/" target="_blank" rel="noopener noreferrer">Bitcoin Core’s entropy generation</a>'
     ),
   "The Long Road cover or its contextual entropy article link is missing"
 )
@@ -1038,7 +1038,7 @@ assert(
   "The Long Road article exposes editorial visual instructions"
 )
 assert(
-  (longRoadArticleRouteHtml.match(/bitcoin-core-section-pictogram/g) ?? [])
+  (longRoadArticleRouteHtml.match(/essay-section-icon/g) ?? [])
     .length === 17 &&
     (longRoadArticleRouteHtml.match(/bitcoin-core-list/g) ?? []).length === 5 &&
     (longRoadArticleRouteHtml.match(/long-road-article-quote/g) ?? [])
@@ -1050,14 +1050,14 @@ assert(
   "The Long Road article headings, lists, quotes, separators, or bold text were not rendered completely"
 )
 assert(
-  (bitcoinCoreArticleRouteHtml.match(/bitcoin-core-section-pictogram/g) ?? [])
+  (bitcoinCoreArticleRouteHtml.match(/essay-section-icon/g) ?? [])
     .length === 24 &&
     bitcoinCoreArticleRouteHtml.includes("bitcoin-core-list") &&
     bitcoinCoreArticleRouteHtml.includes('aria-label="Natrag na vrh"'),
   "Bitcoin Core article formatting or navigation controls are incomplete"
 )
 assert(
-  (enBitcoinCoreArticleRouteHtml.match(/bitcoin-core-section-pictogram/g) ?? [])
+  (enBitcoinCoreArticleRouteHtml.match(/essay-section-icon/g) ?? [])
     .length === 24 &&
     enBitcoinCoreArticleRouteHtml.includes("bitcoin-core-list") &&
     enBitcoinCoreArticleRouteHtml.includes('aria-label="Back to top"') &&

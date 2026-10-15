@@ -1,3 +1,4 @@
+import { articleLinkProps } from "@/article-links"
 import { Fragment, type ReactNode } from "react"
 
 export type Bip39ArticleBlock =
@@ -203,7 +204,7 @@ export function renderBip39Inline(text: string): ReactNode {
 
     if (linkMatch) {
       return (
-        <a href={linkMatch[2]} key={key}>
+        <a {...articleLinkProps(linkMatch[2])} key={key}>
           {linkMatch[1]}
         </a>
       )
