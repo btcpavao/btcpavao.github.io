@@ -1,5 +1,5 @@
 import { articleLinkProps } from "@/article-links"
-import { useState, useSyncExternalStore } from "react"
+import { useEffect, useRef, useState, useSyncExternalStore } from "react"
 import { Cpu, Link, RotateCcw, Zap } from "lucide-react"
 import {
   AttackEstimate,
@@ -24,15 +24,37 @@ import {
   resetPassphrasePreferences,
   createPassphraseLink,
   isValidPassphrasePreferences,
+  dismissSharedExample,
   type PassphrasePreferences,
 } from "@/passphrase-preferences"
 
 export function PassphraseExplorer() {
-  const { settings, storageAvailable } = useSyncExternalStore(
+  const { settings, storageAvailable, sharedExample } = useSyncExternalStore(
     subscribePassphrasePreferences,
     getPassphraseSnapshot,
     getServerPassphraseSnapshot
   )
+  const calculatorRef = useRef<HTMLElement>(null)
+  const headingRef = useRef<HTMLHeadingElement>(null)
+  useEffect(() => {
+    if (!sharedExample) return
+    // Run after the curriculum's lesson-opening focus/scroll effect.
+    const frame = window.requestAnimationFrame(() => {
+      headingRef.current?.focus({ preventScroll: true })
+      calculatorRef.current?.scrollIntoView({
+        block: "start",
+        behavior: "instant",
+      })
+    })
+    const timer = window.setTimeout(
+      () => dismissSharedExample(sharedExample.id),
+      Math.max(0, sharedExample.expiresAt - Date.now())
+    )
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.clearTimeout(timer)
+    }
+  }, [sharedExample])
   const { words, listSize, gpus, rate, power, energy, compute } = settings
   const [resetNotice, setResetNotice] = useState("")
   const [sharedLink, setSharedLink] = useState<{
@@ -83,16 +105,20 @@ export function PassphraseExplorer() {
   return (
     <section
       id="passphrase-calculator"
+      ref={calculatorRef}
       className="course-explorer parallel-explorer"
       aria-label="Illustrative brute-force model"
     >
-      <h2>
+      <h2 ref={headingRef} tabIndex={-1}>
         <Cpu aria-hidden="true" />
         Turn word count into time and cost
       </h2>
       <p>
         Move the slider to get a feel for how hard a random passphrase is to
         guess.
+      </p>
+      <p className="word-count-arrival" role="status">
+        {sharedExample ? "Settings loaded from shared link." : ""}
       </p>
       <div className="word-count-control">
         <div className="word-count-control__heading">

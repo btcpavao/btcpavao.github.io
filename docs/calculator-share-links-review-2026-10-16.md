@@ -17,3 +17,11 @@ Malformed, incomplete, duplicate and unsupported-version payloads are ignored at
 - Screenshots saved in `../site-update-2026-10-16/` outside the repository: guide desktop/mobile and curriculum mobile.
 
 The manual-copy fallback was reviewed in source; the test browser allowed clipboard writes, so denied-clipboard behavior was not forced in browser QA.
+
+## Shared-link arrival follow-up
+
+A valid shared example now scrolls directly to the calculator and moves keyboard focus to its heading after the curriculum finishes its lesson-opening effect. The lesson hash remains intact. Scrolling is immediate, with a 24 px calculator margin in addition to the site's 80 px fixed-header scroll padding. This applies to both curriculum lessons and the wallet guide.
+
+An accessible status message above the slider reads “Settings loaded from shared link.” for eight seconds, or until settings are edited/reset. Arrival state is transient and never persisted. Ordinary page loads and malformed links do not trigger the message or calculator scroll. Immediate React development remounts preserve the same arrival; an old dismissal timer cannot clear a newer arrival.
+
+Validation: all 32 curriculum checks, build, targeted ESLint, assets/internal links and whitespace checks pass. The existing shared-link test now also covers transient arrival state, immediate remount, editing, dismissal and stale-timer protection. IAB checks confirmed both curriculum lessons and the guide scroll to approximately 104 px below the viewport top, restore selected settings and focus the calculator heading. The message disappears without changing settings. A normal curriculum URL opens at scroll position 0 with focus on the lesson title and no arrival message. Desktop/mobile frame padding remains 24/20 px, with no horizontal overflow or console errors.

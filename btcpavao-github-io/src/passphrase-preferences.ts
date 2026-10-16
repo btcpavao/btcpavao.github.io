@@ -90,13 +90,20 @@ export function parsePassphrasePreferences(
   return settings
 }
 
-type Snapshot = { settings: PassphrasePreferences; storageAvailable: boolean }
+type SharedExample = { id: number; href: string; expiresAt: number }
+type Snapshot = {
+  settings: PassphrasePreferences
+  storageAvailable: boolean
+  sharedExample: SharedExample | null
+}
 export const DEFAULT_PASSPHRASE_SNAPSHOT: Snapshot = {
   settings: DEFAULT_PASSPHRASE_PREFERENCES,
   storageAvailable: true,
+  sharedExample: null,
 }
 let snapshot = DEFAULT_PASSPHRASE_SNAPSHOT
 let savedSettings = DEFAULT_PASSPHRASE_PREFERENCES
+let sharedExampleId = 0
 const listeners = new Set<() => void>()
 function notify() {
   listeners.forEach((listener) => listener())
@@ -109,14 +116,21 @@ export function getServerPassphraseSnapshot() {
   return DEFAULT_PASSPHRASE_SNAPSHOT
 }
 
-function refresh() {
+function refresh(preserveArrival = false) {
+  const arrival = snapshot.sharedExample
+  const sharedExample =
+    preserveArrival &&
+    arrival?.href === window.location.href &&
+    arrival.expiresAt > Date.now()
+      ? arrival
+      : null
   try {
     savedSettings = parsePassphrasePreferences(
       window.localStorage.getItem(PASSPHRASE_PREFERENCES_KEY)
     )
-    snapshot = { settings: savedSettings, storageAvailable: true }
+    snapshot = { settings: savedSettings, storageAvailable: true, sharedExample }
   } catch {
-    snapshot = { ...snapshot, storageAvailable: false }
+    snapshot = { ...snapshot, storageAvailable: false, sharedExample }
   }
   notify()
 }
@@ -135,11 +149,25 @@ function restoreSharedExample() {
   } catch {
     storageAvailable = false
   }
-  snapshot = { settings: shared, storageAvailable }
   // Import once. Subsequent edits, remounts and resets use the shared store,
   // rather than repeatedly restoring the original URL over the user's changes.
   url.searchParams.delete(LINK_PARAMETER)
   window.history.replaceState(window.history.state, "", url.href)
+  snapshot = {
+    settings: shared,
+    storageAvailable,
+    sharedExample: {
+      id: ++sharedExampleId,
+      href: url.href,
+      expiresAt: Date.now() + 8000,
+    },
+  }
+  notify()
+}
+
+export function dismissSharedExample(id: number) {
+  if (snapshot.sharedExample?.id !== id) return
+  snapshot = { ...snapshot, sharedExample: null }
   notify()
 }
 function onNavigation() {
@@ -154,7 +182,8 @@ function onPageShow(event: PageTransitionEvent) {
 export function subscribePassphrasePreferences(listener: () => void) {
   if (listeners.size === 0) {
     // Read after hydration, before any writes. This also refreshes on remount.
-    refresh()
+    // Retain a fresh arrival across React's immediate development remount.
+    refresh(true)
     restoreSharedExample()
     window.addEventListener("storage", onStorage)
     window.addEventListener("pageshow", onPageShow)
@@ -191,7 +220,7 @@ export function updatePassphrasePreference<K extends PreferenceKey>(
     }
   }
   // Empty/incomplete number fields are editable drafts, never persisted.
-  snapshot = { settings, storageAvailable }
+  snapshot = { settings, storageAvailable, sharedExample: null }
   notify()
 }
 
@@ -203,6 +232,6 @@ export function resetPassphrasePreferences() {
   } catch {
     storageAvailable = false
   }
-  snapshot = { settings: savedSettings, storageAvailable }
+  snapshot = { settings: savedSettings, storageAvailable, sharedExample: null }
   notify()
 }
