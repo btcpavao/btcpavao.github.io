@@ -1,3 +1,4 @@
+import { Archive, LockKeyhole } from "lucide-react"
 import { ConsultingInvitation } from "@/components/consulting-invitation"
 import { useEffect } from "react"
 import { SiteHeader } from "@/components/site-header"
@@ -22,15 +23,13 @@ const software = {
     url: "https://keepassxc.org/",
     logo: "/software/keepassxc.png",
   },
-  sevenzip: {
-    name: "7-Zip",
-    url: "https://www.7-zip.org/",
-    logo: "/software/7zip.png",
+  gnupg: {
+    name: "GnuPG",
+    url: "https://gnupg.org/",
   },
-  arqiver: {
-    name: "Arqiver",
-    url: "https://github.com/tsujan/Arqiver",
-    logo: "/software/arqiver.svg",
+  tar: {
+    name: "GNU TAR",
+    url: "https://www.gnu.org/software/tar/",
   },
   thunar: {
     name: "Thunar",
@@ -74,14 +73,18 @@ function SoftwareRow({ ids, label }: { ids: SoftwareId[]; label: string }) {
           rel="noopener noreferrer"
         >
           <span className="debian-software-icon">
-            <img
+            {id === "gnupg" ? (
+              <LockKeyhole className="size-8 text-[#0d3153]" aria-hidden="true" />
+            ) : id === "tar" ? (
+              <Archive className="size-8 text-[#0d3153]" aria-hidden="true" />
+            ) : <img
               src={software[id].logo}
               alt=""
               width="48"
               height="48"
               loading="lazy"
               decoding="async"
-            />
+            />}
           </span>
           <span>{software[id].name}</span>
         </a>
@@ -125,7 +128,10 @@ export function DebianImagesPage() {
           </p>
           <p>
             Keep the software each role needs. Leave browsing, email and
-            unrelated everyday applications on another computer.
+            unrelated everyday applications on another computer. For meaningful
+            funds, I recommend dedicated hardware with a fresh Linux installation.
+            A clean antivirus scan does not make a daily computer a trusted
+            environment for wallet secrets.
           </p>
         </header>
         <div className="debian-role-grid">
@@ -179,8 +185,8 @@ export function DebianImagesPage() {
                 "debian",
                 "core",
                 "keepassxc",
-                "sevenzip",
-                "arqiver",
+                "gnupg",
+                "tar",
                 "thunar",
                 "mousepad",
                 "brasero",
@@ -204,11 +210,15 @@ export function DebianImagesPage() {
               </li>
               <li>
                 <strong>
-                  <SoftwareLink id="sevenzip" /> and{" "}
-                  <SoftwareLink id="arqiver" />
+                  <SoftwareLink id="gnupg" />
                 </strong>{" "}
-                for encrypted backup archives, including an outer encryption
-                layer around a wallet backup.
+                for symmetric encryption of the whole backup: one GPG layer by
+                default, with additional independently protected layers when needed.
+              </li>
+              <li>
+                <strong><SoftwareLink id="tar" /></strong>{" "}
+                for packaging files and folders before encryption. TAR is
+                packaging, not encryption; Vault is intended to handle it for you.
               </li>
               <li>
                 <strong>
@@ -236,6 +246,35 @@ export function DebianImagesPage() {
               </li>
             </ul>
             <div className="debian-session-note">
+              <h3>GPG backups, with independent layers when needed</h3>
+              <p>
+                The upcoming redesign uses standard GPG encryption around a
+                consistent Core wallet snapshot or TAR payload. It targets
+                authenticated AES-256 OCB encryption. Each additional layer uses
+                its own randomly generated passphrase; the Core wallet passphrase
+                remains a separate secret. Encrypting the payload hides the
+                wallet metadata and filenames inside it, while the outer filename,
+                size and storage timestamps remain visible.
+              </p>
+              <p>
+                Multiple layers require every layer’s secret. Keep redundant
+                recovery records and separate locations deliberately; storing all
+                passphrases together defeats that separation. This protects backup
+                access, not Bitcoin signing authority, and is not multisig. Only
+                the final outermost file belongs in distributed backup storage.
+              </p>
+              <p>
+                Recovery is designed to work without Vault: decrypt each layer
+                with compatible standard GnuPG, extract TAR when present, then
+                restore the wallet in Core. The release will document the tested
+                GnuPG version and OCB profile. Prove that full recovery independently
+                before relying on the backup.
+              </p>
+              <a href="/en/bitcoin-core/wallet-setup-backup-recovery/#optional-backup-protection">
+                Practise GPG backup and recovery now →
+              </a>
+            </div>
+            <div className="debian-session-note">
               <h3>A stateless private session</h3>
               <p>
                 Wallets, password databases, settings and temporary working
@@ -245,8 +284,9 @@ export function DebianImagesPage() {
                 restricts writes to checked RAM locations.
               </p>
               <p>
-                Use Wallet Backup to export an encrypted wallet archive to USB,
-                optical or other removable media, and verify recovery. Export
+                The redesigned Wallet Backup workflow will export the final
+                encrypted .gpg file to USB, optical or other removable media,
+                with verification before completion. Export
                 any password database, recovery notes or signed PSBT you want to
                 keep too. Finish Private Session checks the wallets against
                 verified exports before discarding the workspace. Shutdown,
@@ -257,8 +297,8 @@ export function DebianImagesPage() {
                 <p>
                   It describes the private working session, not every possible
                   write a user can make. Exported backups remain on their
-                  destination media. Tools such as the file manager and archive
-                  manager can also write elsewhere if you deliberately choose
+                  destination media. Tools such as the file manager and text
+                  editor can also write elsewhere if you deliberately choose
                   another destination; use Private Workspace for temporary
                   sensitive files. Ending the session does not erase old disk
                   contents or certify physical RAM sanitization.
@@ -266,9 +306,9 @@ export function DebianImagesPage() {
               </details>
             </div>
             <p className="debian-detail">
-              These tools are present in the current Vault build configuration.
-              The release manifest will document the exact contents of each
-              published image.
+              This is the planned GPG-based toolset for the upcoming Vault
+              release. The release manifest and testing notes will document the
+              exact contents and verified behavior of each published image.
             </p>
             <a href={lesson("more-copies-do-not-mean-a-current-backup")}>
               Learn the backup and recovery workflow →
@@ -313,8 +353,8 @@ export function DebianImagesPage() {
             open-source software. Debian packages come from the official Debian
             archive; Bitcoin Core uses the unmodified upstream release. The
             current Vault build also contains project configuration, helper
-            programs and locally built or patched packages, including Arqiver,
-            Thunar and the installer. Those additions belong in the review too.
+            programs and locally built or patched packages, including the Vault
+            interface, Thunar and the installer. Those additions belong in the review too.
           </p>
           <p>
             Each release will link to its exact package manifest, upstream
@@ -378,7 +418,7 @@ export function DebianImagesPage() {
         </section>
         <section className="debian-release-plan" id="release-status">
           <p className="debian-images-eyebrow">
-            Release status · October 12, 2026
+            Release status · October 16, 2026
           </p>
           <h2>The images are coming. The learning path is already open.</h2>
           <p>

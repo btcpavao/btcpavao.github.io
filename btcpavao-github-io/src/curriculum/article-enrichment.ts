@@ -22,6 +22,10 @@ const sources = {
     label: "We Made Bitcoin Self-Custody Harder Than It Had to Be",
     url: essay("we-made-bitcoin-self-custody-harder-than-it-had-to-be"),
   },
+  gpg: {
+    label: "GPG backup guide: independent layers and macOS graphical workflow",
+    url: `${essay("wallet-setup-backup-recovery")}#optional-backup-protection`,
+  },
   images: {
     label: "Coming soon: dedicated Debian images and curriculum integration",
     url: essay("debian-images"),
@@ -62,7 +66,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "1.5": {
     image:
-      "Three dedicated Debian images are in development: a minimal offline Core signer, Bitcoin Core Vault for wallet creation and encrypted backups, and a dedicated online node without a browser, email client or unrelated everyday applications. They will package the roles taught here; the current lessons continue to use verified Debian and Core installations. Download and verification links will be added here when released.",
+      "Three dedicated Debian images are in development: a minimal offline Core signer, Bitcoin Core Vault for wallet creation and GPG backups with optional independent layers, and a dedicated online node without a browser, email client or unrelated everyday applications. They will package the roles taught here; the current lessons continue to use verified Debian and Core installations. Download and verification links will be added here when released.",
     reading: ["simpler"],
   },
   "software-continuity": {
@@ -94,11 +98,11 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "encrypted-backup-privacy": {
     notes: [
-      "Treat the wallet file, the Core passphrase and any outer archive password as distinct recovery objects. An encrypted 7z archive can conceal the wallet file and, when header encryption is enabled, its filenames. Opening the outer archive does not replace the Core passphrase. Test both layers on an offline replacement before relying on them; do not assume that every ZIP or archive setting provides the same protection.",
+      "Treat the wallet file, Core passphrase and every GPG passphrase as distinct recovery objects. I recommend one symmetric GPG layer to protect the entire backup, with additional independent layers only when useful. The encrypted payload hides wallet metadata and internal filenames; the outer filename, size and storage timestamps remain visible. Test all layers and Core restoration on a trusted replacement before relying on them.",
     ],
-    reading: ["backup"],
+    reading: ["backup", "gpg"],
     image:
-      "Bitcoin Core Vault's current build includes 7-Zip and Arqiver for outer encrypted backup archives, plus file and media tools. The released image and matching instructions will be linked here. This announcement does not change the existing backup-privacy exercise or make an outer archive compulsory.",
+      "The upcoming Bitcoin Core Vault Debian ISO is being redesigned around GnuPG, TAR, Core and KeePassXC. One GPG layer is the default; extra layers use independent passphrases. TAR packages files before encryption, and the design targets authenticated AES-256 OCB with private RAM working storage. The released image will document the tested GnuPG profile and independent recovery. You can practise now with the linked GPG wallet guide.",
   },
   "backup-media": {
     image:
@@ -120,7 +124,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "ops-documentation": {
     notes: [
-      "Write which program opens each artifact and in what order: outer archive if used, Core wallet backup, separately recovered Core passphrase, public descriptors for the online watch-only wallet. Record image and software versions, but also describe the ordinary Debian/Core recovery route. A relative should not have to reconstruct the plan from a pile of devices.",
+      "Write which program opens each artifact and in what order: GPG layers in reverse order if used, TAR extraction when present, Core wallet backup, separately recovered Core passphrase, public descriptors for the online watch-only wallet. Record image and software versions, but also describe the ordinary GnuPG/TAR/Core recovery route and every required passphrase. A relative should not have to reconstruct the plan from a pile of devices.",
     ],
     reading: ["backup"],
   },
@@ -132,7 +136,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "real-encryption": {
     image:
-      "Bitcoin Core Vault brings Core, KeePassXC and encrypted-backup tools into an offline environment with a RAM-only private workspace, whether run live or with its operating system installed. Export the encrypted wallet and any other files you need to removable media before shutdown; unsaved session data does not persist. The image is still forthcoming. Release links will appear here alongside the creation, encryption and backup instructions; the empty-wallet restore and small-payment tests remain necessary.",
+      "The planned Bitcoin Core Vault release brings Core, KeePassXC, GnuPG and TAR into an offline environment with a RAM-only private workspace, whether run live or with its operating system installed. Export the encrypted wallet and any other files you need to removable media before shutdown; unsaved session data does not persist. The image is still forthcoming. Release links will appear here alongside the creation, encryption and backup instructions; the empty-wallet restore and small-payment tests remain necessary.",
   },
   "multisig-why": {
     notes: [
@@ -178,7 +182,9 @@ export function enrichFromArticles(lessons: PlayerLesson[]): PlayerLesson[] {
     return {
       ...lesson,
       contentUpdated:
-        lesson.contentUpdated && lesson.contentUpdated > "2026-10-12"
+        ["1.5", "encrypted-backup-privacy", "ops-documentation", "real-encryption"].includes(lesson.id)
+          ? "2026-10-16"
+          : lesson.contentUpdated && lesson.contentUpdated > "2026-10-12"
           ? lesson.contentUpdated
           : "2026-10-12",
       notes: [...(lesson.notes ?? []), ...(addition.notes ?? [])],

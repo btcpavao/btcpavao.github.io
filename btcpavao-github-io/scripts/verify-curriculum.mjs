@@ -310,7 +310,7 @@ try {
     }
   )
   check(
-    "Threat modelling precedes products; Debian is the default and Tails and VeraCrypt are optional",
+    "Threat modelling precedes products; Debian is the default and Tails and the GPG exercise are optional",
     () => {
       assert.ok(ids.indexOf("0.2") < ids.indexOf("1.1"))
       assert.ok(
@@ -851,6 +851,8 @@ try {
         "brute-force-economics",
         "generate-passphrase",
         "repetition-drills",
+        "encrypted-backup-privacy",
+        "optional-veracrypt",
         "multisig-signet",
         "advanced-mastery",
       ])
@@ -963,6 +965,9 @@ try {
       assert.ok(!completed.has("debian-setup"))
       assert.ok(!completed.has("foundations-checkpoint"))
       assert.ok(!completed.has("multisig-signet"))
+      assert.ok(!completed.has("optional-veracrypt"), "Old container practice must not complete the new GPG exercise")
+      assert.equal(en.findLessonBySlug("optional-veracrypt")?.lesson.slug, "optional-gpg-layers")
+      assert.equal(en.findLessonBySlug("optional-gpg-layers")?.lesson.id, "optional-veracrypt")
       assert.equal(
         migration.retainedV41Completions(new Set(), oldMarks, oldChecks).size,
         0

@@ -875,7 +875,7 @@ assert(
   (bitcoinCoreWalletGuideRouteHtml.match(/aria-valuemax="11"/g) ?? []).length >=
     1 &&
     bitcoinCoreWalletGuideRouteHtml.includes(
-      "Optional: Encrypt the whole backup"
+      "Encrypt the whole backup with GPG"
     ) &&
     bitcoinCoreWalletGuideRouteHtml.includes(
       "prove that the restored keys can"

@@ -580,7 +580,7 @@ export function PassphraseExplorer() {
             rates, not predictions or feasible budgets. Future hardware,
             disclosed words and malware change the situation. Rental excludes
             storage, taxes and other overheads. This models a Core wallet
-            passphrase, not a 7z archive or KeePassXC database.
+            passphrase, not GPG backup encryption or a KeePassXC database.
           </p>
         </details>
       </details>

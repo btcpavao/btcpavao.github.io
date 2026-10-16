@@ -16,9 +16,10 @@ export const SPARROW_REFERENCE_VERSION = "Sparrow 2.5.4"
 export const ELECTRUM_REFERENCE_VERSION =
   "Electrum history and server architecture"
 export const LAST_TECHNICAL_REVIEW = "2026-09-14"
-export const CUSTODY_CONTENT_UPDATED = "2026-10-14"
+export const CUSTODY_CONTENT_UPDATED = "2026-10-16"
 
 export const legacyEnglishLessonSlugAliases: Record<string, string> = {
+  "optional-veracrypt": "optional-gpg-layers",
   "optional-physical-dice-passphrase": "generate-passphrase",
   "sto-self-custody-stvarno-znaci": "what-self-custody-really-means",
   "threat-model-prije-alata": "threat-model-before-tools",

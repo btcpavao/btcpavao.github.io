@@ -20,6 +20,7 @@ export const part2Lessons: PlayerLesson[] = [
     kind: "practice",
     explanation: [
       "Start with one supported generic laptop or desktop reserved for this work. Install Debian Stable and Bitcoin Core, then learn the complete wallet lifecycle with Signet test coins. One computer and one wallet are enough for this stage.",
+      "For meaningful funds, use dedicated hardware with a fresh Linux installation. I do not recommend a daily computer even after antivirus or anti-malware cleanup: a clean scan does not establish that the environment can safely handle wallet secrets. Keep this practice wallet disposable and complete the curriculum before preparing a fresh real-funds setup.",
       "Choose working storage, enough memory and a drive suited to the node’s storage settings. Keep unrelated browsing, email, chat and remote-access software out of this environment. The purpose of dedicating the computer is to reduce unrelated software and activity around the wallet.",
     ],
     prerequisites: ["foundations-checkpoint"],
@@ -1730,12 +1731,13 @@ export const part2Lessons: PlayerLesson[] = [
     referenceVersion: "Bitcoin Core 31.1",
     explanation: [
       "Core wallet encryption protects private-key material. It does not necessarily hide public keys, addresses, transaction records or labels. These records are often called metadata: information about the wallet's activity rather than the secret needed to sign a payment.",
-      "Someone who obtains the file may learn about your finances even if the password prevents spending. Cloud storage can make a copy available after local devices fail, but it also gives a third party a stored copy and adds online exposure. If you use an additional encrypted container to hide the entire file, include that container and its password in the recovery test. Extra protection also creates another thing you must recover.",
+      "Someone who obtains a bare Core backup may learn about your finances even if the wallet passphrase prevents spending. My recommendation is to encrypt the whole backup with GPG before distributing it, especially before an additional cloud copy. Start with one independently generated GPG passphrase. Additional layers are optional: each protects the previous encrypted file with a different secret, and all are needed for recovery. The Core passphrase remains separate.",
     ],
     checklist: [
       "I can distinguish someone gaining the ability to spend from someone learning my payment history.",
       "I understand the extra exposure and recovery benefits of cloud storage.",
       "I keep the encrypted backup and its password in separate places, and can recover each.",
+      "I can explain the difference between the Core passphrase and every GPG layer, and why only the final outermost file should be distributed.",
     ],
     sources: [
       {
@@ -1750,8 +1752,8 @@ export const part2Lessons: PlayerLesson[] = [
     callouts: [
       {
         kind: "warning",
-        title: "Encrypted does not mean private",
-        body: "Assess separately whether an attacker could spend funds, what they could learn about the wallet, and how strong the passphrase is. Only then decide whether online storage is acceptable for your threat model.",
+        title: "Content privacy has boundaries",
+        body: "GPG hides the payload, including wallet metadata and embedded filenames. The outer filename, size and storage timestamps remain visible. Encryption cannot protect secrets exposed to malware during creation or recovery. Keep independent offline copies and test every required decryption step.",
       },
     ],
     videoUrl: null,
@@ -1759,18 +1761,18 @@ export const part2Lessons: PlayerLesson[] = [
     optional: false,
     kind: "checkpoint",
     prerequisites: ["backup-redundancy-freshness"],
-    contentUpdated: "2026-09-14",
+    contentUpdated: "2026-10-16",
     notes: [
       "Cloud storage is therefore a tradeoff: it can improve redundancy and availability, but adds a third party, online exposure, and potential privacy leakage to the threat model. It is not a universal recommendation.",
     ],
     chapter: "Prove backup and recovery",
-    sourceReviewed: "2026-09-14",
+    sourceReviewed: "2026-10-16",
     reviewNote:
-      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
+      "GPG privacy wording and sources reviewed on 16 October 2026. No final Vault ISO, OCB compatibility or physical Debian test is claimed.",
     why: "Understand how key protection differs from financial privacy.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
-      "Core encrypts private key material, not all wallet metadata. A locked backup still deserves financial privacy protection.",
+      "Core protects private-key material. GPG protects the whole backup; independent layers add recovery requirements, not independent Bitcoin signing keys.",
   },
   {
     id: "backup-media",
@@ -3018,78 +3020,79 @@ export const part2Lessons: PlayerLesson[] = [
       "A tested single-sig setup can be your completed custody system. Add another spending authority only when it solves a concrete threat.",
   },
   {
+    // Keep the internal ID for existing bookmarks and progress history.
     id: "optional-veracrypt",
-    slug: "optional-veracrypt",
-    title: "Optional: put the backup inside an encrypted container",
-    summary:
-      "Add an outer layer only for a named threat, such as wallet metadata exposure.",
-    objective:
-      "Add an outer layer only for a named threat, such as wallet metadata exposure.",
-    what: "Add an outer layer only for a named threat, such as wallet metadata exposure.",
-    why: "Core wallet encryption protects private key material without encrypting every wallet record.",
-    risk: "A second encryption layer can become a second way to lock yourself out.",
+    slug: "optional-gpg-layers",
+    title: "Practise GPG backup encryption and optional layers",
+    summary: "Protect the complete backup with one GPG layer; add independent layers only for a clear purpose.",
+    objective: "Encrypt a disposable wallet backup and prove recovery through every chosen GPG layer.",
+    what: "Use standard GnuPG for external backup encryption and independent recovery.",
+    why: "Core wallet encryption protects private keys without hiding every wallet record.",
+    risk: "Losing any required passphrase can block recovery. Malware can capture secrets before encryption.",
     status: "published",
     verification: "source-reviewed",
-    referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-14",
+    referenceVersion: "Bitcoin Core 31.1; maintained GnuPG",
+    contentUpdated: "2026-10-16",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
-      "VeraCrypt can hold an encrypted Core backup inside a separate encrypted volume. This can protect information outside Core’s private-key encryption boundary, including metadata, when that additional privacy matters to your threat model.",
-      "It adds software, a volume format, a second credential and another recovery operation. You still need the Core wallet passphrase after opening the container. A lost or damaged container header can create a further recovery dependency.",
-      "The default course does not require VeraCrypt. If you choose it, follow its official volume-creation and backup documentation and prove the whole two-stage recovery with a disposable copy before depending on it.",
+      "Start with one symmetric GPG layer around a consistent Core backup. GPG protects the entire payload, including wallet metadata and internal filenames. A TAR can package multiple files first; TAR itself does not encrypt them. The outer filename, size and storage timestamps remain visible.",
+      "For another layer, encrypt the existing GPG file again using an independently generated passphrase. Recover in reverse order, then extract TAR if present and restore the wallet in Core. Core’s own wallet passphrase is separate. Use only the final outermost file for distributed copies; an accessible inner copy bypasses the outer layers.",
+      "Layers are useful when their secrets are handled independently. For example, A, B and C can be held at separate locations, each with redundant recovery records. All three are needed; losing one can make recovery impossible. Keeping them all in one immediately accessible database defeats geographic separation. This is not multisig and does not guarantee protection from coercion.",
+      "The upcoming Vault Debian ISO is intended to include Core, GnuPG, TAR and KeePassXC, with authenticated AES-256 OCB and a private RAM workspace. Its release will specify the tested GnuPG profile. The independent practice commands below use the installed GnuPG default integrity-protected format with AES-256; they do not select Vault’s planned OCB profile.",
+      "For macOS practice, GPG Suite includes GPG Services in Finder. Use its password-only encryption option, with no recipient keys or signing, and repeat it on the encrypted output for another layer. The linked wallet guide gives the graphical steps and Linux/Windows installation options. For meaningful funds, use a dedicated computer with fresh Linux instead of a daily Mac or PC.",
     ],
     prerequisites: ["backup-media"],
     sources: [
-      {
-        label: "VeraCrypt: volume backup and recovery dependencies",
-        url: "https://veracrypt.io/en/How%20to%20Back%20Up%20Securely.html",
-      },
-      {
-        label: "Bitcoin Core 31.1: wallet creation, backup and restoration",
-        url: "https://github.com/bitcoin/bitcoin/blob/v31.1/doc/managing-wallets.md",
-      },
+      { label: "GnuPG: symmetric encryption and decryption", url: "https://gnupg.org/documentation/manuals/gnupg/Operational-GPG-Commands.html" },
+      { label: "GnuPG: integrity and OCB options", url: "https://gnupg.org/documentation/manuals/gnupg/OpenPGP-Options.html" },
+      { label: "GPG wallet guide: installation, macOS interface and recovery", url: "/en/bitcoin-core/wallet-setup-backup-recovery/#optional-backup-protection" },
+      { label: "GPG Suite for macOS", url: "https://gpgtools.org/" },
     ],
-    reviewNote:
-      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
-    origin: "First-principles curriculum v4",
+    reviewNote: "GPG source and command review: 16 October 2026. Synthetic one- and two-layer CLI round trips passed with MacGPG 2.2.41; wrong-passphrase and corruption rejection passed. No GPG Services GUI test, final Vault OCB profile test, physical Debian rehearsal or funded Signet test is claimed.",
+    origin: "First-principles curriculum; GPG backup revision",
     guidedSteps: [
       {
-        id: "justify-layer-v4",
-        title: "Name the extra threat",
+        id: "gpg-prepare-20261016",
+        title: "Prepare a disposable backup and independent secret",
         instructions: [
-          "Write what the outer container protects that your current file encryption and physical storage do not. Identify the VeraCrypt version, password record and any header-backup plan the official documentation requires.",
+          "Use File → Backup Wallet in your encrypted test wallet. Save a disposable snapshot as practice-wallet.dat in your private practice workspace, outside cloud sync. Use KeePassXC to generate passphrase A independently of the Core passphrase. Record the software version, intended layer count and recovery order without placing the secrets beside the backup.",
+          "Install maintained GnuPG through your distribution or the official tools linked in the wallet guide. For real custody, unwrapped snapshots and recovery outputs belong in verified private RAM or an environment prepared to prevent plaintext persistence through swap, sync and temporary files.",
         ],
-        expectedResult:
-          "The extra software and recovery dependencies have a reason.",
-        help: "Check whether the problem is opening the container or unlocking the wallet inside it. Each layer needs its own software and credential; test them separately using disposable copies.",
+        command: "gpg --version",
+        commandContext: "Terminal in the private practice workspace",
+        expectedResult: "You have a consistent disposable Core backup and a separately recoverable GPG passphrase.",
+        help: "GPG symmetric encryption needs a passphrase, not a public/private GPG key pair. Keep original backups until recovery succeeds.",
       },
       {
-        id: "copy-test-v4",
-        title: "Use a copy in a fresh test container",
+        id: "gpg-encrypt-20261016",
+        title: "Encrypt one layer, then add another only if useful",
         instructions: [
-          "Create a standard file container through VeraCrypt’s documented wizard on your test computer. Put a copy of an already encrypted test wallet backup inside it. Keep the original backup separately; do not move your only copy into an untested volume. Dismount the container.",
+          "Run the command below, using a new output filename. Enter A only in the GPG prompt, never in command arguments. Confirm successful completion. The original file remains in place.",
+          "For an optional second layer, generate independent passphrase B and run: gpg --no-symkey-cache --symmetric --cipher-algo AES256 --output backup-outer.gpg backup.gpg. Enter B in the prompt. Retain only the final outer file in distributed backup storage. Keep the test originals private until the recovery test is complete.",
         ],
-        expectedResult:
-          "The test container can be closed and reopened with its own credential.",
-        help: "Check whether the problem is opening the container or unlocking the wallet inside it. Each layer needs its own software and credential; test them separately using disposable copies.",
+        command: "gpg --no-symkey-cache --symmetric --cipher-algo AES256 --output backup.gpg practice-wallet.dat",
+        commandContext: "Terminal in the private practice workspace",
+        expectedResult: "A complete GPG file protects the snapshot; every selected layer has its own recoverable secret.",
+        help: "One layer is the default. Another layer is justified by independent secret handling, not by an assumption that more layers are automatically safer.",
       },
       {
-        id: "two-stage-v4",
-        title: "Prove both stages elsewhere",
+        id: "gpg-recover-20261016",
+        title: "Recover every layer and prove the wallet works",
         instructions: [
-          "On a separate maintained test environment, open the copied container, extract the wallet backup and restore it in Bitcoin Core. Unlock the restored test wallet with its separate Core passphrase and complete a test signing operation.",
+          "For one layer, use the command below and enter A. For two layers, first run: gpg --no-symkey-cache --output recovered-inner.gpg --decrypt backup-outer.gpg and enter B. After success, decrypt recovered-inner.gpg to recovered-wallet.dat with A. Do not overwrite the original snapshot.",
+          "Run each decryption separately and continue only after success with no integrity errors. Reject partial or failed output. If the expected final payload is TAR, extract it in the private workspace. Restore the recovered wallet through Core, compare addresses and labels, and prove test signing with the separate Core passphrase. Rehearse on a trusted replacement environment without depending on the Vault interface.",
         ],
-        expectedResult:
-          "Both the outer container and inner wallet are recoverable without the original machine.",
-        help: "Check whether the problem is opening the container or unlocking the wallet inside it. Each layer needs its own software and credential; test them separately using disposable copies.",
+        command: "gpg --no-symkey-cache --output recovered-wallet.dat --decrypt backup.gpg",
+        commandContext: "One-layer recovery example; for two layers follow the reverse-order instructions above",
+        expectedResult: "Every GPG layer and the Core wallet can be recovered without the original interface or computer.",
+        help: "A filename or successful copy is not a recovery test. Never bypass an integrity error, and never decrypt in a browser or synced folder.",
       },
     ],
     optional: true,
     chapter: "Optional extensions",
-    sourceReviewed: "2026-09-14",
-    takeaway:
-      "An encrypted container can address an additional privacy need, but its software, password and recovery procedure become new dependencies.",
+    sourceReviewed: "2026-10-16",
+    takeaway: "One GPG layer protects the whole backup. Additional independent layers require additional independently recoverable secrets.",
   },
   productionLesson,
   {

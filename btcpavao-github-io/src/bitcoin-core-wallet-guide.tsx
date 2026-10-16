@@ -1196,7 +1196,7 @@ function OptionalBackupProtection({
               </li>
               <li><strong>Other Linux distributions:</strong> install GnuPG through your distribution’s authenticated package manager.</li>
               <li><strong>Windows:</strong> install <ResourceLink href="https://gpg4win.org/download.html" inverse>Gpg4win</ResourceLink> from its official website and follow its installer-verification instructions. It includes GnuPG and the Kleopatra interface.</li>
-              <li><strong>macOS:</strong> if you already use Homebrew, run <code>brew install gnupg</code> using the <ResourceLink href="https://formulae.brew.sh/formula/gnupg" inverse>GnuPG formula</ResourceLink>. Other macOS distributions are listed on the <ResourceLink href={GNUPG_DOWNLOAD_URL} inverse>official GnuPG download page</ResourceLink>.</li>
+              <li><strong>macOS:</strong> for a graphical workflow, I recommend <ResourceLink href="https://gpgtools.org/" inverse>GPG Suite</ResourceLink> and its <strong>GPG Services</strong> integration in Finder. Use the password-only steps below. If you prefer Terminal and already use Homebrew, run <code>brew install gnupg</code> using the <ResourceLink href="https://formulae.brew.sh/formula/gnupg" inverse>GnuPG formula</ResourceLink>. Other macOS distributions are listed on the <ResourceLink href={GNUPG_DOWNLOAD_URL} inverse>official GnuPG download page</ResourceLink>.</li>
             </ul>
             <p>
               Open Terminal (or PowerShell on Windows) and run <code>gpg --version</code>.
@@ -1204,6 +1204,28 @@ function OptionalBackupProtection({
               system; they do not change my recommendation for serious funds:
               dedicated hardware with a fresh Linux installation.
             </p>
+
+            <details className="border-t border-white/20 pt-4" id="macos-gpg-services">
+              <summary className="cursor-pointer py-2 font-semibold text-white">macOS graphical workflow: GPG Suite in Finder</summary>
+              <ol className="mt-4 list-decimal space-y-4 pl-6 [&_li]:pl-2">
+                <li>Install the official GPG Suite release compatible with your macOS version. For file encryption you use GPG Services and MacGPG; GPG Mail is not needed.</li>
+                <li>In Finder, select one disposable Core backup file, then choose <strong>Services → OpenPGP: Encrypt File</strong>. Enable <strong>Encrypt with Password</strong>, enter and confirm an independent passphrase, and leave recipient keys unselected. Turn off <strong>Sign</strong> and <strong>Add to Recipients</strong> so this is password-only encryption. You do not need to create or publish a GPG key.</li>
+                <li>Encrypt, then keep the resulting encrypted file separate from its passphrase. For another layer, repeat on that encrypted output with a new passphrase. For this exercise select one file at a time; folder packaging in GPG Services differs from Vault’s TAR workflow.</li>
+                <li>To recover, choose <strong>Services → OpenPGP: Decrypt File</strong> on the outer file. Repeat on each recovered inner file in reverse order. Use a separate recovery folder to avoid overwriting originals, check for errors, then restore the recovered wallet in Core.</li>
+              </ol>
+              <p className="mt-4">
+                Keep the original and recovered files outside cloud sync. Avoid
+                saving the layer secrets together in the Mac’s keychain. This
+                interface uses its installed MacGPG settings; do not assume it
+                creates or supports the Vault release’s exact OCB profile without
+                a successful compatibility test. This is a macOS practice option;
+                serious funds still call for dedicated hardware with fresh Linux.
+              </p>
+              <p className="mt-4 text-sm">
+                Official instructions: <ResourceLink href="https://gpgtools.tenderapp.com/kb/gpg-services-faq/how-to-encrypt-and-sign-text-or-files-with-gpg-services" inverse>Finder encryption</ResourceLink>{" "}
+                and <ResourceLink href="https://gpgtools.tenderapp.com/kb/gpg-services-faq/how-to-decrypt-and-verify-text-or-files-with-gpg-services" inverse>decryption</ResourceLink>.
+              </p>
+            </details>
 
             <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="encrypt" /><span>Start with one GPG layer</span></h3>
             <ol className="list-decimal space-y-4 pl-6 marker:font-bold marker:text-white [&_li]:pl-2">

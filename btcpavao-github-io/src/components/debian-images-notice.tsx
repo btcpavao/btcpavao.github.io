@@ -11,7 +11,7 @@ export function DebianImagesNotice({ compact = false }: { compact?: boolean }) {
         <h2>Dedicated Debian images for Bitcoin Core.</h2>
         <p>
           A minimal offline signer, Bitcoin Core Vault for wallet creation and
-          encrypted backups, and a dedicated online node. Each environment has a
+          GPG backups with optional independent layers, and a dedicated online node. Each environment has a
           specific job.
         </p>
         <p>

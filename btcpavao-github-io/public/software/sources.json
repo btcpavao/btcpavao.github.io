@@ -13,11 +13,6 @@
     "source": "https://github.com/keepassxreboot/keepassxc/blob/9e0f57a4a4c6c629fa6d0a593acb7d089b1d95cd/share/branding/png/keepassxc-128x128.png"
   },
   {
-    "name": "arqiver",
-    "file": "arqiver.svg",
-    "source": "https://github.com/tsujan/Arqiver/blob/1678eb3728115dfc1495d0617b2434932b17f45b/data/icons/arqiver.svg"
-  },
-  {
     "name": "thunar",
     "file": "thunar.png",
     "source": "https://github.com/xfce-mirror/thunar/blob/b1d2264ccae761e6bd1384fb992c4ea3d4564c44/icons/128x128/org.xfce.thunar.png"
@@ -36,11 +31,5 @@
     "name": "cups",
     "file": "cups.png",
     "source": "https://github.com/OpenPrinting/cups/blob/b37c10e805b96c3a87c48b6d6da432d6108963d8/desktop/cups-128.png"
-  },
-  {
-    "name": "7zip",
-    "file": "7zip.png",
-    "source": "https://github.com/ip7z/7zip/blob/9128b80e3a471108678e2b3ec3c985861c8d7b0f/CPP/7zip/UI/FileManager/7zipLogo.ico",
-    "note": "PNG rendition of the upstream application icon."
   }
 ]
