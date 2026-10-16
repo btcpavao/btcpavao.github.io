@@ -24,8 +24,6 @@ import {
   ShieldAlert,
   TriangleAlert,
   UserRoundX,
-  Wifi,
-  WifiOff,
   type LucideIcon,
 } from "lucide-react"
 
@@ -52,7 +50,6 @@ const IMAGE_ROOT = "/bitcoin-core-wallet-guide"
 const BITCOIN_CORE_DOWNLOAD_URL = "https://bitcoincore.org/en/download/"
 const KEEPASSXC_DOWNLOAD_URL = "https://keepassxc.org/download/"
 const DEBIAN_DOWNLOAD_URL = "https://www.debian.org/distrib/"
-const TAILS_INSTALL_URL = "https://tails.net/install/"
 const GNUPG_DOWNLOAD_URL = "https://gnupg.org/download/"
 
 type GuideImage = {
@@ -226,24 +223,23 @@ const legacySteps: GuideStep[] = [
     content: (
       <>
         <p>
-          Check <strong>Encrypt Wallet</strong>. Bitcoin Core encrypts the
-          wallet's private-key material and requires the wallet passphrase when
-          those keys must be unlocked for signing or spending.
+          Check <strong>Encrypt Wallet</strong>. This protects the secret keys
+          that approve payments. You will need your wallet passphrase to use
+          those keys to sign a transaction — in other words, to authorize spending.
         </p>
         <p>
-          Encryption does not make the entire wallet invisible. When the wallet
-          is loaded, addresses, balance, transaction history, labels, and other
-          metadata may still be visible. Signing requires private keys;
-          broadcasting an already signed transaction does not.
+          Someone with a copy of this wallet can still view its addresses,
+          transaction history and balance. The passphrase protects spending;
+          it does not hide the whole wallet. Step 7 adds GPG encryption for privacy.
         </p>
       </>
     ),
     noteKind: "note",
     note: (
       <>
-        <strong>Opening and unlocking are separate.</strong> Restoring or
-        loading an encrypted wallet does not necessarily prompt for its
-        passphrase. The passphrase is needed when private keys must be used.
+        <strong>Opening is different from unlocking.</strong> Core can open a
+        wallet without asking for its passphrase. That does not mean it can
+        approve a new payment without the passphrase.
       </>
     ),
   },
@@ -428,11 +424,9 @@ const legacySteps: GuideStep[] = [
     content: (
       <>
         <p>
-          Bitcoin Core warns that wallet encryption cannot fully protect bitcoin
-          from malware. The passphrase protects encrypted keys at rest. If the
-          signing computer is malicious while the wallet is unlocked, the
-          environment can observe secrets, alter transaction details, or misuse
-          the keys. Encryption cannot make a compromised signer trustworthy.
+          The second warning is about malware: harmful software can steal your
+          passphrase or interfere with a payment while you use the wallet.
+          Encrypting a file does not make an infected computer safe.
         </p>
         <p>
           <strong>
@@ -453,9 +447,8 @@ const legacySteps: GuideStep[] = [
           <ResourceLink href={BITCOIN_CORE_DOWNLOAD_URL}>
             verified Bitcoin Core
           </ResourceLink>{" "}
-          . First learn to create, encrypt, back up and restore one disposable
-          wallet. The full curriculum later separates online coordination from
-          offline signing, after the one-wallet mastery checkpoint.
+          . For now, practise creating, encrypting, backing up and restoring an
+          empty wallet. The curriculum covers preparing a computer for real funds.
         </p>
       </>
     ),
@@ -510,27 +503,23 @@ const legacySteps: GuideStep[] = [
           purpose; the label itself is not written to the Bitcoin blockchain.
         </p>
         <p>
-          Bitcoin can technically be sent to the generated address, but this
-          exercise is not complete until the backup has been restored and
-          checked.
+          Keep this address unfunded. Its purpose here is to give you something
+          to recognize when you restore the backup.
         </p>
       </>
     ),
     noteKind: "critical",
     note: (
       <>
-        <strong>
-          Do not fund a new cold-storage setup with a meaningful amount
-        </strong>{" "}
-        until you have successfully tested the complete backup and restore
-        procedure.
+        <strong>No real bitcoin is needed for this exercise.</strong> Learn the
+        steps with an empty wallet; the curriculum later covers test payments.
       </>
     ),
   },
   {
     number: 10,
     title: "Back up the wallet",
-    summary: "Create a wallet backup file and store it deliberately.",
+    summary: "Save a copy, encrypt it with GPG and keep separate passphrase backups.",
     images: [
       image(
         "10-backup-wallet-menu",
@@ -544,20 +533,42 @@ const legacySteps: GuideStep[] = [
     content: (
       <>
         <p>
-          Choose <strong>File → Backup Wallet</strong>, select a destination,
-          and save the wallet file. Because this backup was made after wallet
-          encryption, its private-key material remains protected by the Bitcoin
-          Core wallet passphrase. Do not assume that every item of wallet
-          metadata is encrypted.
+          Choose <strong>File → Backup Wallet</strong> and save a copy, for
+          example as <code>practice-wallet.dat</code>. Use a folder that is not
+          automatically uploaded to cloud storage.
         </p>
         <p>
-          One digital backup is not enough. Create redundant copies across more
-          than one failure domain: USB drives, external drives, optical media,
-          another computer, or geographically separated storage. For an
-          additional cloud copy, first encrypt the complete backup locally using
-          the <a {...articleLinkProps("#optional-backup-protection")} className="font-semibold text-primary underline underline-offset-4">GPG backup workflow below</a>.
-          Upload only the final encrypted .gpg file, never the bare wallet file or its
-          passphrases.
+          The Core passphrase protects the keys that sign payments. Someone who
+          gets this backup can still view the wallet’s addresses, transaction
+          history and balance, but cannot use its locked keys to sign a new
+          payment without the passphrase. My recommendation is to encrypt the
+          entire backup file with GPG as well, using a different passphrase.
+          That keeps the wallet’s contents private.
+        </p>
+        <p>
+          With one GPG layer, you have <strong>three things to keep</strong>:
+        </p>
+        <ul>
+          <li><strong>The GPG-encrypted file</strong> — the backup containing your wallet.</li>
+          <li><strong>The GPG passphrase</strong> — opens that file.</li>
+          <li><strong>The Bitcoin Core passphrase</strong> — unlocks the wallet’s keys to approve payments.</li>
+        </ul>
+        <p>
+          Keep more than one copy of <strong>each</strong>, in separate locations.
+          Keep the two passphrases separate from each other and from the encrypted
+          file, so one theft or loss does not expose or destroy everything.
+          Write down how to recover the wallet, and test the instructions.
+        </p>
+        <p>
+          A random-word passphrase by itself does not say what it unlocks. A GPG
+          file with a neutral name such as <code>backup.gpg</code> keeps the
+          Bitcoin wallet inside it hidden from view. To add another layer,
+          encrypt that GPG file again with a new passphrase. Each extra layer
+          adds one more passphrase to back up separately.
+        </p>
+        <p>
+          Follow the <a {...articleLinkProps("#optional-backup-protection")} className="font-semibold text-primary underline underline-offset-4">GPG steps below</a>,
+          then continue to step 8 to restore your wallet.
         </p>
       </>
     ),
@@ -583,16 +594,12 @@ const legacySteps: GuideStep[] = [
     ],
     content: (
       <p>
-        If you used GPG, first decrypt every layer in your trusted recovery
-        environment, starting with the outermost layer. Each layer needs its own
-        passphrase. If the final payload is a TAR archive, extract it there too.
-        Then choose <strong>File → Restore Wallet</strong>. Bitcoin Core restores
-        the recovered wallet file, not the <code>.gpg</code> file or TAR archive.
-        Restoring an encrypted
-        wallet does not necessarily trigger a passphrase prompt. Bitcoin Core
-        can load the wallet and show metadata while the private keys remain
-        locked. The passphrase is required later when those keys must sign or
-        spend.
+        First use GPG to open your encrypted backup with its GPG passphrase.
+        If you added more layers, open them in reverse order, last added first.
+        You should end up with the wallet <code>.dat</code> file. In Bitcoin
+        Core, close the original practice wallet with <strong>File → Close
+        Wallet</strong>, then choose <strong>File → Restore Wallet</strong>.
+        You will restore the recovered wallet file, not the <code>.gpg</code> file.
       </p>
     ),
   },
@@ -609,11 +616,11 @@ const legacySteps: GuideStep[] = [
     ],
     content: (
       <p>
-        Navigate to the backup location or your private extraction folder,
-        select the wallet <code>.dat</code>
-        file, and choose <strong>Open</strong>. For a real recovery test, use a
-        safe environment and confirm that you selected the intended backup
-        rather than an unrelated file with a similar name.
+        Find the wallet file you recovered from GPG, select it, and choose
+        <strong> Open</strong>. If you skipped GPG for this practice run, select
+        the copy saved with <strong>Backup Wallet</strong>. Check the filename
+        and folder so you restore the intended backup. When Core asks for a
+        wallet name, use a new name such as <strong>Restored Practice</strong>.
       </p>
     ),
   },
@@ -686,13 +693,11 @@ const legacySteps: GuideStep[] = [
     ],
     content: (
       <p>
-        Open <strong>Restore Wallet</strong> again, select the extracted or
-        directly saved wallet backup (<code>archive.dat</code> in this
-        screenshot), and complete the import. Confirm that the
-        expected wallet loads and that its labels, addresses, and history are
-        present. If the backup was encrypted, that encryption remains in effect.
-        Loading the wallet and unlocking its private keys are still two separate
-        operations.
+        Finish the restore and check that the receiving address and label from
+        step 6 are there. This practice wallet should still have a zero balance.
+        The screenshot uses <code>archive.dat</code>; your file may have a
+        different name. Core may open the wallet without asking for its
+        passphrase. Its keys are still locked for spending.
       </p>
     ),
     noteKind: "critical",
@@ -715,11 +720,11 @@ const steps: GuideStep[] = [
     content: (
       <>
         <p>
-          Use a disposable practice wallet first. Install Bitcoin Core from the
-          official source, keep the operating system current, and pause if you
-          have any reason to suspect malware. Bitcoin Core can run and stay
-          synchronized without a wallet loaded, which is the clean state used at
-          the start of this exercise.
+          Install Bitcoin Core from its <ResourceLink href={BITCOIN_CORE_DOWNLOAD_URL}>official website</ResourceLink>{" "}
+          for your operating system and open it. Start without a wallet loaded,
+          as shown in the screenshot. Use a new, empty wallet for this exercise
+          and keep your operating system up to date. Do not proceed if you suspect
+          the computer has malware.
         </p>
         <p>
           This is a conceptual walkthrough with a disposable wallet, not a
@@ -766,10 +771,9 @@ const steps: GuideStep[] = [
     noteKind: "critical",
     note: (
       <>
-        Losing the passphrase can make the encrypted private keys unusable.
-        Encryption also cannot make a compromised signing computer trustworthy.
-        Stop here until you understand both warnings and have chosen an
-        appropriate signing environment.
+        Make sure you understand both warnings before confirming: a lost
+        passphrase can mean lost funds, and encryption cannot make malware safe.
+        Continue this exercise only with an empty practice wallet.
       </>
     ),
   },
@@ -800,15 +804,14 @@ const steps: GuideStep[] = [
     number: 10,
     title: "Restore and verify the wallet",
     summary:
-      "Confirm the expected wallet data returns and the private keys remain protected.",
+      "Check that your receiving address and label are back.",
     content: (
       <>
         {legacySteps[14].content}
         <p>
-          A <strong>restore test</strong> shows that Core can load the backup
-          and recover its wallet data. Next, prove that the restored keys can
-          sign a test payment while the original stays closed. Follow the
-          complete one-wallet sequence in the{" "}
+          You have now checked that the backup opens correctly. The next stage
+          is to prove that the restored keys can approve a payment using
+          valueless test coins. Follow that exercise in the{" "}
           <a
             {...articleLinkProps(EN_BITCOIN_CORE_CURRICULUM_PATH)}
             className="font-semibold text-primary underline decoration-primary/45 underline-offset-4"
@@ -822,9 +825,9 @@ const steps: GuideStep[] = [
   },
   {
     number: 11,
-    title: "Complete the operational checklist",
+    title: "Check what you have learned",
     summary:
-      "Verify separation, redundancy, recovery, and the limits of wallet encryption.",
+      "Check your backup, your separate passphrase records and your restore result.",
     images: [
       image(
         "08-wallet-created-crisp",
@@ -844,10 +847,8 @@ const steps: GuideStep[] = [
     noteKind: "warning",
     note: (
       <>
-        A restored wallet with the correct labels and addresses is useful
-        evidence. A confirmed test payment from the restored wallet proves
-        signing capability. The curriculum teaches that first, then introduces
-        the separate offline-signing workflow.
+        Opening the backup is the first check. The curriculum then helps you
+        practise a payment with valueless test coins, before preparing real funds.
       </>
     ),
   },
@@ -859,12 +860,12 @@ const finalChecklist = [
   "I have securely backed up the passphrase.",
   "The passphrase backup is separate from the wallet backup.",
   "I created multiple wallet backup copies.",
-  "The backup copies are stored across more than one failure domain or location.",
+  "My backup copies are in separate locations, so one loss does not destroy them all.",
   "I successfully restored the wallet from a backup.",
-  "I understand that restoring or opening the wallet does not require unlocking the private keys.",
+  "I understand that opening the wallet does not unlock it for spending.",
   "I understand that the passphrase is required for signing or spending.",
   "I have a plan to periodically test my backups.",
-  "I understand why the curriculum later separates offline signing from online coordination.",
+  "I understand that the curriculum later uses a separate offline computer to approve payments.",
   "If I used GPG, I decrypted every layer, restored the wallet and backed up every required passphrase separately.",
   "Before meaningful funds, I will complete the self-custody curriculum and prepare a dedicated computer with fresh Linux, not reuse this practice wallet on my daily computer.",
 ]
@@ -1159,77 +1160,56 @@ function OptionalBackupProtection({
             <SectionIcon topic="encrypt backup" /><span>Encrypt the whole backup with GPG</span>
           </h2>
           <p className="mt-5 max-w-[70ch] text-base leading-8 text-white/80">
-            Bitcoin Core’s wallet encryption protects private-key material.
-            My recommendation for protecting the entire backup is GPG symmetric
-            encryption: one layer by default, with additional independent layers
-            when they serve a clear purpose. The encrypted payload hides wallet
-            metadata and any filenames packaged inside it. Someone holding the
-            file cannot simply browse its contents without decrypting it.
+            GPG puts the whole wallet backup inside an encrypted file. Think of
+            it as a locked envelope: the GPG passphrase opens the envelope, and
+            the separate Core passphrase unlocks the wallet inside for spending.
+            Start with one GPG layer and practise opening it again.
           </p>
 
           <div className="mt-8 max-w-[75ch] space-y-5 text-base leading-8 text-white/80 [&_strong]:text-white">
-            <p>
-              This is content privacy, not invisibility. The outer filename,
-              size and storage timestamps remain visible, and the file can be
-              recognized as encrypted OpenPGP data. GPG does not protect secrets
-              while malware can read them on the computer doing the encryption
-              or recovery.
-            </p>
             <h3 className="learning-heading text-2xl leading-tight font-bold text-white"><SectionIcon topic="core" /><span>Coming soon: Bitcoin Core Vault on Debian</span></h3>
             <p>
               The upcoming <ResourceLink href={`${DEBIAN_IMAGES_PATH}#vault`} inverse>Bitcoin Core Vault Debian ISO</ResourceLink>{" "}
-              is being prepared so you can follow this workflow with Bitcoin
-              Core, GnuPG, TAR and KeePassXC already included. Its planned backup
-              interface uses one GPG layer by default and lets you add independent
-              layers as needed. TAR packages files and folders before encryption;
-              the interface is intended to handle packaging and recovery for you.
-            </p>
-            <p>
-              The redesign targets authenticated AES-256 OCB encryption, private
-              RAM working storage and recovery with compatible standard GnuPG
-              and TAR tools, without requiring the Vault interface. The ISO is
-              still in development. Download links, verification instructions and
-              the exact supported GnuPG profile will accompany the release.
+              is a Linux system being prepared with the tools for this workflow
+              already included. It is intended to guide you through GPG backup
+              encryption and recovery, with extra layers when you need them.
+              It is still in development. You can practise now with the tools below.
             </p>
 
             <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="setup" /><span>Install GPG for an independent practice session</span></h3>
             <p>
-              You do not need to wait for the ISO to learn the basic workflow.
-              GnuPG provides the <code>gpg</code> command. Install maintained
-              software from official sources during preparation, before taking
-              a dedicated signing environment offline.
+              GnuPG is the software behind GPG encryption. Choose the download
+              for your operating system. The macOS option includes a graphical
+              interface; the Terminal instructions below work on all three systems.
             </p>
             <ul className="list-disc space-y-3 pl-6 [&_li]:pl-2">
-              <li><strong>Debian / Ubuntu:</strong> use the authenticated package repositories:
+              <li><strong>Debian / Ubuntu:</strong> open Terminal and install GnuPG:
                 <code className="mt-2 block break-words rounded-xl bg-black/20 p-4 text-sm sm:p-6">sudo apt update<br />sudo apt install gnupg</code>
                 For Debian, see the <ResourceLink href="https://packages.debian.org/trixie/gnupg" inverse>GnuPG package</ResourceLink>.
               </li>
-              <li><strong>Other Linux distributions:</strong> install GnuPG through your distribution’s authenticated package manager.</li>
+              <li><strong>Other Linux distributions:</strong> install GnuPG using your distribution’s software manager.</li>
               <li><strong>Windows:</strong> install <ResourceLink href="https://gpg4win.org/download.html" inverse>Gpg4win</ResourceLink> from its official website and follow its installer-verification instructions. It includes GnuPG and the Kleopatra interface.</li>
               <li><strong>macOS:</strong> for a graphical workflow, I recommend <ResourceLink href="https://gpgtools.org/" inverse>GPG Suite</ResourceLink> and its <strong>GPG Services</strong> integration in Finder. Use the password-only steps below. If you prefer Terminal and already use Homebrew, run <code>brew install gnupg</code> using the <ResourceLink href="https://formulae.brew.sh/formula/gnupg" inverse>GnuPG formula</ResourceLink>. Other macOS distributions are listed on the <ResourceLink href={GNUPG_DOWNLOAD_URL} inverse>official GnuPG download page</ResourceLink>.</li>
             </ul>
             <p>
-              Open Terminal (or PowerShell on Windows) and run <code>gpg --version</code>.
-              These installation options let you practise on your operating
-              system; they do not change my recommendation for serious funds:
-              dedicated hardware with a fresh Linux installation.
+              Choose one method below: Finder on macOS, or Terminal on any of
+              these systems. Both encrypt the same kind of backup file with a
+              passphrase. For this first try, use one layer.
             </p>
 
-            <details className="border-t border-white/20 pt-4" id="macos-gpg-services">
+            <details className="space-y-4 border-t border-white/20 pt-4" id="macos-gpg-services">
               <summary className="cursor-pointer py-2 font-semibold text-white">macOS graphical workflow: GPG Suite in Finder</summary>
               <ol className="mt-4 list-decimal space-y-4 pl-6 [&_li]:pl-2">
                 <li>Install the official GPG Suite release compatible with your macOS version. For file encryption you use GPG Services and MacGPG; GPG Mail is not needed.</li>
                 <li>In Finder, select one disposable Core backup file, then choose <strong>Services → OpenPGP: Encrypt File</strong>. Enable <strong>Encrypt with Password</strong>, enter and confirm an independent passphrase, and leave recipient keys unselected. Turn off <strong>Sign</strong> and <strong>Add to Recipients</strong> so this is password-only encryption. You do not need to create or publish a GPG key.</li>
-                <li>Encrypt, then keep the resulting encrypted file separate from its passphrase. For another layer, repeat on that encrypted output with a new passphrase. For this exercise select one file at a time; folder packaging in GPG Services differs from Vault’s TAR workflow.</li>
+                <li>Encrypt, then keep the resulting encrypted file separate from its passphrase. For another layer, repeat on that encrypted output with a new passphrase. For this exercise, select just your wallet backup file.</li>
                 <li>To recover, choose <strong>Services → OpenPGP: Decrypt File</strong> on the outer file. Repeat on each recovered inner file in reverse order. Use a separate recovery folder to avoid overwriting originals, check for errors, then restore the recovered wallet in Core.</li>
               </ol>
               <p className="mt-4">
-                Keep the original and recovered files outside cloud sync. Avoid
-                saving the layer secrets together in the Mac’s keychain. This
-                interface uses its installed MacGPG settings; do not assume it
-                creates or supports the Vault release’s exact OCB profile without
-                a successful compatibility test. This is a macOS practice option;
-                serious funds still call for dedicated hardware with fresh Linux.
+                Keep the original and recovered files outside folders that sync
+                to the cloud. Keep separate records of your passphrases, and test
+                recovery by entering them yourself. Do not rely only on passwords
+                remembered by your Mac.
               </p>
               <p className="mt-4 text-sm">
                 Official instructions: <ResourceLink href="https://gpgtools.tenderapp.com/kb/gpg-services-faq/how-to-encrypt-and-sign-text-or-files-with-gpg-services" inverse>Finder encryption</ResourceLink>{" "}
@@ -1237,21 +1217,24 @@ function OptionalBackupProtection({
               </p>
             </details>
 
-            <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="encrypt" /><span>Start with one GPG layer</span></h3>
+            <details className="space-y-4 border-t border-white/20 pt-4" id="gpg-terminal">
+            <summary className="cursor-pointer py-2 font-semibold text-white">Terminal option: encrypt and open one GPG layer</summary>
+            <p className="mt-4">
+              Open Terminal, or PowerShell on Windows. Run <code>gpg --version</code>{" "}
+              to check the installation. Then open a terminal in the folder where
+              you saved your practice backup. Run each command separately.
+            </p>
             <ol className="list-decimal space-y-4 pl-6 marker:font-bold marker:text-white [&_li]:pl-2">
               <li>
-                <strong>Make a consistent wallet backup.</strong> Use Core’s File → Backup Wallet
-                after enabling wallet encryption. Work with that snapshot, not
-                a file copied from a running wallet’s data directory. Keep the
-                snapshot and recovery files outside cloud-synced folders.
+                <strong>Use the backup from step 7.</strong> Create it with Core’s
+                File → Backup Wallet. Keep it outside cloud-synced folders.
               </li>
               <li>
                 <strong>Generate an independent GPG passphrase.</strong> Use{" "}
                 <ResourceLink href="https://keepassxc.org/" inverse>KeePassXC</ResourceLink>{" "}
                 and the random-word procedure in step 4. Do not reuse the Core
-                wallet passphrase. Symmetric encryption uses a passphrase; no
-                public/private GPG key pair is required. Keep recoverable records
-                of both secrets separately from the encrypted backup.
+                wallet passphrase. This method needs a password, not a GPG key
+                pair. Keep a separate backup of each passphrase.
               </li>
               <li>
                 <strong>Encrypt the entire saved file.</strong> In the folder
@@ -1263,43 +1246,34 @@ function OptionalBackupProtection({
               </li>
               <li>
                 <strong>Decrypt into a separate test file.</strong> Use a new
-                output name so the original stays intact. GPG must finish
-                successfully without integrity errors before you use its output.
-                Never bypass an integrity warning.
+                output name so the original stays intact. If GPG reports an
+                error or warns that the file may be damaged, stop and check it
+                before continuing.
                 <code className="mt-3 block break-words rounded-xl bg-black/20 p-4 text-sm sm:p-6 leading-7">gpg --no-symkey-cache --output recovered-wallet.dat --decrypt backup.gpg</code>
-                Restore <code>recovered-wallet.dat</code> through Core, compare
-                addresses and labels, and prove signing with test coins through
-                the curriculum. Core’s separate passphrase is still required to
-                unlock the restored private keys.
+                You should now have <code>recovered-wallet.dat</code>. Continue
+                to step 8 to restore it in Core.
               </li>
             </ol>
+            </details>
             <p>
-              These are single-file practice commands using GnuPG’s default
-              integrity-protected symmetric format with AES-256. They do not
-              select the Vault’s planned OCB profile. For a Vault backup, use the
-              release’s documented compatible GnuPG version and verify a complete
-              recovery with that version before relying on it.
-            </p>
-            <p>
-              Encryption leaves the source file in place, and decryption writes
-              a recovered copy. For real custody, keep unwrapped snapshots,
-              recovered files and any unencrypted TAR in verified private RAM
-              storage or a carefully prepared environment that prevents plaintext
-              persistence through swap, sync or temporary files. An ordinary
-              folder on a daily computer is not equivalent. Keep originals until
-              recovery is proven; deleting a file later does not reliably erase
-              every disk, snapshot or synced copy.
+              <strong>Check before you copy.</strong> Encryption creates a new
+              file and leaves the original in place. Copy the encrypted
+              <code> .gpg</code> file to your backup locations, not the original
+              wallet file. Keep your originals until you have proved that recovery
+              works. Deleting a file later does not guarantee that every copy is gone.
             </p>
 
             <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="encrypt" /><span>Add layers only when you need them</span></h3>
             <p>
-              A second layer encrypts the first <code>.gpg</code> file using a
-              different, independently generated passphrase. A third layer
-              encrypts the second. Each layer must be removed to reach the wallet.
-              This is not multisig: it controls access to the backup, not Bitcoin’s
-              signing rules. More layers do not automatically make a setup safer.
+              An extra layer is another locked envelope around the first. Encrypt
+              the <code>.gpg</code> file again with a new, independently generated
+              passphrase. To recover, open the last layer first, then the one
+              inside. You need every layer’s passphrase, plus the Core passphrase
+              to approve payments.
             </p>
-            <p>
+            <details className="space-y-4 border-t border-white/20 pt-4">
+            <summary className="cursor-pointer py-2 font-semibold text-white">Optional: try a second layer in Terminal</summary>
+            <p className="mt-4">
               For a two-layer practice backup, first create <code>backup.gpg</code>
               above, then run this command and supply a new passphrase B:
             </p>
@@ -1310,66 +1284,48 @@ function OptionalBackupProtection({
               command separately and continue only after it succeeds:
             </p>
             <code className="block break-words rounded-xl bg-black/20 p-4 text-sm sm:p-6 leading-7">gpg --no-symkey-cache --output recovered-inner.gpg --decrypt backup-outer.gpg<br /><br />gpg --no-symkey-cache --output recovered-wallet-2.dat --decrypt recovered-inner.gpg</code>
+            </details>
             <p>
-              Keep a recovery record of the layer order and expected final
-              payload; a <code>.gpg</code> extension does not tell you how many
-              layers exist. For several files, a standard TAR can package them
-              before the first layer. TAR itself is not encryption. After all
-              GPG layers are successfully decrypted, extract the expected TAR
-              inside the trusted recovery workspace, then restore the wallet.
+              Keep more than one copy of every required passphrase, with the
+              layer order written down. Store the passphrases separately from
+              one another and from the encrypted file. For example, two GPG
+              layers mean one final encrypted file and three passphrases to
+              preserve: two for GPG and one for Core.
             </p>
             <p>
-              For example, three layers can use passphrases A, B and C held at
-              separate geographic locations. Recovery requires all three, plus
-              the Core passphrase if the wallet itself is encrypted. Keep
-              redundant recovery records for every required secret, with an
-              inheritance plan that someone can actually follow. Losing the only
-              copy of any required passphrase can make the backup unusable.
-              Keeping all three immediately accessible in one password database
-              defeats that geographical separation.
-            </p>
-            <p>
-              The benefit comes from independent handling of secrets, not the
-              number of encryption operations. Keep only the final outer file
-              in distributed backup storage: retaining a reachable inner copy
-              gives an attacker a route around the outer layers. Geographic
-              separation can add logistical barriers to immediate coercion; it
-              does not guarantee protection from continued coercion or malware
-              present when all passphrases are entered.
+              Back up the final, outermost file. An earlier copy from before the
+              extra layer was added does not have that extra protection. More
+              layers also mean more things to keep track of: losing every copy
+              of just one required passphrase can prevent recovery. Start with
+              one layer until you can reliably complete the whole process.
             </p>
 
             <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="backup" /><span>An additional cloud backup</span></h3>
             <p>
-              With strong independent passphrases and a successful full recovery
-              test, I consider the final encrypted <code>.gpg</code> file suitable
-              for an additional cloud copy. Encrypt locally first and upload only
-              the outermost file. Keep all passphrases away from that account and
-              retain independent offline copies. Anyone holding the file can try
-              password guesses offline; the provider can still see its outer
-              metadata, and the account or file can be lost.
+              After testing recovery, I recommend keeping an additional copy of
+              the final GPG-encrypted file in cloud storage. Encrypt it on your
+              computer before uploading it. Keep both passphrases out of that
+              account and retain copies elsewhere, such as on separate USB drives.
+              If you added extra layers, keep all of their passphrases separate too.
             </p>
             <p>
-              Download a copy and test every decryption layer and wallet
-              restoration in your trusted environment before counting it as a
-              working backup. Never decrypt it in a browser or synced folder.
+              Download the cloud copy into a folder that does not sync, open it
+              with GPG, and restore the wallet in Core. That checks the copy you
+              actually uploaded.
             </p>
             <p className="text-sm leading-7">
               Technical references: <ResourceLink href="https://gnupg.org/documentation/manuals/gnupg/Operational-GPG-Commands.html" inverse>GnuPG encryption and decryption</ResourceLink>{" "}
-              and <ResourceLink href="https://gnupg.org/documentation/manuals/gnupg/OpenPGP-Options.html" inverse>OpenPGP integrity and OCB options</ResourceLink>.
+              and <ResourceLink href="https://gnupg.org/documentation/manuals/gnupg/OpenPGP-Options.html" inverse>GPG encryption options</ResourceLink>.
             </p>
 
             <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="privacy" /><span>Optional: Use a less revealing filename</span></h3>
             <p>
-              A neutral filename such as <code>archive.bin</code> may be appropriate
-              when your threat model includes a casual observer noticing a file
-              named <code>bitcoin-wallet.dat</code>. Renaming changes no contents
-              and adds no cryptographic protection; someone inspecting the file
-              can still recognize its format. It is not a substitute for the
-              GPG encryption before a cloud upload. You can give the final
-              encrypted file a neutral name such as <code>backup.gpg</code> while
-              keeping its extension for easier recovery.
+              Name your encrypted file something neutral, such as
+              <code> backup.gpg</code>. Keep the <code>.gpg</code> ending so it is
+              easy to recognize as an encrypted file. GPG protects the contents;
+              changing the filename alone does not encrypt anything.
             </p>
-            <details className="border-t border-white/20 pt-4">
+            <details className="space-y-4 border-t border-white/20 pt-4">
               <summary className="cursor-pointer py-2 font-semibold text-white">Optional filename example on macOS</summary>
               <p className="my-4">
                 In Finder, use Get Info → Name &amp; Extension to rename a backup
@@ -1392,86 +1348,6 @@ function OptionalBackupProtection({
   )
 }
 
-function SeriousColdStorage() {
-  return (
-    <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
-      <div className="rounded-[30px] bg-card p-6 shadow-[var(--shadow-border)] sm:p-9">
-        <div className="flex gap-4">
-          <span className="grid size-11 shrink-0 place-items-center rounded-full bg-primary/12 text-primary">
-            <ShieldAlert className="size-5" aria-hidden="true" />
-          </span>
-          <div>
-            <p className="text-[11px] font-bold tracking-[0.16em] text-primary uppercase">
-              The curriculum's reference setup
-            </p>
-            <h2 className="mt-3 max-w-[19ch] font-display text-3xl leading-[1.05] font-bold tracking-[-0.04em] text-balance sm:text-4xl">
-              Separate signing from network activity
-            </h2>
-          </div>
-        </div>
-
-        <p className="mt-6 max-w-3xl text-base leading-8 text-pretty text-muted-foreground">
-          After you can operate and recover one wallet, the full curriculum
-          teaches a second computer for offline signing. This later architecture
-          uses two generic dedicated computers with
-          <ResourceLink href={DEBIAN_DOWNLOAD_URL}>
-            {" "}
-            Debian Stable
-          </ResourceLink>{" "}
-          and Bitcoin Core. The persistent offline signer keeps the encrypted
-          private-key wallet; the separate online node holds a watch-only
-          savings wallet. Debian is the default for predictable long-term
-          maintenance. Choose another maintained Linux distribution only if
-          you can maintain and test the same procedure.
-        </p>
-
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-[22px] bg-background p-6 shadow-[var(--shadow-border)]">
-            <WifiOff className="size-5 text-primary" aria-hidden="true" />
-            <h3 className="mt-4 font-display text-xl font-bold">
-              Offline signing computer
-            </h3>
-            <ul className="mt-4 grid gap-2 text-sm leading-6 text-muted-foreground">
-              <li>Runs Debian Stable and verified Bitcoin Core.</li>
-              <li>Stays offline; reserved for keys, recovery and signing.</li>
-              <li>No blockchain synchronization and no private-key export.</li>
-            </ul>
-          </div>
-          <div className="rounded-[22px] bg-background p-6 shadow-[var(--shadow-border)]">
-            <Wifi className="size-5 text-primary" aria-hidden="true" />
-            <h3 className="mt-4 font-display text-xl font-bold">
-              Separate online node
-            </h3>
-            <ul className="mt-4 grid gap-2 text-sm leading-6 text-muted-foreground">
-              <li>
-                Runs Debian Stable and a synchronized Bitcoin Core full node.
-              </li>
-              <li>Prepares transactions and broadcasts signed transactions.</li>
-              <li>Has a watch-only wallet and no savings private keys.</li>
-            </ul>
-          </div>
-        </div>
-
-        <p className="mt-6 text-sm leading-7 text-pretty text-muted-foreground">
-          An advanced PSBT workflow prepares a transaction online, moves the
-          unsigned PSBT to the offline signer, verifies and signs it there, then
-          returns the signed transaction for broadcast. Transaction signing is
-          outside this basic tutorial.
-        </p>
-        <p className="mt-4 text-sm leading-7 text-pretty text-muted-foreground">
-          The installed OS and signer are replaceable. Keep independent
-          encrypted Core wallet backups and separate passphrase recovery. A
-          backup is not a backup until recovery has been tested.{" "}
-          <ResourceLink href={TAILS_INSTALL_URL}>Tails</ResourceLink> remains an
-          optional live environment when reducing persistent OS state benefits
-          the threat model. It does not eliminate firmware, hardware or physical
-          tampering risk.
-        </p>
-      </div>
-    </section>
-  )
-}
-
 function ArchitectureDiagram() {
   return (
     <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
@@ -1482,13 +1358,15 @@ function ArchitectureDiagram() {
         <SectionIcon topic="key" /><span>Private keys stay offline</span>
       </h2>
 
-      <CustodyArchitecture />
-
-      <p className="mt-5 max-w-3xl text-sm leading-7 text-muted-foreground">
-        USB storage is one possible transport method, but using a USB device is
-        not automatically safe. The transport method needs its own operational
-        controls.
+      <p className="mt-5 max-w-3xl text-base leading-8 text-muted-foreground">
+        You do not need a second computer for this practice exercise. Later,
+        the curriculum shows how to use a dedicated offline computer to approve
+        payments, while another computer handles the internet connection.
       </p>
+      <details className="mt-6 rounded-[24px] bg-card p-6 shadow-[var(--shadow-border)] sm:p-8">
+        <summary className="cursor-pointer py-2 font-semibold">Optional preview: the two-computer setup</summary>
+        <CustodyArchitecture />
+      </details>
     </section>
   )
 }
@@ -1574,10 +1452,10 @@ export function BitcoinCoreWalletGuidePage() {
             Bitcoin Core Wallet: Basic Setup, Encryption, Backup & Recovery
           </h1>
           <p className="mt-7 max-w-3xl text-lg leading-8 text-pretty text-muted-foreground sm:text-xl sm:leading-9">
-            A conceptual walkthrough and hands-on exercise with a disposable
-            Bitcoin Core wallet: creation, encryption, backup and restoration.
-            Before committing meaningful funds, work through the threat model,
-            hardware preparation, recovery tests and offline signing in the{" "}
+            Learn how to create a Bitcoin Core wallet, protect it with a
+            passphrase, save a backup and restore it. Try the steps on your
+            own computer with an empty practice wallet. Before using real funds,
+            work through the{" "}
             <a className="font-semibold underline underline-offset-4" {...articleLinkProps(EN_BITCOIN_CORE_CURRICULUM_PATH)}>full self-custody curriculum</a>.
           </p>
 
@@ -1592,14 +1470,14 @@ export function BitcoinCoreWalletGuidePage() {
             operatingSystems="The screenshots use macOS; the workflow also applies to Windows and Linux."
             recommendedOs={
               <>
-                A dedicated generic computer with a fresh Debian Stable
-                installation. I do not recommend a daily computer for meaningful
-                funds, even after a clean antivirus scan.
+                For this empty-wallet exercise: your existing Windows, macOS or
+                Linux computer. For serious funds: a dedicated computer with a
+                fresh Linux installation; I recommend Debian Stable.
               </>
             }
             prerequisites="Bitcoin Core installed from an official source, an empty practice environment, and a separate place for passphrase notes."
-            outcome="A restored practice wallet whose addresses and metadata match the original."
-            lastReviewed="Technical walkthrough: 31 August 2026. Curriculum and passphrase alignment: 14 September 2026. GPG backup, layered encryption and upcoming Vault design: 16 October 2026; final ISO testing not claimed."
+            outcome="A restored practice wallet with the same receiving address and label."
+            lastReviewed="Beginner instructions, GPG backup and recovery: 16 October 2026. The Vault ISO is still in development."
           />
 
           <div className="mt-10 grid gap-4 rounded-[28px] bg-card p-5 shadow-[var(--shadow-border)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-7">
@@ -1645,9 +1523,8 @@ export function BitcoinCoreWalletGuidePage() {
           </div>
 
           <GuideCallout kind="note">
-            Keep this wallet disposable. Use the curriculum to learn the full
-            lifecycle with valueless test coins, then prove recovery before
-            preparing fresh keys and credentials for real funds.
+            Keep this wallet for practice only. The curriculum shows you how to
+            test payments and recovery before creating a new wallet for real funds.
           </GuideCallout>
         </section>
 
@@ -1736,7 +1613,6 @@ export function BitcoinCoreWalletGuidePage() {
           ))}
         </div>
 
-        <SeriousColdStorage />
         <ArchitectureDiagram />
 
         <section className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 sm:pb-20">
@@ -1820,7 +1696,7 @@ export function BitcoinCoreWalletGuidePage() {
           </a>
           <ConsultingInvitation
             question="Want to prove your own backup and recovery plan?"
-            detail="Bring one question from this exercise: what to back up, how to separate credentials, or how to check a restore before using real funds."
+            detail="Bring one question from this exercise: what to back up, where to keep passphrases, or how to check a restore before using real funds."
             className="mb-10"
           />
           <ValueForValueCard language="en" />
