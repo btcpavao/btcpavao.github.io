@@ -29,7 +29,7 @@ import {
   type PassphrasePreferences,
 } from "@/passphrase-preferences"
 
-export function PassphraseExplorer() {
+export function PassphraseExplorer({ guidance = "course" }: { guidance?: "course" | "guide" }) {
   const { settings, storageAvailable, sharedExample } = useSyncExternalStore(
     subscribePassphrasePreferences,
     getPassphraseSnapshot,
@@ -153,30 +153,36 @@ export function PassphraseExplorer() {
         </div>
         <p id="attack-word-guidance" className="word-count-control__guidance">
           {listSize === KEEPASS_WORD_COUNT ? "KeePassXC" : "EFF large"} list ·{" "}
-          {words < 6
-            ? "Below the course recommendation"
-            : words === 6
-              ? "Course default"
-              : "Extra margin"}
+          {guidance === "guide"
+            ? words < 8
+              ? "Below Bitcoin Core’s eight-word recommendation"
+              : words === 8
+                ? "Bitcoin Core’s suggested word count"
+                : "Extra margin"
+            : words < 6
+              ? "Below the course recommendation"
+              : words === 6
+                ? "Course default"
+                : "Extra margin"}
         </p>
         <div
           className="parallel-explorer__presets"
           role="group"
-          aria-label="Recommended word counts"
+          aria-label="Compare word counts"
         >
           <button
             type="button"
             aria-pressed={words === 6}
             onClick={() => update("words", 6)}
           >
-            6 words · default
+            6 words · {guidance === "guide" ? "compare" : "default"}
           </button>
           <button
             type="button"
             aria-pressed={words === 8}
             onClick={() => update("words", 8)}
           >
-            8 words · extra
+            8 words · {guidance === "guide" ? "Core recommendation" : "extra"}
           </button>
         </div>
       </div>
@@ -439,14 +445,16 @@ export function PassphraseExplorer() {
             </p>
             <p>
               Use the slider to understand the trade-off, then choose a margin
-              you can store and recover reliably. Six random KeePassXC words
-              remain the course default; choose eight if memorizing two more is
-              comfortable. An estimated attack cost above your balance is not a
+              you can store and recover reliably.{" "}
+              {guidance === "guide"
+                ? "Bitcoin Core recommends eight or more words; use independently generated random words."
+                : "Six random KeePassXC words remain the course default; choose eight if memorizing two more is comfortable."}{" "}
+              An estimated attack cost above your balance is not a
               guarantee: the guess rate, future hardware and what an attacker
               already knows all matter.
             </p>
             <details className="course-lesson-details">
-              <summary>Compare the recommended six and eight words</summary>
+              <summary>Compare six and eight words</summary>
               <div
                 className="passphrase-cost-grid"
                 role="group"

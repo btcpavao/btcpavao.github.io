@@ -50,7 +50,7 @@ const LEGACY_STEP_STORAGE_KEY = "btcpavao-core-wallet-guide-steps-v1"
 const LEGACY_CHECKLIST_STORAGE_KEY = "btcpavao-core-wallet-guide-checklist-v1"
 const IMAGE_ROOT = "/bitcoin-core-wallet-guide"
 const BITCOIN_CORE_DOWNLOAD_URL = "https://bitcoincore.org/en/download/"
-const KEEPASSXC_DOWNLOAD_URL = "https://packages.debian.org/trixie/keepassxc-minimal"
+const KEEPASSXC_DOWNLOAD_URL = "https://keepassxc.org/download/"
 const DEBIAN_DOWNLOAD_URL = "https://www.debian.org/distrib/"
 const TAILS_INSTALL_URL = "https://tails.net/install/"
 const GNUPG_DOWNLOAD_URL = "https://gnupg.org/download/"
@@ -250,7 +250,7 @@ const legacySteps: GuideStep[] = [
   {
     number: 4,
     title: "Generate a strong passphrase",
-    summary: "Use KeePassXC with the verified bundled wordlist.",
+    summary: "Generate random words with KeePassXC and explore the cost of guessing them.",
     images: [
       image(
         "04-keepass-passphrase-generator-crisp",
@@ -262,39 +262,58 @@ const legacySteps: GuideStep[] = [
     content: (
       <>
         <p>
-          Use <ResourceLink href={KEEPASSXC_DOWNLOAD_URL}>KeePassXC</ResourceLink>{" "}
-          on a clean, verified Debian environment. Start with six independently
-          generated random words. Choose eight if memorizing two extra words is
-          comfortable for you and you want a larger margin against guessing.
+          Download and install <ResourceLink href={KEEPASSXC_DOWNLOAD_URL}>KeePassXC</ResourceLink>{" "}
+          for Windows, macOS or Linux, then open it. You can follow this practice
+          exercise on the computer you already use, with an empty test wallet
+          and a passphrase you will never reuse for real funds.
         </p>
         <p>
-          The reviewed Debian 13 Stable package is <code>keepassxc-minimal
-          2.7.10+dfsg1-1</code>. Install it through Debian’s authenticated
-          repositories during preparation and use maintained updates. If the
-          version differs, check it against the{" "}
-          <a className="font-semibold underline underline-offset-4" {...articleLinkProps(`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/generate-passphrase`)}>
-            curriculum’s verified generator procedure
-          </a>{" "}
-          before assuming the same settings or wordlist count.
+          Open Tools → Password Generator → Passphrase. Use the bundled EFF
+          large wordlist, choose lower-case words separated by a single space,
+          and let KeePassXC generate them. Keep the words in their generated
+          order, including any repeats. You do not need to create a password
+          database just to use the generator.
         </p>
         <p>
-          Open Tools → Password Generator → Passphrase. Choose{" "}
-          <code>(SYSTEM) eff_large.wordlist</code>, set Word Count to 6 (or 8 for extra margin), lower
-          case and a single space separator, then generate. This verified
-          bundled list contains 7,772 distinct words; no custom wordlist import
-          is needed. Keep repeated words and the generated order. You do not
-          need a password database just to use the generator.
+          <ResourceLink href="https://github.com/bitcoin/bitcoin/blob/v31.1/src/qt/askpassphrasedialog.cpp#L37">
+            Bitcoin Core’s encryption dialog recommends eight or more words
+          </ResourceLink>.
+          Eight independently generated random words are a good starting point
+          for this exercise and match the screenshots. Before deciding on eight,
+          more or fewer, try the calculator below to see how the word count
+          changes the estimated effort and cost of guessing the passphrase.
         </p>
         <p>
-          KeePassXC uses computer-generated secure randomness to select the
-          words. See the curriculum’s{" "}
+          Entropy describes how many possible combinations an attacker has to
+          consider. With randomly generated words, more entropy means more
+          possibilities to try. Brute force means testing those possibilities
+          until one works: more guesses generally mean more computing time and
+          a bigger bill. Entropy is not itself a price tag; the cost also depends
+          on how quickly guesses can be tested and what the computing power costs.
+        </p>
+        <p>
+          The calculator gives you a rough feel for that relationship. Under its
+          starting assumptions, eight random words imply an enormous guessing
+          cost — and so do seven and even six. Move the slider through six,
+          seven and eight words and compare the numbers yourself. Fewer random
+          words are generally easier to remember but offer less protection
+          against guessing; more words offer more protection but are harder to
+          remember. Explore the trade-off until those numbers mean something to
+          you, rather than choosing a word count without understanding it.
+        </p>
+        <p>
+          These are illustrations under the displayed assumptions, not a current
+          market quote or a guarantee. Computing power and attack methods improve:
+          an attack that looks prohibitively expensive today may cost less in a
+          year, ten years or thirty years. That is why I leave an extra safety
+          margin instead of choosing only what appears sufficient today. Whatever
+          you choose, keep a separate recovery record rather than relying on
+          memory alone. The calculations apply to independently generated random
+          words, not a sentence you invent. For more detail, see the curriculum’s{" "}
           <a className="font-semibold underline underline-offset-4" {...articleLinkProps(`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/passphrase-strength`)}>entropy explanation</a>{" "}
           and <a className="font-semibold underline underline-offset-4" {...articleLinkProps(`${EN_BITCOIN_CORE_CURRICULUM_PATH}#lesson/brute-force-economics`)}>attack-economics exercise</a>.
-          The screenshots show a macOS practice session with the optional
-          eight-word setting. Select six for the default; follow the versioned
-          Debian procedure above for the real workflow.
         </p>
-        <PassphraseExplorer />
+        <PassphraseExplorer guidance="guide" />
         <GuideIconList
           tone="warning"
           items={[
@@ -437,15 +456,6 @@ const legacySteps: GuideStep[] = [
           . First learn to create, encrypt, back up and restore one disposable
           wallet. The full curriculum later separates online coordination from
           offline signing, after the one-wallet mastery checkpoint.
-        </p>
-        <p>
-          Hardware wallets addressed a real malware problem by isolating
-          signing. They also introduce Bitcoin-specific devices, vendor
-          firmware, supply chains and recovery dependencies. I recommend
-          dedicated generic hardware, clean Linux and Bitcoin Core instead.
-          Generic hardware still needs disciplined preparation and physical
-          protection. If tampering is reasonably suspected, do not unlock the
-          wallet to check it; recover on a trusted replacement.
         </p>
       </>
     ),

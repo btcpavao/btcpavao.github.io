@@ -49,3 +49,12 @@ Separate review after drafting the follow-up revision, 16 October 2026.
 - Existing basic CLI validation from the earlier pass applies to the identical commands reused in the lesson. No new GUI, ISO, OCB or funded wallet runtime test was performed.
 - Checks: 33 curriculum checks, 11 search checks, ESLint, production build and 2,668 internal links passed. Mobile (390 × 844) and desktop (1280 × 900) views inspected for the ISO page, GPG lesson and expanded macOS guide. No document horizontal overflow. New text uses existing section padding; no edge contact found.
 - Asset verification initially found a stale exact-title assertion from the previous guide wording. Updated it to the current GPG heading; the full asset/crawlable-route check passed, including 38 responsive image sets. This was a test expectation change, not a rendering defect.
+
+
+## Step 4 simplification and step 5 editorial follow-up
+
+- Bitcoin Core 31.1 source, `src/qt/askpassphrasedialog.cpp` line 37, confirms the encryption dialog recommends eight or more words (https://github.com/bitcoin/bitcoin/blob/v31.1/src/qt/askpassphrasedialog.cpp#L37). Checked independently after drafting.
+- KeePassXC official download page lists Windows, macOS and Linux: https://keepassxc.org/download/. Removed Debian package/version prerequisites from the disposable practice step.
+- Calculator mathematics remain unchanged. Its starting assumptions are 7,772 equiprobable words, 32,880 guesses/second per GPU and USD 0.89/hour. Average rental cost is list_size ** words / 2 / rate / 3600 * hourly_rent. Six, seven and eight words all produce enormous costs under those assumptions; the prose explicitly does not present these as current market quotations or forecasts.
+- More random words increase search space; the explanation distinguishes entropy from price and retains uncertainty about future hardware and attacks, plus separate recovery records.
+- Guide-only calculator labels reflect the eight-word Core recommendation without changing curriculum defaults or saved calculator settings. Removed the hardware-wallet comparison paragraph from step 5 at the author's request.
