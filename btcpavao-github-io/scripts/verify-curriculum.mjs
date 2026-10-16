@@ -592,6 +592,8 @@ try {
     assert.ok(text.includes("25 GPUs · 40,000 guesses/second per GPU · USD 1.25/GPU-hour"))
     assert.ok(text.includes("Average time: ≈ 2.72 days (two point seven two days)"))
     assert.ok(text.includes("Average total GPU rental: ≈ USD 2,040 (two point zero four thousand dollars)"))
+    assert.ok(text.includes("Houses at USD 1,000,000 (one million dollars) each: ≈ 0.00204 houses (zero point zero zero two zero four)"))
+    assert.ok(text.includes("Projects at USD 1,000,000,000 (one billion dollars) each: < 0.001 projects"))
     assert.ok(text.includes("not a guarantee"))
     const url = new URL(text.split("\n").at(-1))
     assert.equal(url.hash, "#lesson/brute-force-economics")
@@ -599,6 +601,8 @@ try {
     const parallel = sharing.createPassphraseSummary(href, {...settings, gpus: "1000"})
     assert.ok(parallel.includes("Average time: ≈ 1.63 hours"))
     assert.equal(parallel.split("\n")[4], text.split("\n")[4], "Total rental is unchanged when only GPU count changes")
+    const equivalents = (summary) => summary.split("\n").filter((line) => /^(Houses|Projects) at USD/.test(line))
+    assert.deepEqual(equivalents(parallel), equivalents(text), "Cost comparisons are unchanged when only GPU count changes")
     for (const input of [
       preferences.DEFAULT_PASSPHRASE_PREFERENCES,
       {...settings, words: 12},
@@ -609,7 +613,19 @@ try {
       assert.doesNotMatch(summary.split("\n\n")[0], /\b\d+(?:\.\d+)?e[+-]\d+|\b(?:NaN|Infinity)\b/i)
       assert.deepEqual(preferences.parsePassphraseLink(new URL(summary.split("\n").at(-1))), input)
     }
-    assert.ok(sharing.createPassphraseSummary(href, preferences.DEFAULT_PASSPHRASE_PREFERENCES).includes("USD 829,000,000,000,000 (eight hundred twenty-nine trillion dollars)"))
+    const defaults = preferences.DEFAULT_PASSPHRASE_PREFERENCES
+    const defaultSummary = sharing.createPassphraseSummary(href, defaults)
+    assert.ok(defaultSummary.includes("USD 829,000,000,000,000 (eight hundred twenty-nine trillion dollars)"))
+    assert.ok(defaultSummary.includes("each: ≈ 829,000,000 houses (eight hundred twenty-nine million)"))
+    assert.ok(defaultSummary.includes("each: ≈ 829,000 projects (eight hundred twenty-nine thousand)"))
+    for (const input of [{...defaults, compute: "1.78"}, {...defaults, rate: "16440"}]) {
+      const changed = sharing.createPassphraseSummary(href, input)
+      assert.ok(changed.includes("each: ≈ 1,660,000,000 houses (one point six six billion)"))
+      assert.ok(changed.includes("each: ≈ 1,660,000 projects (one point six six million)"))
+    }
+    const free = sharing.createPassphraseSummary(href, {...settings, compute: "0"})
+    assert.ok(free.includes("each: ≈ 0 houses (zero)"))
+    assert.ok(free.includes("each: ≈ 0 projects (zero)"))
     assert.throws(() => sharing.createPassphraseSummary(href, {...settings, gpus: ""}), RangeError)
   })
 
