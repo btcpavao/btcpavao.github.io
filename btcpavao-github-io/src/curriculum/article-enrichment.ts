@@ -92,13 +92,13 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "backup-redundancy-freshness": {
     notes: [
-      "A second encrypted file copy changes redundancy without changing who can authorize a payment. A second required signature changes authorization. Write those two properties on separate lines in your recovery plan. Adding a backup location is not the same decision as adding an independent authority.",
+      "A second encrypted file copy changes redundancy without changing who can authorize a payment. Passphrase records need redundant copies too; several file copies are no help if every copy of a required password is lost. A second required signature changes authorization. Write those two properties on separate lines in your recovery plan. Adding a backup location is not the same decision as adding an independent authority.",
     ],
     reading: ["authority", "backup"],
   },
   "encrypted-backup-privacy": {
     notes: [
-      "Treat the wallet file, Core passphrase and every GPG passphrase as distinct recovery objects. I recommend one symmetric GPG layer to protect the entire backup, with additional independent layers only when useful. The encrypted payload hides wallet metadata and internal filenames; the outer filename, size and storage timestamps remain visible. Test all layers and Core restoration on a trusted replacement before relying on them.",
+      "For one GPG layer, keep three recovery items: the final encrypted file, the GPG passphrase and the Core passphrase. Make redundant copies of each, with the file and each passphrase kept separately. Every extra GPG layer adds one more required passphrase. Recover from a copied file and the separate records, open layers last added first, then restore and test the wallet in Core.",
     ],
     reading: ["backup", "gpg"],
     image:
@@ -124,7 +124,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "ops-documentation": {
     notes: [
-      "Write which program opens each artifact and in what order: GPG layers in reverse order if used, TAR extraction when present, Core wallet backup, separately recovered Core passphrase, public descriptors for the online watch-only wallet. Record image and software versions, but also describe the ordinary GnuPG/TAR/Core recovery route and every required passphrase. A relative should not have to reconstruct the plan from a pile of devices.",
+      "Write the recovery order: retrieve the final GPG file, recover each GPG passphrase separately, open the layers last added first, and restore the recovered wallet in Core. Recover the separate Core passphrase to approve payments. If the backup contains a TAR package, unpack it after opening all GPG layers. Record where redundant copies of each item can be found, plus the software versions and public records needed for the online wallet. Keep the secrets out of the map and rehearse with test material.",
     ],
     reading: ["backup"],
   },

@@ -667,13 +667,13 @@ export const part3Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-10-16",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
       "Keep the complete receive and change descriptors, threshold, key origins, derivation paths, network and wallet birth information. Public descriptors are sensitive financial information even though they do not directly authorize spending.",
-      "Each signer needs a tested encrypted wallet backup containing its private contribution and the policy needed to use it. Protect each passphrase and preserve the coordinator’s public configuration. Test restoration of each permitted surviving pair.",
-      "A key-export list is not automatically a complete wallet backup. The laboratory deliberately backs up and restores a policy wallet through Core’s backupwallet and restorewallet operations so that the descriptor and signing capability are tested together.",
+      "Each signer needs a tested encrypted wallet backup containing its private contribution and the policy needed to use it. For each signer, protect the whole backup with GPG and preserve redundant copies of the final file, its GPG passphrase and the separate Core passphrase. Extra GPG layers add required passphrases for that signer’s backup; they do not add Bitcoin signers. Keep each secret separate and preserve the coordinator’s public configuration. Test restoration of each permitted surviving pair.",
+      "A key-export list is not automatically a complete wallet backup. The laboratory deliberately tests Core’s backupwallet and restorewallet operations directly, so that the descriptor and signing capability are tested together. Practise the GPG wrapping separately using the GPG backup lesson before distributing copies.",
     ],
     prerequisites: ["single-sig-mastery", "multisig-signet"],
     sources: [

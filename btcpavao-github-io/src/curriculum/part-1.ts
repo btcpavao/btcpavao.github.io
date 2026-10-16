@@ -691,7 +691,7 @@ export const part1Lessons: PlayerLesson[] = [
       "BIP39 describes a way to encode wallet seed entropy as words plus a checksum, then derive a seed from those words and an optional passphrase. The proposal is dated 10 September 2013 and lists Marek Palatinus, Pavol Rusnak, Aaron Voisine and Sean Bowe as authors. Its history is connected to the early Trezor ecosystem and the need for human-readable recovery. Trezor dates the official launch of its Model One to 29 July 2014; the proposal predates that product launch.",
       "The cryptography is not “broken.” The custody question is what happens when the root secret becomes a readable backup. A plain copy on paper or metal improves recovery redundancy while creating another location at which that same secret can be exposed. A BIP39 passphrase can add protection, but also creates another essential recovery dependency.",
       "This course instead backs up the encrypted Bitcoin Core wallet file and keeps its encryption passphrase separately. The file includes wallet keys and descriptors—the instructions describing the wallet’s addresses and spending conditions—along with wallet metadata present when the backup was made. It is broader than a mnemonic root secret, but does not contain future edits or replace your recovery instructions.",
-      "Redundancy and secret exposure should not have to be the same thing. Copies of an encrypted wallet can survive separate device or location failures without putting readable private keys at each location. Core encrypts private key material, not every piece of wallet metadata; the backup-privacy lesson explains that boundary.",
+      "Redundancy and secret exposure should not have to be the same thing. Copies of an encrypted wallet can survive separate device or location failures without putting readable private keys at each location. Core protects the keys used to approve payments. To keep the whole backup private, I recommend a GPG layer with its own passphrase. One layer means three items to preserve separately and redundantly: the final encrypted file, the GPG passphrase and the Core passphrase. The backup-privacy lesson explains the procedure.",
       "The recommendation follows the whole architecture: generic hardware, Linux, Core and tested encrypted file recovery. BIP39 is not the long-term recovery foundation taught here.",
     ],
     callouts: [
@@ -719,7 +719,7 @@ export const part1Lessons: PlayerLesson[] = [
       "I will keep the encrypted Core backup and its passphrase separate.",
     ],
     kind: "reading",
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-10-16",
     chapter: "Choose the foundation",
     sourceReviewed: "2026-09-13",
     reviewNote:

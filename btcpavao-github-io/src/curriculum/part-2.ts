@@ -1670,6 +1670,7 @@ export const part2Lessons: PlayerLesson[] = [
     referenceVersion: "Bitcoin Core 31.1",
     explanation: [
       "Redundancy means keeping copies that will not all disappear in the same failure. Two files on one USB drive do not protect against losing that drive. Separate devices and locations can protect against different failures. Freshness means the backup includes the wallet's current keys, settings and other information you need to recover.",
+      "Apply redundancy to every required item, not only the wallet file. With one GPG layer, keep multiple copies of three things: the final GPG-encrypted file, the GPG passphrase and the Core passphrase. Keep the two passphrases separate from each other and from the file. Each extra GPG layer adds another passphrase that needs its own redundant, separate records.",
       "Make a fresh backup after encryption, a wallet-password change or importing new keys or descriptors. Save a new copy when newer labels or other wallet records matter too. Modern wallets derive new keys from a saved starting secret, so creating a new receiving address does not, by itself, require another backup. Changing the active wallet password does not change passwords on old backup files, and it cannot revoke keys someone has copied.",
     ],
     concepts: [
@@ -1678,7 +1679,7 @@ export const part2Lessons: PlayerLesson[] = [
       "Wallet metadata includes labels and other records you add. An older backup can be missing these even when it can recover the keys.",
     ],
     checklist: [
-      "I know how many independent backup copies I will keep and where.",
+      "I know how many copies of the backup and each required passphrase I will keep, with the file and each passphrase stored separately.",
       "I know to make a new backup after encryption or a wallet-password change.",
       "If Core converts an old wallet format into several wallets, I will back up each resulting wallet.",
       "In a recovery drill, I check needed labels and wallet records as well as the balance.",
@@ -1705,7 +1706,7 @@ export const part2Lessons: PlayerLesson[] = [
     optional: false,
     kind: "checkpoint",
     prerequisites: ["2.6"],
-    contentUpdated: "2026-09-14",
+    contentUpdated: "2026-10-16",
     notes: [
       "Labels are information you supply. Reading the blockchain again cannot reconstruct them. A newer backup may be needed to recover those records even if an older copy can still recover the money.",
       "Refresh backups after encryption, password changes and imported keys or address descriptions. Also refresh them when newly added wallet records matter for recovery. Changing a password does not encrypt old copies again or take back keys someone copied. If keys may have been stolen, secure the environment and move to new keys.",
@@ -1731,12 +1732,15 @@ export const part2Lessons: PlayerLesson[] = [
     referenceVersion: "Bitcoin Core 31.1",
     explanation: [
       "Core wallet encryption protects private-key material. It does not necessarily hide public keys, addresses, transaction records or labels. These records are often called metadata: information about the wallet's activity rather than the secret needed to sign a payment.",
-      "Someone who obtains a bare Core backup may learn about your finances even if the wallet passphrase prevents spending. My recommendation is to encrypt the whole backup with GPG before distributing it, especially before an additional cloud copy. Start with one independently generated GPG passphrase. Additional layers are optional: each protects the previous encrypted file with a different secret, and all are needed for recovery. The Core passphrase remains separate.",
+      "Someone with a Core backup can view addresses, transaction history and balance without being able to use its locked keys to approve a new payment. My recommendation is to encrypt the whole backup with GPG as well, using a different, independently generated passphrase. GPG keeps the wallet contents private.",
+      "Think of GPG as a locked envelope around the wallet. With one GPG layer, keep three things: the encrypted file, the GPG passphrase that opens it, and the separate Core passphrase that unlocks the wallet for signing. Keep more than one copy of each, in separate locations, with each passphrase separate from the other and from the file.",
+      "For another layer, encrypt the GPG file again with a new random passphrase. Two GPG layers mean one final file and three passphrases: two GPG passphrases and the Core passphrase. Open the layers in reverse order, last added first. Every added layer adds a secret that must remain recoverable.",
+      "A random-word passphrase by itself does not say what it unlocks. A GPG file named something neutral, such as backup.gpg, keeps the Bitcoin wallet inside it hidden from view. Distribute only the final, outermost encrypted file; an earlier inner copy does not have the protection of later layers.",
     ],
     checklist: [
       "I can distinguish someone gaining the ability to spend from someone learning my payment history.",
       "I understand the extra exposure and recovery benefits of cloud storage.",
-      "I keep the encrypted backup and its password in separate places, and can recover each.",
+      "I can recover redundant copies of the final GPG file, the Core passphrase and every GPG passphrase, with each kept separately.",
       "I can explain the difference between the Core passphrase and every GPG layer, and why only the final outermost file should be distributed.",
     ],
     sources: [
@@ -1752,8 +1756,8 @@ export const part2Lessons: PlayerLesson[] = [
     callouts: [
       {
         kind: "warning",
-        title: "Content privacy has boundaries",
-        body: "GPG hides the payload, including wallet metadata and embedded filenames. The outer filename, size and storage timestamps remain visible. Encryption cannot protect secrets exposed to malware during creation or recovery. Keep independent offline copies and test every required decryption step.",
+        title: "Test all three recovery items",
+        body: "For one layer, recover a copy of the GPG file and the two separate passphrase records. Open GPG, restore the recovered wallet in Core, then prove signing with the Core passphrase and test coins. Extra layers require their own passphrases too. Do not rely on the original computer or passwords remembered by it.",
       },
     ],
     videoUrl: null,
@@ -1763,7 +1767,7 @@ export const part2Lessons: PlayerLesson[] = [
     prerequisites: ["backup-redundancy-freshness"],
     contentUpdated: "2026-10-16",
     notes: [
-      "Cloud storage is therefore a tradeoff: it can improve redundancy and availability, but adds a third party, online exposure, and potential privacy leakage to the threat model. It is not a universal recommendation.",
+      "After a successful recovery test, I recommend an additional cloud copy of the final GPG-encrypted file. Keep every passphrase out of that account and retain independent offline copies. Download the cloud copy to a folder that does not sync, decrypt it there and test Core recovery before counting it as a working backup.",
     ],
     chapter: "Prove backup and recovery",
     sourceReviewed: "2026-10-16",
@@ -1786,12 +1790,12 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-14",
+    contentUpdated: "2026-10-16",
     estimatedTime: "8–12 min",
     kind: "reading",
     explanation: [
       "Redundancy means having recoverable copies after one fails. A control policy defines who must authorize a spend. Several encrypted single-sig backups improve redundancy without adding another required signer.",
-      "Start with a current Core backup, a separately recoverable passphrase and at least two deliberately separated locations appropriate to your threats. Choose media you can read and test. The comparison below is a menu of trade-offs, not a shopping list.",
+      "Start with a current Core backup, protect the whole file with GPG, and keep copies of the final encrypted file on separate devices and in separate locations. Make a separate redundancy plan for the Core passphrase and for each GPG passphrase too. Two copies of the file cannot replace a lost password. Choose media you can read and test; the comparison below is a menu of trade-offs, not a shopping list.",
       "No medium has a guaranteed unattended lifetime. Bit rot means stored bits changing or becoming unreadable over time. A checksum can detect some changes but cannot repair a damaged file; another tested copy provides recovery. Inspect and restore periodically.",
     ],
     prerequisites: ["encrypted-backup-privacy"],
@@ -1829,7 +1833,7 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-14",
+    contentUpdated: "2026-10-16",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
@@ -1868,7 +1872,7 @@ export const part2Lessons: PlayerLesson[] = [
         id: "restore-survivor-v4",
         title: "Restore the surviving backup",
         instructions: [
-          "Use File → Restore Wallet with the chosen backup and a new practice name. Wait for the online practice node to synchronize and scan the relevant history. Compare your recorded address and confirmed transactions.",
+          "If the backup is GPG-encrypted, first open every layer in reverse order using the separate passphrase records, in a folder outside cloud sync. Use File → Restore Wallet with the recovered wallet file and a new practice name. Wait for the online practice node to synchronize and scan the relevant history. Compare your recorded address and confirmed transactions.",
           "Use the recorded passphrase to send a new small Signet payment. A balance display alone does not establish signing capability.",
         ],
         expectedResult:
@@ -1879,7 +1883,7 @@ export const part2Lessons: PlayerLesson[] = [
         id: "failed-usb-v4",
         title: "Pretend one USB has failed",
         instructions: [
-          "Set one backup USB aside and do not use it. Recover from the other planned location. Record which equipment, software and password record were actually needed.",
+          "Set one backup USB aside and do not use it. Recover from the other planned location, including every GPG layer if used. Check that losing one location does not also remove every copy of a required passphrase. Record which equipment, software and separate passphrase records were needed.",
         ],
         expectedResult:
           "Loss of one medium does not prevent recovery; both copies were not dependent on that medium.",
@@ -2673,7 +2677,7 @@ export const part2Lessons: PlayerLesson[] = [
         title: "Restore a replacement offline signer",
         instructions: [
           "Set the original signer and its working disk aside intact. Prepare trusted replacement hardware with verified Debian and Core using the signer-setup lesson. Disconnect it before restoring any wallet secrets, and use a separate Core Signet data folder.",
-          "Using only known-good recovery copies, choose File → Restore Wallet and restore signet-offline-after-encryption.dat as signet-offline-restored. Check an address you recorded earlier that has received test coins. The original signer must supply nothing for this recovery. Never restore this private-key backup on the online computer.",
+          "If the backup has GPG layers, open them on this offline replacement in reverse order using the separately recovered passphrases. Using only known-good recovery copies, choose File → Restore Wallet and restore signet-offline-after-encryption.dat as signet-offline-restored. Check an address you recorded earlier that has received test coins. The original signer must supply nothing for this recovery. Never restore this private-key backup on the online computer.",
         ],
         expectedResult:
           "The replacement offline wallet recognizes a recorded funded address. The original signer and its working disk were not used.",
@@ -2703,7 +2707,7 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     prerequisites: ["offline-psbt"],
-    contentUpdated: "2026-09-14",
+    contentUpdated: "2026-10-16",
     notes: [],
     chapter: "Recover without the originals",
     sourceReviewed: "2026-09-14",
@@ -2727,7 +2731,7 @@ export const part2Lessons: PlayerLesson[] = [
     reviewNote:
       "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
     explanation: [
-      "A recovery card is a written guide to the setup: what each computer does, which wallet is used, where its backup is stored and how to recover the password separately. Recovery material means the files, devices and records the procedure needs. The card itself should not contain a private key or password.",
+      "A recovery card explains which wallet is used, where authorized people can find copies of the final encrypted file, and how to recover each passphrase separately. With one GPG layer, that means the file, the GPG passphrase and the Core passphrase. List extra GPG passphrases and their order when used. The card itself should not contain a private key or password; keep the map private as well.",
       "Try following the card with your Signet test files. Whenever you have to guess, add the missing instruction. Then have the person who could act if you died or became unavailable try it too. Practice with test material rather than sharing real wallet secrets for an exercise.",
     ],
     codeBlocks: [],
@@ -2762,16 +2766,16 @@ export const part2Lessons: PlayerLesson[] = [
         id: "operator-unavailable",
         title: "Check that someone else can follow the guide",
         instructions: [
-          "Name the person who could act if you died or became unavailable. Ask them to locate the instructions and rehearse with Signet test files. They should be able to find the wallet backup and recover its password through the separate records without relying on you to fill in missing steps.",
+          "Name the person who could act if you died or became unavailable. Ask them to rehearse with Signet test files. They should find the final encrypted backup and each separate passphrase record, open every GPG layer in reverse order, restore the wallet and approve a test payment with the Core passphrase. Do not fill in missing steps from memory.",
           "Correct anything unclear. Do not share real wallet secrets simply to run this practice. Review the access instructions after life changes; legal arrangements for inheritance need their own appropriate review.",
         ],
         expectedResult:
-          "You have named the person who could recover the wallet and checked that they can follow the test instructions to find both the backup and the separate password record.",
+          "The intended recovery person can follow the test instructions to find the encrypted file and every separate passphrase record, then recover and use the test wallet.",
         help: "Do not share production secrets for a practice exercise. Review access and inheritance instructions after life changes. Any legal arrangements need their own appropriate review.",
       },
     ],
     prerequisites: ["offline-recovery"],
-    contentUpdated: "2026-09-14",
+    contentUpdated: "2026-10-16",
     notes: [],
     chapter: "Recover without the originals",
     sourceReviewed: "2026-09-14",
@@ -2840,7 +2844,7 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-14",
+    contentUpdated: "2026-10-16",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
@@ -2882,6 +2886,7 @@ export const part2Lessons: PlayerLesson[] = [
         instructions: [
           "Check the recorded generation method and wordlist. Has available computing power changed materially? Have attack tools improved? Is the attack margin still very large under demanding assumptions, including future value growth? Has typing or recovering the credential become harder?",
           "If the evidence justifies strengthening the phrase, generate a fresh one, use Core’s Change Passphrase operation, make current backups and test restoration and signing with the new phrase. Review old snapshots separately: their old phrases still apply. Do not rotate a sound credential without a reason, and do not confuse a password change with revoking exposed Bitcoin keys.",
+          "Review each GPG passphrase separately. Core’s Change Passphrase does not change GPG passwords. If a GPG passphrase changes, rebuild the affected layer and any layers outside it, then test recovery and update the final file copies and separate records. Old encrypted files still need their old passphrases; keep the matching records until you have safely replaced those copies.",
         ],
         expectedResult:
           "The phrase retains a generous margin without relying on a precise attack-price estimate.",
@@ -2891,11 +2896,11 @@ export const part2Lessons: PlayerLesson[] = [
         id: "media-review-v4",
         title: "Inspect and restore the copies",
         instructions: [
-          "Are all intended backup copies present and readable? Do connectors and readers still work? Can authorized people find the instructions and separate password record? Restore a copy in the correct clean environment, verify a known address and prove signing; a file listing alone is not a recovery test.",
+          "Check the copies of the final GPG file and the separate records for every GPG passphrase and the Core passphrase. Can you still recover if one device or location is unavailable? Do connectors and readers work? Open every GPG layer using the recovered records, restore the wallet in the clean environment, verify a known address and prove signing. A file listing alone is not a recovery test.",
           "For a real offline wallet, keep the restored signer offline and use an appropriate controlled signing test. Do not expose the real private keys online merely to simplify a maintenance exercise.",
         ],
         expectedResult:
-          "A current copy actually restores and its password record works.",
+          "A current encrypted copy restores through every layer, and all separately recovered passphrase records work.",
         help: "Stop at this step if the result differs. Recheck the selected network, wallet and files, then review the linked official documentation. Do not mark the result as confirmed until you can explain the difference.",
       },
       {
@@ -2937,11 +2942,11 @@ export const part2Lessons: PlayerLesson[] = [
     status: "published",
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
-    contentUpdated: "2026-09-14",
+    contentUpdated: "2026-10-16",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
-      "Prepare a short recovery map: what the encrypted wallet file is, where authorized people can find copies, how the passphrase becomes available, which software is needed, and how to verify the recovered wallet. Keep secrets out of the public-facing map.",
+      "Prepare a private recovery map: where authorized people can find copies of the final GPG file, how each GPG passphrase and the Core passphrase becomes available separately, which software is needed, and how to test the restored wallet. Write down the layer order. Keep the secrets themselves out of the map.",
       "Practice with a different, disposable wallet. Give the intended recovery person the test instructions and the materials the plan says will survive. Let them explain and perform the recovery. Every missing assumption is something to fix while you can.",
       "Distinguish practical recovery instructions from legal authority over an estate. An inheritance spending policy can be appropriate when authority genuinely needs to change; a complex policy is not a substitute for understandable instructions. Obtain jurisdiction-specific help where legal arrangements are needed.",
     ],
@@ -3036,9 +3041,10 @@ export const part2Lessons: PlayerLesson[] = [
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
-      "Start with one symmetric GPG layer around a consistent Core backup. GPG protects the entire payload, including wallet metadata and internal filenames. A TAR can package multiple files first; TAR itself does not encrypt them. The outer filename, size and storage timestamps remain visible.",
+      "Start with the wallet file saved by Core’s File → Backup Wallet. One GPG layer works like a locked envelope around it: the GPG passphrase opens the file, and the separate Core passphrase unlocks the wallet’s keys to approve payments. This is password-based encryption; no GPG key pair is needed.",
+      "One layer means three recovery items: the final GPG-encrypted file, its GPG passphrase and the Core passphrase. Keep more than one copy of each in separate locations, with each passphrase separate from the other and from the file. A random passphrase alone does not identify what it opens; a neutrally named GPG file hides the Bitcoin wallet inside.",
       "For another layer, encrypt the existing GPG file again using an independently generated passphrase. Recover in reverse order, then extract TAR if present and restore the wallet in Core. Core’s own wallet passphrase is separate. Use only the final outermost file for distributed copies; an accessible inner copy bypasses the outer layers.",
-      "Layers are useful when their secrets are handled independently. For example, A, B and C can be held at separate locations, each with redundant recovery records. All three are needed; losing one can make recovery impossible. Keeping them all in one immediately accessible database defeats geographic separation. This is not multisig and does not guarantee protection from coercion.",
+      "Two GPG layers mean one final encrypted file and three passphrases: GPG A, GPG B and Core. Each extra layer adds one required passphrase and its own redundant records. Open B, then A, then use the Core passphrase when signing. Keep the secrets separately; putting them all in one accessible password database defeats that separation. Losing all copies of any required passphrase can block recovery. These layers do not change Bitcoin’s signing rules.",
       "The upcoming Vault Debian ISO is intended to include Core, GnuPG, TAR and KeePassXC, with authenticated AES-256 OCB and a private RAM workspace. Its release will specify the tested GnuPG profile. The independent practice commands below use the installed GnuPG default integrity-protected format with AES-256; they do not select Vault’s planned OCB profile.",
       "For macOS practice, GPG Suite includes GPG Services in Finder. Use its password-only encryption option, with no recipient keys or signing, and repeat it on the encrypted output for another layer. The linked wallet guide gives the graphical steps and Linux/Windows installation options. For meaningful funds, use a dedicated computer with fresh Linux instead of a daily Mac or PC.",
     ],
@@ -3056,12 +3062,12 @@ export const part2Lessons: PlayerLesson[] = [
         id: "gpg-prepare-20261016",
         title: "Prepare a disposable backup and independent secret",
         instructions: [
-          "Use File → Backup Wallet in your encrypted test wallet. Save a disposable snapshot as practice-wallet.dat in your private practice workspace, outside cloud sync. Use KeePassXC to generate passphrase A independently of the Core passphrase. Record the software version, intended layer count and recovery order without placing the secrets beside the backup.",
+          "Use File → Backup Wallet in your encrypted test wallet. Save a disposable snapshot as practice-wallet.dat in your private practice workspace, outside cloud sync. Use KeePassXC to generate passphrase A independently of the Core passphrase. Make more than one recoverable record of both A and the Core passphrase, keeping them separate from each other and from the backup. Record the software version, layer count and recovery order without putting secrets in those instructions.",
           "Install maintained GnuPG through your distribution or the official tools linked in the wallet guide. For real custody, unwrapped snapshots and recovery outputs belong in verified private RAM or an environment prepared to prevent plaintext persistence through swap, sync and temporary files.",
         ],
         command: "gpg --version",
         commandContext: "Terminal in the private practice workspace",
-        expectedResult: "You have a consistent disposable Core backup and a separately recoverable GPG passphrase.",
+        expectedResult: "You have a disposable Core backup and separate, redundant recovery records for the Core passphrase and GPG passphrase A.",
         help: "GPG symmetric encryption needs a passphrase, not a public/private GPG key pair. Keep original backups until recovery succeeds.",
       },
       {
@@ -3070,17 +3076,18 @@ export const part2Lessons: PlayerLesson[] = [
         instructions: [
           "Run the command below, using a new output filename. Enter A only in the GPG prompt, never in command arguments. Confirm successful completion. The original file remains in place.",
           "For an optional second layer, generate independent passphrase B and run: gpg --no-symkey-cache --symmetric --cipher-algo AES256 --output backup-outer.gpg backup.gpg. Enter B in the prompt. Retain only the final outer file in distributed backup storage. Keep the test originals private until the recovery test is complete.",
+          "Make copies of the final encrypted file on separate devices or in separate locations. If you added B, create redundant records for B separately from A and the Core passphrase. Test a copied file and the recovered records in the next step before relying on them.",
         ],
         command: "gpg --no-symkey-cache --symmetric --cipher-algo AES256 --output backup.gpg practice-wallet.dat",
         commandContext: "Terminal in the private practice workspace",
-        expectedResult: "A complete GPG file protects the snapshot; every selected layer has its own recoverable secret.",
+        expectedResult: "The final GPG file has copies on separate devices or in separate locations; the Core passphrase and every GPG passphrase each have their own separate, redundant records.",
         help: "One layer is the default. Another layer is justified by independent secret handling, not by an assumption that more layers are automatically safer.",
       },
       {
         id: "gpg-recover-20261016",
         title: "Recover every layer and prove the wallet works",
         instructions: [
-          "For one layer, use the command below and enter A. For two layers, first run: gpg --no-symkey-cache --output recovered-inner.gpg --decrypt backup-outer.gpg and enter B. After success, decrypt recovered-inner.gpg to recovered-wallet.dat with A. Do not overwrite the original snapshot.",
+          "Use a copy from a backup location, with the original computer set aside and passwords retrieved from their separate records. For one layer, use the command below and enter A. For two layers, first run: gpg --no-symkey-cache --output recovered-inner.gpg --decrypt backup-outer.gpg and enter B. After success, decrypt recovered-inner.gpg to recovered-wallet.dat with A. Do not overwrite the original snapshot.",
           "Run each decryption separately and continue only after success with no integrity errors. Reject partial or failed output. If the expected final payload is TAR, extract it in the private workspace. Restore the recovered wallet through Core, compare addresses and labels, and prove test signing with the separate Core passphrase. Rehearse on a trusted replacement environment without depending on the Vault interface.",
         ],
         command: "gpg --no-symkey-cache --output recovered-wallet.dat --decrypt backup.gpg",
@@ -3092,7 +3099,7 @@ export const part2Lessons: PlayerLesson[] = [
     optional: true,
     chapter: "Optional extensions",
     sourceReviewed: "2026-10-16",
-    takeaway: "One GPG layer protects the whole backup. Additional independent layers require additional independently recoverable secrets.",
+    takeaway: "One GPG layer means three recovery items: one encrypted file and two separate passphrases. Back up each redundantly; every extra layer adds one more required passphrase.",
   },
   productionLesson,
   {
@@ -3218,24 +3225,25 @@ export const part2Lessons: PlayerLesson[] = [
         title: "Create and back up savings-offline",
         instructions: [
           "In the offline Core window choose File → Create Wallet, name it savings-offline and enable Encrypt Wallet. Enter the new mainnet password only in Core's dialog, and leave private keys enabled. These are new keys, separate from all practice wallets.",
-          "Choose File → Backup Wallet and save mainnet-savings-after-encryption.dat on separate backup media. Create and record a receiving address and the exact backup location. Never put the real password in a terminal command, on this website or alongside an unprotected copy of the backup.",
+          "Choose File → Backup Wallet and save mainnet-savings-after-encryption.dat in the prepared private offline workspace. Using the GPG procedure you rehearsed with test material, encrypt the complete backup with a fresh, independently generated GPG passphrase before distributing copies. Start with one layer; add more only when you can manage and recover each separately. Never reuse practice passphrases.",
+          "Keep redundant copies of the final GPG file, the Core passphrase and each GPG passphrase, with each kept separately. Record a receiving address and the recovery order without putting secrets in the instructions. Never put real passwords in a terminal command or on this website. If you have not rehearsed the complete GPG recovery procedure, return to the practice exercise before proceeding.",
         ],
         expectedResult:
-          "A new encrypted mainnet wallet and post-encryption backup exist. Neither uses Signet keys or passwords.",
+          "A new encrypted mainnet wallet and GPG-protected backup exist, with separate redundant passphrase records. Neither uses Signet keys or passwords.",
         help: "Never store the real password in a shell command, on this website, or with an unprotected copy of the backup.",
         warning:
           "Keep mainnet keys and passwords separate from all Signet material. The signer stays offline.",
       },
     ],
     prerequisites: ["mainnet-separate-wallet", "move-to-real-bitcoin"],
-    contentUpdated: "2026-10-14",
+    contentUpdated: "2026-10-16",
     notes: [],
     chapter: "Move to real Bitcoin",
     sourceReviewed: "2026-09-14",
     why: "Create an encrypted wallet and make sure you can recover both its backup and password.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
-      "The real wallet and its new passphrase are created offline. Its tested encrypted backup and password record must remain separately recoverable.",
+      "Create the real wallet offline. Preserve the final GPG file, each GPG passphrase and the Core passphrase separately, with redundant copies and a tested recovery procedure.",
   },
   {
     id: "real-restore",
@@ -3271,7 +3279,7 @@ export const part2Lessons: PlayerLesson[] = [
         id: "restore",
         title: "Restore on a replacement offline system",
         instructions: [
-          "Before depositing bitcoin, set the original signer aside and prepare a trusted replacement with verified software. Disconnect it before recovery and use a separate mainnet data folder. Restore mainnet-savings-after-encryption.dat as savings-restored.",
+          "Before depositing bitcoin, set the original signer aside and prepare a trusted offline replacement with verified software. Retrieve a copy of the final GPG file and each separate passphrase record. Open the GPG layers in reverse order in the private recovery workspace. Then restore the recovered mainnet-savings-after-encryption.dat as savings-restored in a separate mainnet data folder. Core opens the recovered wallet file, not the GPG file.",
           "In the restored wallet's Core console, use getaddressinfo for the address recorded when you created the wallet. Check that the wallet recognizes the address and that the returned descriptor, which describes its addresses and spending rules, matches your records. Never copy the private wallet file to the online node. This checks an empty wallet; a confirmed spend comes later.",
         ],
         expectedResult:
@@ -3304,7 +3312,7 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     prerequisites: ["real-encryption", "move-to-real-bitcoin"],
-    contentUpdated: "2026-09-13",
+    contentUpdated: "2026-10-16",
     notes: [],
     chapter: "Move to real Bitcoin",
     sourceReviewed: "2026-09-13",
