@@ -53,9 +53,7 @@ const BITCOIN_CORE_DOWNLOAD_URL = "https://bitcoincore.org/en/download/"
 const KEEPASSXC_DOWNLOAD_URL = "https://packages.debian.org/trixie/keepassxc-minimal"
 const DEBIAN_DOWNLOAD_URL = "https://www.debian.org/distrib/"
 const TAILS_INSTALL_URL = "https://tails.net/install/"
-const SEVEN_ZIP_DOWNLOAD_URL = "https://www.7-zip.org/download.html"
-const ARQIVER_URL = "https://github.com/tsujan/Arqiver"
-const KEKA_URL = "https://www.keka.io/en/"
+const GNUPG_DOWNLOAD_URL = "https://gnupg.org/download/"
 
 type GuideImage = {
   src: string
@@ -421,15 +419,16 @@ const legacySteps: GuideStep[] = [
           <strong>
             Before continuing, choose the environment deliberately.
           </strong>{" "}
-          On a general-purpose computer, first install pending operating-system
-          and security updates, then run a trusted antivirus or anti-malware
-          scan. If the scan finds anything suspicious, stop, clean or replace
-          the environment, and begin the wallet procedure again. A clean scan
-          reduces obvious risk, but it is not proof that the computer is free of
-          malware.
+          For meaningful amounts, I do not recommend creating or unlocking a
+          wallet on your daily computer. Browsers, extensions, email attachments
+          and everyday software expose that machine to malware. An antivirus or
+          anti-malware scan reporting “clean” does not establish that it is safe
+          to handle wallet secrets. Even after cleanup, that residual risk is
+          too high for serious savings in my view.
         </p>
         <p>
-          The long-term foundation I recommend is a dedicated generic computer with{" "}
+          Use a dedicated generic computer with a fresh Linux installation. My
+          recommended foundation is{" "}
           <ResourceLink href={DEBIAN_DOWNLOAD_URL}>Debian Stable</ResourceLink>{" "}
           and{" "}
           <ResourceLink href={BITCOIN_CORE_DOWNLOAD_URL}>
@@ -546,8 +545,8 @@ const legacySteps: GuideStep[] = [
           than one failure domain: USB drives, external drives, optical media,
           another computer, or geographically separated storage. For an
           additional cloud copy, first encrypt the complete backup locally using
-          the <a {...articleLinkProps("#optional-backup-protection")} className="font-semibold text-primary underline underline-offset-4">optional .7z archive workflow below</a>.
-          Upload only the finished archive, never the bare wallet file or its
+          the <a {...articleLinkProps("#optional-backup-protection")} className="font-semibold text-primary underline underline-offset-4">GPG backup workflow below</a>.
+          Upload only the final encrypted .gpg file, never the bare wallet file or its
           passphrases.
         </p>
       </>
@@ -574,10 +573,11 @@ const legacySteps: GuideStep[] = [
     ],
     content: (
       <p>
-        If you used the optional archive layer, first extract the wallet backup
-        from the <code>.7z</code> archive in your trusted recovery environment,
-        using the archive passphrase. Then choose <strong>File → Restore Wallet</strong>.
-        Bitcoin Core restores the extracted wallet file, not the archive.
+        If you used GPG, first decrypt every layer in your trusted recovery
+        environment, starting with the outermost layer. Each layer needs its own
+        passphrase. If the final payload is a TAR archive, extract it there too.
+        Then choose <strong>File → Restore Wallet</strong>. Bitcoin Core restores
+        the recovered wallet file, not the <code>.gpg</code> file or TAR archive.
         Restoring an encrypted
         wallet does not necessarily trigger a passphrase prompt. Bitcoin Core
         can load the wallet and show metadata while the private keys remain
@@ -712,8 +712,12 @@ const steps: GuideStep[] = [
           the start of this exercise.
         </p>
         <p>
-          Use no real bitcoin in this practice wallet. The curriculum teaches
-          the complete test-coin lifecycle and a fresh setup for real funds.
+          This is a conceptual walkthrough with a disposable wallet, not a
+          complete deployment procedure. Use no real bitcoin here. Before
+          committing meaningful funds, work through the full self-custody
+          curriculum and prepare a dedicated computer with a fresh Linux
+          installation. A practice wallet created on your daily computer should
+          remain a practice wallet.
         </p>
       </>
     ),
@@ -851,6 +855,8 @@ const finalChecklist = [
   "I understand that the passphrase is required for signing or spending.",
   "I have a plan to periodically test my backups.",
   "I understand why the curriculum later separates offline signing from online coordination.",
+  "If I used GPG, I decrypted every layer, restored the wallet and backed up every required passphrase separately.",
+  "Before meaningful funds, I will complete the self-custody curriculum and prepare a dedicated computer with fresh Linux, not reuse this practice wallet on my daily computer.",
 ]
 
 function readStoredBooleans(key: string, length: number) {
@@ -1140,110 +1146,196 @@ function OptionalBackupProtection({
       <div className="overflow-hidden rounded-[30px] bg-[#0d3153] text-white shadow-[var(--shadow-elevated)]">
         <div className="p-6 sm:p-9">
           <h2 id="backup-protection-title" className="learning-heading max-w-[23ch] font-display text-3xl leading-[1.08] font-bold tracking-[-0.03em] text-balance sm:text-5xl">
-            <SectionIcon topic="encrypt backup" /><span>Optional: Encrypt the whole backup</span>
+            <SectionIcon topic="encrypt backup" /><span>Encrypt the whole backup with GPG</span>
           </h2>
           <p className="mt-5 max-w-[70ch] text-base leading-8 text-white/80">
-            Bitcoin Core protects the private keys with its wallet passphrase.
-            An additional encrypted <code>.7z</code> archive protects the complete
-            wallet backup, including its metadata. This is my primary optional
-            privacy layer. Renaming the file is a second option for reducing
-            casual attention; it does not encrypt anything.
+            Bitcoin Core’s wallet encryption protects private-key material.
+            My recommendation for protecting the entire backup is GPG symmetric
+            encryption: one layer by default, with additional independent layers
+            when they serve a clear purpose. The encrypted payload hides wallet
+            metadata and any filenames packaged inside it. Someone holding the
+            file cannot simply browse its contents without decrypting it.
           </p>
 
           <div className="mt-8 max-w-[75ch] space-y-5 text-base leading-8 text-white/80 [&_strong]:text-white">
-            <h3 className="learning-heading text-2xl leading-tight font-bold text-white"><SectionIcon topic="encrypt" /><span>Option 1: Create an encrypted .7z archive</span></h3>
             <p>
-              Use <ResourceLink href={SEVEN_ZIP_DOWNLOAD_URL} inverse>7-Zip</ResourceLink> on Windows,
-              or <ResourceLink href={ARQIVER_URL} inverse>Arqiver</ResourceLink> with 7-Zip on Debian/Linux.
-              For a macOS practice session, <ResourceLink href={KEKA_URL} inverse>Keka</ResourceLink> supports the same format.
-              Install from the official project or authenticated distribution
-              repository. Keep wallet work in your trusted, dedicated environment.
+              This is content privacy, not invisibility. The outer filename,
+              size and storage timestamps remain visible, and the file can be
+              recognized as encrypted OpenPGP data. GPG does not protect secrets
+              while malware can read them on the computer doing the encryption
+              or recovery.
             </p>
+            <h3 className="learning-heading text-2xl leading-tight font-bold text-white"><SectionIcon topic="core" /><span>Coming soon: Bitcoin Core Vault on Debian</span></h3>
+            <p>
+              The upcoming <ResourceLink href={`${DEBIAN_IMAGES_PATH}#vault`} inverse>Bitcoin Core Vault Debian ISO</ResourceLink>{" "}
+              is being prepared so you can follow this workflow with Bitcoin
+              Core, GnuPG, TAR and KeePassXC already included. Its planned backup
+              interface uses one GPG layer by default and lets you add independent
+              layers as needed. TAR packages files and folders before encryption;
+              the interface is intended to handle packaging and recovery for you.
+            </p>
+            <p>
+              The redesign targets authenticated AES-256 OCB encryption, private
+              RAM working storage and recovery with compatible standard GnuPG
+              and TAR tools, without requiring the Vault interface. The ISO is
+              still in development. Download links, verification instructions and
+              the exact supported GnuPG profile will accompany the release.
+            </p>
+
+            <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="setup" /><span>Install GPG for an independent practice session</span></h3>
+            <p>
+              You do not need to wait for the ISO to learn the basic workflow.
+              GnuPG provides the <code>gpg</code> command. Install maintained
+              software from official sources during preparation, before taking
+              a dedicated signing environment offline.
+            </p>
+            <ul className="list-disc space-y-3 pl-6 [&_li]:pl-2">
+              <li><strong>Debian / Ubuntu:</strong> use the authenticated package repositories:
+                <code className="mt-2 block break-words rounded-xl bg-black/20 p-4 text-sm sm:p-6">sudo apt update<br />sudo apt install gnupg</code>
+                For Debian, see the <ResourceLink href="https://packages.debian.org/trixie/gnupg" inverse>GnuPG package</ResourceLink>.
+              </li>
+              <li><strong>Other Linux distributions:</strong> install GnuPG through your distribution’s authenticated package manager.</li>
+              <li><strong>Windows:</strong> install <ResourceLink href="https://gpg4win.org/download.html" inverse>Gpg4win</ResourceLink> from its official website and follow its installer-verification instructions. It includes GnuPG and the Kleopatra interface.</li>
+              <li><strong>macOS:</strong> if you already use Homebrew, run <code>brew install gnupg</code> using the <ResourceLink href="https://formulae.brew.sh/formula/gnupg" inverse>GnuPG formula</ResourceLink>. Other macOS distributions are listed on the <ResourceLink href={GNUPG_DOWNLOAD_URL} inverse>official GnuPG download page</ResourceLink>.</li>
+            </ul>
+            <p>
+              Open Terminal (or PowerShell on Windows) and run <code>gpg --version</code>.
+              These installation options let you practise on your operating
+              system; they do not change my recommendation for serious funds:
+              dedicated hardware with a fresh Linux installation.
+            </p>
+
+            <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="encrypt" /><span>Start with one GPG layer</span></h3>
             <ol className="list-decimal space-y-4 pl-6 marker:font-bold marker:text-white [&_li]:pl-2">
               <li>
-                <strong>Start with a fresh Core backup.</strong> Use File → Backup Wallet
-                after enabling wallet encryption. Work with that saved snapshot,
-                not a file copied from a running wallet’s data directory. Keep it
-                outside cloud-synced folders.
+                <strong>Make a consistent wallet backup.</strong> Use Core’s File → Backup Wallet
+                after enabling wallet encryption. Work with that snapshot, not
+                a file copied from a running wallet’s data directory. Keep the
+                snapshot and recovery files outside cloud-synced folders.
               </li>
               <li>
-                <strong>Generate a separate archive passphrase.</strong> Use{" "}
+                <strong>Generate an independent GPG passphrase.</strong> Use{" "}
                 <ResourceLink href="https://keepassxc.org/" inverse>KeePassXC</ResourceLink>{" "}
-                with the random-word procedure in step 4. Do not reuse the Core
-                passphrase. Back up both credentials separately from the archive;
-                never put the only recovery record inside the archive it unlocks.
+                and the random-word procedure in step 4. Do not reuse the Core
+                wallet passphrase. Symmetric encryption uses a passphrase; no
+                public/private GPG key pair is required. Keep recoverable records
+                of both secrets separately from the encrypted backup.
               </li>
               <li>
-                <strong>Create a new archive.</strong> In 7-Zip, select the saved
-                wallet file and click Add to open the Add to Archive dialog. Set Archive format
-                to <strong>7z</strong>, Encryption method to <strong>AES-256</strong>,
-                enter and confirm the archive passphrase, and enable{" "}
-                <strong>Encrypt file names</strong>. Use a neutral name such as{" "}
-                <code>archive-2026-10-12.7z</code>. Compression alone is not encryption.
-                Leave deletion of the original file disabled.
-                <p className="mt-3"><strong>Using another tool instead?</strong> In
-                Arqiver, create a 7z archive with password protection and encrypted
-                file names. In Keka, select 7z, fill Password and Repeat, enable
-                Encrypt filenames, then add the backup file. Keep the archive and
-                temporary working files outside cloud sync until verification is complete.</p>
+                <strong>Encrypt the entire saved file.</strong> In the folder
+                containing your disposable backup, substitute its actual name
+                for <code>practice-wallet.dat</code> in this command. Choose a new
+                output filename and enter the secret only in GPG’s passphrase
+                prompt, never as part of the command.
+                <code className="mt-3 block break-words rounded-xl bg-black/20 p-4 text-sm sm:p-6 leading-7">gpg --no-symkey-cache --symmetric --cipher-algo AES256 --output backup.gpg practice-wallet.dat</code>
               </li>
               <li>
-                <strong>Test the complete recovery path.</strong> Close the archiver,
-                reopen the saved archive, and confirm that its file list requires
-                the archive passphrase. Extract into a separate private recovery
-                directory, preferably RAM on the offline machine, and restore the
-                extracted <code>wallet.dat</code> in Core. Check addresses and labels,
-                then prove signing with the disposable test wallet. Keep the original
-                backup until this succeeds. The Core passphrase is still needed to
+                <strong>Decrypt into a separate test file.</strong> Use a new
+                output name so the original stays intact. GPG must finish
+                successfully without integrity errors before you use its output.
+                Never bypass an integrity warning.
+                <code className="mt-3 block break-words rounded-xl bg-black/20 p-4 text-sm sm:p-6 leading-7">gpg --no-symkey-cache --output recovered-wallet.dat --decrypt backup.gpg</code>
+                Restore <code>recovered-wallet.dat</code> through Core, compare
+                addresses and labels, and prove signing with test coins through
+                the curriculum. Core’s separate passphrase is still required to
                 unlock the restored private keys.
               </li>
             </ol>
-            <p className="text-sm leading-7">
-              References: <ResourceLink href="https://www.7-zip.org/7z.html" inverse>7z encryption</ResourceLink>{" "}
-              and <ResourceLink href="https://github.com/aonez/Keka/wiki/Compressing-with-Keka#password-protected-and-encrypted-files" inverse>Keka’s encryption settings</ResourceLink>.
+            <p>
+              These are single-file practice commands using GnuPG’s default
+              integrity-protected symmetric format with AES-256. They do not
+              select the Vault’s planned OCB profile. For a Vault backup, use the
+              release’s documented compatible GnuPG version and verify a complete
+              recovery with that version before relying on it.
+            </p>
+            <p>
+              Encryption leaves the source file in place, and decryption writes
+              a recovered copy. For real custody, keep unwrapped snapshots,
+              recovered files and any unencrypted TAR in verified private RAM
+              storage or a carefully prepared environment that prevents plaintext
+              persistence through swap, sync or temporary files. An ordinary
+              folder on a daily computer is not equivalent. Keep originals until
+              recovery is proven; deleting a file later does not reliably erase
+              every disk, snapshot or synced copy.
+            </p>
+
+            <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="encrypt" /><span>Add layers only when you need them</span></h3>
+            <p>
+              A second layer encrypts the first <code>.gpg</code> file using a
+              different, independently generated passphrase. A third layer
+              encrypts the second. Each layer must be removed to reach the wallet.
+              This is not multisig: it controls access to the backup, not Bitcoin’s
+              signing rules. More layers do not automatically make a setup safer.
+            </p>
+            <p>
+              For a two-layer practice backup, first create <code>backup.gpg</code>
+              above, then run this command and supply a new passphrase B:
+            </p>
+            <code className="block break-words rounded-xl bg-black/20 p-4 text-sm sm:p-6 leading-7">gpg --no-symkey-cache --symmetric --cipher-algo AES256 --output backup-outer.gpg backup.gpg</code>
+            <p>
+              Recover in reverse order: use B to recover the inner GPG file,
+              then the original passphrase A to recover the wallet. Run each
+              command separately and continue only after it succeeds:
+            </p>
+            <code className="block break-words rounded-xl bg-black/20 p-4 text-sm sm:p-6 leading-7">gpg --no-symkey-cache --output recovered-inner.gpg --decrypt backup-outer.gpg<br /><br />gpg --no-symkey-cache --output recovered-wallet-2.dat --decrypt recovered-inner.gpg</code>
+            <p>
+              Keep a recovery record of the layer order and expected final
+              payload; a <code>.gpg</code> extension does not tell you how many
+              layers exist. For several files, a standard TAR can package them
+              before the first layer. TAR itself is not encryption. After all
+              GPG layers are successfully decrypted, extract the expected TAR
+              inside the trusted recovery workspace, then restore the wallet.
+            </p>
+            <p>
+              For example, three layers can use passphrases A, B and C held at
+              separate geographic locations. Recovery requires all three, plus
+              the Core passphrase if the wallet itself is encrypted. Keep
+              redundant recovery records for every required secret, with an
+              inheritance plan that someone can actually follow. Losing the only
+              copy of any required passphrase can make the backup unusable.
+              Keeping all three immediately accessible in one password database
+              defeats that geographical separation.
+            </p>
+            <p>
+              The benefit comes from independent handling of secrets, not the
+              number of encryption operations. Keep only the final outer file
+              in distributed backup storage: retaining a reachable inner copy
+              gives an attacker a route around the outer layers. Geographic
+              separation can add logistical barriers to immediate coercion; it
+              does not guarantee protection from continued coercion or malware
+              present when all passphrases are entered.
             </p>
 
             <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="backup" /><span>An additional cloud backup</span></h3>
             <p>
-              With a strong, unique archive passphrase, encrypted contents and
-              file names, and a successful recovery test, I consider the finished
-              archive suitable for an additional cloud backup. Encrypt locally
-              before uploading; transfer only the closed <code>.7z</code> archive
-              to the online computer. Keep both passphrases away from that cloud
-              account and retain independent offline copies.
+              With strong independent passphrases and a successful full recovery
+              test, I consider the final encrypted <code>.gpg</code> file suitable
+              for an additional cloud copy. Encrypt locally first and upload only
+              the outermost file. Keep all passphrases away from that account and
+              retain independent offline copies. Anyone holding the file can try
+              password guesses offline; the provider can still see its outer
+              metadata, and the account or file can be lost.
             </p>
             <p>
-              Anyone who obtains the archive can try password guesses offline.
-              The provider can still see its outer filename, size and upload timing,
-              and the account or file can be lost. Cloud storage adds another
-              location; it does not replace offline recovery. Download a copy and
-              test extraction and restoration in the trusted environment before
-              counting it as a working backup. Never decrypt it in the browser or
-              a synced folder.
+              Download a copy and test every decryption layer and wallet
+              restoration in your trusted environment before counting it as a
+              working backup. Never decrypt it in a browser or synced folder.
+            </p>
+            <p className="text-sm leading-7">
+              Technical references: <ResourceLink href="https://gnupg.org/documentation/manuals/gnupg/Operational-GPG-Commands.html" inverse>GnuPG encryption and decryption</ResourceLink>{" "}
+              and <ResourceLink href="https://gnupg.org/documentation/manuals/gnupg/OpenPGP-Options.html" inverse>OpenPGP integrity and OCB options</ResourceLink>.
             </p>
 
-            <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="core" /><span>Already prepared in Bitcoin Core Vault</span></h3>
-            <p>
-              The current <a {...articleLinkProps(`${DEBIAN_IMAGES_PATH}#vault`)} className="font-semibold text-white underline underline-offset-4">Bitcoin Core Vault ISO build</a>{" "}
-              already includes 7-Zip, Arqiver and the <strong>Wallet Backup</strong>{" "}
-              workflow. It creates a standard encrypted <code>.7z</code> archive
-              containing the complete <code>wallet.dat</code>, encrypts its file
-              names, and verifies the export. Wallet snapshots and verification
-              work stay in RAM. Attach backup media, open Wallet Backup, choose a
-              new archive filename, enter and confirm its passphrase, then wait
-              for verification. Practice extraction and Core recovery in a fresh
-              session too. Public ISO downloads are coming soon.
-            </p>
-
-            <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="privacy" /><span>Option 2: Use a less revealing filename</span></h3>
+            <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="privacy" /><span>Optional: Use a less revealing filename</span></h3>
             <p>
               A neutral filename such as <code>archive.bin</code> may be appropriate
               when your threat model includes a casual observer noticing a file
               named <code>bitcoin-wallet.dat</code>. Renaming changes no contents
               and adds no cryptographic protection; someone inspecting the file
               can still recognize its format. It is not a substitute for the
-              encrypted archive before a cloud upload. You can also give the
-              encrypted archive a neutral name while keeping its <code>.7z</code> extension.
+              GPG encryption before a cloud upload. You can give the final
+              encrypted file a neutral name such as <code>backup.gpg</code> while
+              keeping its extension for easier recovery.
             </p>
             <details className="border-t border-white/20 pt-4">
               <summary className="cursor-pointer py-2 font-semibold text-white">Optional filename example on macOS</summary>
@@ -1450,9 +1542,10 @@ export function BitcoinCoreWalletGuidePage() {
             Bitcoin Core Wallet: Basic Setup, Encryption, Backup & Recovery
           </h1>
           <p className="mt-7 max-w-3xl text-lg leading-8 text-pretty text-muted-foreground sm:text-xl sm:leading-9">
-            A focused reference for the mechanics of one encrypted Bitcoin Core
-            wallet: creation, backup and restoration. For the threat model,
-            hardware choice, offline signing and advanced policies, follow the{" "}
+            A conceptual walkthrough and hands-on exercise with a disposable
+            Bitcoin Core wallet: creation, encryption, backup and restoration.
+            Before committing meaningful funds, work through the threat model,
+            hardware preparation, recovery tests and offline signing in the{" "}
             <a className="font-semibold underline underline-offset-4" {...articleLinkProps(EN_BITCOIN_CORE_CURRICULUM_PATH)}>full self-custody curriculum</a>.
           </p>
 
@@ -1462,19 +1555,19 @@ export function BitcoinCoreWalletGuidePage() {
             goal="Create, encrypt, back up, restore, and verify a disposable Bitcoin Core wallet."
             difficulty="Beginner to intermediate"
             estimatedTime="60–90 minutes"
-            realBitcoin="No. Complete the full recovery test before considering funds."
+            realBitcoin="No. This is a disposable practice wallet. Complete the self-custody curriculum before preparing meaningful funds."
             softwareVersion="Bitcoin Core 31.1"
             operatingSystems="The screenshots use macOS; the workflow also applies to Windows and Linux."
             recommendedOs={
               <>
-                Debian Stable on dedicated generic hardware is the long-term
-                default. Learn one wallet before the curriculum introduces a
-                separate offline signer.
+                A dedicated generic computer with a fresh Debian Stable
+                installation. I do not recommend a daily computer for meaningful
+                funds, even after a clean antivirus scan.
               </>
             }
             prerequisites="Bitcoin Core installed from an official source, an empty practice environment, and a separate place for passphrase notes."
             outcome="A restored practice wallet whose addresses and metadata match the original."
-            lastReviewed="Technical walkthrough: 31 August 2026. Curriculum and passphrase alignment: 14 September 2026. Optional .7z backup and Vault workflow: 12 October 2026; physical Debian rehearsal not claimed."
+            lastReviewed="Technical walkthrough: 31 August 2026. Curriculum and passphrase alignment: 14 September 2026. GPG backup, layered encryption and upcoming Vault design: 16 October 2026; final ISO testing not claimed."
           />
 
           <div className="mt-10 grid gap-4 rounded-[28px] bg-card p-5 shadow-[var(--shadow-border)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-7">
@@ -1681,6 +1774,15 @@ export function BitcoinCoreWalletGuidePage() {
         </section>
 
         <div className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 sm:pb-20">
+          <h2 className="mb-4 text-2xl font-bold">Before you commit serious funds</h2>
+          <p className="mb-6 max-w-3xl text-base leading-8 text-muted-foreground">
+            Completing this exercise is a learning milestone. Before deploying
+            meaningful savings, work through the full self-custody curriculum,
+            rehearse recovery and prepare a dedicated computer with a fresh Linux
+            installation. I would not use a daily computer for that job, even if
+            antivirus or anti-malware software says it is clean. A scan cannot
+            establish that wallet secrets will be safe on that machine.
+          </p>
           <a className="mb-10 inline-flex min-h-12 items-center rounded-full bg-primary px-6 py-3 text-center text-sm font-semibold text-primary-foreground" {...articleLinkProps(EN_BITCOIN_CORE_CURRICULUM_PATH)}>
             Continue with the self-custody curriculum
           </a>
