@@ -15,6 +15,26 @@ export function fullNumber(value: number) {
   })
 }
 
+export function searchDurationAmount(seconds: number) {
+  const [value, unit] =
+    seconds >= SECONDS_PER_YEAR
+      ? [seconds / SECONDS_PER_YEAR, "years"]
+      : seconds >= 86400
+        ? [seconds / 86400, "days"]
+        : seconds >= 3600
+          ? [seconds / 3600, "hours"]
+          : seconds >= 60
+            ? [seconds / 60, "minutes"]
+            : seconds >= 1
+              ? [seconds, "seconds"]
+              : seconds >= 0.001
+                ? [seconds * 1000, "milliseconds"]
+                : seconds >= 0.000001
+                  ? [seconds * 1e6, "microseconds"]
+                  : [seconds * 1e9, "nanoseconds"]
+  return { value: Number(value), unit: String(unit) }
+}
+
 export function namedNumber(value: number) {
   // Pick the unit after rounding, so 999,999 becomes one million.
   value = Number(value.toPrecision(3))

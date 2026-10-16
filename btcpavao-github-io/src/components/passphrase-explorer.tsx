@@ -1,6 +1,7 @@
 import { articleLinkProps } from "@/article-links"
 import { useEffect, useRef, useState, useSyncExternalStore } from "react"
-import { Cpu, Link, RotateCcw, Zap } from "lucide-react"
+import { Clipboard, Cpu, Link, RotateCcw, Zap } from "lucide-react"
+import { createPassphraseSummary } from "@/passphrase-sharing"
 import {
   AttackEstimate,
   CostEquivalents,
@@ -57,12 +58,13 @@ export function PassphraseExplorer() {
   }, [sharedExample])
   const { words, listSize, gpus, rate, power, energy, compute } = settings
   const [resetNotice, setResetNotice] = useState("")
-  const [sharedLink, setSharedLink] = useState<{
+  const [sharedCopy, setSharedCopy] = useState<{
     settings: PassphrasePreferences
-    url: string
+    text: string
+    kind: "link" | "summary"
     copied: boolean
   } | null>(null)
-  const currentLink = sharedLink?.settings === settings ? sharedLink : null
+  const currentCopy = sharedCopy?.settings === settings ? sharedCopy : null
   const update: typeof updatePassphrasePreference = (key, value) => {
     setResetNotice("")
     updatePassphrasePreference(key, value)
@@ -78,15 +80,17 @@ export function PassphraseExplorer() {
     gpuCount >= 1 &&
     gpuCount <= 1_000_000
   const valid = isValidPassphrasePreferences(settings)
-  const copyLink = async () => {
+  const copy = async (kind: "link" | "summary") => {
     if (!valid) return
     setResetNotice("")
-    const url = createPassphraseLink(window.location.href, settings)
+    const text = kind === "summary"
+      ? createPassphraseSummary(window.location.href, settings)
+      : createPassphraseLink(window.location.href, settings)
     try {
-      await navigator.clipboard.writeText(url)
-      setSharedLink({ settings, url, copied: true })
+      await navigator.clipboard.writeText(text)
+      setSharedCopy({ settings, text, kind, copied: true })
     } catch {
-      setSharedLink({ settings, url, copied: false })
+      setSharedCopy({ settings, text, kind, copied: false })
     }
   }
   const estimate = (words: number) =>
@@ -213,9 +217,13 @@ export function PassphraseExplorer() {
             : "Browser storage is unavailable. Settings will not survive leaving this page."}
         </p>
         <div className="word-count-actions">
-          <button type="button" onClick={copyLink} disabled={!valid}>
+          <button type="button" onClick={() => copy("link")} disabled={!valid}>
             <Link aria-hidden="true" />
             Copy example link
+          </button>
+          <button type="button" onClick={() => copy("summary")} disabled={!valid}>
+            <Clipboard aria-hidden="true" />
+            Copy summary + link
           </button>
           <button type="button" onClick={reset}>
             <RotateCcw aria-hidden="true" />
@@ -224,20 +232,24 @@ export function PassphraseExplorer() {
         </div>
       </div>
       <p className="course-local-note word-count-share-status" role="status">
-        {currentLink
-          ? currentLink.copied
-            ? "Link copied. It opens this word count and all GPU settings."
-            : "Automatic copying is unavailable. Copy the selected link below."
+        {currentCopy
+          ? currentCopy.copied
+            ? currentCopy.kind === "summary"
+              ? "Summary and link copied."
+              : "Link copied. It opens this word count and all GPU settings."
+            : "Automatic copying is unavailable. Copy the selected text below."
           : resetNotice}
       </p>
-      {currentLink && !currentLink.copied && (
+      {currentCopy && !currentCopy.copied && (
         <div className="word-count-share-fallback">
-          <label htmlFor="attack-share-link">Example link</label>
+          <label htmlFor="attack-share-link">
+            {currentCopy.kind === "summary" ? "Summary and example link" : "Example link"}
+          </label>
           <textarea
             id="attack-share-link"
             readOnly
-            rows={3}
-            value={currentLink.url}
+            rows={currentCopy.kind === "summary" ? 10 : 3}
+            value={currentCopy.text}
             ref={(field) => { field?.focus(); field?.select() }}
             onFocus={(event) => event.currentTarget.select()}
           />

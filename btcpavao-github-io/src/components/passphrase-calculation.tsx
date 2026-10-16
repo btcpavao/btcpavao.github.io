@@ -4,7 +4,7 @@ import {
   fullNumber,
   namedNumber,
   KEEPASS_WORD_COUNT,
-  SECONDS_PER_YEAR,
+  searchDurationAmount,
 } from "@/curriculum-math"
 
 function GroupedNumber({ value }: { value: number }) {
@@ -42,23 +42,8 @@ export function ReadableAmount({
 }
 
 export function SearchDuration({ seconds }: { seconds: number }) {
-  const [value, unit] =
-    seconds >= SECONDS_PER_YEAR
-      ? [seconds / SECONDS_PER_YEAR, "years"]
-      : seconds >= 86400
-        ? [seconds / 86400, "days"]
-        : seconds >= 3600
-          ? [seconds / 3600, "hours"]
-          : seconds >= 60
-            ? [seconds / 60, "minutes"]
-            : seconds >= 1
-              ? [seconds, "seconds"]
-              : seconds >= 0.001
-                ? [seconds * 1000, "milliseconds"]
-                : seconds >= 0.000001
-                  ? [seconds * 1e6, "microseconds"]
-                  : [seconds * 1e9, "nanoseconds"]
-  return <ReadableAmount value={Number(value)} unit={String(unit)} />
+  const { value, unit } = searchDurationAmount(seconds)
+  return <ReadableAmount value={value} unit={unit} />
 }
 
 export function AttackEstimate({

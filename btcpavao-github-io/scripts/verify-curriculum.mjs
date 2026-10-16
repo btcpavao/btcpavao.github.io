@@ -26,6 +26,7 @@ try {
   const logic = await bundle("src/curriculum-learning.ts", "progress")
   const math = await bundle("src/curriculum-math.ts", "math")
   const preferences = await bundle("src/passphrase-preferences.ts", "preferences")
+  const sharing = await bundle("src/passphrase-sharing.ts", "sharing")
   const migration = await bundle(
     "src/curriculum-progress-migration.ts",
     "migration"
@@ -581,6 +582,35 @@ try {
     valid.searchParams.append("calculator", valid.searchParams.get("calculator"))
     assert.equal(preferences.parsePassphraseLink(valid), null)
     assert.throws(() => preferences.createPassphraseLink("https://btcpavao.com/", {...settings, gpus: ""}), RangeError)
+  })
+
+  check("Copied summaries preserve the example and show average time and total rental without exponent notation", () => {
+    const href = "https://btcpavao.com/en/bitcoin-core/self-custody/#lesson/brute-force-economics"
+    const settings = {words: 3, listSize: 7776, gpus: "25", rate: "40000", power: "0.8", energy: "0.2", compute: "1.25"}
+    const text = sharing.createPassphraseSummary(href, settings)
+    assert.ok(text.includes("3 words · 38.77 bits · EFF large list (7,776 words)"))
+    assert.ok(text.includes("25 GPUs · 40,000 guesses/second per GPU · USD 1.25/GPU-hour"))
+    assert.ok(text.includes("Average time: ≈ 2.72 days (two point seven two days)"))
+    assert.ok(text.includes("Average total GPU rental: ≈ USD 2,040 (two point zero four thousand dollars)"))
+    assert.ok(text.includes("not a guarantee"))
+    const url = new URL(text.split("\n").at(-1))
+    assert.equal(url.hash, "#lesson/brute-force-economics")
+    assert.deepEqual(preferences.parsePassphraseLink(url), settings)
+    const parallel = sharing.createPassphraseSummary(href, {...settings, gpus: "1000"})
+    assert.ok(parallel.includes("Average time: ≈ 1.63 hours"))
+    assert.equal(parallel.split("\n")[4], text.split("\n")[4], "Total rental is unchanged when only GPU count changes")
+    for (const input of [
+      preferences.DEFAULT_PASSPHRASE_PREFERENCES,
+      {...settings, words: 12},
+      {...settings, words: 1, gpus: "1000000", rate: "1000000000000", compute: "0.000000000001"},
+      {...settings, compute: "0"},
+    ]) {
+      const summary = sharing.createPassphraseSummary(href, input)
+      assert.doesNotMatch(summary.split("\n\n")[0], /\b\d+(?:\.\d+)?e[+-]\d+|\b(?:NaN|Infinity)\b/i)
+      assert.deepEqual(preferences.parsePassphraseLink(new URL(summary.split("\n").at(-1))), input)
+    }
+    assert.ok(sharing.createPassphraseSummary(href, preferences.DEFAULT_PASSPHRASE_PREFERENCES).includes("USD 829,000,000,000,000 (eight hundred twenty-nine trillion dollars)"))
+    assert.throws(() => sharing.createPassphraseSummary(href, {...settings, gpus: ""}), RangeError)
   })
 
   check("Shared examples override remembered settings once, survive navigation, and can be reset", () => {
