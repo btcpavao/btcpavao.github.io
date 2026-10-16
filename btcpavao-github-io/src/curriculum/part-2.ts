@@ -1723,6 +1723,7 @@ export const part2Lessons: PlayerLesson[] = [
   {
     id: "encrypted-backup-privacy",
     slug: "digital-and-cloud-backup-privacy-model",
+    widget: "gpg-layers",
     title: "Understand what an encrypted backup still reveals",
     summary: "Understand how key protection differs from financial privacy.",
     objective: "Understand how key protection differs from financial privacy.",
@@ -3028,6 +3029,7 @@ export const part2Lessons: PlayerLesson[] = [
     // Keep the internal ID for existing bookmarks and progress history.
     id: "optional-veracrypt",
     slug: "optional-gpg-layers",
+    widget: "gpg-layers",
     title: "Practise GPG backup encryption and optional layers",
     summary: "Protect the complete backup with one GPG layer; add independent layers only for a clear purpose.",
     objective: "Encrypt a disposable wallet backup and prove recovery through every chosen GPG layer.",

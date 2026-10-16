@@ -2,6 +2,7 @@ import { SectionIcon } from "@/components/section-icon"
 import { articleLinkProps } from "@/article-links"
 import { CurriculumHelp } from "@/components/curriculum-context"
 import { BackupMediaExplorer } from "@/components/curriculum-explorers"
+import { GpgLayerExplorer } from "@/components/gpg-layer-explorer"
 import { PassphraseExplorer } from "@/components/passphrase-explorer"
 import { CustodyArchitecture } from "@/components/custody-architecture"
 import {
@@ -599,6 +600,7 @@ export function CurriculumLesson({
         <PassphraseExplorer />
       )}
       {lesson.widget === "backup-media" && <BackupMediaExplorer />}
+      {lesson.widget === "gpg-layers" && <GpgLayerExplorer key={lesson.id} />}
       {lesson.warnings?.map((p) => (
         <aside className="course-guided__warning" key={p}>
           <AlertTriangle aria-hidden="true" />

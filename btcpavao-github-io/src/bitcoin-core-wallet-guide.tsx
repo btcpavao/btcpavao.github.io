@@ -1,6 +1,7 @@
 import { SectionIcon } from "@/components/section-icon"
 import { articleLinkProps } from "@/article-links"
 import { ImageViewer, type Gallery } from "@/components/zoomable-image"
+import { GpgLayerExplorer } from "@/components/gpg-layer-explorer"
 import { PassphraseExplorer } from "@/components/passphrase-explorer"
 import { findContentByPath } from "@/content-registry"
 import { CustodyArchitecture } from "@/components/custody-architecture"
@@ -566,6 +567,7 @@ const legacySteps: GuideStep[] = [
           encrypt that GPG file again with a new passphrase. Each extra layer
           adds one more passphrase to back up separately.
         </p>
+        <GpgLayerExplorer />
         <p>
           Follow the <a {...articleLinkProps("#optional-backup-protection")} className="font-semibold text-primary underline underline-offset-4">GPG steps below</a>,
           then continue to step 8 to restore your wallet.

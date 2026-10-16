@@ -1,0 +1,10 @@
+
+## Impeccable documentation evidence — 2026-10-16
+
+Scope: ordinary extension of the wallet guide and curriculum, under `.impeccable/surfaces/src-components-gpg-layer-explorer-tsx.md`. The supplied finish-review verdict is **SHIP**. This documentation pass checked the component source, appended CSS, guide and lesson integrations, incumbent global tokens and typography, and all six supplied screenshots: `desktop.png`, `mobile.png`, `mobile-bottom.png`, `curriculum-desktop.png`, `curriculum-mobile.png`, and `curriculum-dark.png` in `.impeccable/review/`.
+
+The finished component preserves the existing Geist typography, warm light/dark surfaces, foreground and muted-foreground variables, restrained border variable, rounded controls and container treatment. Responsive internal padding ranges from 16px to 24px; the diagram and legend stack in narrow containers and become two columns from 540px container width. The screenshots show readable labels and recovery/inventory sections, with mobile wrapping and visible keyboard focus in dark mode. Amber A, blue B and green C are component-specific semantic layer roles, reinforced by letters; they do not establish a new global palette or identity. The authored SVG geometry and Lucide SVG icons require no shipping raster assets. The six PNGs are development review evidence only.
+
+Pre-existing surrounding UI observed: the guide's fixed support banner covers part of the scroll viewport on mobile, and its blue gradient treatment differs from the warm learning surfaces. These belong to the incumbent surrounding interface; no repair or redesign was made in this documentation pass. No new system-level drift was identified in the scoped component.
+
+`PRODUCT.md` and `DESIGN.md` were absent at task start. The ordinary-extension exception in `new-work.md` applies: compare against the incumbent implementation, preserve its files, and document evidence without inventing a system. No `DESIGN.md`, design sidecar, identity decisions, or implementation changes were created by this pass.

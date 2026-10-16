@@ -137,7 +137,7 @@ export type PlayerLesson = Omit<CurriculumLesson, "status"> &
     optional?: boolean
     chapter?: string
     takeaway?: string
-    widget?: "entropy-table" | "brute-force" | "backup-media"
+    widget?: "entropy-table" | "brute-force" | "backup-media" | "gpg-layers"
     sourceReviewed?: string
     practicalReview?: { date: string; scope: string }
     reviewNote?: string

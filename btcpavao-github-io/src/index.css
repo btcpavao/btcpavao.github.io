@@ -8213,3 +8213,55 @@ input:focus-visible + .curriculum-checkbox {
   .course-lesson .course-code__header { padding: 1.5rem; }
   .course-lesson .course-code pre { padding-inline: 1.5rem; }
 }
+
+/* Nested file encryption: the same teaching diagram in the guide and curriculum. */
+.gpg-explorer {
+  container-type: inline-size;
+  margin-block: 2rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--card);
+  color: var(--foreground);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.gpg-explorer figcaption h3 { margin: 0 0 .5rem; font-size: 1.35rem; line-height: 1.3; font-weight: 650; letter-spacing: -.02em; }
+.gpg-explorer p { margin: 0; max-width: 70ch; }
+.gpg-explorer strong { font-weight: 650; }
+.gpg-explorer__controls { display: flex; gap: .5rem; margin-top: 1.25rem; }
+.gpg-explorer__controls button { min-height: 44px; padding: .5rem 1rem; border: 1px solid var(--border); border-radius: .5rem; background: var(--background); font: inherit; font-weight: 600; cursor: pointer; }
+.gpg-explorer__controls button:hover { border-color: var(--foreground); }
+.gpg-explorer__controls button[aria-pressed="true"] { background: var(--foreground); color: var(--background); border-color: var(--foreground); }
+.gpg-explorer__controls button:focus-visible { outline: 2px solid var(--foreground); outline-offset: 3px; }
+.gpg-explorer__visual { display: grid; align-items: center; gap: 1.5rem; margin-block: 1.5rem; }
+.gpg-explorer__drawing { min-width: 0; }
+.gpg-explorer__drawing > svg { display: block; width: 100%; max-width: 340px; margin-inline: auto; overflow: visible; }
+.gpg-explorer .gpg-explorer__caption { margin: .5rem auto 0; text-align: center; font-size: .85rem; line-height: 1.5; color: var(--muted-foreground); }
+.gpg-layer-a { --gpg-ink: #995000; --gpg-fill: #fff0d9; }
+.gpg-layer-b { --gpg-ink: #176783; --gpg-fill: #e4f3f7; }
+.gpg-layer-c { --gpg-ink: #496b38; --gpg-fill: #edf4e6; }
+.gpg-explorer__ring { fill: var(--gpg-fill); stroke: var(--gpg-ink); stroke-width: 2; }
+.gpg-explorer__badge-circle { fill: var(--gpg-ink); }
+.gpg-explorer__badge-label { fill: white; font-size: 16px; font-weight: 700; text-anchor: middle; }
+.gpg-explorer__wallet { fill: var(--foreground); }
+.gpg-explorer__wallet-label, .gpg-explorer__wallet-note { fill: var(--background); text-anchor: middle; }
+.gpg-explorer__wallet-label { font-size: 16px; font-weight: 650; }
+.gpg-explorer__wallet-note { font-size: 11px; }
+.gpg-explorer__lock { color: var(--background); }
+.gpg-explorer__legend { display: grid; gap: 1rem; }
+.gpg-explorer__legend-row { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: .65rem; align-items: start; }
+.gpg-explorer__legend-row p { font-size: .925rem; line-height: 1.55; }
+.gpg-explorer__letter { display: inline-flex; width: 28px; height: 28px; flex: 0 0 28px; align-items: center; justify-content: center; border-radius: 50%; background: var(--gpg-ink); color: white; font-size: .875rem; font-weight: 700; line-height: 1; }
+.gpg-explorer__core { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: .65rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: .925rem; }
+.gpg-explorer__core > svg { margin: .2rem auto 0; }
+.gpg-explorer__recovery, .gpg-explorer__backups { border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 1.25rem; }
+.gpg-explorer h4 { margin: 0 0 .65rem; font-size: 1rem; font-weight: 650; line-height: 1.5; }
+.gpg-explorer__flow { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-bottom: .65rem; font-size: .925rem; font-weight: 600; }
+.gpg-explorer__flow-step { display: inline-flex; align-items: center; gap: .5rem; }
+.gpg-explorer .gpg-explorer__inventory { display: flex; align-items: start; gap: .6rem; margin-bottom: .65rem; }
+.gpg-explorer__inventory > svg { flex: 0 0 19px; margin-top: .2rem; }
+.gpg-explorer .gpg-explorer__footnote { margin-top: 1.25rem; color: var(--muted-foreground); font-size: .875rem; }
+@container (min-width: 540px) {
+  .gpg-explorer__visual { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}

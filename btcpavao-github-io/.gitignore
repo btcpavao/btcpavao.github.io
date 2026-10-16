@@ -32,3 +32,6 @@ public/social-cards
 
 .env*
 !.env.example
+
+# Local visual review captures
+.impeccable/review/
