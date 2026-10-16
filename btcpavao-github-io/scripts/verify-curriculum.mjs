@@ -512,6 +512,7 @@ try {
     let writes = 0, notifications = 0, unavailable = false
     const originalWindow = globalThis.window
     globalThis.window = {
+      location: new URL("https://btcpavao.com/en/bitcoin-core/self-custody/#lesson/passphrase-strength"),
       localStorage: {
         getItem: (k) => { if (unavailable) throw Error("blocked"); return memory.get(k) ?? null },
         setItem: (k, v) => { if (unavailable) throw Error("blocked"); writes++; memory.set(k, v) },
@@ -556,6 +557,85 @@ try {
       unsubscribe()
       unsubscribe = preferences.subscribePassphrasePreferences(() => notifications++)
       assert.equal(preferences.getPassphraseSnapshot().storageAvailable, false)
+    } finally {
+      unsubscribe()
+      if (originalWindow === undefined) delete globalThis.window
+      else globalThis.window = originalWindow
+    }
+  })
+
+  check("Example links round-trip every setting and reject damaged or incomplete examples", () => {
+    const settings = {words: 3, listSize: 7776, gpus: "25", rate: "40000", power: "0.8", energy: "0.2", compute: "1.25"}
+    for (const hash of ["#lesson/passphrase-strength", "#lesson/brute-force-economics", "#step-4"]) {
+      const url = new URL(preferences.createPassphraseLink(`https://btcpavao.com/en/bitcoin-core/self-custody/?keep=yes${hash}`, settings))
+      assert.deepEqual(preferences.parsePassphraseLink(url), settings)
+      assert.equal(url.searchParams.get("keep"), "yes")
+      assert.equal(url.hash, hash.startsWith("#lesson/") ? hash : "#passphrase-calculator")
+    }
+    const valid = new URL(preferences.createPassphraseLink("https://btcpavao.com/", settings))
+    for (const value of ["", "2,3,7776,25,40000,0.8,0.2,1.25", "1,3,7776", "1,13,7776,25,40000,0.8,0.2,1.25", "1,3,7776,1.5,40000,0.8,0.2,1.25", "1,3,7776,25,NaN,0.8,0.2,1.25", "1,3,7776,25,40000,-1,0.2,1.25", "1,3,7776,25,40000,0.8,0.2,", "1,3,7776,25,40000,0.8,0.2,Infinity"]) {
+      const damaged = new URL(valid)
+      damaged.searchParams.set("calculator", value)
+      assert.equal(preferences.parsePassphraseLink(damaged), null)
+    }
+    valid.searchParams.append("calculator", valid.searchParams.get("calculator"))
+    assert.equal(preferences.parsePassphraseLink(valid), null)
+    assert.throws(() => preferences.createPassphraseLink("https://btcpavao.com/", {...settings, gpus: ""}), RangeError)
+  })
+
+  check("Shared examples override remembered settings once, survive navigation, and can be reset", () => {
+    const key = preferences.PASSPHRASE_PREFERENCES_KEY
+    const defaults = preferences.DEFAULT_PASSPHRASE_PREFERENCES
+    const settings = {words: 3, listSize: 7776, gpus: "25", rate: "40000", power: "0.8", energy: "0.2", compute: "1.25"}
+    const base = "https://btcpavao.com/en/bitcoin-core/self-custody/?keep=yes#lesson/passphrase-strength"
+    const sharedUrl = preferences.createPassphraseLink(base, settings)
+    const memory = new Map([[key, JSON.stringify({version: 1, settings: defaults})], ["course-progress-test", "keep"]])
+    const events = new Map()
+    const originalWindow = globalThis.window
+    let unavailable = false
+    globalThis.window = {
+      location: new URL(sharedUrl),
+      history: {state: {keep: true}, replaceState: (state, _, href) => {
+        assert.deepEqual(state, {keep: true})
+        globalThis.window.location = new URL(href)
+      }},
+      localStorage: {
+        getItem: (k) => { if (unavailable) throw Error("blocked"); return memory.get(k) ?? null },
+        setItem: (k, v) => { if (unavailable) throw Error("blocked"); memory.set(k, v) },
+        removeItem: (k) => { if (unavailable) throw Error("blocked"); memory.delete(k) },
+      },
+      addEventListener: (type, listener) => events.set(type, listener),
+      removeEventListener: (type) => events.delete(type),
+    }
+    let unsubscribe = () => {}
+    try {
+      unsubscribe = preferences.subscribePassphrasePreferences(() => {})
+      assert.deepEqual(preferences.getPassphraseSnapshot().settings, settings)
+      assert.deepEqual(JSON.parse(memory.get(key)).settings, settings)
+      assert.equal(window.location.href, base, "Consume only calculator parameters; retain route and other parameters")
+      preferences.updatePassphrasePreference("words", 8)
+      unsubscribe()
+      unsubscribe = preferences.subscribePassphrasePreferences(() => {})
+      assert.equal(preferences.getPassphraseSnapshot().settings.words, 8)
+      window.location = new URL(sharedUrl)
+      events.get("popstate")({})
+      assert.deepEqual(preferences.getPassphraseSnapshot().settings, settings)
+      preferences.resetPassphrasePreferences()
+      unsubscribe()
+      unsubscribe = preferences.subscribePassphrasePreferences(() => {})
+      assert.deepEqual(preferences.getPassphraseSnapshot().settings, defaults)
+      assert.equal(memory.get("course-progress-test"), "keep")
+      window.location = new URL(base)
+      window.location.searchParams.set("calculator", "1,3,7776")
+      events.get("popstate")({})
+      assert.deepEqual(preferences.getPassphraseSnapshot().settings, defaults)
+      assert.equal(memory.has(key), false)
+      unavailable = true
+      window.location = new URL(sharedUrl)
+      events.get("popstate")({})
+      assert.deepEqual(preferences.getPassphraseSnapshot().settings, settings)
+      assert.equal(preferences.getPassphraseSnapshot().storageAvailable, false)
+      assert.doesNotThrow(() => preferences.resetPassphrasePreferences())
     } finally {
       unsubscribe()
       if (originalWindow === undefined) delete globalThis.window

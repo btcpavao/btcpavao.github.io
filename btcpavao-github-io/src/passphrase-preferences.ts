@@ -18,6 +18,8 @@ export const DEFAULT_PASSPHRASE_PREFERENCES = {
 export type PassphrasePreferences = typeof DEFAULT_PASSPHRASE_PREFERENCES
 
 type PreferenceKey = keyof PassphrasePreferences
+const preferenceKeys = Object.keys(DEFAULT_PASSPHRASE_PREFERENCES) as PreferenceKey[]
+const LINK_PARAMETER = "calculator"
 function isValidPreference(key: PreferenceKey, value: unknown) {
   if (key === "words")
     return (
@@ -35,6 +37,34 @@ function isValidPreference(key: PreferenceKey, value: unknown) {
   if (key === "gpus")
     return Number.isSafeInteger(number) && number >= 1 && number <= 1_000_000
   return number >= (key === "rate" ? 1 : 0) && number <= 1e12
+}
+
+export function parsePassphraseLink(url: URL): PassphrasePreferences | null {
+  const values = url.searchParams.getAll(LINK_PARAMETER)
+  if (values.length !== 1 || values[0].length > 512) return null
+  const [version, ...fields] = values[0].split(",")
+  if (version !== "1" || fields.length !== preferenceKeys.length) return null
+  const settings = { ...DEFAULT_PASSPHRASE_PREFERENCES }
+  for (const [index, key] of preferenceKeys.entries()) {
+    const value = key === "words" || key === "listSize" ? Number(fields[index]) : fields[index]
+    if (!isValidPreference(key, value)) return null
+    Object.assign(settings, { [key]: value })
+  }
+  return settings
+}
+
+export function isValidPassphrasePreferences(settings: PassphrasePreferences) {
+  return preferenceKeys.every((key) => isValidPreference(key, settings[key]))
+}
+
+export function createPassphraseLink(href: string, settings: PassphrasePreferences) {
+  if (!isValidPassphrasePreferences(settings))
+    throw new RangeError("Complete the calculator settings before sharing.")
+  const url = new URL(href)
+  url.searchParams.set(LINK_PARAMETER, [1, ...preferenceKeys.map((key) => settings[key])].join(","))
+  // Curriculum hashes select a lesson; the guide can link straight to the widget.
+  if (!url.hash.startsWith("#lesson/")) url.hash = "passphrase-calculator"
+  return url.href
 }
 
 export function parsePassphrasePreferences(
@@ -90,6 +120,31 @@ function refresh() {
   }
   notify()
 }
+
+function restoreSharedExample() {
+  const url = new URL(window.location.href)
+  const shared = parsePassphraseLink(url)
+  if (!shared) return
+  savedSettings = shared
+  let storageAvailable = true
+  try {
+    window.localStorage.setItem(
+      PASSPHRASE_PREFERENCES_KEY,
+      JSON.stringify({ version: 1, settings: shared })
+    )
+  } catch {
+    storageAvailable = false
+  }
+  snapshot = { settings: shared, storageAvailable }
+  // Import once. Subsequent edits, remounts and resets use the shared store,
+  // rather than repeatedly restoring the original URL over the user's changes.
+  url.searchParams.delete(LINK_PARAMETER)
+  window.history.replaceState(window.history.state, "", url.href)
+  notify()
+}
+function onNavigation() {
+  restoreSharedExample()
+}
 function onStorage(event: StorageEvent) {
   if (event.key === PASSPHRASE_PREFERENCES_KEY || event.key === null) refresh()
 }
@@ -100,8 +155,10 @@ export function subscribePassphrasePreferences(listener: () => void) {
   if (listeners.size === 0) {
     // Read after hydration, before any writes. This also refreshes on remount.
     refresh()
+    restoreSharedExample()
     window.addEventListener("storage", onStorage)
     window.addEventListener("pageshow", onPageShow)
+    window.addEventListener("popstate", onNavigation)
   }
   listeners.add(listener)
   return () => {
@@ -109,6 +166,7 @@ export function subscribePassphrasePreferences(listener: () => void) {
     if (listeners.size === 0) {
       window.removeEventListener("storage", onStorage)
       window.removeEventListener("pageshow", onPageShow)
+      window.removeEventListener("popstate", onNavigation)
     }
   }
 }

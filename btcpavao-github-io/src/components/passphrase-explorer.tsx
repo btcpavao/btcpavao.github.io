@@ -1,6 +1,6 @@
 import { articleLinkProps } from "@/article-links"
 import { useState, useSyncExternalStore } from "react"
-import { Cpu, RotateCcw, Zap } from "lucide-react"
+import { Cpu, Link, RotateCcw, Zap } from "lucide-react"
 import {
   AttackEstimate,
   CostEquivalents,
@@ -22,6 +22,9 @@ import {
   subscribePassphrasePreferences,
   updatePassphrasePreference,
   resetPassphrasePreferences,
+  createPassphraseLink,
+  isValidPassphrasePreferences,
+  type PassphrasePreferences,
 } from "@/passphrase-preferences"
 
 export function PassphraseExplorer() {
@@ -32,6 +35,12 @@ export function PassphraseExplorer() {
   )
   const { words, listSize, gpus, rate, power, energy, compute } = settings
   const [resetNotice, setResetNotice] = useState("")
+  const [sharedLink, setSharedLink] = useState<{
+    settings: PassphrasePreferences
+    url: string
+    copied: boolean
+  } | null>(null)
+  const currentLink = sharedLink?.settings === settings ? sharedLink : null
   const update: typeof updatePassphrasePreference = (key, value) => {
     setResetNotice("")
     updatePassphrasePreference(key, value)
@@ -46,15 +55,18 @@ export function PassphraseExplorer() {
     Number.isSafeInteger(gpuCount) &&
     gpuCount >= 1 &&
     gpuCount <= 1_000_000
-  const inputsValid =
-    [rate, power, energy, compute].every(
-      (v) =>
-        v.trim() !== "" &&
-        Number.isFinite(Number(v)) &&
-        Number(v) >= 0 &&
-        Number(v) <= 1e12
-    ) && Number(rate) >= 1
-  const valid = gpuValid && inputsValid
+  const valid = isValidPassphrasePreferences(settings)
+  const copyLink = async () => {
+    if (!valid) return
+    setResetNotice("")
+    const url = createPassphraseLink(window.location.href, settings)
+    try {
+      await navigator.clipboard.writeText(url)
+      setSharedLink({ settings, url, copied: true })
+    } catch {
+      setSharedLink({ settings, url, copied: false })
+    }
+  }
   const estimate = (words: number) =>
     parallelAttackModel(
       words,
@@ -70,6 +82,7 @@ export function PassphraseExplorer() {
   const models = valid ? [6, 8].map(estimate) : []
   return (
     <section
+      id="passphrase-calculator"
       className="course-explorer parallel-explorer"
       aria-label="Illustrative brute-force model"
     >
@@ -173,14 +186,37 @@ export function PassphraseExplorer() {
             ? "Settings remembered in this browser across the guide and curriculum."
             : "Browser storage is unavailable. Settings will not survive leaving this page."}
         </p>
-        <button type="button" onClick={reset}>
-          <RotateCcw aria-hidden="true" />
-          Reset calculator
-        </button>
+        <div className="word-count-actions">
+          <button type="button" onClick={copyLink} disabled={!valid}>
+            <Link aria-hidden="true" />
+            Copy example link
+          </button>
+          <button type="button" onClick={reset}>
+            <RotateCcw aria-hidden="true" />
+            Reset calculator
+          </button>
+        </div>
       </div>
-      <p className="sr-only" role="status">
-        {resetNotice}
+      <p className="course-local-note word-count-share-status" role="status">
+        {currentLink
+          ? currentLink.copied
+            ? "Link copied. It opens this word count and all GPU settings."
+            : "Automatic copying is unavailable. Copy the selected link below."
+          : resetNotice}
       </p>
+      {currentLink && !currentLink.copied && (
+        <div className="word-count-share-fallback">
+          <label htmlFor="attack-share-link">Example link</label>
+          <textarea
+            id="attack-share-link"
+            readOnly
+            rows={3}
+            value={currentLink.url}
+            ref={(field) => { field?.focus(); field?.select() }}
+            onFocus={(event) => event.currentTarget.select()}
+          />
+        </div>
+      )}
       <details className="course-lesson-details word-count-settings">
         <summary>Change GPU settings or see how this is calculated</summary>
         <div className="word-count-list">
