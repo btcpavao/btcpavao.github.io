@@ -58,6 +58,7 @@ export function PassphraseExplorer() {
   }, [sharedExample])
   const { words, listSize, gpus, rate, power, energy, compute } = settings
   const [resetNotice, setResetNotice] = useState("")
+  const [previewOpen, setPreviewOpen] = useState(false)
   const [sharedCopy, setSharedCopy] = useState<{
     settings: PassphrasePreferences
     text: string
@@ -80,11 +81,14 @@ export function PassphraseExplorer() {
     gpuCount >= 1 &&
     gpuCount <= 1_000_000
   const valid = isValidPassphrasePreferences(settings)
+  const summaryText = valid && previewOpen
+    ? createPassphraseSummary(window.location.href, settings)
+    : null
   const copy = async (kind: "link" | "summary") => {
     if (!valid) return
     setResetNotice("")
     const text = kind === "summary"
-      ? createPassphraseSummary(window.location.href, settings)
+      ? summaryText ?? createPassphraseSummary(window.location.href, settings)
       : createPassphraseLink(window.location.href, settings)
     try {
       await navigator.clipboard.writeText(text)
@@ -210,6 +214,27 @@ export function PassphraseExplorer() {
             : "Fill every assumption: use at least 1 guess per second and non-negative power and prices, each no higher than 1,000,000,000,000."}
         </p>
       )}
+      <details
+        className="course-lesson-details word-count-preview"
+        onToggle={(event) => setPreviewOpen(event.currentTarget.open)}
+      >
+        <summary>Preview summary + link</summary>
+        {valid ? (
+          <>
+            <p className="course-local-note">
+              This is the exact text copied by “Copy summary + link”. It updates
+              with your settings.
+            </p>
+            <pre className="word-count-preview__text" aria-label="Summary and link preview" tabIndex={0}>
+              {summaryText}
+            </pre>
+          </>
+        ) : (
+          <p className="course-local-note">
+            Complete the calculator settings to preview the summary.
+          </p>
+        )}
+      </details>
       <div className="word-count-memory">
         <p>
           {storageAvailable

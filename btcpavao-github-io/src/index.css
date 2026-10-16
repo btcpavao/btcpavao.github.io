@@ -8123,8 +8123,11 @@ input:focus-visible + .curriculum-checkbox {
 .word-count-equivalents .passphrase-cost-equivalents { margin-top: 0; }
 .word-count-equivalents dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
 .word-count-result .course-local-note { margin-top: .5rem; font-size: .75rem; }
-.word-count-settings > summary { min-height: 44px; padding-block: .75rem; }
+.word-count-settings > summary, .word-count-preview > summary { min-height: 44px; padding-block: .75rem; }
 .word-count-settings[open] > summary { margin-bottom: 1.5rem; }
+.word-count-preview[open] > summary { margin-bottom: 1rem; }
+.word-count-preview__text { max-width: 100%; min-width: 0; margin: 1rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; font-size: .875rem; line-height: 1.75; }
+.word-count-preview__text:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
 .word-count-memory { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem 1.5rem; margin-block: 1rem; }
 .course-explorer .word-count-memory p { flex: 1 1 15rem; margin: 0; color: var(--muted-foreground); font-size: .75rem; }
 .word-count-memory button { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: .6rem 1.5rem; border: 1px solid var(--border); border-radius: .5rem; background: transparent; color: var(--foreground); font: inherit; font-size: .8rem; cursor: pointer; }
