@@ -1,3 +1,10 @@
+import { understandingKey } from "@/curriculum/concept-types"
+import { relatedConceptIds } from "@/curriculum/concept-connections"
+import { ConceptVisual } from "@/components/concept-visual"
+import {
+  LessonUnderstanding,
+  LessonVideoScript,
+} from "@/components/lesson-understanding"
 import { SectionIcon } from "@/components/section-icon"
 import { articleLinkProps } from "@/article-links"
 import { CurriculumHelp } from "@/components/curriculum-context"
@@ -449,7 +456,11 @@ export function CurriculumLesson({
   onToggleComplete,
   language,
   onSelectLesson,
+  openMode = false,
+  understandingRetained = false,
 }: {
+  understandingRetained?: boolean
+  openMode?: boolean
   lesson: PlayerLesson
   phase: CurriculumPhase
   lessonNumber: string
@@ -470,11 +481,17 @@ export function CurriculumLesson({
   const available =
     lesson.status === "published" &&
     ["verified", "source-reviewed"].includes(lesson.verification)
-  const canComplete = canCompleteLesson(
-    lesson,
-    checklistItems,
-    completedLessons
-  )
+  const needsUnderstanding =
+    !openMode &&
+    !understandingRetained &&
+    Boolean(lesson.understanding) &&
+    !checklistItems.has(understandingKey(lesson.id))
+  const canComplete =
+    (openMode ||
+      understandingRetained ||
+      !lesson.understanding ||
+      checklistItems.has(understandingKey(lesson.id))) &&
+    canCompleteLesson(lesson, checklistItems, completedLessons)
   const kind = lesson.kind ?? "reading"
   const missing = (lesson.prerequisites ?? [])
     .filter((id) => !completedLessons.has(id))
@@ -556,22 +573,31 @@ export function CurriculumLesson({
           </ul>
         </aside>
       )}
-      <dl className="course-purpose">
-        <div>
-          <dt className="learning-heading">
-            <SectionIcon topic="reasoning" />
-            <span>Why it matters</span>
-          </dt>
-          <dd>{lesson.why}</dd>
-        </div>
-        <div>
-          <dt className="learning-heading">
-            <SectionIcon topic="threat" />
-            <span>Threat / failure mode</span>
-          </dt>
-          <dd>{lesson.risk}</dd>
-        </div>
-      </dl>
+      {lesson.why !== lesson.explanation?.[0] && (
+        <dl className="course-purpose">
+          <div>
+            <dt className="learning-heading">
+              <SectionIcon topic="reasoning" />
+              <span>Why it matters</span>
+            </dt>
+            <dd>{lesson.why}</dd>
+          </div>
+          <div>
+            <dt className="learning-heading">
+              <SectionIcon topic="threat" />
+              <span>Threat / failure mode</span>
+            </dt>
+            <dd>{lesson.risk}</dd>
+          </div>
+        </dl>
+      )}
+      {lesson.visual && (
+        <ConceptVisual
+          key={`visual-${lesson.id}`}
+          visual={lesson.visual}
+          lessonId={lesson.id}
+        />
+      )}
       {lesson.guidedSteps?.length ? (
         <GuidedExercise
           key={lesson.id}
@@ -582,7 +608,7 @@ export function CurriculumLesson({
           copiedId={copiedId}
           onCopyCode={onCopyCode}
         />
-      ) : kind === "reading" ? (
+      ) : kind === "reading" && !openMode ? (
         <ReadingExercise
           key={lesson.id}
           lesson={lesson}
@@ -594,13 +620,33 @@ export function CurriculumLesson({
           {paragraphs.map((p) => (
             <p key={p}>{p}</p>
           ))}
+          {openMode && kind === "reading" && (
+            <button
+              type="button"
+              className="course-action course-action--secondary"
+              onClick={() =>
+                setChecklistItems(
+                  (current) =>
+                    new Set([
+                      ...current,
+                      ...paragraphs.map((_, index) =>
+                        readingKey(lesson.id, index)
+                      ),
+                    ])
+                )
+              }
+            >
+              Confirm reading
+            </button>
+          )}
         </section>
       )}
-      {(lesson.widget === "entropy-table" || lesson.widget === "brute-force") && (
-        <PassphraseExplorer />
-      )}
+      {(lesson.widget === "entropy-table" ||
+        lesson.widget === "brute-force") && <PassphraseExplorer />}
       {lesson.widget === "backup-media" && <BackupMediaExplorer />}
-      {lesson.widget === "gpg-layers" && <GpgLayerExplorer key={lesson.id} />}
+      {lesson.widget === "gpg-layers" && (
+        <GpgLayerExplorer key={`layers-${lesson.id}`} />
+      )}
       {lesson.warnings?.map((p) => (
         <aside className="course-guided__warning" key={p}>
           <AlertTriangle aria-hidden="true" />
@@ -731,6 +777,13 @@ export function CurriculumLesson({
           )}
         </details>
       )}
+      <LessonUnderstanding
+        key={`question-${lesson.id}`}
+        lesson={lesson}
+        checks={checklistItems}
+        setChecks={setChecklistItems}
+      />
+      <LessonVideoScript lesson={lesson} />
       {lesson.videoUrl && (
         <div className="course-video course-video--embed">
           <iframe
@@ -816,6 +869,28 @@ export function CurriculumLesson({
           </ul>
         ) : null}
       </details>
+      {openMode && relatedConceptIds(lesson.id).length > 0 && (
+        <section className="concept-connections">
+          <h2>Connect the idea and the practice</h2>
+          <ul>
+            {relatedConceptIds(lesson.id)
+              .map((id) => lessons.find((item) => item.id === id))
+              .filter((item): item is PlayerLesson => Boolean(item))
+              .map((item) => (
+                <li key={item.id}>
+                  <button
+                    type="button"
+                    className="course-copy-link"
+                    onClick={() => onSelectLesson(item)}
+                  >
+                    {item.title}
+                    <ArrowRight aria-hidden="true" />
+                  </button>
+                </li>
+              ))}
+          </ul>
+        </section>
+      )}
       <footer className="course-lesson__completion">
         <div>
           <strong>
@@ -823,11 +898,13 @@ export function CurriculumLesson({
               ? t.unavailable
               : !allChecks
                 ? t.remaining
-                : completed
-                  ? t.completed
-                  : missing.length
-                    ? t.prerequisites
-                    : t[kind]}
+                : needsUnderstanding
+                  ? "Complete the understanding check"
+                  : completed
+                    ? t.completed
+                    : missing.length
+                      ? t.prerequisites
+                      : t[kind]}
           </strong>
           <p>{t.saved}</p>
         </div>

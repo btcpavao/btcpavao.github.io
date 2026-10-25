@@ -1,4 +1,5 @@
 import assert from "node:assert/strict"
+import { createHash } from "node:crypto"
 import { mkdtemp, rm, readFile } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import path from "node:path"
@@ -76,18 +77,115 @@ try {
     checks++
     console.log(`✓ ${name}`)
   }
+  const guided = await bundle("src/curriculum-guided.ts", "guided")
+  const media = await bundle("src/curriculum/concept-types.ts", "media")
+  const preserved = JSON.parse(
+    await readFile("src/curriculum/v4.3-content-manifest.json", "utf8")
+  )
+  function canonical(value) {
+    if (Array.isArray(value)) return value.map(canonical)
+    if (value && typeof value === "object")
+      return Object.fromEntries(
+        Object.keys(value)
+          .sort()
+          .map((key) => [key, canonical(value[key])])
+      )
+    return value
+  }
+  check("Every original field of all 98 v4.3 lessons is preserved", () => {
+    assert.equal(preserved.length, 98)
+    for (const record of preserved) {
+      const originalFields = Object.fromEntries(
+        record.fields.map((key) => [key, find(record.id)[key]])
+      )
+      const digest = createHash("sha256")
+        .update(JSON.stringify(canonical(originalFields)))
+        .digest("hex")
+      assert.equal(
+        digest,
+        record.sha256,
+        `Original content changed: ${record.id}`
+      )
+      assert.equal(find(record.id).slug, record.slug)
+    }
+  })
   check(
-    "98 unique lessons in three parts; 67 lessons on the foundation and single-sig path",
+    "All lessons have configured visuals, answer feedback and honest recording scripts",
     () => {
-      assert.equal(en.CURRICULUM_VERSION, "4.3")
+      for (const lesson of lessons) {
+        assert.ok(lesson.visual?.title && lesson.visual?.caption, lesson.id)
+        const q = lesson.understanding
+        assert.ok(q?.prompt && q.options.length >= 3, lesson.id)
+        assert.ok(q.correct >= 0 && q.correct < q.options.length, lesson.id)
+        assert.equal(
+          new Set(q.options.map((o) => o.text)).size,
+          q.options.length,
+          lesson.id
+        )
+        assert.ok(
+          q.options.every((o) => o.feedback.length > 10),
+          lesson.id
+        )
+        assert.ok(lesson.videoScript.length >= 2, lesson.id)
+        assert.ok(
+          lesson.videoScript.every((s) => s.scene && s.narration.length > 60),
+          lesson.id
+        )
+        assert.ok(
+          !lesson.videoUrl,
+          "No recording was supplied for this release"
+        )
+      }
+    }
+  )
+  check(
+    "Guided progression requires understanding and completion without losing prior credit",
+    () => {
+      const [first, second] = entries
+      const completed = new Set(),
+        answered = new Set(),
+        retained = new Set()
+      assert.equal(
+        guided.guidedFrontier(entries, completed, answered, retained),
+        first
+      )
+      assert.equal(guided.mayOpenGuided(second.lesson, first, completed), false)
+      completed.add(first.lesson.id)
+      assert.equal(
+        guided.guidedFrontier(entries, completed, answered, retained),
+        first
+      )
+      answered.add(media.understandingKey(first.lesson.id))
+      assert.equal(
+        guided.guidedFrontier(entries, completed, answered, retained),
+        second
+      )
+      assert.equal(guided.mayOpenGuided(first.lesson, second, completed), true)
+      answered.clear()
+      retained.add(first.lesson.id)
+      assert.equal(
+        guided.guidedFrontier(entries, completed, answered, retained),
+        second
+      )
+      completed.delete(first.lesson.id)
+      assert.equal(
+        guided.guidedFrontier(entries, completed, answered, retained),
+        first
+      )
+    }
+  )
+  check(
+    "128 unique lessons in three parts; 97 lessons on the foundation and single-sig path",
+    () => {
+      assert.equal(en.CURRICULUM_VERSION, "5.0")
       assert.deepEqual(
         en.curriculumPhases.map((p) => p.lessons.length),
-        [27, 51, 20]
+        [57, 51, 20]
       )
-      assert.equal(lessons.length, 98)
-      assert.equal(new Set(ids).size, 98)
-      assert.equal(new Set(lessons.map((l) => l.slug)).size, 98)
-      assert.equal(en.primaryCurriculumLessons.length, 67)
+      assert.equal(lessons.length, 128)
+      assert.equal(new Set(ids).size, 128)
+      assert.equal(new Set(lessons.map((l) => l.slug)).size, 128)
+      assert.equal(en.primaryCurriculumLessons.length, 97)
       for (const e of entries) {
         assert.equal(en.findLessonBySlug(e.lesson.slug)?.lesson.id, e.lesson.id)
         assert.ok(e.lessonNumber.startsWith(`${Number(e.phase.id) + 1}.`))
@@ -222,13 +320,13 @@ try {
     }
   )
   check(
-    "With all declared results, all 98 lessons are reachable; removing foundation results revokes downstream completion",
+    "With all declared results, all 128 lessons are reachable; removing foundation results revokes downstream completion",
     () => {
       const marks = new Set(ids),
         checks = new Set(lessons.flatMap(requiredChecks))
-      assert.equal(effectiveCompletions(lessons, marks, checks).size, 98)
+      assert.equal(effectiveCompletions(lessons, marks, checks).size, 128)
       checks.delete(readingKey("0.1", 0))
-      assert.equal(effectiveCompletions(lessons, marks, checks).size, 0)
+      assert.equal(effectiveCompletions(lessons, marks, checks).size, 30)
     }
   )
   check(
@@ -254,7 +352,7 @@ try {
   check(
     "Resume chooses the first unfinished required lesson; optional advanced navigation proceeds in sequence",
     () => {
-      assert.equal(resumeEntry(entries, new Set()).lesson.id, "0.1")
+      assert.equal(resumeEntry(entries, new Set()).lesson.id, "learn-from-first-principles")
       const first = ids.indexOf("signet-receive-send")
       assert.equal(
         resumeEntry(entries, new Set(ids.slice(0, first))).lesson.id,
@@ -780,13 +878,13 @@ try {
     }
   )
   check(
-    "Twelve milestones expose every required step; optional content never reduces main-path completion",
+    "Nineteen milestones expose every required step; optional content never reduces main-path completion",
     () => {
       const groups = milestone.curriculumMilestones(en.curriculumPhases)
-      assert.equal(groups.length, 12)
+      assert.equal(groups.length, 19)
       assert.deepEqual(
         groups.map((g) => g.phaseId),
-        ["0", "0", "0", "0", "0", "1", "1", "1", "1", "1", "1", "1"]
+        [...Array(12).fill("0"), ...Array(7).fill("1")]
       )
       assert.deepEqual(
         groups.flatMap((g) => g.lessons.map((l) => l.id)),
@@ -796,7 +894,7 @@ try {
       assert.equal(
         milestone.milestoneProgress(groups, main).filter((g) => g.complete)
           .length,
-        12
+        19
       )
       assert.equal(
         milestone
@@ -860,7 +958,7 @@ try {
       assert.ok(!completed.has("one-wallet-mastery"))
       assert.equal(
         resumeEntry(entries, completed).lesson.id,
-        "trust-and-verification"
+        "learn-from-first-principles"
       )
       assert.ok(oldChecks.has("lesson-generate-passphrase:guided-v4:method-v4"))
       assert.ok(
@@ -960,7 +1058,7 @@ try {
         assert.ok(!completed.has(id), id)
       assert.equal(
         resumeEntry(entries, completed).lesson.id,
-        "trust-and-verification"
+        "learn-from-first-principles"
       )
       assert.ok(!completed.has("debian-setup"))
       assert.ok(!completed.has("foundations-checkpoint"))

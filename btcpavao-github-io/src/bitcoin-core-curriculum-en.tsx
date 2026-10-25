@@ -1,3 +1,11 @@
+import { GuidedHistory, GuidedWelcome } from "@/components/guided-curriculum"
+import {
+  MODE_KEY,
+  guidedFrontier,
+  mayOpenGuided,
+  passedUnderstanding,
+  type LearningMode,
+} from "@/curriculum-guided"
 import { findContentByPath } from "@/content-registry"
 import {
   curriculumMilestones,
@@ -15,7 +23,6 @@ import {
   canCompleteLesson,
   effectiveCompletions,
   nextRequiredEntry,
-  resumeEntry,
 } from "@/curriculum-learning"
 import { useEffect, useMemo, useRef, useState } from "react"
 import {
@@ -55,6 +62,7 @@ const PROGRESS_STORAGE_KEY = "btcpavao-core-curriculum-en-progress-v1"
 const CHECKLIST_STORAGE_KEY = "btcpavao-core-curriculum-en-checklists-v2"
 const RETAINED_PROGRESS_KEY = "btcpavao-core-curriculum-en-retained-v4.1"
 const RETAINED_V41_KEY = "btcpavao-core-curriculum-en-retained-v4.2"
+const RETAINED_V43_KEY = "btcpavao-core-curriculum-en-retained-v5"
 const LAST_LESSON_STORAGE_KEY =
   "btcpavao-core-curriculum-en-last-available-lesson-v3"
 
@@ -169,12 +177,14 @@ function PhaseNavigator({
   onSelectLesson,
   onOverview,
   mobile = false,
+  guided = false,
 }: {
   activeLesson: PlayerLesson
   completedLessons: Set<string>
   onSelectLesson: (lesson: PlayerLesson) => void
   onOverview: () => void
   mobile?: boolean
+  guided?: boolean
 }) {
   const [allParts, setAllParts] = useState(false)
   const [showOptional, setShowOptional] = useState(false)
@@ -188,6 +198,16 @@ function PhaseNavigator({
   const completedCount = milestones.filter(
     (milestone) => milestone.complete
   ).length
+  if (guided)
+    return (
+      <GuidedHistory
+        lessons={curriculumLessons.map((e) => e.lesson)}
+        active={activeLesson}
+        completed={completedLessons}
+        onSelect={onSelectLesson}
+        onOverview={onOverview}
+      />
+    )
   return (
     <nav
       className="course-outline"
@@ -323,6 +343,8 @@ function PhaseNavigator({
 
 export function BitcoinCoreCurriculumEnPage() {
   useCurriculumMetadata()
+  const [mode, setMode] = useState<LearningMode>("guided")
+  const [retainedV43, setRetainedV43] = useState<Set<string>>(new Set())
   const [activeSlug, setActiveSlug] = useState<string | null>(null)
   const [completionMarks, setCompletedLessons] = useState<Set<string>>(
     new Set()
@@ -372,7 +394,21 @@ export function BitcoinCoreCurriculumEnPage() {
   const mobileDrawerRef = useRef<HTMLElement>(null)
   const mobileTriggerRef = useRef<HTMLButtonElement>(null)
 
-  const activeEntry = useMemo(() => findLessonBySlug(activeSlug), [activeSlug])
+  const requestedEntry = useMemo(
+    () => findLessonBySlug(activeSlug),
+    [activeSlug]
+  )
+  const frontier = guidedFrontier(
+    curriculumLessons,
+    completedLessons,
+    checklistItems,
+    retainedV43
+  )
+  const linkAhead =
+    mode === "guided" &&
+    requestedEntry &&
+    !mayOpenGuided(requestedEntry.lesson, frontier, completedLessons)
+  const activeEntry = linkAhead ? frontier : requestedEntry
   const activeIndex = activeEntry
     ? curriculumLessons.findIndex(
         ({ lesson }) => lesson.id === activeEntry.lesson.id
@@ -393,8 +429,14 @@ export function BitcoinCoreCurriculumEnPage() {
       : null
   const nextEntry = nextRequiredEntry(curriculumLessons, activeIndex)
   const continueEntry = useMemo<CurriculumEntry | null>(
-    () => resumeEntry(curriculumLessons, completedLessons),
-    [completedLessons]
+    () =>
+      guidedFrontier(
+        curriculumLessons,
+        completedLessons,
+        checklistItems,
+        retainedV43
+      ),
+    [completedLessons, checklistItems, retainedV43]
   )
   const hasLearningHistory =
     Boolean(lastAvailableSlug) || completedLessons.size > 0
@@ -405,6 +447,26 @@ export function BitcoinCoreCurriculumEnPage() {
       const checks = readStoredSet(CHECKLIST_STORAGE_KEY)
       setCompletedLessons(marks)
       setChecklistItems(checks)
+      try {
+        setMode(localStorage.getItem(MODE_KEY) === "open" ? "open" : "guided")
+        const oldCredit = localStorage.getItem(RETAINED_V43_KEY)
+        const retained =
+          oldCredit === null
+            ? new Set(
+                [...marks].filter((id) =>
+                  curriculumLessons.some(
+                    (entry) =>
+                      entry.lesson.id === id &&
+                      entry.lesson.origin !== "first-principles-v5"
+                  )
+                )
+              )
+            : readStoredSet(RETAINED_V43_KEY)
+        writeStoredSet(RETAINED_V43_KEY, retained)
+        setRetainedV43(retained)
+      } catch {
+        /* Session-only learning remains available. */
+      }
       try {
         if (localStorage.getItem(RETAINED_PROGRESS_KEY) === null) {
           const retained = validatedV4Completions(marks, checks)
@@ -532,7 +594,19 @@ export function BitcoinCoreCurriculumEnPage() {
     }
   }, [mobileOutlineOpen])
 
+  useEffect(() => {
+    if (storageReady) {
+      try {
+        localStorage.setItem(MODE_KEY, mode)
+      } catch {
+        /* Session only. */
+      }
+    }
+  }, [mode, storageReady])
+
   function openLesson(lesson: PlayerLesson, replace = false) {
+    if (mode === "guided" && !mayOpenGuided(lesson, frontier, completedLessons))
+      return
     const url = `${window.location.pathname}${window.location.search}#lesson/${encodeURIComponent(lesson.slug)}`
     window.history[replace ? "replaceState" : "pushState"]({}, "", url)
     setActiveSlug(lesson.slug)
@@ -553,7 +627,7 @@ export function BitcoinCoreCurriculumEnPage() {
   }
 
   function continueLearning() {
-    if (continueEntry) openLesson(continueEntry.lesson)
+    openLesson((continueEntry ?? curriculumLessons[0]).lesson)
   }
 
   async function copyCode(block: CurriculumCodeBlock) {
@@ -568,7 +642,10 @@ export function BitcoinCoreCurriculumEnPage() {
 
   async function copyLessonLink() {
     try {
-      await navigator.clipboard.writeText(window.location.href)
+      const url = new URL(window.location.href)
+      if (activeEntry)
+        url.hash = `lesson/${encodeURIComponent(activeEntry.lesson.slug)}`
+      await navigator.clipboard.writeText(url.href)
       setCopiedLink(true)
       window.setTimeout(() => setCopiedLink(false), 1800)
     } catch {
@@ -581,6 +658,8 @@ export function BitcoinCoreCurriculumEnPage() {
       return
     setCompletedLessons(new Set())
     setChecklistItems(new Set())
+    setRetainedV43(new Set())
+    writeStoredSet(RETAINED_V43_KEY, new Set())
     setRetainedSnapshot(new Set())
     setRetainedV41Snapshot(new Set())
     writeStoredSet(RETAINED_V41_KEY, new Set())
@@ -636,6 +715,7 @@ export function BitcoinCoreCurriculumEnPage() {
                 type="button"
                 className="course-search-shortcut"
                 onClick={() => {
+                  setMode("open")
                   showOverview()
                   window.setTimeout(
                     () => document.getElementById("curriculum-search")?.focus(),
@@ -659,6 +739,38 @@ export function BitcoinCoreCurriculumEnPage() {
       </div>
 
       <main id="curriculum-content">
+        <section className="course-modes" aria-label="Choose a learning mode">
+          <div className="course-modes__buttons">
+            <button
+              type="button"
+              className="course-action course-action--secondary"
+              aria-pressed={mode === "guided"}
+              onClick={() => setMode("guided")}
+            >
+              Guided Learning · Recommended
+            </button>
+            <button
+              type="button"
+              className="course-action course-action--secondary"
+              aria-pressed={mode === "open"}
+              onClick={() => setMode("open")}
+            >
+              Open Curriculum
+            </button>
+          </div>
+          <p>
+            {mode === "guided"
+              ? "One idea at a time. Complete the understanding check and lesson work to continue. Completed lessons remain available."
+              : "Every lesson and practical tutorial is available in any order. The same content and saved progress are used in both modes."}
+          </p>
+          {linkAhead && (
+            <p role="status">
+              This link is ahead of your guided progress. Your current step is
+              shown below. Choose Open Curriculum to read the linked lesson
+              immediately.
+            </p>
+          )}
+        </section>
         {activeEntry && activeLesson ? (
           <div
             className={`course-player ${sidebarOpen ? "" : "course-player--sidebar-hidden"}`}
@@ -669,6 +781,7 @@ export function BitcoinCoreCurriculumEnPage() {
               hidden={!sidebarOpen}
             >
               <PhaseNavigator
+                guided={mode === "guided"}
                 activeLesson={activeLesson}
                 completedLessons={completedLessons}
                 onSelectLesson={openLesson}
@@ -690,7 +803,9 @@ export function BitcoinCoreCurriculumEnPage() {
               </button>
 
               <CurriculumLesson
-                key={activeLesson.id}
+                key={`${activeLesson.id}-${mode}`}
+                openMode={mode === "open"}
+                understandingRetained={retainedV43.has(activeLesson.id)}
                 language="en"
                 completedLessons={completedLessons}
                 lessons={curriculumLessons.map((entry) => entry.lesson)}
@@ -722,7 +837,9 @@ export function BitcoinCoreCurriculumEnPage() {
                 }
               />
 
-              {nextEntry && !isAvailableLesson(nextEntry.lesson) ? (
+              {mode === "open" &&
+              nextEntry &&
+              !isAvailableLesson(nextEntry.lesson) ? (
                 <aside className="course-next-notice">
                   <ShieldAlert aria-hidden="true" />
                   <div>
@@ -782,7 +899,13 @@ export function BitcoinCoreCurriculumEnPage() {
                 className="course-prev-next"
                 aria-label="Previous and next lesson"
               >
-                {previousEntry ? (
+                {previousEntry &&
+                (mode === "open" ||
+                  mayOpenGuided(
+                    previousEntry.lesson,
+                    frontier,
+                    completedLessons
+                  )) ? (
                   <button
                     type="button"
                     onClick={() => openLesson(previousEntry.lesson)}
@@ -798,14 +921,24 @@ export function BitcoinCoreCurriculumEnPage() {
                 )}
                 {nextEntry &&
                 isAvailableLesson(nextEntry.lesson) &&
-                completedLessons.has(activeLesson.id) ? (
+                (mode === "open" ||
+                  (completedLessons.has(activeLesson.id) &&
+                    passedUnderstanding(
+                      activeLesson,
+                      checklistItems,
+                      retainedV43
+                    ))) ? (
                   <button
                     type="button"
                     onClick={() => openLesson(nextEntry.lesson)}
                   >
                     <span>
                       <small>Continue</small>
-                      <strong>{nextEntry.lesson.title}</strong>
+                      <strong>
+                        {mode === "guided"
+                          ? "Next concept"
+                          : nextEntry.lesson.title}
+                      </strong>
                     </span>
                     <ArrowRight aria-hidden="true" />
                   </button>
@@ -842,6 +975,7 @@ export function BitcoinCoreCurriculumEnPage() {
                 </button>
               </div>
               <PhaseNavigator
+                guided={mode === "guided"}
                 activeLesson={activeLesson}
                 completedLessons={completedLessons}
                 onSelectLesson={openLesson}
@@ -850,6 +984,18 @@ export function BitcoinCoreCurriculumEnPage() {
               />
             </aside>
           </div>
+        ) : mode === "guided" ? (
+          <GuidedWelcome
+            completed={
+              primaryCurriculumLessons.filter((e) =>
+                completedLessons.has(e.lesson.id)
+              ).length
+            }
+            total={primaryCurriculumLessons.length}
+            returning={hasLearningHistory}
+            onContinue={continueLearning}
+            onReset={resetProgress}
+          />
         ) : (
           <CurriculumOverview
             language="en"

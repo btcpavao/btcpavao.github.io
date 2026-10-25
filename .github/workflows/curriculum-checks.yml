@@ -42,3 +42,6 @@ jobs:
       - run: npm run worker:check
       - run: npm run build
       - run: npm run verify:assets
+      - run: npm run verify:links
+      - run: npx playwright install --with-deps chromium
+      - run: npm run verify:curriculum:browser

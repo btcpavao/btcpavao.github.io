@@ -1,3 +1,6 @@
+import { foundationLessons } from "@/curriculum/foundations"
+import { addLessonMedia } from "@/curriculum/lesson-media"
+import type { LessonMedia } from "@/curriculum/concept-types"
 import { enrichFromArticles } from "@/curriculum/article-enrichment"
 import type { LearningRequirements } from "@/curriculum-learning"
 import type {
@@ -10,13 +13,13 @@ import { part1Lessons } from "@/curriculum/part-1"
 import { part2Lessons } from "@/curriculum/part-2"
 import { part3Lessons } from "@/curriculum/part-3"
 
-export const CURRICULUM_VERSION = "4.3"
+export const CURRICULUM_VERSION = "5.0"
 export const CORE_REFERENCE_VERSION = "Bitcoin Core 31.1"
 export const SPARROW_REFERENCE_VERSION = "Sparrow 2.5.4"
 export const ELECTRUM_REFERENCE_VERSION =
   "Electrum history and server architecture"
 export const LAST_TECHNICAL_REVIEW = "2026-09-14"
-export const CUSTODY_CONTENT_UPDATED = "2026-10-16"
+export const CUSTODY_CONTENT_UPDATED = "2026-10-25"
 
 export const legacyEnglishLessonSlugAliases: Record<string, string> = {
   "optional-veracrypt": "optional-gpg-layers",
@@ -125,7 +128,8 @@ export type LessonCallout = {
 }
 
 export type PlayerLesson = Omit<CurriculumLesson, "status"> &
-  LearningRequirements & {
+  LearningRequirements &
+  Partial<LessonMedia> & {
     status: CurriculumStatus
     slug: string
     objective: string
@@ -174,11 +178,13 @@ export const curriculumPhases: CurriculumPhase[] = [
     shortTitle: "First Principles",
     title: "First Principles",
     summary:
-      "Understand trust, learn Linux through harmless experiments, then start clean. See why this course chooses Bitcoin Core on dedicated generic hardware.",
+      "Derive the architecture from information, loss, encryption, privacy and economics. Then examine the existing computing foundation and learn Linux through harmless experiments.",
     outcome: "Why Bitcoin Core?",
     status: "published",
     estimatedTime: "Understand the foundation",
-    lessons: enrichFromArticles(part1Lessons),
+    lessons: [...foundationLessons, ...enrichFromArticles(part1Lessons)].map(
+      addLessonMedia
+    ),
   },
   {
     id: "1",
@@ -190,7 +196,7 @@ export const curriculumPhases: CurriculumPhase[] = [
     outcome: "Single-sig Bitcoin Core",
     status: "published",
     estimatedTime: "Practice over several sessions",
-    lessons: enrichFromArticles(part2Lessons),
+    lessons: enrichFromArticles(part2Lessons).map(addLessonMedia),
   },
   {
     id: "2",
@@ -202,7 +208,7 @@ export const curriculumPhases: CurriculumPhase[] = [
     outcome: "Only when the threat model requires them",
     status: "published",
     estimatedTime: "Optional, after mastery",
-    lessons: enrichFromArticles(part3Lessons),
+    lessons: enrichFromArticles(part3Lessons).map(addLessonMedia),
   },
 ]
 export const curriculumLessons = curriculumPhases.flatMap((phase) =>
