@@ -59,8 +59,8 @@ const pathTopics = [
       "Learn watch-only wallets, PSBTs, and offline signing",
       "Add multisig and advanced policies only when needed",
     ],
-    cta: "Explore Bitcoin Core",
-    href: EN_BITCOIN_CORE_SERIES_PATH,
+    cta: "Explore the free self-custody course",
+    href: "/en/bitcoin-core/course/",
     icon: KeyRound,
   },
 ]

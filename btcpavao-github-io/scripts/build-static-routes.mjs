@@ -1,5 +1,5 @@
 import { retiredCurriculumPath, englishCurriculumPath, retiredLessonSlugs, englishCurriculumDestination } from "../content/curriculum-redirect.mjs"
-import { mkdir, readFile, writeFile } from "node:fs/promises"
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises"
 
 import {
   SITE_URL,
@@ -15,6 +15,9 @@ const socialCards = JSON.parse(
     "utf8"
   )
 ).urls
+
+const courseStyle = (await readdir(new URL("../dist/assets/", import.meta.url))).find(name => /^course-landing-.*\.css$/.test(name))
+if (!courseStyle) throw new Error("Missing course landing stylesheet")
 
 function escapeHtml(value = "") {
   return String(value)
@@ -148,7 +151,8 @@ function renderRoute(baseHtml, entry) {
   html = replaceMeta(html, /<meta\s+name="twitter:image:alt"[^>]*>/, `<meta name="twitter:image:alt" content="${escapeHtml(entry.imageAlt)}" />`)
   html = html.replace(/\s*<meta\s+name="robots"[^>]*>/g, "")
   html = html.replace(/\s*<link\s+rel="alternate"\s+hreflang[^>]*>/g, "")
-  return html.replace("</head>", `${headExtras(entry)}\n  </head>`)
+  const routeStyle = entry.id === "en-core-course" ? `<link rel="stylesheet" href="/assets/${courseStyle}" />` : ""
+  return html.replace("</head>", `${routeStyle}\n${headExtras(entry)}\n  </head>`)
 }
 
 function sitemapXml(entries) {

@@ -1,3 +1,4 @@
+import { courseEvent } from "@/course-events"
 import { findContentByPath } from "@/content-registry"
 import {
   curriculumMilestones,
@@ -478,6 +479,7 @@ export function BitcoinCoreCurriculumEnPage() {
 
   useEffect(() => {
     if (!activeEntry) return
+    courseEvent("lesson_open", { lesson: activeEntry.lesson.slug, first: activeEntry.lesson.id === curriculumLessons[0].lesson.id ? 1 : 0 })
     document.title = `${activeEntry.lesson.title} | BTC Pavao`
     document.getElementById("lesson-title")?.focus({ preventScroll: true })
     window.scrollTo({ top: 0, behavior: "auto" })
@@ -705,7 +707,8 @@ export function BitcoinCoreCurriculumEnPage() {
                 onCopyCode={copyCode}
                 onCopyLink={copyLessonLink}
                 copiedLink={copiedLink}
-                onToggleComplete={() =>
+                onToggleComplete={() => {
+                  if (!completedLessons.has(activeLesson.id) && canCompleteLesson(activeLesson, checklistItems, completedLessons)) courseEvent("lesson_complete", { lesson: activeLesson.slug })
                   setCompletedLessons((current) => {
                     const next = new Set(current)
                     if (next.has(activeLesson.id)) next.delete(activeLesson.id)
@@ -719,7 +722,7 @@ export function BitcoinCoreCurriculumEnPage() {
                       next.add(activeLesson.id)
                     return next
                   })
-                }
+                }}
               />
 
               {nextEntry && !isAvailableLesson(nextEntry.lesson) ? (

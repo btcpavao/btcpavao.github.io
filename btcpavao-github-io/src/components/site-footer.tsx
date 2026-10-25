@@ -5,6 +5,7 @@ const footerGroups = [
   {
     label: "Learn Core",
     links: [
+      { label: "Explore the free course", href: "/en/bitcoin-core/course/" },
       { label: "Self-custody curriculum", href: "/en/bitcoin-core/self-custody/" },
       { label: "Quick Core practice", href: "/en/bitcoin-core/start-here/" },
       { label: "Debian images · coming soon", href: "/en/bitcoin-core/debian-images/" },

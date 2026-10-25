@@ -1,5 +1,6 @@
 export type SocialCardImageKey =
   | "homepage"
+  | "course"
     | "xArticle0"
     | "xArticle1"
     | "xArticle2"

@@ -1,3 +1,5 @@
+import { CourseLandingPage } from "./course-landing"
+import { COURSE_LANDING_PATH } from "./routes"
 import { PublishedArticlePage } from "./published-article"
 import { DebianImagesPage } from "./debian-images"
 import { DEBIAN_IMAGES_PATH } from "./components/debian-images-notice"
@@ -37,7 +39,7 @@ import {
 export function renderPage(pathname: string) {
   const initialPath = normalizePath(pathname)
   const publishedArticle = findPublishedArticle(initialPath)
-  const page = publishedArticle ? (
+  const page = initialPath === COURSE_LANDING_PATH ? <CourseLandingPage /> : publishedArticle ? (
     <PublishedArticlePage article={publishedArticle} />
   ) : initialPath === DEBIAN_IMAGES_PATH ? (
     <DebianImagesPage />

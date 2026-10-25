@@ -1,3 +1,4 @@
+import { COURSE_LANDING_PATH } from "@/routes"
 import { ReadingProgress } from "@/components/reading-progress"
 import { EssaySectionHeading } from "@/components/essay-section-heading"
 import { articleLinkProps, cleanArticleUrl } from "@/article-links"
@@ -71,6 +72,8 @@ import {
 } from "@/routes"
 import { CONTACT_EMAIL_URL, SITE_URL } from "@/site-config"
 import { SOCIAL_CARD_IMAGES } from "@/social-card-images"
+
+const CourseLandingPage = lazy(() => import("@/course-landing").then(m => ({default: m.CourseLandingPage})))
 
 const Homepage = lazy(() =>
   import("@/homepage").then((module) => ({ default: module.Homepage }))
@@ -3325,6 +3328,8 @@ export function App({
   const currentPath = initialPath
     ? normalizePath(initialPath)
     : getCurrentPath()
+
+  if (currentPath === COURSE_LANDING_PATH) return <Suspense fallback={null}><CourseLandingPage /></Suspense>
 
   if (publishedArticlePaths.includes(currentPath)) {
     return (

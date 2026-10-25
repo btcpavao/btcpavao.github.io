@@ -9,6 +9,7 @@ const cacheDirectory = new URL("../.cache/", import.meta.url)
 const manifestUrl = new URL("social-card-manifest.json", cacheDirectory)
 
 const sources = {
+  course: "course/course-social.webp",
   xArticle0: "articles/hardware-wallets-are-an-economic-security-failure/00.webp",
   xArticle1: "articles/bitcoin-self-custody-got-weird/00.webp",
   xArticle2: "articles/single-sig-and-multisig-from-first-principles/00.webp",

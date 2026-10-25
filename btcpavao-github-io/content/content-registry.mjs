@@ -5,6 +5,15 @@ const coreHr = "/hr/bitcoin-core/"
 
 export const contentRegistry = [
   {
+    id: "en-core-course", path: "/en/bitcoin-core/course/", locale: "en",
+    title: "Bitcoin Self-Custody Course — Learn Bitcoin Core",
+    description: "Learn Bitcoin self-custody from first principles. Explore encryption, wallet backup and recovery, Bitcoin Core on Linux, offline signing and advanced spending policies. Free, open and at your own pace.",
+    contentType: "page", section: "core-learning", publishedAt: null, updatedAt: "2026-10-25",
+    featured: false, order: 5, status: "published", socialCardKey: "course",
+    heroImage: "/course/custody-architecture-1536.webp", translationPath: null,
+    indexable: true, rss: false, imageAlt: "Nested blue glass and brass encryption structures on an Adriatic terrace.", imageWidth: 1734, imageHeight: 907,
+  },
+  {
     id: "en-core-economic-security",
     path: "/en/bitcoin-core/hardware-wallets-are-an-economic-security-failure/",
     locale: "en",

@@ -1,3 +1,4 @@
+export const COURSE_LANDING_PATH = "/en/bitcoin-core/course/"
 export const AI_SERIES_PATH = "/hr/ai-u-praksi/"
 export const HR_HOME_PATH = "/hr/"
 export const BITCOIN_CORE_SERIES_PATH = "/hr/bitcoin-core/"

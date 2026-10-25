@@ -1,0 +1,12 @@
+{
+  "hero": {
+    "source": "built-in image generation",
+    "prompt": "Use case: stylized-concept. Asset type: original editorial hero artwork for BTC Pavao's Bitcoin self-custody course. Reference image: use its Mediterranean limestone, sunlit Adriatic terrace, muted blue sea and exquisite realistic blue glass/brass digital structures as visual identity reference only. Create a NEW wide landscape 3:2 scene, no people, no text or UI. Main subject: a single small glowing rectangular golden digital information plate floating inside three beautifully crafted nested transparent deep-blue glass cuboid structures with thin brushed brass edges. The nested volumes are deliberately separated, optically clear, easy to understand, sculptural yet physically believable; they symbolize layers of encryption, not an actual hardware product. Place this object on a pale limestone plinth on the RIGHT half of frame; a sweeping modern stone arch in the background frames calm Adriatic sea and remote islands. Left half has quiet sunlit limestone and soft shadows, airy room, subtle olive branches at outer edge. Premium architectural photography meets restrained conceptual art. Warm late-afternoon directional light, detailed caustics and materials, sober sophisticated editorial composition, blue and gold against cream stone. No padlocks, no Bitcoin logos, no hackers, no neon cyberpunk, no coins, no generic security symbols, no letters.",
+    "reference": "public/homepage-hero-v2-840.webp"
+  },
+  "social": {
+    "source": "built-in image generation",
+    "prompt": "Create a premium social sharing card, wide landscape 1.91:1 (1200x630 composition), for BTC Pavao's free Bitcoin Core self-custody course. Use the attached image as actual visual reference for the same nested blue glass/brass structures, limestone and Adriatic light. Compose right 48 percent with that beautiful conceptual blue glass protective sculpture on a limestone plinth. Left 52 percent is almost solid warm ivory with very legible large bold near-black sans serif text: 'Understand the system.' on two lines and beneath it 'Own your bitcoin.' on two lines. At top left small text 'BTC Pavao'. Bottom left text 'Bitcoin Self-Custody with Bitcoin Core' and on next line 'Free. Open. From first principles.' No button. No decorative icon. Restrained premium editorial typography and warm light. Preserve precise wording. No Bitcoin coin logos. Crisp for social feed thumbnails.",
+    "reference": "public/course/custody-architecture-1536.webp"
+  }
+}

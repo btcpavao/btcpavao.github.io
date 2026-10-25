@@ -37,6 +37,7 @@ jobs:
 
       - name: Build site
         env:
+          VITE_COURSE_SUBSCRIBE_URL: ${{ vars.COURSE_SUBSCRIBE_URL }}
           VITE_TURNSTILE_SITE_KEY: ${{ vars.TURNSTILE_SITE_KEY }}
         run: npm run build
 
