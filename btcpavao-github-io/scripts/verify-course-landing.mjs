@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict'
+import { readFile } from 'node:fs/promises'
+const manifest=JSON.parse(await readFile('.cache/course-manifest.json','utf8'))
+const html=await readFile('dist/en/bitcoin-core/course/index.html','utf8')
+const lessons=manifest.phases.flatMap(p=>p.lessons)
+for(const lesson of lessons) assert.ok(html.includes(`href="/en/bitcoin-core/self-custody/#lesson/${encodeURIComponent(lesson.slug)}"`),`Missing syllabus destination: ${lesson.slug}`)
+assert.equal(new Set(lessons.map(l=>l.slug)).size,lessons.length)
+assert.ok(html.match(/<head>[\s\S]*?<link rel="stylesheet" href="\/assets\/course-landing-[^\"]+\.css"/),'Route CSS must load before JS for the prerender')
+assert.ok(html.includes('"@type":"Course"'))
+assert.ok(html.includes('"isAccessibleForFree":true'))
+assert.ok(html.includes('In development'))
+assert.ok(!html.includes('type="email"'),'Unconfigured provider must not collect email')
+const published=lessons.filter(l=>l.available)
+assert.ok(html.includes(`${published.length}`))
+assert.ok(html.includes('name="twitter:image"'))
+const old=await readFile('dist/en/bitcoin-core/self-custody/index.html','utf8')
+assert.ok(old.includes('Three parts. One foundation.'))
+const jsNames=(await import('node:fs/promises')).readdir
+const landingJs=(await jsNames('dist/assets')).find(n=>/^course-landing-.*\.js$/.test(n))
+const js=await readFile(`dist/assets/${landingJs}`,'utf8')
+assert.ok(!js.includes('walletcreatefundedpsbt'),'Marketing bundle must not carry the full technical lesson bodies')
+console.log(`Verified ${lessons.length} syllabus deep links, canonical-course preservation, static route styling, course schema, release status, honest subscription fallback and lean landing metadata.`)

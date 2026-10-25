@@ -4,7 +4,7 @@ import { StrictMode, type ReactNode } from "react"
 import { createRoot, hydrateRoot } from "react-dom/client"
 
 import "./index.css"
-import App from "./App.tsx"
+import { COURSE_LANDING_PATH } from "@/routes"
 import { CurriculumRedirect } from "./components/curriculum-redirect"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
 import {
@@ -50,7 +50,10 @@ async function startApp() {
   }
 
   let routedPage: ReactNode
-  if (publishedArticlePaths.includes(initialPath)) {
+  if (initialPath === COURSE_LANDING_PATH) {
+    const { CourseLandingPage } = await import("./course-landing")
+    routedPage = <CourseLandingPage />
+  } else if (publishedArticlePaths.includes(initialPath)) {
     const { PublishedArticleRoute } = await import("./published-article")
     routedPage = <PublishedArticleRoute path={initialPath} />
   } else if (initialPath === DEBIAN_IMAGES_PATH) {
@@ -82,6 +85,7 @@ async function startApp() {
     const { NotFoundPage } = await import("./not-found")
     routedPage = <NotFoundPage />
   } else {
+    const { default: App } = await import("./App.tsx")
     routedPage = (
       <App
         initialPath={initialPath}

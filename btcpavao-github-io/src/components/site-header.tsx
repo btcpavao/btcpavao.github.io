@@ -17,6 +17,7 @@ const navigationGroups = [
   {
     label: "Bitcoin Core",
     links: [
+      { label: "Explore the free course", href: "/en/bitcoin-core/course/" },
       { label: "Self-custody curriculum", href: "/en/bitcoin-core/self-custody/" },
       { label: "Quick Core practice", href: "/en/bitcoin-core/start-here/" },
       { label: "Debian images · coming soon", href: "/en/bitcoin-core/debian-images/" },
@@ -74,7 +75,7 @@ function ThemeToggle() {
   )
 }
 
-export function SiteHeader() {
+export function SiteHeader({ primaryAction }: { primaryAction?: { href: string; label: string } } = {}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openGroup, setOpenGroup] = useState<string | null>(null)
   const headerRef = useRef<HTMLElement | null>(null)
@@ -156,7 +157,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <ThemeToggle />
           <Button asChild className="hidden min-h-11 rounded-full px-5 xl:inline-flex">
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">Book a 15-minute introduction</a>
+            <a href={primaryAction?.href ?? BOOKING_URL} target={primaryAction ? undefined : "_blank"} rel={primaryAction ? undefined : "noopener noreferrer"}>{primaryAction?.label ?? "Book a 15-minute introduction"}</a>
           </Button>
           <Button
             ref={menuButtonRef}

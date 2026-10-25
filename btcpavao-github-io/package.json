@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "prepare:social-cards": "node scripts/prepare-social-cards.mjs",
-    "dev": "npm run prepare:social-cards && vite",
-    "build": "npm run prepare:social-cards && tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/build-static-routes.mjs",
+    "dev": "npm run prepare:social-cards && npm run prepare:course && vite",
+    "build": "npm run prepare:social-cards && npm run prepare:course && tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/build-static-routes.mjs",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
@@ -24,7 +24,9 @@
     "worker:check": "wrangler deploy --dry-run --outdir .cache/worker-build",
     "worker:dev": "wrangler dev --config wrangler.local.jsonc --ip 127.0.0.1 --port 8787",
     "worker:deploy": "wrangler deploy --config wrangler.jsonc",
-    "dev:questions": "npm run prepare:social-cards && VITE_TURNSTILE_SITE_KEY=1x00000000000000000000AA vite --host 127.0.0.1 --port 4176"
+    "dev:questions": "npm run prepare:social-cards && VITE_TURNSTILE_SITE_KEY=1x00000000000000000000AA vite --host 127.0.0.1 --port 4176",
+    "prepare:course": "node scripts/prepare-course-manifest.mjs",
+    "verify:course-landing": "node scripts/verify-course-landing.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.8",
