@@ -8265,3 +8265,60 @@ input:focus-visible + .curriculum-checkbox {
 @container (min-width: 540px) {
   .gpg-explorer__visual { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
+
+/* Curriculum v5 shares the existing palette, type and action conventions. */
+.course-modes { max-width: 72rem; margin: 1.5rem auto; padding-inline: 1.25rem; }
+.course-modes__buttons { display: flex; flex-wrap: wrap; gap: .75rem; }
+.course-modes button[aria-pressed="true"] { border-color: var(--primary-button); color: var(--foreground); background: var(--accent); }
+.course-modes p { max-width: 70ch; margin-block: .75rem; color: var(--muted-foreground); line-height: 1.6; }
+.guided-welcome { max-width: 48rem; margin: 3rem auto; padding: 1.5rem; }
+.guided-welcome h1 { font-size: clamp(2rem,5vw,3.5rem); line-height: 1.12; letter-spacing: -.035em; }
+.guided-welcome p { margin-block: 1.5rem; line-height: 1.8; }
+.guided-history { padding: 1rem; }
+.guided-history progress, .guided-welcome progress { width: 100%; accent-color: var(--primary); }
+.guided-history ol { padding: 0; list-style: none; margin-block-start: 1.5rem; }
+.guided-history li { margin-block: .5rem; }
+.guided-history button { text-align: start; border: 1px solid var(--border); border-radius: .5rem; padding: .75rem; width: 100%; }
+.concept-visual, .concept-understanding, .concept-recording { margin-block: 2.5rem; }
+.concept-visual { padding: clamp(1rem,3vw,2rem); border: 1px solid var(--border); border-radius: 1rem; background: var(--card); }
+.concept-visual h2, .concept-understanding h2, .concept-recording h2 { font-size: 1.25rem; font-weight: 600; margin-block-end: 1.25rem; }
+.concept-visual svg { display: block; width: 100%; max-width: 42rem; margin: 1.5rem auto; color: var(--foreground); overflow: visible; }
+.concept-visual svg text { fill: currentColor; font-family: inherit; font-size: 14px; }
+.concept-visual svg .concept-svg-emphasis { font-size: 21px; font-weight: 600; }
+.concept-visual figcaption { margin-block-start: 1.5rem; line-height: 1.7; color: var(--muted-foreground); }
+.concept-visual p { line-height: 1.7; overflow-wrap: anywhere; }
+.concept-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; }
+.concept-controls label { display: flex; align-items: center; gap: .75rem; line-height: 1.5; }
+.concept-controls input[type="checkbox"], .concept-understanding input { accent-color: var(--primary); width: 1.15rem; height: 1.15rem; flex: 0 0 auto; }
+.concept-controls .concept-control { display: grid; flex: 1 1 14rem; gap: .5rem; }
+.concept-control span { display: flex; justify-content: space-between; gap: 1rem; }
+.concept-control output { font-variant-numeric: tabular-nums; font-weight: 600; }
+.concept-control input[type="range"] { width: 100%; accent-color: var(--primary); min-height: 2rem; }
+.concept-control select { background: var(--background); color: var(--foreground); border: 1px solid var(--border); border-radius: .5rem; padding: .65rem; max-width: 100%; width: 100%; }
+.concept-path { list-style: none; padding: 0; display: grid; gap: 1rem; }
+.concept-path li { display: flex; gap: 1rem; align-items: baseline; line-height: 1.6; }
+.concept-path li>span { color: var(--primary); border-bottom: 2px solid currentColor; font-variant-numeric: tabular-nums; }
+.concept-understanding fieldset { border: 0; padding: 0; }
+.concept-understanding legend { font-size: 1.1rem; margin-block-end: 1rem; line-height: 1.7; }
+.concept-understanding label { display: flex; gap: .85rem; align-items: start; padding: 1rem; margin-block: .75rem; border: 1px solid var(--border); border-radius: .65rem; line-height: 1.65; cursor: pointer; }
+.concept-understanding input { margin-block-start: .3rem; }
+.concept-understanding .is-selected { border-color: var(--primary); }
+.concept-feedback { min-height: 3rem; margin-block-start: 1rem; line-height: 1.75; }
+.concept-scene { color: var(--muted-foreground); font-size: .9rem; }
+.concept-recording p { line-height: 1.8; margin-block: 1rem; }
+.course-modes button:focus-visible, .concept-visual :is(button,input,select):focus-visible, .concept-understanding :is(button,input):focus-visible, .guided-history button:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; }
+@media(max-width: 36rem) { .concept-visual { padding: .9rem; } .concept-controls { display: grid; } .course-modes__buttons button { flex: 1 1 10rem; white-space: normal; } }
+
+.concept-connections { margin-block: 2rem; }
+.concept-connections h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: .8rem; }
+.concept-connections ul { display: grid; gap: .75rem; padding: 0; list-style: none; }
+.concept-connections button { text-align: start; line-height: 1.6; }
+.concept-diagram-labels { margin-block: 1.25rem; font-size: 1rem; line-height: 1.7; }
+.concept-diagram-labels summary { cursor: pointer; min-height: 2.75rem; align-content: center; font-weight: 600; }
+.concept-diagram-labels ul { margin-block: .75rem; padding-inline-start: 1.5rem; }
+.concept-diagram-labels summary:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; }
+
+.concept-visual { --concept-accent: var(--primary-button); }
+.dark .concept-visual { --concept-accent: var(--primary); }
+.concept-visual input { accent-color: var(--concept-accent); }
+.concept-visual .concept-path li span { color: var(--concept-accent); }
