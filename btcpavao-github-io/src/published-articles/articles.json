@@ -1,5 +1,1452 @@
 [
   {
+    "id": "en-core-hardware-wallets-backups",
+    "slug": "three-hardware-wallets-twenty-backups",
+    "path": "/en/bitcoin-core/three-hardware-wallets-twenty-backups/",
+    "title": "Three Hardware Wallets That Scream Bitcoin. Twenty Backups That Don't.",
+    "description": "2-of-3 multisig vs. 2-of-20 singlesig. The economics of Bitcoin self-custody, privacy, and why we've made a simple problem so complicated.",
+    "hideDescription": true,
+    "date": "2026-10-30",
+    "updated": "2026-10-30",
+    "sourceUrl": "https://x.com/btcpavao/status/2116166914078622074",
+    "headings": [
+      {
+        "id": "multisig-has-a-privacy-problem-built-into-its-purpose",
+        "text": "Multisig has a privacy problem built into its purpose"
+      },
+      {
+        "id": "my-2-of-20-bitcoin-core-singlesig",
+        "text": "My 2-of-20 Bitcoin Core singlesig"
+      },
+      {
+        "id": "three-friends-holding-backups-shouldn-t-become-a-spending-committee",
+        "text": "Three friends holding backups shouldn't become a spending committee"
+      },
+      {
+        "id": "want-another-component-several-hours-away-add-another-encryption-layer",
+        "text": "Want another component several hours away? Add another encryption layer."
+      },
+      {
+        "id": "the-economics-of-brute-force-a-five-word-passphrase-can-mean-hundreds-of-billions-of-dollars",
+        "text": "The economics of brute force: a five-word passphrase can mean hundreds of billions of dollars"
+      },
+      {
+        "id": "the-hardware-wallet-industry-has-become-a-honeypot-industry",
+        "text": "The hardware-wallet industry has become a honeypot industry"
+      },
+      {
+        "id": "the-biggest-honeypots-are-custodians-and-exchanges",
+        "text": "The biggest honeypots are custodians and exchanges"
+      },
+      {
+        "id": "your-privacy-can-leak-before-anyone-touches-your-keys",
+        "text": "Your privacy can leak before anyone touches your keys"
+      },
+      {
+        "id": "bitcoin-core-has-a-different-economic-security-advantage",
+        "text": "Bitcoin Core has a different economic security advantage"
+      },
+      {
+        "id": "your-grandmother-doesn-t-need-to-become-a-full-time-phishing-analyst",
+        "text": "Your grandmother doesn't need to become a full-time phishing analyst"
+      },
+      {
+        "id": "use-bitcoin-spending-policies-for-the-problems-they-were-designed-to-solve",
+        "text": "Use Bitcoin spending policies for the problems they were designed to solve"
+      },
+      {
+        "id": "bitcoin-custody-in-2140",
+        "text": "Bitcoin custody in 2140"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "paragraph",
+        "html": "<em>2-of-3 multisig vs. 2-of-20 singlesig. The economics of Bitcoin self-custody, privacy, and why we've made a simple problem so complicated.</em>"
+      },
+      {
+        "type": "paragraph",
+        "html": "At some point Bitcoin self-custody turned into a hardware shopping hobby."
+      },
+      {
+        "type": "paragraph",
+        "html": "Buy a hardware wallet. Write down twenty-four words. Hide them somewhere."
+      },
+      {
+        "type": "paragraph",
+        "html": "Worried about losing the device? Buy another one. Worried about trusting one manufacturer? Buy a third, preferably from someone else."
+      },
+      {
+        "type": "paragraph",
+        "html": "Now configure 2-of-3 multisig, back up three seeds, preserve your wallet descriptors, keep the firmware updated, and figure out which software will coordinate the whole thing."
+      },
+      {
+        "type": "paragraph",
+        "html": "Congratulations. You've bought three little electronic billboards advertising that you probably own Bitcoin."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>I prefer an ordinary laptop running Bitcoin Core, an encrypted file, and a passphrase.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "I can make twenty copies of my recovery material, distribute them across different locations, and need only one encrypted file and one corresponding passphrase to recover my wallet."
+      },
+      {
+        "type": "paragraph",
+        "html": "Each component can be stored without revealing that it has anything to do with Bitcoin."
+      },
+      {
+        "type": "paragraph",
+        "html": "If I want another independent component, I add another encryption layer. If I want more redundancy, I make more copies. If I want part of my recovery process located several hours away, I arrange that too."
+      },
+      {
+        "type": "paragraph",
+        "html": "This is an approach to self-custody built around a simple economic question: how much does it cost me to defend my Bitcoin, and how much would an attacker have to spend to compromise it?"
+      },
+      {
+        "type": "heading",
+        "html": "Multisig has a privacy problem built into its purpose",
+        "id": "multisig-has-a-privacy-problem-built-into-its-purpose"
+      },
+      {
+        "type": "image",
+        "src": "/articles/three-hardware-wallets-twenty-backups/01.jpg",
+        "smallSrc": "/articles/three-hardware-wallets-twenty-backups/01.jpg",
+        "width": 1672,
+        "height": 941,
+        "smallWidth": 1672,
+        "alt": "Multisig distributes signing authority, along with information about the wallet being secured.",
+        "caption": "Multisig distributes signing authority, along with information about the wallet being secured."
+      },
+      {
+        "type": "paragraph",
+        "html": "Multisig is designed to distribute spending authority."
+      },
+      {
+        "type": "paragraph",
+        "html": "In a 2-of-3 wallet, two signatures are required to spend. In 3-of-5, three. In 5-of-10, five."
+      },
+      {
+        "type": "paragraph",
+        "html": "That makes perfect sense when several independent people need to approve transactions."
+      },
+      {
+        "type": "paragraph",
+        "html": "But why has it become the default recommendation for someone who simply wants redundant backups of their own Bitcoin?"
+      },
+      {
+        "type": "paragraph",
+        "html": "Multisig participants are supposed to verify what they're signing. They need to understand the spending policy and examine the transactions they're asked to authorize."
+      },
+      {
+        "type": "paragraph",
+        "html": "In a typical multisig arrangement, signers share a wallet descriptor containing the public keys and rules needed to reconstruct the wallet."
+      },
+      {
+        "type": "paragraph",
+        "html": "Someone with that complete descriptor can reconstruct the wallet's addresses and examine its transaction history and balances on the blockchain."
+      },
+      {
+        "type": "paragraph",
+        "html": "That's useful when independent participants are responsible for authorizing spending."
+      },
+      {
+        "type": "paragraph",
+        "html": "It becomes awkward when privacy is one of your main objectives."
+      },
+      {
+        "type": "paragraph",
+        "html": "Suppose I give a friend one of my three hardware wallets for safekeeping, along with the recovery information normally needed to restore that signer and its multisig configuration."
+      },
+      {
+        "type": "paragraph",
+        "html": "My friend can recognize the device. The descriptor identifies the spending policy and potentially reveals the balance being protected."
+      },
+      {
+        "type": "paragraph",
+        "html": "They don't have enough signatures to steal the Bitcoin, but they may now know exactly what they're helping me secure."
+      },
+      {
+        "type": "paragraph",
+        "html": "Multisig signers can be configured to reveal less information, and the backup material can be encrypted. Yet the normal arrangement is built around multiple participants independently verifying a common spending policy."
+      },
+      {
+        "type": "paragraph",
+        "html": "Keeping every participant ignorant of that policy rather defeats the purpose."
+      },
+      {
+        "type": "paragraph",
+        "html": "Trying to turn a distributed authorization system into an arrangement of anonymous recovery components is an awkward exercise."
+      },
+      {
+        "type": "paragraph",
+        "html": "The individual signer still needs private, redundant backups."
+      },
+      {
+        "type": "paragraph",
+        "html": "And the obvious way to protect those backups is encryption."
+      },
+      {
+        "type": "paragraph",
+        "html": "Which is where I'd rather begin."
+      },
+      {
+        "type": "heading",
+        "html": "My 2-of-20 Bitcoin Core singlesig",
+        "id": "my-2-of-20-bitcoin-core-singlesig"
+      },
+      {
+        "type": "image",
+        "src": "/articles/three-hardware-wallets-twenty-backups/02.jpg",
+        "smallSrc": "/articles/three-hardware-wallets-twenty-backups/02.jpg",
+        "width": 1672,
+        "height": 941,
+        "smallWidth": 1672,
+        "alt": "Ten encrypted files. Ten passphrase copies. Any matching pair can recover the entire wallet.",
+        "caption": "Ten encrypted files. Ten passphrase copies. Any matching pair can recover the entire wallet."
+      },
+      {
+        "type": "paragraph",
+        "html": "I create a wallet using Bitcoin Core on an ordinary offline computer running minimal Debian Stable."
+      },
+      {
+        "type": "paragraph",
+        "html": "I back up the wallet and encrypt the complete backup with GPG, using a randomly generated passphrase."
+      },
+      {
+        "type": "paragraph",
+        "html": "Now I have two components."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>The first is an encrypted file.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "Someone who finds the encrypted file has no idea what's inside. It could be anything. There's simply no way to tell from the encrypted contents."
+      },
+      {
+        "type": "paragraph",
+        "html": "I can store copies on USB drives, optical media, in the cloud, in bank deposit boxes, or give them to people for safekeeping. Nobody holding a copy needs to know what it contains."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>The second component is the passphrase.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "I use KeePassXC to generate five random English words and write them on paper."
+      },
+      {
+        "type": "paragraph",
+        "html": "Someone finds those five words. What are they? Who knows? They're just five random words on a piece of paper. Nothing recognizable, certainly nothing that suggests Bitcoin."
+      },
+      {
+        "type": "paragraph",
+        "html": "I make ten copies, put each one in an envelope, and store them in different locations or give them to people for safekeeping."
+      },
+      {
+        "type": "paragraph",
+        "html": "Now I have ten encrypted wallet files and ten passphrase copies, all stored separately."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>Twenty backup artifacts.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>To recover my wallet, I need any one encrypted file and any one matching passphrase.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "I can lose nine copies from either group and still recover everything."
+      },
+      {
+        "type": "paragraph",
+        "html": "And none of those twenty copies needs a Bitcoin label."
+      },
+      {
+        "type": "paragraph",
+        "html": "The resulting recovery process is remarkably simple."
+      },
+      {
+        "type": "paragraph",
+        "html": "Find one encrypted file. Obtain its passphrase. Decrypt it. Restore the wallet in Bitcoin Core."
+      },
+      {
+        "type": "paragraph",
+        "html": "I can explain that to anyone who has used a computer."
+      },
+      {
+        "type": "heading",
+        "html": "Three friends holding backups shouldn't become a spending committee",
+        "id": "three-friends-holding-backups-shouldn-t-become-a-spending-committee"
+      },
+      {
+        "type": "image",
+        "src": "/articles/three-hardware-wallets-twenty-backups/03.jpg",
+        "smallSrc": "/articles/three-hardware-wallets-twenty-backups/03.jpg",
+        "width": 1672,
+        "height": 941,
+        "smallWidth": 1672,
+        "alt": "Three friends holding the same password have one credential. Two friends holding multisig signers can have your Bitcoin.",
+        "caption": "Three friends holding the same password have one credential. Two friends holding multisig signers can have your Bitcoin."
+      },
+      {
+        "type": "paragraph",
+        "html": "Suppose I have three friends I trust."
+      },
+      {
+        "type": "paragraph",
+        "html": "I'd like each of them to safeguard one copy of my recovery material."
+      },
+      {
+        "type": "paragraph",
+        "html": "With my approach, I can give each friend an identical copy of the same five-word passphrase."
+      },
+      {
+        "type": "paragraph",
+        "html": "None of them needs to know what the words are for."
+      },
+      {
+        "type": "paragraph",
+        "html": "Now suppose all three friends meet, open their envelopes and compare the contents."
+      },
+      {
+        "type": "paragraph",
+        "html": "What have they accomplished?"
+      },
+      {
+        "type": "paragraph",
+        "html": "They've discovered that they're holding three copies of the same five words."
+      },
+      {
+        "type": "paragraph",
+        "html": "Putting those copies together gives them nothing they didn't already have individually."
+      },
+      {
+        "type": "paragraph",
+        "html": "They still don't possess the encrypted wallet file."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>Three identical passwords don't magically become three different keys.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "Now imagine I've given these friends three fully usable signers from the same 2-of-3 multisig wallet."
+      },
+      {
+        "type": "paragraph",
+        "html": "The trust assumptions are completely different."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>Any two friends who cooperate can authorize a transaction without me.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "If they have the wallet descriptor, they can also inspect the balance and the spending policy."
+      },
+      {
+        "type": "paragraph",
+        "html": "Suddenly, storing my recovery material has turned into a question about relationships between several people."
+      },
+      {
+        "type": "paragraph",
+        "html": "Do they know each other? Do they know that they're holding separate signers for the same wallet? Can they communicate? What happens if their incentives change?"
+      },
+      {
+        "type": "paragraph",
+        "html": "I've introduced collusion risk into an arrangement whose original purpose was simply protecting backups from loss."
+      },
+      {
+        "type": "paragraph",
+        "html": "With layered encryption, I can give ten people ten copies of the same credential without turning them into a signing committee."
+      },
+      {
+        "type": "paragraph",
+        "html": "They cannot gain additional spending authority merely by combining identical copies."
+      },
+      {
+        "type": "paragraph",
+        "html": "My friends can help me preserve access to the wallet without becoming participants in its spending policy."
+      },
+      {
+        "type": "paragraph",
+        "html": "I'd rather trust someone to safeguard an envelope than make that person one of the people authorized to spend my Bitcoin."
+      },
+      {
+        "type": "heading",
+        "html": "Want another component several hours away? Add another encryption layer.",
+        "id": "want-another-component-several-hours-away-add-another-encryption-layer"
+      },
+      {
+        "type": "image",
+        "src": "/articles/three-hardware-wallets-twenty-backups/04.jpg",
+        "smallSrc": "/articles/three-hardware-wallets-twenty-backups/04.jpg",
+        "width": 1672,
+        "height": 941,
+        "smallWidth": 1672,
+        "alt": "Add another encryption layer, and put an essential recovery credential a few hours out of reach.",
+        "caption": "Add another encryption layer, and put an essential recovery credential a few hours out of reach."
+      },
+      {
+        "type": "paragraph",
+        "html": "Now suppose physical coercion is part of my threat model."
+      },
+      {
+        "type": "paragraph",
+        "html": "Someone might confront me and demand that I unlock my Bitcoin."
+      },
+      {
+        "type": "paragraph",
+        "html": "I'd like to arrange things so that I genuinely cannot assemble the wallet immediately."
+      },
+      {
+        "type": "paragraph",
+        "html": "Perhaps one essential recovery component should be several hours away."
+      },
+      {
+        "type": "paragraph",
+        "html": "I don't need another hardware wallet for that."
+      },
+      {
+        "type": "paragraph",
+        "html": "I take my existing GPG-encrypted backup and encrypt it again with GPG, using a second independent passphrase."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>Now recovery requires three components: the twice-encrypted file and both passphrases.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "I can keep the encrypted file and first passphrase nearby while storing every copy of the second passphrase several hours away."
+      },
+      {
+        "type": "paragraph",
+        "html": "I deliberately don't memorize that second passphrase or keep it on my phone. My working signer is also secured so it doesn't provide an immediate alternative way to spend."
+      },
+      {
+        "type": "paragraph",
+        "html": "I now have a genuine logistical barrier between myself and full wallet access."
+      },
+      {
+        "type": "paragraph",
+        "html": "Or I can reverse the arrangement."
+      },
+      {
+        "type": "paragraph",
+        "html": "I can keep the passphrases nearby and store the encrypted file remotely."
+      },
+      {
+        "type": "paragraph",
+        "html": "I can distribute all three components across different cities or countries."
+      },
+      {
+        "type": "paragraph",
+        "html": "I decide how many components are required and how far apart they must be."
+      },
+      {
+        "type": "paragraph",
+        "html": "Now suppose I make ten copies of each."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>Thirty backup artifacts, with one copy from each group required for recovery.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "Bitcoin Core itself also supports wallet encryption, which can protect the private keys inside the wallet with another independent passphrase."
+      },
+      {
+        "type": "paragraph",
+        "html": "And I can add more external encryption layers if my circumstances justify them."
+      },
+      {
+        "type": "paragraph",
+        "html": "Think of a vault with several doors."
+      },
+      {
+        "type": "paragraph",
+        "html": "Every door has its own key. I can make redundant copies of those keys and place them wherever I choose."
+      },
+      {
+        "type": "paragraph",
+        "html": "The model scales surprisingly far."
+      },
+      {
+        "type": "paragraph",
+        "html": "At its simplest, it's one encrypted file and one passphrase, perhaps with a few copies stored nearby."
+      },
+      {
+        "type": "paragraph",
+        "html": "A family might prefer three independent components distributed among several locations."
+      },
+      {
+        "type": "paragraph",
+        "html": "At the opposite extreme, imagine fifty consecutive encryption layers, each with a different credential."
+      },
+      {
+        "type": "paragraph",
+        "html": "You'd have fifty passphrases and one final encrypted file."
+      },
+      {
+        "type": "paragraph",
+        "html": "Make ten copies of each component and you have 510 backup artifacts."
+      },
+      {
+        "type": "paragraph",
+        "html": "You could distribute them across six inhabited continents, with recovery requiring one copy from every group and fifty successive decryptions."
+      },
+      {
+        "type": "paragraph",
+        "html": "I'd hate to organize that recovery drill, but the underlying architecture hasn't changed."
+      },
+      {
+        "type": "paragraph",
+        "html": "The number of required components, the redundancy of those components, and the geographical separation between them are all under my control."
+      },
+      {
+        "type": "paragraph",
+        "html": "I don't need to change the Bitcoin spending policy every time I decide to add another door to the vault."
+      },
+      {
+        "type": "heading",
+        "html": "The economics of brute force: a five-word passphrase can mean hundreds of billions of dollars",
+        "id": "the-economics-of-brute-force-a-five-word-passphrase-can-mean-hundreds-of-billions-of-dollars"
+      },
+      {
+        "type": "image",
+        "src": "/articles/three-hardware-wallets-twenty-backups/05.jpg",
+        "smallSrc": "/articles/three-hardware-wallets-twenty-backups/05.jpg",
+        "width": 1672,
+        "height": 941,
+        "smallWidth": 1672,
+        "alt": "One extra random word multiplies the attacker's search space by 7,776. Generating it takes seconds.",
+        "caption": "One extra random word multiplies the attacker's search space by 7,776. Generating it takes seconds."
+      },
+      {
+        "type": "paragraph",
+        "html": "Security has an economic price."
+      },
+      {
+        "type": "paragraph",
+        "html": "KeePassXC can generate random passphrases using the EFF wordlist, containing 7,776 possible words."
+      },
+      {
+        "type": "paragraph",
+        "html": "Four randomly selected words give approximately 3.66 quadrillion combinations."
+      },
+      {
+        "type": "paragraph",
+        "html": "Five give roughly 28.4 quintillion."
+      },
+      {
+        "type": "paragraph",
+        "html": "Six give approximately 221 sextillion."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>Every additional random word multiplies the number of possible combinations by 7,776.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "Let's translate that into dollars."
+      },
+      {
+        "type": "paragraph",
+        "html": "Published Hashcat benchmarks show an NVIDIA RTX 4090 processing roughly 30,000 to 33,000 guesses per second against Bitcoin Core's native wallet encryption."
+      },
+      {
+        "type": "paragraph",
+        "html": "For a comparison, we can also model a GPG AES-256 file using SHA-512 and a high S2K count, around 65 million bytes, at an illustrative 15,000 guesses per second per GPU."
+      },
+      {
+        "type": "paragraph",
+        "html": "Suppose an attacker rents 10,000 RTX 4090 GPUs at $0.89 per GPU-hour."
+      },
+      {
+        "type": "paragraph",
+        "html": "Here's the time and rental cost required to exhaust the complete search space under those assumptions."
+      },
+      {
+        "type": "table",
+        "html": "<table><thead><tr><th>Random words</th><th>Bitcoin Core</th><th>GPG</th></tr></thead><tbody><tr><td>4</td><td>141 days / $30 million</td><td>282 days / $60 million</td></tr><tr><td>5</td><td>3,003 years / $234 billion</td><td>6,006 years / $469 billion</td></tr><tr><td>6</td><td>23.4 million years / $1.82 quadrillion</td><td>46.7 million years / $3.64 quadrillion</td></tr></tbody></table>"
+      },
+      {
+        "type": "paragraph",
+        "html": "These are full-search calculations. A successful search takes roughly half that effort on average. Actual costs depend on the encryption settings and available hardware; the GPG column is a modeled high-iteration configuration."
+      },
+      {
+        "type": "paragraph",
+        "html": "But consider the relationship between the cost of attack and defense."
+      },
+      {
+        "type": "paragraph",
+        "html": "I can generate a five-word passphrase in seconds."
+      },
+      {
+        "type": "paragraph",
+        "html": "In this model, the computing resources needed to exhaust its search space cost hundreds of billions of dollars."
+      },
+      {
+        "type": "paragraph",
+        "html": "And an attacker finding my encrypted backup doesn't even know that the passphrase has five words."
+      },
+      {
+        "type": "paragraph",
+        "html": "Perhaps it has six. Perhaps eight."
+      },
+      {
+        "type": "paragraph",
+        "html": "They don't know whether the file contains Bitcoin. They don't know its value. They don't know whether decrypting it would simply reveal another encrypted file protected by another independent passphrase."
+      },
+      {
+        "type": "paragraph",
+        "html": "Even a technically capable attacker has to decide whether the potential reward justifies the cost."
+      },
+      {
+        "type": "paragraph",
+        "html": "My cost of adding another random word is negligible. The search space becomes 7,776 times larger."
+      },
+      {
+        "type": "paragraph",
+        "html": "Another encryption layer costs me practically nothing to create. An attacker who breaks the first layer may still have more work to do."
+      },
+      {
+        "type": "paragraph",
+        "html": "And making ten redundant copies of a credential costs almost nothing compared with the amount of redundancy I gain."
+      },
+      {
+        "type": "paragraph",
+        "html": "This is how I want to think about Bitcoin security."
+      },
+      {
+        "type": "paragraph",
+        "html": "I know exactly what I'm protecting and how the recovery components fit together."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>The attacker starts with very little information.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "The resulting economic asymmetry is much more interesting to me than the number of expensive signing devices I can collect."
+      },
+      {
+        "type": "heading",
+        "html": "The hardware-wallet industry has become a honeypot industry",
+        "id": "the-hardware-wallet-industry-has-become-a-honeypot-industry"
+      },
+      {
+        "type": "image",
+        "src": "/articles/three-hardware-wallets-twenty-backups/06.jpg",
+        "smallSrc": "/articles/three-hardware-wallets-twenty-backups/06.jpg",
+        "width": 1672,
+        "height": 941,
+        "smallWidth": 1672,
+        "alt": "The secure element is only one part of the attack surface. The supply chain and customer database are targets too.",
+        "caption": "The secure element is only one part of the attack surface. The supply chain and customer database are targets too."
+      },
+      {
+        "type": "paragraph",
+        "html": "The hardware-wallet industry has spent years explaining why specialized devices are the safest place for Bitcoin private keys."
+      },
+      {
+        "type": "paragraph",
+        "html": "Since July 2026, we've had an impressive demonstration of how many different things can go wrong."
+      },
+      {
+        "type": "paragraph",
+        "html": "Coldcard suffered a seed-generation flaw connected to approximately $116 million in stolen Bitcoin. A firmware defect weakened the randomness of certain wallets, allowing attackers to reconstruct private keys without physically accessing the devices."
+      },
+      {
+        "type": "paragraph",
+        "html": "BitBox patched severe firmware vulnerabilities."
+      },
+      {
+        "type": "paragraph",
+        "html": "Trezor had customer information exposed through its shipping provider, affecting 80,689 people. Another breach involving its email provider exposed 347,149 newsletter contacts and enabled targeted phishing."
+      },
+      {
+        "type": "paragraph",
+        "html": "SafePal disclosed a vulnerability affecting 39,798 customer records."
+      },
+      {
+        "type": "paragraph",
+        "html": "Then came the physical implants."
+      },
+      {
+        "type": "paragraph",
+        "html": "Ledger confirmed that genuine devices sold through the CryptoBilis reseller had been modified with unauthorized hardware designed to capture recovery words during setup and transmit them over a cellular connection."
+      },
+      {
+        "type": "paragraph",
+        "html": "The secure element didn't have to fail. Attackers modified the surrounding hardware before it reached the customer."
+      },
+      {
+        "type": "paragraph",
+        "html": "On October 30, Trezor warned customers about a credible report of a similar implant in a Safe 5 sold through the same reseller. The reported device had not yet been physically examined by Trezor."
+      },
+      {
+        "type": "paragraph",
+        "html": "Keystone suffered a breach that exposed customer information and its WebAuth authentication key. The compromise created the possibility of counterfeit devices passing the manufacturer's own authenticity checks. Keystone announced plans to destroy 18,835 devices from the affected inventory."
+      },
+      {
+        "type": "paragraph",
+        "html": "Foundation, the manufacturer of the Passport wallet, experienced a compromise of backend infrastructure that enabled phishing messages to appear as though they came from official company domains."
+      },
+      {
+        "type": "paragraph",
+        "html": "Different incidents, different attack methods."
+      },
+      {
+        "type": "paragraph",
+        "html": "Some affected private-key security. Others exposed customers, authentication systems or distribution channels."
+      },
+      {
+        "type": "paragraph",
+        "html": "But consider the information being accumulated around these products."
+      },
+      {
+        "type": "paragraph",
+        "html": "Names, home addresses, email addresses, phone numbers and purchase histories can identify people who have bought specialized equipment for securing valuable assets."
+      },
+      {
+        "type": "paragraph",
+        "html": "A person who has purchased a Bitcoin hardware wallet has already told someone what type of asset they probably care about protecting."
+      },
+      {
+        "type": "paragraph",
+        "html": "And the resulting customer databases can become targets in their own right."
+      },
+      {
+        "type": "paragraph",
+        "html": "Apparently, after spending hundreds of dollars on devices designed to protect private keys, the customer now needs to worry about the security of the manufacturer's shipping provider."
+      },
+      {
+        "type": "paragraph",
+        "html": "I would prefer not to create that dependency."
+      },
+      {
+        "type": "heading",
+        "html": "The biggest honeypots are custodians and exchanges",
+        "id": "the-biggest-honeypots-are-custodians-and-exchanges"
+      },
+      {
+        "type": "image",
+        "src": "/articles/three-hardware-wallets-twenty-backups/07.jpg",
+        "smallSrc": "/articles/three-hardware-wallets-twenty-backups/07.jpg",
+        "width": 1672,
+        "height": 941,
+        "smallWidth": 1672,
+        "alt": "Billions concentrated in one place give attackers billions of reasons to find a way in.",
+        "caption": "Billions concentrated in one place give attackers billions of reasons to find a way in."
+      },
+      {
+        "type": "paragraph",
+        "html": "The same economic logic applies to centralized custodians."
+      },
+      {
+        "type": "paragraph",
+        "html": "Whenever someone points out a potential difficulty with self-custody, the industry has another familiar suggestion: let a professional hold your Bitcoin."
+      },
+      {
+        "type": "paragraph",
+        "html": "But professional custodians can be compromised too."
+      },
+      {
+        "type": "paragraph",
+        "html": "Mt. Gox collapsed in 2014 after the loss of hundreds of thousands of Bitcoin."
+      },
+      {
+        "type": "paragraph",
+        "html": "Coincheck lost approximately $530 million in 2018."
+      },
+      {
+        "type": "paragraph",
+        "html": "In February 2025, attackers stole around $1.5 billion from Bybit. The FBI attributed the theft to North Korea."
+      },
+      {
+        "type": "paragraph",
+        "html": "The compromise involved the signing workflow around a large pool of assets, illustrating how attackers can exploit the software and people surrounding an authorization system."
+      },
+      {
+        "type": "paragraph",
+        "html": "Then came the October 2026 Binance incident."
+      },
+      {
+        "type": "paragraph",
+        "html": "Binance reported approximately $6.3 billion in unauthorized withdrawals. Its preliminary investigation pointed to a compromised DevOps engineer's laptop that may have allowed attackers to access internal infrastructure and submit unauthorized transactions."
+      },
+      {
+        "type": "paragraph",
+        "html": "The exchange reported no evidence that wallet private keys had leaked. About $3 billion of the affected assets had been frozen by October 30."
+      },
+      {
+        "type": "paragraph",
+        "html": "An attacker may not need to extract private keys if they can compromise the systems that instruct legitimate signing infrastructure to authorize transactions."
+      },
+      {
+        "type": "paragraph",
+        "html": "And centralized custody isn't limited to exchanges."
+      },
+      {
+        "type": "paragraph",
+        "html": "On September 6, attackers exploited a validation bug in Elements, the software underlying Blockstream's Liquid Network."
+      },
+      {
+        "type": "paragraph",
+        "html": "They created approximately 4,000 unbacked L-BTC and used the network's peg-out mechanism to withdraw roughly 4,000 actual BTC from the federation reserves."
+      },
+      {
+        "type": "paragraph",
+        "html": "Around 3,400 BTC was subsequently returned."
+      },
+      {
+        "type": "paragraph",
+        "html": "Blockstream also manufactures the Jade hardware wallet. The Liquid exploit wasn't a Jade vulnerability, but it demonstrated how a concentrated pool of Bitcoin can become vulnerable through other software and operational dependencies in the surrounding ecosystem."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>None of these attacks required defeating Bitcoin's underlying cryptography.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "The attackers identified economically attractive targets and found exploitable paths through their infrastructure."
+      },
+      {
+        "type": "paragraph",
+        "html": "Large custodians can invest enormous amounts in security. They can employ specialists, develop sophisticated procedures and maintain expensive systems."
+      },
+      {
+        "type": "paragraph",
+        "html": "They also hold enormous amounts of value."
+      },
+      {
+        "type": "paragraph",
+        "html": "An attacker may find it economically reasonable to spend millions of dollars developing an attack against an institution controlling billions."
+      },
+      {
+        "type": "paragraph",
+        "html": "And cryptocurrency theft has already created well-funded attackers with the resources to invest in future operations."
+      },
+      {
+        "type": "paragraph",
+        "html": "This is a contest between the cost of defense and the expected reward from attack."
+      },
+      {
+        "type": "paragraph",
+        "html": "A large centralized honeypot creates a large potential reward."
+      },
+      {
+        "type": "paragraph",
+        "html": "An individual or family operating a private Bitcoin Core wallet presents a different economic calculation."
+      },
+      {
+        "type": "paragraph",
+        "html": "They can adopt the same underlying security principles used by professional operators, without concentrating billions of dollars on one operational platform."
+      },
+      {
+        "type": "paragraph",
+        "html": "Generic computers. Linux. Bitcoin Core. Offline signing. Encrypted backups. Carefully separated credentials."
+      },
+      {
+        "type": "paragraph",
+        "html": "The same engineering disciplines, adapted to an individual's circumstances."
+      },
+      {
+        "type": "paragraph",
+        "html": "There's no need to make the system more complicated than the risk requires."
+      },
+      {
+        "type": "heading",
+        "html": "Your privacy can leak before anyone touches your keys",
+        "id": "your-privacy-can-leak-before-anyone-touches-your-keys"
+      },
+      {
+        "type": "image",
+        "src": "/articles/three-hardware-wallets-twenty-backups/08.jpg",
+        "smallSrc": "/articles/three-hardware-wallets-twenty-backups/08.jpg",
+        "width": 1672,
+        "height": 941,
+        "smallWidth": 1672,
+        "alt": "Your private keys can remain secure while third-party wallet servers collect clues about your Bitcoin.",
+        "caption": "Your private keys can remain secure while third-party wallet servers collect clues about your Bitcoin."
+      },
+      {
+        "type": "paragraph",
+        "html": "Hardware-wallet software introduces another set of privacy questions."
+      },
+      {
+        "type": "paragraph",
+        "html": "A surprising number of people use wallets through coordinator applications connected to public servers or third-party infrastructure."
+      },
+      {
+        "type": "paragraph",
+        "html": "Those services may learn which wallet addresses or transactions the user is interested in. Depending on the setup, they can also observe IP addresses and related network information."
+      },
+      {
+        "type": "paragraph",
+        "html": "If those records are compromised, attackers may be able to correlate Bitcoin activity with information about the person using the software."
+      },
+      {
+        "type": "paragraph",
+        "html": "Now combine that with a leaked hardware-wallet customer database containing names, emails and shipping addresses."
+      },
+      {
+        "type": "paragraph",
+        "html": "Or with information obtained from an internet provider or another compromised service."
+      },
+      {
+        "type": "paragraph",
+        "html": "The attacker can begin assembling a picture of who owns what, where they live and which Bitcoin transactions may belong to them."
+      },
+      {
+        "type": "paragraph",
+        "html": "These are exactly the kinds of information leaks that make targeted attacks economically attractive."
+      },
+      {
+        "type": "paragraph",
+        "html": "And now consider what AI does to the cost of exploiting those records."
+      },
+      {
+        "type": "paragraph",
+        "html": "Cybersecurity researchers are already documenting increasingly automated attacks that use AI agents for reconnaissance, phishing and credential theft."
+      },
+      {
+        "type": "paragraph",
+        "html": "An attacker can use stolen customer information to create individualized messages, impersonate support personnel, and run many social-engineering conversations at once."
+      },
+      {
+        "type": "paragraph",
+        "html": "The old phishing email written in broken English is becoming a historical curiosity."
+      },
+      {
+        "type": "paragraph",
+        "html": "When attackers can automate research, personalization and impersonation, a leaked list of cryptocurrency customers becomes considerably more useful."
+      },
+      {
+        "type": "paragraph",
+        "html": "I'd rather avoid being on that list."
+      },
+      {
+        "type": "paragraph",
+        "html": "Running my own Bitcoin Core node also removes the need to send my wallet's address queries to a public third-party wallet server."
+      },
+      {
+        "type": "paragraph",
+        "html": "My node validates transactions independently and keeps the wallet information under my control."
+      },
+      {
+        "type": "paragraph",
+        "html": "The objective is straightforward: minimize how much information about my Bitcoin reaches people who don't need it."
+      },
+      {
+        "type": "heading",
+        "html": "Bitcoin Core has a different economic security advantage",
+        "id": "bitcoin-core-has-a-different-economic-security-advantage"
+      },
+      {
+        "type": "image",
+        "src": "/articles/three-hardware-wallets-twenty-backups/09.jpg",
+        "smallSrc": "/articles/three-hardware-wallets-twenty-backups/09.jpg",
+        "width": 1672,
+        "height": 941,
+        "smallWidth": 1672,
+        "alt": "Bitcoin Core has accumulated public scrutiny since 2009, backed by an economy that depends on its reliability.",
+        "caption": "Bitcoin Core has accumulated public scrutiny since 2009, backed by an economy that depends on its reliability."
+      },
+      {
+        "type": "paragraph",
+        "html": "Bitcoin Core occupies a very different place in the Bitcoin economy from an individual hardware-wallet vendor."
+      },
+      {
+        "type": "paragraph",
+        "html": "It's one of the principal implementations of Bitcoin's validation software."
+      },
+      {
+        "type": "paragraph",
+        "html": "Exchanges, miners, infrastructure operators, businesses and individual Bitcoiners all depend directly or indirectly on software that correctly enforces the network's rules."
+      },
+      {
+        "type": "paragraph",
+        "html": "Bitcoin Core's history goes back to 2009. Its code has accumulated years of public review, testing, bug fixes and real-world use."
+      },
+      {
+        "type": "paragraph",
+        "html": "Anyone can inspect it, build it, test it and propose improvements."
+      },
+      {
+        "type": "paragraph",
+        "html": "And the economic incentive to identify vulnerabilities is enormous."
+      },
+      {
+        "type": "paragraph",
+        "html": "Consider what happened in October 2026."
+      },
+      {
+        "type": "paragraph",
+        "html": "Project Loupe, an AI-assisted security research initiative at Block-backed Spiral, discovered a vulnerability in Bitcoin Core's network handling."
+      },
+      {
+        "type": "paragraph",
+        "html": "The bug could allow a malicious connected peer to crash certain Windows, macOS and BSD nodes by exhausting their memory."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>Linux nodes were unaffected.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "It was a node-availability problem rather than a way to steal wallet funds."
+      },
+      {
+        "type": "paragraph",
+        "html": "Gregory Sanders verified the finding. Antoine Poinsot prepared the fix, which was merged on October 26. Bitcoin Core 31.2 and 32.1 shipped with the patch the following day."
+      },
+      {
+        "type": "paragraph",
+        "html": "Four days after the automated scan discovered the problem, patched releases were already available."
+      },
+      {
+        "type": "paragraph",
+        "html": "That tells me something about the economic resources supporting Bitcoin Core."
+      },
+      {
+        "type": "paragraph",
+        "html": "An organization funds automated security research. Independent developers validate findings. Maintainers review and repair the code. The improvements become available to everyone."
+      },
+      {
+        "type": "paragraph",
+        "html": "The benefit extends well beyond the customers of a particular manufacturer."
+      },
+      {
+        "type": "paragraph",
+        "html": "Bitcoin Core has an unusually mature codebase, an enormous accumulated history of public scrutiny, and many participants with direct financial reasons to want it working correctly."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>And anyone can use the finished software for free.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "On an ordinary computer."
+      },
+      {
+        "type": "heading",
+        "html": "Your grandmother doesn't need to become a full-time phishing analyst",
+        "id": "your-grandmother-doesn-t-need-to-become-a-full-time-phishing-analyst"
+      },
+      {
+        "type": "image",
+        "src": "/articles/three-hardware-wallets-twenty-backups/10.jpg",
+        "smallSrc": "/articles/three-hardware-wallets-twenty-backups/10.jpg",
+        "width": 1672,
+        "height": 941,
+        "smallWidth": 1672,
+        "alt": "If Grandma can save a file, copy it, and use a password, she can learn the foundations of Bitcoin self-custody.",
+        "caption": "If Grandma can save a file, copy it, and use a password, she can learn the foundations of Bitcoin self-custody."
+      },
+      {
+        "type": "paragraph",
+        "html": "Bitcoin Core 32.1 arrived on October 27 with performance improvements that can make blockchain synchronization faster."
+      },
+      {
+        "type": "paragraph",
+        "html": "It also added something I've wanted in the graphical interface for years: Export Watch-Only Wallet."
+      },
+      {
+        "type": "image",
+        "src": "/articles/three-hardware-wallets-twenty-backups/11.jpg",
+        "smallSrc": "/articles/three-hardware-wallets-twenty-backups/11.jpg",
+        "width": 2048,
+        "height": 1152,
+        "smallWidth": 2048,
+        "alt": "Article illustration",
+        "caption": ""
+      },
+      {
+        "type": "paragraph",
+        "html": "That makes my preferred two-computer setup much easier."
+      },
+      {
+        "type": "paragraph",
+        "html": "One ordinary computer runs Bitcoin Core online. It independently verifies the blockchain, tracks the wallet and prepares transactions."
+      },
+      {
+        "type": "paragraph",
+        "html": "Another computer stays offline and holds the private keys."
+      },
+      {
+        "type": "paragraph",
+        "html": "You create the wallet on the offline computer, then export a watch-only copy through Bitcoin Core's graphical interface and transfer it to your online node."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>The online wallet can see your addresses and balance but cannot sign transactions.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "When you want to send Bitcoin, the online node prepares a PSBT, a <em>Partially Signed Bitcoin Transaction</em>."
+      },
+      {
+        "type": "paragraph",
+        "html": "You transfer that transaction to the offline computer using removable media, inspect it, sign it, and return the signed transaction for broadcast."
+      },
+      {
+        "type": "paragraph",
+        "html": "The normal wallet export, restoration and PSBT workflow can now be handled through Bitcoin Core's graphical interface without manually typing descriptor-import commands."
+      },
+      {
+        "type": "paragraph",
+        "html": "And the backup?"
+      },
+      {
+        "type": "paragraph",
+        "html": "It's the same encrypted wallet file we've been discussing."
+      },
+      {
+        "type": "paragraph",
+        "html": "Think about your grandmother."
+      },
+      {
+        "type": "paragraph",
+        "html": "If she's ever created a Word document, saved a file, copied photographs onto a USB drive or used a password, she already understands the basic operations behind Bitcoin Core wallet creation and backup."
+      },
+      {
+        "type": "list-item",
+        "html": "Create Wallet is conceptually like creating a document."
+      },
+      {
+        "type": "list-item",
+        "html": "Backup Wallet is like saving a copy of an important file."
+      },
+      {
+        "type": "list-item",
+        "html": "Encrypting the backup means protecting a file with a password."
+      },
+      {
+        "type": "list-item",
+        "html": "Making redundant backups means copying that encrypted file."
+      },
+      {
+        "type": "list-item",
+        "html": "Layered encryption means protecting it again with another independent password."
+      },
+      {
+        "type": "paragraph",
+        "html": "Computers have supported these ideas for decades."
+      },
+      {
+        "type": "paragraph",
+        "html": "She doesn't need to begin by learning BIP39 derivation paths, extended public keys, wallet fingerprints, multisig descriptors, firmware compatibility and transaction coordinators."
+      },
+      {
+        "type": "paragraph",
+        "html": "Nor do I particularly want her spending the next decade years monitoring hardware-wallet security announcements and wondering whether the latest urgent email is genuine."
+      },
+      {
+        "type": "paragraph",
+        "html": "Imagine she's bought a hardware wallet, and her name, email, phone number and home address later appear in a leaked customer database."
+      },
+      {
+        "type": "paragraph",
+        "html": "Now consider a future attacker equipped with increasingly capable AI agents that can research victims, impersonate support employees, write convincing personal messages and automate phishing conversations."
+      },
+      {
+        "type": "paragraph",
+        "html": "Why should she have to deal with that additional exposure simply because she wanted to save in Bitcoin?"
+      },
+      {
+        "type": "paragraph",
+        "html": "And if her shipping address becomes associated with a valuable Bitcoin holding, the concern extends beyond phishing."
+      },
+      {
+        "type": "paragraph",
+        "html": "The $5 wrench attack becomes more plausible when an attacker knows where a potential target lives."
+      },
+      {
+        "type": "paragraph",
+        "html": "Trezor itself warned that its 2026 shipping-data breach could increase physical security risks for affected customers."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>This is why I care so much about privacy as part of the original custody design.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "My grandmother shouldn't have to become a security analyst who constantly evaluates fake firmware alerts, AI-generated support calls, suspicious recovery instructions and possible supply-chain compromises."
+      },
+      {
+        "type": "paragraph",
+        "html": "She should be able to understand her wallet, operate it on an ordinary computer, and keep private backup components in places of her choosing."
+      },
+      {
+        "type": "paragraph",
+        "html": "Using generic hardware doesn't place her on a hardware-wallet manufacturer's customer list."
+      },
+      {
+        "type": "paragraph",
+        "html": "Running her own Bitcoin Core node avoids handing wallet queries to public wallet servers."
+      },
+      {
+        "type": "paragraph",
+        "html": "Keeping encrypted files and independent passphrases gives her recovery material that doesn't identify the asset being protected."
+      },
+      {
+        "type": "paragraph",
+        "html": "Those choices remove unnecessary sources of information that attackers would otherwise be happy to exploit."
+      },
+      {
+        "type": "paragraph",
+        "html": "It seems like a much better starting point than asking her to buy three Bitcoin-branded devices and spend the rest of her life watching for security advisories."
+      },
+      {
+        "type": "heading",
+        "html": "Use Bitcoin spending policies for the problems they were designed to solve",
+        "id": "use-bitcoin-spending-policies-for-the-problems-they-were-designed-to-solve"
+      },
+      {
+        "type": "image",
+        "src": "/articles/three-hardware-wallets-twenty-backups/12.jpg",
+        "smallSrc": "/articles/three-hardware-wallets-twenty-backups/12.jpg",
+        "width": 1672,
+        "height": 941,
+        "smallWidth": 1672,
+        "alt": "Multisig decides who can spend. Timelocks can restrict when. Encryption protects the recovery credentials.",
+        "caption": "Multisig decides who can spend. Timelocks can restrict when. Encryption protects the recovery credentials."
+      },
+      {
+        "type": "paragraph",
+        "html": "Bitcoin already supports more sophisticated spending rules when they're needed."
+      },
+      {
+        "type": "list-item",
+        "html": "Multisig can determine which combination of signers must authorize a transaction."
+      },
+      {
+        "type": "list-item",
+        "html": "Timelocks can determine when a particular spending path becomes available."
+      },
+      {
+        "type": "list-item",
+        "html": "Taproot and Miniscript provide ways to describe and combine more advanced conditions, with support available in Bitcoin Core."
+      },
+      {
+        "type": "paragraph",
+        "html": "These tools are useful when the circumstances actually require them."
+      },
+      {
+        "type": "paragraph",
+        "html": "A company treasury may need several directors to approve spending."
+      },
+      {
+        "type": "paragraph",
+        "html": "An inheritance arrangement may benefit from a recovery path that becomes available after a specified block height or time."
+      },
+      {
+        "type": "paragraph",
+        "html": "An institution may have multiple authorization procedures for different circumstances."
+      },
+      {
+        "type": "paragraph",
+        "html": "Those are genuine reasons to design a more sophisticated Bitcoin spending policy."
+      },
+      {
+        "type": "paragraph",
+        "html": "But most individuals don't need to begin there."
+      },
+      {
+        "type": "paragraph",
+        "html": "Their immediate problems are much more ordinary."
+      },
+      {
+        "type": "list-item",
+        "html": "How do I prevent someone from stealing my Bitcoin?"
+      },
+      {
+        "type": "list-item",
+        "html": "How do I avoid losing access to it?"
+      },
+      {
+        "type": "list-item",
+        "html": "How do I make the backups private?"
+      },
+      {
+        "type": "list-item",
+        "html": "How do I recover everything years later?"
+      },
+      {
+        "type": "paragraph",
+        "html": "Bitcoin Core, encrypted backups, independent credentials and redundancy provide a straightforward foundation."
+      },
+      {
+        "type": "paragraph",
+        "html": "We can add more elaborate spending policies when we can explain exactly what problem they're supposed to solve."
+      },
+      {
+        "type": "paragraph",
+        "html": "Understanding that distinction makes the entire custody problem easier to reason about."
+      },
+      {
+        "type": "heading",
+        "html": "Bitcoin custody in 2140",
+        "id": "bitcoin-custody-in-2140"
+      },
+      {
+        "type": "image",
+        "src": "/articles/three-hardware-wallets-twenty-backups/13.jpg",
+        "smallSrc": "/articles/three-hardware-wallets-twenty-backups/13.jpg",
+        "width": 1672,
+        "height": 941,
+        "smallWidth": 1672,
+        "alt": "Imagine millions of private, independent Bitcoin vaults instead of a handful of enormous honeypots.",
+        "caption": "Imagine millions of private, independent Bitcoin vaults instead of a handful of enormous honeypots."
+      },
+      {
+        "type": "paragraph",
+        "html": "Bitcoin has completed four of the thirty-three halvings that will eventually bring the block subsidy to zero."
+      },
+      {
+        "type": "paragraph",
+        "html": "The fourth occurred in 2024. The final subsidy reduction is expected around 2140."
+      },
+      {
+        "type": "paragraph",
+        "html": "We're still early in Bitcoin's monetization, and our custody practices are still evolving."
+      },
+      {
+        "type": "paragraph",
+        "html": "I wonder what the landscape might look like by the time the last satoshi has been mined."
+      },
+      {
+        "type": "paragraph",
+        "html": "I can imagine a world with far more sovereign individuals, families and businesses holding their own Bitcoin."
+      },
+      {
+        "type": "paragraph",
+        "html": "Professional custody will probably continue to serve people who want it. But I'd rather see a broad market of smaller, specialized custodians than a handful of enormous institutions controlling most of the supply."
+      },
+      {
+        "type": "paragraph",
+        "html": "Some services might specialize in storing encrypted backup components without ever receiving complete spending authority."
+      },
+      {
+        "type": "paragraph",
+        "html": "Others might provide recovery administration, inheritance services or geographically separated storage."
+      },
+      {
+        "type": "paragraph",
+        "html": "They could apply mature security practices without concentrating every customer's funds inside one giant operational honeypot."
+      },
+      {
+        "type": "paragraph",
+        "html": "And individuals could use the same fundamental methods at home."
+      },
+      {
+        "type": "paragraph",
+        "html": "We already know how to encrypt files, separate credentials, maintain redundant backups and perform recovery drills."
+      },
+      {
+        "type": "paragraph",
+        "html": "Decades of computer security have given us these techniques."
+      },
+      {
+        "type": "list-item",
+        "html": "Bitcoin Core provides the wallet and signing software."
+      },
+      {
+        "type": "list-item",
+        "html": "Linux provides a mature operating system."
+      },
+      {
+        "type": "list-item",
+        "html": "Generic computers provide replaceable hardware."
+      },
+      {
+        "type": "list-item",
+        "html": "GPG and other established tools provide encryption."
+      },
+      {
+        "type": "list-item",
+        "html": "KeePassXC generates independent random passphrases."
+      },
+      {
+        "type": "paragraph",
+        "html": "And regular recovery drills confirm that the system remains recoverable. I prefer a complete restoration test on another trusted machine at least once a year."
+      },
+      {
+        "type": "paragraph",
+        "html": "The same model can serve a beginner with one encrypted backup and one passphrase, or a family with several independently protected components stored across multiple locations."
+      },
+      {
+        "type": "paragraph",
+        "html": "A larger institution can scale the architecture further and introduce additional signing authorities where its governance requires them."
+      },
+      {
+        "type": "paragraph",
+        "html": "The essential building blocks remain understandable."
+      },
+      {
+        "type": "paragraph",
+        "html": "That's what I'd like people to learn first."
+      },
+      {
+        "type": "paragraph",
+        "html": "Bitcoin self-custody is entirely achievable without turning your life into a hardware-wallet compatibility project."
+      },
+      {
+        "type": "paragraph",
+        "html": "We don't have to start with the industry's favorite collection of devices, seed phrases and fashionable multisig configurations."
+      },
+      {
+        "type": "paragraph",
+        "html": "We can begin with security principles that were well understood long before Bitcoin existed."
+      },
+      {
+        "type": "paragraph",
+        "html": "A generic computer. Linux. Bitcoin Core."
+      },
+      {
+        "type": "paragraph",
+        "html": "Encryption, independent credentials, redundant backups and regular recovery tests."
+      },
+      {
+        "type": "paragraph",
+        "html": "The software has been here since the beginning of Bitcoin. The underlying cybersecurity concepts have been around much longer."
+      },
+      {
+        "type": "paragraph",
+        "html": "Perhaps the next major improvement in self-custody won't come from another signing gadget, a new proprietary recovery scheme or another influencer explaining which three devices you should buy."
+      },
+      {
+        "type": "paragraph",
+        "html": "Perhaps we'll simply return to the fundamentals."
+      },
+      {
+        "type": "paragraph",
+        "html": "<strong>Make Bitcoin expensive to attack and cheap to defend.</strong>"
+      },
+      {
+        "type": "paragraph",
+        "html": "That's a rather better objective than seeing how many hardware wallets we can fit into a backup policy."
+      }
+    ],
+    "hero": {
+      "src": "/articles/three-hardware-wallets-twenty-backups/00.jpg",
+      "smallSrc": "/articles/three-hardware-wallets-twenty-backups/00.jpg",
+      "width": 1983,
+      "height": 793,
+      "smallWidth": 1983,
+      "alt": "Article cover image",
+      "caption": ""
+    },
+    "readingMinutes": 21
+  },
+  {
     "id": "en-core-economic-security",
     "slug": "hardware-wallets-are-an-economic-security-failure",
     "path": "/en/bitcoin-core/hardware-wallets-are-an-economic-security-failure/",

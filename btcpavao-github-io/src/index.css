@@ -8265,3 +8265,14 @@ input:focus-visible + .curriculum-checkbox {
 @container (min-width: 540px) {
   .gpg-explorer__visual { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
+
+/* Preserve tables imported from published X Articles. */
+.published-article-table { margin: 2rem 0; width: 100%; overflow-x: auto; }
+.published-article-table table { width: 100%; border-collapse: collapse; font-size: .875em; line-height: 1.6; }
+.published-article-table th, .published-article-table td { padding: 1rem 1.5rem; text-align: left; vertical-align: top; border: 1px solid var(--border); }
+.published-article-table th { font-weight: 700; background: var(--secondary); }
+@media (max-width: 767px) {
+  .published-article-table th, .published-article-table td { padding: 1rem; }
+}
+
+.published-article-table th:first-child, .published-article-table td:first-child { min-width: 100px; overflow-wrap: normal; word-break: normal; }

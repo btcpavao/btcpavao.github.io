@@ -59,9 +59,11 @@ export function PublishedArticlePage({
               · {article.readingMinutes} min read
             </p>
             <h1>{article.title}</h1>
-            <p className="published-article-description">
-              {article.description}
-            </p>
+            {!article.hideDescription && (
+              <p className="published-article-description">
+                {article.description}
+              </p>
+            )}
             <p className="published-article-source">
               By btcpavao ·{" "}
               <a
@@ -75,7 +77,7 @@ export function PublishedArticlePage({
             <ZoomableImage
               className="published-article-cover"
               src={article.hero.src}
-              srcSet={`${article.hero.smallSrc} ${article.hero.smallWidth}w, ${article.hero.src} ${article.hero.width}w`}
+              srcSet={article.hero.smallSrc !== article.hero.src ? `${article.hero.smallSrc} ${article.hero.smallWidth}w, ${article.hero.src} ${article.hero.width}w` : undefined}
               sizes="(max-width: 1200px) calc(100vw - 32px), 1120px"
               alt={article.hero.alt}
               width={article.hero.width}
@@ -88,12 +90,20 @@ export function PublishedArticlePage({
             <div data-reading-content className="published-article-body essay-prose">
               {article.blocks.map((block, index) => {
                 const key = `${block.type}-${index}`
+                if (block.type === "table")
+                  return (
+                    <div
+                      key={key}
+                      className="published-article-table"
+                      dangerouslySetInnerHTML={{ __html: block.html ?? "" }}
+                    />
+                  )
                 if (block.type === "image")
                   return (
                     <figure key={key}>
                       <ZoomableImage
                         src={block.src}
-                        srcSet={`${block.smallSrc} ${block.smallWidth}w, ${block.src} ${block.width}w`}
+                        srcSet={block.smallSrc !== block.src ? `${block.smallSrc} ${block.smallWidth}w, ${block.src} ${block.width}w` : undefined}
                         sizes="(max-width: 840px) calc(100vw - 32px), 800px"
                         alt={block.alt}
                         width={block.width}

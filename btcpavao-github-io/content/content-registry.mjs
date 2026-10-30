@@ -4,6 +4,28 @@ const coreEn = "/en/bitcoin-core/"
 const coreHr = "/hr/bitcoin-core/"
 
 export const contentRegistry = [
+{
+  "id": "en-core-hardware-wallets-backups",
+  "path": "/en/bitcoin-core/three-hardware-wallets-twenty-backups/",
+  "locale": "en",
+  "title": "Three Hardware Wallets That Scream Bitcoin. Twenty Backups That Don't.",
+  "description": "2-of-3 multisig vs. 2-of-20 singlesig. The economics of Bitcoin self-custody, privacy, and why we've made a simple problem so complicated.",
+  "contentType": "article",
+  "section": "core-research",
+  "publishedAt": "2026-10-30",
+  "updatedAt": "2026-10-30",
+  "featured": true,
+  "order": -7,
+  "status": "published",
+  "socialCardKey": "hardwareWalletsBackups",
+  "heroImage": "/articles/three-hardware-wallets-twenty-backups/00.jpg",
+  "translationPath": null,
+  "indexable": true,
+  "rss": true,
+  "imageAlt": "Article cover image",
+  "imageWidth": 1983,
+  "imageHeight": 793
+},
   {
     id: "en-core-economic-security",
     path: "/en/bitcoin-core/hardware-wallets-are-an-economic-security-failure/",

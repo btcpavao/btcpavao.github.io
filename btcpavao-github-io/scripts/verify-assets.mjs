@@ -1230,7 +1230,8 @@ const longRoadArticleBodyProbe =
 const bip39ArticleBodyProbe = "Today a client sent me his Bitcoin wallet."
 
 assert(
-  entryScriptBytes < 360_000,
+  // Allow the published article registry metadata; article bodies stay lazy.
+  entryScriptBytes < 361_000,
   `Entry bundle is too large: ${entryScriptBytes} bytes`
 )
 assert(

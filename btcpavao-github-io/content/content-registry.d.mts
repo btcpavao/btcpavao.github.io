@@ -16,6 +16,7 @@ export interface ContentRegistryEntry {
   status: ContentStatus
   socialCardKey:
     | "homepage"
+    | "hardwareWalletsBackups"
     | "xArticle0"
     | "xArticle1"
     | "xArticle2"
