@@ -1,0 +1,44 @@
+btcpavao OpenPGP release signing key
+
+Primary fingerprint:
+787A 2AAF B0D1 19CA 0522 B2A5 B9C9 9AF8 5788 96D0
+
+Fingerprint without spaces:
+787A2AAFB0D119CA0522B2A5B9C99AF8578896D0
+
+User ID: btcpavao
+Algorithm: Ed25519
+Key created: 2026-11-04
+Key expires: 2028-11-03
+
+Public key:
+https://btcpavao.com/btcpavao-pgp.asc
+
+Bitcoin Core Vault v0.3.0:
+https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.3.0
+
+Signed checksum list:
+https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.3.0/SHA256SUMS
+
+Detached signature:
+https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.3.0/SHA256SUMS.asc
+
+Verification
+
+Download the public key, SHA256SUMS, SHA256SUMS.asc and the release files.
+
+First inspect the public key:
+gpg --show-keys --fingerprint btcpavao-pgp.asc
+
+Compare the complete primary fingerprint with the value you trust before
+importing the key. After confirming it, run these commands from the directory
+containing the downloaded files:
+
+gpg --import btcpavao-pgp.asc &&
+gpg --verify SHA256SUMS.asc SHA256SUMS &&
+sha256sum -c SHA256SUMS
+
+On macOS, use shasum -a 256 -c SHA256SUMS for the last command.
+
+The signature must validate for the full fingerprint above. Every release
+file must report OK.

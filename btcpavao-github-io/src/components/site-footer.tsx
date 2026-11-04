@@ -30,6 +30,7 @@ const footerGroups = [
     links: [
       { label: "Value for Value", href: "/support/" },
       { label: "GitHub", href: "https://github.com/btcpavao", external: true },
+      { label: "PGP signing key", href: "/pgp.txt" },
       { label: "Report a correction", href: "https://github.com/btcpavao/btcpavao.github.io/issues/new", external: true },
     ],
   },
