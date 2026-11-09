@@ -27,7 +27,7 @@ const sources = {
     url: `${essay("wallet-setup-backup-recovery")}#optional-backup-protection`,
   },
   images: {
-    label: "Coming soon: dedicated Debian images and curriculum integration",
+    label: "Download Vault and Node Debian images and verification files",
     url: essay("debian-images"),
   },
 }
@@ -66,7 +66,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "1.5": {
     image:
-      "Three dedicated Debian images are in development: a minimal offline Core signer, Bitcoin Core Vault for wallet creation and GPG backups with optional independent layers, and a dedicated online node without a browser, email client or unrelated everyday applications. They will package the roles taught here; the current lessons continue to use verified Debian and Core installations. Download and verification links will be added here when released.",
+      "Bitcoin Core Vault v0.3.0 is published for offline wallet work and GPG backups, and the dedicated online Bitcoin Core Node v0.1.0-rc.1 is available as a test release. Both have downloadable ISO images, release metadata and signed checksum manifests. The distinct RAM-only offline signer image remains in development. Verify the fingerprint and test recovery before relying on either image.",
     reading: ["simpler"],
   },
   "software-continuity": {
@@ -83,11 +83,11 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "debian-setup": {
     image:
-      "Prepared minimal Debian ISOs are coming for the offline signer, Bitcoin Core Vault and online node. The signer is live RAM only; Vault can run live or install its operating system while keeping its private working session in RAM. The online node retains its chain and watch-only data. Until the downloads are available, follow the Debian installation below. The image page explains the software, storage boundaries and independent verification plan.",
+      "Download verified Debian 13 ISO releases for Bitcoin Core Vault v0.3.0 (offline wallet work in a private RAM session) and Bitcoin Core Node v0.1.0-rc.1 (installed online node retaining blockchain and watch-only data). The standalone RAM-only offline signer is still in development. Follow the release page for signed checksums and recovery guidance. You can also install stock Debian and Bitcoin Core directly using the steps below.",
   },
   "generate-passphrase": {
     image:
-      "The current Bitcoin Core Vault build includes KeePassXC for this job. The forthcoming image does not change the passphrase procedure: select the intended word count and list, generate locally in the prepared offline environment, preserve the exact result separately and prove recovery. The ISO link will be added here when released.",
+      "Bitcoin Core Vault v0.3.0 includes KeePassXC for this task. Select the intended word count and list, generate locally in the offline environment, protect the exact result separately and prove recovery. Download the published ISO and signed checksum manifest from the Debian images page.",
     reading: ["detour"],
   },
   "backup-redundancy-freshness": {
@@ -198,7 +198,7 @@ export function enrichFromArticles(lessons: PlayerLesson[]): PlayerLesson[] {
           ? [
               {
                 kind: "important" as const,
-                title: "Dedicated Debian images — coming soon",
+                title: "Dedicated Debian images — downloads & verification",
                 body: addition.image,
                 url: sources.images.url,
               },

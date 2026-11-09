@@ -1169,13 +1169,14 @@ function OptionalBackupProtection({
           </p>
 
           <div className="mt-8 max-w-[75ch] space-y-5 text-base leading-8 text-white/80 [&_strong]:text-white">
-            <h3 className="learning-heading text-2xl leading-tight font-bold text-white"><SectionIcon topic="core" /><span>Coming soon: Bitcoin Core Vault on Debian</span></h3>
+            <h3 className="learning-heading text-2xl leading-tight font-bold text-white"><SectionIcon topic="core" /><span>Bitcoin Core Vault v0.3.0 on Debian</span></h3>
             <p>
-              The upcoming <ResourceLink href={`${DEBIAN_IMAGES_PATH}#vault`} inverse>Bitcoin Core Vault Debian ISO</ResourceLink>{" "}
-              is a Linux system being prepared with the tools for this workflow
-              already included. It is intended to guide you through GPG backup
-              encryption and recovery, with extra layers when you need them.
-              It is still in development. You can practise now with the tools below.
+              The published <ResourceLink href={`${DEBIAN_IMAGES_PATH}#vault`} inverse>Bitcoin Core Vault v0.3.0 Debian ISO</ResourceLink>{" "}
+              is a dedicated offline wallet environment containing Bitcoin Core
+              32.1, GnuPG and the wallet backup/recovery tools. It supports a
+              single GPG layer or independently protected additional layers.
+              Download its signed checksums and source from the release page;
+              practise recovery with disposable wallets before relying on it.
             </p>
 
             <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="setup" /><span>Install GPG for an independent practice session</span></h3>
