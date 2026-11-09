@@ -178,7 +178,7 @@ export function PublishedArticlePage({
                 Open the self-custody curriculum →
               </a>
               <a {...articleLinkProps("/en/bitcoin-core/debian-images/")}>
-                Coming soon: dedicated Debian images →
+                Download Vault and Node Debian images →
               </a>
             </aside>
             <ConsultingInvitation
