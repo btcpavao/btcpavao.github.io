@@ -8286,3 +8286,22 @@ input:focus-visible + .curriculum-checkbox {
 }
 
 .published-article-table th:first-child, .published-article-table td:first-child { min-width: 100px; overflow-wrap: normal; word-break: normal; }
+
+/* Actual product captures: a readable overview, then two detail views. */
+.debian-product-nav { display: flex; flex-wrap: wrap; gap: .75rem; margin-block: 1.5rem 2.5rem; }
+.debian-product-nav a { border: 1px solid var(--border); border-radius: 9px; padding: .8rem 1rem; font-weight: 650; text-decoration: none; }
+.debian-product-nav a:hover { background: var(--secondary); }
+.product-screenshots { margin-block: 2rem 2.5rem; }
+.debian-role-grid .product-screenshots-intro { font-size: .875rem; color: var(--muted-foreground); margin-block: 0 1rem; }
+.product-screenshots-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem 1.25rem; }
+.product-screenshots-grid figure { min-width: 0; margin: 0; }
+.product-screenshots-grid figure:first-child { grid-column: 1 / -1; }
+.debian-role-grid .product-screenshots-grid a { display: block; padding: 0; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; background: #000; }
+.product-screenshots-grid img { display: block; width: 100%; height: auto; }
+.product-screenshots-grid figcaption { display: grid; gap: .25rem; margin-block-start: .75rem; line-height: 1.5; }
+.product-screenshots-grid figcaption strong { font-size: 1rem; }
+.product-screenshots-grid figcaption span { font-size: .875rem; color: var(--muted-foreground); }
+.debian-role-grid .product-screenshots-note { margin-block: 1rem 0; color: var(--muted-foreground); font-size: .8rem; }
+.product-screenshots-grid a:hover { border-color: var(--primary); }
+.product-screenshots-grid a:focus-visible, .debian-product-nav a:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; }
+@media (max-width: 620px) { .product-screenshots-grid { grid-template-columns: 1fr; } .debian-product-nav { flex-direction: column; } }

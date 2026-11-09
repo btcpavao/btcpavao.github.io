@@ -10,10 +10,10 @@ export function DebianImagesNotice({ compact = false }: { compact?: boolean }) {
         <p className="debian-images-eyebrow">Available now · Vault and Node test images</p>
         <h2>Dedicated Debian images for Bitcoin Core.</h2>
         <p>
-          Bitcoin Core Vault v0.3.0 and the Bitcoin Core Node v0.1.0-rc.1
+          Bitcoin Core Vault v0.4.0 and the Bitcoin Core Node v0.1.0-rc.1
           test image are available with signed SHA-256 manifests and matching
-          source snapshots. The separate RAM-only offline signer is still in
-          development.
+          source snapshots. View screenshots of both environments and choose
+          the one that fits the task.
         </p>
         <p>
           Verify the PGP signing key and ISO checksum before flashing.

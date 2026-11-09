@@ -66,7 +66,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "1.5": {
     image:
-      "Bitcoin Core Vault v0.3.0 is published for offline wallet work and GPG backups, and the dedicated online Bitcoin Core Node v0.1.0-rc.1 is available as a test release. Both have downloadable ISO images, release metadata and signed checksum manifests. The distinct RAM-only offline signer image remains in development. Verify the fingerprint and test recovery before relying on either image.",
+      "Bitcoin Core Vault v0.4.0 is published for offline wallet work and GPG backups, and the dedicated online Bitcoin Core Node v0.1.0-rc.1 is available as a test release. Both have downloadable ISO images, release metadata and signed checksum manifests. Verify the fingerprint and test recovery before relying on either image.",
     reading: ["simpler"],
   },
   "software-continuity": {
@@ -83,11 +83,11 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "debian-setup": {
     image:
-      "Download verified Debian 13 ISO releases for Bitcoin Core Vault v0.3.0 (offline wallet work in a private RAM session) and Bitcoin Core Node v0.1.0-rc.1 (installed online node retaining blockchain and watch-only data). The standalone RAM-only offline signer is still in development. Follow the release page for signed checksums and recovery guidance. You can also install stock Debian and Bitcoin Core directly using the steps below.",
+      "Download verified Debian 13 ISO releases for Bitcoin Core Vault v0.4.0 (offline wallet work in a private RAM session) and Bitcoin Core Node v0.1.0-rc.1 (installed online node retaining blockchain and watch-only data). Follow the release page for signed checksums and recovery guidance. You can also install stock Debian and Bitcoin Core directly using the steps below.",
   },
   "generate-passphrase": {
     image:
-      "Bitcoin Core Vault v0.3.0 includes KeePassXC for this task. Select the intended word count and list, generate locally in the offline environment, protect the exact result separately and prove recovery. Download the published ISO and signed checksum manifest from the Debian images page.",
+      "Bitcoin Core Vault v0.4.0 includes KeePassXC for this task. Select the intended word count and list, generate locally in the offline environment, protect the exact result separately and prove recovery. Download the published ISO and signed checksum manifest from the Debian images page.",
     reading: ["detour"],
   },
   "backup-redundancy-freshness": {
@@ -110,17 +110,17 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "architecture-choice": {
     notes: [
-      "The word dedicated refers to what the computer is allowed to do. A general-purpose laptop reserved for Core is different from the same laptop used for browsing, email and arbitrary downloads. The forthcoming node and signer images make that intended separation explicit; they do not create separation if you later mix the roles again.",
+      "The word dedicated refers to what the computer is allowed to do. A general-purpose laptop reserved for Core is different from the same laptop used for browsing, email and arbitrary downloads. The Node and Vault images make that intended separation explicit; they do not create separation if you later mix the roles again.",
     ],
     reading: ["simpler", "images"],
   },
   "2.4": {
     image:
-      "A dedicated online-node Debian image is planned for validation, the watch-only wallet, PSBT preparation and broadcast, without a browser, email client or unrelated applications. The separate offline images hold signing keys. The download and verification link for each role will appear here on release.",
+      "Bitcoin Core Node is available as a test release for validation, the watch-only wallet, PSBT preparation and broadcast, without a browser, email client or unrelated applications. Bitcoin Core Vault provides the separate offline environment for signing keys. The Debian images page links to both releases and their signed checksums.",
   },
   "offline-device": {
     image:
-      "The minimal Core offline-signer image will run exclusively as a live RAM session. Bitcoin Core Vault can run live or be installed, but its private home and wallet workspace remain in RAM in both modes. These prepared environments therefore differ from the persistent generic Debian installation below. Export encrypted backups and signed PSBTs to removable media before ending the session, and prove recovery. The image page explains the storage boundaries; ISO links will be inserted here on release.",
+      "Bitcoin Core Vault can run live or be installed, but its private home and wallet workspace remain in RAM in both modes. These prepared environments therefore differ from the persistent generic Debian installation below. Export encrypted backups and signed PSBTs to removable media before ending the session, and prove recovery. The image page explains the storage boundaries and links to the published ISO and signed checksums.",
   },
   "ops-documentation": {
     notes: [

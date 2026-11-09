@@ -14,14 +14,14 @@ Key expires: 2028-11-03
 Public key:
 https://btcpavao.com/btcpavao-pgp.asc
 
-Bitcoin Core Vault v0.3.0:
-https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.3.0
+Bitcoin Core Vault v0.4.0:
+https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.4.0
 
 Signed checksum list:
-https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.3.0/SHA256SUMS
+https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.4.0/SHA256SUMS
 
 Detached signature:
-https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.3.0/SHA256SUMS.asc
+https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.4.0/SHA256SUMS.asc
 
 Verification
 
