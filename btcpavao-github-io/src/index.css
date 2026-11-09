@@ -8305,3 +8305,49 @@ input:focus-visible + .curriculum-checkbox {
 .product-screenshots-grid a:hover { border-color: var(--primary); }
 .product-screenshots-grid a:focus-visible, .debian-product-nav a:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; }
 @media (max-width: 620px) { .product-screenshots-grid { grid-template-columns: 1fr; } .debian-product-nav { flex-direction: column; } }
+
+/* Shared button colors across the entire site, including legacy controls and
+   links presented as buttons. Keep geometry and interaction behavior local.
+   The white-label policy must also win over existing hover/state utilities. */
+:root {
+  --button-foreground: #fff;
+  --button-secondary: #403a34;
+  --button-secondary-hover: #514940;
+  --button-success: #176442;
+  --button-destructive: #a62d32;
+}
+:is(button, [role="button"], [data-slot="button"], .course-action, .curriculum-action, a.course-copy-link, .curriculum-back-link, .value-for-value-card__button, .debian-release-links a, .debian-product-nav a) {
+  --button-surface: var(--button-secondary);
+  --button-hover-surface: var(--button-secondary-hover);
+  color: var(--button-foreground) !important;
+  background: var(--button-surface) !important;
+}
+:is(button, [role="button"], [data-slot="button"], .course-action, .curriculum-action, a.course-copy-link, .curriculum-back-link, .value-for-value-card__button, .debian-release-links a, .debian-product-nav a) :where(*) {
+  color: inherit !important;
+}
+:is(button, [role="button"], [data-slot="button"], .course-action, .curriculum-action, a.course-copy-link, .curriculum-back-link, .value-for-value-card__button, .debian-release-links a, .debian-product-nav a):is(:hover, :focus-visible) {
+  background: var(--button-hover-surface) !important;
+}
+:is([data-slot="button"][data-variant="default"], [data-slot="button"].bg-primary, .course-action--primary, .curriculum-action--primary, .value-for-value-card__button, .debian-release-links a:first-child, button[type="submit"], button[aria-pressed="true"], button[aria-expanded="true"], button.is-active, button.is-current, button[aria-current="page"]) {
+  --button-surface: var(--primary-button);
+  --button-hover-surface: var(--primary-button-hover);
+}
+button.is-complete {
+  --button-surface: var(--button-success);
+  --button-hover-surface: var(--button-success);
+}
+[data-slot="button"][data-variant="destructive"] {
+  --button-surface: var(--button-destructive);
+  --button-hover-surface: var(--button-destructive);
+}
+/* Status badges retain their shape and icon, with readable white text. */
+button .curriculum-navigator__dot,
+button[data-gallery-image] > span {
+  background: var(--button-secondary) !important;
+}
+@media (forced-colors: active) {
+  :is(button, [role="button"], [data-slot="button"], .course-action, .curriculum-action, a.course-copy-link, .curriculum-back-link, .value-for-value-card__button, .debian-release-links a, .debian-product-nav a) {
+    color: ButtonText !important;
+    background: ButtonFace !important;
+  }
+}

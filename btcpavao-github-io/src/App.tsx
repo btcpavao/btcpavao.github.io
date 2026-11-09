@@ -1065,7 +1065,7 @@ export function ArticlePage({
 
             <div className="article-hero-content">
               <div className="article-hero-copy">
-                <a
+                <a data-slot="button"
                   href="/"
                   className="glimmer-button inline-flex rounded-full border border-border/70 bg-background/82 px-4 py-2 text-sm font-medium text-muted-foreground backdrop-blur transition-[background-color,color,border-color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground"
                 >
@@ -1387,7 +1387,7 @@ export function AiSeriesPage() {
         className="relative mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
       >
         <section>
-          <a
+          <a data-slot="button"
             href="/"
             className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
           >
@@ -1497,7 +1497,7 @@ function HrHomePage() {
         className="relative mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20"
       >
         <section>
-          <a
+          <a data-slot="button"
             href="/"
             className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
           >
@@ -1564,7 +1564,7 @@ function BitcoinCoreSeriesPage({
       >
         <section className="bitcoin-core-series-intro">
           <div>
-            <a
+            <a data-slot="button"
               href={isEnglish ? "/" : HR_HOME_PATH}
               className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
             >
@@ -1625,25 +1625,25 @@ function BitcoinCoreSeriesPage({
                 Sva tri dostupna su na engleskom.
               </p>
               <div className="mt-5 flex flex-wrap gap-3">
-                <a
+                <a data-slot="button"
                   className={`inline-flex min-h-11 items-center rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground ${liftHover}`}
                   href={EN_BITCOIN_CORE_CURRICULUM_PATH}
                 >
                   Self-custody curriculum
                 </a>
-                <a
+                <a data-slot="button"
                   className={`inline-flex min-h-11 items-center rounded-full border border-border bg-background px-5 text-sm font-semibold text-foreground ${liftHover}`}
                   href={START_HERE_PATH}
                 >
                   Quick Core practice
                 </a>
-                <a
+                <a data-slot="button"
                   className={`inline-flex min-h-11 items-center rounded-full border border-border bg-background px-5 text-sm font-semibold text-foreground ${liftHover}`}
                   href={BITCOIN_CORE_WALLET_GUIDE_PATH}
                 >
                   Wallet guide
                 </a>
-                <a
+                <a data-slot="button"
                   className={`inline-flex min-h-11 items-center rounded-full border border-border bg-background px-5 text-sm font-semibold text-foreground ${liftHover}`}
                   href={HR_HOME_PATH}
                 >
@@ -1913,7 +1913,7 @@ function BitcoinCoreArticlePage({
 
             <div className="article-hero-content">
               <div className="article-hero-copy">
-                <a
+                <a data-slot="button"
                   href={seriesPath}
                   className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
                 >
@@ -1925,7 +1925,7 @@ function BitcoinCoreArticlePage({
                     Bitcoin Core
                   </span>
                   {!isEnglish && (
-                    <a
+                    <a data-slot="button"
                       href={EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH}
                       className="surface-ring inline-flex min-h-10 items-center rounded-full bg-background/78 px-3 py-1 backdrop-blur transition-[background-color,color,box-shadow,transform] duration-300 hover:bg-card hover:text-foreground active:scale-[0.96]"
                       hrefLang="en"
@@ -2210,7 +2210,7 @@ function Bip39ArticlePage({
 
             <div className="article-hero-content">
               <div className="article-hero-copy">
-                <a
+                <a data-slot="button"
                   href={EN_BITCOIN_CORE_SERIES_PATH}
                   className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
                 >
@@ -2444,7 +2444,7 @@ function MultisigArticlePage() {
 
             <div className="article-hero-content">
               <div className="article-hero-copy">
-                <a
+                <a data-slot="button"
                   href={EN_BITCOIN_CORE_SERIES_PATH}
                   className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
                 >
@@ -2672,7 +2672,7 @@ function LongRoadArticlePage({
 
             <div className="article-hero-content">
               <div className="article-hero-copy">
-                <a
+                <a data-slot="button"
                   href={EN_BITCOIN_CORE_SERIES_PATH}
                   className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
                 >
@@ -3008,7 +3008,7 @@ export function WorkflowArticlePage({
 
             <div className="article-hero-content">
               <div className="article-hero-copy">
-                <a
+                <a data-slot="button"
                   href={AI_SERIES_PATH}
                   className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
                 >
@@ -3164,7 +3164,7 @@ export function LearningArticlePage({
 
             <div className="article-hero-content">
               <div className="article-hero-copy">
-                <a
+                <a data-slot="button"
                   href={AI_SERIES_PATH}
                   className={`glimmer-button inline-flex min-h-10 items-center rounded-full border border-border/70 bg-background/82 px-4 text-sm font-medium text-muted-foreground backdrop-blur hover:bg-card hover:text-foreground ${liftHover}`}
                 >
@@ -3300,7 +3300,7 @@ function MigratedAiRedirect({ destination }: { destination: string }) {
         <p className="mt-6 text-lg leading-8 text-muted-foreground">
           Ako se preusmjeravanje ne pokrene automatski, otvorite novu adresu.
         </p>
-        <a
+        <a data-slot="button"
           className="mt-8 inline-flex min-h-11 items-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground"
           href={destination}
         >

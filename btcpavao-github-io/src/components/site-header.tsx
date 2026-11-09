@@ -116,7 +116,7 @@ export function SiteHeader() {
       <div className="mx-auto flex min-h-[72px] max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
         <SiteBrandLink />
 
-        <nav aria-label="Main navigation" className="hidden lg:flex lg:items-center">
+        <nav aria-label="Main navigation" className="hidden lg:flex lg:items-center lg:gap-2">
           {navigationGroups.map((group) => {
             const isOpen = openGroup === group.label
             return (

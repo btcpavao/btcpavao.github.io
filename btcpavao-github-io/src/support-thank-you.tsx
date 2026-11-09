@@ -195,7 +195,7 @@ export function SupportThankYouPage() {
         </section>
 
         <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-          <a
+          <a data-slot="button"
             href={EN_BITCOIN_CORE_SERIES_PATH}
             className="inline-flex min-h-11 items-center gap-2 rounded-full px-1 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-ring"
           >

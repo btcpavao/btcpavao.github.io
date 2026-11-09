@@ -1435,7 +1435,7 @@ export function BitcoinCoreWalletGuidePage() {
       <div className="border-b border-border/60 bg-background/92">
         <div className="mx-auto flex min-h-14 max-w-5xl items-center justify-between gap-3 px-4 sm:px-6">
           <HeaderProgress completed={completedCount} total={steps.length} />
-          <a
+          <a data-slot="button"
             href={EN_BITCOIN_CORE_SERIES_PATH}
             aria-label="Back to Bitcoin Core guides"
             className="inline-flex min-h-11 items-center gap-2 rounded-full px-3 text-sm font-semibold text-muted-foreground transition-[color,background-color,transform] duration-200 hover:bg-card hover:text-foreground active:scale-[0.96] sm:px-4"
@@ -1694,7 +1694,7 @@ export function BitcoinCoreWalletGuidePage() {
             antivirus or anti-malware software says it is clean. A scan cannot
             establish that wallet secrets will be safe on that machine.
           </p>
-          <a className="mb-10 inline-flex min-h-12 items-center rounded-full bg-primary px-6 py-3 text-center text-sm font-semibold text-primary-foreground" {...articleLinkProps(EN_BITCOIN_CORE_CURRICULUM_PATH)}>
+          <a data-slot="button" className="mb-10 inline-flex min-h-12 items-center rounded-full bg-primary px-6 py-3 text-center text-sm font-semibold text-primary-foreground" {...articleLinkProps(EN_BITCOIN_CORE_CURRICULUM_PATH)}>
             Continue with the self-custody curriculum
           </a>
           <ConsultingInvitation

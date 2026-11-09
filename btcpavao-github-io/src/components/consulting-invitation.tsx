@@ -38,7 +38,7 @@ export function ConsultingInvitation({
             is Value for Value: afterwards, you decide what it was worth. No
             fixed fee or obligation.
           </p>
-          <a
+          <a data-slot="button"
             href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
