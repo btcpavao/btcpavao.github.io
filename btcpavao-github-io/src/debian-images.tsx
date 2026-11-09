@@ -352,7 +352,7 @@ export function DebianImagesPage() {
               wallets and selected portable configuration to removable media.
             </p>
             <SoftwareRow
-              ids={["debian", "core"]}
+              ids={["debian", "core", "keepassxc", "gnupg", "thunar", "mousepad"]}
               label="Online node software — official projects"
             />
             <div className="debian-download-panel">
@@ -405,6 +405,16 @@ export function DebianImagesPage() {
               <a href="https://www.debian.org/CD/verify">
                 Debian explains image verification.
               </a>
+            </li>
+            <li>
+              <strong>Confirm the release signing key.</strong> Independently
+              compare the public signing key fingerprint with the publisher’s
+              stated fingerprint below before relying on the signature:
+              <code className="debian-signing-fingerprint">787A 2AAF B0D1 19CA 0522 B2A5 B9C9 9AF8 5788 96D0</code>
+              After importing <code>btcpavao-pgp.asc</code>, run
+              <code>gpg --verify SHA256SUMS.asc SHA256SUMS</code> and
+              <code>sha256sum -c SHA256SUMS</code>. Verify only a downloaded
+              subset with <code>sha256sum -c SHA256SUMS --ignore-missing</code>.
             </li>
             <li>
               <strong>Verify the upstream software.</strong> Check Debian
