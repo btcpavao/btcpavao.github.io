@@ -7,6 +7,12 @@ import { ValueForValueCard } from "@/components/value-for-value"
 
 const lesson = (slug: string) => `/en/bitcoin-core/self-custody/#lesson/${slug}`
 
+const vaultRelease = "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.3.0"
+const nodeRelease = "https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.1"
+const nodeIso = "https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.1/bitcoin-core-node-v0.1.0-rc.1-core32.1-amd64.iso"
+const vaultIso = "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.3.0/bitcoin-core-vault-v0.3.0-core32.1-amd64.iso"
+
+
 const software = {
   debian: {
     name: "Debian GNU/Linux",
@@ -97,7 +103,7 @@ export function DebianImagesPage() {
   useEffect(() => {
     document.documentElement.lang = "en"
     document.title =
-      "Dedicated Debian Images for Bitcoin Core — Coming Soon | BTC Pavao"
+      "Bitcoin Core Debian Images — Verified Downloads | BTC Pavao"
   }, [])
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -108,7 +114,7 @@ export function DebianImagesPage() {
       <main id="main-content" className="debian-images-page">
         <header>
           <a href="/en/bitcoin-core/">← Bitcoin Core</a>
-          <p className="debian-images-eyebrow">In development · Coming soon</p>
+          <p className="debian-images-eyebrow">Vault v0.3.0 released · Node v0.1.0-rc.1 available for testing</p>
           <h1>
             Ordinary hardware.
             <br />A dedicated environment.
@@ -122,9 +128,10 @@ export function DebianImagesPage() {
             decoding="async"
           />
           <p className="debian-images-lede">
-            I am preparing stripped-down Debian ISO images for three Bitcoin
-            Core roles: offline signing, wallet creation and backup, and running
-            an online node.
+            Download prepared Debian images for two distinct Bitcoin Core
+            roles: Bitcoin Core Vault for offline wallet work and an installed
+            Bitcoin Core Node for online validation. The separate RAM-only
+            offline signer remains in development.
           </p>
           <p>
             Keep the software each role needs. Leave browsing, email and
@@ -248,13 +255,13 @@ export function DebianImagesPage() {
             <div className="debian-session-note">
               <h3>GPG backups, with independent layers when needed</h3>
               <p>
-                The upcoming redesign uses standard GPG encryption around a
-                consistent Core wallet snapshot or TAR payload. It targets
-                authenticated AES-256 OCB encryption. Each additional layer uses
-                its own randomly generated passphrase; the Core wallet passphrase
-                remains a separate secret. Encrypting the payload hides the
-                wallet metadata and filenames inside it, while the outer filename,
-                size and storage timestamps remain visible.
+                The current Vault release uses standard OpenPGP encryption around
+                a verified Core wallet snapshot or, for multiple files, a TAR
+                archive. Its default symmetric AES-256 CFB+MDC format is
+                compatible with standard GnuPG. Additional layers can use
+                independent passphrases; the Core wallet passphrase remains a
+                separate secret. Outer filenames, sizes and timestamps still
+                reveal metadata.
               </p>
               <p>
                 Multiple layers require every layer’s secret. Keep redundant
@@ -266,8 +273,8 @@ export function DebianImagesPage() {
               <p>
                 Recovery is designed to work without Vault: decrypt each layer
                 with compatible standard GnuPG, extract TAR when present, then
-                restore the wallet in Core. The release will document the tested
-                GnuPG version and OCB profile. Prove that full recovery independently
+                restore the wallet in Core. Follow the current release notes
+                for the tested format and practice a full, independent recovery
                 before relying on the backup.
               </p>
               <a href="/en/bitcoin-core/wallet-setup-backup-recovery/#optional-backup-protection">
@@ -284,13 +291,13 @@ export function DebianImagesPage() {
                 restricts writes to checked RAM locations.
               </p>
               <p>
-                The redesigned Wallet Backup workflow will export the final
-                encrypted .gpg file to USB, optical or other removable media,
-                with verification before completion. Export
-                any password database, recovery notes or signed PSBT you want to
-                keep too. Finish Private Session checks the wallets against
-                verified exports before discarding the workspace. Shutdown,
-                restart or power loss loses anything left only in RAM.
+                Wallet Backup creates a checked Core wallet backup and can
+                encrypt it with one or more GPG layers. Export the ciphertext
+                to USB, optical or other removable media, along with any notes,
+                KeePassXC databases or signed PSBT files you want to retain.
+                Finish Private Session warns before discarding RAM; it does not
+                prove you have a current, recoverable backup. Shutdown, restart
+                or power loss loses anything left only in RAM.
               </p>
               <details>
                 <summary>What “stateless” covers</summary>
@@ -306,10 +313,19 @@ export function DebianImagesPage() {
               </details>
             </div>
             <p className="debian-detail">
-              This is the planned GPG-based toolset for the upcoming Vault
-              release. The release manifest and testing notes will document the
-              exact contents and verified behavior of each published image.
+              Bitcoin Core Vault v0.3.0 is available now, with Bitcoin Core
+              32.1, a matching source snapshot, tests and signed checksums.
+              Verify both the downloaded bytes and the PGP signing key.
             </p>
+            <div className="debian-download-panel">
+              <p className="debian-images-eyebrow">Available · Vault v0.3.0</p>
+              <h3>Download Bitcoin Core Vault</h3>
+              <p>Offline wallet creation, verified encrypted backups and PSBT signing. Debian 13 · amd64 · Live RAM or installed.</p>
+              <nav className="debian-release-links" aria-label="Bitcoin Core Vault download links">
+                <a href={vaultIso}>Download Vault ISO</a>
+                <a href={vaultRelease}>Checksums, signature &amp; source</a>
+              </nav>
+            </div>
             <a href={lesson("more-copies-do-not-mean-a-current-backup")}>
               Learn the backup and recovery workflow →
             </a>
@@ -324,20 +340,35 @@ export function DebianImagesPage() {
               constructing PSBTs and broadcasting signed transactions.
             </p>
             <p>
-              Planned without a browser, email client or unrelated desktop
-              applications. Networking serves the node and its deliberate
-              maintenance. In the offline-signing architecture, the private
-              signing keys stay on the offline machine.
+              The release candidate provides a dedicated installed Node without
+              a general-purpose browser or email client. Its networking serves
+              Bitcoin validation and deliberate software maintenance. Private
+              signing keys belong on a separate offline signer.
             </p>
             <p>
-              The node retains its blockchain and watch-only state between
-              sessions. Its storage role is different from the volatile private
-              workspace on the offline signer and Vault.
+              Blockchain data, watch-only wallets and Node configuration persist
+              after reboot. Private Workspace and the PSBT Transfer Folder are
+              RAM-only. Backup and Restore can export a blockchain copy, public
+              wallets and selected portable configuration to removable media.
             </p>
             <SoftwareRow
               ids={["debian", "core"]}
               label="Online node software — official projects"
             />
+            <div className="debian-download-panel">
+              <p className="debian-images-eyebrow">Test release · Node v0.1.0-rc.1</p>
+              <h3>Download Bitcoin Core Node</h3>
+              <p>Bitcoin Core 32.1 on Debian 13 · amd64. The installer erases
+              the selected drive. Verify the signed checksum manifest before
+              flashing, and test with disposable wallets first.</p>
+              <nav className="debian-release-links" aria-label="Bitcoin Core Node release links">
+                <a href={nodeIso}>Download Node ISO</a>
+                <a href={nodeRelease}>Checksums, PGP signature &amp; source</a>
+              </nav>
+              <p className="debian-detail">Preview release, not independently
+                audited or reproducibility-certified. Apple Silicon, T2 Macs,
+                Secure Boot and some Broadcom Wi-Fi adapters are not certified.</p>
+            </div>
             <a href={lesson("online-node-and-offline-signer")}>
               Understand the two-machine architecture →
             </a>
@@ -357,10 +388,12 @@ export function DebianImagesPage() {
             interface, Thunar and the installer. Those additions belong in the review too.
           </p>
           <p>
-            Each release will link to its exact package manifest, upstream
-            versions, build configuration, local source code and patches,
-            alongside the ISO and verification instructions. The aim is to let
-            you check what was included and reproduce the preparation yourself.
+            Both published releases link to their exact ISO hashes, OpenPGP
+            signature, package/build metadata and matching source snapshots:
+            <a href={vaultRelease}> Vault v0.3.0</a> and
+            <a href={nodeRelease}> Node v0.1.0-rc.1</a>.
+            The goal is independent inspection. A matching source archive and
+            signed hash alone do not establish a reproducible ISO.
           </p>
           <ol>
             <li>
@@ -418,16 +451,15 @@ export function DebianImagesPage() {
         </section>
         <section className="debian-release-plan" id="release-status">
           <p className="debian-images-eyebrow">
-            Release status · October 16, 2026
+            Release status · November 9, 2026
           </p>
-          <h2>The images are coming. The learning path is already open.</h2>
+          <h2>Download, verify, then test the recovery path.</h2>
           <p>
-            The new ISO downloads are not available on this page yet. When
-            released, each image will have its own download link, version
-            information, checksums and verification instructions. The same links
-            will be placed in the curriculum where you prepare the operating
-            system, set up the signer or node, and practice wallet backup and
-            recovery.
+            Vault v0.3.0 is published and Node v0.1.0-rc.1 is available as a
+            test release. Both offer ISO downloads, source snapshots and
+            signed checksum files. The separate offline signer image is not
+            released yet. These downloads are not an endorsement of untested
+            hardware or a substitute for practicing recovery.
           </p>
           <p>
             You can follow the existing Debian and Bitcoin Core lessons now. The
@@ -440,9 +472,11 @@ export function DebianImagesPage() {
             documentation will distinguish the live-session and installation
             workflows and state what persists after shutdown.
           </p>
-          <a href="/en/bitcoin-core/self-custody/">
-            Start the Bitcoin Core curriculum →
-          </a>
+          <nav className="debian-release-links" aria-label="Available ISO releases">
+            <a href={vaultRelease}>Vault v0.3.0 release</a>
+            <a href={nodeRelease}>Node v0.1.0-rc.1 release</a>
+            <a href="/en/bitcoin-core/self-custody/">Start the Bitcoin Core curriculum</a>
+          </nav>
         </section>
         <ConsultingInvitation
           className="mt-14"

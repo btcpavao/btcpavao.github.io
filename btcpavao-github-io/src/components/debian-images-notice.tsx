@@ -7,18 +7,20 @@ export function DebianImagesNotice({ compact = false }: { compact?: boolean }) {
       className={`debian-images-notice ${compact ? "debian-images-notice--compact" : ""}`}
     >
       <div className="debian-images-notice__copy">
-        <p className="debian-images-eyebrow">In development · Coming soon</p>
+        <p className="debian-images-eyebrow">Available now · Vault and Node test images</p>
         <h2>Dedicated Debian images for Bitcoin Core.</h2>
         <p>
-          A minimal offline signer, Bitcoin Core Vault for wallet creation and
-          GPG backups with optional independent layers, and a dedicated online node. Each environment has a
-          specific job.
+          Bitcoin Core Vault v0.3.0 and the Bitcoin Core Node v0.1.0-rc.1
+          test image are available with signed SHA-256 manifests and matching
+          source snapshots. The separate RAM-only offline signer is still in
+          development.
         </p>
         <p>
-          ISO download links and verification instructions will be added here
-          and to the relevant curriculum lessons when the images are released.
+          Verify the PGP signing key and ISO checksum before flashing.
+          Installing the online Node erases the selected disk. Start with a
+          disposable wallet and prove a backup and restore before relying on it.
         </p>
-        <a href={DEBIAN_IMAGES_PATH}>See what is coming →</a>
+        <a href={DEBIAN_IMAGES_PATH}>Downloads and verification →</a>
       </div>
       <div className="debian-images-notice__art">
         <a
