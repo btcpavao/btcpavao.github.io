@@ -7,10 +7,10 @@ import { ValueForValueCard } from "@/components/value-for-value"
 
 const lesson = (slug: string) => `/en/bitcoin-core/self-custody/#lesson/${slug}`
 
-const vaultRelease = "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.4.0"
+const vaultRelease = "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.5.0"
 const nodeRelease = "https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.1"
 const nodeIso = "https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.1/bitcoin-core-node-v0.1.0-rc.1-core32.1-amd64.iso"
-const vaultIso = "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.4.0/bitcoin-core-vault-v0.4.0-core32.1-amd64.iso"
+const vaultIso = "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.5.0/bitcoin-core-vault-32.1-practical-guide-20261110-amd64.iso"
 
 
 const software = {
@@ -155,7 +155,7 @@ export function DebianImagesPage() {
       <main id="main-content" className="debian-images-page">
         <header>
           <a href="/en/bitcoin-core/">← Bitcoin Core</a>
-          <p className="debian-images-eyebrow">Vault v0.4.0 released · Node v0.1.0-rc.1 available for testing</p>
+          <p className="debian-images-eyebrow">Vault v0.5.0 released · Node v0.1.0-rc.1 available for testing</p>
           <h1>
             Ordinary hardware.
             <br />A dedicated environment.
@@ -327,14 +327,14 @@ export function DebianImagesPage() {
               </details>
             </div>
             <p className="debian-detail">
-              Bitcoin Core Vault v0.4.0 is available now, with Bitcoin Core
+              Bitcoin Core Vault v0.5.0 is available now, with Bitcoin Core
               32.1, a matching source snapshot, tests and signed checksums.
               Verify both the downloaded bytes and the PGP signing key.
             </p>
             <div className="debian-download-panel">
-              <p className="debian-images-eyebrow">Available · Vault v0.4.0</p>
+              <p className="debian-images-eyebrow">Available · Vault v0.5.0</p>
               <h3>Download Bitcoin Core Vault</h3>
-              <p>Offline wallet creation, verified encrypted backups and PSBT signing. Debian 13 · amd64 · Live RAM or installed.</p>
+              <p>Offline wallet creation, encrypted backup and recovery, plus PSBT signing. Updated practical Vault Guide · Debian 13 · amd64 · Live RAM or installed.</p>
               <nav className="debian-release-links" aria-label="Bitcoin Core Vault download links">
                 <a href={vaultIso}>Download Vault ISO</a>
                 <a href={vaultRelease}>Checksums, signature &amp; source</a>
@@ -405,7 +405,7 @@ export function DebianImagesPage() {
           <p>
             Both published releases link to their exact ISO hashes, OpenPGP
             signature, package/build metadata and matching source snapshots:
-            <a href={vaultRelease}> Vault v0.4.0</a> and
+            <a href={vaultRelease}> Vault v0.5.0</a> and
             <a href={nodeRelease}> Node v0.1.0-rc.1</a>.
             The goal is independent inspection. A matching source archive and
             signed hash alone do not establish a reproducible ISO.
@@ -476,11 +476,11 @@ export function DebianImagesPage() {
         </section>
         <section className="debian-release-plan" id="release-status">
           <p className="debian-images-eyebrow">
-            Release status · November 9, 2026
+            Release status · November 10, 2026
           </p>
           <h2>Download, verify, then test the recovery path.</h2>
           <p>
-            Vault v0.4.0 is published and Node v0.1.0-rc.1 is available as a
+            Vault v0.5.0 is published and Node v0.1.0-rc.1 is available as a
             test release. Both offer ISO downloads, source snapshots and
             signed checksum files. These downloads are not an endorsement of untested
             hardware or a substitute for practicing recovery.
@@ -497,7 +497,7 @@ export function DebianImagesPage() {
             workflows and state what persists after shutdown.
           </p>
           <nav className="debian-release-links" aria-label="Available ISO releases">
-            <a href={vaultRelease}>Vault v0.4.0 release</a>
+            <a href={vaultRelease}>Vault v0.5.0 release</a>
             <a href={nodeRelease}>Node v0.1.0-rc.1 release</a>
             <a href="/en/bitcoin-core/self-custody/">Start the Bitcoin Core curriculum</a>
           </nav>

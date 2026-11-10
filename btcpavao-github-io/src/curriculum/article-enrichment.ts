@@ -66,7 +66,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "1.5": {
     image:
-      "Bitcoin Core Vault v0.4.0 is published for offline wallet work and GPG backups, and the dedicated online Bitcoin Core Node v0.1.0-rc.1 is available as a test release. Both have downloadable ISO images, release metadata and signed checksum manifests. Verify the fingerprint and test recovery before relying on either image.",
+      "Bitcoin Core Vault v0.5.0 is published for offline wallet work and GPG backups, and the dedicated online Bitcoin Core Node v0.1.0-rc.1 is available as a test release. Both have downloadable ISO images, release metadata and signed checksum manifests. Verify the fingerprint and test recovery before relying on either image.",
     reading: ["simpler"],
   },
   "software-continuity": {
@@ -83,11 +83,11 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "debian-setup": {
     image:
-      "Download verified Debian 13 ISO releases for Bitcoin Core Vault v0.4.0 (offline wallet work in a private RAM session) and Bitcoin Core Node v0.1.0-rc.1 (installed online node retaining blockchain and watch-only data). Follow the release page for signed checksums and recovery guidance. You can also install stock Debian and Bitcoin Core directly using the steps below.",
+      "Download verified Debian 13 ISO releases for Bitcoin Core Vault v0.5.0 (offline wallet work in a private RAM session) and Bitcoin Core Node v0.1.0-rc.1 (installed online node retaining blockchain and watch-only data). Follow the release page for signed checksums and recovery guidance. You can also install stock Debian and Bitcoin Core directly using the steps below.",
   },
   "generate-passphrase": {
     image:
-      "Bitcoin Core Vault v0.4.0 includes KeePassXC for this task. Select the intended word count and list, generate locally in the offline environment, protect the exact result separately and prove recovery. Download the published ISO and signed checksum manifest from the Debian images page.",
+      "Bitcoin Core Vault v0.5.0 includes KeePassXC for this task. Select the intended word count and list, generate locally in the offline environment, protect the exact result separately and prove recovery. Download the published ISO and signed checksum manifest from the Debian images page.",
     reading: ["detour"],
   },
   "backup-redundancy-freshness": {

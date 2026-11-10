@@ -1169,9 +1169,9 @@ function OptionalBackupProtection({
           </p>
 
           <div className="mt-8 max-w-[75ch] space-y-5 text-base leading-8 text-white/80 [&_strong]:text-white">
-            <h3 className="learning-heading text-2xl leading-tight font-bold text-white"><SectionIcon topic="core" /><span>Bitcoin Core Vault v0.3.0 on Debian</span></h3>
+            <h3 className="learning-heading text-2xl leading-tight font-bold text-white"><SectionIcon topic="core" /><span>Bitcoin Core Vault v0.5.0 on Debian</span></h3>
             <p>
-              The published <ResourceLink href={`${DEBIAN_IMAGES_PATH}#vault`} inverse>Bitcoin Core Vault v0.3.0 Debian ISO</ResourceLink>{" "}
+              The published <ResourceLink href={`${DEBIAN_IMAGES_PATH}#vault`} inverse>Bitcoin Core Vault v0.5.0 Debian ISO</ResourceLink>{" "}
               is a dedicated offline wallet environment containing Bitcoin Core
               32.1, GnuPG and the wallet backup/recovery tools. It supports a
               single GPG layer or independently protected additional layers.

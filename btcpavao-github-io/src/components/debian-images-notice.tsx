@@ -7,10 +7,10 @@ export function DebianImagesNotice({ compact = false }: { compact?: boolean }) {
       className={`debian-images-notice ${compact ? "debian-images-notice--compact" : ""}`}
     >
       <div className="debian-images-notice__copy">
-        <p className="debian-images-eyebrow">Available now · Vault and Node test images</p>
+        <p className="debian-images-eyebrow">Available now · Vault release and Node test image</p>
         <h2>Dedicated Debian images for Bitcoin Core.</h2>
         <p>
-          Bitcoin Core Vault v0.4.0 and the Bitcoin Core Node v0.1.0-rc.1
+          Bitcoin Core Vault v0.5.0 and the Bitcoin Core Node v0.1.0-rc.1
           test image are available with signed SHA-256 manifests and matching
           source snapshots. View screenshots of both environments and choose
           the one that fits the task.
