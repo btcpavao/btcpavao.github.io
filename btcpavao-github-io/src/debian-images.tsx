@@ -420,6 +420,11 @@ export function DebianImagesPage() {
             The goal is independent inspection. A matching source archive and
             signed hash alone do not establish a reproducible ISO.
           </p>
+          <p>
+            <a href="https://github.com/btcpavao/btcpavao.github.io/blob/main/docs/debian-images/README.md">
+              Step by step: download the sources, review changes and check a rebuild
+            </a>
+          </p>
           <ol>
             <li>
               <strong>Authenticate the image.</strong> Compare its SHA-256
