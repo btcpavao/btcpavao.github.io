@@ -2,6 +2,8 @@
 
 Use a separate Debian 13 **amd64** virtual machine. A VM is a disposable computer that runs inside your usual computer. Open its Terminal and run one block at a time. Downloading and checking an ISO takes no USB stick, wallet, or Bitcoin. The build instructions for each image list additional space and tools.
 
+To **build your own ISO** and check it against the public test candidate, [start at step 4](#4-build-on-a-clean-machine). To **inspect a signed release** or see what changed between versions, start at step 1.
+
 A release has a version (for example, `v0.5.0`), an exact revision of its source code (the **commit**) and a fingerprint of the finished file (the **SHA-256**). A signed list called `SHA256SUMS` connects filenames to their SHA-256 values. To check a rebuild, calculate the SHA-256 of the ISO **you built** and compare it with the value signed for that same release.
 
 ## 1. Get the verification tool
@@ -119,33 +121,56 @@ The comparison checks the contents of the paths supplied by the source archive. 
 
 **Vault v0.5.0 and Node v0.1.0-rc.2 are historical download targets.** Their signed checksums identify the published bytes. Neither release carries an independently confirmed procedure that recreates those exact bytes. Vault v0.5.0 was prepared from an earlier local image. Node's build record also names a previous image, and its original scripts looked up Debian packages from changing repositories. For either historical image, a matching download in step 2 is evidence of integrity. A source rebuild is a separate operation.
 
-To try the new build recipes, open the matching change below. The **Files changed** tab shows the full recipe changes. The **Checks** tab opens the build jobs and their logs. Use the latest commit in that change for both builders and open the build guide at that same commit.
+### Prepare your build VM
 
-| Product | Recipe and instructions | Build command, from the checked-out recipe |
-| --- | --- | --- |
-| Vault | [Vault recipe and build checks](https://github.com/btcpavao/bitcoin-core-vault-releases/pull/2) · [Vault build guide](https://github.com/btcpavao/bitcoin-core-vault-releases/blob/build/reproducible-vault/docs/REBUILD.md) | `bash tools/rebuild/build.sh ../vault-result` |
-| Node | [Node recipe and build checks](https://github.com/btcpavao/bitcoin-core-node-releases/pull/1) · [Node build guide](https://github.com/btcpavao/bitcoin-core-node-releases/blob/reproducible-builds/docs/REBUILD.md) | `bash rebuild/node build ../node-result` |
-
-The new recipes use fixed Debian archive snapshots and a Debian build container identified by its digest. Each CI workflow requests two fresh builds, then compares the resulting ISO files with `cmp`. Inspect the result of the comparison job for your exact commit. A queued build, a green source-code check or a job that skipped the ISO comparison provides no matching ISO result.
-
-For a new candidate, write down the full recipe commit before building. Both builders must check out that commit and use its listed package snapshot, toolchain and instructions. Each starts from a separate clean environment, without a shared build directory or a copy of the other builder's output. Keep the path to the ISO that the build itself produced.
-
-### Repeat an exact Vault build
-
-Two separate GitHub runners compared the full **714,080,256-byte** Vault ISO. This candidate takes the historical Calamares and Thunar packages as inputs. In a new directory on your Git- and Docker-equipped test VM, run this block. Choose a folder where `vault-candidate` and `vault-result` do not exist yet. The last line checks the SHA-256 of the ISO you just built. [Public candidate, sources and logs](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/rebuild-candidate-9f466c5df912) · [Full comparison job](https://github.com/btcpavao/bitcoin-core-vault-releases/actions/runs/43010686916)
+In a fresh Debian 13 amd64 VM, allow 4 CPU cores, 8 GB of memory and at least 50 GB of free disk for one build. Make sure the VM can reach the internet. The commands below install Git, Docker and tools for checking the inputs. Docker runs the build in a clean environment with the tool versions specified by the project.
 
 ```bash
-git clone --depth 1 --branch rebuild-candidate-9f466c5df912 https://github.com/btcpavao/bitcoin-core-vault-releases.git vault-candidate
+sudo apt update
+sudo apt install ca-certificates curl docker.io docker-cli git gnupg patch xz-utils
+sudo systemctl start docker
+sudo docker version
+```
+
+The last command should show a **Server** section. Choose Vault or Node below and run its block in Bash from a directory where the named checkout and result folders do not yet exist. The block stops if the download fails or the commit differs. The build can take hours. Each block ends by checking the ISO created on **your** machine against the published candidate digest. Look for the ISO filename followed by `OK`.
+
+### Rebuild the Vault candidate
+
+This baseline takes the archived Calamares and Thunar packages as fixed inputs. Their corresponding sources are available for inspection. Two fresh runners produced the same 714,080,256-byte ISO. The release page includes the downloadable image, full commit ID and checksum. [Candidate files](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/rebuild-candidate-9f466c5df912) · [Build instructions at this revision](https://github.com/btcpavao/bitcoin-core-vault-releases/blob/9f466c5df912d7f455d86aa34d85a39be7b143fc/docs/REBUILD.md) · [Build logs and byte comparison](https://github.com/btcpavao/bitcoin-core-vault-releases/actions/runs/43010686916)
+
+```bash
 (
   set -eu
+  git clone --depth 1 --branch rebuild-candidate-9f466c5df912 https://github.com/btcpavao/bitcoin-core-vault-releases.git vault-candidate
   cd vault-candidate
   test "$(git rev-parse HEAD)" = 9f466c5df912d7f455d86aa34d85a39be7b143fc
-  bash tools/rebuild/build.sh ../vault-result
+  bash tools/rebuild/build.sh --sudo-docker ../vault-result
   printf '%s  %s\n' eb54552a569db6cd1158f712b8713bc6c1b519e17026fa31d4652d4e21157141 ../vault-result/bitcoin-core-vault-amd64.iso | sha256sum --check
 )
 ```
 
-This is an unsigned test candidate. You can inspect both build logs and reproduce the comparison on your own machine.
+### Rebuild the Node candidate
+
+The recipe authenticates Node's RC2 project sources, applies its public changes and builds the local installer and login screen. Two fresh runners produced the same 1,284,276,224-byte ISO. The release page includes the downloadable image, full commit ID and checksum. [Candidate files](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/rebuild-e6519d7e5e95) · [Build instructions at this revision](https://github.com/btcpavao/bitcoin-core-node-releases/blob/e6519d7e5e956aa62512294389a9db2cd0a60a96/docs/REBUILD.md) · [Build logs and byte comparison](https://github.com/btcpavao/bitcoin-core-node-releases/actions/runs/43015398147)
+
+```bash
+(
+  set -eu
+  git clone --depth 1 --branch rebuild-e6519d7e5e95 https://github.com/btcpavao/bitcoin-core-node-releases.git node-candidate
+  cd node-candidate
+  test "$(git rev-parse HEAD)" = e6519d7e5e956aa62512294389a9db2cd0a60a96
+  sudo bash rebuild/node build ../node-result
+  printf '%s  %s\n' 8efaf0fb4f05a7a59554855575e24e178f07a3629cea5c9b9bbe6e5f498691b6 ../node-result/bitcoin-core-node-candidate-amd64.iso | sudo sha256sum --check
+)
+```
+
+### Inspect changes that produce these candidates
+
+**Vault.** Open the [ISO build recipe changes](https://github.com/btcpavao/bitcoin-core-vault-releases/pull/2/files) and the [changes that build the patched packages from source](https://github.com/btcpavao/bitcoin-core-vault-releases/pull/4/files). The candidate's exact revision and build log show which recipe it used. Look for the files that supply the offline wallet helpers, the installer and the desktop. Debian packages and Bitcoin Core executables are identified by the release records.
+
+**Node.** Open [the build recipe changes](https://github.com/btcpavao/bitcoin-core-node-releases/pull/1/files). The file `rebuild/node.patch` shows each change applied to the signed RC2 sources. To read the finished sources before building, run `bash rebuild/node source ../node-inspection` in your checked-out candidate directory and open the resulting folder. Node also includes upstream firmware packages. Those packages can be identified and hashed even where the vendor does not publish their source.
+
+These are unsigned test candidates. Their exact source revisions, full-image comparisons and checksum records are public. The earlier signed releases can be authenticated separately with step 2.
 
 ## 5. Compare the finished images and report the result
 
