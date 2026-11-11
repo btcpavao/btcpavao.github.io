@@ -136,22 +136,22 @@ The last command should show a **Server** section. Choose Vault or Node below an
 
 ### Rebuild the Vault candidate
 
-This baseline takes the archived Calamares and Thunar packages as fixed inputs. Their corresponding sources are available for inspection. Two fresh runners produced the same 714,080,256-byte ISO. The release page includes the downloadable image, full commit ID and checksum. [Candidate files](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/rebuild-candidate-9f466c5df912) · [Build instructions at this revision](https://github.com/btcpavao/bitcoin-core-vault-releases/blob/9f466c5df912d7f455d86aa34d85a39be7b143fc/docs/REBUILD.md) · [Build logs and byte comparison](https://github.com/btcpavao/bitcoin-core-vault-releases/actions/runs/43010686916)
+This recipe builds the Calamares installer, Thunar file manager and Vault Backup from source. These are the three locally modified packages. It assembles them with Debian packages and verified upstream Bitcoin Core and KeePassXC binaries. Two fresh runners produced the same 714,080,256-byte ISO. The release page includes the downloadable image, full commit ID and checksum. [Candidate files](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/native-rebuild-candidate-71242344618b) · [Build instructions at this revision](https://github.com/btcpavao/bitcoin-core-vault-releases/blob/71242344618ba499278ea2abe49d7343a7f9a1c4/docs/NATIVE-REBUILD.md) · [Build logs and byte comparison](https://github.com/btcpavao/bitcoin-core-vault-releases/actions/runs/43015346532/job/130514917458)
 
 ```bash
 (
   set -eu
-  git clone --depth 1 --branch rebuild-candidate-9f466c5df912 https://github.com/btcpavao/bitcoin-core-vault-releases.git vault-candidate
+  git clone --depth 1 --branch native-rebuild-candidate-71242344618b https://github.com/btcpavao/bitcoin-core-vault-releases.git vault-candidate
   cd vault-candidate
-  test "$(git rev-parse HEAD)" = 9f466c5df912d7f455d86aa34d85a39be7b143fc
+  test "$(git rev-parse HEAD)" = 71242344618ba499278ea2abe49d7343a7f9a1c4
   bash tools/rebuild/build.sh --sudo-docker ../vault-result
-  printf '%s  %s\n' eb54552a569db6cd1158f712b8713bc6c1b519e17026fa31d4652d4e21157141 ../vault-result/bitcoin-core-vault-amd64.iso | sha256sum --check
+  printf '%s  %s\n' 2b8f8fd5225b4b2ccee1d8ccc6847c647cb6f5d2481fa2d9ef94820a13b09ddc ../vault-result/bitcoin-core-vault-amd64.iso | sha256sum --check
 )
 ```
 
 ### Rebuild the Node candidate
 
-The recipe authenticates Node's RC2 project sources, applies its public changes and builds the local installer and login screen. Two fresh runners produced the same 1,284,276,224-byte ISO. The release page includes the downloadable image, full commit ID and checksum. [Candidate files](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/rebuild-e6519d7e5e95) · [Build instructions at this revision](https://github.com/btcpavao/bitcoin-core-node-releases/blob/e6519d7e5e956aa62512294389a9db2cd0a60a96/docs/REBUILD.md) · [Build logs and byte comparison](https://github.com/btcpavao/bitcoin-core-node-releases/actions/runs/43015398147)
+The recipe authenticates Node's RC2 project sources, applies its public changes and builds the local installer and login screen. Two fresh runners produced the same 1,284,276,224-byte ISO. The release page includes the downloadable image, full commit ID and checksum. [Candidate files](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/rebuild-e6519d7e5e95) · [Build instructions at this revision](https://github.com/btcpavao/bitcoin-core-node-releases/blob/e6519d7e5e956aa62512294389a9db2cd0a60a96/docs/REBUILD.md) · [Build logs and byte comparison](https://github.com/btcpavao/bitcoin-core-node-releases/actions/runs/43015398147/job/130513786522)
 
 ```bash
 (

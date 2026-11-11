@@ -430,7 +430,7 @@ export function DebianImagesPage() {
             Choose a candidate to download its ISO, inspect the exact source and
             compare your own build with the published SHA-256. These test candidates
             have no publisher OpenPGP signature.{" "}
-            <a href="https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/rebuild-candidate-9f466c5df912">Vault candidate and build record</a>
+            <a href="https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/native-rebuild-candidate-71242344618b">Vault candidate and build record</a>
             {" · "}
             <a href="https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/rebuild-e6519d7e5e95">Node candidate and build record</a>.
           </p>
