@@ -423,9 +423,6 @@ export function DebianImagesPage() {
           <p>
             <a href="https://github.com/btcpavao/btcpavao.github.io/blob/main/docs/debian-images/README.md">
               Step by step: download the sources, review changes and check a rebuild
-            </a>{" · "}
-            <a href="https://github.com/btcpavao/btcpavao.github.io/blob/main/docs/debian-images/README.hr.md" lang="hr">
-              Hrvatske upute
             </a>
           </p>
           <p>
