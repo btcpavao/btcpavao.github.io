@@ -20,7 +20,10 @@ export function DebianImagesNotice({ compact = false }: { compact?: boolean }) {
           Installing the online Node erases the selected disk. Start with a
           disposable wallet and prove a backup and restore before relying on it.
         </p>
-        <a href={DEBIAN_IMAGES_PATH}>Downloads and verification →</a>
+        <div className="debian-notice-links">
+          <a href={DEBIAN_IMAGES_PATH}>Downloads and verification →</a>
+          <a href="/en/bitcoin-core/self-custody/?setup=vault-node#lesson/prepare-offline-signer">Follow the Vault and Node walkthrough →</a>
+        </div>
       </div>
       <div className="debian-images-notice__art">
         <a

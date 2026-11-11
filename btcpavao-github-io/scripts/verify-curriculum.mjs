@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto"
+import { existsSync } from "node:fs"
 import assert from "node:assert/strict"
 import { mkdtemp, rm, readFile } from "node:fs/promises"
 import { tmpdir } from "node:os"
@@ -94,6 +96,46 @@ try {
       }
     }
   )
+  const { imagePractice } = await bundle("src/curriculum/image-practice.ts", "image-practice")
+  const { capturePlacements, capturesFor } = await bundle("src/curriculum/practice-captures.ts", "captures")
+  check("Vault and Node material resolves to real lessons, steps and screenshot files", () => {
+    for (const slug of new Set([...Object.keys(imagePractice), ...Object.keys(capturePlacements)])) {
+      const lesson = lessons.find(l => l.slug === slug)
+      assert.ok(lesson, slug)
+      const stepIds = (lesson.guidedSteps ?? []).map(step => step.id)
+      const notes = imagePractice[slug]
+      for (const id of Object.keys(notes?.steps ?? {})) assert.ok(stepIds.includes(id), slug + "/" + id)
+      for (const id of Object.keys(capturePlacements[slug] ?? {})) {
+        assert.ok(id === "overview" || stepIds.includes(id), slug + "/" + id)
+        for (const capture of capturesFor(slug, id)) {
+          assert.ok(capture.alt && capture.caption && capture.context, capture.src)
+          assert.ok(capture.width > 0 && capture.height > 0, capture.src)
+          assert.ok(existsSync(path.join("public", capture.src)), capture.src)
+        }
+      }
+      for (const card of [notes?.overview, ...Object.values(notes?.steps ?? {})].filter(Boolean)) {
+        for (const { href } of card.links ?? []) {
+          const link = new URL(href, "https://btcpavao.com")
+          if (link.hash.startsWith("#lesson/")) assert.ok(en.findLessonBySlug(link.hash.slice(8)), href)
+        }
+      }
+    }
+    for (const slug of ["prepare-offline-signer", "watch-only-setup", "first-offline-signed-transaction", "recovery-drill-without-original-coordinator"]) {
+      const lesson = lessons.find(l => l.slug === slug)
+      for (const { id } of lesson.guidedSteps) {
+        const step = imagePractice[slug].steps[id]
+        assert.ok(step.replacesStep && step.instructions.length && step.result, slug + "/" + id)
+        assert.ok(capturesFor(slug, id).length > 0, "Missing guided screenshot: " + slug + "/" + id)
+      }
+    }
+  })
+  const binaryExample = await readFile("public/software/examples/practice-unsigned.psbt")
+  const textExample = await readFile("public/software/examples/practice-unsigned.base64.txt", "utf8")
+  check("The downloadable PSBT and its console text match the captured Regtest transaction", () => {
+    assert.equal(textExample.trim(), binaryExample.toString("base64"))
+    assert.equal(binaryExample.subarray(0, 5).toString("hex"), "70736274ff")
+    assert.equal(createHash("sha256").update(binaryExample).digest("hex"), "6320b31ebbefb63a77ee93c314706ee42e499347a3a1bdb48c8da6ee752bb3c8")
+  })
   check(
     "Prerequisites are acyclic and earlier; the main path never depends on optional work",
     () => {

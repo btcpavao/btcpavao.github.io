@@ -1,3 +1,5 @@
+import { imagePractice } from "@/curriculum/image-practice"
+import { ImagePracticeNote, PracticeFigures, PracticeLinks, PracticeRole, PracticeSetupChoice } from "@/components/image-practice"
 import { SectionIcon } from "@/components/section-icon"
 import { articleLinkProps } from "@/article-links"
 import { CurriculumHelp } from "@/components/curriculum-context"
@@ -197,6 +199,7 @@ function Command({
 
 function GuidedExercise({
   lesson,
+  imageMode,
   checkedItems,
   setCheckedItems,
   language,
@@ -204,6 +207,7 @@ function GuidedExercise({
   onCopyCode,
 }: {
   lesson: PlayerLesson
+  imageMode: boolean
   checkedItems: Set<string>
   setCheckedItems: Dispatch<SetStateAction<Set<string>>>
   language: Language
@@ -221,10 +225,19 @@ function GuidedExercise({
   const draft =
     !["verified", "source-reviewed"].includes(lesson.verification) ||
     lesson.status !== "published"
-  const index = draft
+  const index = draft || imageMode
     ? selected
     : Math.min(selected, firstMissing < 0 ? steps.length - 1 : firstMissing)
-  const step = steps[index]
+  const original = steps[index]
+  const imageNote = language === "en" && original
+    ? imagePractice[lesson.slug]?.steps?.[original.id]
+    : undefined
+  const replacement = imageMode && imageNote?.replacesStep ? imageNote : undefined
+  const step = original && replacement
+    ? { id: original.id, title: replacement.title, instructions: replacement.instructions,
+        expectedResult: replacement.result ?? original.expectedResult,
+        command: replacement.command?.code, commandContext: replacement.command?.title }
+    : original
   const heading = useRef<HTMLHeadingElement>(null)
   const previousIndex = useRef(index)
   useEffect(() => {
@@ -247,7 +260,7 @@ function GuidedExercise({
         <span>
           {t.step} {index + 1} {t.of} {steps.length}
         </span>
-        <span>{draft ? t.review : t.practice}</span>
+        {replacement ? <PracticeRole role={replacement.role} /> : <span>{draft ? t.review : t.practice}</span>}
       </div>
       <progress
         value={index + (confirmed ? 1 : 0)}
@@ -287,6 +300,21 @@ function GuidedExercise({
           language={language}
         />
       )}
+      {replacement ? <>
+        <PracticeFigures slug={lesson.slug} step={step.id} />
+        <PracticeLinks links={replacement.links} />
+      </> : language === "en" && !imageNote?.replacesStep && (
+        <ImagePracticeNote slug={lesson.slug} step={step.id} note={imageNote}>
+          {imageNote?.command && (
+            <Command
+              block={{ id: `${lesson.id}-${step.id}-image`, ...imageNote.command, explanation: "" }}
+              copiedId={copiedId}
+              onCopy={onCopyCode}
+              language={language}
+            />
+          )}
+        </ImagePracticeNote>
+      )}
       <div className="course-guided__result">
         <strong className="learning-heading">
           <SectionIcon topic="result" />
@@ -325,7 +353,7 @@ function GuidedExercise({
               <ArrowRight aria-hidden="true" />
             </button>
           )
-        ) : !last || !confirmed ? (
+        ) : (!last || !confirmed) && (!imageMode || index <= firstMissing || firstMissing < 0) ? (
           <button
             type="button"
             className="course-action course-action--primary"
@@ -334,11 +362,21 @@ function GuidedExercise({
             {last ? t.last : t.confirm}
             <ArrowRight aria-hidden="true" />
           </button>
-        ) : (
+        ) : confirmed ? (
           <span className="course-guided__confirmed">
             <CheckCircle2 aria-hidden="true" />
             {t.confirmed}
           </span>
+        ) : null}
+        {imageMode && !last && !confirmed && (
+          <button type="button" className="course-action course-action--secondary" onClick={() => setSelected(index + 1)}>
+            {replacement ? "Next example" : t.preview} <ArrowRight aria-hidden="true" />
+          </button>
+        )}
+        {imageMode && last && firstMissing >= 0 && firstMissing < index && (
+          <button type="button" className="course-action course-action--secondary" onClick={() => setSelected(firstMissing)}>
+            Return to first unfinished step
+          </button>
         )}
       </div>
       {confirmed && !draft && (
@@ -435,6 +473,8 @@ function ReadingExercise({
 
 export function CurriculumLesson({
   lesson,
+  imagesSelected,
+  onSelectSetup,
   phase,
   lessonNumber,
   completed,
@@ -451,6 +491,8 @@ export function CurriculumLesson({
   onSelectLesson,
 }: {
   lesson: PlayerLesson
+  imagesSelected: boolean
+  onSelectSetup: (images: boolean) => void
   phase: CurriculumPhase
   lessonNumber: string
   completed: boolean
@@ -467,6 +509,9 @@ export function CurriculumLesson({
   onSelectLesson: (lesson: PlayerLesson) => void
 }) {
   const t = copy[language]
+  const imageLesson = language === "en" ? imagePractice[lesson.slug] : undefined
+  const hasImagePath = Object.values(imageLesson?.steps ?? {}).some(step => step.replacesStep)
+  const imageMode = imagesSelected && Boolean(imageLesson?.steps)
   const available =
     lesson.status === "published" &&
     ["verified", "source-reviewed"].includes(lesson.verification)
@@ -572,10 +617,15 @@ export function CurriculumLesson({
           <dd>{lesson.risk}</dd>
         </div>
       </dl>
+      {hasImagePath && <PracticeSetupChoice images={imageMode} onChange={onSelectSetup} />}
+      {language === "en" && (!hasImagePath || imageMode) && (
+        <ImagePracticeNote slug={lesson.slug} note={imageLesson?.overview} />
+      )}
       {lesson.guidedSteps?.length ? (
         <GuidedExercise
           key={lesson.id}
           lesson={lesson}
+          imageMode={imageMode}
           checkedItems={checklistItems}
           setCheckedItems={setChecklistItems}
           language={language}
@@ -776,6 +826,12 @@ export function CurriculumLesson({
             <dt>{t.reference}</dt>
             <dd>{lesson.referenceVersion}</dd>
           </div>
+          {imageLesson && (
+            <div>
+              <dt>Illustrated practice</dt>
+              <dd>Reviewed 11 November 2026 with Vault v0.5.0, Node v0.1.0-rc.2 and Bitcoin Core 32.1. The captions identify each capture environment.</dd>
+            </div>
+          )}
           <div>
             <dt>Source review</dt>
             <dd>{lesson.sourceReviewed ?? "Not recorded"}</dd>

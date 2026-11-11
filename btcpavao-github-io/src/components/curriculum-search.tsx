@@ -17,19 +17,18 @@ export function CurriculumSearch({
   children: ReactNode
 }) {
   const [query, setQuery] = useState("")
+  const [imagesSelected, setImagesSelected] = useState(false)
   const input = useRef<HTMLInputElement>(null)
   const index = useMemo(() => buildCurriculumSearchIndex(entries), [entries])
-  const results = useMemo(() => searchCurriculum(index, query), [index, query])
+  const results = useMemo(() => searchCurriculum(index, query, imagesSelected), [index, query, imagesSelected])
   const searching = Boolean(normalizeSearch(query))
 
   useEffect(() => {
-    const sync = () =>
-      setQuery(
-        (new URLSearchParams(window.location.search).get("q") ?? "").slice(
-          0,
-          200
-        )
-      )
+    const sync = () => {
+      const params = new URLSearchParams(window.location.search)
+      setImagesSelected(params.get("setup") === "vault-node")
+      setQuery((params.get("q") ?? "").slice(0, 200))
+    }
     const timer = window.setTimeout(sync, 0)
     window.addEventListener("popstate", sync)
     return () => {

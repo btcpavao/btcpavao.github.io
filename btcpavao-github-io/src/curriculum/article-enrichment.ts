@@ -102,11 +102,11 @@ export const articleEnrichment: Record<string, Addition> = {
     ],
     reading: ["backup", "gpg"],
     image:
-      "The upcoming Bitcoin Core Vault Debian ISO is being redesigned around GnuPG, TAR, Core and KeePassXC. One GPG layer is the default; extra layers use independent passphrases. TAR packages files before encryption, and the design targets authenticated AES-256 OCB with private RAM working storage. The released image will document the tested GnuPG profile and independent recovery. You can practise now with the linked GPG wallet guide.",
+      "Vault v0.5.0 encrypts a single wallet.dat directly with OpenPGP AES-256 CFB+MDC. It uses TAR for multiple files or folders. Wallet Backup creates one GPG layer by default. Add another only if you have a reason to keep its independent passphrase separately. Test the external copy through a full restore.",
   },
   "backup-media": {
     image:
-      "The current Vault configuration includes Thunar for files and removable media, Brasero for optical media, and local printing support. Choose media for the failures you need to survive and verify the recorded copy. Tool availability is not a guarantee of media lifetime. Release links and the exact package manifest will be added when ready.",
+      "Vault v0.5.0 includes Thunar for removable files, Brasero for optical media and local printing support. Choose media for the failures you need to survive. Recover a disposable wallet from the actual medium you intend to keep. The published release includes package information, checksums and test records.",
   },
   "architecture-choice": {
     notes: [
@@ -136,7 +136,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "real-encryption": {
     image:
-      "The planned Bitcoin Core Vault release brings Core, KeePassXC, GnuPG and TAR into an offline environment with a RAM-only private workspace, whether run live or with its operating system installed. Export the encrypted wallet and any other files you need to removable media before shutdown; unsaved session data does not persist. The image is still forthcoming. Release links will appear here alongside the creation, encryption and backup instructions; the empty-wallet restore and small-payment tests remain necessary.",
+      "The signed Vault v0.5.0 image includes Core 32.1, KeePassXC and GnuPG. Both live and installed modes keep the signing wallet in private RAM. Before shutdown, export an encrypted backup to separate media. Rehearse restoring the empty wallet in a fresh session before the small-payment test.",
   },
   "multisig-why": {
     notes: [
@@ -182,7 +182,9 @@ export function enrichFromArticles(lessons: PlayerLesson[]): PlayerLesson[] {
     return {
       ...lesson,
       contentUpdated:
-        ["1.5", "encrypted-backup-privacy", "ops-documentation", "real-encryption"].includes(lesson.id)
+        ["encrypted-backup-privacy", "backup-media", "real-encryption"].includes(lesson.id)
+          ? "2026-11-11"
+          : ["1.5", "ops-documentation"].includes(lesson.id)
           ? "2026-10-16"
           : lesson.contentUpdated && lesson.contentUpdated > "2026-10-12"
           ? lesson.contentUpdated
