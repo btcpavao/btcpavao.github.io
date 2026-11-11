@@ -125,6 +125,7 @@ try {
       for (const { id } of lesson.guidedSteps) {
         const step = imagePractice[slug].steps[id]
         assert.ok(step.replacesStep && step.instructions.length && step.result, slug + "/" + id)
+        assert.ok(capturesFor(slug, id).length > 0, "Missing guided screenshot: " + slug + "/" + id)
       }
     }
   })

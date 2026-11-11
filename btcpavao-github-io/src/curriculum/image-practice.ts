@@ -224,7 +224,7 @@ export const imagePractice: Record<string, ImageLesson> = {
   "watch-only-setup": {
     overview: {
       role: "Vault and Node", title: "Use the native Core 32.1 watch-only export",
-      instructions: ["Use a disposable signing wallet and check that both Core instances are on the same chain. You can practise the export and address check without funding the wallet. The watch-only file carries public descriptors, address-book data and wallet history. Keep it private even though it contains no signing keys."],
+      instructions: ["Use a disposable signing wallet and check that both Core instances are on the same chain. You can practise the export and address check without funding the wallet. The transfer pictured here used an empty wallet on the released Vault and a fresh Node installation, both on Bitcoin mainnet. The address comparison uses a separate Regtest wallet. The watch-only file carries public descriptors, address-book data and wallet history. Keep it private even though it contains no signing keys."],
       links: [nativeExport],
     },
     steps: {

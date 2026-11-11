@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import { Download, ExternalLink, LockKeyhole, Network, Repeat2 } from "lucide-react"
+import { ArrowRight, Download, ExternalLink, LockKeyhole, Network, Repeat2 } from "lucide-react"
 import { ZoomableImage } from "@/components/zoomable-image"
 import type { ImagePractice } from "@/curriculum/image-practice"
 import { capturesFor } from "@/curriculum/practice-captures"
@@ -27,11 +27,14 @@ export function PracticeLinks({ links }: Pick<ImagePractice, "links">) {
   if (!links?.length) return null
   return (
     <ul className="image-practice-links">
-      {links.map(({ href, label, download }) => (
-        <li key={href}><a href={href} download={download}>{label}
-          {download ? <Download aria-hidden="true" size={14} /> : <ExternalLink aria-hidden="true" size={13} />}
-        </a></li>
-      ))}
+      {links.map(({ href, label, download }) => {
+        const Icon = download ? Download : href.startsWith("/") ? ArrowRight : ExternalLink
+        return (
+          <li key={href}>
+            <a href={href} download={download}>{label}<Icon aria-hidden="true" size={14} /></a>
+          </li>
+        )
+      })}
     </ul>
   )
 }

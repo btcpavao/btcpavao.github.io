@@ -370,7 +370,7 @@ function GuidedExercise({
         ) : null}
         {imageMode && !last && !confirmed && (
           <button type="button" className="course-action course-action--secondary" onClick={() => setSelected(index + 1)}>
-            Next example <ArrowRight aria-hidden="true" />
+            {replacement ? "Next example" : t.preview} <ArrowRight aria-hidden="true" />
           </button>
         )}
         {imageMode && last && firstMissing >= 0 && firstMissing < index && (
@@ -511,7 +511,7 @@ export function CurriculumLesson({
   const t = copy[language]
   const imageLesson = language === "en" ? imagePractice[lesson.slug] : undefined
   const hasImagePath = Object.values(imageLesson?.steps ?? {}).some(step => step.replacesStep)
-  const imageMode = hasImagePath && imagesSelected
+  const imageMode = imagesSelected && Boolean(imageLesson?.steps)
   const available =
     lesson.status === "published" &&
     ["verified", "source-reviewed"].includes(lesson.verification)

@@ -109,12 +109,6 @@ const captures = {
     alt: "The coordinator reports a successful broadcast and displays the test transaction ID.",
     caption: "Record the transaction ID and find the same payment in Transactions to check its confirmations.",
   },
-  "watch-name": {
-    src: base + "watch-only-restore-name.webp", width: 200, height: 94,
-    context: "Bitcoin Core 32.1 · coordinator · Regtest",
-    alt: "Core prompts for the name of the restored public wallet.",
-    caption: "Give the restored public wallet a name you can recognize when selecting it in Core.",
-  },
   "watch-address": {
     src: base + "verify-receive-address.webp", width: 1024, height: 388,
     context: "Bitcoin Core 32.1 · two disposable wallets · Regtest",
@@ -193,6 +187,30 @@ const captures = {
     alt: "Core displays Wallet restored successfully after opening the recovered wallet.dat.",
     caption: "Core accepted the recovered backup. Check a previously recorded receiving address in your own rehearsal.",
   },
+  "vault-restored-overview": {
+    src: base + "vault-restored-overview.webp", width: 1280, height: 264,
+    context: "Vault v0.5.0 · offline VM · unfunded wallet after restore",
+    alt: "Bitcoin Core shows the restored practice wallet named PracticeRecovered and a zero BTC balance.",
+    caption: "The disposable wallet reopened in Core after the guest restarted. For your own recovery drill, also verify an address recorded before the backup.",
+  },
+  "node-public-open": {
+    src: base + "stock-node-restore-open.webp", width: 700, height: 443,
+    context: "Node v0.1.0-rc.2 · fresh offline VM · unfunded mainnet exercise",
+    alt: "Load Wallet Backup shows watch-only.dat on the PUBLICDEMO transfer device.",
+    caption: "Select the public wallet from the same transfer USB used on Vault. Core will ask for a local wallet name.",
+  },
+  "node-public-name": {
+    src: base + "stock-node-restore-name.webp", width: 517, height: 238,
+    context: "Node v0.1.0-rc.2 · fresh offline VM · unfunded mainnet exercise",
+    alt: "The Restore Wallet dialog contains the local name PracticeWatchOnly.",
+    caption: "Use a distinct local name so you can select this watch-only wallet in Core.",
+  },
+  "node-public-proof": {
+    src: base + "stock-node-watch-only-proof.webp", width: 732, height: 292,
+    context: "Node v0.1.0-rc.2 · fresh offline VM · unfunded mainnet exercise",
+    alt: "The Core console reports chain main, wallet name PracticeWatchOnly and private_keys_enabled false.",
+    caption: "Read the chain, wallet name and private-key flag together. This Node opened the public copy supplied by Vault. The payment exercise uses separate Regtest wallets.",
+  },
 }
 
 type CaptureKey = keyof typeof captures
@@ -243,13 +261,15 @@ export const capturePlacements: Record<string, Record<string, CaptureKey[]>> = {
     "decode-v4": ["psbt-review", "psbt-decode"],
   },
   "watch-only-setup": {
-    "watchonly-gui-v4": ["watch-name"],
+    "watchonly-gui-v4": ["node-public-open", "node-public-name"],
     "address": ["watch-address"],
     "export": ["vault-watch-menu", "vault-watch-complete"],
+    "import": ["node-public-proof"],
   },
   "recovery-drill-without-original-coordinator": {
     "sign-again": ["restored-pair"],
-    "signer": ["vault-decrypt", "vault-restored-file"],
+    "signer": ["vault-decrypt", "vault-restored-overview"],
+    "coordinator": ["node-public-proof"],
   },
   "optional-gpg-layers": {
     "gpg-recover-20261016": ["vault-decrypt", "vault-recovered-ram"],
