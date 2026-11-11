@@ -1,5 +1,7 @@
 # Verify the sources and rebuild a Bitcoin Core image
 
+[Hrvatske upute](README.hr.md)
+
 Use a separate Debian 13 **amd64** virtual machine. A VM is a disposable computer that runs inside your usual computer. Open its Terminal and run one block at a time. Downloading and checking an ISO takes no USB stick, wallet, or Bitcoin. The build instructions for each image list additional space and tools.
 
 A release has a version (for example, `v0.5.0`), an exact revision of its source code (the **commit**) and a fingerprint of the finished file (the **SHA-256**). A signed list called `SHA256SUMS` connects filenames to their SHA-256 values. To check a rebuild, calculate the SHA-256 of the ISO **you built** and compare it with the value signed for that same release.
