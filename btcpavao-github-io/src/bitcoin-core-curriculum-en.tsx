@@ -324,6 +324,14 @@ function PhaseNavigator({
 export function BitcoinCoreCurriculumEnPage() {
   useCurriculumMetadata()
   const [activeSlug, setActiveSlug] = useState<string | null>(null)
+  const [imagesSelected, setImagesSelected] = useState(false)
+  function selectSetup(images: boolean) {
+    const url = new URL(window.location.href)
+    if (images) url.searchParams.set("setup", "vault-node")
+    else url.searchParams.delete("setup")
+    window.history.replaceState(window.history.state, "", url)
+    setImagesSelected(images)
+  }
   const [completionMarks, setCompletedLessons] = useState<Set<string>>(
     new Set()
   )
@@ -442,6 +450,7 @@ export function BitcoinCoreCurriculumEnPage() {
     }, 0)
 
     const syncFromUrl = () => {
+      setImagesSelected(new URLSearchParams(window.location.search).get("setup") === "vault-node")
       const slug = getHashLessonSlug()
       setActiveSlug(slug)
       if (!slug)
@@ -691,6 +700,8 @@ export function BitcoinCoreCurriculumEnPage() {
 
               <CurriculumLesson
                 key={activeLesson.id}
+                imagesSelected={imagesSelected}
+                onSelectSetup={selectSetup}
                 language="en"
                 completedLessons={completedLessons}
                 lessons={curriculumLessons.map((entry) => entry.lesson)}

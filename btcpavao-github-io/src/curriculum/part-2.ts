@@ -1773,7 +1773,7 @@ export const part2Lessons: PlayerLesson[] = [
     chapter: "Prove backup and recovery",
     sourceReviewed: "2026-10-16",
     reviewNote:
-      "GPG privacy wording and sources reviewed on 16 October 2026. No final Vault ISO, OCB compatibility or physical Debian test is claimed.",
+      "GPG privacy wording originally reviewed on 16 October 2026. The Vault format described here follows the published v0.5.0 backup guide.",
     why: "Understand how key protection differs from financial privacy.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -2325,9 +2325,9 @@ export const part2Lessons: PlayerLesson[] = [
     slug: "prepare-offline-signer",
     title: "Prepare the offline signer and check it after shutdown",
     summary:
-      "Keep the test wallet offline and prove that its saved files are still there after a full shutdown.",
+      "Keep the test wallet offline and prove you can access it after a full shutdown using the storage and backup procedure for your signer.",
     objective:
-      "Keep the test wallet offline and prove that its saved files are still there after a full shutdown.",
+      "Keep the test wallet offline and prove you can access it after a full shutdown using the storage and backup procedure for your signer.",
     estimatedTime: "45–90 min setup + downloads",
     status: "published",
     verification: "source-reviewed",
@@ -2336,7 +2336,7 @@ export const part2Lessons: PlayerLesson[] = [
       "Procedure and boundaries reviewed against official sources. Physical Debian setup, isolation and tamper resistance must be verified on your actual equipment; no hands-on hardware certification is claimed.",
     explanation: [
       "Use the second dedicated generic Debian computer as the signer. It holds private keys and approves payments using the same Core wallet operations you have mastered. Prepare Debian, verified Core and KeePassXC while it has no wallet secrets. Then disconnect it before creating or restoring a wallet; it stays offline whenever it holds those keys.",
-      "Persistent storage means saved files remain after the computer is turned off. You will choose a specific folder for Core's data and check it after a full shutdown. This checks the installed setup, not independent recovery. You also need a separate wallet backup that can restore the wallet on a replacement computer.",
+      "The standard Debian path saves Core’s data in a persistent folder. After a full shutdown, reopen that folder and verify your wallet. On Vault, private session files disappear when the machine powers off. Restore the separate external backup into a fresh session and verify your wallet there. Keep an independent backup in either setup.",
     ],
     concepts: [],
     warnings: [],
@@ -2439,10 +2439,10 @@ export const part2Lessons: PlayerLesson[] = [
     contentUpdated: "2026-09-14",
     chapter: "Separate node and signer",
     sourceReviewed: "2026-09-14",
-    why: "Keep the test wallet offline and prove that its saved files are still there after a full shutdown.",
+    why: "Keep the test wallet offline and prove you can access it after a full shutdown using the storage and backup procedure for your signer.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
-      "Prepare Debian and Core before creating keys, then keep the signer disconnected. A successful reboot does not replace an independent backup.",
+      "Prepare and verify the environment before creating keys, keep the signer disconnected, and rehearse the recovery procedure that its storage requires.",
   },
   {
     id: "watch-only-setup",
@@ -2463,7 +2463,7 @@ export const part2Lessons: PlayerLesson[] = [
     kind: "practice",
     explanation: [
       "A descriptor is a precise description of how wallet addresses and spending conditions are constructed. A public descriptor can contain extended public keys that describe many addresses. It reveals wallet activity but does not itself give spending authority.",
-      "Core 31.1 does not expose this descriptor export/import setup through ordinary GUI forms. This setup needs a short, justified console step. Use it for this one setup task, then return to the GUI for PSBT handling. The commands execute locally in the selected wallet.",
+      "The standard Core 31.1 path transfers public descriptors through the selected wallet’s console. On the prepared images with Core 32.1, File → Export watch-only wallet packages the public wallet for File → Restore Wallet on Node. Both routes finish by checking the online wallet’s capabilities and verifying a receiving address on the signer.",
     ],
     prerequisites: ["offline-device"],
     sources: [
@@ -3038,8 +3038,8 @@ export const part2Lessons: PlayerLesson[] = [
     risk: "Losing any required passphrase can block recovery. Malware can capture secrets before encryption.",
     status: "published",
     verification: "source-reviewed",
-    referenceVersion: "Bitcoin Core 31.1; maintained GnuPG",
-    contentUpdated: "2026-10-16",
+    referenceVersion: "Bitcoin Core 31.1 · maintained GnuPG · Vault v0.5.0 example",
+    contentUpdated: "2026-11-11",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
@@ -3047,17 +3047,17 @@ export const part2Lessons: PlayerLesson[] = [
       "One layer means three recovery items: the final GPG-encrypted file, its GPG passphrase and the Core passphrase. Keep more than one copy of each in separate locations, with each passphrase separate from the other and from the file. A random passphrase alone does not identify what it opens; a neutrally named GPG file hides the Bitcoin wallet inside.",
       "For another layer, encrypt the existing GPG file again using an independently generated passphrase. Recover in reverse order, then extract TAR if present and restore the wallet in Core. Core’s own wallet passphrase is separate. Use only the final outermost file for distributed copies; an accessible inner copy bypasses the outer layers.",
       "Two GPG layers mean one final encrypted file and three passphrases: GPG A, GPG B and Core. Each extra layer adds one required passphrase and its own redundant records. Open B, then A, then use the Core passphrase when signing. Keep the secrets separately; putting them all in one accessible password database defeats that separation. Losing all copies of any required passphrase can block recovery. These layers do not change Bitcoin’s signing rules.",
-      "The upcoming Vault Debian ISO is intended to include Core, GnuPG, TAR and KeePassXC, with authenticated AES-256 OCB and a private RAM workspace. Its release will specify the tested GnuPG profile. The independent practice commands below use the installed GnuPG default integrity-protected format with AES-256; they do not select Vault’s planned OCB profile.",
+      "Vault v0.5.0 creates new backups with AES-256 CFB+MDC and keeps plaintext work in RAM. A single wallet.dat is encrypted directly. Multiple files or folders are packed with TAR before encryption. The practice commands below use standard GnuPG, so you can rehearse recovery on a separate offline system.",
       "For macOS practice, GPG Suite includes GPG Services in Finder. Use its password-only encryption option, with no recipient keys or signing, and repeat it on the encrypted output for another layer. The linked wallet guide gives the graphical steps and Linux/Windows installation options. For meaningful funds, use a dedicated computer with fresh Linux instead of a daily Mac or PC.",
     ],
     prerequisites: ["backup-media"],
     sources: [
       { label: "GnuPG: symmetric encryption and decryption", url: "https://gnupg.org/documentation/manuals/gnupg/Operational-GPG-Commands.html" },
-      { label: "GnuPG: integrity and OCB options", url: "https://gnupg.org/documentation/manuals/gnupg/OpenPGP-Options.html" },
+      { label: "Vault v0.5.0 backup format and portable recovery", url: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.5.0/docs/GPG-BACKUP.md" },
       { label: "GPG wallet guide: installation, macOS interface and recovery", url: "/en/bitcoin-core/wallet-setup-backup-recovery/#optional-backup-protection" },
       { label: "GPG Suite for macOS", url: "https://gpgtools.org/" },
     ],
-    reviewNote: "GPG source and command review: 16 October 2026. Synthetic one- and two-layer CLI round trips passed with MacGPG 2.2.41; wrong-passphrase and corruption rejection passed. No GPG Services GUI test, final Vault OCB profile test, physical Debian rehearsal or funded Signet test is claimed.",
+    reviewNote: "On 16 October 2026, synthetic one- and two-layer CLI round trips passed with MacGPG 2.2.41, including wrong-passphrase and corruption rejection. The November update identifies Vault v0.5.0’s published format. The recorded Mac tests cover the command line.",
     origin: "First-principles curriculum; GPG backup revision",
     guidedSteps: [
       {

@@ -1,3 +1,4 @@
+import { imagePractice } from "./curriculum/image-practice"
 import type {
   CurriculumPhase,
   PlayerLesson,
@@ -34,9 +35,10 @@ export function isLabelTransferQuery(query: string) {
   return /\b(?:export|import) labels?\b/.test(normalizeSearch(query))
 }
 
-export function curriculumLessonHref(slug: string, query = "") {
+export function curriculumLessonHref(slug: string, query = "", images = false) {
   const params = new URLSearchParams()
   if (query.trim()) params.set("q", query.trim())
+  if (images) params.set("setup", "vault-node")
   return `/en/bitcoin-core/self-custody/${params.size ? `?${params}` : ""}#lesson/${encodeURIComponent(slug)}`
 }
 
@@ -83,7 +85,12 @@ export function buildCurriculumSearchIndex(entries: readonly SearchEntry[]) {
   return entries
     .filter(({ lesson }) => lesson.status === "published")
     .map((entry) => {
-      const passages = lessonPassages(entry.lesson)
+      const practice = imagePractice[entry.lesson.slug]
+      const cards = [practice?.overview, ...Object.values(practice?.steps ?? {})]
+      const imagePassages = cards.flatMap(card => card
+        ? [card.title, ...card.instructions, card.result ?? "", card.command?.code ?? ""].filter(Boolean)
+        : [])
+      const passages = [...lessonPassages(entry.lesson), ...imagePassages]
       const fields = [
         { text: canonicalText(entry.lesson.title), weight: 14 },
         {
@@ -101,7 +108,7 @@ export function buildCurriculumSearchIndex(entries: readonly SearchEntry[]) {
         },
         { text: canonicalText(passages.join(" ")), weight: 1 },
       ]
-      return { ...entry, passages, fields }
+      return { ...entry, passages, imagePassages, hasImagePath: cards.some(card => card?.replacesStep), fields }
     })
 }
 
@@ -116,19 +123,20 @@ function excerpt(passages: string[], tokens: string[]) {
     }))
     .sort((a, b) => b.score - a.score)
   const text = (ranked[0]?.text ?? "").replace(/\s+/g, " ")
-  if (text.length <= 210) return text
+  if (text.length <= 210) return { source: ranked[0]?.text, excerpt: text }
   const normalized = canonicalText(text)
   const match = terms.map((t) => normalized.indexOf(t)).filter((i) => i >= 0)
   const offset = match.length ? Math.max(0, Math.min(...match) - 55) : 0
   const start = offset ? text.lastIndexOf(" ", offset) + 1 : 0
   const cut = Math.min(text.length, start + 210)
   const end = cut < text.length ? text.lastIndexOf(" ", cut) : cut
-  return `${start ? "…" : ""}${text.slice(start, end).trim()}${end < text.length ? "…" : ""}`
+  return { source: ranked[0]?.text, excerpt: `${start ? "…" : ""}${text.slice(start, end).trim()}${end < text.length ? "…" : ""}` }
 }
 
 export function searchCurriculum(
   index: ReturnType<typeof buildCurriculumSearchIndex>,
-  query: string
+  query: string,
+  imagesSelected = false
 ) {
   const normalized = canonicalText(query.slice(0, 200))
   if (!normalized) return []
@@ -148,13 +156,15 @@ export function searchCurriculum(
             tokens.filter((t) => field.text.includes(t)).length * field.weight,
           0
         ) + (canonicalText(entry.lesson.title) === normalized ? 200 : 0)
+      const snippet = excerpt(entry.passages, tokens)
+      const images = imagesSelected || (entry.hasImagePath && entry.imagePassages.includes(snippet.source ?? ""))
       return [
         {
           lesson: entry.lesson,
           phase: entry.phase,
           score,
-          excerpt: excerpt(entry.passages, tokens),
-          href: curriculumLessonHref(entry.lesson.slug, query),
+          excerpt: snippet.excerpt,
+          href: curriculumLessonHref(entry.lesson.slug, query, images),
         },
       ]
     })

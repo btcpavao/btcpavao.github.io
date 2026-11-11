@@ -8335,3 +8335,27 @@ input:focus-visible + .curriculum-checkbox {
 .product-screenshots-grid a:hover { border-color: var(--primary); }
 .product-screenshots-grid a:focus-visible, .debian-product-nav a:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; }
 @media (max-width: 620px) { .product-screenshots-grid { grid-template-columns: 1fr; } .debian-product-nav { flex-direction: column; } }
+
+/* Device-specific examples beside the existing curriculum steps. */
+.practice-setup-choice { padding: .9rem 1rem 1rem; margin: 1.3rem 0; border: 1px solid var(--border); border-radius: .8rem; }
+.practice-setup-choice legend { padding-inline: .3rem; font-weight: 700; }
+.practice-setup-choice > div { display: flex; flex-wrap: wrap; gap: .5rem; }
+.practice-setup-choice label { display: inline-flex; gap: .55rem; align-items: center; min-height: 44px; padding: .45rem .8rem; border: 1px solid var(--border); border-radius: .55rem; cursor: pointer; }
+.practice-setup-choice input { accent-color: var(--course-sky); }
+.practice-setup-choice label:has(input:checked) { border-color: var(--course-sky); background: var(--course-sky-soft); font-weight: 650; }
+.practice-setup-choice label:focus-within { outline: 2px solid var(--foreground); outline-offset: 2px; }
+.practice-setup-choice p { margin: .7rem 0 0; font-size: .88rem; line-height: 1.55; }
+.image-practice-note { margin: 1.2rem 0; padding: clamp(.85rem, 2vw, 1.35rem); border: 1px solid var(--border); border-inline-start: 3px solid var(--course-sky); border-radius: .75rem; background: var(--card); }
+.practice-role { display: inline-flex; align-items: center; gap: .45rem; }
+.image-practice-note .image-practice-role { margin: 0 0 .4rem; font-size: .825rem; font-weight: 650; color: var(--muted-foreground); }
+.image-practice-note h3 { font-size: 1.14rem; font-weight: 700; line-height: 1.35; }
+.image-practice-note > p:not(.image-practice-role) { margin-top: .65rem; line-height: 1.65; }
+.practice-figures { display: grid; gap: 1rem; margin-block: 1.1rem; min-width: 0; }
+.practice-capture { margin: 0; min-width: 0; }
+.practice-capture img { display: block; width: auto; max-width: 100%; height: auto; margin-inline: auto; border: 1px solid var(--border); border-radius: .55rem; background: var(--secondary); }
+.practice-capture figcaption { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .2rem .8rem; align-items: start; margin-top: .55rem; font-size: .875rem; line-height: 1.5; }
+.practice-capture__context { grid-column: 1 / -1; color: var(--muted-foreground); font-size: .8rem; font-weight: 650; }
+.practice-capture figcaption a, .image-practice-links a { text-decoration: underline; text-underline-offset: .2em; }
+.image-practice-links { display: flex; flex-wrap: wrap; gap: .4rem 1rem; margin-top: .75rem; padding-left: 0; list-style: none; }
+.image-practice-links a { display: inline-flex; align-items: center; gap: .35em; font-size: .9rem; }
+.debian-notice-links { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; }

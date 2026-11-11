@@ -416,19 +416,20 @@ export function DebianImagesPage() {
             hardware or a substitute for practicing recovery.
           </p>
           <p>
-            You can follow the existing Debian and Bitcoin Core lessons now. The
-            prepared images are intended to reduce setup work; understanding the
-            environment and proving recovery remain part of the process.
+            The illustrated curriculum follows a disposable signing wallet from its
+            first offline backup through watch-only export, a test payment and
+            recovery on two replacement computers.
           </p>
           <p>
             These are independent BTC Pavao projects built around Debian and
             Bitcoin Core, not official releases of either project. The release
-            documentation will distinguish the live-session and installation
-            workflows and state what persists after shutdown.
+            documentation explains how to install each system and which files
+            persist after shutdown.
           </p>
           <nav className="debian-release-links" aria-label="Available ISO releases">
             <a href={vaultRelease}>Vault v0.5.0 release</a>
             <a href={nodeRelease}>Node v0.1.0-rc.2 release</a>
+            <a href="/en/bitcoin-core/self-custody/?setup=vault-node#lesson/prepare-offline-signer">Follow the Vault and Node walkthrough</a>
             <a href="/en/bitcoin-core/self-custody/">Start the Bitcoin Core curriculum</a>
           </nav>
         </section>

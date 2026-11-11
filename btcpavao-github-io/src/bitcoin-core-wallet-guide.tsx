@@ -1480,7 +1480,7 @@ export function BitcoinCoreWalletGuidePage() {
             }
             prerequisites="Bitcoin Core installed from an official source, an empty practice environment, and a separate place for passphrase notes."
             outcome="A restored practice wallet with the same receiving address and label."
-            lastReviewed="Beginner instructions, GPG backup and recovery: 16 October 2026. The Vault ISO is still in development."
+            lastReviewed="Core 31.1 and macOS walkthrough reviewed 16 October 2026. Vault release information updated 11 November 2026 for v0.5.0."
           />
 
           <div className="mt-10 grid gap-4 rounded-[28px] bg-card p-5 shadow-[var(--shadow-border)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-7">

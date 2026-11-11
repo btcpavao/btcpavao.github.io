@@ -47,7 +47,7 @@ try {
       search("PSBT"),
       search("psbt").map((r) => ({
         ...r,
-        href: curriculumLessonHref(r.lesson.slug, "PSBT"),
+        href: r.href.replace("q=psbt", "q=PSBT"),
       }))
     )
     assert.equal(normalizeSearch("  LÍNUX—Debian! "), "linux debian")
@@ -100,6 +100,12 @@ try {
       "checksum",
     ])
       assert.ok(search(q).length, q)
+  })
+  check("Vault walkthrough terms link to the illustrated version of the lesson", () => {
+    const watch = search("watch-only.dat").find(r => r.lesson.slug === "watch-only-setup")
+    assert.ok(watch)
+    assert.equal(new URL(watch.href, "https://btcpavao.com").searchParams.get("setup"), "vault-node")
+    assert.ok(search("Private Workspace").some(r => r.lesson.slug === "prepare-offline-signer"))
   })
   check("Sections and chapters are indexed", () => {
     assert.ok(
