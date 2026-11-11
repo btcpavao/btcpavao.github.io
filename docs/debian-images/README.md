@@ -176,7 +176,9 @@ These are unsigned test candidates. Their exact source revisions, full-image com
 
 In each builder's Terminal type `sha256sum ` (including a space), drag the ISO **from the build output folder** into the Terminal, then press Enter. Record all 64 characters. If both files are on one machine you can also run `cmp first.iso second.iso` with their actual paths. Exit code 0 means every byte matched. Two builds on one provider test repeatability there. A second person using their own machine can provide independent confirmation.
 
-For a release with a signed manifest, return to the guide directory and use `python3 check_release.py PRODUCT TAG --iso "/path/to/your/newly-built.iso"` with the actual product, version and path. A candidate with no signed release yet can be compared between builders, but still needs a signed release digest before anyone can make the publisher comparison.
+For either unsigned candidate, download the ISO for the exact tag you built. Compare its SHA-256 with the value in step 4 and run `cmp` on the downloaded ISO and your local build. A successful comparison establishes that both files contain the same bytes. See the [website tutorial for both candidates](https://btcpavao.com/en/bitcoin-core/debian-images/#rebuild-tutorial).
+
+For the signed Vault v0.5.0 or Node v0.1.0-rc.2 download, return to the guide directory and use `python3 check_release.py PRODUCT TAG --iso "/path/to/your/downloaded.iso"` with the actual product, version and path. The tool verifies the publisher’s signature on the checksum list and compares your file with the entry for that release. See [how to verify a signed download](https://btcpavao.com/en/bitcoin-core/debian-images/#verify-download).
 
 If any hashes differ, keep both files, record the expected and actual digests and keep the build logs. On a disposable VM with both files, install `diffoscope` and run `diffoscope --text differences.txt first.iso second.iso` with the actual paths. It opens nested filesystems and identifies the first meaningful differences. A timestamp difference still changes the ISO.
 

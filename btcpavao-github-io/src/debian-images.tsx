@@ -1,3 +1,4 @@
+import { DebianImageVerification } from "./debian-image-verification"
 import { Archive, LockKeyhole } from "lucide-react"
 import { ConsultingInvitation } from "@/components/consulting-invitation"
 import { useEffect } from "react"
@@ -184,9 +185,10 @@ export function DebianImagesPage() {
             environment for wallet secrets.
           </p>
         </header>
-        <nav className="debian-product-nav" aria-label="Choose a Bitcoin Core environment">
+        <nav className="debian-product-nav" aria-label="Debian images and verification">
           <a href="#vault">Vault · Offline wallet work</a>
           <a href="#online-node">Node · Online validation</a>
+          <a href="#verify-the-build">Verify or rebuild an image</a>
         </nav>
         <div className="debian-role-grid">
           <section id="vault">
@@ -341,6 +343,7 @@ export function DebianImagesPage() {
               <nav className="debian-release-links" aria-label="Bitcoin Core Vault download links">
                 <a href={vaultIso}>Download Vault ISO</a>
                 <a href={vaultRelease}>Checksums, signature &amp; source</a>
+                <a href="#verify-download">How to verify this ISO</a>
               </nav>
             </div>
             <a href={lesson("more-copies-do-not-mean-a-current-backup")}>
@@ -389,6 +392,7 @@ export function DebianImagesPage() {
               <nav className="debian-release-links" aria-label="Bitcoin Core Node release links">
                 <a href={nodeIso}>Download Node ISO</a>
                 <a href={nodeRelease}>Checksums, PGP signature &amp; source</a>
+                <a href="#verify-download">How to verify this ISO</a>
               </nav>
               <p className="debian-detail">Preview release, not independently
                 audited or reproducibility-certified. Apple Silicon, T2 Macs,
@@ -399,106 +403,7 @@ export function DebianImagesPage() {
             </a>
           </section>
         </div>
-        <section className="debian-verification" id="verify-the-build">
-          <p className="debian-images-eyebrow">
-            Sources and independent verification
-          </p>
-          <h2>Trace the software. Inspect the preparation.</h2>
-          <p>
-            The images are prepared Debian environments built around existing
-            open-source software. Debian packages come from the official Debian
-            archive; Bitcoin Core uses the unmodified upstream release. The
-            current Vault build also contains project configuration, helper
-            programs and locally built or patched packages, including the Vault
-            interface, Thunar and the installer. Those additions belong in the review too.
-          </p>
-          <p>
-            Both published releases link to their exact ISO hashes, OpenPGP
-            signature, package/build metadata and matching source snapshots:
-            <a href={vaultRelease}> Vault v0.5.0</a> and
-            <a href={nodeRelease}> Node v0.1.0-rc.2</a>.
-            The goal is independent inspection. A matching source archive and
-            signed hash alone do not establish a reproducible ISO.
-          </p>
-          <p>
-            <a href="https://github.com/btcpavao/btcpavao.github.io/blob/main/docs/debian-images/README.md">
-              Step by step: download the sources, review changes and check a rebuild
-            </a>
-          </p>
-          <p>
-            Two fresh GitHub runners built each test ISO and compared the complete files.
-            Choose a candidate to download its ISO, inspect the exact source and
-            compare your own build with the published SHA-256. These test candidates
-            have no publisher OpenPGP signature.{" "}
-            <a href="https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/native-rebuild-candidate-71242344618b">Vault candidate and build record</a>
-            {" · "}
-            <a href="https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/rebuild-e6519d7e5e95">Node candidate and build record</a>.
-          </p>
-          <ol>
-            <li>
-              <strong>Authenticate the image.</strong> Compare its SHA-256
-              checksum with the signed release checksums and verify the signing
-              key through an independent trusted channel. This identifies the
-              published image; it does not by itself prove the contents are
-              safe.{" "}
-              <a href="https://www.debian.org/CD/verify">
-                Debian explains image verification.
-              </a>
-            </li>
-            <li>
-              <strong>Confirm the release signing key.</strong> Independently
-              compare the public signing key fingerprint with the publisher’s
-              stated fingerprint below before relying on the signature:
-              <code className="debian-signing-fingerprint">787A 2AAF B0D1 19CA 0522 B2A5 B9C9 9AF8 5788 96D0</code>
-              After importing <code>btcpavao-pgp.asc</code>, run
-              <code>gpg --verify SHA256SUMS.asc SHA256SUMS</code> and
-              <code>sha256sum -c SHA256SUMS</code>. Verify only a downloaded
-              subset with <code>sha256sum -c SHA256SUMS --ignore-missing</code>.
-            </li>
-            <li>
-              <strong>Verify the upstream software.</strong> Check Debian
-              package provenance against signed archive metadata using{" "}
-              <a href="https://manpages.debian.org/trixie/apt/apt-secure.8.en.html">
-                APT’s trust chain
-              </a>
-              . Compare Core against its{" "}
-              <a href="https://bitcoincore.org/en/download/">
-                upstream hashes, signatures and independent build attestations
-              </a>
-              . For direct KeePassXC downloads, use its{" "}
-              <a href="https://keepassxc.org/verifying-signatures/">
-                signature-verification instructions
-              </a>
-              ; the Debian-packaged version is verified through Debian.
-            </li>
-            <li>
-              <strong>Review every project addition.</strong> Read the package
-              lists, boot settings, launchers, helper programs and local
-              patches. Compare files inside the image with the documented
-              inputs. A local patch must be disclosed and checked, even when its
-              starting point was an official source.
-            </li>
-            <li>
-              <strong>Build and compare independently.</strong> Rebuild from the
-              recorded inputs in a separate environment and compare the output
-              and contents. A claim of{" "}
-              <a href="https://reproducible-builds.org/docs/definition/">
-                byte-for-byte reproducibility
-              </a>{" "}
-              requires a matching independent build; it is not implied by
-              publishing source code or a checksum. The historical Vault v0.5.0
-              and Node v0.1.0-rc.2 downloads have signed hashes. Confirmed rebuilds
-              of newer candidates are listed above.
-            </li>
-            <li>
-              <strong>Check the session behavior.</strong> In a disposable test
-              session, inspect the RAM mounts, confirm that swap is inactive,
-              export a test wallet, shut down and prove recovery from the
-              external backup. Source and image checks complement these runtime
-              checks.
-            </li>
-          </ol>
-        </section>
+        <DebianImageVerification />
         <section className="debian-release-plan" id="release-status">
           <p className="debian-images-eyebrow">
             Release status · November 11, 2026
