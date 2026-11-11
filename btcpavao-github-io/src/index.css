@@ -8005,7 +8005,7 @@ input:focus-visible + .curriculum-checkbox {
   .debian-images-notice__art { grid-template-columns: 4rem 7.5rem; justify-self: end; }
   .debian-images-notice__tux { width: 7.5rem; }
 }
-.debian-images-page { max-width: 1120px; margin: 0 auto; }
+.debian-images-page { --primary-foreground: #fff; max-width: 1120px; margin: 0 auto; }
 .debian-images-page header { display: grid; grid-template-columns: minmax(0, 1fr) clamp(9rem, 18vw, 14rem); column-gap: 2rem; margin-bottom: 4rem; }
 .debian-images-page header > a { grid-column: 1; justify-self: start; }
 .debian-images-page header > .debian-images-eyebrow { grid-column: 1; margin-top: 2.75rem; }
