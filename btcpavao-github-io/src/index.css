@@ -36,7 +36,7 @@
   --popover: oklch(0.993 0.006 90);
   --popover-foreground: oklch(0.24 0.018 58);
   --primary: oklch(0.69 0.16 72);
-  --primary-foreground: oklch(0.22 0.018 58);
+  --primary-foreground: #ffffff;
   --primary-button: #a85100;
   --primary-button-hover: #934900;
   --primary-button-foreground: #ffffff;
@@ -94,7 +94,7 @@
   --popover: oklch(0.235 0.012 56);
   --popover-foreground: oklch(0.95 0.008 88);
   --primary: oklch(0.75 0.15 72);
-  --primary-foreground: oklch(0.19 0.012 56);
+  --primary-foreground: #ffffff;
   --primary-button: #a85100;
   --primary-button-hover: #934900;
   --primary-button-foreground: #ffffff;
@@ -8005,7 +8005,7 @@ input:focus-visible + .curriculum-checkbox {
   .debian-images-notice__art { grid-template-columns: 4rem 7.5rem; justify-self: end; }
   .debian-images-notice__tux { width: 7.5rem; }
 }
-.debian-images-page { --primary-foreground: #fff; max-width: 1120px; margin: 0 auto; }
+.debian-images-page { max-width: 1120px; margin: 0 auto; }
 .debian-images-page header { display: grid; grid-template-columns: minmax(0, 1fr) clamp(9rem, 18vw, 14rem); column-gap: 2rem; margin-bottom: 4rem; }
 .debian-images-page header > a { grid-column: 1; justify-self: start; }
 .debian-images-page header > .debian-images-eyebrow { grid-column: 1; margin-top: 2.75rem; }
