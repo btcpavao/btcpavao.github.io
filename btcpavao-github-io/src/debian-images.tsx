@@ -104,13 +104,9 @@ const productScreenshots = {
     name: "Bitcoin Core Vault",
     version: "v0.5.0",
     images: [
-      { file: "guide", title: "Updated practical Vault Guide", description: "Start with the complete wallet, backup, watch-only Node and offline signing workflow.", alt: "Bitcoin Core Vault v0.5.0 installed Guide showing the Vault-to-Node flow and chapter navigation" },
       { file: "home", title: "Your offline workspace", description: "Bitcoin Core, encrypted backup and recovery tools in one private workspace.", alt: "Bitcoin Core Vault home with Bitcoin Core, Wallet Backup, Decrypt Backup, KeePassXC and offline utilities" },
+      { file: "guide", title: "Updated practical Vault Guide", description: "Start with the complete wallet, backup, watch-only Node and offline signing workflow.", alt: "Bitcoin Core Vault v0.5.0 installed Guide showing the Vault-to-Node flow and chapter navigation" },
       { file: "backup", title: "Wallet Backup", description: "Create and encrypt a backup using the dedicated wallet backup interface.", alt: "Bitcoin Core Vault wallet backup interface" },
-      { file: "wallet", title: "Create and encrypt a wallet", description: "See how Core encryption and GPG backups protect different things.", alt: "Updated Vault Guide chapter explaining Core wallet encryption, encrypted backups, and public wallet data" },
-      { file: "components", title: "Separate backup components", description: "Plan redundant copies of the encrypted file and the required passphrases.", alt: "Vault Guide chapter describing how to distribute three independently held backup components" },
-      { file: "passphrase", title: "Choose a passphrase", description: "Learn the trade-offs between four, five and six randomly selected words.", alt: "Vault Guide chapter illustrating four-, five-, and six-word passphrases" },
-      { file: "psbt", title: "Sign a PSBT offline", description: "Prepare online, review and sign in Vault, then broadcast from Node.", alt: "Vault Guide chapter showing a four-step PSBT signing flow between online Node and offline Vault" },
     ],
   },
   node: {
@@ -141,7 +137,7 @@ function ProductScreenshots({ product }: { product: keyof typeof productScreensh
         ))}
       </div>
       <p className="product-screenshots-note">{product === "vault"
-        ? "The v0.5.0 Guide overview was captured from the installed test image, with new Guide chapters rendered from the same release source. Home and Wallet Backup screens carry over from v0.4.0 because their visible interfaces did not change. No personal wallets or funds are shown."
+        ? "The v0.5.0 Guide overview was captured from the installed test image, while the Home and Wallet Backup screens carry over from v0.4.0 because their visible interfaces did not change. No personal wallets or funds are shown."
         : "Captured from the released image in a demonstration session. No personal wallets or funds are shown. Node is shown without a network connection, with the optional Backup and Restore Home shortcut enabled."}</p>
     </div>
   )
