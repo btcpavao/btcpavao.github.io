@@ -426,12 +426,13 @@ export function DebianImagesPage() {
             </a>
           </p>
           <p>
-            Two separate GitHub runners produced identical copies of a new Vault
-            test ISO. The public candidate includes the exact source revision,
-            image, build logs and SHA-256 digest.{" "}
-            <a href="https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/rebuild-candidate-9f466c5df912">
-              Vault build proof and candidate download
-            </a>.
+            Two fresh GitHub runners built each test ISO and compared the complete files.
+            Choose a candidate to download its ISO, inspect the exact source and
+            compare your own build with the published SHA-256. These test candidates
+            have no publisher OpenPGP signature.{" "}
+            <a href="https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/rebuild-candidate-9f466c5df912">Vault candidate and build record</a>
+            {" · "}
+            <a href="https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/rebuild-e6519d7e5e95">Node candidate and build record</a>.
           </p>
           <ol>
             <li>
