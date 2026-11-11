@@ -423,7 +423,18 @@ export function DebianImagesPage() {
           <p>
             <a href="https://github.com/btcpavao/btcpavao.github.io/blob/main/docs/debian-images/README.md">
               Step by step: download the sources, review changes and check a rebuild
+            </a>{" · "}
+            <a href="https://github.com/btcpavao/btcpavao.github.io/blob/main/docs/debian-images/README.hr.md" lang="hr">
+              Hrvatske upute
             </a>
+          </p>
+          <p>
+            Two separate GitHub runners produced identical copies of a new Vault
+            test ISO. The public candidate includes the exact source revision,
+            image, build logs and SHA-256 digest.{" "}
+            <a href="https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/rebuild-candidate-9f466c5df912">
+              Vault build proof and candidate download
+            </a>.
           </p>
           <ol>
             <li>
@@ -477,8 +488,9 @@ export function DebianImagesPage() {
                 byte-for-byte reproducibility
               </a>{" "}
               requires a matching independent build; it is not implied by
-              publishing source code or a checksum. Reproducibility of these
-              complete ISOs has not yet been established here.
+              publishing source code or a checksum. The historical Vault v0.5.0
+              and Node v0.1.0-rc.2 downloads have signed hashes. Confirmed rebuilds
+              of newer candidates are listed above.
             </li>
             <li>
               <strong>Check the session behavior.</strong> In a disposable test

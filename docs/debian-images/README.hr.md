@@ -49,7 +49,7 @@ Svaka naredba prvo provjerava otisak cijelog ISO-a. Opcija `--inspect` zatim otv
 ## 4. Pogledaj što je promijenjeno
 
 - **Vault.** Otvori [usporedbu v0.4.0 i v0.5.0](https://github.com/btcpavao/bitcoin-core-vault-releases/compare/v0.4.0...v0.5.0). Klikni na ime datoteke. Git označava dodane retke znakom `+`, a uklonjene znakom `-`. U odjeljku 3 [engleskog vodiča](README.md) možeš ponoviti usporedbu lokalno i provjeriti da obje oznake izdanja vode na commit iz potpisanog izvornog zapisa.
-- **Node.** Kod ovih povijesnih izdanja stvarni izvor aplikacije nalazi se u zasebnoj arhivi uz svako izdanje. U [vodiču za Node](https://github.com/btcpavao/bitcoin-core-node-releases/blob/reproducible-builds/docs/REBUILD.hr.md) slijedi upute za `bash rebuild/release-diff`. Naredba provjerava potpise oba izdanja, otvara njihove izvore i prikazuje promjene između RC1 i RC2. Za primjer pogledaj `app/chain_backup.py`. Tu možeš vidjeti kako se promijenio završni dio backupa.
+- **Node.** Kod ovih povijesnih izdanja stvarni izvor aplikacije nalazi se u zasebnoj arhivi uz svako izdanje. U [vodiču za Node](https://github.com/btcpavao/bitcoin-core-node-releases/blob/reproducible-builds/docs/REBUILD.hr.md) slijedi upute za `bash rebuild/release-diff`. Naredba provjerava potpise oba izdanja, otvara njihove izvore i prikazuje promjene između RC1 i RC2. Za primjer pogledaj `app/chain_backup.py`. Tu možeš vidjeti kako se promijenio završni dio backupa. [Izvori RC2 u pregledniku](https://github.com/btcpavao/bitcoin-core-node-releases/tree/669e90f9768975924ae443225f23f78cb4a28ecf/source) · [Svih 42 promijenjenih putanja](https://github.com/btcpavao/bitcoin-core-node-releases/compare/5f5770f7000d9d7fa05687279b21bf26e1293a86...669e90f9768975924ae443225f23f78cb4a28ecf)
 
 ## 5. Izgradi ISO iz izvora
 
@@ -62,8 +62,25 @@ Vault v0.5.0 i Node v0.1.0-rc.2 imaju potpisane otiske povijesnih izdanja. Oba s
 
 | Proizvod | Upute i rezultati izgradnje | Naredba u mapi odabranog repozitorija |
 | --- | --- | --- |
-| Vault | [Upute](https://github.com/btcpavao/bitcoin-core-vault-releases/blob/build/reproducible-vault/docs/REBUILD.md) · [Izmjene i provjere](https://github.com/btcpavao/bitcoin-core-vault-releases/pull/2) | `bash tools/rebuild/build.sh ../vault-result` |
+| Vault | [Upute na hrvatskom](https://github.com/btcpavao/bitcoin-core-vault-releases/blob/build/reproducible-vault/docs/REBUILD.hr.md) · [Izmjene i provjere](https://github.com/btcpavao/bitcoin-core-vault-releases/pull/2) | `bash tools/rebuild/build.sh ../vault-result` |
 | Node | [Upute na hrvatskom](https://github.com/btcpavao/bitcoin-core-node-releases/blob/reproducible-builds/docs/REBUILD.hr.md) · [Izmjene i provjere](https://github.com/btcpavao/bitcoin-core-node-releases/pull/1) | `bash rebuild/node build ../node-result` |
+
+### Ponovi potvrđenu izgradnju Vaulta
+
+Dva odvojena GitHub računala usporedila su cijeli ISO od **714.080.256 bajtova**. Objavljeni kandidat koristi ranije pripremljene Vaultove pakete Calamares i Thunar. Otvori novu mapu u virtualnom stroju s Gitom i Dockerom, pa pokreni ovaj blok. Slobodno ime mape za novi rezultat je `vault-result`. Posljednji redak provjerava puni SHA-256 datoteke koju si upravo izgradio. [ISO, izvori i oba dnevnika](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/rebuild-candidate-9f466c5df912) · [Usporedba dviju izgradnji](https://github.com/btcpavao/bitcoin-core-vault-releases/actions/runs/43010686916)
+
+```bash
+git clone --depth 1 --branch rebuild-candidate-9f466c5df912 https://github.com/btcpavao/bitcoin-core-vault-releases.git vault-candidate
+(
+  set -eu
+  cd vault-candidate
+  test "$(git rev-parse HEAD)" = 9f466c5df912d7f455d86aa34d85a39be7b143fc
+  bash tools/rebuild/build.sh ../vault-result
+  printf '%s  %s\n' eb54552a569db6cd1158f712b8713bc6c1b519e17026fa31d4652d4e21157141 ../vault-result/bitcoin-core-vault-amd64.iso | sha256sum --check
+)
+```
+
+Ovo je javni testni kandidat bez PGP potpisa. Dokaz usporedbe i dalje možeš provjeriti pregledom oba dnevnika i ponavljanjem izgradnje na svojem računalu.
 
 ## 6. Usporedi rezultat
 
