@@ -65,12 +65,21 @@ def check(args):
         source_name = f"bitcoin-core-{args.role}-{args.tag}-source.tar.gz"
         if source_name not in entries:
             raise ValueError("The signed manifest has no source archive for the selected product and version.")
+        if args.inspect and not args.iso:
+            raise ValueError("--inspect requires --iso and a local image path.")
         if args.iso:
             images = [name for name in entries if name.endswith(".iso") and name.startswith(f"bitcoin-core-{args.role}-")]
             if len(images) != 1:
                 raise ValueError("Expected one ISO for this product in the signed manifest.")
             print("Release ISO:", images[0])
             verify_file(args.iso, entries[images[0]])
+            if args.inspect:
+                from inspect_payload import compare_payload
+                archive = out / source_name
+                if not archive.is_file():
+                    raise ValueError("Run the source download first (the same command without --iso or --inspect).")
+                verify_file(archive, entries[source_name])
+                compare_payload(archive, args.iso, stage, args.role, args.tag)
         else:
             names = [source_name, "SOURCE-COMMIT.txt"]
             names.extend(n for n in entries if n.endswith("-calamares-source.tar.xz"))
@@ -95,6 +104,7 @@ def main():
     parser.add_argument("role", choices=("vault", "node"))
     parser.add_argument("tag", help="release version, e.g. v0.5.0")
     parser.add_argument("--iso", type=Path, help="hash an existing file, including a locally built ISO")
+    parser.add_argument("--inspect", action="store_true", help="compare signed project source files with files inside a supported ISO")
     parser.add_argument("--work", type=Path, default=Path("release-checks"), help="folder for verified downloads")
     args = parser.parse_args()
     try:
