@@ -1,6 +1,6 @@
 const base = "/software/screenshots/curriculum/"
 
-const captures = {
+export const captures = {
   "fingerprint": {
     src: "/software/screenshots/verification/signer-fingerprint.webp", width: 1192, height: 198,
     context: "Debian terminal · publisher key",

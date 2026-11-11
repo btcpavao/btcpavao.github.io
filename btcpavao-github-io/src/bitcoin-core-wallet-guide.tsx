@@ -4,7 +4,10 @@ import { ImageViewer, type Gallery } from "@/components/zoomable-image"
 import { GpgLayerExplorer } from "@/components/gpg-layer-explorer"
 import { PassphraseExplorer } from "@/components/passphrase-explorer"
 import { findContentByPath } from "@/content-registry"
-import { CustodyArchitecture } from "@/components/custody-architecture"
+import { GuidePracticeSetup } from "@/components/guide-practice-setup"
+import { useVaultSetup } from "@/use-vault-setup"
+import { VerificationCommands } from "@/components/verification-commands"
+import { captures } from "@/curriculum/practice-captures"
 import { DEBIAN_IMAGES_PATH } from "@/components/debian-images-notice"
 import {
   useEffect,
@@ -51,6 +54,7 @@ const IMAGE_ROOT = "/bitcoin-core-wallet-guide"
 const BITCOIN_CORE_DOWNLOAD_URL = "https://bitcoincore.org/en/download/"
 const KEEPASSXC_DOWNLOAD_URL = "https://keepassxc.org/download/"
 const DEBIAN_DOWNLOAD_URL = "https://www.debian.org/distrib/"
+const vaultLesson = (slug: string) => `${EN_BITCOIN_CORE_CURRICULUM_PATH}?setup=vault-node#lesson/${slug}`
 const GNUPG_DOWNLOAD_URL = "https://gnupg.org/download/"
 
 type GuideImage = {
@@ -58,6 +62,8 @@ type GuideImage = {
   alt: string
   width?: number
   height?: number
+  context?: string
+  caption?: string
 }
 
 type GuideStep = {
@@ -151,6 +157,7 @@ const image = (
   alt,
   width,
   height,
+  context: "macOS desktop · Core 31.1 walkthrough · October 2026",
 })
 
 const legacySteps: GuideStep[] = [
@@ -196,8 +203,8 @@ const legacySteps: GuideStep[] = [
       <>
         <p>
           Select <strong>Create Wallet</strong> and enter a local name. The
-          screenshots in this guide use disposable <strong>Test Wallet</strong>{" "}
-          and <strong>Tutorial Wallet</strong> examples. A wallet name is only a
+          older macOS screenshots use <strong>Test Wallet</strong> and <strong>Tutorial Wallet</strong>.
+          Give your own disposable wallet a name you will recognize after restoring it. A wallet name is only a
           local identifier; it does not need to reveal your identity or the
           purpose of the funds.
         </p>
@@ -224,7 +231,7 @@ const legacySteps: GuideStep[] = [
     content: (
       <>
         <p>
-          Check <strong>Encrypt Wallet</strong>. This protects the secret keys
+          Select <strong>Encrypt Wallet</strong>, then choose <strong>Create</strong>. This protects the secret keys
           that approve payments. You will need your wallet passphrase to use
           those keys to sign a transaction — in other words, to authorize spending.
         </p>
@@ -272,13 +279,13 @@ const legacySteps: GuideStep[] = [
           database just to use the generator.
         </p>
         <p>
-          <ResourceLink href="https://github.com/bitcoin/bitcoin/blob/v31.1/src/qt/askpassphrasedialog.cpp#L37">
+          <ResourceLink href="https://github.com/bitcoin/bitcoin/blob/v32.1/src/qt/askpassphrasedialog.cpp#L42">
             Bitcoin Core’s encryption dialog recommends eight or more words
           </ResourceLink>.
-          Eight independently generated random words are a good starting point
-          for this exercise and match the screenshots. Before deciding on eight,
-          more or fewer, try the calculator below to see how the word count
-          changes the estimated effort and cost of guessing the passphrase.
+          Use eight independently generated words for this exercise. Vault’s
+          KeePassXC generator starts with six, as does the calculator on its
+          first visit. Change the generator’s word count before generating your
+          phrase. Use the calculator to compare the choices.
         </p>
         <p>
           Entropy describes how many possible combinations an attacker has to
@@ -498,14 +505,15 @@ const legacySteps: GuideStep[] = [
       <>
         <p>
           Open <strong>Receive</strong>, add a local label such as
-          <strong> Test Transaction</strong>, and select
+          <strong> Recovery check</strong>, and select
           <strong> Create new receiving address</strong>. Bitcoin Core displays
           the address and a QR code. Labels help you remember an address's
           purpose; the label itself is not written to the Bitcoin blockchain.
         </p>
         <p>
-          Keep this address unfunded. Its purpose here is to give you something
-          to recognize when you restore the backup.
+          Record the full address and exact label separately before making the backup.
+          Leave the address unfunded. In step 10 you will look up this existing entry in
+          the restored wallet and compare both values with your record.
         </p>
       </>
     ),
@@ -596,7 +604,7 @@ const legacySteps: GuideStep[] = [
     ],
     content: (
       <p>
-        First use GPG to open your encrypted backup with its GPG passphrase.
+        If you added GPG protection, use its separate passphrase to decrypt your external backup in a fresh practice folder.
         If you added more layers, open them in reverse order, last added first.
         You should end up with the wallet <code>.dat</code> file. In Bitcoin
         Core, close the original practice wallet with <strong>File → Close
@@ -713,49 +721,93 @@ const legacySteps: GuideStep[] = [
   },
 ]
 
+function core32Image(file: string, width: number, height: number, alt: string, caption: string): GuideImage {
+  return {
+    src: `${IMAGE_ROOT}/${file}.webp`, width, height, alt, caption,
+    context: "Bitcoin Core 32.1 · Debian 13 desktop · offline Regtest",
+  }
+}
+
+const proofImages = {
+  empty: core32Image("core32-empty-regtest", 757, 508,
+    "Bitcoin Core starts in the separate disposable Regtest data directory with no wallet loaded.",
+    "The demonstration ran entirely offline. Use a separate environment for a wallet you plan to discard."),
+  backupMenu: core32Image("core32-backup-menu", 757, 508,
+    "The File menu in Core 32.1 shows Backup Wallet for the selected signing wallet.",
+    "Back up the selected practice wallet before encrypting the whole snapshot with GPG."),
+  restoreMenu: core32Image("core32-restore-menu", 757, 508,
+    "A fresh Core 32.1 data directory shows the File menu and Restore Wallet.",
+    "The original data directory was set aside before this recovery exercise."),
+  recoveredFile: core32Image("core32-recovered-file", 509, 102,
+    "The file picker shows the recovered wallet snapshot for the restore.",
+    "Select the decrypted wallet database in your separate recovery folder."),
+  restoredName: core32Image("core32-restore-name", 202, 119,
+    "The new wallet name in the Restore Wallet dialog is Restored Practice.",
+    "Give the restored wallet its own local name."),
+  encrypted: core32Image("core32-create-encrypted", 435, 323,
+    "The Create Wallet dialog shows Practice Wallet with Encrypt Wallet selected.",
+    "Select Encrypt Wallet before creating the signing wallet."),
+  passphrase: core32Image("core32-wallet-passphrase-dialog", 600, 247,
+    "The empty Bitcoin Core wallet passphrase dialog recommends eight or more words.",
+    "Enter the same independently generated phrase in both fields. The screenshot was taken before entry."),
+  loss: core32Image("core32-loss-warning", 502, 135,
+    "Bitcoin Core warns that losing the wallet passphrase loses access to its encrypted signing keys.",
+    "Keep a separate recoverable record of the Core passphrase."),
+  malware: core32Image("core32-malware-warning", 502, 135,
+    "Core displays its warning about the limits of wallet encryption against malware.",
+    "Use a trusted, dedicated system when handling signing keys."),
+  before: core32Image("core32-before-recovery", 506, 527,
+    "Practice Wallet shows the full unfunded bcrt1 address and the label Recovery check before backup.",
+    "Before backup, record the complete address and the label Recovery check from the original request."),
+  after: core32Image("core32-after-recovery", 506, 527,
+    "Restored Practice shows the same full receiving address and Recovery check label in the recovered request.",
+    "After restore, compare the full address and label with step 6. Only the local wallet name has changed."),
+}
+
 const steps: GuideStep[] = [
   {
     ...legacySteps[0],
     number: 1,
     title: "Prepare a safe practice environment",
     summary: "Begin with no wallet loaded and no meaningful funds at risk.",
+    images: [proofImages.empty],
     content: (
       <>
         <p>
-          Install Bitcoin Core from its <ResourceLink href={BITCOIN_CORE_DOWNLOAD_URL}>official website</ResourceLink>{" "}
-          for your operating system and open it. Start without a wallet loaded,
-          as shown in the screenshot. Use a new, empty wallet for this exercise
-          and keep your operating system up to date. Do not proceed if you suspect
-          the computer has malware.
+          Download Bitcoin Core 32.1 for your operating system and follow the
+          <ResourceLink href={BITCOIN_CORE_DOWNLOAD_URL}> official verification instructions</ResourceLink>.
+          Choose the native arm64 package for an Apple Silicon Mac or x86_64 for an Intel Mac.
+          Open Core in a separate practice environment with no existing wallets loaded.
+          You can create and restore an unfunded wallet before the blockchain finishes downloading.
         </p>
         <p>
-          This is a conceptual walkthrough with a disposable wallet, not a
-          complete deployment procedure. Use no real bitcoin here. Before
-          committing meaningful funds, work through the full self-custody
-          curriculum and prepare a dedicated computer with a fresh Linux
-          installation. A practice wallet created on your daily computer should
-          remain a practice wallet.
+          Keep your existing wallets, recovery files and real funds separate.
+          This exercise uses one empty wallet and one computer. You will choose a
+          second computer only if you continue to the Vault and Node payment exercise.
         </p>
       </>
     ),
   },
-  { ...legacySteps[1], number: 2 },
-  { ...legacySteps[2], number: 3 },
+  {
+    ...legacySteps[1], number: 2, images: [],
+    content: <><p>Choose <strong>Create Wallet</strong> and enter <strong>Practice Wallet</strong>, the name used in the Core 32.1 walkthrough. You can use any local name you will recognize during recovery.</p>
+      <p>Leave <strong>Disable Private Keys</strong>, <strong>Make Blank Wallet</strong> and <strong>External signer</strong> unchecked. Keep the dialog open for step 3.</p></>,
+  },
+  { ...legacySteps[2], number: 3, images: [proofImages.encrypted] },
   {
     ...legacySteps[3],
     number: 4,
     title: "Generate and enter a strong passphrase",
     summary:
       "Use KeePassXC, enter the phrase twice, and keep its recovery record separate.",
-    images: [...legacySteps[3].images, ...legacySteps[4].images],
+    images: [proofImages.passphrase],
     content: (
       <>
         {legacySteps[3].content}
         {legacySteps[4].content}
       </>
     ),
-    note: legacySteps[4].note,
-    noteKind: legacySteps[4].noteKind,
+    note: undefined,
   },
   {
     ...legacySteps[5],
@@ -763,7 +815,7 @@ const steps: GuideStep[] = [
     title: "Acknowledge Bitcoin Core's warnings",
     summary:
       "Understand both permanent passphrase loss and the limits of encryption against malware.",
-    images: [...legacySteps[5].images, ...legacySteps[6].images],
+    images: [proofImages.loss, proofImages.malware],
     content: (
       <>
         {legacySteps[5].content}
@@ -783,45 +835,50 @@ const steps: GuideStep[] = [
     ...legacySteps[8],
     number: 6,
     title: "Generate a receiving address",
+    images: [proofImages.before],
   },
   {
     ...legacySteps[9],
     number: 7,
     title: "Back up the encrypted wallet",
+    images: [proofImages.backupMenu],
   },
   {
     ...legacySteps[10],
     number: 8,
     title: "Open Restore Wallet",
+    images: [proofImages.restoreMenu],
   },
   {
     ...legacySteps[11],
     number: 9,
     title: "Select the backup file",
     summary:
-      "Choose the wallet backup you intend to test, regardless of its filename.",
+      "Choose the recovered wallet database and give it a new local name.",
+    images: [proofImages.recoveredFile, proofImages.restoredName],
   },
   {
     ...legacySteps[14],
     number: 10,
     title: "Restore and verify the wallet",
-    summary:
-      "Check that your receiving address and label are back.",
+    summary: "Compare the full address and label with your record from step 6.",
+    images: [proofImages.after],
     content: (
       <>
-        {legacySteps[14].content}
-        <p>
-          You have now checked that the backup opens correctly. The next stage
-          is to prove that the restored keys can approve a payment using
-          valueless test coins. Follow that exercise in the{" "}
-          <a
-            {...articleLinkProps(EN_BITCOIN_CORE_CURRICULUM_PATH)}
-            className="font-semibold text-primary underline decoration-primary/45 underline-offset-4"
-          >
-            self-custody curriculum
-          </a>
-          .
-        </p>
+        <p>With the restored wallet selected, open <strong>Receive</strong> and double-click the saved
+          <strong> Recovery check</strong> request from step 6, or select it and choose <strong>Show</strong>. Compare the full address and the exact label with your earlier record.
+          You can also inspect the address book under <strong>Window → Receiving addresses</strong>.
+          Generating another receiving address advances to a new entry.</p>
+        <p>In the pictured Regtest exercise, Core wrote the original wallet snapshot, then GnuPG encrypted it
+          using a separate passphrase. After stopping Core and removing the original practice data and plaintext
+          snapshot, we decrypted the backup and restored it in a fresh data directory. The recovered file
+          matched the original snapshot byte for byte.</p>
+        <p>Core opened the restored wallet with a zero balance and its keys locked. It refused to sign a test message
+          until we entered the original Core passphrase. We signed a short message with a separate legacy address in
+          this wallet, verified the signature and locked the wallet again. This local test required no payment.</p>
+        <p>To check that a restored wallet can also authorize a payment, follow the
+          <ResourceLink href={vaultLesson("first-offline-signed-transaction")}> first offline-signed Regtest payment</ResourceLink>,
+          then repeat it in the <ResourceLink href={vaultLesson("recovery-drill-without-original-coordinator")}>replacement-wallet recovery exercise</ResourceLink>.</p>
       </>
     ),
   },
@@ -830,14 +887,7 @@ const steps: GuideStep[] = [
     title: "Check what you have learned",
     summary:
       "Check your backup, your separate passphrase records and your restore result.",
-    images: [
-      image(
-        "08-wallet-created-crisp",
-        "Bitcoin Core overview after an encrypted test wallet is loaded",
-        992,
-        1586
-      ),
-    ],
+    images: [],
     content: (
       <p>
         Review the checklist below before treating the exercise as complete. A
@@ -855,6 +905,66 @@ const steps: GuideStep[] = [
     ),
   },
 ]
+
+const vaultSteps: Record<number, Partial<GuideStep>> = {
+  1: {
+    images: [captures["vault-home"]],
+    content: <><p>On a separate computer, <ResourceLink href={`${DEBIAN_IMAGES_PATH}#verify-download`}>verify the signed Vault ISO</ResourceLink>, then prepare the boot USB. Start Vault v0.5.0 on a compatible amd64 computer with networking disconnected. Select Live RAM for this exercise, or use an existing installed practice Vault.</p>
+      <p>From Home, open Bitcoin Core. The protected launcher keeps the private session in RAM in either mode. Have a separate removable backup medium ready before you create the wallet. An empty wallet is sufficient for this exercise. <ResourceLink href={vaultLesson("prepare-offline-signer")}>Check the offline Vault setup</ResourceLink>.</p></>,
+  },
+  2: {
+    images: [captures["vault-create"]],
+    content: <p>In Core, choose <strong>Create Wallet</strong> and enter a recognizable practice name.
+      Leave <strong>Disable Private Keys</strong>, <strong>Make Blank Wallet</strong> and <strong>External signer</strong> unchecked.
+      Keep this dialog open for step 3.</p>,
+  },
+  4: {
+    images: [captures["vault-keepass"], proofImages.passphrase],
+    content: <><p>Open <strong>KeePassXC</strong> from Vault Home. In <strong>Password Generator → Passphrase</strong>,
+      the bundled generator opens with six words. Select <strong>eight</strong> for the Core wallet in this exercise,
+      then generate a fresh phrase. <ResourceLink href="https://github.com/bitcoin/bitcoin/blob/v32.1/src/qt/askpassphrasedialog.cpp#L42">Core’s encryption dialog recommends eight or more words</ResourceLink>.</p>
+      <p>Record the words in order, including the separator and case. Enter the same phrase twice in Core and keep
+      its recovery record separate from your wallet backup. In step 7 you will generate a different passphrase for GPG.</p>
+      <PassphraseExplorer guidance="guide" /></>,
+    note: undefined,
+  },
+  5: {
+    images: [proofImages.loss, proofImages.malware],
+    content: <><p>Read Core’s passphrase-loss and malware warnings, then finish creating the practice wallet.
+      Confirm that you could recover the exact Core passphrase from its separate record.</p>
+      <p>Leave the Vault offline while it holds the signing wallet. Its temporary wallet and the contents of Private Workspace disappear when the session ends.</p></>,
+  },
+  7: {
+    images: [captures["vault-backup"], captures["vault-private-backup"], captures["vault-usb-backup"]],
+    content: <><p>In Vault Home, open <strong>Wallet Backup</strong> and select the disposable wallet you created in Core.
+      Choose a destination on the separate backup medium, or accept Private Workspace and then use <strong>Files</strong> to copy the completed <code>wallet.dat.gpg</code> to that medium.</p>
+      <p>Set one GPG layer with a newly generated, independently recorded passphrase. Wait for the backup check.
+      In Files, open the external drive and check the filename and destination path before ejecting it.
+      A copy left only in Private Workspace disappears when Vault shuts down.</p>
+      <p>Keep separate recovery copies of the encrypted file, the GPG passphrase and the Core wallet passphrase.
+      The GPG passphrase opens the backup. The Core passphrase unlocks the restored signing keys.</p><GpgLayerExplorer /></>,
+  },
+  8: {
+    title: "Decrypt the external backup into private RAM",
+    summary: "Open the encrypted backup in a fresh offline Vault session.",
+    images: [captures["vault-decrypt"]],
+    content: <><p>Once you have verified that the encrypted backup is on your external medium and that you have both passphrase records,
+      shut Vault down and start a fresh offline session. Open <strong>Decrypt Backup</strong>, choose the external <code>.gpg</code> file and enter the separate GPG passphrase.</p>
+      <p>Recover the file to a new folder in <strong>Private Workspace</strong>. A single-wallet backup yields a <code>wallet.dat</code> in private RAM.
+      Wait for Vault to report that the file was recovered.</p></>,
+  },
+  9: {
+    images: [captures["vault-restored-file"]],
+    content: <p>Launch Bitcoin Core from Vault Home. Choose <strong>File → Restore Wallet</strong> and select
+      the recovered <code>wallet.dat</code> in the private recovery folder. Give this restored signing wallet a distinct name.
+      The external <code>.gpg</code> remains your backup to keep.</p>,
+  },
+}
+
+const macReferenceImages: Partial<Record<number, GuideImage[]>> = {
+  2: legacySteps[1].images,
+  7: [legacySteps[9].images[1]],
+}
 
 const finalChecklist = [
   "I created the wallet on an environment I trust.",
@@ -1102,6 +1212,7 @@ function ScreenshotButton({
   onOpen: (image: GuideImage, opener: HTMLButtonElement) => void
 }) {
   return (
+    <figure className="min-w-0">
     <button
       type="button"
       className="group relative block w-full overflow-hidden rounded-[20px] bg-muted shadow-[var(--shadow-border)] transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[var(--shadow-elevated)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary active:scale-[0.96]"
@@ -1122,38 +1233,15 @@ function ScreenshotButton({
         <Maximize2 className="size-4" aria-hidden="true" />
       </span>
     </button>
+      <figcaption className="mt-2 text-sm leading-6 text-muted-foreground">
+        <span className="block text-xs font-semibold">{screenshot.context}</span>
+        {screenshot.caption}
+      </figcaption>
+    </figure>
   )
 }
 
-function OptionalBackupProtection({
-  onOpen,
-}: {
-  onOpen: (image: GuideImage, opener: HTMLButtonElement) => void
-}) {
-  const screenshots = [
-    image(
-      "obfuscation-wallet-dat",
-      "Finder showing the original Test Wallet.dat backup"
-    ),
-    image(
-      "obfuscation-get-info-menu",
-      "Finder context menu with Get Info selected for Test Wallet.dat"
-    ),
-    image(
-      "obfuscation-rename-bin",
-      "macOS Get Info window renaming Test Wallet.dat to archive.bin"
-    ),
-    image(
-      "obfuscation-confirm-bin",
-      "macOS warning asking whether to use the .bin extension",
-      1126
-    ),
-    image(
-      "obfuscation-result-bin",
-      "Finder showing the renamed generic archive.bin file"
-    ),
-  ]
-
+function OptionalBackupProtection({ vault }: { vault: boolean }) {
   return (
     <section id="optional-backup-protection" aria-labelledby="backup-protection-title" className="mx-auto max-w-5xl scroll-mt-24 px-4 py-10 sm:px-6 sm:py-14">
       <div className="overflow-hidden rounded-[30px] bg-[#0d3153] text-white shadow-[var(--shadow-elevated)]">
@@ -1169,17 +1257,14 @@ function OptionalBackupProtection({
           </p>
 
           <div className="mt-8 max-w-[75ch] space-y-5 text-base leading-8 text-white/80 [&_strong]:text-white">
-            <h3 className="learning-heading text-2xl leading-tight font-bold text-white"><SectionIcon topic="core" /><span>Bitcoin Core Vault v0.5.0 on Debian</span></h3>
             <p>
-              The published <ResourceLink href={`${DEBIAN_IMAGES_PATH}#vault`} inverse>Bitcoin Core Vault v0.5.0 Debian ISO</ResourceLink>{" "}
-              is a dedicated offline wallet environment containing Bitcoin Core
-              32.1, GnuPG and the wallet backup/recovery tools. It supports a
-              single GPG layer or independently protected additional layers.
-              Download its signed checksums and source from the release page;
-              practise recovery with disposable wallets before relying on it.
+              {vault ? <>Vault’s Wallet Backup and Decrypt Backup tools handle the GPG layer for you. After copying the encrypted file to your external medium, <a className="font-semibold underline underline-offset-4" href="#step-8">continue to step 8</a>. The independent methods below also work on another offline system.</> :
+                <>For an offline graphical workflow on compatible amd64 hardware, <ResourceLink href={`${BITCOIN_CORE_WALLET_GUIDE_PATH}?setup=vault#step-7`} inverse>follow step 7 on Vault</ResourceLink>. On your desktop, choose Finder or Terminal below.</>}
+              {" "}<ResourceLink href="https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.5.0/docs/GPG-BACKUP.md" inverse>Vault v0.5.0 backup format and independent recovery</ResourceLink>.
             </p>
 
-            <h3 className="learning-heading pt-4 text-2xl leading-tight font-bold text-white"><SectionIcon topic="setup" /><span>Install GPG for an independent practice session</span></h3>
+            <details className="space-y-4 border-t border-white/20 pt-4">
+              <summary className="cursor-pointer py-2 font-semibold text-white">Install GPG for an independent practice session</summary>
             <p>
               GnuPG is the software behind GPG encryption. Choose the download
               for your operating system. The macOS option includes a graphical
@@ -1187,18 +1272,21 @@ function OptionalBackupProtection({
             </p>
             <ul className="list-disc space-y-3 pl-6 [&_li]:pl-2">
               <li><strong>Debian / Ubuntu:</strong> open Terminal and install GnuPG:
-                <code className="mt-2 block break-words rounded-xl bg-black/20 p-4 text-sm sm:p-6">sudo apt update<br />sudo apt install gnupg</code>
+                <VerificationCommands title="Refresh the package index" lines={["sudo apt update"]} />
+                <VerificationCommands title="Install GnuPG" lines={["sudo apt install gnupg"]} />
                 For Debian, see the <ResourceLink href="https://packages.debian.org/trixie/gnupg" inverse>GnuPG package</ResourceLink>.
               </li>
               <li><strong>Other Linux distributions:</strong> install GnuPG using your distribution’s software manager.</li>
               <li><strong>Windows:</strong> install <ResourceLink href="https://gpg4win.org/download.html" inverse>Gpg4win</ResourceLink> from its official website and follow its installer-verification instructions. It includes GnuPG and the Kleopatra interface.</li>
-              <li><strong>macOS:</strong> for a graphical workflow, I recommend <ResourceLink href="https://gpgtools.org/" inverse>GPG Suite</ResourceLink> and its <strong>GPG Services</strong> integration in Finder. Use the password-only steps below. If you prefer Terminal and already use Homebrew, run <code>brew install gnupg</code> using the <ResourceLink href="https://formulae.brew.sh/formula/gnupg" inverse>GnuPG formula</ResourceLink>. Other macOS distributions are listed on the <ResourceLink href={GNUPG_DOWNLOAD_URL} inverse>official GnuPG download page</ResourceLink>.</li>
+              <li><strong>macOS:</strong> for a graphical workflow, I recommend <ResourceLink href="https://gpgtools.org/" inverse>GPG Suite</ResourceLink> and its <strong>GPG Services</strong> integration in Finder. Use the password-only steps below. If you prefer Terminal and already use Homebrew, use the <ResourceLink href="https://formulae.brew.sh/formula/gnupg" inverse>GnuPG formula</ResourceLink>. Other macOS distributions are listed on the <ResourceLink href={GNUPG_DOWNLOAD_URL} inverse>official GnuPG download page</ResourceLink>.
+                <VerificationCommands title="Install GnuPG with Homebrew" lines={["brew install gnupg"]} /></li>
             </ul>
             <p>
-              Choose one method below: Finder on macOS, or Terminal on any of
+              Choose Finder on macOS, or Terminal on any of
               these systems. Both encrypt the same kind of backup file with a
               passphrase. For this first try, use one layer.
             </p>
+            </details>
 
             <details className="space-y-4 border-t border-white/20 pt-4" id="macos-gpg-services">
               <summary className="cursor-pointer py-2 font-semibold text-white">macOS graphical workflow: GPG Suite in Finder</summary>
@@ -1223,10 +1311,10 @@ function OptionalBackupProtection({
             <details className="space-y-4 border-t border-white/20 pt-4" id="gpg-terminal">
             <summary className="cursor-pointer py-2 font-semibold text-white">Terminal option: encrypt and open one GPG layer</summary>
             <p className="mt-4">
-              Open Terminal, or PowerShell on Windows. Run <code>gpg --version</code>{" "}
-              to check the installation. Then open a terminal in the folder where
-              you saved your practice backup. Run each command separately.
+              Open Terminal, or PowerShell on Windows, in the folder where you
+              saved your practice backup. Check your GPG installation, then run each command separately.
             </p>
+            <VerificationCommands title="Check the GnuPG version" lines={["gpg --version"]} />
             <ol className="list-decimal space-y-4 pl-6 marker:font-bold marker:text-white [&_li]:pl-2">
               <li>
                 <strong>Use the backup from step 7.</strong> Create it with Core’s
@@ -1245,14 +1333,14 @@ function OptionalBackupProtection({
                 for <code>practice-wallet.dat</code> in this command. Choose a new
                 output filename and enter the secret only in GPG’s passphrase
                 prompt, never as part of the command.
-                <code className="mt-3 block break-words rounded-xl bg-black/20 p-4 text-sm sm:p-6 leading-7">gpg --no-symkey-cache --symmetric --cipher-algo AES256 --output backup.gpg practice-wallet.dat</code>
+                <VerificationCommands title="Encrypt the practice backup" lines={["gpg --no-symkey-cache --symmetric --cipher-algo AES256 --output backup.gpg practice-wallet.dat"]} />
               </li>
               <li>
                 <strong>Decrypt into a separate test file.</strong> Use a new
                 output name so the original stays intact. If GPG reports an
                 error or warns that the file may be damaged, stop and check it
                 before continuing.
-                <code className="mt-3 block break-words rounded-xl bg-black/20 p-4 text-sm sm:p-6 leading-7">gpg --no-symkey-cache --output recovered-wallet.dat --decrypt backup.gpg</code>
+                <VerificationCommands title="Decrypt the practice backup" lines={["gpg --no-symkey-cache --output recovered-wallet.dat --decrypt backup.gpg"]} />
                 You should now have <code>recovered-wallet.dat</code>. Continue
                 to step 8 to restore it in Core.
               </li>
@@ -1280,13 +1368,14 @@ function OptionalBackupProtection({
               For a two-layer practice backup, first create <code>backup.gpg</code>
               above, then run this command and supply a new passphrase B:
             </p>
-            <code className="block break-words rounded-xl bg-black/20 p-4 text-sm sm:p-6 leading-7">gpg --no-symkey-cache --symmetric --cipher-algo AES256 --output backup-outer.gpg backup.gpg</code>
+            <VerificationCommands title="Add a second GPG layer" lines={["gpg --no-symkey-cache --symmetric --cipher-algo AES256 --output backup-outer.gpg backup.gpg"]} />
             <p>
               Recover in reverse order: use B to recover the inner GPG file,
               then the original passphrase A to recover the wallet. Run each
               command separately and continue only after it succeeds:
             </p>
-            <code className="block break-words rounded-xl bg-black/20 p-4 text-sm sm:p-6 leading-7">gpg --no-symkey-cache --output recovered-inner.gpg --decrypt backup-outer.gpg<br /><br />gpg --no-symkey-cache --output recovered-wallet-2.dat --decrypt recovered-inner.gpg</code>
+            <VerificationCommands title="Open the outer GPG layer" lines={["gpg --no-symkey-cache --output recovered-inner.gpg --decrypt backup-outer.gpg"]} />
+            <VerificationCommands title="Open the inner GPG layer" lines={["gpg --no-symkey-cache --output recovered-wallet-2.dat --decrypt recovered-inner.gpg"]} />
             </details>
             <p>
               Keep more than one copy of every required passphrase, with the
@@ -1312,9 +1401,11 @@ function OptionalBackupProtection({
               If you added extra layers, keep all of their passphrases separate too.
             </p>
             <p>
-              Download the cloud copy into a folder that does not sync, open it
-              with GPG, and restore the wallet in Core. That checks the copy you
-              actually uploaded.
+              To test a cloud copy with Vault, download the encrypted file on an
+              internet-connected computer and copy that ciphertext to removable media.
+              Take it to the offline Vault, use Decrypt Backup there and restore
+              the wallet in Core. Keep the plaintext signing wallet and both
+              passphrases off the online computer.
             </p>
             <p className="text-sm leading-7">
               Technical references: <ResourceLink href="https://gnupg.org/documentation/manuals/gnupg/Operational-GPG-Commands.html" inverse>GnuPG encryption and decryption</ResourceLink>{" "}
@@ -1328,22 +1419,7 @@ function OptionalBackupProtection({
               easy to recognize as an encrypted file. GPG protects the contents;
               changing the filename alone does not encrypt anything.
             </p>
-            <details className="space-y-4 border-t border-white/20 pt-4">
-              <summary className="cursor-pointer py-2 font-semibold text-white">Optional filename example on macOS</summary>
-              <p className="my-4">
-                In Finder, use Get Info → Name &amp; Extension to rename a backup
-                copy. If the restore dialog hides the <code>.bin</code> file,
-                change its extension back to <code>.dat</code> before selecting it.
-                These screenshots demonstrate renaming only.
-              </p>
-              <div className="grid gap-4 sm:grid-cols-2">
-                {screenshots.map((screenshot, index) => (
-                  <div key={screenshot.src} className={index === screenshots.length - 1 ? "sm:col-span-2" : undefined}>
-                    <ScreenshotButton screenshot={screenshot} onOpen={onOpen} />
-                  </div>
-                ))}
-              </div>
-            </details>
+
           </div>
         </div>
       </div>
@@ -1351,31 +1427,49 @@ function OptionalBackupProtection({
   )
 }
 
-function ArchitectureDiagram() {
+function ArchitectureDiagram({ onOpen }: { onOpen: (image: GuideImage, opener: HTMLButtonElement) => void }) {
   return (
-    <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
-      <p className="text-[11px] font-bold tracking-[0.16em] text-primary uppercase">
-        Later in the curriculum
-      </p>
-      <h2 className="learning-heading mt-4 max-w-[16ch] font-display text-3xl leading-[1.03] font-bold tracking-[-0.045em] text-balance sm:text-5xl">
-        <SectionIcon topic="key" /><span>Private keys stay offline</span>
+    <section id="vault-and-node" className="mx-auto max-w-5xl scroll-mt-24 px-4 py-12 sm:px-6 sm:py-16">
+      <h2 className="learning-heading font-display text-3xl leading-tight font-bold tracking-tight sm:text-5xl">
+        <SectionIcon topic="key" /><span>Use the restored wallet with Vault and Node</span>
       </h2>
-
-      <p className="mt-5 max-w-3xl text-base leading-8 text-muted-foreground">
-        You do not need a second computer for this practice exercise. Later,
-        the curriculum shows how to use a dedicated offline computer to approve
-        payments, while another computer handles the internet connection.
+      <p className="mt-5 max-w-3xl leading-8 text-muted-foreground">
+        This optional two-computer exercise comes after the single-wallet restore.
+        Vault v0.5.0 holds the private signing wallet offline. Node v0.1.0-rc.2 is the
+        online release candidate for tracking payments, preparing proposals and broadcasting.
+        Both include Core 32.1.
       </p>
-      <details className="mt-6 rounded-[24px] bg-card p-6 shadow-[var(--shadow-border)] sm:p-8">
-        <summary className="cursor-pointer py-2 font-semibold">Optional preview: the two-computer setup</summary>
-        <CustodyArchitecture />
-      </details>
+      <ol className="mt-7 grid gap-4">
+        <li className="rounded-[20px] bg-card p-5 shadow-[var(--shadow-border)]">
+          <h3 className="learning-heading font-bold"><SectionIcon topic="public" />Vault → Node · public wallet</h3>
+          <p className="mt-2 leading-7">Select the signing wallet on Vault. In Core choose <strong>File → Export watch-only wallet</strong> and save <code>watch-only.dat</code> in Private Workspace. Copy that public export to transfer media. Check that Node is running on the same Bitcoin network. Use <strong>File → Restore Wallet</strong> on Node to open the public file. Keep the private signing wallet and recovery passphrases offline.</p>
+          <p className="mt-2 leading-7">On Node, open <strong>Window → Console</strong>, select the restored watch-only wallet and run the command below. Check its name and <code>private_keys_enabled: false</code>. The file includes public descriptors, transactions and address-book data, so it can reveal wallet activity. Compare one full receiving address on both machines before using it.</p>
+          <VerificationCommands title="Bitcoin Core console on Node" lines={["getwalletinfo"]} />
+          <div className="my-4 grid gap-4 sm:grid-cols-2">
+            <ScreenshotButton screenshot={captures["vault-watch-menu"]} onOpen={onOpen} />
+            <ScreenshotButton screenshot={captures["node-public-proof"]} onOpen={onOpen} />
+          </div>
+          <ResourceLink href={vaultLesson("watch-only-setup")}>Export and check the watch-only wallet</ResourceLink>
+        </li>
+        <li className="rounded-[20px] bg-card p-5 shadow-[var(--shadow-border)]">
+          <h3 className="learning-heading font-bold"><SectionIcon topic="review" />Node → Vault · unsigned payment proposal</h3>
+          <p className="my-2 leading-7">On a matching practice network, Node creates an unsigned PSBT. Transfer it to Vault. Check every recipient, amount, change output and fee before signing. The curriculum shows one payment on isolated Regtest. <ResourceLink href={vaultLesson("psbt-debugging")}>Download and inspect the original unsigned PSBT</ResourceLink> before practising with your own proposal.</p>
+          <ResourceLink href={vaultLesson("first-offline-signed-transaction")}>Follow the first offline-signed payment</ResourceLink>
+        </li>
+        <li className="rounded-[20px] bg-card p-5 shadow-[var(--shadow-border)]">
+          <h3 className="learning-heading font-bold"><SectionIcon topic="check" />Vault → Node · signed payment</h3>
+          <p className="my-2 leading-7">Save the signed PSBT under a distinct name. On Node, reload it, broadcast and check for a confirmation. To prove that your setup survives replacement of both computers, repeat that payment exercise with a recovered signer and a fresh public export.</p>
+          <ResourceLink href={vaultLesson("recovery-drill-without-original-coordinator")}>Practise recovery on two replacements</ResourceLink>
+        </li>
+      </ol>
     </section>
   )
 }
 
 export function BitcoinCoreWalletGuidePage() {
   useGuideMetadata()
+  const { vault, selectVault } = useVaultSetup()
+  const guideSteps = vault ? steps.map(step => ({ ...step, ...vaultSteps[step.number] })) : steps
   const [completedSteps, setCompletedSteps] = useState<boolean[]>(() =>
     Array(steps.length).fill(false)
   )
@@ -1417,6 +1511,7 @@ export function BitcoinCoreWalletGuidePage() {
   const openImage = (selectedImage: GuideImage, opener: HTMLButtonElement) => {
     lightboxOpener.current = opener
     const screenshots = [...(opener.closest("main")?.querySelectorAll<HTMLImageElement>("[data-gallery-image] img") ?? [])]
+      .filter(item => !item.closest("details:not([open])"))
     const selected = opener.querySelector("img")
     setGallery({
       images: screenshots.length ? screenshots.map(item => ({ src: item.src, alt: item.alt })) : [selectedImage],
@@ -1462,6 +1557,7 @@ export function BitcoinCoreWalletGuidePage() {
             <a className="font-semibold underline underline-offset-4" {...articleLinkProps(EN_BITCOIN_CORE_CURRICULUM_PATH)}>full self-custody curriculum</a>.
           </p>
 
+          <GuidePracticeSetup vault={vault} selectVault={selectVault} />
           <TutorialMetadata
             language="en"
             className="mt-10"
@@ -1469,18 +1565,12 @@ export function BitcoinCoreWalletGuidePage() {
             difficulty="Beginner to intermediate"
             estimatedTime="60–90 minutes"
             realBitcoin="No. This is a disposable practice wallet. Complete the self-custody curriculum before preparing meaningful funds."
-            softwareVersion="Bitcoin Core 31.1"
-            operatingSystems="The screenshots use macOS; the workflow also applies to Windows and Linux."
-            recommendedOs={
-              <>
-                For this empty-wallet exercise: your existing Windows, macOS or
-                Linux computer. For serious funds: a dedicated computer with a
-                fresh Linux installation; I recommend Debian Stable.
-              </>
-            }
-            prerequisites="Bitcoin Core installed from an official source, an empty practice environment, and a separate place for passphrase notes."
+            softwareVersion="Bitcoin Core 32.1"
+            operatingSystems={vault ? "Bitcoin Core Vault v0.5.0 on compatible amd64 hardware, in Live RAM or installed mode." : "Native Core on macOS 14 or newer, Windows 10 version 1903 or newer, or supported Linux. Screen captures identify their platform."}
+            recommendedOs={vault ? "Use Vault offline on a dedicated compatible computer. Both live and installed modes start each private session in RAM." : "For this empty-wallet exercise, use a maintained desktop OS. For serious funds, I recommend a dedicated computer with a fresh Debian Stable installation."}
+            prerequisites={vault ? "Verified Vault ISO, a separate external backup medium, and separate records for the Core and GPG passphrases." : "Verified Bitcoin Core, a separate practice environment and backup destination, and separate passphrase records."}
             outcome="A restored practice wallet with the same receiving address and label."
-            lastReviewed="Core 31.1 and macOS walkthrough reviewed 16 October 2026. Vault release information updated 11 November 2026 for v0.5.0."
+            lastReviewed="11 November 2026 · Encrypted wallet and GPG recovery on Debian with Core 32.1 and isolated Regtest. Vault and Node examples were captured in released-image VMs. Earlier macOS reference screens were reviewed with Core 31.1 on 16 October 2026."
           />
 
           <div className="mt-10 grid gap-4 rounded-[28px] bg-card p-5 shadow-[var(--shadow-border)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-7">
@@ -1532,7 +1622,7 @@ export function BitcoinCoreWalletGuidePage() {
         </section>
 
         <div className="border-y border-border/60 bg-card/38">
-          {steps.map((step, index) => (
+          {guideSteps.map((step, index) => (
             <div key={step.number}>
               <section
                 id={`step-${step.number}`}
@@ -1594,9 +1684,19 @@ export function BitcoinCoreWalletGuidePage() {
                         </div>
                       ))}
                     </div>
-                    <div className="guide-step-prose mt-7 grid gap-4 text-base leading-8 text-pretty text-muted-foreground [&_code]:rounded-md [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[0.9em] [&_li]:pl-1 [&_strong]:font-semibold [&_strong]:text-foreground [&_ul]:grid [&_ul]:gap-2 [&_ul]:pl-5 [&_ul]:marker:text-primary">
+                    <div className={`guide-step-prose ${step.images.length ? "mt-7 " : ""}grid gap-4 text-base leading-8 text-pretty text-muted-foreground [&_code]:rounded-md [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[0.9em] [&_li]:pl-1 [&_strong]:font-semibold [&_strong]:text-foreground [&_ul]:grid [&_ul]:gap-2 [&_ul]:pl-5 [&_ul]:marker:text-primary`}>
                       {step.content}
                     </div>
+                    {!vault && macReferenceImages[step.number] && (
+                      <details className="mt-5 rounded-xl border border-border px-4">
+                        <summary className="cursor-pointer py-3 text-sm font-semibold">Earlier macOS reference · Bitcoin Core 31.1</summary>
+                        <div className="grid gap-4 pb-4 sm:grid-cols-2">
+                          {macReferenceImages[step.number]?.map(screenshot => (
+                            <ScreenshotButton key={screenshot.src} screenshot={screenshot} onOpen={openImage} />
+                          ))}
+                        </div>
+                      </details>
+                    )}
                     {step.note ? (
                       <GuideCallout kind={step.noteKind}>
                         {step.note}
@@ -1607,7 +1707,7 @@ export function BitcoinCoreWalletGuidePage() {
               </section>
 
               {step.number === 7 ? (
-                <OptionalBackupProtection onOpen={openImage} />
+                <OptionalBackupProtection vault={vault} />
               ) : null}
               {index < steps.length - 1 ? (
                 <div className="mx-auto h-px max-w-5xl bg-border/70" />
@@ -1616,7 +1716,7 @@ export function BitcoinCoreWalletGuidePage() {
           ))}
         </div>
 
-        <ArchitectureDiagram />
+        <ArchitectureDiagram onOpen={openImage} />
 
         <section className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 sm:pb-20">
           <div className="rounded-[32px] bg-card p-6 shadow-[var(--shadow-border)] sm:p-9">

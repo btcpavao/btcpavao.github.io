@@ -1,5 +1,9 @@
 import { findContentByPath } from "@/content-registry"
 import { useEffect } from "react"
+import { GuidePracticeSetup } from "@/components/guide-practice-setup"
+import { PracticeFigures } from "@/components/image-practice"
+import { DEBIAN_IMAGES_PATH } from "@/components/debian-images-notice"
+import { useVaultSetup } from "@/use-vault-setup"
 import {
   ArrowRight,
   BookOpen,
@@ -23,25 +27,38 @@ import {
 
 const SITE_URL = "https://btcpavao.com"
 
+const downloadUrl = "https://bitcoincore.org/en/download/"
+const verifyVaultUrl = DEBIAN_IMAGES_PATH + "#verify-download"
+const watchOnlyUrl = EN_BITCOIN_CORE_CURRICULUM_PATH + "?setup=vault-node#lesson/watch-only-setup"
+const stepLinkClass = "mt-3 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-primary underline underline-offset-4"
+
 const exerciseSteps = [
   {
-    title: "Prepare a practice environment",
-    copy: "Use no real bitcoin. Choose a computer and location where you can work slowly, keep notes, and repeat the exercise.",
+    id: "environment",
+    title: "Prepare your practice environment",
+    desktop: "Use a fresh operating-system account or a spare computer for this empty wallet. Set aside a removable drive for the backup and a separate place to record its passphrase.",
+    vault: "Set aside a compatible 64-bit Intel or AMD computer, a spare USB drive for starting Vault and a second drive for the backup. Have a separate place ready for your practice passphrases.",
     icon: HardDrive,
   },
   {
-    title: "Download and verify Bitcoin Core",
-    copy: "Follow the official download and verification instructions for your operating system. Record what you checked and why.",
+    id: "verification",
+    title: "Verify the software before you open it",
+    desktop: "Download the Bitcoin Core package for your operating system and processor. Follow the official verification instructions to check the signed checksum list and match the downloaded file to its listed SHA-256 hash.",
+    vault: "On a separate computer, download the Vault ISO and its signed checksum list. Check the publisher’s full key fingerprint through a trusted channel, verify the signature and match the ISO’s SHA-256 hash. Write the verified image to the boot USB. Disconnect the practice computer from the network and choose Start Bitcoin Core Vault (Live RAM).",
     icon: Download,
   },
   {
-    title: "Create one empty practice wallet",
-    copy: "Give it an obvious test name. Do not generate or send real funds. The goal is to learn the model, not to move money.",
+    id: "create",
+    title: "Create an empty wallet and record one address",
+    desktop: "In Bitcoin Core, choose Create Wallet. Name it Practice Wallet, select Encrypt Wallet and set a fresh practice passphrase. On the Receive tab, enter the label Recovery check and create a receiving address. Record the full address and label for the restore exercise. Leave the address unfunded.",
+    vault: "Open Bitcoin Core from Vault Home and choose Create Wallet. Name it Practice Wallet, select Encrypt Wallet and set a fresh practice passphrase. On the Receive tab, use the label Recovery check and create one address. Record the full address and label outside this RAM session. Leave the address unfunded.",
     icon: KeyRound,
   },
   {
-    title: "Back it up and explain it",
-    copy: "Write down where the backup lives, what the password protects, and what another trusted person would need to know.",
+    id: "backup",
+    title: "Save the backup and find it again",
+    desktop: "Choose File → Backup Wallet and save practice-wallet.dat on the removable drive. Open the drive in your file manager and check the file’s location. Keep the Core passphrase in its separate recovery record. The backup guide also shows how to encrypt the whole file with GPG.",
+    vault: "Open Wallet Backup from Vault Home. Select Practice Wallet and protect the backup with a separate GPG passphrase. If the resulting .gpg file is in Private Workspace, use Files to copy it to the backup drive. Open the drive and check the file there before ejecting it or ending your session.",
     icon: FileCheck2,
   },
 ]
@@ -54,6 +71,9 @@ function setMeta(name: string, content: string) {
 }
 
 export function BitcoinCoreStartPage() {
+  const { vault, selectVault } = useVaultSetup()
+  const walletGuide = BITCOIN_CORE_WALLET_GUIDE_PATH + (vault ? "?setup=vault" : "")
+
   useEffect(() => {
     const { title, description } = findContentByPath("/en/bitcoin-core/start-here/")!
 
@@ -91,41 +111,26 @@ export function BitcoinCoreStartPage() {
             Your first exercise uses no real bitcoin.
           </h1>
           <p className="mt-7 max-w-3xl text-lg leading-9 text-muted-foreground sm:text-xl">
-            This is a disposable hands-on exercise: verify the software, create
-            an empty wallet and map its backup process. The full{" "}
-            <a className="font-semibold underline underline-offset-4" href={EN_BITCOIN_CORE_CURRICULUM_PATH}>
-              self-custody curriculum
-            </a>{" "}
-            begins one step earlier, with the threat model and first-principles
-            reasoning.
+            Verify the software, create an empty wallet and save a backup you can
+            find again. You can generate a receiving address and practise recovery
+            offline, even on a computer without a copy of the blockchain.
           </p>
 
+          <GuidePracticeSetup vault={vault} selectVault={selectVault} />
           <TutorialMetadata
             language="en"
-            className="mt-10"
-            goal="Explore an empty wallet and map what its recovery needs."
+            className="mt-8"
+            goal="Create an empty wallet and identify the files and passphrases you need to recover it."
             difficulty="Beginner"
-            estimatedTime="30–45 minutes"
-            realBitcoin="No. Use an empty, disposable practice wallet."
-            softwareVersion="Bitcoin Core 31.1"
-            operatingSystems="macOS, Windows, and maintained Linux distributions"
-            recommendedOs="Any maintained desktop OS for this disposable exercise"
-            prerequisites={
-              <>
-                Download Bitcoin Core from the{" "}
-                <a href="https://bitcoincore.org/en/download/">official site</a>
-                ; keep existing wallets and backups out of this exercise.
-              </>
-            }
-            outcome="An empty practice wallet, an identified backup, and questions to take into the curriculum."
-            lastReviewed="Exercise: 30 August 2026. Curriculum alignment: 14 September 2026."
+            estimatedTime={vault ? "30–45 minutes once the verified Vault boot USB is ready." : "30–45 minutes for the wallet exercise. Allow extra time for downloading and verifying Core."}
+            realBitcoin="Use an unfunded, disposable practice wallet."
+            softwareVersion={vault ? "Bitcoin Core 32.1 in Vault v0.5.0" : "Bitcoin Core 32.1"}
+            operatingSystems={vault ? "Vault runs Debian 13 on supported amd64 (64-bit Intel or AMD) computers." : "macOS 14 or later (Intel or Apple silicon), Windows 10 version 1903 or later, or a maintained Linux distribution."}
+            recommendedOs={vault ? "Start Vault from USB in Live RAM mode for this exercise." : "Use a maintained operating system on a computer you already know."}
+            prerequisites={vault ? "A Vault boot USB, a separate removable backup drive and separate passphrase records. Use the native macOS package for Core on an Apple silicon Mac." : "A separate practice environment, removable backup media and a separate passphrase record."}
+            outcome="A backup outside the working session and a recorded address and label to compare when you restore it."
+            lastReviewed={vault ? "11 November 2026. Vault backup and USB transfer observed on Vault v0.5.0 in an offline virtual machine." : "Instructions reviewed against the Bitcoin Core 32.1 release on 11 November 2026. The focused guide labels each practical test by platform."}
           />
-
-          <p className="mt-6 max-w-3xl text-sm leading-7 text-muted-foreground">
-            macOS, Windows and maintained Linux are practice platforms here.
-            For the long-term setup taught in the curriculum, Debian Stable on
-            dedicated generic hardware is the default.
-          </p>
 
           <div className="mt-10 rounded-[28px] bg-card p-6 shadow-[var(--shadow-border)] sm:p-8">
             <div className="flex gap-4">
@@ -137,10 +142,10 @@ export function BitcoinCoreStartPage() {
                   Keep this exercise disposable.
                 </h2>
                 <p className="mt-2 max-w-3xl text-sm leading-7 text-muted-foreground">
-                  Do not send funds to the wallet. Do not remove or overwrite an
-                  existing wallet, data directory, or backup. If Bitcoin Core is
-                  already in use on this computer, stop and make a separate
-                  practice plan before changing anything.
+                  Leave the practice address unfunded. If this computer already
+                  holds a wallet, use a separate operating-system account or a
+                  spare machine. Keep your existing wallets, data directories
+                  and backups separate from this exercise.
                 </p>
               </div>
             </div>
@@ -150,10 +155,10 @@ export function BitcoinCoreStartPage() {
         <section className="border-y border-border/60 bg-card/48">
           <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20">
             <p className="text-[11px] font-semibold text-primary uppercase">
-              Exercise 01
+              Four steps
             </p>
             <h2 className="mt-4 max-w-[18ch] font-display text-3xl leading-[1.02] font-bold tracking-[-0.045em] sm:text-5xl">
-              Build the map before you test recovery.
+              Create and back up your first practice wallet.
             </h2>
 
             <ol className="mt-10 divide-y divide-border/70 border-y border-border/70">
@@ -161,7 +166,7 @@ export function BitcoinCoreStartPage() {
                 const Icon = step.icon
                 return (
                   <li
-                    key={step.title}
+                    key={step.id}
                     className="grid gap-4 py-7 sm:grid-cols-[64px_minmax(0,1fr)] sm:py-9"
                   >
                     <span className="grid size-11 place-items-center rounded-full bg-background text-primary shadow-[var(--shadow-border)]">
@@ -175,36 +180,37 @@ export function BitcoinCoreStartPage() {
                         {step.title}
                       </h3>
                       <p className="mt-3 max-w-2xl text-base leading-8 text-muted-foreground">
-                        {step.copy}
+                        {vault ? step.vault : step.desktop}
                       </p>
+                      {step.id === "verification" && (
+                        <a className={stepLinkClass} href={vault ? verifyVaultUrl : downloadUrl}>
+                          {vault ? "Verify the signed Vault ISO" : "Download and verify Bitcoin Core"}
+                          <ArrowRight className="size-4" aria-hidden="true" />
+                        </a>
+                      )}
+                      {step.id === "backup" && (
+                        <>
+                          {vault && (
+                            <div className="mt-5 sm:[&_.practice-figures]:grid-cols-2">
+                              <PracticeFigures slug="prepare-offline-signer" step="debian-datadir" />
+                            </div>
+                          )}
+                          <a className={stepLinkClass} href={walletGuide + "#step-7"}>
+                            Follow the wallet backup steps
+                            <ArrowRight className="size-4" aria-hidden="true" />
+                          </a>
+                        </>
+                      )}
                     </div>
                   </li>
                 )
               })}
             </ol>
 
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Button asChild size="lg" className="h-auto min-h-12 max-w-full whitespace-normal rounded-full py-3 text-center px-6">
-                <a
-                  href="https://bitcoincore.org/en/download/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Official download and verification
-                  <ArrowRight className="size-4" aria-hidden="true" />
-                </a>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="h-auto min-h-12 max-w-full whitespace-normal rounded-full py-3 text-center px-6"
-              >
-                <a href={EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH}>
-                  Read how Core creates a wallet
-                </a>
-              </Button>
-            </div>
+            <a className={stepLinkClass} href={EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH}>
+              Read how Core creates a wallet
+              <ArrowRight className="size-4" aria-hidden="true" />
+            </a>
           </div>
         </section>
 
@@ -215,14 +221,14 @@ export function BitcoinCoreStartPage() {
                 Finish line
               </p>
               <h2 className="mt-4 font-display text-3xl font-bold tracking-[-0.04em]">
-                Stop when you can explain the plan.
+                Ready to test recovery?
               </h2>
               <ul className="mt-6 grid gap-3 text-sm leading-7 text-white/76">
                 {[
                   "I know which software I downloaded and what I verified.",
                   "I know that this wallet contains no real funds.",
-                  "I can identify the wallet backup and its role.",
-                  "I have written down the questions I still cannot answer.",
+                  "I found the backup on the removable drive and kept the required passphrases separately.",
+                  "I recorded the full receiving address and its label for comparison.",
                 ].map((item) => (
                   <li key={item} className="flex gap-3">
                     <Check
@@ -239,28 +245,33 @@ export function BitcoinCoreStartPage() {
                 Next step
               </p>
               <h3 className="font-display text-2xl leading-tight font-bold tracking-[-0.035em] text-balance">
-                Start with first principles.
+                Open the backup in a fresh wallet.
               </h3>
               <p className="mb-2 text-sm leading-6 text-pretty text-white/72">
-                Continue with the self-custody curriculum: define your threats,
-                understand the architecture, then practice one wallet and prove
-                recovery. Use the focused guide as a mechanical reference.
+                Restore your practice copy under a new wallet name, then compare
+                its receiving address and label with the ones you recorded.
               </p>
               <Button
                 asChild
                 className="h-auto min-h-12 max-w-full whitespace-normal rounded-full py-3 text-center bg-white px-5 text-[#0d3153] hover:bg-white/90 active:scale-[0.96]"
               >
-                <a href={EN_BITCOIN_CORE_CURRICULUM_PATH}>
+                <a href={walletGuide + "#step-8"}>
                   <BookOpen className="size-4" aria-hidden="true" />
-                  Open the curriculum
+                  Restore your practice backup
                   <ArrowRight className="size-4" aria-hidden="true" />
                 </a>
               </Button>
               <a
-                href={BITCOIN_CORE_WALLET_GUIDE_PATH}
+                href={watchOnlyUrl}
                 className="inline-flex min-h-11 items-center justify-center text-center text-sm font-semibold text-white/74 hover:text-white"
               >
-                Open the focused wallet guide
+                Use Vault with a watch-only Node
+              </a>
+              <a
+                href={EN_BITCOIN_CORE_CURRICULUM_PATH}
+                className="inline-flex min-h-11 items-center justify-center text-center text-sm font-semibold text-white/74 hover:text-white"
+              >
+                Open the full self-custody curriculum
               </a>
             </div>
           </div>
