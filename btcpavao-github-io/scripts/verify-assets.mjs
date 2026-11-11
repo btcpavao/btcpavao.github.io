@@ -813,7 +813,8 @@ assert(
   bitcoinCoreStartRouteHtml.includes(
     "Your first exercise uses no real bitcoin."
   ) &&
-    bitcoinCoreStartRouteHtml.includes("Official download and verification") &&
+    bitcoinCoreStartRouteHtml.includes('href="https://bitcoincore.org/en/download/"') &&
+    bitcoinCoreStartRouteHtml.includes('href="/en/bitcoin-core/wallet-setup-backup-recovery/#step-8"') &&
     bitcoinCoreStartRouteHtml.includes(
       'rel="canonical" href="https://btcpavao.com/en/bitcoin-core/start-here/"'
     ),
@@ -825,6 +826,21 @@ assert(
     socialCardImages.startHere !== socialCardImages.default,
   "Bitcoin Core Start Here page does not use its unique social card"
 )
+
+// These are two entry points into the same wallet exercise. Historic screenshots
+// may mention earlier releases, but the active desktop version must agree.
+function guideVersion(html) {
+  const value = html.match(/>Software version<\/dt>\s*<dd[^>]*>([\s\S]*?)<\/dd>/)?.[1] ?? ""
+  return value.replace(/<[^>]+>/g, "").match(/Bitcoin Core (\d+\.\d+(?:\.\d+)?)/)?.[1]
+}
+const startVersion = guideVersion(bitcoinCoreStartRouteHtml)
+assert(startVersion && startVersion === guideVersion(bitcoinCoreWalletGuideRouteHtml),
+  "Start Here and Wallet Guide must declare the same Bitcoin Core version")
+assert(bitcoinCoreWalletGuideRouteHtml.includes(`/blob/v${startVersion}/src/qt/askpassphrasedialog.cpp`),
+  "Passphrase guidance must link to the Core release taught by the guide")
+for (let number = 1; number <= 11; number++) {
+  assert(bitcoinCoreWalletGuideRouteHtml.includes(`id="step-${number}"`), `Missing wallet guide bookmark for step ${number}`)
+}
 
 const englishTutorialLabels = [
   "Before you begin",
@@ -874,12 +890,8 @@ assert(
 assert(
   (bitcoinCoreWalletGuideRouteHtml.match(/aria-valuemax="11"/g) ?? []).length >=
     1 &&
-    bitcoinCoreWalletGuideRouteHtml.includes(
-      "Encrypt the whole backup with GPG"
-    ) &&
-    bitcoinCoreWalletGuideRouteHtml.includes(
-      "prove that the restored keys can"
-    ) &&
+    bitcoinCoreWalletGuideRouteHtml.includes('id="optional-backup-protection"') &&
+    bitcoinCoreWalletGuideRouteHtml.includes("?setup=vault-node#lesson/first-offline-signed-transaction") &&
     bitcoinCoreWalletGuideSource.includes(
       "btcpavao-core-wallet-guide-steps-v2"
     ) &&
