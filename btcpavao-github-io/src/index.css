@@ -8049,6 +8049,16 @@ input:focus-visible + .curriculum-checkbox {
 .debian-verification ol { padding-left: 1.5rem; list-style: decimal; }
 .debian-signing-fingerprint { display: block; margin-block: .8rem; padding: .65rem .85rem; font-size: .82rem; overflow-wrap: anywhere; background: var(--secondary); border-radius: 8px; font-variant-numeric: tabular-nums; }
 .debian-verification li { padding-left: .5rem; }
+.debian-verification h3 { margin: 2rem 0 .5rem; font-size: 1.25rem; line-height: 1.35; font-weight: 700; scroll-margin-top: 6rem; }
+.debian-verification .build-evidence-links { display: flex; flex-wrap: wrap; gap: .35rem 1.2rem; font-size: .925rem; }
+.debian-verification .build-upstream { margin-block: 1.5rem; }
+.debian-verification code { overflow-wrap: anywhere; }
+.debian-verification .build-commands { margin: .8rem 0; padding: .85rem 1rem; border: 1px solid var(--border); border-radius: 8px; background: var(--secondary); font-size: .875rem; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+.debian-verification .build-instructions { margin-block: .75rem; border: 1px solid var(--border); border-radius: 9px; padding-inline: 1rem; }
+.build-instructions summary { padding-block: .85rem; font-weight: 650; cursor: pointer; }
+.build-instructions summary:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.build-instructions blockquote { border-left: 3px solid var(--primary); padding-left: 1rem; line-height: 1.7; }
+
 .debian-release-plan { padding: 2.25rem; background: var(--secondary); border-radius: 24px; margin-top: 1.5rem; }
 @media (max-width: 600px) {
   .published-article-page, .debian-images-page { padding-inline: 20px; padding-bottom: 3rem; }
