@@ -906,6 +906,23 @@ const steps: GuideStep[] = [
   },
 ]
 
+const stockVaultProof = {
+  before: {
+    src: "/software/screenshots/curriculum/stock-vault-guide-address-before.webp",
+    width: 1280, height: 160,
+    context: "Vault v0.5.0 · Core 32.1 · offline VM · unfunded mainnet wallet",
+    alt: "The Receiving addresses window of GuidePractice shows the Recovery check label and its full Bitcoin address.",
+    caption: "Before backup, copy the complete address and label from the original wallet’s address book.",
+  },
+  after: {
+    src: "/software/screenshots/curriculum/stock-vault-guide-address-restored.webp",
+    width: 1280, height: 160,
+    context: "Vault v0.5.0 · Core 32.1 · fresh offline session after restart",
+    alt: "The Receiving addresses window of GuideRestored shows the original Recovery check label and address.",
+    caption: "After recovery from the external encrypted file, compare this row with the original in step 6.",
+  },
+}
+
 const vaultSteps: Record<number, Partial<GuideStep>> = {
   1: {
     images: [captures["vault-home"]],
@@ -934,10 +951,19 @@ const vaultSteps: Record<number, Partial<GuideStep>> = {
       Confirm that you could recover the exact Core passphrase from its separate record.</p>
       <p>Leave the Vault offline while it holds the signing wallet. Its temporary wallet and the contents of Private Workspace disappear when the session ends.</p></>,
   },
+  6: {
+    images: [stockVaultProof.before],
+    content: <><p>On Vault, select your signing wallet, open <strong>Receive</strong>, enter the label
+      <strong> Recovery check</strong> and choose <strong>Create new receiving address</strong>. Open
+      <strong> Window → Receiving addresses</strong>. Record the exact label and full address in the same row.</p>
+      <p>The stock Vault example shows the address book of <strong>GuidePractice</strong>. We generated its labelled
+      address with Core’s RPC interface. Leave the wallet empty and the Vault offline. Step 10 checks this
+      same address-book row after a full restart.</p></>,
+  },
   7: {
     images: [captures["vault-backup"], captures["vault-private-backup"], captures["vault-usb-backup"]],
     content: <><p>In Vault Home, open <strong>Wallet Backup</strong> and select the disposable wallet you created in Core.
-      Choose a destination on the separate backup medium, or accept Private Workspace and then use <strong>Files</strong> to copy the completed <code>wallet.dat.gpg</code> to that medium.</p>
+      The earlier tool screenshots here use a wallet called PracticeVault. Choose a destination on the separate backup medium, or accept Private Workspace and then use <strong>Files</strong> to copy the completed <code>wallet.dat.gpg</code> to that medium.</p>
       <p>Set one GPG layer with a newly generated, independently recorded passphrase. Wait for the backup check.
       In Files, open the external drive and check the filename and destination path before ejecting it.
       A copy left only in Private Workspace disappears when Vault shuts down.</p>
@@ -958,6 +984,18 @@ const vaultSteps: Record<number, Partial<GuideStep>> = {
     content: <p>Launch Bitcoin Core from Vault Home. Choose <strong>File → Restore Wallet</strong> and select
       the recovered <code>wallet.dat</code> in the private recovery folder. Give this restored signing wallet a distinct name.
       The external <code>.gpg</code> remains your backup to keep.</p>,
+  },
+  10: {
+    images: [stockVaultProof.after],
+    content: <><p>Select the restored wallet and open <strong>Window → Receiving addresses</strong>. Compare
+      <strong> Recovery check</strong> and the complete address against the record you made in step 6.</p>
+      <p>In the pictured Vault v0.5.0 exercise, we saved the Core-encrypted signing wallet under a separate
+      GPG passphrase on a virtual USB drive, then restarted the offline Vault. We decrypted the file into fresh
+      private RAM and restored it as <strong>GuideRestored</strong>. Core displayed the same address and label,
+      recognized the address as its own and accepted the original Core wallet passphrase. We then locked it again.</p>
+      <p>This wallet held no funds. Continue with the <ResourceLink href={vaultLesson("first-offline-signed-transaction")}>offline-signed
+      Regtest payment</ResourceLink> to practise signing a payment, then <ResourceLink href={vaultLesson("recovery-drill-without-original-coordinator")}>repeat
+      the payment with replacement computers</ResourceLink>.</p></>,
   },
 }
 
@@ -1570,7 +1608,7 @@ export function BitcoinCoreWalletGuidePage() {
             recommendedOs={vault ? "Use Vault offline on a dedicated compatible computer. Both live and installed modes start each private session in RAM." : "For this empty-wallet exercise, use a maintained desktop OS. For serious funds, I recommend a dedicated computer with a fresh Debian Stable installation."}
             prerequisites={vault ? "Verified Vault ISO, a separate external backup medium, and separate records for the Core and GPG passphrases." : "Verified Bitcoin Core, a separate practice environment and backup destination, and separate passphrase records."}
             outcome="A restored practice wallet with the same receiving address and label."
-            lastReviewed="11 November 2026 · Encrypted wallet and GPG recovery on Debian with Core 32.1 and isolated Regtest. Vault and Node examples were captured in released-image VMs. Earlier macOS reference screens were reviewed with Core 31.1 on 16 October 2026."
+            lastReviewed="11 November 2026 · Core 32.1 recovery on Debian 13 with isolated Regtest, and on a stock Vault v0.5.0 VM after restart with an unfunded mainnet wallet and networking disconnected. Node examples use a release-candidate VM. Earlier macOS reference screens were reviewed with Core 31.1 on 16 October 2026."
           />
 
           <div className="mt-10 grid gap-4 rounded-[28px] bg-card p-5 shadow-[var(--shadow-border)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-7">

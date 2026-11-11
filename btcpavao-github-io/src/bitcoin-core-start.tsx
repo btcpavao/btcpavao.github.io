@@ -111,7 +111,7 @@ export function BitcoinCoreStartPage() {
             Your first exercise uses no real bitcoin.
           </h1>
           <p className="mt-7 max-w-3xl text-lg leading-9 text-muted-foreground sm:text-xl">
-            Verify the software, create an empty wallet and save a backup you can
+            Verify the software, create an empty Bitcoin (BTC) wallet and save a backup you can
             find again. You can generate a receiving address and practise recovery
             offline, even on a computer without a copy of the blockchain.
           </p>
@@ -129,7 +129,7 @@ export function BitcoinCoreStartPage() {
             recommendedOs={vault ? "Start Vault from USB in Live RAM mode for this exercise." : "Use a maintained operating system on a computer you already know."}
             prerequisites={vault ? "A Vault boot USB, a separate removable backup drive and separate passphrase records. Use the native macOS package for Core on an Apple silicon Mac." : "A separate practice environment, removable backup media and a separate passphrase record."}
             outcome="A backup outside the working session and a recorded address and label to compare when you restore it."
-            lastReviewed={vault ? "11 November 2026. Vault backup and USB transfer observed on Vault v0.5.0 in an offline virtual machine." : "Instructions reviewed against the Bitcoin Core 32.1 release on 11 November 2026. The focused guide labels each practical test by platform."}
+            lastReviewed={vault ? "11 November 2026. On Vault v0.5.0 we restored an encrypted backup from a virtual USB drive in a fresh offline session and matched the original address and label." : "Instructions reviewed against the Bitcoin Core 32.1 release on 11 November 2026. The focused guide labels each practical test by platform."}
           />
 
           <div className="mt-10 rounded-[28px] bg-card p-6 shadow-[var(--shadow-border)] sm:p-8">
