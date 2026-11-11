@@ -71,7 +71,7 @@ git clone https://github.com/btcpavao/bitcoin-core-vault-releases.git vault-hist
 
 The first diff lists changed files and line counts. The second shows the actual edits in a single file. In a Git diff, a line starting with `+` was added and a line starting with `-` was removed. Use other paths from the list to inspect the installer or wallet helpers.
 
-**Node.** Compare the two signed source archives. Run the following in the guide directory, using fresh `review-node/rc1` and `review-node/rc2` folders.
+**Node.** You can [browse the complete RC2 source](https://github.com/btcpavao/bitcoin-core-node-releases/tree/669e90f9768975924ae443225f23f78cb4a28ecf/source) or [view the 42 changed paths from RC1](https://github.com/btcpavao/bitcoin-core-node-releases/compare/5f5770f7000d9d7fa05687279b21bf26e1293a86...669e90f9768975924ae443225f23f78cb4a28ecf). Compare the two signed source archives locally as follows. Run the following in the guide directory, using fresh `review-node/rc1` and `review-node/rc2` folders.
 
 ```sh
 python3 check_release.py node v0.1.0-rc.1
@@ -131,6 +131,23 @@ To try the new build recipes, open the matching change below. The **Files change
 The new recipes use fixed Debian archive snapshots and a Debian build container identified by its digest. Each CI workflow requests two fresh builds, then compares the resulting ISO files with `cmp`. Inspect the result of the comparison job for your exact commit. A queued build, a green source-code check or a job that skipped the ISO comparison provides no matching ISO result.
 
 For a new candidate, write down the full recipe commit before building. Both builders must check out that commit and use its listed package snapshot, toolchain and instructions. Each starts from a separate clean environment, without a shared build directory or a copy of the other builder's output. Keep the path to the ISO that the build itself produced.
+
+### Repeat an exact Vault build
+
+Two separate GitHub runners compared the full **714,080,256-byte** Vault ISO. This candidate takes the historical Calamares and Thunar packages as inputs. In a new directory on your Git- and Docker-equipped test VM, run this block. Choose a folder where `vault-candidate` and `vault-result` do not exist yet. The last line checks the SHA-256 of the ISO you just built. [Public candidate, sources and logs](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/rebuild-candidate-9f466c5df912) · [Full comparison job](https://github.com/btcpavao/bitcoin-core-vault-releases/actions/runs/43010686916)
+
+```bash
+git clone --depth 1 --branch rebuild-candidate-9f466c5df912 https://github.com/btcpavao/bitcoin-core-vault-releases.git vault-candidate
+(
+  set -eu
+  cd vault-candidate
+  test "$(git rev-parse HEAD)" = 9f466c5df912d7f455d86aa34d85a39be7b143fc
+  bash tools/rebuild/build.sh ../vault-result
+  printf '%s  %s\n' eb54552a569db6cd1158f712b8713bc6c1b519e17026fa31d4652d4e21157141 ../vault-result/bitcoin-core-vault-amd64.iso | sha256sum --check
+)
+```
+
+This is an unsigned test candidate. You can inspect both build logs and reproduce the comparison on your own machine.
 
 ## 5. Compare the finished images and report the result
 
