@@ -101,7 +101,19 @@ sudo apt install xorriso squashfs-tools
 
 For Vault v0.5.0, the same method works for the code that checks where wallets are stored. The ISO path is `usr/lib/core-vault/runtime.py`. Its source archive member is `bitcoin-core-vault-v0.5.0-source/config/includes.chroot/usr/lib/core-vault/runtime.py`.
 
-On 11 November 2026, every top-level Python module in those two application directories matched the corresponding signed source archive byte for byte (5 in Vault and 71 in Node). The operating system, installer and compiled programs require separate inspection.
+To check the full set of regular files the project copies into the system, run either line after step 2. The tool rechecks the ISO and the source archive against the same signed manifest before opening either. Keep 2 GiB free for temporary files per run.
+
+```sh
+python3 check_release.py vault v0.5.0 --iso ~/Downloads/bitcoin-core-vault-32.1-practical-guide-20261110-amd64.iso --inspect
+python3 check_release.py node v0.1.0-rc.2 --iso ~/Downloads/bitcoin-core-node-v0.1.0-rc.2-core32.1-amd64.iso --inspect
+```
+
+| Image | Files covered by the comparison | Result on 11 November 2026 |
+| --- | --- | --- |
+| Vault v0.5.0 | 162 regular files from `config/includes.chroot/`, including the two Bitcoin Core executables | 162 matched |
+| Node v0.1.0-rc.2 | 156 regular files in `runtime/` and 71 Python modules in `app/` | 227 matched |
+
+The comparison checks the contents of the paths supplied by the source archive. Other files, permissions, symbolic links, installed Debian packages and machine behavior require separate inspection. You can read the path mapping in [inspect_payload.py](inspect_payload.py).
 
 ## 4. Build on a clean machine
 
