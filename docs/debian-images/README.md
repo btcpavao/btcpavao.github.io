@@ -105,14 +105,14 @@ On 11 November 2026, every top-level Python module in those two application dire
 
 ## 4. Build on a clean machine
 
-**Vault v0.5.0 and Node v0.1.0-rc.2 are historical download targets.** Their signed checksums identify the published bytes. Neither release carries an independently confirmed procedure that recreates those exact bytes. Vault v0.5.0 was prepared from an earlier local image. Node's original build looked up Debian packages from changing repositories. For either historical image, a matching download in step 2 is evidence of integrity. A source rebuild is a separate operation.
+**Vault v0.5.0 and Node v0.1.0-rc.2 are historical download targets.** Their signed checksums identify the published bytes. Neither release carries an independently confirmed procedure that recreates those exact bytes. Vault v0.5.0 was prepared from an earlier local image. Node's build record also names a previous image, and its original scripts looked up Debian packages from changing repositories. For either historical image, a matching download in step 2 is evidence of integrity. A source rebuild is a separate operation.
 
 To try the new build recipes, open the matching change below. The **Files changed** tab shows the full recipe changes. The **Checks** tab opens the build jobs and their logs. Use the latest commit in that change for both builders and open the build guide at that same commit.
 
 | Product | Recipe and instructions | Build command, from the checked-out recipe |
 | --- | --- | --- |
 | Vault | [Vault recipe and build checks](https://github.com/btcpavao/bitcoin-core-vault-releases/pull/2) · [Vault build guide](https://github.com/btcpavao/bitcoin-core-vault-releases/blob/build/reproducible-vault/docs/REBUILD.md) | `bash tools/rebuild/build.sh ../vault-result` |
-| Node | [Node recipe and build checks](https://github.com/btcpavao/bitcoin-core-node-releases/pull/1) | `bash rebuild/node build ../node-result` |
+| Node | [Node recipe and build checks](https://github.com/btcpavao/bitcoin-core-node-releases/pull/1) · [Node build guide](https://github.com/btcpavao/bitcoin-core-node-releases/blob/reproducible-builds/docs/REBUILD.md) | `bash rebuild/node build ../node-result` |
 
 The new recipes use fixed Debian archive snapshots and a Debian build container identified by its digest. Each CI workflow requests two fresh builds, then compares the resulting ISO files with `cmp`. Inspect the result of the comparison job for your exact commit. A queued build, a green source-code check or a job that skipped the ISO comparison provides no matching ISO result.
 
