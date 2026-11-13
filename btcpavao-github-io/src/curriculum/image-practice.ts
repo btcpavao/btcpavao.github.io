@@ -18,14 +18,14 @@ const downloads = "/en/bitcoin-core/debian-images/"
 const course = "/en/bitcoin-core/self-custody/#lesson/"
 const imageCourse = "/en/bitcoin-core/self-custody/?setup=vault-node#lesson/"
 const signedCheck = { label: "Check a signed ISO", href: downloads + "#verify-download" }
-const rebuild = { label: "Rebuild the comparison candidate", href: downloads + "#rebuild-tutorial" }
+const rebuild = { label: "Rebuild Vault or the Node comparison image", href: downloads + "#rebuild-tutorial" }
 const nativeExport = {
   label: "Core 32.1 watch-only export on Vault",
-  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.5.0/docs/WATCH-ONLY.md",
+  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.6.0/docs/WATCH-ONLY.md",
 }
 const independentRecovery = {
   label: "Recover a Vault backup using GnuPG and Core",
-  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.5.0/docs/GPG-BACKUP.md",
+  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.6.0/docs/GPG-BACKUP.md",
 }
 
 export const imagePractice: Record<string, ImageLesson> = {
@@ -67,7 +67,7 @@ export const imagePractice: Record<string, ImageLesson> = {
       "verify-image": {
         role: "Vault and Node",
         title: "If you downloaded a prepared ISO",
-        instructions: ["Use the signed check for the exact file you selected: Vault v0.5.0 or Node v0.1.0-rc.2. Find the full signer fingerprint and the OK line for that ISO. The Debian installer in the main exercise has its own publisher and signature."],
+        instructions: ["Use the signed check for the exact file you selected: Vault v0.6.0 or Node v0.1.0-rc.2. Find the full signer fingerprint and the OK line for that ISO. The Debian installer in the main exercise has its own publisher and signature."],
         links: [signedCheck],
       },
       "boot-install-clean-v42": {
@@ -189,7 +189,7 @@ export const imagePractice: Record<string, ImageLesson> = {
     overview: {
       role: "Vault",
       title: "Rehearse with an empty Vault wallet",
-      instructions: ["The signed Vault v0.5.0 image runs Core 32.1 inside its protected offline launcher. Use an unfunded disposable wallet to practise backup, shutdown and restoration. For the funded Signet exercise, use the standard Core path unless you have separately verified a matching practice network on both computers. The Vault screenshots follow an unfunded wallet with a single GPG backup layer across a guest OS restart. For your own drill, also encrypt the wallet in Core and perform the full shutdown below."],
+      instructions: ["The signed Vault v0.6.0 image runs Core 32.1 inside its protected offline launcher. Use an unfunded disposable wallet to practise backup, shutdown and restoration. For the funded Signet exercise, use the standard Core path unless you have separately verified a matching practice network on both computers. The Vault screenshots follow an unfunded wallet with a single GPG backup layer across a guest OS restart. For your own drill, also encrypt the wallet in Core and perform the full shutdown below."],
       links: [signedCheck],
     },
     steps: {
@@ -334,7 +334,7 @@ export const imagePractice: Record<string, ImageLesson> = {
     steps: {
       "gpg-recover-20261016": {
         role: "Vault", title: "Recover one wallet without the Vault interface",
-        instructions: ["For a Vault v0.5.0 single-wallet export, use standard GnuPG on a clean offline system to open each GPG layer, outermost first. The final output is the Core wallet file. Restore it using File → Restore Wallet and use the separate Core passphrase when the signing test asks for it. A grouped file or folder backup also requires extracting the recovered TAR archive."],
+        instructions: ["For a Vault v0.6.0 single-wallet export, use standard GnuPG on a clean offline system to open each GPG layer, outermost first. The final output is the Core wallet file. Restore it using File → Restore Wallet and use the separate Core passphrase when the signing test asks for it. A grouped file or folder backup also requires extracting the recovered TAR archive."],
         result: "A backup from the removable medium restores in standard Core and can sign the disposable test payment.",
         links: [independentRecovery],
       },

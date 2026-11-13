@@ -124,7 +124,7 @@ export function BitcoinCoreStartPage() {
             difficulty="Beginner"
             estimatedTime={vault ? "30–45 minutes once the verified Vault boot USB is ready." : "30–45 minutes for the wallet exercise. Allow extra time for downloading and verifying Core."}
             realBitcoin="Use an unfunded, disposable practice wallet."
-            softwareVersion={vault ? "Bitcoin Core 32.1 in Vault v0.5.0" : "Bitcoin Core 32.1"}
+            softwareVersion={vault ? "Bitcoin Core 32.1 in Vault v0.6.0" : "Bitcoin Core 32.1"}
             operatingSystems={vault ? "Vault runs Debian 13 on supported amd64 (64-bit Intel or AMD) computers." : "macOS 14 or later (Intel or Apple silicon), Windows 10 version 1903 or later, or a maintained Linux distribution."}
             recommendedOs={vault ? "Start Vault from USB in Live RAM mode for this exercise." : "Use a maintained operating system on a computer you already know."}
             prerequisites={vault ? "A Vault boot USB, a separate removable backup drive and separate passphrase records. Use the native macOS package for Core on an Apple silicon Mac." : "A separate practice environment, removable backup media and a separate passphrase record."}
