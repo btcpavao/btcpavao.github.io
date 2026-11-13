@@ -6,15 +6,15 @@ from pathlib import Path
 
 
 def project_files(archive, role, version):
-    if (role, version) == ("vault", "v0.5.0"):
-        roots = {"bitcoin-core-vault-v0.5.0-source/config/includes.chroot/": ""}
+    if role == "vault" and version in ("v0.5.0", "v0.6.0"):
+        roots = {f"bitcoin-core-vault-{version}-source/config/includes.chroot/": ""}
     elif (role, version) == ("node", "v0.1.0-rc.2"):
         roots = {
             "bitcoin-core-node-v0.1.0-rc.2/runtime/": "",
             "bitcoin-core-node-v0.1.0-rc.2/app/": "usr/lib/bitcoin-core-node/",
         }
     else:
-        raise ValueError("This source-to-ISO mapping covers Vault v0.5.0 and Node v0.1.0-rc.2.")
+        raise ValueError("This source-to-ISO mapping covers Vault v0.5.0, Vault v0.6.0 and Node v0.1.0-rc.2.")
     expected = {}
     with tarfile.open(archive, "r:gz") as tar:
         for member in tar:

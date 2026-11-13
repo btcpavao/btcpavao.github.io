@@ -102,7 +102,7 @@ def check(args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("role", choices=("vault", "node"))
-    parser.add_argument("tag", help="release version, e.g. v0.5.0")
+    parser.add_argument("tag", help="release version, e.g. v0.6.0")
     parser.add_argument("--iso", type=Path, help="hash an existing file, including a locally built ISO")
     parser.add_argument("--inspect", action="store_true", help="compare signed project source files with files inside a supported ISO")
     parser.add_argument("--work", type=Path, default=Path("release-checks"), help="folder for verified downloads")
