@@ -66,7 +66,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "1.5": {
     image:
-      "Bitcoin Core Vault v0.5.0 is published for offline wallet work and GPG backups, and the dedicated online Bitcoin Core Node v0.1.0-rc.2 is available as a test release. Both have downloadable ISO images, release metadata and signed checksum manifests. Verify the fingerprint and test recovery before relying on either image.",
+      "Bitcoin Core Vault v0.6.0 is published for offline wallet work and GPG backups, and the dedicated online Bitcoin Core Node v0.1.0-rc.2 is available as a test release. Both have downloadable ISO images, release metadata and signed checksum manifests. Verify the fingerprint and test recovery before relying on either image.",
     reading: ["simpler"],
   },
   "software-continuity": {
@@ -83,11 +83,11 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "debian-setup": {
     image:
-      "Download verified Debian 13 ISO releases for Bitcoin Core Vault v0.5.0 (offline wallet work in a private RAM session) and Bitcoin Core Node v0.1.0-rc.2 (installed online node retaining blockchain and watch-only data). Follow the release page for signed checksums and recovery guidance. You can also install stock Debian and Bitcoin Core directly using the steps below.",
+      "Download verified Debian 13 ISO releases for Bitcoin Core Vault v0.6.0 (offline wallet work in a private RAM session) and Bitcoin Core Node v0.1.0-rc.2 (installed online node retaining blockchain and watch-only data). Follow the release page for signed checksums and recovery guidance. You can also install stock Debian and Bitcoin Core directly using the steps below.",
   },
   "generate-passphrase": {
     image:
-      "Bitcoin Core Vault v0.5.0 includes KeePassXC for this task. Select the intended word count and list, generate locally in the offline environment, protect the exact result separately and prove recovery. Download the published ISO and signed checksum manifest from the Debian images page.",
+      "Bitcoin Core Vault v0.6.0 includes KeePassXC for this task. Select the intended word count and list, generate locally in the offline environment, protect the exact result separately and prove recovery. Download the published ISO and signed checksum manifest from the Debian images page.",
     reading: ["detour"],
   },
   "backup-redundancy-freshness": {
@@ -102,11 +102,11 @@ export const articleEnrichment: Record<string, Addition> = {
     ],
     reading: ["backup", "gpg"],
     image:
-      "Vault v0.5.0 encrypts a single wallet.dat directly with OpenPGP AES-256 CFB+MDC. It uses TAR for multiple files or folders. Wallet Backup creates one GPG layer by default. Add another only if you have a reason to keep its independent passphrase separately. Test the external copy through a full restore.",
+      "Vault v0.6.0 encrypts a single wallet.dat directly with OpenPGP AES-256 CFB+MDC. It uses TAR for multiple files or folders. Wallet Backup creates one GPG layer by default. Add another only if you have a reason to keep its independent passphrase separately. Test the external copy through a full restore.",
   },
   "backup-media": {
     image:
-      "Vault v0.5.0 includes Thunar for removable files, Brasero for optical media and local printing support. Choose media for the failures you need to survive. Recover a disposable wallet from the actual medium you intend to keep. The published release includes package information, checksums and test records.",
+      "Vault v0.6.0 includes Thunar for removable files, Brasero for optical media and local printing support. Choose media for the failures you need to survive. Recover a disposable wallet from the actual medium you intend to keep. The published release includes package information, checksums and test records.",
   },
   "architecture-choice": {
     notes: [
@@ -136,7 +136,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "real-encryption": {
     image:
-      "The signed Vault v0.5.0 image includes Core 32.1, KeePassXC and GnuPG. Both live and installed modes keep the signing wallet in private RAM. Before shutdown, export an encrypted backup to separate media. Rehearse restoring the empty wallet in a fresh session before the small-payment test.",
+      "The signed Vault v0.6.0 image includes Core 32.1, KeePassXC and GnuPG. Both live and installed modes keep the signing wallet in private RAM. Before shutdown, export an encrypted backup to separate media. Rehearse restoring the empty wallet in a fresh session before the small-payment test.",
   },
   "multisig-why": {
     notes: [

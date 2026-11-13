@@ -26,10 +26,10 @@ export const captures = {
     caption: "This signature authenticates the prepared Node ISO. The upstream Bitcoin Core archive has its own verification procedure.",
   },
   "vault-home": {
-    src: base + "vault-installed-home.webp", width: 1280, height: 800,
-    context: "Vault v0.5.0 · installed offline VM",
+    src: "/software/screenshots/vault/v0.6.0/home.webp", width: 1280, height: 800,
+    context: "Vault v0.6.0 · installed offline VM",
     alt: "Vault Home shows Bitcoin Core, Wallet Backup, Decrypt Backup, KeePassXC and Files.",
-    caption: "Vault keeps the private session in RAM even when its operating system is installed.",
+    caption: "Start Bitcoin Core from Home. The private wallet session runs in RAM in installed mode too.",
   },
   "node-disk": {
     src: base + "node-install-destination.webp", width: 1280, height: 800,
@@ -56,10 +56,10 @@ export const captures = {
     caption: "Read the connection message first. This offline exercise cannot make synchronization progress through peers.",
   },
   "vault-backup": {
-    src: base + "vault-wallet-backup.webp", width: 1280, height: 417,
-    context: "Vault v0.5.0 · offline VM · empty exercise wallet",
-    alt: "Wallet Backup shows the selected wallet, a blank GPG passphrase field and a default destination in Private Workspace.",
-    caption: "The default destination is in RAM. Choose removable storage or copy the verified encrypted file there before shutting down.",
+    src: "/software/screenshots/vault/v0.6.0/backup.webp", width: 1280, height: 760,
+    context: "Vault Backup 0.7.5 · offline test VM · disposable USB",
+    alt: "Create Encrypted Backup shows the open Save to menu with Private Workspace and the TRANSFER USB drive.",
+    caption: "Choose your mounted USB drive under Save to for an external encrypted backup. The default Private Workspace is in RAM.",
   },
   "psbt-review": {
     src: base + "unsigned-signer.webp", width: 585, height: 327,
@@ -122,10 +122,10 @@ export const captures = {
     caption: "The private wallet was restored first. Its fresh public export let the replacement coordinator find the earlier output. This new 0.05 BTC payment spends from the recovered setup.",
   },
   "vault-decrypt": {
-    src: base + "vault-decrypt.webp", width: 1280, height: 759,
-    context: "Vault v0.5.0 · fresh offline VM session",
-    alt: "Decrypt Encrypted Backup shows wallet.dat.gpg, a masked practice passphrase and the practice-recovery folder in Private Workspace.",
-    caption: "Vault writes the recovered wallet into the named folder in private RAM. In this example the external wallet backup has one GPG layer.",
+    src: "/software/screenshots/vault/v0.6.0/recover.webp", width: 1280, height: 760,
+    context: "Vault Backup 0.7.5 · offline test VM · disposable USB",
+    alt: "Decrypt Encrypted Backup shows the Recover to menu with Private Workspace and the TRANSFER USB drive.",
+    caption: "Keep Private Workspace selected for this restore. Choosing USB writes the recovered files to that drive without the outer GPG protection.",
   },
   "vault-recovered-ram": {
     src: base + "vault-recovery-result.webp", width: 1280, height: 183,

@@ -1773,7 +1773,7 @@ export const part2Lessons: PlayerLesson[] = [
     chapter: "Prove backup and recovery",
     sourceReviewed: "2026-10-16",
     reviewNote:
-      "GPG privacy wording originally reviewed on 16 October 2026. The Vault format described here follows the published v0.5.0 backup guide.",
+      "GPG privacy wording originally reviewed on 16 October 2026. The Vault format described here follows the published v0.6.0 backup guide.",
     why: "Understand how key protection differs from financial privacy.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -3038,8 +3038,8 @@ export const part2Lessons: PlayerLesson[] = [
     risk: "Losing any required passphrase can block recovery. Malware can capture secrets before encryption.",
     status: "published",
     verification: "source-reviewed",
-    referenceVersion: "Bitcoin Core 31.1 · maintained GnuPG · Vault v0.5.0 example",
-    contentUpdated: "2026-11-11",
+    referenceVersion: "Bitcoin Core 31.1 · maintained GnuPG · Vault v0.6.0 example",
+    contentUpdated: "2026-11-13",
     estimatedTime: "20–40 min active",
     kind: "practice",
     explanation: [
@@ -3047,17 +3047,17 @@ export const part2Lessons: PlayerLesson[] = [
       "One layer means three recovery items: the final GPG-encrypted file, its GPG passphrase and the Core passphrase. Keep more than one copy of each in separate locations, with each passphrase separate from the other and from the file. A random passphrase alone does not identify what it opens; a neutrally named GPG file hides the Bitcoin wallet inside.",
       "For another layer, encrypt the existing GPG file again using an independently generated passphrase. Recover in reverse order, then extract TAR if present and restore the wallet in Core. Core’s own wallet passphrase is separate. Use only the final outermost file for distributed copies; an accessible inner copy bypasses the outer layers.",
       "Two GPG layers mean one final encrypted file and three passphrases: GPG A, GPG B and Core. Each extra layer adds one required passphrase and its own redundant records. Open B, then A, then use the Core passphrase when signing. Keep the secrets separately; putting them all in one accessible password database defeats that separation. Losing all copies of any required passphrase can block recovery. These layers do not change Bitcoin’s signing rules.",
-      "Vault v0.5.0 creates new backups with AES-256 CFB+MDC and keeps plaintext work in RAM. A single wallet.dat is encrypted directly. Multiple files or folders are packed with TAR before encryption. The practice commands below use standard GnuPG, so you can rehearse recovery on a separate offline system.",
+      "Vault v0.6.0 creates new backups with AES-256 CFB+MDC and keeps plaintext work in RAM. A single wallet.dat is encrypted directly. Multiple files or folders are packed with TAR before encryption. The practice commands below use standard GnuPG, so you can rehearse recovery on a separate offline system.",
       "For macOS practice, GPG Suite includes GPG Services in Finder. Use its password-only encryption option, with no recipient keys or signing, and repeat it on the encrypted output for another layer. The linked wallet guide gives the graphical steps and Linux/Windows installation options. For meaningful funds, use a dedicated computer with fresh Linux instead of a daily Mac or PC.",
     ],
     prerequisites: ["backup-media"],
     sources: [
       { label: "GnuPG: symmetric encryption and decryption", url: "https://gnupg.org/documentation/manuals/gnupg/Operational-GPG-Commands.html" },
-      { label: "Vault v0.5.0 backup format and portable recovery", url: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.5.0/docs/GPG-BACKUP.md" },
+      { label: "Vault v0.6.0 backup format and portable recovery", url: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.6.0/docs/GPG-BACKUP.md" },
       { label: "GPG wallet guide: installation, macOS interface and recovery", url: "/en/bitcoin-core/wallet-setup-backup-recovery/#optional-backup-protection" },
       { label: "GPG Suite for macOS", url: "https://gpgtools.org/" },
     ],
-    reviewNote: "On 16 October 2026, synthetic one- and two-layer CLI round trips passed with MacGPG 2.2.41, including wrong-passphrase and corruption rejection. The November update identifies Vault v0.5.0’s published format. The recorded Mac tests cover the command line.",
+    reviewNote: "On 16 October 2026, synthetic one- and two-layer CLI round trips passed with MacGPG 2.2.41, including wrong-passphrase and corruption rejection. The November update identifies Vault v0.6.0’s published format. The recorded Mac tests cover the command line.",
     origin: "First-principles curriculum; GPG backup revision",
     guidedSteps: [
       {

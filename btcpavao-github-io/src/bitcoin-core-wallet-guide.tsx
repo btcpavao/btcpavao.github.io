@@ -926,7 +926,7 @@ const stockVaultProof = {
 const vaultSteps: Record<number, Partial<GuideStep>> = {
   1: {
     images: [captures["vault-home"]],
-    content: <><p>On a separate computer, <ResourceLink href={`${DEBIAN_IMAGES_PATH}#verify-download`}>verify the signed Vault ISO</ResourceLink>, then prepare the boot USB. Start Vault v0.5.0 on a compatible amd64 computer with networking disconnected. Select Live RAM for this exercise, or use an existing installed practice Vault.</p>
+    content: <><p>On a separate computer, <ResourceLink href={`${DEBIAN_IMAGES_PATH}#verify-download`}>verify the signed Vault ISO</ResourceLink>, then prepare the boot USB. Start Vault v0.6.0 on a compatible amd64 computer with networking disconnected. Select Live RAM for this exercise, or use an existing installed practice Vault.</p>
       <p>From Home, open Bitcoin Core. The protected launcher keeps the private session in RAM in either mode. Have a separate removable backup medium ready before you create the wallet. An empty wallet is sufficient for this exercise. <ResourceLink href={vaultLesson("prepare-offline-signer")}>Check the offline Vault setup</ResourceLink>.</p></>,
   },
   2: {
@@ -963,7 +963,7 @@ const vaultSteps: Record<number, Partial<GuideStep>> = {
   7: {
     images: [captures["vault-backup"], captures["vault-private-backup"], captures["vault-usb-backup"]],
     content: <><p>In Vault Home, open <strong>Wallet Backup</strong> and select the disposable wallet you created in Core.
-      The earlier tool screenshots here use a wallet called PracticeVault. Choose a destination on the separate backup medium, or accept Private Workspace and then use <strong>Files</strong> to copy the completed <code>wallet.dat.gpg</code> to that medium.</p>
+      The example drive in the destination menu is named TRANSFER. Choose your own backup drive in <strong>Save to</strong>, or accept Private Workspace and then use <strong>Files</strong> to copy the completed <code>wallet.dat.gpg</code> to that medium.</p>
       <p>Set one GPG layer with a newly generated, independently recorded passphrase. Wait for the backup check.
       In Files, open the external drive and check the filename and destination path before ejecting it.
       A copy left only in Private Workspace disappears when Vault shuts down.</p>
@@ -976,7 +976,7 @@ const vaultSteps: Record<number, Partial<GuideStep>> = {
     images: [captures["vault-decrypt"]],
     content: <><p>Once you have verified that the encrypted backup is on your external medium and that you have both passphrase records,
       shut Vault down and start a fresh offline session. Open <strong>Decrypt Backup</strong>, choose the external <code>.gpg</code> file and enter the separate GPG passphrase.</p>
-      <p>Recover the file to a new folder in <strong>Private Workspace</strong>. A single-wallet backup yields a <code>wallet.dat</code> in private RAM.
+      <p>Leave <strong>Recover to</strong> set to <strong>Private Workspace</strong> and choose a new recovery folder. A single-wallet backup yields a <code>wallet.dat</code> in private RAM.
       Wait for Vault to report that the file was recovered.</p></>,
   },
   9: {
@@ -1298,7 +1298,7 @@ function OptionalBackupProtection({ vault }: { vault: boolean }) {
             <p>
               {vault ? <>Vault’s Wallet Backup and Decrypt Backup tools handle the GPG layer for you. After copying the encrypted file to your external medium, <a className="font-semibold underline underline-offset-4" href="#step-8">continue to step 8</a>. The independent methods below also work on another offline system.</> :
                 <>For an offline graphical workflow on compatible amd64 hardware, <ResourceLink href={`${BITCOIN_CORE_WALLET_GUIDE_PATH}?setup=vault#step-7`} inverse>follow step 7 on Vault</ResourceLink>. On your desktop, choose Finder or Terminal below.</>}
-              {" "}<ResourceLink href="https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.5.0/docs/GPG-BACKUP.md" inverse>Vault v0.5.0 backup format and independent recovery</ResourceLink>.
+              {" "}<ResourceLink href="https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.6.0/docs/GPG-BACKUP.md" inverse>Vault v0.6.0 backup format and independent recovery</ResourceLink>.
             </p>
 
             <details className="space-y-4 border-t border-white/20 pt-4">
@@ -1473,7 +1473,7 @@ function ArchitectureDiagram({ onOpen }: { onOpen: (image: GuideImage, opener: H
       </h2>
       <p className="mt-5 max-w-3xl leading-8 text-muted-foreground">
         This optional two-computer exercise comes after the single-wallet restore.
-        Vault v0.5.0 holds the private signing wallet offline. Node v0.1.0-rc.2 is the
+        Vault v0.6.0 holds the private signing wallet offline. Node v0.1.0-rc.2 is the
         online release candidate for tracking payments, preparing proposals and broadcasting.
         Both include Core 32.1.
       </p>
@@ -1604,7 +1604,7 @@ export function BitcoinCoreWalletGuidePage() {
             estimatedTime="60–90 minutes"
             realBitcoin="No. This is a disposable practice wallet. Complete the self-custody curriculum before preparing meaningful funds."
             softwareVersion="Bitcoin Core 32.1"
-            operatingSystems={vault ? "Bitcoin Core Vault v0.5.0 on compatible amd64 hardware, in Live RAM or installed mode." : "Native Core on macOS 14 or newer, Windows 10 version 1903 or newer, or supported Linux. Screen captures identify their platform."}
+            operatingSystems={vault ? "Bitcoin Core Vault v0.6.0 on compatible amd64 hardware, in Live RAM or installed mode." : "Native Core on macOS 14 or newer, Windows 10 version 1903 or newer, or supported Linux. Screen captures identify their platform."}
             recommendedOs={vault ? "Use Vault offline on a dedicated compatible computer. Both live and installed modes start each private session in RAM." : "For this empty-wallet exercise, use a maintained desktop OS. For serious funds, I recommend a dedicated computer with a fresh Debian Stable installation."}
             prerequisites={vault ? "Verified Vault ISO, a separate external backup medium, and separate records for the Core and GPG passphrases." : "Verified Bitcoin Core, a separate practice environment and backup destination, and separate passphrase records."}
             outcome="A restored practice wallet with the same receiving address and label."

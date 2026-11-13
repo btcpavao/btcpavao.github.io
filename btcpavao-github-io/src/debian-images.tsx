@@ -8,10 +8,10 @@ import { ValueForValueCard } from "@/components/value-for-value"
 
 const lesson = (slug: string) => `/en/bitcoin-core/self-custody/#lesson/${slug}`
 
-const vaultRelease = "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.5.0"
+const vaultRelease = "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.6.0"
 const nodeRelease = "https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.2"
 const nodeIso = "https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.2/bitcoin-core-node-v0.1.0-rc.2-core32.1-amd64.iso"
-const vaultIso = "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.5.0/bitcoin-core-vault-32.1-practical-guide-20261110-amd64.iso"
+const vaultIso = "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.6.0/bitcoin-core-vault-v0.6.0-amd64.iso"
 
 
 const software = {
@@ -103,11 +103,11 @@ function SoftwareRow({ ids, label }: { ids: SoftwareId[]; label: string }) {
 const productScreenshots = {
   vault: {
     name: "Bitcoin Core Vault",
-    version: "v0.5.0",
+    version: "v0.6.0",
     images: [
-      { file: "home", title: "Your offline workspace", description: "Bitcoin Core, encrypted backup and recovery tools in one private workspace.", alt: "Bitcoin Core Vault home with Bitcoin Core, Wallet Backup, Decrypt Backup, KeePassXC and offline utilities" },
-      { file: "guide", title: "Updated practical Vault Guide", description: "Start with the complete wallet, backup, watch-only Node and offline signing workflow.", alt: "Bitcoin Core Vault v0.5.0 installed Guide showing the Vault-to-Node flow and chapter navigation" },
-      { file: "backup", title: "Wallet Backup", description: "Create and encrypt a backup using the dedicated wallet backup interface.", alt: "Bitcoin Core Vault wallet backup interface" },
+      { file: "v0.6.0/home", title: "Your offline workspace", description: "Bitcoin Core, encrypted backup and recovery tools in one private workspace.", alt: "Bitcoin Core Vault home with Bitcoin Core, Wallet Backup, Decrypt Backup, KeePassXC and offline utilities" },
+      { file: "v0.5.0/guide", title: "Practical Vault Guide", description: "Start with the complete wallet, backup, watch-only Node and offline signing workflow.", alt: "Bitcoin Core Vault v0.5.0 installed Guide showing the Vault-to-Node flow and chapter navigation" },
+      { file: "v0.6.0/backup", title: "Wallet Backup", description: "Choose Private Workspace or a connected USB drive under Save to.", alt: "Create Encrypted Backup in Vault with the Save to menu showing Private Workspace and the TRANSFER USB drive" },
     ],
   },
   node: {
@@ -123,7 +123,7 @@ const productScreenshots = {
 
 function ProductScreenshots({ product }: { product: keyof typeof productScreenshots }) {
   const { name, version, images } = productScreenshots[product]
-  const basePath = `/software/screenshots/${product}${product === "vault" ? "/v0.5.0" : ""}`
+  const basePath = `/software/screenshots/${product}`
   return (
     <div className="product-screenshots" aria-label={`${name} screenshots`}>
       <p className="product-screenshots-intro">Inside {name} · {version}. Open any image for the full-size screenshot.</p>
@@ -131,14 +131,14 @@ function ProductScreenshots({ product }: { product: keyof typeof productScreensh
         {images.map(({ file, title, description, alt }) => (
           <figure key={file}>
             <a href={`${basePath}/${file}.png`} aria-label={`View full-size screenshot: ${title}`}>
-              <img src={`${basePath}/${file}.webp`} alt={alt} width={product === "vault" && ["wallet", "components", "passphrase", "psbt"].includes(file) ? 1366 : 1280} height={product === "vault" && ["wallet", "components", "passphrase", "psbt"].includes(file) ? 768 : 800} loading="lazy" decoding="async" />
+              <img src={`${basePath}/${file}.webp`} alt={alt} width={1280} height={file === "v0.6.0/backup" ? 760 : 800} loading="lazy" decoding="async" />
             </a>
             <figcaption><strong>{title}</strong><span>{description}</span></figcaption>
           </figure>
         ))}
       </div>
       <p className="product-screenshots-note">{product === "vault"
-        ? "The v0.5.0 Guide overview was captured from the installed test image, while the Home and Wallet Backup screens carry over from v0.4.0 because their visible interfaces did not change. No personal wallets or funds are shown."
+        ? "Home shows the installed v0.6.0 release. Wallet Backup shows the same 0.7.5 backup application included in v0.6.0, using a test USB drive. The Guide overview was captured in v0.5.0."
         : "Captured from the released image in a demonstration session. No personal wallets or funds are shown. Node is shown without a network connection, with the optional Backup and Restore Home shortcut enabled."}</p>
     </div>
   )
@@ -159,7 +159,7 @@ export function DebianImagesPage() {
       <main id="main-content" className="debian-images-page">
         <header>
           <a href="/en/bitcoin-core/">← Bitcoin Core</a>
-          <p className="debian-images-eyebrow">Vault v0.5.0 released · Node v0.1.0-rc.2 available for testing</p>
+          <p className="debian-images-eyebrow">Vault v0.6.0 released · Node v0.1.0-rc.2 available for testing</p>
           <h1>
             Ordinary hardware.
             <br />A dedicated environment.
@@ -310,8 +310,10 @@ export function DebianImagesPage() {
                 restricts writes to checked RAM locations.
               </p>
               <p>
-                Wallet Backup creates a checked Core wallet backup and can
-                encrypt it with one or more GPG layers. Export the ciphertext
+                In Wallet Backup, use <strong>Save to</strong> to create an encrypted backup
+                directly on a mounted USB drive. In Decrypt Backup, <strong>Recover to</strong> defaults
+                to Private Workspace. Choosing USB leaves the recovered file on that drive
+                without the backup’s outer GPG protection. Export the ciphertext
                 to USB, optical or other removable media, along with any notes,
                 KeePassXC databases or signed PSBT files you want to retain.
                 Finish Private Session warns before discarding RAM; it does not
@@ -332,14 +334,15 @@ export function DebianImagesPage() {
               </details>
             </div>
             <p className="debian-detail">
-              Bitcoin Core Vault v0.5.0 is available now, with Bitcoin Core
+              Bitcoin Core Vault v0.6.0 is available now, with Bitcoin Core
               32.1, a matching source snapshot, tests and signed checksums.
-              Verify both the downloaded bytes and the PGP signing key.
+              The release tag builds the same ISO available from the download button.
+              Verify the signed checksum before flashing or comparing a local rebuild.
             </p>
             <div className="debian-download-panel">
-              <p className="debian-images-eyebrow">Available · Vault v0.5.0</p>
+              <p className="debian-images-eyebrow">Available · Vault v0.6.0</p>
               <h3>Download Bitcoin Core Vault</h3>
-              <p>Offline wallet creation, encrypted backup and recovery, plus PSBT signing. Updated practical Vault Guide · Debian 13 · amd64 · Live RAM or installed.</p>
+              <p>Offline wallet creation, encrypted backup and recovery, plus PSBT signing. Reproducible Debian 13.7 image · amd64 · Live RAM or installed.</p>
               <nav className="debian-release-links" aria-label="Bitcoin Core Vault download links">
                 <a href={vaultIso}>Download Vault ISO</a>
                 <a href={vaultRelease}>Checksums, signature &amp; source</a>
@@ -406,11 +409,11 @@ export function DebianImagesPage() {
         <DebianImageVerification />
         <section className="debian-release-plan" id="release-status">
           <p className="debian-images-eyebrow">
-            Release status · November 11, 2026
+            Release status · November 13, 2026
           </p>
           <h2>Download, verify, then test the recovery path.</h2>
           <p>
-            Vault v0.5.0 is published and Node v0.1.0-rc.2 is available as a
+            Vault v0.6.0 is published and Node v0.1.0-rc.2 is available as a
             test release. Both offer ISO downloads, source snapshots and
             signed checksum files. These downloads are not an endorsement of untested
             hardware or a substitute for practicing recovery.
@@ -427,7 +430,7 @@ export function DebianImagesPage() {
             persist after shutdown.
           </p>
           <nav className="debian-release-links" aria-label="Available ISO releases">
-            <a href={vaultRelease}>Vault v0.5.0 release</a>
+            <a href={vaultRelease}>Vault v0.6.0 release</a>
             <a href={nodeRelease}>Node v0.1.0-rc.2 release</a>
             <a href="/en/bitcoin-core/self-custody/?setup=vault-node#lesson/prepare-offline-signer">Follow the Vault and Node walkthrough</a>
             <a href="/en/bitcoin-core/self-custody/">Start the Bitcoin Core curriculum</a>
