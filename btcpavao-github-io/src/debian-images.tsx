@@ -106,7 +106,7 @@ const productScreenshots = {
     version: "v0.6.0",
     images: [
       { file: "v0.6.0/home", title: "Your offline workspace", description: "Bitcoin Core, encrypted backup and recovery tools in one private workspace.", alt: "Bitcoin Core Vault home with Bitcoin Core, Wallet Backup, Decrypt Backup, KeePassXC and offline utilities" },
-      { file: "v0.5.0/guide", title: "Practical Vault Guide", description: "Start with the complete wallet, backup, watch-only Node and offline signing workflow.", alt: "Bitcoin Core Vault v0.5.0 installed Guide showing the Vault-to-Node flow and chapter navigation" },
+      { file: "v0.6.0/guide", title: "Practical Vault Guide", description: "Start with the complete wallet, backup, watch-only Node and offline signing workflow.", alt: "Vault Guide with the Start here chapter open, showing how a watch-only wallet and a payment file move between Vault and Node." },
       { file: "v0.6.0/backup", title: "Wallet Backup", description: "Choose Private Workspace or a connected USB drive under Save to.", alt: "Create Encrypted Backup in Vault with the Save to menu showing Private Workspace and the TRANSFER USB drive" },
     ],
   },
@@ -138,7 +138,7 @@ function ProductScreenshots({ product }: { product: keyof typeof productScreensh
         ))}
       </div>
       <p className="product-screenshots-note">{product === "vault"
-        ? "Home shows the installed v0.6.0 release. Wallet Backup shows the same 0.7.5 backup application included in v0.6.0, using a test USB drive. The Guide overview was captured in v0.5.0."
+        ? "Home and Guide were captured in a Live RAM session. The Wallet Backup example uses a disposable USB drive in an installed Vault."
         : "Captured from the released image in a demonstration session. No personal wallets or funds are shown. Node is shown without a network connection, with the optional Backup and Restore Home shortcut enabled."}</p>
     </div>
   )

@@ -829,7 +829,7 @@ export function CurriculumLesson({
           {imageLesson && (
             <div>
               <dt>Illustrated practice</dt>
-              <dd>The 11 November exercises used Vault v0.5.0, Node v0.1.0-rc.2 and Bitcoin Core 32.1. The Vault Home and backup destination screens were updated for v0.6.0. Each caption identifies its environment.</dd>
+              <dd>The Vault screenshots show v0.6.0 with Bitcoin Core 32.1. Node screenshots show v0.1.0-rc.2. The signing and payment exercises identify their Regtest wallets in the captions.</dd>
             </div>
           )}
           <div>
