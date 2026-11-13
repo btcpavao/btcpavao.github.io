@@ -908,16 +908,16 @@ const steps: GuideStep[] = [
 
 const stockVaultProof = {
   before: {
-    src: "/software/screenshots/curriculum/stock-vault-guide-address-before.webp",
+    src: "/software/screenshots/curriculum/vault-v0.6.0/stock-vault-guide-address-before.webp",
     width: 1280, height: 160,
-    context: "Vault v0.5.0 · Core 32.1 · offline VM · unfunded mainnet wallet",
+    context: "Vault v0.6.0 · Core 32.1 · offline VM · unfunded mainnet wallet",
     alt: "The Receiving addresses window of GuidePractice shows the Recovery check label and its full Bitcoin address.",
     caption: "Before backup, copy the complete address and label from the original wallet’s address book.",
   },
   after: {
-    src: "/software/screenshots/curriculum/stock-vault-guide-address-restored.webp",
+    src: "/software/screenshots/curriculum/vault-v0.6.0/stock-vault-guide-address-restored.webp",
     width: 1280, height: 160,
-    context: "Vault v0.5.0 · Core 32.1 · fresh offline session after restart",
+    context: "Vault v0.6.0 · Core 32.1 · fresh offline session after restart",
     alt: "The Receiving addresses window of GuideRestored shows the original Recovery check label and address.",
     caption: "After recovery from the external encrypted file, compare this row with the original in step 6.",
   },
@@ -961,9 +961,9 @@ const vaultSteps: Record<number, Partial<GuideStep>> = {
       same address-book row after a full restart.</p></>,
   },
   7: {
-    images: [captures["vault-backup"], captures["vault-private-backup"], captures["vault-usb-backup"]],
+    images: [captures["vault-select-backup"], captures["vault-backup"], captures["vault-private-backup"], captures["vault-usb-backup"]],
     content: <><p>In Vault Home, open <strong>Wallet Backup</strong> and select the disposable wallet you created in Core.
-      The example drive in the destination menu is named TRANSFER. Choose your own backup drive in <strong>Save to</strong>, or accept Private Workspace and then use <strong>Files</strong> to copy the completed <code>wallet.dat.gpg</code> to that medium.</p>
+      The selector shows PracticeVault in this example. Choose your own wallet. The example USB drive is named TRANSFER. Select your backup drive in <strong>Save to</strong>, or accept Private Workspace and then use <strong>Files</strong> to copy the completed <code>wallet.dat.gpg</code> to that medium.</p>
       <p>Set one GPG layer with a newly generated, independently recorded passphrase. Wait for the backup check.
       In Files, open the external drive and check the filename and destination path before ejecting it.
       A copy left only in Private Workspace disappears when Vault shuts down.</p>
@@ -989,7 +989,7 @@ const vaultSteps: Record<number, Partial<GuideStep>> = {
     images: [stockVaultProof.after],
     content: <><p>Select the restored wallet and open <strong>Window → Receiving addresses</strong>. Compare
       <strong> Recovery check</strong> and the complete address against the record you made in step 6.</p>
-      <p>In the pictured Vault v0.5.0 exercise, we saved the Core-encrypted signing wallet under a separate
+      <p>In the pictured Vault v0.6.0 exercise, we saved the Core-encrypted signing wallet under a separate
       GPG passphrase on a virtual USB drive, then restarted the offline Vault. We decrypted the file into fresh
       private RAM and restored it as <strong>GuideRestored</strong>. Core displayed the same address and label,
       recognized the address as its own and accepted the original Core wallet passphrase. We then locked it again.</p>
@@ -1298,7 +1298,7 @@ function OptionalBackupProtection({ vault }: { vault: boolean }) {
             <p>
               {vault ? <>Vault’s Wallet Backup and Decrypt Backup tools handle the GPG layer for you. After copying the encrypted file to your external medium, <a className="font-semibold underline underline-offset-4" href="#step-8">continue to step 8</a>. The independent methods below also work on another offline system.</> :
                 <>For an offline graphical workflow on compatible amd64 hardware, <ResourceLink href={`${BITCOIN_CORE_WALLET_GUIDE_PATH}?setup=vault#step-7`} inverse>follow step 7 on Vault</ResourceLink>. On your desktop, choose Finder or Terminal below.</>}
-              {" "}<ResourceLink href="https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.6.0/docs/GPG-BACKUP.md" inverse>Vault v0.6.0 backup format and independent recovery</ResourceLink>.
+              {" "}<ResourceLink href="https://github.com/btcpavao/bitcoin-core-vault-releases/blob/0881b79b65b48de81c505401ba8b0e86e7715fe4/docs/GPG-BACKUP.md" inverse>Vault v0.6.0 backup format and independent recovery</ResourceLink>.
             </p>
 
             <details className="space-y-4 border-t border-white/20 pt-4">
@@ -1608,7 +1608,7 @@ export function BitcoinCoreWalletGuidePage() {
             recommendedOs={vault ? "Use Vault offline on a dedicated compatible computer. Both live and installed modes start each private session in RAM." : "For this empty-wallet exercise, use a maintained desktop OS. For serious funds, I recommend a dedicated computer with a fresh Debian Stable installation."}
             prerequisites={vault ? "Verified Vault ISO, a separate external backup medium, and separate records for the Core and GPG passphrases." : "Verified Bitcoin Core, a separate practice environment and backup destination, and separate passphrase records."}
             outcome="A restored practice wallet with the same receiving address and label."
-            lastReviewed="11 November 2026 · Core 32.1 recovery on Debian 13 with isolated Regtest, and on a stock Vault v0.5.0 VM after restart with an unfunded mainnet wallet and networking disconnected. Node examples use a release-candidate VM. Earlier macOS reference screens were reviewed with Core 31.1 on 16 October 2026."
+            lastReviewed="13 November 2026 · Vault v0.6.0 recovery after restart with an unfunded mainnet wallet in an offline VM. The Debian 13 Regtest examples use Bitcoin Core 32.1. Node examples use a release-candidate VM. Earlier macOS reference screens were reviewed with Core 31.1 on 16 October 2026."
           />
 
           <div className="mt-10 grid gap-4 rounded-[28px] bg-card p-5 shadow-[var(--shadow-border)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-7">

@@ -209,9 +209,9 @@ export function DebianImageVerification() {
           ]} />
           Look for <strong>OK</strong> next to the computed hash and your ISO’s filename.
           If verification stops, check the version, filename and fingerprint before flashing.
-          <VerificationShot file="vault-signed" width={1192} height={448}
-            alt="The Vault v0.5.0 verification shows the asserted signer and an OK line for the downloaded ISO."
-            caption="This example was recorded for Vault v0.5.0. For v0.6.0, look for the asserted signer and an OK line naming bitcoin-core-vault-v0.6.0-amd64.iso." />
+          <VerificationShot file="vault-v060-signed" width={1242} height={384}
+            alt="GnuPG verifies the btcpavao signature and the verifier prints OK beside the SHA-256 and filename of the Vault v0.6.0 ISO."
+            caption="Find the full signing-key fingerprint, then the OK line for bitcoin-core-vault-v0.6.0-amd64.iso." />
           <p>GnuPG may also say the key is uncertified. The verifier uses a temporary keyring.
             Confirm the fingerprint independently in the previous step to establish whose key it is.</p>
           <details className="build-instructions">
@@ -219,9 +219,9 @@ export function DebianImageVerification() {
             <VerificationShot file="node-signed" width={1192} height={448}
               alt="The signed Node v0.1.0-rc.2 ISO matches its checksum and the verifier prints OK."
               caption="The same check on Node v0.1.0-rc.2 ends with OK and the Node ISO filename." />
-            <VerificationShot file="rejected-file" width={1192} height={448}
+            <VerificationShot file="vault-v060-rejected" width={1242} height={384}
               alt="A deliberately wrong file makes the verifier stop and print different expected and computed SHA-256 values."
-              caption="Here the signed list is valid, but the selected file is wrong. Verification stops and displays both hashes. Check the file before writing it to USB." />
+              caption="The Vault v0.6.0 signature passes. The selected test file has a different SHA-256, so the verifier stops. Check which file you downloaded before writing it to USB." />
           </details>
         </li>
       </ol>

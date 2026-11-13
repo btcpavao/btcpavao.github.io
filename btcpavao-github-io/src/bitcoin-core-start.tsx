@@ -129,7 +129,7 @@ export function BitcoinCoreStartPage() {
             recommendedOs={vault ? "Start Vault from USB in Live RAM mode for this exercise." : "Use a maintained operating system on a computer you already know."}
             prerequisites={vault ? "A Vault boot USB, a separate removable backup drive and separate passphrase records. Use the native macOS package for Core on an Apple silicon Mac." : "A separate practice environment, removable backup media and a separate passphrase record."}
             outcome="A backup outside the working session and a recorded address and label to compare when you restore it."
-            lastReviewed={vault ? "11 November 2026. On Vault v0.5.0 we restored an encrypted backup from a virtual USB drive in a fresh offline session and matched the original address and label." : "Instructions reviewed against the Bitcoin Core 32.1 release on 11 November 2026. The focused guide labels each practical test by platform."}
+            lastReviewed={vault ? "13 November 2026. On Vault v0.6.0 we restored an encrypted backup from a virtual USB drive in a fresh offline session and matched the original address and label." : "Instructions reviewed against the Bitcoin Core 32.1 release on 11 November 2026. The focused guide labels each practical test by platform."}
           />
 
           <div className="mt-10 rounded-[28px] bg-card p-6 shadow-[var(--shadow-border)] sm:p-8">

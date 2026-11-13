@@ -25,7 +25,7 @@ const nativeExport = {
 }
 const independentRecovery = {
   label: "Recover a Vault backup using GnuPG and Core",
-  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.6.0/docs/GPG-BACKUP.md",
+  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/0881b79b65b48de81c505401ba8b0e86e7715fe4/docs/GPG-BACKUP.md",
 }
 
 export const imagePractice: Record<string, ImageLesson> = {
@@ -224,7 +224,7 @@ export const imagePractice: Record<string, ImageLesson> = {
   "watch-only-setup": {
     overview: {
       role: "Vault and Node", title: "Use the native Core 32.1 watch-only export",
-      instructions: ["Use a disposable signing wallet and check that both Core instances are on the same chain. You can practise the export and address check without funding the wallet. The transfer pictured here used an empty wallet on the released Vault and a fresh Node installation, both on Bitcoin mainnet. The address comparison uses a separate Regtest wallet. The watch-only file carries public descriptors, address-book data and wallet history. Keep it private even though it contains no signing keys."],
+      instructions: ["Use a disposable signing wallet and check that both Core instances are on the same chain. You can practise the export and address check without funding the wallet. The Vault export and Node import screenshots show separate unfunded wallets on Bitcoin mainnet. The address comparison uses a separate Regtest wallet. The watch-only file carries public descriptors, address-book data and wallet history. Keep it private even though it contains no signing keys."],
       links: [nativeExport],
     },
     steps: {

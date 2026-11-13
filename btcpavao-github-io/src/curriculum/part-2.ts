@@ -3053,7 +3053,7 @@ export const part2Lessons: PlayerLesson[] = [
     prerequisites: ["backup-media"],
     sources: [
       { label: "GnuPG: symmetric encryption and decryption", url: "https://gnupg.org/documentation/manuals/gnupg/Operational-GPG-Commands.html" },
-      { label: "Vault v0.6.0 backup format and portable recovery", url: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.6.0/docs/GPG-BACKUP.md" },
+      { label: "Vault v0.6.0 backup format and portable recovery", url: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/0881b79b65b48de81c505401ba8b0e86e7715fe4/docs/GPG-BACKUP.md" },
       { label: "GPG wallet guide: installation, macOS interface and recovery", url: "/en/bitcoin-core/wallet-setup-backup-recovery/#optional-backup-protection" },
       { label: "GPG Suite for macOS", url: "https://gpgtools.org/" },
     ],
