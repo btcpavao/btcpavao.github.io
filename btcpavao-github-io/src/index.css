@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "./debian-images-trust.css";
+@import "./components/iso-custody-questions.css";
 
 @font-face {
   font-family: "Geist Variable";

@@ -1,6 +1,10 @@
 import { DebianImageVerification } from "./debian-image-verification"
-import { Archive, LockKeyhole } from "lucide-react"
-import { ConsultingInvitation } from "@/components/consulting-invitation"
+import { Archive, BookOpen, Braces, ClipboardList, LockKeyhole } from "lucide-react"
+import { IsoPracticeWalkthrough } from "./components/iso-practice-walkthrough"
+import { IsoReviewerBrief } from "./components/iso-reviewer-brief"
+import { IsoCustodyQuestions } from "./components/iso-custody-questions"
+import { ZoomableImage } from "./components/zoomable-image"
+import { captures } from "./curriculum/practice-captures"
 import { useEffect } from "react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
@@ -144,11 +148,89 @@ function ProductScreenshots({ product }: { product: keyof typeof productScreensh
   )
 }
 
+const exportSource = "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/5346a0db977049a028429482ff943619c52009c4/config/includes.chroot/usr/lib/core-vault/public_export.py#L75-L96"
+const coreGuide = "https://github.com/bitcoin/bitcoin/blob/v32.1/doc/offline-signing-tutorial.md"
+
+function ReleaseDownloads() {
+  return (
+    <section id="release-status" className="iso-releases" aria-labelledby="download-heading">
+      <h2 id="download-heading">Choose your download</h2>
+      <p>Each ISO is a file you can write to a USB stick to start a dedicated 64-bit Intel or AMD computer. I publish these Debian systems independently of the Debian and Bitcoin Core projects.</p>
+      <div className="iso-download-grid">
+        <article className="debian-download-panel" aria-labelledby="vault-download-heading">
+          <p className="debian-images-eyebrow">Signed release · v0.7.0</p>
+          <h3 id="vault-download-heading">Bitcoin Core Vault</h3>
+          <p>Create, back up and sign with your wallet offline. Debian 13.7 and Bitcoin Core 32.1. Start a live session from USB or install the system.</p>
+          <nav className="debian-release-links" aria-label="Vault download and verification">
+            <a href={vaultIso}>Download Vault ISO</a>
+            <a href="#verify-vault-download">Check my Vault download</a>
+          </nav>
+          <p><strong>Evidence for this file.</strong> Two builds run by this project on GitHub produced exactly the signed ISO above. An independent security review of this release has yet to be published.</p>
+          <div className="iso-evidence-links">
+            <a href={vaultRelease}>Signed files and test results</a>
+            <a href="https://github.com/btcpavao/bitcoin-core-vault-releases/actions/runs/43864705133">Both build results</a>
+            <a href="#vault">See the Vault desktop</a>
+          </div>
+        </article>
+        <article className="debian-download-panel" aria-labelledby="node-download-heading">
+          <p className="debian-images-eyebrow">Signed test release · v0.1.0-rc.2</p>
+          <h3 id="node-download-heading">Bitcoin Core Node</h3>
+          <p>Verify Bitcoin and prepare payments online with Bitcoin Core 32.1 on Debian 13. Installation erases the selected drive. Use a disposable wallet for testing.</p>
+          <nav className="debian-release-links" aria-label="Node download and verification">
+            <a href={nodeIso}>Download Node ISO</a>
+            <a href="#verify-node-download">Check my Node download</a>
+          </nav>
+          <p><strong>Evidence for this file.</strong> You can verify its signature and compare project files with their published sources. A byte-for-byte rebuild of this signed RC2 has yet to be demonstrated. The recorded rebuild matches a separate, unsigned comparison image.</p>
+          <div className="iso-evidence-links">
+            <a href={nodeRelease}>Signed files and test results</a>
+            <a href="#rebuild-tutorial">See which Node image was rebuilt</a>
+            <a href="#online-node">See the Node desktop</a>
+          </div>
+        </article>
+      </div>
+      <nav className="iso-guide-nav" aria-label="Questions and technical instructions">
+        <a href="#verify-the-build">Verification and build instructions</a>
+        <a href="#custody-questions">Questions before moving bitcoin</a>
+        <a href="#ask-pavao">Ask Pavao</a>
+      </nav>
+    </section>
+  )
+}
+
+function ProjectChanges() {
+  const menu = captures["vault-watch-menu"]
+  return (
+    <section id="what-pavao-added" className="iso-project-changes" aria-labelledby="project-changes-heading">
+      <h2 id="project-changes-heading">What did Pavao add, and could it put my wallet at risk?</h2>
+      <p>You can set up the same two roles yourself using Debian and Bitcoin Core. My images give you a working configuration, backup and recovery tools, and the steps you can rehearse on a spare computer. My additions also become part of the software you are trusting. <a href={coreGuide}>Read Bitcoin Core’s own offline signing guide.</a></p>
+      <p>If I added a harmful program, I could sign that ISO too. My signature tells you who published your copy. Someone you choose can examine the programs that handle your wallet, including everything that starts in the background, and check which of those programs are in the download.</p>
+      <div className="iso-usb-example">
+        <figure>
+          <ZoomableImage src={menu.src} alt={menu.alt} width={menu.width} height={menu.height} loading="lazy" decoding="async" />
+          <figcaption>The export command in Bitcoin Core. Earlier Vault v0.6.0 practice session with an empty wallet. <a href={menu.src}>Full size</a></figcaption>
+        </figure>
+        <div>
+          <h3>When I export a watch-only wallet, what goes onto my USB?</h3>
+          <p>Node needs the information that lets it recognize your payments. The private keys that authorize spending belong on Vault. In v0.7.0, Bitcoin Core prepares the watch-only file. My export tool checks it in memory before writing it to the drive you selected.</p>
+          <p>The tool checks that private keys are disabled, rejects unexpected kinds of records and asks Bitcoin Core whether any wallet description contains a private key. If a check fails, it stops the export. This file can still reveal your addresses and transaction history.</p>
+          <a href={exportSource}>Read the checks in this release</a>
+        </div>
+      </div>
+      <p><strong>What about other programs running in the background?</strong> An export check covers that one action. Your reviewer can also inspect startup services, file permissions, backups, the installer and the programs that can access storage or networking. The reviewer brief links the actual files and describes how to check the rest of the image.</p>
+      <nav className="iso-evidence-links" aria-label="Ways to inspect the project">
+        <a href="#reviewer-brief">Give this to my reviewer</a>
+        <a href="#upstream-programs">Compare the programs with their publishers</a>
+        <a href="#review-project-code">Read the code with my own AI</a>
+      </nav>
+    </section>
+  )
+}
+
 export function DebianImagesPage() {
   useEffect(() => {
     document.documentElement.lang = "en"
     document.title =
-      "Bitcoin Core Debian Images — Verified Downloads | BTC Pavao"
+      "Bitcoin Core Vault and Node — Downloads and Independent Verification | BTC Pavao"
   }, [])
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -159,11 +241,8 @@ export function DebianImagesPage() {
       <main id="main-content" className="debian-images-page">
         <header>
           <a href="/en/bitcoin-core/">← Bitcoin Core</a>
-          <p className="debian-images-eyebrow">Vault v0.7.0 released · Node v0.1.0-rc.2 available for testing</p>
-          <h1>
-            Ordinary hardware.
-            <br />A dedicated environment.
-          </h1>
+          <p className="debian-images-eyebrow">Bitcoin Core Vault and Node</p>
+          <h1>Before you trust a computer with your bitcoin</h1>
           <img
             className="debian-images-header-tux"
             src="/illustrations/tux-bitcoin.webp"
@@ -173,27 +252,23 @@ export function DebianImagesPage() {
             decoding="async"
           />
           <p className="debian-images-lede">
-            Download prepared Debian images for two distinct Bitcoin Core
-            roles: Bitcoin Core Vault for offline wallet work and an installed
-            Bitcoin Core Node for online validation.
+            You can install Debian and Bitcoin Core on two ordinary computers yourself. I prepared Vault and Node for myself and my clients so we could sign payments offline and recover a wallet even if the original computer or this website disappears.
           </p>
-          <p>
-            Keep the software each role needs. Leave browsing, email and
-            unrelated everyday applications on another computer. For meaningful
-            funds, I recommend dedicated hardware with a fresh Linux installation.
-            A clean antivirus scan does not make a daily computer a trusted
-            environment for wallet secrets.
-          </p>
+          <p>Vault holds the keys that can spend your bitcoin. Node follows the network and prepares payments. You check the recipient, amount and fee on Vault before signing. If you already trust Bitcoin Core, you can check what I added or ask a specialist you trust to examine it before moving any funds.</p>
+          <nav className="iso-hero-actions" aria-label="Explore the custody setup">
+            <a href="#what-pavao-added"><Braces aria-hidden="true" />See what Pavao added</a>
+            <a href="#reviewer-brief"><ClipboardList aria-hidden="true" />Give this to my reviewer</a>
+            <a href="#practice-without-funds"><BookOpen aria-hidden="true" />Try it without funds</a>
+          </nav>
         </header>
-        <nav className="debian-product-nav" aria-label="Debian images and verification">
-          <a href="#vault">Vault · Offline wallet work</a>
-          <a href="#online-node">Node · Online validation</a>
-          <a href="#verify-the-build">Verify or rebuild an image</a>
-        </nav>
+        <ReleaseDownloads />
+        <IsoPracticeWalkthrough />
+        <ProjectChanges />
+        <IsoReviewerBrief />
         <div className="debian-role-grid">
           <section id="vault">
             <p className="debian-images-eyebrow">
-              01 · Offline · Live RAM or installed
+              Offline · Live RAM or installed
             </p>
             <h2>Bitcoin Core Vault</h2>
             <p>
@@ -202,8 +277,9 @@ export function DebianImagesPage() {
               operating system with{" "}
               <a href="https://calamares.io/">Calamares</a>. Both modes keep the
               Vault account’s home and private working data in RAM. An
-              installation preserves Debian and the applications on the internal
-              disk; the private session starts fresh.
+              installation preserves Debian and the applications on the internal disk.
+              If your only wallet copy is in the private workspace, shutting down loses it.
+              An encrypted backup you deliberately save to USB stays on that USB.
             </p>
             <ProductScreenshots product="vault" />
             <SoftwareRow
@@ -334,28 +410,12 @@ export function DebianImagesPage() {
                 </p>
               </details>
             </div>
-            <p className="debian-detail">
-              Bitcoin Core Vault v0.7.0 is available now, with Bitcoin Core
-              32.1, a matching source snapshot, tests and signed checksums.
-              Use the release tag to rebuild the ISO and compare it with the download.
-              Verify the signed checksum before flashing or comparing a local rebuild.
-            </p>
-            <div className="debian-download-panel">
-              <p className="debian-images-eyebrow">Available · Vault v0.7.0</p>
-              <h3>Download Bitcoin Core Vault</h3>
-              <p>Offline wallet creation, encrypted backup and recovery, plus PSBT signing. Debian 13.7 image with a pinned build recipe · amd64 · Live RAM or installed.</p>
-              <nav className="debian-release-links" aria-label="Bitcoin Core Vault download links">
-                <a href={vaultIso}>Download Vault ISO</a>
-                <a href={vaultRelease}>Checksums, signature &amp; source</a>
-                <a href="#verify-the-build">How to verify this ISO</a>
-              </nav>
-            </div>
             <a href={lesson("more-copies-do-not-mean-a-current-backup")}>
               Learn the backup and recovery workflow →
             </a>
           </section>
           <section id="online-node">
-            <p className="debian-images-eyebrow">02 · Online</p>
+            <p className="debian-images-eyebrow">Online · Installed</p>
             <h2>Bitcoin Core Node</h2>
             <p>
               A separate minimal <a href="https://www.debian.org/">Debian</a>{" "}
@@ -387,61 +447,14 @@ export function DebianImagesPage() {
               ids={["debian", "core", "keepassxc", "gnupg", "thunar", "mousepad"]}
               label="Online node software — official projects"
             />
-            <div className="debian-download-panel">
-              <p className="debian-images-eyebrow">Test release · Node v0.1.0-rc.2</p>
-              <h3>Download Bitcoin Core Node</h3>
-              <p>Bitcoin Core 32.1 on Debian 13 · amd64. The installer erases
-              the selected drive. Verify the signed checksum manifest before
-              flashing, and test with disposable wallets first.</p>
-              <nav className="debian-release-links" aria-label="Bitcoin Core Node release links">
-                <a href={nodeIso}>Download Node ISO</a>
-                <a href={nodeRelease}>Checksums, PGP signature &amp; source</a>
-                <a href="#verify-the-build">How to verify this ISO</a>
-              </nav>
-              <p className="debian-detail">Preview release, not independently
-                audited or reproducibility-certified. Apple Silicon, T2 Macs,
-                Secure Boot and some Broadcom Wi-Fi adapters are not certified.</p>
-            </div>
+            <p className="debian-detail">This test release targets compatible 64-bit Intel and AMD computers. Apple Silicon is unsupported. See the release notes for Secure Boot, T2 Macs and Wi-Fi compatibility.</p>
             <a href={lesson("online-node-and-offline-signer")}>
               Understand the two-machine architecture →
             </a>
           </section>
         </div>
         <DebianImageVerification />
-        <section className="debian-release-plan" id="release-status">
-          <p className="debian-images-eyebrow">
-            Release status · November 16, 2026
-          </p>
-          <h2>Download, verify, then test the recovery path.</h2>
-          <p>
-            Vault v0.7.0 is published and Node v0.1.0-rc.2 is available as a
-            test release. Both offer ISO downloads, source snapshots and
-            signed checksum files. These downloads are not an endorsement of untested
-            hardware or a substitute for practicing recovery.
-          </p>
-          <p>
-            The illustrated curriculum follows a disposable signing wallet from its
-            first offline backup through watch-only export, a test payment and
-            recovery on two replacement computers.
-          </p>
-          <p>
-            These are independent BTC Pavao projects built around Debian and
-            Bitcoin Core, not official releases of either project. The release
-            documentation explains how to install each system and which files
-            persist after shutdown.
-          </p>
-          <nav className="debian-release-links" aria-label="Available ISO releases">
-            <a href={vaultRelease}>Vault v0.7.0 release</a>
-            <a href={nodeRelease}>Node v0.1.0-rc.2 release</a>
-            <a href="/en/bitcoin-core/self-custody/?setup=vault-node#lesson/prepare-offline-signer">Follow the Vault and Node walkthrough</a>
-            <a href="/en/bitcoin-core/self-custody/">Start the Bitcoin Core curriculum</a>
-          </nav>
-        </section>
-        <ConsultingInvitation
-          className="mt-14"
-          question="What would a simpler custody setup look like for you?"
-          detail="We can work through your threat model, Bitcoin Core workflow, backup and recovery plan, or the authority your spending policy needs to express."
-        />
+        <IsoCustodyQuestions />
         <ValueForValueCard language="en" className="mt-14" />
       </main>
       <SiteFooter />

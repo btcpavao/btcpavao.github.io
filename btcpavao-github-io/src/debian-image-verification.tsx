@@ -239,7 +239,10 @@ export function DebianImageVerification() {
       </p>
       <BuildLinks product="Node" />
 
-      <h3 id="verify-download" className="learning-heading"><ShieldCheck className="section-pictogram" aria-hidden="true" /><span>Check a signed download</span></h3>
+      <div className="signed-check-route">
+        <span id="verify-vault-download" className="iso-check-target" />
+        <span id="verify-node-download" className="iso-check-target" />
+      <h3 id="verify-download" className="learning-heading"><ShieldCheck className="section-pictogram" aria-hidden="true" /><span className="iso-check-heading-default">Check a signed download</span><span className="iso-check-heading-vault">Check your Vault v0.7.0 download</span><span className="iso-check-heading-node">Check your Node v0.1.0-rc.2 download</span></h3>
       <p>
         Use this for <a href={vaultRepo + "/releases/tag/v0.7.0"}>Vault v0.7.0</a> or{" "}
         <a href={nodeRepo + "/releases/tag/v0.1.0-rc.2"}>Node v0.1.0-rc.2</a>.
@@ -295,30 +298,35 @@ export function DebianImageVerification() {
           <strong>Run the line for your download.</strong> Adjust the path if you saved the ISO elsewhere.
           The script fetches the signed manifest and public key, verifies the signature in a temporary
           keyring and computes the SHA-256 of your file.
-          <Commands title="Verify Vault v0.7.0" lines={[
+          <div data-signed-product="vault"><Commands title="Verify Vault v0.7.0" lines={[
             'python3 check_release.py vault v0.7.0 --iso "$HOME/Downloads/bitcoin-core-vault-v0.7.0-amd64.iso"',
           ]} />
-          <Commands title="Verify Node v0.1.0-rc.2" lines={[
+          </div>
+          <div data-signed-product="node"><Commands title="Verify Node v0.1.0-rc.2" lines={[
             'python3 check_release.py node v0.1.0-rc.2 --iso "$HOME/Downloads/bitcoin-core-node-v0.1.0-rc.2-core32.1-amd64.iso"',
           ]} />
+          </div>
           Look for <strong>OK</strong> next to the computed hash and your ISO’s filename.
           If the signature fails or the hashes differ, keep the stick unwritten. Confirm the key through your independent channel, check the release and filename, then fetch fresh copies and repeat the check.
-          <VerificationShot file="vault-v060-signed" width={1242} height={384}
-            alt="Example from Vault v0.6.0. GnuPG verifies the signature and the verifier prints OK beside the ISO filename."
-            caption="This example shows Vault v0.6.0. In your output, look for the signing-key fingerprint and an OK line with the v0.7.0 ISO filename." />
-          <p>GnuPG may also say the key is uncertified. The verifier uses a temporary keyring.
-            Confirm the fingerprint independently in the previous step to establish whose key it is.</p>
-          <details className="build-instructions">
-            <summary>See a successful Node check and a rejected file</summary>
+          <div data-signed-product="vault"><VerificationShot file="vault-v070-signed" width={1317} height={338}
+            alt="The verifier accepts Pavao’s signing key and prints OK alongside the Vault v0.7.0 ISO filename and its SHA-256."
+            caption="Verification of the signed Vault v0.7.0 download. The signing-key fingerprint identifies the publisher’s key. The OK line identifies the ISO that matched the signed checksum." /></div>
+          <div data-signed-product="node">
             <VerificationShot file="node-signed" width={1192} height={448}
               alt="The signed Node v0.1.0-rc.2 ISO matches its checksum and the verifier prints OK."
               caption="The same check on Node v0.1.0-rc.2 ends with OK and the Node ISO filename." />
+          </div>
+          <p>GnuPG may also say the key is uncertified. The verifier uses a temporary keyring.
+            Confirm the fingerprint independently in the previous step to establish whose key it is.</p>
+          <details className="build-instructions">
+            <summary>See what happens when a file fails verification</summary>
             <VerificationShot file="vault-v060-rejected" width={1242} height={384}
               alt="A deliberately wrong file makes the verifier stop and print different expected and computed SHA-256 values."
               caption="In this v0.6.0 example, the signature passes. The selected test file has a different SHA-256, so the verifier stops. Check which file you downloaded before writing it to USB." />
           </details>
         </li>
       </ol>
+      </div>
 
       <h3 id="review-project-code" className="learning-heading"><Braces className="section-pictogram" aria-hidden="true" /><span>Read what the project does, with your own AI</span></h3>
       <p>

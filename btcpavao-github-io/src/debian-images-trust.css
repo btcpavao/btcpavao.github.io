@@ -1,0 +1,55 @@
+.debian-images-page > header:first-child { margin-bottom: 2.5rem; }
+.iso-hero-actions, .iso-evidence-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .65rem 1.15rem;
+}
+.iso-hero-actions { grid-column: 1 / -1; margin-top: 1.5rem; }
+.debian-images-page .iso-hero-actions a {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  min-height: 44px;
+  padding: .65rem .85rem;
+  border: 1px solid var(--border);
+  border-radius: .55rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+.iso-hero-actions svg { width: 1.1rem; height: 1.1rem; }
+.iso-hero-actions a:hover, .iso-download-grid .debian-release-links a:hover { background: var(--secondary); }
+.iso-hero-actions a:focus-visible, .iso-evidence-links a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.iso-releases, .iso-project-changes { padding-block: 1.75rem; border-top: 1px solid var(--border); scroll-margin-top: 6rem; }
+.iso-releases > p, .iso-project-changes > p { max-width: 73ch; line-height: 1.75; margin-block: .8rem; }
+.iso-download-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem; margin-top: 1.35rem; }
+.iso-download-grid .debian-download-panel { margin: 0; min-width: 0; }
+.iso-download-grid h3 { font-size: 1.45rem; }
+.iso-download-grid article > p:not(.debian-images-eyebrow) { line-height: 1.65; }
+.iso-download-grid .debian-release-links a {
+  display: inline-flex; justify-content: center; align-items: center;
+  padding: .7rem 1rem; border: 1px solid var(--border); border-radius: .55rem; font-size: .9rem; font-weight: 650; text-decoration: none;
+}
+.iso-download-grid .debian-release-links a:first-child { background: var(--primary); border-color: var(--primary); color: var(--primary-foreground); }
+.iso-download-grid .iso-evidence-links { gap: .4rem 1rem; font-size: .9rem; margin-top: .75rem; }
+.iso-project-changes .iso-evidence-links { margin-top: 1rem; font-size: .95rem; }
+.iso-usb-example { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 1.5rem; align-items: center; padding-block: 1.35rem; }
+.iso-usb-example img { width: 100%; height: auto; border: 1px solid var(--border); border-radius: .6rem; }
+.iso-usb-example figcaption { margin-top: .55rem; font-size: .875rem; line-height: 1.55; color: var(--muted-foreground); }
+.iso-usb-example h3 { font-size: 1.3rem; font-weight: 680; line-height: 1.32; }
+.iso-usb-example p { line-height: 1.7; margin-block: .7rem; }
+.iso-usb-example a { font-weight: 600; }
+.signed-check-route { position: relative; }
+.signed-check-route > .iso-check-target { position: absolute; top: 0; scroll-margin-top: 6rem; }
+.signed-check-route:has(#verify-vault-download:target) [data-signed-product="node"],
+.signed-check-route:has(#verify-node-download:target) [data-signed-product="vault"] { display: none; }
+.signed-check-route .iso-check-heading-vault, .signed-check-route .iso-check-heading-node,
+.signed-check-route:has(.iso-check-target:target) .iso-check-heading-default { display: none; }
+.signed-check-route:has(#verify-vault-download:target) .iso-check-heading-vault,
+.signed-check-route:has(#verify-node-download:target) .iso-check-heading-node { display: inline; }
+.iso-guide-nav { display: flex; flex-wrap: wrap; gap: .65rem 1.4rem; font-size: .95rem; margin-block: 1.15rem 0; }
+@media (max-width: 700px) {
+  .iso-download-grid, .iso-usb-example { grid-template-columns: minmax(0, 1fr); }
+  .iso-usb-example { gap: 1rem; }
+  .iso-hero-actions { gap: .5rem; }
+}

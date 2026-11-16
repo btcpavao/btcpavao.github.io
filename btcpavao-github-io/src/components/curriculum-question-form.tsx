@@ -15,10 +15,12 @@ const configuredSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY ?? ""
 
 export function CurriculumQuestionForm({
   context,
+  material = "curriculum",
   endpoint = "/api/ask-pavao",
   siteKey = configuredSiteKey,
 }: {
   context: QuestionContext
+  material?: "curriculum" | "download guide"
   endpoint?: string
   siteKey?: string
 }) {
@@ -96,12 +98,12 @@ export function CurriculumQuestionForm({
         <h3>Thanks — question received.</h3>
         <p>
           Questions like this help me see what needs to be explained more
-          clearly in the curriculum.
+          clearly in the {material}.
         </p>
         <p>
           {withEmail
-            ? "I’ll be able to reply directly using the email you provided. Your question may also help improve the curriculum for others."
-            : "Since you didn’t leave an email, I won’t be able to reply directly, but I can still use the question to improve the curriculum."}
+            ? `I’ll be able to reply directly using the email you provided. Your question may also help improve the ${material} for others.`
+            : `Since you didn’t leave an email, I won’t be able to reply directly, but I can still use the question to improve the ${material}.`}
         </p>
       </div>
     )
