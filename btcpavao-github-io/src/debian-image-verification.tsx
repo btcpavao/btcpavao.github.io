@@ -3,7 +3,7 @@ import { VerificationCommands as Commands } from "./components/verification-comm
 import { ZoomableImage } from "./components/zoomable-image"
 
 const verificationDocs = "https://github.com/btcpavao/btcpavao.github.io/blob/main/docs/debian-images/README.md"
-const verifierRevision = "ca902118164172effbf6a232c5d7fef29a73863c"
+const verifierRevision = "db2f63ff320235f020d633e3ae2ede10e9fa422d"
 const verifierPath = verifierRevision + "/docs/debian-images/check_release.py"
 const vaultRepo = "https://github.com/btcpavao/bitcoin-core-vault-releases"
 const nodeRepo = "https://github.com/btcpavao/bitcoin-core-node-releases"
@@ -11,14 +11,14 @@ const nodeRepo = "https://github.com/btcpavao/bitcoin-core-node-releases"
 const builds = {
   Vault: {
     repo: vaultRepo,
-    tag: "v0.6.0",
-    revision: "26e590741c968316b99416c51a53b9720d8134cb",
-    digest: "d1e3656099875e6cde7ed6c78fcf9ee3217d8bed4f8ccd5500b4231ad6bfa8ba",
-    download: "bitcoin-core-vault-v0.6.0-amd64.iso",
+    tag: "v0.7.0",
+    revision: "5346a0db977049a028429482ff943619c52009c4",
+    digest: "1e1782d6dc1354585cf6ec941ed7d231f0e48adfc0cee3972af1eaf3483424bb",
+    download: "bitcoin-core-vault-v0.7.0-amd64.iso",
     inventory: "image-packages.tsv",
     result: "../vault-result/bitcoin-core-vault-amd64.iso",
     build: "bash tools/rebuild/build.sh --sudo-docker ../vault-result",
-    compareJob: "43397223031",
+    compareJob: "43864705133",
   },
   Node: {
     repo: nodeRepo,
@@ -42,7 +42,7 @@ function BuildLinks({ product }: { product: Product }) {
       <a href={repo + "/tree/" + revision}><Braces size={15} aria-hidden="true" />Exact source</a>
       <a href={repo + "/releases/download/" + tag + "/" + inventory}><List size={15} aria-hidden="true" />Installed packages</a>
       <a href={repo + "/releases/tag/" + tag}><Disc3 size={15} aria-hidden="true" />ISO and release files</a>
-      <a href={repo + "/actions/runs/" + compareJob}><GitCompareArrows size={15} aria-hidden="true" />Byte comparison log</a>
+      <a href={repo + "/actions/runs/" + compareJob}><GitCompareArrows size={15} aria-hidden="true" />{product === "Vault" ? "Release rebuild run" : "Byte comparison log"}</a>
     </nav>
   )
 }
@@ -82,9 +82,9 @@ function RebuildSteps({ product }: { product: Product }) {
         <li>
           <strong>Review what the project changes.</strong>{" "}
           {product === "Vault" ? <>
-            Open the <a href={vaultRepo + "/compare/v0.5.0..." + revision}>changes since Vault v0.5.0</a> and
+            Open the <a href={vaultRepo + "/compare/v0.6.0..." + revision}>changes since Vault v0.6.0</a> and
             the <a href={vaultRepo + "/tree/" + revision + "/tools/rebuild/packages/sources"}>patched package sources</a>.
-            For example, follow the wallet backup code that takes a snapshot before encrypting it.
+            For example, inspect how Vault checks a watch-only wallet or signed PSBT before writing it to a transfer drive.
             The release includes the corresponding Calamares and Thunar sources.
           </> : <>
             Open the <a href={nodeRepo + "/blob/" + revision + "/rebuild/node.patch"}>patch applied to the signed RC2 source</a>.
@@ -128,7 +128,7 @@ export function DebianImageVerification() {
         An ISO is the file you write to a USB drive. If you used a download button above,
         <a href="#verify-download"> check the signed download</a> before writing it.
         To see whether the public source produces the published bytes,
-        <a href="#rebuild-tutorial"> rebuild Vault v0.6.0 or the Node candidate</a>. You can do both checks
+        <a href="#rebuild-tutorial"> rebuild Vault v0.7.0 or the Node candidate</a>. You can do both checks
         on a separate computer, without a USB stick or a wallet.
       </p>
       <p>
@@ -147,7 +147,7 @@ export function DebianImageVerification() {
       <p>For the Vault release, open the{" "}
         <a href={vaultRepo + "/releases/download/" + builds.Vault.tag + "/SHA256SUMS"}>checksum list</a>, its{" "}
         <a href={vaultRepo + "/releases/download/" + builds.Vault.tag + "/SHA256SUMS.asc"}>detached signature</a> or the{" "}
-        <a href={vaultRepo + "/releases/download/" + builds.Vault.tag + "/bitcoin-core-vault-v0.6.0-source.tar.gz"}>release source archive</a>.
+        <a href={vaultRepo + "/releases/download/" + builds.Vault.tag + "/bitcoin-core-vault-v0.7.0-source.tar.gz"}>release source archive</a>.
       </p>
       <h3 className="learning-heading"><Network className="section-pictogram" aria-hidden="true" /><span>Node · online verification and broadcasting</span></h3>
       <p>
@@ -165,7 +165,7 @@ export function DebianImageVerification() {
 
       <h3 id="verify-download" className="learning-heading"><ShieldCheck className="section-pictogram" aria-hidden="true" /><span>Check a signed download</span></h3>
       <p>
-        Use this for <a href={vaultRepo + "/releases/tag/v0.6.0"}>Vault v0.6.0</a> or{" "}
+        Use this for <a href={vaultRepo + "/releases/tag/v0.7.0"}>Vault v0.7.0</a> or{" "}
         <a href={nodeRepo + "/releases/tag/v0.1.0-rc.2"}>Node v0.1.0-rc.2</a>.
         The publisher signs a list of filenames and their SHA-256 fingerprints. Checking the signature
         tells you who signed the list. Checking your ISO against its entry tells you whether the
@@ -189,7 +189,7 @@ export function DebianImageVerification() {
           <strong>Confirm the signing key.</strong> Display the publisher’s public key, then compare
           all 40 characters of its fingerprint with Pavao through a channel you already trust.
           <Commands title="Display the signing-key fingerprint" lines={[
-            "curl --fail --location --output btcpavao-pgp.asc " + vaultRepo + "/releases/download/v0.6.0/btcpavao-pgp.asc",
+            "curl --fail --location --output btcpavao-pgp.asc " + vaultRepo + "/releases/download/v0.7.0/btcpavao-pgp.asc",
             "gpg --show-keys --with-fingerprint btcpavao-pgp.asc",
           ]} />
           <code className="debian-signing-fingerprint">787A 2AAF B0D1 19CA 0522 B2A5 B9C9 9AF8 5788 96D0</code>
@@ -201,8 +201,8 @@ export function DebianImageVerification() {
           <strong>Run the line for your download.</strong> Adjust the path if you saved the ISO elsewhere.
           The script fetches the signed manifest and public key, verifies the signature in a temporary
           keyring and computes the SHA-256 of your file.
-          <Commands title="Verify Vault v0.6.0" lines={[
-            'python3 check_release.py vault v0.6.0 --iso "$HOME/Downloads/bitcoin-core-vault-v0.6.0-amd64.iso"',
+          <Commands title="Verify Vault v0.7.0" lines={[
+            'python3 check_release.py vault v0.7.0 --iso "$HOME/Downloads/bitcoin-core-vault-v0.7.0-amd64.iso"',
           ]} />
           <Commands title="Verify Node v0.1.0-rc.2" lines={[
             'python3 check_release.py node v0.1.0-rc.2 --iso "$HOME/Downloads/bitcoin-core-node-v0.1.0-rc.2-core32.1-amd64.iso"',
@@ -210,8 +210,8 @@ export function DebianImageVerification() {
           Look for <strong>OK</strong> next to the computed hash and your ISO’s filename.
           If verification stops, check the version, filename and fingerprint before flashing.
           <VerificationShot file="vault-v060-signed" width={1242} height={384}
-            alt="GnuPG verifies the btcpavao signature and the verifier prints OK beside the SHA-256 and filename of the Vault v0.6.0 ISO."
-            caption="Find the full signing-key fingerprint, then the OK line for bitcoin-core-vault-v0.6.0-amd64.iso." />
+            alt="Example from Vault v0.6.0. GnuPG verifies the signature and the verifier prints OK beside the ISO filename."
+            caption="This example shows Vault v0.6.0. In your output, look for the signing-key fingerprint and an OK line with the v0.7.0 ISO filename." />
           <p>GnuPG may also say the key is uncertified. The verifier uses a temporary keyring.
             Confirm the fingerprint independently in the previous step to establish whose key it is.</p>
           <details className="build-instructions">
@@ -221,14 +221,14 @@ export function DebianImageVerification() {
               caption="The same check on Node v0.1.0-rc.2 ends with OK and the Node ISO filename." />
             <VerificationShot file="vault-v060-rejected" width={1242} height={384}
               alt="A deliberately wrong file makes the verifier stop and print different expected and computed SHA-256 values."
-              caption="The Vault v0.6.0 signature passes. The selected test file has a different SHA-256, so the verifier stops. Check which file you downloaded before writing it to USB." />
+              caption="In this v0.6.0 example, the signature passes. The selected test file has a different SHA-256, so the verifier stops. Check which file you downloaded before writing it to USB." />
           </details>
         </li>
       </ol>
 
       <h3 id="rebuild-tutorial" className="learning-heading"><Hammer className="section-pictogram" aria-hidden="true" /><span>Build an image from source, step by step</span></h3>
       <p>
-        The Vault recipe targets the signed v0.6.0 ISO from the main download button. You can verify its signature above,
+        The Vault recipe targets the signed v0.7.0 ISO from the main download button. You can verify its signature above,
         rebuild it and compare both files byte for byte. The Node recipe targets a separate unsigned comparison image.
         Use the Node candidate link below when comparing a Node build. The main Node button serves signed RC2.
       </p>
@@ -237,7 +237,7 @@ export function DebianImageVerification() {
         <p>Open a terminal in the download folder and run the line for your ISO.
           An <strong>OK</strong> result confirms that the file has the published hash for that image.
           To check that the source produces those bytes, continue with the build below.</p>
-        <Commands title="Check the Vault v0.6.0 hash" lines={[
+        <Commands title="Check the Vault v0.7.0 hash" lines={[
           "echo '" + builds.Vault.digest + "  " + builds.Vault.download + "' | sha256sum --check -",
         ]} />
         <Commands title="Check the Node candidate hash" lines={[
@@ -245,7 +245,7 @@ export function DebianImageVerification() {
         ]} />
         <VerificationShot file="vault-v060-checksum" width={1256} height={178}
           alt="The checksum command prints OK next to bitcoin-core-vault-v0.6.0-amd64.iso."
-          caption="The Vault v0.6.0 ISO matches the expected SHA-256. The separate signature check authenticates that checksum." />
+          caption="This earlier Vault v0.6.0 example shows a matching SHA-256. The separate signature check authenticates that checksum." />
       </details>
       <p>
         <strong>Prepare a clean build computer.</strong> Use a fresh Debian 13 amd64 virtual machine
@@ -264,8 +264,7 @@ export function DebianImageVerification() {
       <h3 id="verification-results" className="learning-heading"><CircleCheckBig className="section-pictogram" aria-hidden="true" /><span>Read the result</span></h3>
       <p>
         Two <strong>OK</strong> lines followed by <strong>MATCH</strong> mean your build and the published
-        image are identical, down to the last byte. The linked GitHub Actions runs show the comparison between
-        builders. Running the recipe on infrastructure you control provides a separate check. Assessing what the software does also requires reading the code and testing its behaviour.
+        image are identical, down to the last byte. The Node comparison log below shows the output from two builders. Running the recipe on infrastructure you control provides a separate check. Assessing what the software does also requires reading the code and testing its behaviour.
       </p>
       <VerificationShot file="node-ci-comparison" width={906} height={348}
         alt="The Node GitHub comparison log shows identical SHA-256 values for both build outputs and a final MATCH."

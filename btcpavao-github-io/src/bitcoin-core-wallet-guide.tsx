@@ -926,7 +926,7 @@ const stockVaultProof = {
 const vaultSteps: Record<number, Partial<GuideStep>> = {
   1: {
     images: [captures["vault-home"]],
-    content: <><p>On a separate computer, <ResourceLink href={`${DEBIAN_IMAGES_PATH}#verify-download`}>verify the signed Vault ISO</ResourceLink>, then prepare the boot USB. Start Vault v0.6.0 on a compatible amd64 computer with networking disconnected. Select Live RAM for this exercise, or use an existing installed practice Vault.</p>
+    content: <><p>On a separate computer, <ResourceLink href={`${DEBIAN_IMAGES_PATH}#verify-download`}>verify the signed Vault ISO</ResourceLink>, then prepare the boot USB. Start Vault v0.7.0 on a compatible amd64 computer with networking disconnected. Select Live RAM for this exercise, or use an existing installed practice Vault.</p>
       <p>From Home, open Bitcoin Core. The protected launcher keeps the private session in RAM in either mode. Have a separate removable backup medium ready before you create the wallet. An empty wallet is sufficient for this exercise. <ResourceLink href={vaultLesson("prepare-offline-signer")}>Check the offline Vault setup</ResourceLink>.</p></>,
   },
   2: {
@@ -1298,7 +1298,7 @@ function OptionalBackupProtection({ vault }: { vault: boolean }) {
             <p>
               {vault ? <>Vault’s Wallet Backup and Decrypt Backup tools handle the GPG layer for you. After copying the encrypted file to your external medium, <a className="font-semibold underline underline-offset-4" href="#step-8">continue to step 8</a>. The independent methods below also work on another offline system.</> :
                 <>For an offline graphical workflow on compatible amd64 hardware, <ResourceLink href={`${BITCOIN_CORE_WALLET_GUIDE_PATH}?setup=vault#step-7`} inverse>follow step 7 on Vault</ResourceLink>. On your desktop, choose Finder or Terminal below.</>}
-              {" "}<ResourceLink href="https://github.com/btcpavao/bitcoin-core-vault-releases/blob/0881b79b65b48de81c505401ba8b0e86e7715fe4/docs/GPG-BACKUP.md" inverse>Vault v0.6.0 backup format and independent recovery</ResourceLink>.
+              {" "}<ResourceLink href="https://github.com/btcpavao/bitcoin-core-vault-releases/blob/5346a0db977049a028429482ff943619c52009c4/docs/GPG-BACKUP.md" inverse>Vault v0.7.0 backup format and independent recovery</ResourceLink>.
             </p>
 
             <details className="space-y-4 border-t border-white/20 pt-4">
@@ -1473,14 +1473,14 @@ function ArchitectureDiagram({ onOpen }: { onOpen: (image: GuideImage, opener: H
       </h2>
       <p className="mt-5 max-w-3xl leading-8 text-muted-foreground">
         This optional two-computer exercise comes after the single-wallet restore.
-        Vault v0.6.0 holds the private signing wallet offline. Node v0.1.0-rc.2 is the
+        Vault v0.7.0 holds the private signing wallet offline. Node v0.1.0-rc.2 is the
         online release candidate for tracking payments, preparing proposals and broadcasting.
         Both include Core 32.1.
       </p>
       <ol className="mt-7 grid gap-4">
         <li className="rounded-[20px] bg-card p-5 shadow-[var(--shadow-border)]">
           <h3 className="learning-heading font-bold"><SectionIcon topic="public" />Vault → Node · public wallet</h3>
-          <p className="mt-2 leading-7">Select the signing wallet on Vault. In Core choose <strong>File → Export watch-only wallet</strong> and save <code>watch-only.dat</code> in Private Workspace. Copy that public export to transfer media. Check that Node is running on the same Bitcoin network. Use <strong>File → Restore Wallet</strong> on Node to open the public file. Keep the private signing wallet and recovery passphrases offline.</p>
+          <p className="mt-2 leading-7">Select the signing wallet on Vault. In Core choose <strong>File → Export watch-only wallet</strong> and save <code>watch-only.dat</code> directly on your mounted transfer USB. Check that Node is running on the same Bitcoin network. Use <strong>File → Restore Wallet</strong> on Node to open the public file. Keep the private signing wallet and recovery passphrases offline.</p>
           <p className="mt-2 leading-7">On Node, open <strong>Window → Console</strong>, select the restored watch-only wallet and run the command below. Check its name and <code>private_keys_enabled: false</code>. The file includes public descriptors, transactions and address-book data, so it can reveal wallet activity. Compare one full receiving address on both machines before using it.</p>
           <VerificationCommands title="Bitcoin Core console on Node" lines={["getwalletinfo"]} />
           <div className="my-4 grid gap-4 sm:grid-cols-2">
@@ -1496,7 +1496,7 @@ function ArchitectureDiagram({ onOpen }: { onOpen: (image: GuideImage, opener: H
         </li>
         <li className="rounded-[20px] bg-card p-5 shadow-[var(--shadow-border)]">
           <h3 className="learning-heading font-bold"><SectionIcon topic="check" />Vault → Node · signed payment</h3>
-          <p className="my-2 leading-7">Save the signed PSBT under a distinct name. On Node, reload it, broadcast and check for a confirmation. To prove that your setup survives replacement of both computers, repeat that payment exercise with a recovered signer and a fresh public export.</p>
+          <p className="my-2 leading-7">Choose <strong>Save…</strong> and save the signed PSBT under a distinct name on the transfer USB. On Node, reload it, broadcast and check for a confirmation. To prove that your setup survives replacement of both computers, repeat that payment exercise with a recovered signer and a fresh public export.</p>
           <ResourceLink href={vaultLesson("recovery-drill-without-original-coordinator")}>Practise recovery on two replacements</ResourceLink>
         </li>
       </ol>
@@ -1604,7 +1604,7 @@ export function BitcoinCoreWalletGuidePage() {
             estimatedTime="60–90 minutes"
             realBitcoin="No. This is a disposable practice wallet. Complete the self-custody curriculum before preparing meaningful funds."
             softwareVersion="Bitcoin Core 32.1"
-            operatingSystems={vault ? "Bitcoin Core Vault v0.6.0 on compatible amd64 hardware, in Live RAM or installed mode." : "Native Core on macOS 14 or newer, Windows 10 version 1903 or newer, or supported Linux. Screen captures identify their platform."}
+            operatingSystems={vault ? "Bitcoin Core Vault v0.7.0 on compatible amd64 hardware, in Live RAM or installed mode." : "Native Core on macOS 14 or newer, Windows 10 version 1903 or newer, or supported Linux. Screen captures identify their platform."}
             recommendedOs={vault ? "Use Vault offline on a dedicated compatible computer. Both live and installed modes start each private session in RAM." : "For this empty-wallet exercise, use a maintained desktop OS. For serious funds, I recommend a dedicated computer with a fresh Debian Stable installation."}
             prerequisites={vault ? "Verified Vault ISO, a separate external backup medium, and separate records for the Core and GPG passphrases." : "Verified Bitcoin Core, a separate practice environment and backup destination, and separate passphrase records."}
             outcome="A restored practice wallet with the same receiving address and label."

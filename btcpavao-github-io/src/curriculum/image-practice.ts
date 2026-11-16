@@ -21,11 +21,11 @@ const signedCheck = { label: "Check a signed ISO", href: downloads + "#verify-do
 const rebuild = { label: "Rebuild Vault or the Node comparison image", href: downloads + "#rebuild-tutorial" }
 const nativeExport = {
   label: "Core 32.1 watch-only export on Vault",
-  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.6.0/docs/WATCH-ONLY.md",
+  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.7.0/docs/WATCH-ONLY.md",
 }
 const independentRecovery = {
   label: "Recover a Vault backup using GnuPG and Core",
-  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/0881b79b65b48de81c505401ba8b0e86e7715fe4/docs/GPG-BACKUP.md",
+  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/5346a0db977049a028429482ff943619c52009c4/docs/GPG-BACKUP.md",
 }
 
 export const imagePractice: Record<string, ImageLesson> = {
@@ -67,7 +67,7 @@ export const imagePractice: Record<string, ImageLesson> = {
       "verify-image": {
         role: "Vault and Node",
         title: "If you downloaded a prepared ISO",
-        instructions: ["Use the signed check for the exact file you selected: Vault v0.6.0 or Node v0.1.0-rc.2. Find the full signer fingerprint and the OK line for that ISO. The Debian installer in the main exercise has its own publisher and signature."],
+        instructions: ["Use the signed check for the exact file you selected: Vault v0.7.0 or Node v0.1.0-rc.2. Find the full signer fingerprint and the OK line for that ISO. The Debian installer in the main exercise has its own publisher and signature."],
         links: [signedCheck],
       },
       "boot-install-clean-v42": {
@@ -180,7 +180,7 @@ export const imagePractice: Record<string, ImageLesson> = {
       media: {
         role: "Vault and Node",
         title: "Choose the correct file before copying",
-        instructions: ["Keep transfer media distinct from signing-wallet backup media. Use Files to take the watch-only export or signed .psbt out of Vault’s Private Workspace. On Node, the PSBT Transfer Folder provides temporary RAM space. Copy the completed file to the transfer medium before shutdown."],
+        instructions: ["Keep transfer media distinct from signing-wallet backup media. In Vault, select the mounted transfer USB when saving a signed PSBT or exporting a watch-only wallet. On Node, the PSBT Transfer Folder provides temporary RAM space. Copy the completed file to the transfer medium before shutdown."],
         result: "You can identify the single file needed for this hand-off. The original signing wallet stays on the offline side.",
       },
     },
@@ -189,7 +189,7 @@ export const imagePractice: Record<string, ImageLesson> = {
     overview: {
       role: "Vault",
       title: "Rehearse with an empty Vault wallet",
-      instructions: ["The signed Vault v0.6.0 image runs Core 32.1 inside its protected offline launcher. Use an unfunded disposable wallet to practise backup, shutdown and restoration. For the funded Signet exercise, use the standard Core path unless you have separately verified a matching practice network on both computers. The Vault screenshots follow an unfunded wallet with a single GPG backup layer across a guest OS restart. For your own drill, also encrypt the wallet in Core and perform the full shutdown below."],
+      instructions: ["The signed Vault v0.7.0 image runs Core 32.1 inside its protected offline launcher. Use an unfunded disposable wallet to practise backup, shutdown and restoration. For the funded Signet exercise, use the standard Core path unless you have separately verified a matching practice network on both computers. The Vault screenshots follow an unfunded wallet with a single GPG backup layer across a guest OS restart. For your own drill, also encrypt the wallet in Core and perform the full shutdown below."],
       links: [signedCheck],
     },
     steps: {
@@ -230,7 +230,7 @@ export const imagePractice: Record<string, ImageLesson> = {
     steps: {
       export: {
         replacesStep: true, role: "Vault", title: "Export watch-only.dat",
-        instructions: ["Select the intended signing wallet in Core and choose File → Export watch-only wallet. Save watch-only.dat in Private Workspace. In Files, copy that exported file to your transfer USB. Keep the original wallet.dat and its encrypted backup on the offline side."],
+        instructions: ["Select the intended signing wallet in Core and choose File → Export watch-only wallet. Select your mounted transfer USB and save watch-only.dat there. Keep the original wallet.dat and its encrypted backup on the offline side."],
         result: "The transfer USB contains the public watch-only export.",
       },
       "watchonly-gui-v4": {
@@ -266,12 +266,12 @@ export const imagePractice: Record<string, ImageLesson> = {
       },
       review: {
         replacesStep: true, role: "Vault", title: "Check what the proposal authorizes",
-        instructions: ["Open or restore the matching disposable signing wallet. Copy the unsigned PSBT into Private Workspace, then use File → Load PSBT from file. Compare the complete recipient address and amount with your independent record. Inspect every other output, identify any change belonging to your wallet and check the total fee."],
+        instructions: ["Open or restore the matching disposable signing wallet. Use File → Load PSBT from file to open the unsigned proposal on your transfer USB. Compare the complete recipient address and amount with your independent record. Inspect every other output, identify any change belonging to your wallet and check the total fee."],
         result: "You can explain every output. An unknown destination, unexplained change or unexpected fee is a reason to leave the proposal unsigned.",
       },
       sign: {
         replacesStep: true, role: "Vault", title: "Sign and return the signed file",
-        instructions: ["Choose Sign Tx only after reviewing the payment. Unlock the wallet with its Core passphrase if prompted. Wait for Core to report that signing is complete. Save the signed PSBT under a distinct name in Private Workspace, then copy it to the transfer USB using Files."],
+        instructions: ["Choose Sign Tx only after reviewing the payment. Unlock the wallet with its Core passphrase if prompted. Wait for Core to report that signing is complete. Choose Save… and select the mounted transfer USB. Give the signed file a distinct name such as payment-signed.psbt."],
         result: "You have a signed file ready to broadcast and can distinguish it from the original unsigned file.",
       },
       broadcast: {
@@ -334,7 +334,7 @@ export const imagePractice: Record<string, ImageLesson> = {
     steps: {
       "gpg-recover-20261016": {
         role: "Vault", title: "Recover one wallet without the Vault interface",
-        instructions: ["For a Vault v0.6.0 single-wallet export, use standard GnuPG on a clean offline system to open each GPG layer, outermost first. The final output is the Core wallet file. Restore it using File → Restore Wallet and use the separate Core passphrase when the signing test asks for it. A grouped file or folder backup also requires extracting the recovered TAR archive."],
+        instructions: ["For a Vault v0.7.0 single-wallet export, use standard GnuPG on a clean offline system to open each GPG layer, outermost first. The final output is the Core wallet file. Restore it using File → Restore Wallet and use the separate Core passphrase when the signing test asks for it. A grouped file or folder backup also requires extracting the recovered TAR archive."],
         result: "A backup from the removable medium restores in standard Core and can sign the disposable test payment.",
         links: [independentRecovery],
       },
