@@ -8055,6 +8055,36 @@ input:focus-visible + .curriculum-checkbox {
 .debian-verification code { overflow-wrap: anywhere; }
 .debian-verification .learning-heading { --pictogram-size: 1.4rem; }
 .debian-verification h2.learning-heading { --pictogram-size: clamp(1.65rem, 3vw, 2.1rem); }
+.verification-map { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; margin-block: 1.4rem; }
+.debian-verification .verification-map a { display: grid; grid-template-columns: 1.4rem 1fr; gap: .25rem .75rem; align-content: center; padding: .9rem 1rem; border: 1px solid var(--border); border-radius: .65rem; color: var(--foreground); background: var(--card); text-decoration: none; line-height: 1.4; }
+.verification-map svg { width: 1.25rem; height: 1.25rem; color: var(--primary); }
+.verification-map span { grid-column: 2; font-size: .86rem; color: var(--muted-foreground); }
+.verification-map a:hover strong, .verification-map a:focus-visible strong { text-decoration: underline; text-underline-offset: .18em; }
+.verification-map a:focus-visible { outline: 2px solid var(--foreground); outline-offset: 2px; }
+.verification-suppliers { margin: 1.25rem 0; }
+.verification-suppliers > div { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: .4rem 1rem; padding-block: 1rem; border-top: 1px solid var(--border); }
+.verification-suppliers dt { font-weight: 700; }
+.verification-suppliers dd { margin: 0; line-height: 1.7; }
+.verification-two-checks { margin: 1.35rem 0; padding: 1rem 1.15rem; border: 1px solid var(--border); border-radius: .7rem; background: var(--card); }
+.verification-two-checks figcaption { font-weight: 650; }
+.debian-verification .verification-two-checks ol { padding: 0; list-style: none; }
+.debian-verification .verification-two-checks li { display: flex; align-items: flex-start; gap: .75rem; padding: 0; margin: .9rem 0 0; line-height: 1.65; }
+.verification-two-checks li strong { display: block; }
+.verification-two-checks li svg { width: 1.15rem; height: 1.15rem; margin-top: .2rem; color: var(--primary); flex: none; }
+.verification-targets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin-block: 1.25rem; }
+.debian-verification .verification-targets p { margin: 0; padding: 0 0 0 .9rem; border-left: 2px solid var(--primary); }
+.verification-targets strong { display: block; margin-bottom: .25rem; }
+.verification-prompt__text { padding: .8rem 1rem; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.65; }
+#compare-source-files { scroll-margin-top: 6rem; }
+@media (max-width: 600px) {
+  .verification-map, .verification-targets, .verification-suppliers > div { grid-template-columns: minmax(0, 1fr); }
+}
+#compare-upstream fieldset { margin-block: .75rem; }
+#compare-upstream legend { font-size: .875rem; font-weight: 650; }
+#compare-upstream fieldset label { display: inline-flex; align-items: center; min-height: 44px; margin-right: 1rem; gap: .4rem; cursor: pointer; }
+#compare-upstream input { accent-color: var(--primary); }
+#compare-upstream ul { list-style: disc; padding-left: 1.25rem; }
+
 .build-evidence-links a { display: inline-flex; gap: .38rem; align-items: center; }
 .build-evidence-links svg { flex: none; color: var(--muted-foreground); }
 .verification-command { margin: .9rem 0; border: 1px solid var(--border); border-radius: .75rem; background: var(--card); color: var(--foreground); }

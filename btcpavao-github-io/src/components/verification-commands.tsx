@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from "react"
-import { Check, Clipboard, Terminal } from "lucide-react"
+import { Check, Clipboard, MessageSquare, Terminal } from "lucide-react"
 
 type Feedback = "idle" | "copied" | "selected" | "manual"
 
-export function VerificationCommands({ title, lines }: { title: string; lines: string[] }) {
+export function VerificationCommands({ title, lines, kind = "command" }: { title: string; lines: string[]; kind?: "command" | "prompt" }) {
   const codeRef = useRef<HTMLElement>(null)
   const [feedback, setFeedback] = useState<Feedback>("idle")
-  const command = lines.join("\n")
+  const isPrompt = kind === "prompt"
+  const Icon = isPrompt ? MessageSquare : Terminal
+  const command = lines.join(isPrompt ? "\n\n" : "\n")
 
   useEffect(() => {
     if (feedback !== "copied") return
@@ -44,21 +46,21 @@ export function VerificationCommands({ title, lines }: { title: string; lines: s
   const copied = feedback === "copied"
   const manual = feedback === "selected" || feedback === "manual"
   return (
-    <div className="verification-command">
+    <div className={isPrompt ? "verification-command verification-prompt" : "verification-command"}>
       <div className="verification-command__bar">
         <span className="verification-command__title">
-          <Terminal size={16} aria-hidden="true" /><span>{title}</span>
+          <Icon size={16} aria-hidden="true" /><span>{title}</span>
         </span>
         <button type="button" onClick={copyCommands} aria-label={"Copy " + title}>
           {copied ? <Check size={16} aria-hidden="true" /> : <Clipboard size={16} aria-hidden="true" />}
           <span>{copied ? "Copied" : "Copy"}</span>
         </button>
       </div>
-      <pre className="build-commands"><code ref={codeRef}>{command}</code></pre>
+      {isPrompt ? <div className="verification-prompt__text"><span ref={codeRef}>{command}</span></div> : <pre className="build-commands"><code ref={codeRef}>{command}</code></pre>}
       <span role="status" aria-live="polite" className={manual ? "verification-command__notice" : "sr-only"}>
         {copied && "Copied to clipboard."}
-        {feedback === "selected" && "Code selected. Use your device’s Copy command."}
-        {feedback === "manual" && "Select the code, then use your device’s Copy command."}
+        {feedback === "selected" && "Text selected. Use your device’s Copy command."}
+        {feedback === "manual" && "Select the text, then use your device’s Copy command."}
       </span>
     </div>
   )

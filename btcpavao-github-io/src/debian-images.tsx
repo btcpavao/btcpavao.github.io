@@ -347,7 +347,7 @@ export function DebianImagesPage() {
               <nav className="debian-release-links" aria-label="Bitcoin Core Vault download links">
                 <a href={vaultIso}>Download Vault ISO</a>
                 <a href={vaultRelease}>Checksums, signature &amp; source</a>
-                <a href="#verify-download">How to verify this ISO</a>
+                <a href="#verify-the-build">How to verify this ISO</a>
               </nav>
             </div>
             <a href={lesson("more-copies-do-not-mean-a-current-backup")}>
@@ -396,7 +396,7 @@ export function DebianImagesPage() {
               <nav className="debian-release-links" aria-label="Bitcoin Core Node release links">
                 <a href={nodeIso}>Download Node ISO</a>
                 <a href={nodeRelease}>Checksums, PGP signature &amp; source</a>
-                <a href="#verify-download">How to verify this ISO</a>
+                <a href="#verify-the-build">How to verify this ISO</a>
               </nav>
               <p className="debian-detail">Preview release, not independently
                 audited or reproducibility-certified. Apple Silicon, T2 Macs,
