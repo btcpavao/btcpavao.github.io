@@ -1,11 +1,11 @@
-import { DebianImageVerification } from "./debian-image-verification"
+import { SignedDownloadCheck } from "./components/signed-download-check"
+import { LegacyVerificationLinks } from "./components/legacy-verification-links"
+import { DEBIAN_IMAGE_VERIFICATION_PATH } from "./routes"
 import { Archive, BookOpen, Download, LockKeyhole } from "lucide-react"
 import { VaultFirstRun } from "./components/vault-first-run"
 import { IsoPracticeWalkthrough } from "./components/iso-practice-walkthrough"
-import { IsoReviewerBrief } from "./components/iso-reviewer-brief"
 import { IsoCustodyQuestions } from "./components/iso-custody-questions"
 import { ZoomableImage } from "./components/zoomable-image"
-import { captures } from "./curriculum/practice-captures"
 import { useEffect } from "react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
@@ -144,18 +144,15 @@ function ProductScreenshots({ product }: { product: keyof typeof productScreensh
       </div>
       <p className="product-screenshots-note">{product === "vault"
         ? "Home and Guide were captured in a Live RAM session. The Wallet Backup example uses a disposable USB drive in an installed Vault."
-        : "Captured from the released image in a demonstration session. No personal wallets or funds are shown. Node is shown without a network connection, with the optional Backup and Restore Home shortcut enabled."}</p>
+        : "Captured on Node v0.1.0-rc.1 with a disposable setup. Node is shown without a network connection, with the optional Backup and Restore Home shortcut enabled."}</p>
     </div>
   )
 }
 
-const exportSource = "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/5346a0db977049a028429482ff943619c52009c4/config/includes.chroot/usr/lib/core-vault/public_export.py#L75-L96"
-const coreGuide = "https://github.com/bitcoin/bitcoin/blob/v32.1/doc/offline-signing-tutorial.md"
-
 function ReleaseDownloads() {
   return (
-    <section id="release-status" className="iso-releases" aria-labelledby="download-heading">
-      <h2 id="download-heading">Choose your download</h2>
+    <details id="release-status" className="iso-reference-panel iso-releases">
+      <summary id="verify-download"><h2 id="download-heading">Downloads and release details</h2></summary>
       <p>Each ISO is a file you can write to a USB stick to start a dedicated 64-bit Intel or AMD computer. I publish these Debian systems independently of the Debian and Bitcoin Core projects.</p>
       <div className="iso-download-grid">
         <article className="debian-download-panel" aria-labelledby="vault-download-heading">
@@ -184,46 +181,18 @@ function ReleaseDownloads() {
           <p><strong>Evidence for this file.</strong> You can verify its signature and compare project files with their published sources. A byte-for-byte rebuild of this signed RC2 has yet to be demonstrated. The recorded rebuild matches a separate, unsigned comparison image.</p>
           <div className="iso-evidence-links">
             <a href={nodeRelease}>Signed files and test results</a>
-            <a href="#rebuild-tutorial">See which Node image was rebuilt</a>
+            <a href={DEBIAN_IMAGE_VERIFICATION_PATH + "#rebuild-tutorial"}>See which Node image was rebuilt</a>
             <a href="#online-node">See the Node desktop</a>
           </div>
         </article>
       </div>
+      <SignedDownloadCheck product="Node" />
       <nav className="iso-guide-nav" aria-label="Questions and technical instructions">
-        <a href="#verify-the-build">Verification and build instructions</a>
+        <a href={DEBIAN_IMAGE_VERIFICATION_PATH}>Review the software and rebuild an ISO</a>
         <a href="#custody-questions">Questions before moving bitcoin</a>
         <a href="#ask-pavao">Ask Pavao</a>
       </nav>
-    </section>
-  )
-}
-
-function ProjectChanges() {
-  const menu = captures["vault-watch-menu"]
-  return (
-    <section id="what-pavao-added" className="iso-project-changes" aria-labelledby="project-changes-heading">
-      <h2 id="project-changes-heading">What did Pavao add, and could it put my wallet at risk?</h2>
-      <p>You can set up the same two roles yourself using Debian and Bitcoin Core. My images give you a working configuration, backup and recovery tools, and the steps you can rehearse on a spare computer. My additions also become part of the software you are trusting. <a href={coreGuide}>Read Bitcoin Core’s own offline signing guide.</a></p>
-      <p>If I added a harmful program, I could sign that ISO too. My signature tells you who published your copy. Someone you choose can examine the programs that handle your wallet, including everything that starts in the background, and check which of those programs are in the download.</p>
-      <div className="iso-usb-example">
-        <figure>
-          <ZoomableImage src={menu.src} alt={menu.alt} width={menu.width} height={menu.height} loading="lazy" decoding="async" />
-          <figcaption>The export command in Bitcoin Core. Earlier Vault v0.6.0 practice session with an empty wallet. <a href={menu.src}>Full size</a></figcaption>
-        </figure>
-        <div>
-          <h3>When I export a watch-only wallet, what goes onto my USB?</h3>
-          <p>Node needs the information that lets it recognize your payments. The private keys that authorize spending belong on Vault. In v0.7.0, Bitcoin Core prepares the watch-only file. My export tool checks it in memory before writing it to the drive you selected.</p>
-          <p>The tool checks that private keys are disabled, rejects unexpected kinds of records and asks Bitcoin Core whether any wallet description contains a private key. If a check fails, it stops the export. This file can still reveal your addresses and transaction history.</p>
-          <a href={exportSource}>Read the checks in this release</a>
-        </div>
-      </div>
-      <p><strong>What about other programs running in the background?</strong> An export check covers that one action. Your reviewer can also inspect startup services, file permissions, backups, the installer and the programs that can access storage or networking. The reviewer brief links the actual files and describes how to check the rest of the image.</p>
-      <nav className="iso-evidence-links" aria-label="Ways to inspect the project">
-        <a href="#reviewer-brief">Give this to my reviewer</a>
-        <a href="#upstream-programs">Compare the programs with their publishers</a>
-        <a href="#review-project-code">Read the code with my own AI</a>
-      </nav>
-    </section>
+    </details>
   )
 }
 
@@ -232,6 +201,32 @@ export function DebianImagesPage() {
     document.documentElement.lang = "en"
     document.title =
       "Bitcoin Core Vault and Node — Downloads and Independent Verification | BTC Pavao"
+
+    function revealLinkedPanel() {
+      const target = document.getElementById(window.location.hash.slice(1))
+      if (!target) return
+      let opened = false
+      for (let panel = target.closest("details"); panel; panel = panel.parentElement?.closest("details") ?? null) {
+        if (panel.open) continue
+        panel.open = true
+        opened = true
+      }
+      if (opened) target.scrollIntoView({ block: "start", behavior: "instant" })
+    }
+
+    function followCurrentFragment(event: MouseEvent) {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return
+      const link = event.target instanceof Element ? event.target.closest("a[href]") : null
+      if (link instanceof HTMLAnchorElement && link.hash && link.href === window.location.href) revealLinkedPanel()
+    }
+
+    revealLinkedPanel()
+    window.addEventListener("hashchange", revealLinkedPanel)
+    document.addEventListener("click", followCurrentFragment)
+    return () => {
+      window.removeEventListener("hashchange", revealLinkedPanel)
+      document.removeEventListener("click", followCurrentFragment)
+    }
   }, [])
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -245,13 +240,14 @@ export function DebianImagesPage() {
           <div className="iso-intro-grid">
             <div>
               <h1>Try Bitcoin Core Vault on a spare computer</h1>
-              <p>Start Vault from a USB stick and open an empty Bitcoin wallet. You can explore the offline desktop without installing Vault on the computer or moving any bitcoin.</p>
+              <p>Boot from a USB stick and try an empty Bitcoin wallet without installing Vault or moving any bitcoin.</p>
               <nav className="iso-hero-actions" aria-label="Download and start Vault">
                 <a className="iso-primary-download" href={vaultIso}><Download aria-hidden="true" />Download Vault ISO <span>· 714 MB</span></a>
                 <a href="#first-run"><BookOpen aria-hidden="true" />First-time setup</a>
               </nav>
+              <p className="iso-intro-roles">Vault keeps your signing keys offline. Node prepares payments and sends them to the Bitcoin network after you sign on Vault. You only need Vault for this first exercise.</p>
               <div className="iso-intro-links">
-                <a href="#what-pavao-added">What did Pavao add, and how can I check it?</a>
+                <a href={DEBIAN_IMAGE_VERIFICATION_PATH}>What did Pavao add, and how can I check it?</a>
                 <a href="#node-release">Looking for the online Node?</a>
               </div>
             </div>
@@ -263,12 +259,13 @@ export function DebianImagesPage() {
             </figure>
           </div>
         </header>
-        <VaultFirstRun vaultIso={vaultIso} />
+        <LegacyVerificationLinks />
         <ReleaseDownloads />
+        <VaultFirstRun vaultIso={vaultIso} />
         <IsoPracticeWalkthrough />
-        <ProjectChanges />
-        <IsoReviewerBrief />
-        <div className="debian-role-grid">
+        <details className="iso-reference-panel iso-desktops">
+          <summary><h2>Inside Vault and Node</h2></summary>
+          <div className="debian-role-grid">
           <section id="vault">
             <p className="debian-images-eyebrow">
               Offline · Live RAM or installed
@@ -455,8 +452,8 @@ export function DebianImagesPage() {
               Understand the two-machine architecture →
             </a>
           </section>
-        </div>
-        <DebianImageVerification />
+          </div>
+        </details>
         <IsoCustodyQuestions />
         <ValueForValueCard language="en" className="mt-14" />
       </main>

@@ -15,10 +15,12 @@ const configuredSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY ?? ""
 
 export function CurriculumQuestionForm({
   context,
+  questionLabel = "Your question",
   endpoint = "/api/ask-pavao",
   siteKey = configuredSiteKey,
 }: {
   context: QuestionContext
+  questionLabel?: string
   endpoint?: string
   siteKey?: string
 }) {
@@ -145,7 +147,7 @@ export function CurriculumQuestionForm({
         </p>
       )}
       <label htmlFor={`${id}-question`}>
-        {isGuide ? "Your question or feedback" : "Your question"}
+        {questionLabel}
       </label>
       <textarea
         id={`${id}-question`}

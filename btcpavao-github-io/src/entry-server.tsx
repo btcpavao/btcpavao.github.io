@@ -1,4 +1,5 @@
 import { PublishedArticlePage } from "./published-article"
+import { DebianImageReviewPage } from "./debian-image-review"
 import { DebianImagesPage } from "./debian-images"
 import { DEBIAN_IMAGES_PATH } from "./components/debian-images-notice"
 import { findPublishedArticle } from "./published-articles/data"
@@ -21,6 +22,7 @@ import { NotFoundPage } from "./not-found.tsx"
 import longRoadArticleSource from "./long-road-back-to-bitcoin-core.md?raw"
 import {
   BITCOIN_CORE_CURRICULUM_PATH,
+  DEBIAN_IMAGE_VERIFICATION_PATH,
   BITCOIN_CORE_WALLET_GUIDE_PATH,
   EN_BITCOIN_CORE_CURRICULUM_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
@@ -39,6 +41,8 @@ export function renderPage(pathname: string) {
   const publishedArticle = findPublishedArticle(initialPath)
   const page = publishedArticle ? (
     <PublishedArticlePage article={publishedArticle} />
+  ) : initialPath === DEBIAN_IMAGE_VERIFICATION_PATH ? (
+    <DebianImageReviewPage />
   ) : initialPath === DEBIAN_IMAGES_PATH ? (
     <DebianImagesPage />
   ) : initialPath === "/" ? (

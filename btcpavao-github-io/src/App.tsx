@@ -55,6 +55,7 @@ import {
   ARTICLE_PATH,
   BIP39_WRONG_THING_ARTICLE_PATH,
   BITCOIN_CORE_CURRICULUM_PATH,
+  DEBIAN_IMAGE_VERIFICATION_PATH,
   BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
   BITCOIN_CORE_SERIES_PATH,
   BITCOIN_CORE_WALLET_GUIDE_PATH,
@@ -3248,6 +3249,12 @@ export function LearningArticlePage({
   )
 }
 
+const DebianImageReviewPage = lazy(() =>
+  import("@/debian-image-review").then((module) => ({
+    default: module.DebianImageReviewPage,
+  }))
+)
+
 const DebianImagesPage = lazy(() =>
   import("@/debian-images").then((module) => ({
     default: module.DebianImagesPage,
@@ -3330,6 +3337,13 @@ export function App({
     return (
       <Suspense fallback={null}>
         <PublishedArticleRoute path={currentPath} />
+      </Suspense>
+    )
+  }
+  if (currentPath === DEBIAN_IMAGE_VERIFICATION_PATH) {
+    return (
+      <Suspense fallback={null}>
+        <DebianImageReviewPage />
       </Suspense>
     )
   }

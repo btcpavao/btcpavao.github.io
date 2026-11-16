@@ -4,11 +4,11 @@ import { StrictMode, type ReactNode } from "react"
 import { createRoot, hydrateRoot } from "react-dom/client"
 
 import "./index.css"
-import App from "./App.tsx"
 import { CurriculumRedirect } from "./components/curriculum-redirect"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
 import {
   BITCOIN_CORE_CURRICULUM_PATH,
+  DEBIAN_IMAGE_VERIFICATION_PATH,
   BITCOIN_CORE_WALLET_GUIDE_PATH,
   EN_BITCOIN_CORE_CURRICULUM_PATH,
   EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH,
@@ -53,6 +53,9 @@ async function startApp() {
   if (publishedArticlePaths.includes(initialPath)) {
     const { PublishedArticleRoute } = await import("./published-article")
     routedPage = <PublishedArticleRoute path={initialPath} />
+  } else if (initialPath === DEBIAN_IMAGE_VERIFICATION_PATH) {
+    const { DebianImageReviewPage } = await import("./debian-image-review")
+    routedPage = <DebianImageReviewPage />
   } else if (initialPath === DEBIAN_IMAGES_PATH) {
     const { DebianImagesPage } = await import("./debian-images")
     routedPage = <DebianImagesPage />
@@ -82,6 +85,7 @@ async function startApp() {
     const { NotFoundPage } = await import("./not-found")
     routedPage = <NotFoundPage />
   } else {
+    const { default: App } = await import("./App.tsx")
     routedPage = (
       <App
         initialPath={initialPath}

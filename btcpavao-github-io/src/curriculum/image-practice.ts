@@ -1,3 +1,5 @@
+import { DEBIAN_IMAGE_VERIFICATION_PATH } from "../routes"
+
 /** Teaching material keyed by the public lesson slug and the existing guided step ID. */
 export type ImagePractice = {
   role: "Vault" | "Node" | "Vault and Node"
@@ -18,7 +20,7 @@ const downloads = "/en/bitcoin-core/debian-images/"
 const course = "/en/bitcoin-core/self-custody/#lesson/"
 const imageCourse = "/en/bitcoin-core/self-custody/?setup=vault-node#lesson/"
 const signedCheck = { label: "Check a signed ISO", href: downloads + "#verify-download" }
-const rebuild = { label: "Rebuild Vault or the Node comparison image", href: downloads + "#rebuild-tutorial" }
+const rebuild = { label: "Rebuild Vault or the Node comparison image", href: DEBIAN_IMAGE_VERIFICATION_PATH + "#rebuild-tutorial" }
 const nativeExport = {
   label: "Core 32.1 watch-only export on Vault",
   href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.7.0/docs/WATCH-ONLY.md",

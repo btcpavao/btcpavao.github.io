@@ -1,6 +1,5 @@
 import { Download, FileSearch, Mail } from "lucide-react"
 import { SITE_URL } from "../site-config"
-import { VerificationCommands } from "./verification-commands"
 
 const brief = "/software/reviewer-brief-vault-v0.7.0-node-v0.1.0-rc.2.md"
 const vault = "https://github.com/btcpavao/bitcoin-core-vault-releases/tree/5346a0db977049a028429482ff943619c52009c4"
@@ -37,18 +36,7 @@ export function IsoReviewerBrief() {
           A mismatch, an unexplained program with access to keys, or an untested assumption that matters to you is a reason to pause before using that release.
         </p>
       </details>
-      <details className="build-instructions">
-        <summary>Explore a question first with my own AI</summary>
-        <p>Give your assistant only the public source. Open the file it cites. If it cannot see a file, ask which file it needs. Its explanation can help you decide what to raise with your reviewer.</p>
-        <VerificationCommands kind="prompt" title="Questions about my offline signing computer" lines={[
-          `Please read the public Vault v0.7.0 source at ${vault} without running it. Which programs start automatically? Which of Pavao’s additions can read my wallet or write to removable storage?`,
-          "Follow one action: I click Export watch-only wallet and save the file to USB. Which code creates the file, which checks run and what reaches the drive? Link to the exact lines. List other programs with access that this one example does not cover. Tell me what you could not establish.",
-        ]} />
-        <VerificationCommands kind="prompt" title="Questions about my online node" lines={[
-          `Please read the public snapshot of the signed Node v0.1.0-rc.2 release at ${node} without running it. Which data in the watch-only wallet can someone with access to the computer see?`,
-          "Follow a watch-only wallet backup from the button to the data written to the selected drive. Identify the programs, their permissions and the information in the copy. Link to the lines that support each answer and name any behaviour that requires a test on the running system.",
-        ]} />
-      </details>
+
     </section>
   )
 }

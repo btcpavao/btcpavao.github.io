@@ -178,7 +178,7 @@ Each recipe links to a public revision and checksum record. The Node candidate a
 
 In each builder's Terminal type `sha256sum ` (including a space), drag the ISO **from the build output folder** into the Terminal, then press Enter. Record all 64 characters. If both files are on one machine you can also run `cmp first.iso second.iso` with their actual paths. Exit code 0 means every byte matched. Two builds on one provider test repeatability there. A second person using their own machine can provide independent confirmation.
 
-Download the Vault v0.7.0 release ISO or the Node candidate ISO for the exact tag you built. Compare its SHA-256 with the value in step 4 and run `cmp` on the downloaded ISO and your local build. A successful comparison establishes that both files contain the same bytes. See the [website rebuild tutorial](https://btcpavao.com/en/bitcoin-core/debian-images/#rebuild-tutorial).
+Download the Vault v0.7.0 release ISO or the Node candidate ISO for the exact tag you built. Compare its SHA-256 with the value in step 4 and run `cmp` on the downloaded ISO and your local build. A successful comparison establishes that both files contain the same bytes. See the [website rebuild tutorial](https://btcpavao.com/en/bitcoin-core/debian-images/verification/#rebuild-tutorial).
 
 For the signed Vault v0.7.0 or Node v0.1.0-rc.2 download, return to the guide directory and use `python3 check_release.py PRODUCT TAG --iso "/path/to/your/downloaded.iso"` with the actual product, version and path. The tool verifies the publisher’s signature on the checksum list and compares your file with the entry for that release. See [how to verify a signed download](https://btcpavao.com/en/bitcoin-core/debian-images/#verify-download).
 

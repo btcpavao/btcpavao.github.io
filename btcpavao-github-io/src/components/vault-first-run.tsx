@@ -3,6 +3,7 @@ import { Clipboard, MessageCircle, Smartphone } from "lucide-react"
 import { BITCOIN_CORE_WALLET_GUIDE_PATH } from "@/routes"
 import { SITE_URL } from "@/site-config"
 import { DEBIAN_IMAGES_PATH } from "./debian-images-notice"
+import { SignedDownloadCheck } from "./signed-download-check"
 import { ZoomableImage } from "./zoomable-image"
 import "./vault-first-run.css"
 
@@ -40,13 +41,13 @@ function AskAboutStep({ href, label }: { href: string; label: string }) {
   return <a className="first-run-ask" href={href}><MessageCircle aria-hidden="true" size={16} />{label}</a>
 }
 
-type FirstRunShot = { src: string; alt: string; width: number; height: number }
+type FirstRunShot = { src: string; fullSrc?: string; alt: string; width: number; height: number }
 
 function StepImage({ shot, caption }: { shot: FirstRunShot; caption: string }) {
   return (
     <figure className="first-run-shot">
-      <ZoomableImage src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} loading="lazy" decoding="async" />
-      <figcaption>{caption} <a href={shot.src} aria-label={"Full size: " + shot.alt}>Full size</a></figcaption>
+      <ZoomableImage {...shot} loading="lazy" decoding="async" />
+      <figcaption>{caption} <a href={shot.fullSrc ?? shot.src} aria-label={"Full screenshot: " + shot.alt}>Full screenshot</a></figcaption>
     </figure>
   )
 }
@@ -59,12 +60,8 @@ export function VaultFirstRun({ vaultIso }: { vaultIso: string }) {
       <ol className="first-run-steps" role="list">
         <li>
           <h3><span aria-hidden="true">1</span> Verify your copy of Vault</h3>
-          <p>On your everyday computer, <a href={vaultIso}>download the Vault ISO</a>. The verification instructions use Debian 13 and also work in a Debian 13 virtual machine. Confirm Pavao’s signing-key fingerprint through a channel you already trust, then check the signature and your ISO.</p>
-          <p>Continue when the verifier names your Vault ISO and prints <strong>OK</strong>. If the signature or file check fails, stop before writing the USB.</p>
-          <div className="first-run-links">
-            <a href="#verify-vault-download">Check my download step by step</a>
-            <AskAboutStep href="#ask-verify" label="Ask Pavao about verification" />
-          </div>
+          <p>On your everyday computer, <a href={vaultIso}>download the Vault ISO</a>. Check that your file matches the release Pavao signed before writing it to USB.</p>
+          <SignedDownloadCheck product="Vault" />
         </li>
         <li id="prepare-usb">
           <h3><span aria-hidden="true">2</span> Write the verified ISO to a USB stick</h3>
@@ -93,10 +90,11 @@ export function VaultFirstRun({ vaultIso }: { vaultIso: string }) {
               <AskAboutStep href="#ask-boot" label="Ask Pavao about starting Vault" />
             </div>
             <StepImage shot={{
-              src: "/software/screenshots/verification/vault-v070-live-menu.webp",
-              width: 800, height: 600,
-              alt: "The Vault boot menu offers Start Bitcoin Core Vault (Live RAM) and the option to install Vault.",
-            }} caption="Vault v0.7.0 on a computer using UEFI. Choose the Live RAM entry." />
+              src: "/software/screenshots/verification/vault-v070-menu-detail.webp",
+              fullSrc: "/software/screenshots/verification/vault-v070-live-menu.webp",
+              width: 312, height: 46,
+              alt: "The first row, Start Bitcoin Core Vault (Live RAM), is highlighted above Install Bitcoin Core Vault.",
+            }} caption="With the Live RAM row highlighted, press Enter. This is the UEFI menu in Vault v0.7.0." />
           </div>
         </li>
         <li id="practice-wallet">
@@ -109,17 +107,22 @@ export function VaultFirstRun({ vaultIso }: { vaultIso: string }) {
               <AskAboutStep href="#ask-wallet" label="Ask Pavao about the practice wallet" />
             </div>
             <StepImage shot={{
-              src: "/software/screenshots/verification/vault-v070-practice-address.webp",
-              width: 483, height: 526,
-              alt: "Bitcoin Core shows the QR code, a receiving address and the Recovery check label for Practice Wallet.",
-            }} caption="Vault v0.7.0 showing the payment QR for a disposable wallet. Your screen will show a different address. Leave both addresses unfunded." />
+              src: "/software/screenshots/verification/vault-v070-address-detail.webp",
+              fullSrc: "/software/screenshots/verification/vault-v070-practice-address.webp",
+              width: 383, height: 61,
+              alt: "The Address, Label and Wallet fields show a receiving address, Recovery check and Practice Wallet.",
+            }} caption="Look for your wallet name and label. Bitcoin Core will show your own address here." />
           </div>
         </li>
       </ol>
       <div className="first-run-followup">
         <h3>Did Vault start on your computer?</h3>
-        <a href="#ask-feedback">Tell Pavao what worked or where you got stuck</a>
-        <p>To keep this practice wallet, record its address and label and <a href={BITCOIN_CORE_WALLET_GUIDE_PATH + "?setup=vault#step-7"}>make an encrypted backup on a second drive</a> before shutting down. To see how Vault works with Node, <a href="#practice-without-funds">follow an offline payment</a>.</p>
+        <a className="first-run-feedback" href="#ask-feedback"><MessageCircle size={18} aria-hidden="true" /> Tell Pavao how it went</a>
+        <p>To keep practising with this wallet, record its address and label and make an encrypted backup on a second drive before you shut down. Then try restoring it.</p>
+        <nav className="first-run-links" aria-label="More practice">
+          <a href={BITCOIN_CORE_WALLET_GUIDE_PATH + "?setup=vault#step-7"}>Back up and restore the practice wallet</a>
+          <a href="#practice-without-funds">See how offline signing works</a>
+        </nav>
       </div>
     </section>
   )

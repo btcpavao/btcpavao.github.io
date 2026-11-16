@@ -1,0 +1,101 @@
+import { DEBIAN_IMAGE_VERIFICATION_PATH } from "../routes"
+import { captures } from "../curriculum/practice-captures"
+import { VerificationCommands as Commands } from "./verification-commands"
+import { ZoomableImage } from "./zoomable-image"
+import "./signed-download-check.css"
+
+export const verifierRevision = "db2f63ff320235f020d633e3ae2ede10e9fa422d"
+const verifierPath = verifierRevision + "/docs/debian-images/check_release.py"
+const screenshots = "/software/screenshots/verification/"
+const releases = {
+  Vault: { tag: "v0.7.0", filename: "bitcoin-core-vault-v0.7.0-amd64.iso", full: "vault-v070-signed.webp" },
+  Node: { tag: "v0.1.0-rc.2", filename: "bitcoin-core-node-v0.1.0-rc.2-core32.1-amd64.iso", full: "node-signed.webp" },
+}
+
+function NodeInstallation() {
+  const target = captures["node-disk"]
+  const release = "https://github.com/btcpavao/bitcoin-core-node-releases/releases/"
+  return (
+    <details className="signed-download-check">
+      <summary>Install the verified Node RC2 on a spare disk</summary>
+      <div className="signed-download-check__body" id="install-node">
+        <p><strong>Installation erases the entire selected disk.</strong> Set aside a spare 64-bit Intel or AMD computer and a destination disk you can erase. Disconnect backup drives before you begin.</p>
+        <ol>
+          <li>On your preparation computer, use GNOME Disks on Debian to write <code>{releases.Node.filename}</code> to a USB stick you can erase. Check the USB model and capacity before confirming. Wait for writing to finish, then safely eject it.</li>
+          <li>Start the spare computer from that USB. In the Node installer, choose your keyboard and the intended destination disk. Match the disk’s model and capacity to the spare disk you set aside. Review the final selection before confirming the installation.</li>
+          <li>When installation finishes, remove the USB and restart. At the Node desktop, connect an Ethernet cable or open <strong>Network Status</strong> to join Wi-Fi. Open <strong>Node Guide</strong> for the watch-only wallet and synchronization steps.</li>
+        </ol>
+        <figure className="verification-shot">
+          <ZoomableImage src={target.src} alt={target.alt} width={target.width} height={target.height} loading="lazy" decoding="async" />
+          <figcaption><span>The RC2 installer shows the selected disk in a test virtual machine. Identify your own disk by model and capacity.</span> <a href={target.src}>View the full installer screen</a></figcaption>
+        </figure>
+        <p><a href={release + "download/v0.1.0-rc.2/NODE-GUIDE.html"}>Download the Node RC2 guide</a> · <a href={release + "tag/v0.1.0-rc.2"}>Read the release notes and hardware limits</a></p>
+      </div>
+    </details>
+  )
+}
+
+export function SignedDownloadCheck({ product }: { product: keyof typeof releases }) {
+  const { tag, filename, full } = releases[product]
+  const role = product.toLowerCase()
+  const vault = product === "Vault"
+  const id = "verify-" + role + "-download"
+  const fullImage = screenshots + full
+
+  return (
+    <>
+      <details className="signed-download-check">
+        <summary>Verify the {product} signature and ISO</summary>
+        <div className="signed-download-check__body" id={id}>
+          <p>On Debian 13, or in a Debian 13 virtual machine, save the ISO in Downloads. Open Terminal. Complete these three checks before writing the USB stick.</p>
+          <ol>
+            <li>
+              <strong>Get the verification script.</strong> Copy this block and paste it into Terminal with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd>. Press <kbd>Enter</kbd>. It installs the tools and opens the <a href={"https://github.com/btcpavao/btcpavao.github.io/blob/" + verifierPath}>public script</a> for inspection. Press <kbd>q</kbd> to return to the terminal.
+              <Commands title="Get and inspect the verifier" lines={[
+                'mkdir -p "$HOME/iso-review" && cd "$HOME/iso-review" &&',
+                "  sudo apt update && sudo apt install ca-certificates curl gnupg less python3 &&",
+                "  curl --fail --location --output check_release.py https://raw.githubusercontent.com/btcpavao/btcpavao.github.io/" + verifierPath + " &&",
+                "  less check_release.py",
+              ]} />
+            </li>
+            <li>
+              <strong>Confirm who signed the release.</strong> This block displays Pavao’s public signing key. Compare all 40 characters of its fingerprint with Pavao through a separate channel you already trust.
+              <Commands title="Display the signing-key fingerprint" lines={[
+                "curl --fail --location --output btcpavao-pgp.asc https://github.com/btcpavao/bitcoin-core-" + role + "-releases/releases/download/" + tag + "/btcpavao-pgp.asc &&",
+                "  gpg --show-keys --with-fingerprint btcpavao-pgp.asc",
+              ]} />
+              <code className="debian-signing-fingerprint">787A 2AAF B0D1 19CA 0522 B2A5 B9C9 9AF8 5788 96D0</code>
+              <a href={screenshots + "signer-fingerprint.webp"}>See the signing key in Terminal</a>
+            </li>
+            <li>
+              <strong>Check your ISO against the signed list.</strong> Run this in the same terminal. If you saved the file elsewhere, change the path in quotes.
+              <Commands title={"Verify " + product + " " + tag} lines={[
+                'python3 check_release.py ' + role + ' ' + tag + ' --iso "$HOME/Downloads/' + filename + '"',
+              ]} />
+              <p>Look for <strong>OK</strong> next to the checksum and your ISO’s filename. This means the signature was accepted and your file matches the signed release. If either check fails, stop before writing the USB. Check the signing key and download again from the release you chose.</p>
+              <figure className={"verification-shot" + (vault ? " signed-download-check__result" : "")}>
+                <ZoomableImage src={vault ? screenshots + "vault-v070-ok-detail.webp" : fullImage}
+                  fullSrc={fullImage} alt={vault ? "The verifier names bitcoin-core-vault-v0.7.0-amd64.iso and prints OK." : "The verifier prints OK alongside the signed Node v0.1.0-rc.2 ISO filename and checksum."}
+                  width={vault ? 544 : 1192} height={vault ? 48 : 448} loading="lazy" decoding="async" />
+                <figcaption>
+                  <span>Expected result for <code>{filename}</code> · <strong>OK</strong></span>
+                  <a href={fullImage}>View the full terminal output</a>
+                </figcaption>
+              </figure>
+            </li>
+          </ol>
+          <p>GnuPG may also say the key is uncertified. The verifier uses a temporary keyring. Confirm the fingerprint independently as in the second step.</p>
+          <div className="signed-download-check__next">
+            {vault ? <a href="#prepare-usb">Continue to USB preparation</a> : <>
+              <p><strong>Installation erases the entire destination disk.</strong> Use a spare disk you can erase, unplug your backup drives and check the destination model and capacity in the installer.</p>
+              <a href="#install-node">Continue to Node setup on a spare disk</a>
+            </>}
+            <a href={vault ? "#ask-verify" : "#ask-node-verify"}>Ask Pavao about this check</a>
+          </div>
+          <a href={DEBIAN_IMAGE_VERIFICATION_PATH + "#signed-manifest"}>How do the signature and checksum work together?</a>
+        </div>
+      </details>
+      {!vault && <NodeInstallation />}
+    </>
+  )
+}

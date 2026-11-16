@@ -926,7 +926,7 @@ const stockVaultProof = {
 const vaultSteps: Record<number, Partial<GuideStep>> = {
   1: {
     images: [captures["vault-home"]],
-    content: <><p>On a separate computer, <ResourceLink href={`${DEBIAN_IMAGES_PATH}#verify-download`}>verify the signed Vault ISO</ResourceLink>, then prepare the boot USB. Start Vault v0.7.0 on a compatible amd64 computer with networking disconnected. Select Live RAM for this exercise, or use an existing installed practice Vault.</p>
+    content: <><p>On a separate computer, <ResourceLink href={`${DEBIAN_IMAGES_PATH}#verify-vault-download`}>verify the signed Vault ISO</ResourceLink>, then prepare the boot USB. Start Vault v0.7.0 on a compatible amd64 computer with networking disconnected. Select Live RAM for this exercise, or use an existing installed practice Vault.</p>
       <p>From Home, open Bitcoin Core. The protected launcher keeps the private session in RAM in either mode. Have a separate removable backup medium ready before you create the wallet. An empty wallet is sufficient for this exercise. <ResourceLink href={vaultLesson("prepare-offline-signer")}>Check the offline Vault setup</ResourceLink>.</p></>,
   },
   2: {

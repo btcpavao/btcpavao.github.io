@@ -6,14 +6,14 @@
 .vault-first-run p { max-width: 69ch; line-height: 1.72; }
 .first-run-steps { list-style: none; padding: 0; margin-block: 1.4rem 0; }
 .first-run-steps > li { padding-block: 1.35rem; border-block-start: 1px solid var(--border); }
-.first-run-steps h3, .first-run-followup h3 {
+.first-run-steps > li > h3, .first-run-followup h3 {
   font-weight: 680;
   font-size: clamp(1.16rem, 2.5vw, 1.45rem);
   letter-spacing: -.025em;
   line-height: 1.3;
 }
-.first-run-steps h3 { display: flex; align-items: baseline; gap: .6rem; }
-.first-run-steps h3 > span {
+.first-run-steps > li > h3 { display: flex; align-items: baseline; gap: .6rem; }
+.first-run-steps > li > h3 > span {
   align-self: flex-start;
   display: inline-grid;
   flex: 0 0 1.7rem;
@@ -67,7 +67,16 @@
   cursor: pointer;
 }
 .first-run-phone .first-run-phone__status { margin: 0; font-size: .875rem; }
-.first-run-followup { border-inline-start: .2rem solid var(--primary); padding-inline-start: 1rem; margin-block-start: .65rem; }
+.first-run-followup { padding: 1.25rem; margin-block-start: .65rem; border: 1px solid var(--border); border-radius: .65rem; background: var(--card); }
+.first-run-followup .first-run-feedback {
+  margin-block: .8rem .15rem;
+  padding: .55rem .9rem;
+  color: var(--primary-button-foreground);
+  background: var(--primary-button);
+  border-radius: .5rem;
+  text-decoration: none;
+}
+.first-run-followup .first-run-feedback:hover { background: var(--primary-button-hover); }
 .vault-first-run :is(summary, button, a):focus-visible { outline: 2px solid var(--foreground); outline-offset: 3px; }
 @media (min-width: 50rem) {
   .first-run-row { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }

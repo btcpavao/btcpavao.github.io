@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { CalendarDays, Mail, MessageCircle } from "lucide-react"
 import { CurriculumQuestionForm } from "@/components/curriculum-question-form"
-import { BITCOIN_CORE_WALLET_GUIDE_PATH, EN_BITCOIN_CORE_CURRICULUM_PATH, START_HERE_PATH } from "@/routes"
+import { BITCOIN_CORE_WALLET_GUIDE_PATH, DEBIAN_IMAGE_VERIFICATION_PATH, EN_BITCOIN_CORE_CURRICULUM_PATH, START_HERE_PATH } from "@/routes"
 import { BOOKING_URL, CONTACT_EMAIL, CONTACT_EMAIL_URL } from "@/site-config"
 
 const imageLesson = (slug: string) => EN_BITCOIN_CORE_CURRICULUM_PATH + "?setup=vault-node#lesson/" + slug
@@ -53,18 +53,18 @@ const questions = [
   {
     question: "Does a review still apply after I update?",
     answer: "A review refers to a specific release and the digital fingerprint of its ISO. When you change versions, check the new signature, read what changed and ask which parts were checked again. If a finding relevant to your wallet remains open, you can keep evaluating with test funds or ask a reviewer you choose to examine it.",
-    links: [["Give this release to my reviewer", "#reviewer-brief"]],
+    links: [["Give this release to my reviewer", DEBIAN_IMAGE_VERIFICATION_PATH + "#reviewer-brief"]],
   },
 ]
 
 const vaultRelease = "Bitcoin Core Vault v0.7.0"
-const contactTopics: Record<string, { section: string; lesson: string }> = {
-  "ask-pavao": { section: "Vault and Node download guide", lesson: "General question" },
+const contactTopics: Record<string, { section: string; lesson: string; prompt?: string }> = {
+  "ask-pavao": { section: "Vault and Node download guide", lesson: "General question", prompt: "What would you like to know before trying Vault or Node?" },
   "ask-verify": { section: vaultRelease, lesson: "Checking the signed Vault download" },
   "ask-usb": { section: vaultRelease, lesson: "Writing the Vault USB" },
   "ask-boot": { section: vaultRelease, lesson: "Starting Vault in Live RAM" },
   "ask-wallet": { section: vaultRelease, lesson: "Creating an empty practice wallet" },
-  "ask-feedback": { section: vaultRelease, lesson: "First-run feedback" },
+  "ask-feedback": { section: vaultRelease, lesson: "First-run feedback", prompt: "Which computer did you try, and how did it go?" },
   "ask-node-verify": { section: "Bitcoin Core Node v0.1.0-rc.2", lesson: "Checking the signed Node download" },
 }
 
@@ -154,10 +154,13 @@ export function IsoCustodyQuestions() {
           <span className="iso-contact-anchor" key={id} id={id} aria-hidden="true" />
         ))}
         <h2 id="iso-contact-title">Ask Pavao about Vault or Node</h2>
-        <p>What did you expect to see, and what appeared on your screen? Your name and email are optional. Please include an email if you would like a personal reply. Keep wallet files, addresses and passphrases private.</p>
+        <p>Your name and email are optional. Please include an email if you would like a personal reply. Keep wallet files, addresses and passphrases private.</p>
         <details ref={panel} className="iso-contact-form course-question-panel" onToggle={(event) => { if (event.currentTarget.open) setShowForm(true) }}>
           <summary><MessageCircle aria-hidden="true" /> Write to Pavao</summary>
-          {showForm && <CurriculumQuestionForm context={{ ...topic, material: "download guide" }} />}
+          {showForm && <CurriculumQuestionForm
+            context={{ section: topic.section, lesson: topic.lesson, material: "download guide" }}
+            questionLabel={topic.prompt ?? "What did you expect to see, and what appeared on your screen?"}
+          />}
           <noscript>Please enable JavaScript to use the form, or email Pavao below.</noscript>
         </details>
         <div className="iso-contact-options">

@@ -1,11 +1,11 @@
 import { Braces, CircleCheckBig, Disc3, Fingerprint, GitCompareArrows, Hammer, List, LockKeyhole, Network, PackageOpen, ScanLine, ShieldCheck } from "lucide-react"
+import { DEBIAN_IMAGES_PATH } from "./components/debian-images-notice"
+import { verifierRevision } from "./components/signed-download-check"
 import { VerificationCommands as Commands } from "./components/verification-commands"
 import { UpstreamComparison } from "./components/upstream-comparison"
 import { ZoomableImage } from "./components/zoomable-image"
 
 const verificationDocs = "https://github.com/btcpavao/btcpavao.github.io/blob/main/docs/debian-images/README.md"
-const verifierRevision = "db2f63ff320235f020d633e3ae2ede10e9fa422d"
-const verifierPath = verifierRevision + "/docs/debian-images/check_release.py"
 const vaultRepo = "https://github.com/btcpavao/bitcoin-core-vault-releases"
 const nodeRepo = "https://github.com/btcpavao/bitcoin-core-node-releases"
 
@@ -63,7 +63,8 @@ function SourceFolder({ product }: { product: Product }) {
   const archive = "release-checks/" + role + "/" + tag + "/bitcoin-core-" + role + "-" + tag + "-source.tar.gz"
   return (
     <Commands title={"Open the signed " + product + " source"} lines={[
-      "python3 check_release.py " + role + " " + tag + " &&",
+      'cd "$HOME/iso-review" &&',
+      "  python3 check_release.py " + role + " " + tag + " &&",
       "  mkdir " + folder + " &&",
       "  tar -xzf " + archive + " --strip-components=1 -C " + folder,
     ]} />
@@ -172,7 +173,7 @@ export function DebianImageVerification() {
         alt="An open tool case contains three ready-made tools. A hand fits a custom divider beside them using an assembly drawing."
         caption="Debian supplies the system and many packages. The projects behind Bitcoin Core and KeePassXC publish their own software. Pavao’s build recipe selects versions, adds configuration and includes project code. Some components, including Vault’s file manager and installer, have published changes of their own." />
       <nav className="verification-map" aria-label="Choose a verification question">
-        <a href="#verify-download"><Fingerprint aria-hidden="true" /><strong>Did I get Pavao’s file?</strong><span>Verify the signed download</span></a>
+        <a href="#signed-manifest"><Fingerprint aria-hidden="true" /><strong>Did I get Pavao’s file?</strong><span>Verify the signed download</span></a>
         <a href="#upstream-programs"><PackageOpen aria-hidden="true" /><strong>Are the programs genuine?</strong><span>Compare with their publishers</span></a>
         <a href="#review-project-code"><Braces aria-hidden="true" /><strong>What did Pavao change?</strong><span>Trace an action in the code</span></a>
         <a href="#rebuild-tutorial"><GitCompareArrows aria-hidden="true" /><strong>Can I make the same ISO?</strong><span>Build it and compare every byte</span></a>
@@ -239,13 +240,8 @@ export function DebianImageVerification() {
       </p>
       <BuildLinks product="Node" />
 
-      <div className="signed-check-route">
-        <span id="verify-vault-download" className="iso-check-target" />
-        <span id="verify-node-download" className="iso-check-target" />
-      <h3 id="verify-download" className="learning-heading"><ShieldCheck className="section-pictogram" aria-hidden="true" /><span className="iso-check-heading-default">Check a signed download</span><span className="iso-check-heading-vault">Check your Vault v0.7.0 download</span><span className="iso-check-heading-node">Check your Node v0.1.0-rc.2 download</span></h3>
-      <p>Before writing the USB, check who signed the release and whether your download matches it. You will use the ISO you already downloaded and a terminal on Debian 13.</p>
-      <details className="build-instructions">
-      <summary>How do the signature and checksum work together?</summary>
+      <h3 id="signed-manifest" className="learning-heading"><ShieldCheck className="section-pictogram" aria-hidden="true" /><span>Did I receive Pavao’s file?</span></h3>
+      <p>To check your own ISO, follow the commands for <a href={DEBIAN_IMAGES_PATH + "#verify-vault-download"}>Vault v0.7.0</a> or <a href={DEBIAN_IMAGES_PATH + "#verify-node-download"}>Node v0.1.0-rc.2</a>.</p>
       <p>Imagine receiving a parcel with a packing list. First you check who signed the list. Then you
         check what arrived. Here the list is <code>SHA256SUMS</code>. Each entry pairs a filename with
         a <strong>SHA-256 checksum</strong>, a fingerprint calculated from every byte in that file.
@@ -267,73 +263,12 @@ export function DebianImageVerification() {
       <VerificationIllustration file="signed-list-and-file-match"
         alt="First a maker’s mark is compared with a separate reference. Then a pattern on the delivered box is compared with the same pattern on the list."
         caption="First, confirm Pavao’s public-key fingerprint through a channel you already trust and use that key to check the signature on the list. Then calculate the SHA-256 of your downloaded ISO and match it to the signed entry. The first check identifies the signing key. The second checks the contents of your file." />
+      <details className="build-instructions">
+        <summary>See what happens when a file fails verification</summary>
+        <VerificationShot file="vault-v060-rejected" width={1242} height={384}
+          alt="A deliberately wrong ISO makes the verifier stop and print the different expected and computed SHA-256 values."
+          caption="In this earlier Vault v0.6.0 example the checksum list has a valid signature, but the selected file differs. Check the release and file before writing a USB stick." />
       </details>
-      <ol>
-        <li>
-          <strong>Get the verifier.</strong> Save the ISO in your Downloads folder on a separate Debian 13 computer or virtual machine (a computer running inside yours).
-          Open Terminal. The first command creates a working folder and enters it. These commands install the tools and fetch the{" "}
-          <a href={"https://github.com/btcpavao/btcpavao.github.io/blob/" + verifierPath}>readable verification script</a>.
-          Use <strong>Copy</strong> to copy the block, then paste it into Terminal with
-          {" "}<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd>. Press <kbd>Enter</kbd> to run it.
-          The last command opens the script for inspection. Press <kbd>q</kbd> to return.
-          <Commands title="Get and inspect the verifier" lines={[
-            'mkdir -p "$HOME/iso-review" && cd "$HOME/iso-review" &&',
-            "  sudo apt update && sudo apt install ca-certificates curl gnupg less python3 &&",
-            "  curl --fail --location --output check_release.py https://raw.githubusercontent.com/btcpavao/btcpavao.github.io/" + verifierPath + " &&",
-            "  less check_release.py",
-          ]} />
-        </li>
-        <li>
-          <strong>Confirm the signing key.</strong> Display the publisher’s public key, then compare
-          all 40 characters of its fingerprint with Pavao through a channel you already trust.
-          <Commands title="Display the signing-key fingerprint" lines={[
-            "curl --fail --location --output btcpavao-pgp.asc " + vaultRepo + "/releases/download/v0.7.0/btcpavao-pgp.asc",
-            "gpg --show-keys --with-fingerprint btcpavao-pgp.asc",
-          ]} />
-          <code className="debian-signing-fingerprint">787A 2AAF B0D1 19CA 0522 B2A5 B9C9 9AF8 5788 96D0</code>
-          <VerificationShot file="signer-fingerprint" width={1192} height={198}
-            alt="GnuPG displays the btcpavao public key and its full fingerprint ending in 5788 96D0."
-            caption="Read the fingerprint on the line directly below the public key." />
-        </li>
-        <li>
-          <strong>Run the line for your download.</strong> Adjust the path if you saved the ISO elsewhere.
-          The script fetches the signed manifest and public key, verifies the signature in a temporary
-          keyring and computes the SHA-256 of your file.
-          <div data-signed-product="vault"><Commands title="Verify Vault v0.7.0" lines={[
-            'python3 check_release.py vault v0.7.0 --iso "$HOME/Downloads/bitcoin-core-vault-v0.7.0-amd64.iso"',
-          ]} />
-          </div>
-          <div data-signed-product="node"><Commands title="Verify Node v0.1.0-rc.2" lines={[
-            'python3 check_release.py node v0.1.0-rc.2 --iso "$HOME/Downloads/bitcoin-core-node-v0.1.0-rc.2-core32.1-amd64.iso"',
-          ]} />
-          </div>
-          Look for <strong>OK</strong> next to the computed hash and your ISO’s filename.
-          If the signature fails or the hashes differ, keep the stick unwritten. Confirm the key through your independent channel, check the release and filename, then fetch fresh copies and repeat the check.
-          <div data-signed-product="vault"><VerificationShot file="vault-v070-signed" width={1317} height={338}
-            alt="The verifier accepts Pavao’s signing key and prints OK alongside the Vault v0.7.0 ISO filename and its SHA-256."
-            caption="Verification of the signed Vault v0.7.0 download. The signing-key fingerprint identifies the publisher’s key. The OK line identifies the ISO that matched the signed checksum." /></div>
-          <div data-signed-product="node">
-            <VerificationShot file="node-signed" width={1192} height={448}
-              alt="The signed Node v0.1.0-rc.2 ISO matches its checksum and the verifier prints OK."
-              caption="The same check on Node v0.1.0-rc.2 ends with OK and the Node ISO filename." />
-          </div>
-          <p>GnuPG may also say the key is uncertified. The verifier uses a temporary keyring.
-            Confirm the fingerprint independently in the previous step to establish whose key it is.</p>
-          <details className="build-instructions">
-            <summary>See what happens when a file fails verification</summary>
-            <VerificationShot file="vault-v060-rejected" width={1242} height={384}
-              alt="A deliberately wrong file makes the verifier stop and print different expected and computed SHA-256 values."
-              caption="In this v0.6.0 example, the signature passes. The selected test file has a different SHA-256, so the verifier stops. Check which file you downloaded before writing it to USB." />
-          </details>
-        </li>
-      </ol>
-      <div className="iso-verify-next" data-signed-product="vault">
-        <p><strong>Does the verifier show OK beside your Vault ISO?</strong> Your file matches the signed release. You are ready to write it to the USB stick.</p>
-        <a href="#prepare-usb">Prepare the USB</a>
-        <a href="#ask-verify">Ask Pavao about the Vault check</a>
-      </div>
-      <p data-signed-product="node"><a href="#ask-node-verify">Ask Pavao about the Node check</a></p>
-      </div>
 
       <h3 id="review-project-code" className="learning-heading"><Braces className="section-pictogram" aria-hidden="true" /><span>Read what the project does, with your own AI</span></h3>
       <p>
@@ -351,8 +286,8 @@ export function DebianImageVerification() {
           Keep wallet files, private descriptors, passphrases and signing keys out of the conversation.
           <details className="build-instructions">
             <summary>Get the signed source folder for my assistant</summary>
-            <p>From the folder containing the verifier from the signed-download step, run the block for your
-              image. It checks the signature and source archive, then unpacks it into a new folder.
+            <p>Set up the verifier and independently confirm the signing-key fingerprint using the first two instructions for <a href={DEBIAN_IMAGES_PATH + "#verify-vault-download"}>Vault</a> or <a href={DEBIAN_IMAGES_PATH + "#verify-node-download"}>Node</a> on Debian 13.
+              The block below returns to <code>~/iso-review</code>, where you saved <code>check_release.py</code>. It downloads the signed source, checks the signature and archive, then unpacks it into a new folder. You can inspect the public source before downloading the ISO.
               Open that folder in your assistant in read-only mode. A Node rebuild candidate has a separate recipe.</p>
             <SourceFolder product="Vault" />
             <SourceFolder product="Node" />
@@ -391,14 +326,15 @@ export function DebianImageVerification() {
       </ol>
       <details className="build-instructions" id="compare-source-files">
         <summary>Check that the project files I just read are inside my ISO</summary>
-        <p>Return to the verifier folder. First run the source-download step above for your image.
+        <p>In Terminal, return to <code>~/iso-review</code>. First run the source-download step above for your image.
           Leave the verified archive in <code>release-checks/</code>. In the same folder as
           {" "}<code>check_release.py</code>, get its companion script and the tools for opening a compressed
           Linux filesystem. Allow 2 GiB of temporary space. The ISO stays on disk throughout the check.</p>
         <Commands title="Prepare the source-to-ISO check" lines={[
-          "sudo apt install xorriso squashfs-tools",
-          "curl --fail --location --output inspect_payload.py https://raw.githubusercontent.com/btcpavao/btcpavao.github.io/" + verifierRevision + "/docs/debian-images/inspect_payload.py",
-          "less inspect_payload.py",
+          'cd "$HOME/iso-review" &&',
+          "  sudo apt install xorriso squashfs-tools &&",
+          "  curl --fail --location --output inspect_payload.py https://raw.githubusercontent.com/btcpavao/btcpavao.github.io/" + verifierRevision + "/docs/debian-images/inspect_payload.py &&",
+          "  less inspect_payload.py",
         ]} />
         <p>Press <kbd>q</kbd> to leave the listing. Run the matching command from that same directory.</p>
         <Commands title="Compare Vault’s project files" lines={[

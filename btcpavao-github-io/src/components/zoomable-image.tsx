@@ -90,7 +90,7 @@ export function ImageViewer({ images, startIndex, opener, onClose }: Gallery & {
   )
 }
 
-export function ZoomableImage({ src, alt = "", className = "", ...props }: ImgHTMLAttributes<HTMLImageElement>) {
+export function ZoomableImage({ src, fullSrc, alt = "", className = "", ...props }: ImgHTMLAttributes<HTMLImageElement> & { fullSrc?: string }) {
   const [gallery, setGallery] = useState<Gallery | null>(null)
   const imageRef = useRef<HTMLImageElement>(null)
   const openGallery = () => {
@@ -101,7 +101,7 @@ export function ZoomableImage({ src, alt = "", className = "", ...props }: ImgHT
     const siblings = scope ? [...scope.querySelectorAll<HTMLImageElement>(".article-image-zoom[src]")] : [image]
     const startIndex = siblings.indexOf(image)
     setGallery({
-      images: siblings.map(item => ({ src: item.src, alt: item.alt })),
+      images: siblings.map(item => ({ src: item.dataset.fullSrc ?? item.src, alt: item.alt })),
       startIndex: Math.max(0, startIndex),
     })
   }
@@ -112,6 +112,7 @@ export function ZoomableImage({ src, alt = "", className = "", ...props }: ImgHT
         {...props}
         ref={imageRef}
         src={src}
+        data-full-src={fullSrc}
         alt={alt}
         className={`article-image-zoom ${className}`}
         role="button"

@@ -1,0 +1,28 @@
+.signed-download-check {
+  max-width: 48rem;
+  margin-block: .9rem;
+  border: 1px solid var(--border);
+  border-radius: .65rem;
+  padding-inline: clamp(.8rem, 2.5vw, 1.2rem);
+  background: var(--card);
+}
+.signed-download-check > summary {
+  cursor: pointer;
+  font-weight: 650;
+  line-height: 1.5;
+  padding-block: .85rem;
+}
+.signed-download-check__body {
+  padding-bottom: 1rem;
+  scroll-margin-top: 10rem;
+  overflow-wrap: anywhere;
+}
+.signed-download-check__body > p, .signed-download-check__body > ol > li { margin-block: .8rem; line-height: 1.65; }
+.signed-download-check__body > ol { padding-left: 1.4rem; list-style: decimal; }
+.signed-download-check__body li::marker { font-weight: 650; }
+.signed-download-check__body img { max-width: 100%; }
+.signed-download-check__result { max-width: 34rem; }
+.signed-download-check__next { margin-block: .85rem; padding-inline-start: .8rem; border-inline-start: 3px solid var(--primary-button); }
+.signed-download-check__next a { display: inline-flex; align-items: center; min-height: 44px; margin-inline-end: 1rem; }
+.signed-download-check__next a:first-of-type { font-weight: 650; }
+.signed-download-check :is(summary, button, a):focus-visible { outline: 2px solid var(--foreground); outline-offset: 2px; }
