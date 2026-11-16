@@ -1,6 +1,6 @@
 import { HardDrive, LockKeyhole, RadioTower } from "lucide-react"
 import { captures } from "@/curriculum/practice-captures"
-import { BITCOIN_CORE_WALLET_GUIDE_PATH, EN_BITCOIN_CORE_CURRICULUM_PATH, START_HERE_PATH } from "@/routes"
+import { BITCOIN_CORE_WALLET_GUIDE_PATH, EN_BITCOIN_CORE_CURRICULUM_PATH } from "@/routes"
 import { ZoomableImage } from "./zoomable-image"
 
 const practiceLesson = (slug: string) => `${EN_BITCOIN_CORE_CURRICULUM_PATH}?setup=vault-node#lesson/${slug}`
@@ -63,7 +63,7 @@ const recoverySteps = [
 export function IsoPracticeWalkthrough() {
   return (
     <section id="practice-without-funds" aria-labelledby="practice-payment-heading" className="my-12 scroll-mt-24 border-t border-border pt-8">
-      <h2 id="practice-payment-heading">Follow a payment from Node to Vault and back</h2>
+      <h2 id="practice-payment-heading">See how an offline payment works</h2>
       <p className="max-w-prose leading-7">These Bitcoin Core 32.1 screens show one payment on Regtest, a private practice network with coins that carry no value. Follow the same amount from the proposal to the signed payment.</p>
       <ol className="my-5 grid list-none gap-6 lg:grid-cols-3">
         {paymentSteps.map(({ title, icon: Icon, shot, text }) => (
@@ -75,7 +75,7 @@ export function IsoPracticeWalkthrough() {
         ))}
       </ol>
       <p className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold">
-        <a href={`${START_HERE_PATH}?setup=vault`}>Start with an empty practice wallet</a>
+        <a href="#first-run">Start with an empty practice wallet</a>
         <a href={practiceLesson("first-offline-signed-transaction")}>Practise this payment step by step</a>
       </p>
       <div id="practice-recovery" className="mt-10 scroll-mt-24">

@@ -243,10 +243,10 @@ export function DebianImageVerification() {
         <span id="verify-vault-download" className="iso-check-target" />
         <span id="verify-node-download" className="iso-check-target" />
       <h3 id="verify-download" className="learning-heading"><ShieldCheck className="section-pictogram" aria-hidden="true" /><span className="iso-check-heading-default">Check a signed download</span><span className="iso-check-heading-vault">Check your Vault v0.7.0 download</span><span className="iso-check-heading-node">Check your Node v0.1.0-rc.2 download</span></h3>
-      <p>
-        Use this for <a href={vaultRepo + "/releases/tag/v0.7.0"}>Vault v0.7.0</a> or{" "}
-        <a href={nodeRepo + "/releases/tag/v0.1.0-rc.2"}>Node v0.1.0-rc.2</a>.
-        Imagine receiving a parcel with a packing list. First you check who signed the list. Then you
+      <p>Before writing the USB, check who signed the release and whether your download matches it. You will use the ISO you already downloaded and a terminal on Debian 13.</p>
+      <details className="build-instructions">
+      <summary>How do the signature and checksum work together?</summary>
+      <p>Imagine receiving a parcel with a packing list. First you check who signed the list. Then you
         check what arrived. Here the list is <code>SHA256SUMS</code>. Each entry pairs a filename with
         a <strong>SHA-256 checksum</strong>, a fingerprint calculated from every byte in that file.
         Even a one-byte edit should give a different checksum.
@@ -267,6 +267,7 @@ export function DebianImageVerification() {
       <VerificationIllustration file="signed-list-and-file-match"
         alt="First a maker’s mark is compared with a separate reference. Then a pattern on the delivered box is compared with the same pattern on the list."
         caption="First, confirm Pavao’s public-key fingerprint through a channel you already trust and use that key to check the signature on the list. Then calculate the SHA-256 of your downloaded ISO and match it to the signed entry. The first check identifies the signing key. The second checks the contents of your file." />
+      </details>
       <ol>
         <li>
           <strong>Get the verifier.</strong> Save the ISO in your Downloads folder on a separate Debian 13 computer or virtual machine (a computer running inside yours).
@@ -326,6 +327,12 @@ export function DebianImageVerification() {
           </details>
         </li>
       </ol>
+      <div className="iso-verify-next" data-signed-product="vault">
+        <p><strong>Does the verifier show OK beside your Vault ISO?</strong> Your file matches the signed release. You are ready to write it to the USB stick.</p>
+        <a href="#prepare-usb">Prepare the USB</a>
+        <a href="#ask-verify">Ask Pavao about the Vault check</a>
+      </div>
+      <p data-signed-product="node"><a href="#ask-node-verify">Ask Pavao about the Node check</a></p>
       </div>
 
       <h3 id="review-project-code" className="learning-heading"><Braces className="section-pictogram" aria-hidden="true" /><span>Read what the project does, with your own AI</span></h3>

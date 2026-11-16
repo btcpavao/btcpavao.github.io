@@ -154,7 +154,7 @@ export const contentRegistry = [
     locale: "en",
     title: "Bitcoin Core Vault and Node — Downloads and Independent Verification",
     description:
-      "Download the offline Vault or online Node, see what Pavao added to Debian and Bitcoin Core, and check the evidence yourself or with an independent reviewer.",
+      "Download Bitcoin Core Vault, verify the ISO and try an empty offline wallet from USB. Find the online Node, review Pavao’s changes or ask about a setup step.",
     contentType: "page",
     section: "core-practical",
     publishedAt: null,

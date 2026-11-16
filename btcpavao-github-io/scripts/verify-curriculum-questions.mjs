@@ -74,6 +74,14 @@ try {
       assert.ok(!JSON.stringify(payload).includes("private"))
     }
   )
+  await check("A download guide question identifies the release and step without a curriculum URL", () => {
+    const guide = { material: "download guide", section: "Bitcoin Core Vault v0.7.0", lesson: "Writing the Vault USB" }
+    const payload = questionPayload(fields, guide)
+    assert.equal(payload.sectionTitle, guide.section)
+    assert.equal(payload.lessonTitle, guide.lesson)
+    assert.equal(Object.hasOwn(payload, "pageUrl"), false)
+    assert.equal(Object.hasOwn(payload, "email"), false)
+  })
   await check("Explicit search context is bounded and never copied into the page URL", () => {
     const payload = questionPayload(fields, { section: "Curriculum search", searchQuery: "x".repeat(300) })
     assert.equal(payload.searchQuery.length, 200)

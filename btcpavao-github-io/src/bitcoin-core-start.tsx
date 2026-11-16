@@ -28,7 +28,7 @@ import {
 const SITE_URL = "https://btcpavao.com"
 
 const downloadUrl = "https://bitcoincore.org/en/download/"
-const verifyVaultUrl = DEBIAN_IMAGES_PATH + "#verify-download"
+const verifyVaultUrl = DEBIAN_IMAGES_PATH + "#verify-vault-download"
 const watchOnlyUrl = EN_BITCOIN_CORE_CURRICULUM_PATH + "?setup=vault-node#lesson/watch-only-setup"
 const stepLinkClass = "mt-3 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-primary underline underline-offset-4"
 
@@ -188,6 +188,14 @@ export function BitcoinCoreStartPage() {
                           <ArrowRight className="size-4" aria-hidden="true" />
                         </a>
                       )}
+                      {vault && step.id === "verification" && (
+                        <div>
+                          <a className={stepLinkClass} href={DEBIAN_IMAGES_PATH + "#prepare-usb"}>
+                            Write the USB and start Vault in Live RAM
+                            <ArrowRight className="size-4" aria-hidden="true" />
+                          </a>
+                        </div>
+                      )}
                       {step.id === "backup" && (
                         <>
                           {vault && (
@@ -261,6 +269,14 @@ export function BitcoinCoreStartPage() {
                   <ArrowRight className="size-4" aria-hidden="true" />
                 </a>
               </Button>
+              {vault && (
+                <a
+                  href={DEBIAN_IMAGES_PATH + "#ask-feedback"}
+                  className="inline-flex min-h-11 items-center justify-center text-center text-sm font-semibold text-white underline underline-offset-4"
+                >
+                  Tell Pavao what worked or where you got stuck
+                </a>
+              )}
               <a
                 href={watchOnlyUrl}
                 className="inline-flex min-h-11 items-center justify-center text-center text-sm font-semibold text-white/74 hover:text-white"

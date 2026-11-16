@@ -1,6 +1,7 @@
 import { SITE_URL } from "./site-config"
 
 export type QuestionContext = {
+  material?: "curriculum" | "download guide"
   section: string
   lesson?: string
   slug?: string
@@ -40,7 +41,11 @@ export function questionPayload(
     ...(fields.email.trim() ? { email: fields.email.trim() } : {}),
     sectionTitle: context.section,
     ...(context.lesson ? { lessonTitle: context.lesson } : {}),
-    pageUrl: `${SITE_URL}/en/bitcoin-core/self-custody/${context.slug ? `#lesson/${encodeURIComponent(context.slug)}` : ""}`,
+    // The service accepts optional curriculum links. Guide questions carry
+    // their release and step in sectionTitle and lessonTitle instead.
+    ...(context.material !== "download guide" && {
+      pageUrl: `${SITE_URL}/en/bitcoin-core/self-custody/${context.slug ? `#lesson/${encodeURIComponent(context.slug)}` : ""}`,
+    }),
     locale: "en",
     ...(context.searchQuery
       ? { searchQuery: context.searchQuery.slice(0, 200) }

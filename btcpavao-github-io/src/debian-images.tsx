@@ -1,5 +1,6 @@
 import { DebianImageVerification } from "./debian-image-verification"
-import { Archive, BookOpen, Braces, ClipboardList, LockKeyhole } from "lucide-react"
+import { Archive, BookOpen, Download, LockKeyhole } from "lucide-react"
+import { VaultFirstRun } from "./components/vault-first-run"
 import { IsoPracticeWalkthrough } from "./components/iso-practice-walkthrough"
 import { IsoReviewerBrief } from "./components/iso-reviewer-brief"
 import { IsoCustodyQuestions } from "./components/iso-custody-questions"
@@ -172,7 +173,7 @@ function ReleaseDownloads() {
             <a href="#vault">See the Vault desktop</a>
           </div>
         </article>
-        <article className="debian-download-panel" aria-labelledby="node-download-heading">
+        <article id="node-release" className="debian-download-panel" aria-labelledby="node-download-heading">
           <p className="debian-images-eyebrow">Signed test release · v0.1.0-rc.2</p>
           <h3 id="node-download-heading">Bitcoin Core Node</h3>
           <p>Verify Bitcoin and prepare payments online with Bitcoin Core 32.1 on Debian 13. Installation erases the selected drive. Use a disposable wallet for testing.</p>
@@ -239,28 +240,30 @@ export function DebianImagesPage() {
       </a>
       <SiteHeader />
       <main id="main-content" className="debian-images-page">
-        <header>
+        <header className="iso-intro">
           <a href="/en/bitcoin-core/">← Bitcoin Core</a>
-          <p className="debian-images-eyebrow">Bitcoin Core Vault and Node</p>
-          <h1>Before you trust a computer with your bitcoin</h1>
-          <img
-            className="debian-images-header-tux"
-            src="/illustrations/tux-bitcoin.webp"
-            alt="Tux, the Linux penguin, with the Bitcoin logo on its belly"
-            width="600"
-            height="670"
-            decoding="async"
-          />
-          <p className="debian-images-lede">
-            You can install Debian and Bitcoin Core on two ordinary computers yourself. I prepared Vault and Node for myself and my clients so we could sign payments offline and recover a wallet even if the original computer or this website disappears.
-          </p>
-          <p>Vault holds the keys that can spend your bitcoin. Node follows the network and prepares payments. You check the recipient, amount and fee on Vault before signing. If you already trust Bitcoin Core, you can check what I added or ask a specialist you trust to examine it before moving any funds.</p>
-          <nav className="iso-hero-actions" aria-label="Explore the custody setup">
-            <a href="#what-pavao-added"><Braces aria-hidden="true" />See what Pavao added</a>
-            <a href="#reviewer-brief"><ClipboardList aria-hidden="true" />Give this to my reviewer</a>
-            <a href="#practice-without-funds"><BookOpen aria-hidden="true" />Try it without funds</a>
-          </nav>
+          <div className="iso-intro-grid">
+            <div>
+              <h1>Try Bitcoin Core Vault on a spare computer</h1>
+              <p>Start Vault from a USB stick and open an empty Bitcoin wallet. You can explore the offline desktop without installing Vault on the computer or moving any bitcoin.</p>
+              <nav className="iso-hero-actions" aria-label="Download and start Vault">
+                <a className="iso-primary-download" href={vaultIso}><Download aria-hidden="true" />Download Vault ISO <span>· 714 MB</span></a>
+                <a href="#first-run"><BookOpen aria-hidden="true" />First-time setup</a>
+              </nav>
+              <div className="iso-intro-links">
+                <a href="#what-pavao-added">What did Pavao add, and how can I check it?</a>
+                <a href="#node-release">Looking for the online Node?</a>
+              </div>
+            </div>
+            <figure>
+              <ZoomableImage src="/software/screenshots/verification/vault-v070-desktop.webp"
+                alt="Vault’s offline desktop with launchers for Bitcoin Core, Wallet Backup and Decrypt Backup"
+                width={1280} height={800} fetchPriority="high" decoding="async" />
+              <figcaption>Bitcoin Core Vault v0.7.0 in a Live RAM session.</figcaption>
+            </figure>
+          </div>
         </header>
+        <VaultFirstRun vaultIso={vaultIso} />
         <ReleaseDownloads />
         <IsoPracticeWalkthrough />
         <ProjectChanges />

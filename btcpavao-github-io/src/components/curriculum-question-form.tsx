@@ -15,19 +15,20 @@ const configuredSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY ?? ""
 
 export function CurriculumQuestionForm({
   context,
-  material = "curriculum",
   endpoint = "/api/ask-pavao",
   siteKey = configuredSiteKey,
 }: {
   context: QuestionContext
-  material?: "curriculum" | "download guide"
   endpoint?: string
   siteKey?: string
 }) {
+  const material = context.material ?? "curriculum"
+  const isGuide = material === "download guide"
   const id = useId()
   const form = useRef<HTMLFormElement>(null)
   const receipt = useRef<HTMLDivElement>(null)
   const inFlight = useRef(false)
+  const writeAgain = useRef(false)
   const [token, setToken] = useState("")
   const [challengeReset, setChallengeReset] = useState(0)
   const [sendError, setSendError] = useState("")
@@ -38,6 +39,10 @@ export function CurriculumQuestionForm({
   const [withEmail, setWithEmail] = useState(false)
   useEffect(() => {
     if (status === "success") receipt.current?.focus()
+    if (status === "idle" && writeAgain.current) {
+      form.current?.querySelector("textarea")?.focus()
+      writeAgain.current = false
+    }
   }, [status])
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -95,7 +100,7 @@ export function CurriculumQuestionForm({
         tabIndex={-1}
         role="status"
       >
-        <h3>Thanks — question received.</h3>
+        <h3>{isGuide ? "Thanks for your message." : "Thanks — question received."}</h3>
         <p>
           Questions like this help me see what needs to be explained more
           clearly in the {material}.
@@ -105,6 +110,11 @@ export function CurriculumQuestionForm({
             ? `I’ll be able to reply directly using the email you provided. Your question may also help improve the ${material} for others.`
             : `Since you didn’t leave an email, I won’t be able to reply directly, but I can still use the question to improve the ${material}.`}
         </p>
+        {isGuide && (
+          <button className="course-action" type="button" onClick={() => { writeAgain.current = true; setStatus("idle") }}>
+            Write another message
+          </button>
+        )}
       </div>
     )
 
@@ -129,7 +139,14 @@ export function CurriculumQuestionForm({
           address.
         </p>
       )}
-      <label htmlFor={`${id}-question`}>Your question</label>
+      {isGuide && (
+        <p className="iso-contact-topic" id={`${id}-topic`}>
+          About {context.section} · {context.lesson}
+        </p>
+      )}
+      <label htmlFor={`${id}-question`}>
+        {isGuide ? "Your question or feedback" : "Your question"}
+      </label>
       <textarea
         id={`${id}-question`}
         name="question"
@@ -138,7 +155,7 @@ export function CurriculumQuestionForm({
         maxLength={5000}
         rows={5}
         aria-invalid={Boolean(errors.question)}
-        aria-describedby={`${id}-security${errors.question ? ` ${id}-question-error` : ""}`}
+        aria-describedby={`${isGuide ? `${id}-topic ` : ""}${id}-security${errors.question ? ` ${id}-question-error` : ""}`}
       />
       {errors.question && (
         <p
@@ -201,14 +218,15 @@ export function CurriculumQuestionForm({
           autoComplete="off"
         />
       </div>
-      <p className="course-question__context">
-        Included context: {context.section}
-        {context.lesson ? ` · ${context.lesson}` : ""}, plus its public
-        curriculum link.
-        {context.searchQuery && (
-          <> Search query: {context.searchQuery.slice(0, 200)}</>
-        )}
-      </p>
+      {!isGuide && (
+        <p className="course-question__context">
+          Included context: {context.section}
+          {context.lesson ? ` · ${context.lesson}` : ""}, plus its public curriculum link.
+          {context.searchQuery && (
+            <> Search query: {context.searchQuery.slice(0, 200)}</>
+          )}
+        </p>
+      )}
       <p>
         I may use the underlying topic, without identifying details, to improve
         the material. Your name, email and original question are not
@@ -235,7 +253,7 @@ export function CurriculumQuestionForm({
         type="submit"
         disabled={!siteKey || status === "sending"}
       >
-        {status === "sending" ? "Sending…" : "Send question"}
+        {status === "sending" ? "Sending…" : isGuide ? "Send message" : "Send question"}
       </button>
       <p className="course-local-note">
         Ask first. Value for Value is optional; there is no payment requirement.

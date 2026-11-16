@@ -1,23 +1,43 @@
-.debian-images-page > header:first-child { margin-bottom: 2.5rem; }
+.iso-intro { margin-bottom: 2.5rem; }
+.iso-intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  margin-top: clamp(1.25rem, 3vw, 2.5rem);
+}
+.iso-intro .iso-intro-grid h1 { font-size: clamp(2.35rem, 4.75vw, 3.9rem); margin-block: 0 1rem; }
+.iso-intro-grid p { max-width: 50ch; font-size: 1.125rem; line-height: 1.65; }
+.iso-intro-grid figure img { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: .65rem; }
+.iso-intro-grid figcaption { color: var(--muted-foreground); margin-top: .55rem; font-size: .875rem; }
+.iso-intro-links { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem 1.1rem; margin-top: .85rem; font-size: .94rem; }
+.iso-intro-links a { display: inline-flex; align-items: center; min-height: 2.35rem; }
 .iso-hero-actions, .iso-evidence-links {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: .65rem 1.15rem;
 }
-.iso-hero-actions { grid-column: 1 / -1; margin-top: 1.5rem; }
+.iso-hero-actions { margin-top: 1.25rem; gap: .65rem; }
 .debian-images-page .iso-hero-actions a {
   display: inline-flex;
   align-items: center;
   gap: .55rem;
-  min-height: 44px;
+  min-height: 46px;
   padding: .65rem .85rem;
   border: 1px solid var(--border);
   border-radius: .55rem;
   font-weight: 650;
   text-decoration: none;
 }
-.iso-hero-actions svg { width: 1.1rem; height: 1.1rem; }
+.iso-hero-actions svg { width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
+.iso-hero-actions .iso-primary-download span { font-size: .9em; white-space: nowrap; }
+.debian-images-page .iso-hero-actions .iso-primary-download {
+  color: var(--primary-button-foreground);
+  background: var(--primary-button);
+  border-color: var(--primary-button);
+}
+.debian-images-page .iso-hero-actions .iso-primary-download:hover { background: var(--primary-button-hover); }
 .iso-hero-actions a:hover, .iso-download-grid .debian-release-links a:hover { background: var(--secondary); }
 .iso-hero-actions a:focus-visible, .iso-evidence-links a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 .iso-releases, .iso-project-changes { padding-block: 1.75rem; border-top: 1px solid var(--border); scroll-margin-top: 6rem; }
@@ -30,7 +50,9 @@
   display: inline-flex; justify-content: center; align-items: center;
   padding: .7rem 1rem; border: 1px solid var(--border); border-radius: .55rem; font-size: .9rem; font-weight: 650; text-decoration: none;
 }
-.iso-download-grid .debian-release-links a:first-child { background: var(--primary); border-color: var(--primary); color: var(--primary-foreground); }
+.iso-download-grid .debian-release-links a:first-child { background: var(--primary-button); border-color: var(--primary-button); color: var(--primary-button-foreground); }
+.iso-download-grid .debian-release-links a:first-child:hover { background: var(--primary-button-hover); }
+#node-release { scroll-margin-top: 6rem; }
 .iso-download-grid .iso-evidence-links { gap: .4rem 1rem; font-size: .9rem; margin-top: .75rem; }
 .iso-project-changes .iso-evidence-links { margin-top: 1rem; font-size: .95rem; }
 .iso-usb-example { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 1.5rem; align-items: center; padding-block: 1.35rem; }
@@ -47,7 +69,13 @@
 .signed-check-route:has(.iso-check-target:target) .iso-check-heading-default { display: none; }
 .signed-check-route:has(#verify-vault-download:target) .iso-check-heading-vault,
 .signed-check-route:has(#verify-node-download:target) .iso-check-heading-node { display: inline; }
+.iso-verify-next { padding: 1rem 1.25rem; margin-block: 1rem; border-inline-start: 3px solid var(--primary-button); background: var(--secondary); }
+.iso-verify-next a { display: inline-flex; align-items: center; min-height: 44px; margin-inline-end: 1.3rem; }
+.iso-verify-next a:first-of-type { font-weight: 700; }
 .iso-guide-nav { display: flex; flex-wrap: wrap; gap: .65rem 1.4rem; font-size: .95rem; margin-block: 1.15rem 0; }
+@media (max-width: 760px) {
+  .iso-intro-grid { grid-template-columns: minmax(0, 1fr); }
+}
 @media (max-width: 700px) {
   .iso-download-grid, .iso-usb-example { grid-template-columns: minmax(0, 1fr); }
   .iso-usb-example { gap: 1rem; }
