@@ -8104,6 +8104,12 @@ input:focus-visible + .curriculum-checkbox {
 .verification-shot figcaption span { flex: 1 1 25ch; }
 .verification-shot figcaption a { align-self: start; white-space: nowrap; }
 .verification-shot img:focus-visible { outline: 3px solid var(--foreground); outline-offset: 3px; }
+.verification-illustration { margin-block: 1.5rem 2rem; }
+.verification-illustration img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; border-radius: .6rem; outline: 1px solid var(--image-outline); outline-offset: -1px; }
+.verification-illustration img:focus-visible { outline: 3px solid var(--foreground); outline-offset: 3px; }
+.verification-illustration figcaption { margin-block-start: .75rem; font-size: .9375rem; line-height: 1.65; color: var(--muted-foreground); }
+.verification-prompt-example { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); align-items: start; gap: 1.5rem; margin-block: 1.25rem; }
+.verification-prompt-example > .verification-illustration, .verification-prompt-example > .verification-command { min-width: 0; margin: 0; }
 .debian-verification .build-instructions { margin-block: .75rem; border: 1px solid var(--border); border-radius: 9px; padding-inline: 1rem; }
 .build-instructions summary { padding-block: .85rem; font-weight: 650; cursor: pointer; }
 .build-instructions summary:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }

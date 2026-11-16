@@ -82,6 +82,19 @@ function VerificationShot({ file, alt, caption, width, height }: {
   )
 }
 
+function VerificationIllustration({ file, alt, caption, sizes = "(min-width: 960px) 850px, calc(100vw - 40px)" }: {
+  file: string; alt: string; caption: string; sizes?: string
+}) {
+  const src = "/software/illustrations/verification/" + file
+  return (
+    <figure className="verification-illustration">
+      <ZoomableImage src={src + ".webp"} srcSet={src + "-768.webp 768w, " + src + ".webp 1536w"}
+        sizes={sizes} alt={alt} width={1536} height={1024} loading="lazy" decoding="async" />
+      <figcaption>{caption}</figcaption>
+    </figure>
+  )
+}
+
 function RebuildSteps({ product }: { product: Product }) {
   const { repo, tag, revision, build, result, download, digest } = builds[product]
   const folder = product === "Vault" ? "vault-release" : "node-candidate"
@@ -155,6 +168,9 @@ export function DebianImageVerification() {
         supplies instructions for making another. Verifying the download identifies the case you received.
         Building the image means following those instructions on your own computer.
       </p>
+      <VerificationIllustration file="inside-the-iso"
+        alt="An open tool case contains three ready-made tools. A hand fits a custom divider beside them using an assembly drawing."
+        caption="Debian supplies the system and many packages. The projects behind Bitcoin Core and KeePassXC publish their own software. Pavao’s build recipe selects versions, adds configuration and includes project code. Some components, including Vault’s file manager and installer, have published changes of their own." />
       <nav className="verification-map" aria-label="Choose a verification question">
         <a href="#verify-download"><Fingerprint aria-hidden="true" /><strong>Did I get Pavao’s file?</strong><span>Verify the signed download</span></a>
         <a href="#upstream-programs"><PackageOpen aria-hidden="true" /><strong>Are the programs genuine?</strong><span>Compare with their publishers</span></a>
@@ -245,6 +261,9 @@ export function DebianImageVerification() {
             means your copy contains the bytes covered by Pavao’s signature.</span></li>
         </ol>
       </figure>
+      <VerificationIllustration file="signed-list-and-file-match"
+        alt="First a maker’s mark is compared with a separate reference. Then a pattern on the delivered box is compared with the same pattern on the list."
+        caption="First, confirm Pavao’s public-key fingerprint through a channel you already trust and use that key to check the signature on the list. Then calculate the SHA-256 of your downloaded ISO and match it to the signed entry. The first check identifies the signing key. The second checks the contents of your file." />
       <ol>
         <li>
           <strong>Get the verifier.</strong> Save the ISO in your Downloads folder on a separate Debian 13 computer or virtual machine (a computer running inside yours).
@@ -327,11 +346,17 @@ export function DebianImageVerification() {
         <li>
           <strong>Ask it to follow one action.</strong> Copy the prompt for your image into the AI chat.
           If it can only see part of the repository, ask it to name the next file it needs.
-          <Commands kind="prompt" title="Vault · trace a USB export" lines={[
-            "Use the public Vault v0.7.0 source at " + vaultRepo + "/tree/" + builds.Vault.revision + ". Read the code without executing it.",
-            "I click File → Export watch-only wallet and choose a USB drive. Follow the action from Bitcoin Core to Vault’s export helper. Start with export_view.py and public_export.py. Which code belongs to Core, and which to Vault? What is held in RAM, what is checked, what reaches the drive, and what happens if a check fails?",
-            "Explain each step in everyday language. For each claim give the exact file, function and line link for this revision, or file and line numbers if working locally. Identify anything you could not verify. Suggest one test using an empty practice wallet.",
-          ]} />
+          <div className="verification-prompt-example">
+            <VerificationIllustration file="trace-one-action"
+              sizes="(min-width: 840px) 410px, calc(100vw - 72px)"
+              alt="Three linked cards follow a file-selection action to a line of code and onward to a USB drive. A pencil points to the line to inspect."
+              caption="Ask the AI to follow one action through the public release code. For example, when Vault saves a signed PSBT, which file handles the request, what does it check, and where does it write? Ask for links to the exact source lines and open them yourself." />
+            <Commands kind="prompt" title="Vault · trace a USB export" lines={[
+              "Use the public Vault v0.7.0 source at " + vaultRepo + "/tree/" + builds.Vault.revision + ". Read the code without executing it.",
+              "I click File → Export watch-only wallet and choose a USB drive. Follow the action from Bitcoin Core to Vault’s export helper. Start with export_view.py and public_export.py. Which code belongs to Core, and which to Vault? What is held in RAM, what is checked, what reaches the drive, and what happens if a check fails?",
+              "Explain each step in everyday language. For each claim give the exact file, function and line link for this revision, or file and line numbers if working locally. Identify anything you could not verify. Suggest one test using an empty practice wallet.",
+            ]} />
+          </div>
           <Commands kind="prompt" title="Node · trace a blockchain backup" lines={[
             "Read the published Node v0.1.0-rc.2 source at " + nodeTree + " without executing it. I choose Backup Chainstate and select a USB drive.",
             "Start with app/chain_backup.py. Find the list of folders it copies and the code that uses that list. Are wallet files among the selected folders? What happens to Bitcoin Core during the copy, and what happens if the drive fills up?",
@@ -379,6 +404,9 @@ export function DebianImageVerification() {
         turns them into a bootable file. If another builder follows the same recipe with the specified inputs and gets exactly the same bytes,
         the build is <strong>reproducible</strong>. That connects the instructions you reviewed to the file you will boot.
       </p>
+      <VerificationIllustration file="two-builds-one-comparison"
+        alt="Two separate presses produce prints from the same layout. On a light box, the shapes on the two sheets line up."
+        caption={"A reproducible build takes the same source revision, the specified software versions and the same recipe, then compares every byte of the result with the chosen image. For Vault " + builds.Vault.tag + " the target is the signed download. For Node the signed RC2 download has its own signature check, and the rebuild is compared with the separately named Node comparison image."} />
       <div className="verification-targets">
         <p><strong>Vault v0.7.0</strong>Compare your build directly with the signed Vault ISO from the main
           download button. The tagged build fixes the Debian snapshot, compiler environment and package
