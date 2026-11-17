@@ -56,11 +56,11 @@ export function VaultFirstRun({ vaultIso }: { vaultIso: string }) {
   return (
     <section className="vault-first-run" id="first-run" aria-labelledby="first-run-heading">
       <h2 id="first-run-heading">Start Vault for the first time</h2>
-      <p>Use a spare 64-bit Intel or AMD computer and a USB stick you can erase. Your goal is to open Bitcoin Core and see your own practice receiving address. You can do this offline without installing Vault, running a Node or downloading the blockchain.</p>
+      <p>You’ll need a USB stick you can erase and a spare 64-bit Intel or AMD computer. Prepare the USB on your everyday computer. The spare computer stays offline while you create an empty wallet and display its first receiving address. You can do this before downloading the blockchain.</p>
       <ol className="first-run-steps" role="list">
         <li>
           <h3><span aria-hidden="true">1</span> Verify your copy of Vault</h3>
-          <p>On your everyday computer, <a href={vaultIso}>download the Vault ISO</a>. Check that your file matches the release Pavao signed before writing it to USB.</p>
+          <p><a href={vaultIso}>Download the Vault ISO</a> and check it against Pavao’s signed list before writing it to USB.</p>
           <SignedDownloadCheck product="Vault" />
         </li>
         <li id="prepare-usb">

@@ -1,8 +1,8 @@
 # An independent review of Bitcoin Core Vault and Node
 
-Prepared by BTC Pavao on 16 November 2026 for the releases below. This is a request for review. The person performing a review supplies their own findings.
+Review request from BTC Pavao, updated 17 November 2026.
 
-**Question from the owner.** Could anything in Pavao’s operating-system preparation expose my signing keys, change what I approve or leave me unable to recover my wallet? Please investigate the exact file I plan to use. Show me what you checked and what I would still need to trust. All examples can use public release files, disposable wallets and valueless test coins.
+**Questions for my reviewer.** Which programs can read my signing keys? How can I check the recipient and amount before signing? Can I recover the wallet from a backup and use it to sign again? Please examine the exact release I plan to use, using public release files, disposable wallets and test coins. Record what you verified and which questions remain open.
 
 ## Identify the download before starting
 
@@ -41,6 +41,6 @@ The following starting points belong to the identified releases. Follow their ca
 5. **Connect reviewed source and resulting bytes.** Inspect the recipe before running it. Build in a clean machine under your control, with no keys or personal files. Hash the result and compare the two complete ISO files. Vault v0.7.0 targets the signed Vault download. Two project-run builds already matched that download. The signed Node RC2 has no demonstrated identical rebuild from its recorded sources. Scope candidate results to the unsigned candidate above. Record the commands, inputs, machine, output hash and comparison result. If it differs, retain both files and logs and leave the source-to-download question open. [Vault build recipe](https://github.com/btcpavao/bitcoin-core-vault-releases/blob/5346a0db977049a028429482ff943619c52009c4/docs/NATIVE-REBUILD.md) · [Vault project run](https://github.com/btcpavao/bitcoin-core-vault-releases/actions/runs/43864705133) · [Node candidate recipe](https://github.com/btcpavao/bitcoin-core-node-releases/blob/e6519d7e5e956aa62512294389a9db2cd0a60a96/docs/REBUILD.md).
 6. **Return a signed, dated report.** Name who performed the code review, runtime tests and rebuild, who selected and funded the work, and any relationship with the project. Identify the exact artifact, source and verified upstream inputs. Describe the review scope, observations, reproducible evidence, unexplained differences and limitations in everyday language. Record any fixes and which version was retested. Distinguish the reviewer’s own observations from the publisher’s test results. Explain any remaining questions that matter before the owner uses the release for savings.
 
-An identical rebuild connects a recipe and its inputs to a distributed file. A deliberately harmful change in those inputs could also rebuild identically. A successful practice payment shows that the tested workflow works under the observed conditions. The reviewer’s assessment of the programs and their privileges addresses the separate question about harmful additions.
+Report what each check established. A matching rebuild ties the reviewed inputs to the exact ISO you compared. A code review examines which programs can access the wallet and what they do. A practice payment tests the signing workflow under the conditions you recorded.
 
 The reviewer can complete this work without the owner’s production wallet, passphrases, addresses or holdings. For a later release, identify its exact ISO, review the changes and update the report’s scope before reusing its findings.

@@ -253,7 +253,7 @@ export function DebianImageVerification() {
         <figcaption>How the signed list connects Pavao to your download</figcaption>
         <ol>
           <li><Fingerprint aria-hidden="true" /><span><strong>Known signing key → signed list</strong>
-            Confirm the key’s 40-character fingerprint with Pavao. GnuPG uses that public key and the
+            Confirm the key’s 40-character fingerprint with Pavao through a channel you already trust. GnuPG uses that public key and the
             separate signature file (<code>SHA256SUMS.asc</code>) to authenticate the list.</span></li>
           <li><Disc3 aria-hidden="true" /><span><strong>Signed list → your ISO</strong>
             Calculate the ISO’s 64-character SHA-256. A match with the entry for your filename
@@ -262,7 +262,7 @@ export function DebianImageVerification() {
       </figure>
       <VerificationIllustration file="signed-list-and-file-match"
         alt="First a maker’s mark is compared with a separate reference. Then a pattern on the delivered box is compared with the same pattern on the list."
-        caption="First, confirm Pavao’s public-key fingerprint through a channel you already trust and use that key to check the signature on the list. Then calculate the SHA-256 of your downloaded ISO and match it to the signed entry. The first check identifies the signing key. The second checks the contents of your file." />
+        caption="The maker’s mark stands for the signature on the list. The pattern on the box stands for the checksum you calculate from your download." />
       <details className="build-instructions">
         <summary>See what happens when a file fails verification</summary>
         <VerificationShot file="vault-v060-rejected" width={1242} height={384}
@@ -357,7 +357,7 @@ export function DebianImageVerification() {
       </p>
       <VerificationIllustration file="two-builds-one-comparison"
         alt="Two separate presses produce prints from the same layout. On a light box, the shapes on the two sheets line up."
-        caption={"A reproducible build takes the same source revision, the specified software versions and the same recipe, then compares every byte of the result with the chosen image. For Vault " + builds.Vault.tag + " the target is the signed download. For Node the signed RC2 download has its own signature check, and the rebuild is compared with the separately named Node comparison image."} />
+        caption="The two prints line up on the light box. For two ISO files, the equivalent check is a byte-for-byte comparison." />
       <div className="verification-targets">
         <p><strong>Vault v0.7.0</strong>Compare your build directly with the signed Vault ISO from the main
           download button. The tagged build fixes the Debian snapshot, compiler environment and package

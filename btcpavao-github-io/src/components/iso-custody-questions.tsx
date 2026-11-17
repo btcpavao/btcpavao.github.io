@@ -9,21 +9,13 @@ const standardLesson = (slug: string) => EN_BITCOIN_CORE_CURRICULUM_PATH + "#les
 
 const questions = [
   {
-    question: "Can I send shares of IBIT or FBTC to Vault?",
-    answer: "A retail investor holds shares in a brokerage account. The fund’s bitcoin stays with its custodian. You cannot send those shares to a Bitcoin address. You can learn to receive, back up and spend test bitcoin while keeping your brokerage position as it is.",
-    links: [
-      ["iShares on IBIT", "https://www.ishares.com/us/products/digital-assets"],
-      ["Fidelity’s fund questions", "https://www.fidelity.com/etfs/crypto-funds"],
-    ],
-  },
-  {
     question: "My BTC is on an exchange. How can I check my withdrawal address?",
-    answer: "When your exchange supports a withdrawal over the Bitcoin network, compare the entire destination address on its confirmation screen with the address from your own offline wallet. If they differ, stop. Once you have tested recovery, a small withdrawal and a confirmed payment signed from the restored wallet let you check both directions.",
+    answer: "Choose the Bitcoin network for the withdrawal. Compare the full address on the exchange’s confirmation screen with the receiving address on Vault. If they differ, stop. After testing wallet recovery, try a small withdrawal. Then sign a small payment from the restored wallet and confirm it on Node.",
     links: [["Check the setup before your first deposit", imageLesson("mainnet-readiness-before-first-deposit")]],
   },
   {
-    question: "What could someone learn or spend if they took my online computer?",
-    answer: "Your watch-only copy lets Node see addresses, balances and transaction history. Someone who can read its disk may learn those details. In this setup the keys needed to spend are on Vault. An untrusted Node could still show a misleading address or propose a different payment. Check the receiving address on Vault and read the recipient, amount and fee on its screen before signing.",
+    question: "What if someone takes my Node computer?",
+    answer: "Someone who can read Node’s disk may see your addresses, balance and transaction history. The keys needed to spend stay on Vault. If someone tampers with Node, it could show a different address or propose a different payment. Check your receiving address on Vault. Before signing a payment, check the recipient, amount and fee on Vault too.",
     links: [
       ["Review a payment offline", imageLesson("first-offline-signed-transaction")],
       ["Node RC2 storage and login details", "https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.2"],
