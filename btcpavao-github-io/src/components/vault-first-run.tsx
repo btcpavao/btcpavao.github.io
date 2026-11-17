@@ -114,13 +114,27 @@ export function VaultFirstRun({ vaultIso }: { vaultIso: string }) {
             }} caption="Look for your wallet name and label. Bitcoin Core will show your own address here." />
           </div>
         </li>
+        <li id="backup-wallet">
+          <h3><span aria-hidden="true">5</span> Keep an encrypted wallet backup</h3>
+          <div className="first-run-row">
+            <div>
+              <p>Record the practice receiving address and its label. Connect a separate backup drive and open <strong>Wallet Backup</strong>. Choose the practice wallet, select your backup drive under <strong>Save to</strong> and set a backup passphrase.</p>
+              <p>Before shutting down, check that the encrypted file is on the backup drive. Keep the passphrase separately. Practise restoring the backup in a fresh offline session and compare the address with the one you recorded.</p>
+              <a href={BITCOIN_CORE_WALLET_GUIDE_PATH + "?setup=vault#step-7"}>Follow the backup and recovery exercise</a>
+            </div>
+            <StepImage shot={{
+              src: "/software/screenshots/vault/v0.7.0/encrypted-backup-usb.webp", width: 560, height: 195,
+              fullSrc: "/software/screenshots/vault/v0.7.0/encrypted-backup-usb-full.webp",
+              alt: "Vault’s Save to field shows the TRANSFER USB drive and the destination /media/vault/TRANSFER/wallet.dat.gpg.",
+            }} caption="Vault v0.7.0 shows wallet.dat.gpg on the drive named TRANSFER. On your computer, check the name of your own backup drive." />
+          </div>
+        </li>
       </ol>
       <div className="first-run-followup">
         <h3>Did Vault start on your computer?</h3>
         <a className="first-run-feedback" href="#ask-feedback"><MessageCircle size={18} aria-hidden="true" /> Tell Pavao how it went</a>
-        <p>To keep practising with this wallet, record its address and label and make an encrypted backup on a second drive before you shut down. Then try restoring it.</p>
         <nav className="first-run-links" aria-label="More practice">
-          <a href={BITCOIN_CORE_WALLET_GUIDE_PATH + "?setup=vault#step-7"}>Back up and restore the practice wallet</a>
+          <a href="#node-setup">Set up the online Node</a>
           <a href="#practice-without-funds">See how offline signing works</a>
         </nav>
       </div>

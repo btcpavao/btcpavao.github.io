@@ -57,6 +57,7 @@ const contactTopics: Record<string, { section: string; lesson: string; prompt?: 
   "ask-boot": { section: vaultRelease, lesson: "Starting Vault in Live RAM" },
   "ask-wallet": { section: vaultRelease, lesson: "Creating an empty practice wallet" },
   "ask-feedback": { section: vaultRelease, lesson: "First-run feedback", prompt: "Which computer did you try, and how did it go?" },
+  "ask-node-setup": { section: "Bitcoin Core Node v0.1.0-rc.2", lesson: "Setting up a dedicated Node", prompt: "What would you like to know about setting up or using Node?" },
   "ask-node-verify": { section: "Bitcoin Core Node v0.1.0-rc.2", lesson: "Checking the signed Node download" },
 }
 

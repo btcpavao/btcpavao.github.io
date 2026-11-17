@@ -1,7 +1,7 @@
-import { SignedDownloadCheck } from "./components/signed-download-check"
 import { LegacyVerificationLinks } from "./components/legacy-verification-links"
 import { DEBIAN_IMAGE_VERIFICATION_PATH } from "./routes"
-import { Archive, BookOpen, Download, LockKeyhole } from "lucide-react"
+import { Archive, Download, LockKeyhole, Monitor } from "lucide-react"
+import { NodeFirstRun } from "./components/node-first-run"
 import { VaultFirstRun } from "./components/vault-first-run"
 import { IsoPracticeWalkthrough } from "./components/iso-practice-walkthrough"
 import { IsoCustodyQuestions } from "./components/iso-custody-questions"
@@ -167,7 +167,7 @@ function ReleaseDownloads() {
           <div className="iso-evidence-links">
             <a href={vaultRelease}>Signed files and test results</a>
             <a href="https://github.com/btcpavao/bitcoin-core-vault-releases/actions/runs/43864705133">Both build results</a>
-            <a href="#vault">See the Vault desktop</a>
+            <a href="#vault">Vault software and earlier screens</a>
           </div>
         </article>
         <article id="node-release" className="debian-download-panel" aria-labelledby="node-download-heading">
@@ -182,11 +182,10 @@ function ReleaseDownloads() {
           <div className="iso-evidence-links">
             <a href={nodeRelease}>Signed files and test results</a>
             <a href={DEBIAN_IMAGE_VERIFICATION_PATH + "#rebuild-tutorial"}>See which Node image was rebuilt</a>
-            <a href="#online-node">See the Node desktop</a>
+            <a href="#online-node">Node software and earlier screens</a>
           </div>
         </article>
       </div>
-      <SignedDownloadCheck product="Node" />
       <nav className="iso-guide-nav" aria-label="Questions and technical instructions">
         <a href={DEBIAN_IMAGE_VERIFICATION_PATH}>Review the software and rebuild an ISO</a>
         <a href="#custody-questions">Questions before moving bitcoin</a>
@@ -237,34 +236,54 @@ export function DebianImagesPage() {
       <main id="main-content" className="debian-images-page">
         <header className="iso-intro">
           <a href="/en/bitcoin-core/">← Bitcoin Core</a>
-          <div className="iso-intro-grid">
-            <div>
-              <h1>Try Bitcoin Core Vault on a spare computer</h1>
-              <p>Boot from a USB stick and try an empty Bitcoin wallet without installing Vault or moving any bitcoin.</p>
-              <nav className="iso-hero-actions" aria-label="Download and start Vault">
-                <a className="iso-primary-download" href={vaultIso}><Download aria-hidden="true" />Download Vault ISO <span>· 714 MB</span></a>
-                <a href="#first-run"><BookOpen aria-hidden="true" />First-time setup</a>
-              </nav>
-              <p className="iso-intro-roles">Vault keeps your signing keys offline. Node prepares payments and sends them to the Bitcoin network after you sign on Vault. You only need Vault for this first exercise.</p>
-              <div className="iso-intro-links">
-                <a href={DEBIAN_IMAGE_VERIFICATION_PATH}>What did Pavao add, and how can I check it?</a>
-                <a href="#node-release">Looking for the online Node?</a>
-              </div>
-            </div>
-            <figure>
-              <ZoomableImage src="/software/screenshots/verification/vault-v070-desktop.webp"
-                alt="Vault’s offline desktop with launchers for Bitcoin Core, Wallet Backup and Decrypt Backup"
-                width={1280} height={800} fetchPriority="high" decoding="async" />
-              <figcaption>Bitcoin Core Vault v0.7.0 in a Live RAM session.</figcaption>
-            </figure>
+          <h1>Bitcoin Core Vault and Node</h1>
+          <p className="iso-intro-summary">Use Vault to back up your wallet and sign payments offline. On a second, dedicated computer, Node runs Bitcoin Core to verify the blockchain, prepare payments and send them after you sign.</p>
+          <nav className="iso-hero-actions" aria-label="Download the two Bitcoin Core systems">
+            <a className="iso-primary-download" href={vaultIso}><Download aria-hidden="true" /> <span>Download Vault ISO</span><small>v0.7.0</small></a>
+            <a className="iso-primary-download" href={nodeIso}><Download aria-hidden="true" /> <span>Download Node ISO</span><small>RC2 · test release</small></a>
+          </nav>
+          <div className="iso-intro-links">
+            <a href="#verify-download">Verify either download</a>
+            <a href="#pair-wallets">Pair Vault and Node</a>
+            <a href="#ask-pavao">Ask Pavao a question</a>
           </div>
+          <div className="iso-device-pair">
+            <section aria-labelledby="vault-preview-heading">
+              <h2 id="vault-preview-heading"><LockKeyhole aria-hidden="true" /> Vault · Offline wallet</h2>
+              <figure>
+                <ZoomableImage src="/software/screenshots/verification/vault-v070-desktop.webp"
+                  alt="Vault’s offline desktop with launchers for Bitcoin Core, Wallet Backup and Decrypt Backup."
+                  width={1280} height={800} fetchPriority="high" decoding="async" />
+                <figcaption>Start Vault from USB to try an empty wallet. The private workspace runs in memory. Save an encrypted backup on a separate drive before shutting down.</figcaption>
+              </figure>
+              <nav className="iso-device-links" aria-label="Explore Vault">
+                <a href="#first-run">Start Vault from USB</a>
+                <a href="#backup-wallet">See wallet backup</a>
+              </nav>
+            </section>
+            <section aria-labelledby="node-preview-heading">
+              <h2 id="node-preview-heading"><Monitor aria-hidden="true" /> Node · Online Bitcoin Core</h2>
+              <figure>
+                <ZoomableImage src="/software/screenshots/node/v0.1.0-rc.2/desktop.webp"
+                  alt="Node RC2 desktop with Bitcoin Core, Settings, Files and Node Guide. The status reads Bitcoin Core is offline on first boot."
+                  width={1280} height={800} decoding="async" />
+                <figcaption>Node RC2 on first boot, before connecting to the network. Once connected, it syncs Bitcoin Core and can follow your balance using a watch-only copy of the wallet.</figcaption>
+              </figure>
+              <nav className="iso-device-links" aria-label="Explore Node">
+                <a href="#node-setup">Set up your dedicated Node</a>
+                <a href="#node-status">See Node sync and backups</a>
+              </nav>
+            </section>
+          </div>
+          <a className="iso-review-link" href={DEBIAN_IMAGE_VERIFICATION_PATH}>What did Pavao add, and how can I check it?</a>
         </header>
         <LegacyVerificationLinks />
         <ReleaseDownloads />
         <VaultFirstRun vaultIso={vaultIso} />
+        <NodeFirstRun />
         <IsoPracticeWalkthrough />
         <details className="iso-reference-panel iso-desktops">
-          <summary><h2>Inside Vault and Node</h2></summary>
+          <summary><h2>Included software and earlier interface screenshots</h2></summary>
           <div className="debian-role-grid">
           <section id="vault">
             <p className="debian-images-eyebrow">

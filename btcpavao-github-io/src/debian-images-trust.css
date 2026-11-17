@@ -1,18 +1,20 @@
-.iso-intro { margin-bottom: 2.5rem; }
-.iso-intro-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  align-items: center;
-  gap: clamp(1.5rem, 4vw, 3.5rem);
-  margin-top: clamp(1.25rem, 3vw, 2.5rem);
-}
-.iso-intro .iso-intro-grid h1 { font-size: clamp(2.35rem, 4.75vw, 3.9rem); margin-block: 0 1rem; }
-.iso-intro-grid p { max-width: 50ch; font-size: 1.125rem; line-height: 1.65; }
-.iso-intro-grid .iso-intro-roles { font-size: 1rem; margin-top: 1rem; max-width: 54ch; }
-.iso-intro-grid figure img { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: .65rem; }
-.iso-intro-grid figcaption { color: var(--muted-foreground); margin-top: .55rem; font-size: .875rem; }
-.iso-intro-links { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem 1.1rem; margin-top: .85rem; font-size: .94rem; }
-.iso-intro-links a { display: inline-flex; align-items: center; min-height: 2.35rem; }
+.iso-intro { margin-bottom: clamp(1.8rem, 4vw, 3rem); }
+.debian-images-page .iso-intro h1 { max-width: none; margin-block: 1.4rem .85rem; font-size: clamp(2.4rem, 5vw, 4.25rem); }
+.iso-intro-summary { max-width: 67ch; font-size: clamp(1.06rem, 2vw, 1.22rem); line-height: 1.65; }
+.iso-intro-links, .iso-device-links { display: flex; flex-wrap: wrap; align-items: baseline; gap: .15rem 1.25rem; margin-block-start: .55rem; font-size: .95rem; }
+.iso-intro-links a, .iso-device-links a, .iso-review-link { display: inline-flex; align-items: center; min-height: 2.75rem; }
+.iso-device-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 2rem; margin-block: clamp(1.5rem, 3vw, 2rem) .75rem; }
+.iso-device-pair section { min-width: 0; border-block-start: 1px solid var(--border); padding-block-start: 1rem; }
+.debian-images-page .iso-device-pair h2 { display: flex; align-items: center; gap: .6rem; font-size: clamp(1.2rem, 2.3vw, 1.65rem); margin: 0 0 .85rem; }
+.iso-device-pair h2 svg { width: 1.2em; height: 1.2em; flex-shrink: 0; }
+.iso-device-pair figure img, .iso-node-shots img { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: .65rem; }
+.iso-device-pair figcaption, .iso-node-shots figcaption { margin-block-start: .65rem; line-height: 1.6; }
+.iso-device-links { margin-block-start: .3rem; font-weight: 600; }
+.iso-review-link { font-size: .95rem; }
+.iso-node-shots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 1.4rem; margin-block: 1.2rem; }
+.iso-node-shots img { margin-block-start: .6rem; }
+.iso-node-shots figcaption { color: var(--muted-foreground); font-size: .92rem; }
+.iso-node-shots h4 { font-weight: 650; }
 .iso-hero-actions, .iso-evidence-links {
   display: flex;
   flex-wrap: wrap;
@@ -32,7 +34,7 @@
   text-decoration: none;
 }
 .iso-hero-actions svg { width: 1.1rem; height: 1.1rem; flex-shrink: 0; }
-.iso-hero-actions .iso-primary-download span { font-size: .9em; white-space: nowrap; }
+.iso-hero-actions .iso-primary-download small { font-size: .86em; white-space: nowrap; }
 .debian-images-page .iso-hero-actions .iso-primary-download {
   color: var(--primary-button-foreground);
   background: var(--primary-button);
@@ -63,8 +65,13 @@
 .iso-usb-example p { line-height: 1.7; margin-block: .7rem; }
 .iso-usb-example a { font-weight: 600; }
 .iso-guide-nav { display: flex; flex-wrap: wrap; gap: .65rem 1.4rem; font-size: .95rem; margin-block: 1.15rem 0; }
-@media (max-width: 760px) {
-  .iso-intro-grid { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 430px) {
+  .iso-hero-actions { display: grid; grid-template-columns: 1fr; }
+  .debian-images-page .iso-hero-actions .iso-primary-download { display: grid; grid-template-columns: 1.1rem 1fr; row-gap: .05rem; }
+  .iso-hero-actions .iso-primary-download small { grid-column: 2; font-weight: 500; }
+}
+@media (max-width: 660px) {
+  .iso-device-pair, .iso-node-shots { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 700px) {
   .iso-download-grid, .iso-usb-example { grid-template-columns: minmax(0, 1fr); }
