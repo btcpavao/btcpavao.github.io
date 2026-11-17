@@ -16,8 +16,8 @@ export function DebianImagesNotice({ compact = false }: { compact?: boolean }) {
         </p>
         <p>
           Both downloads have public rebuild instructions. Before writing your USB,
-          check the specific ISO against its published SHA-256. For Vault, also
-          verify the signature on the checksum list using Pavao’s confirmed key.
+          verify the signature on the checksum list for your chosen release using Pavao’s confirmed key,
+          then compare your ISO with its SHA-256 entry.
           Installing the online Node erases the selected disk. Start with a
           disposable wallet and prove a backup and restore before relying on it.
         </p>

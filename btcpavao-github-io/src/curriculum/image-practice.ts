@@ -69,7 +69,7 @@ export const imagePractice: Record<string, ImageLesson> = {
       "verify-image": {
         role: "Vault and Node",
         title: "If you downloaded a prepared ISO",
-        instructions: ["For Vault v0.7.0, confirm Pavao’s key fingerprint, verify the checksum list signature, then compare the ISO’s SHA-256. For the reproducible Node test image, compare the whole ISO’s SHA-256 with the value from the matching builds. The guide gives the command and expected result for each download."],
+        instructions: ["For Vault or Node, confirm Pavao’s key fingerprint and verify his signature on the checksum list for the exact release you downloaded. Compare the whole ISO’s SHA-256 with its entry in that list. The guide gives the command and expected result for each download."],
         links: [downloadCheck, rebuild],
       },
       "boot-install-clean-v42": {
@@ -85,7 +85,7 @@ export const imagePractice: Record<string, ImageLesson> = {
       signature: {
         role: "Vault and Node",
         title: "Who signed which download?",
-        instructions: ["The builders in this exercise attest to the upstream Bitcoin Core release. Pavao’s signature on Vault’s checksum list authenticates the complete Vault image, including the desktop, installer and project tools. The screenshot shows an earlier signed Node release. For the current Node download, follow its checksum and rebuild instructions."],
+        instructions: ["The builders in this exercise attest to the upstream Bitcoin Core release. Pavao signs a separate checksum list for each complete Vault or Node image, including its desktop, installer and project tools. The screenshot shows an earlier signed Node release. Follow the current download guide for the signature, checksum and rebuild checks."],
         links: [downloadCheck, rebuild],
       },
     },

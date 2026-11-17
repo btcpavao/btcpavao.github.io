@@ -19,7 +19,7 @@ const questions = [
   },
   {
     question: "How do I know I downloaded the file Pavao published?",
-    answer: "For Vault, confirm Pavao’s signing-key fingerprint through a separate trusted channel, verify the signature on the checksums, then check your ISO. For Node, compare the SHA-256 of your download with the one recorded by the builders. Node’s checksum list is unsigned. You can also rebuild either ISO and compare the entire file with the one you downloaded.",
+    answer: "For either download, confirm Pavao’s signing-key fingerprint through a separate trusted channel. Use that key to verify the signature on the checksum list for the release you chose. Then compare the SHA-256 of your downloaded ISO with its entry in the signed list. You can also rebuild either ISO and compare the entire file with the one you downloaded.",
     links: [
       ["Check my Vault download", "#verify-vault-download"],
       ["Check my Node download", "#verify-node-download"],
@@ -91,7 +91,7 @@ const contactTopics: Record<string, { section: string; lesson: string; prompt?: 
   "ask-wallet": { section: vaultRelease, lesson: "Creating an empty practice wallet" },
   "ask-feedback": { section: vaultRelease, lesson: "First-run feedback", prompt: "Which computer did you try, and how did it go?" },
   "ask-node-setup": { section: "Bitcoin Core Node " + nodeBuild.tag, lesson: "Setting up a dedicated Node", prompt: "What would you like to know about setting up or using Node?" },
-  "ask-node-verify": { section: "Bitcoin Core Node " + nodeBuild.tag, lesson: "Checking the reproducible Node download" },
+  "ask-node-verify": { section: "Bitcoin Core Node " + nodeBuild.tag, lesson: "Checking the signed, reproducible Node download" },
 }
 
 export function IsoCustodyQuestions() {

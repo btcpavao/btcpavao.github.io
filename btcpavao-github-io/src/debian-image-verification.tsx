@@ -50,7 +50,7 @@ function BuildLinks({ product }: { product: Product }) {
     <nav className="build-evidence-links" aria-label={product + " release evidence"}>
       <a href={repo + "/tree/" + revision}><Braces size={15} aria-hidden="true" />Browse release code</a>
       <a href={files + inventory}><List size={15} aria-hidden="true" />Installed packages</a>
-      <a href={repo + "/releases/tag/" + tag}><Disc3 size={15} aria-hidden="true" />{product === "Vault" ? "Signed release files" : "Node candidate files"}</a>
+      <a href={repo + "/releases/tag/" + tag}><Disc3 size={15} aria-hidden="true" />Signed release files</a>
       <a href={proofUrl}><GitCompareArrows size={15} aria-hidden="true" />{product === "Vault" ? "Vault rebuild log" : "Node rebuild log"}</a>
     </nav>
   )
@@ -244,9 +244,10 @@ export function DebianImageVerification() {
       <BuildLinks product="Node" />
 
       <h3 id="signed-manifest" className="learning-heading"><ShieldCheck className="section-pictogram" aria-hidden="true" /><span>How do I check the file I received?</span></h3>
-      <p><a href={DEBIAN_IMAGES_PATH + "#verify-vault-download"}>Vault v0.7.0</a> has a checksum list signed with Pavao’s OpenPGP key.
-        For <a href={DEBIAN_IMAGES_PATH + "#verify-node-download"}>Node {builds.Node.tag}</a>, check the published SHA-256 and compare a build of the tagged recipe with your download. The Node candidate’s checksum list currently has no publisher signature.</p>
-      <p><strong>For a signed release such as Vault.</strong> Imagine receiving a parcel with a packing list. First you check who signed the list. Then you
+      <p>Pavao signed a separate checksum list for each download. Follow the steps for
+        {" "}<a href={DEBIAN_IMAGES_PATH + "#verify-vault-download"}>Vault v0.7.0</a> or
+        {" "}<a href={DEBIAN_IMAGES_PATH + "#verify-node-download"}>Node {builds.Node.tag}</a> to verify the signature and check your ISO against its entry.</p>
+      <p>Imagine receiving a parcel with a packing list. First you check who signed the list. Then you
         check what arrived. Here the list is <code>SHA256SUMS</code>. Each entry pairs a filename with
         a <strong>SHA-256 checksum</strong>, a fingerprint calculated from every byte in that file.
         Even a one-byte edit should give a different checksum.
@@ -373,7 +374,7 @@ export function DebianImageVerification() {
           download button. The tagged build fixes the Debian snapshot, compiler environment and package
           inputs. <a href={builds.Vault.proofUrl}>Two GitHub builds matched the published ISO.</a></p>
         <p><strong>Node {builds.Node.tag}</strong>Compare your build with the ISO from the main Node download button.
-          The recipe pins its Debian snapshot and build inputs. The <a href={nodeBuild.proofUrl}>tagged build comparison</a> matched both complete ISOs. Their SHA-256 also matches the <a href={nodeBuild.releaseUrl}>published Node download</a>.</p>
+          The recipe pins its Debian snapshot and build inputs. The <a href={nodeBuild.proofUrl}>tagged build comparison</a> matched both complete ISOs. Their SHA-256 also matches the entry in the <a href={nodeBuild.releaseUrl}>signed Node checksum list</a>.</p>
       </div>
       <details className="build-instructions">
         <summary>Already downloaded an ISO? Check its SHA-256 first</summary>

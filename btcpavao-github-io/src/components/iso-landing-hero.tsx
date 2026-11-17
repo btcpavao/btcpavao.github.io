@@ -24,7 +24,7 @@ export function IsoLandingHero({ vaultIso, nodeIso }: { vaultIso: string; nodeIs
             </a>
             <a href={nodeIso}>
               <ArrowDownToLine size={18} aria-hidden="true" />
-              <span>Download Node ISO<small>Unsigned · Reproducible test ISO</small></span>
+              <span>Download Node ISO<small>Signed · Reproducible test ISO</small></span>
             </a>
           </nav>
           <div className="iso-hero-secondary">

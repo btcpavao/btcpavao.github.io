@@ -174,16 +174,18 @@ function ReleaseDownloads() {
           </div>
         </article>
         <article id="node-release" className="debian-download-panel" aria-labelledby="node-download-heading">
-          <p className="debian-images-eyebrow">Reproducible test ISO · {nodeBuild.tag}</p>
+          <p className="debian-images-eyebrow">Signed test ISO · {nodeBuild.tag}</p>
           <h3 id="node-download-heading">Bitcoin Core Node</h3>
           <p>Verify Bitcoin and prepare payments online with Bitcoin Core 32.1 on Debian 13. Installation erases the selected drive. Use a disposable wallet for testing.</p>
           <nav className="debian-release-links" aria-label="Node download and verification">
             <a href={nodeBuild.isoUrl}>Download Node ISO</a>
             <a href="#verify-node-download">Check my Node download</a>
           </nav>
-          <p>Two clean GitHub builders produced this exact ISO, and a second pair reproduced the same bytes. The release includes its build instructions and SHA-256. Its checksum list is unsigned.</p>
+          <p>Two clean GitHub builders produced this exact ISO, and a second pair reproduced the same bytes. My OpenPGP signature authenticates the checksum list for this release. Check your ISO against the signed entry before writing it to USB.</p>
           <div className="iso-evidence-links">
-            <a href={nodeBuild.releaseUrl}>Release files and checksums</a>
+            <a href={nodeBuild.releaseUrl}>Release files</a>
+            <a href={nodeBuild.manifestUrl}>SHA256SUMS</a>
+            <a href={nodeBuild.signatureUrl}>OpenPGP signature (.asc)</a>
             <a href={nodeBuild.proofUrl}>See the full-file comparison</a>
             <a href={DEBIAN_IMAGE_VERIFICATION_PATH + "#rebuild-tutorial"}>Rebuild this Node ISO</a>
             <a href="#node-setup">Install Node on a spare disk</a>

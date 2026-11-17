@@ -26,7 +26,7 @@ export function IsoReviewerBrief() {
       <details className="build-instructions">
         <summary>What am I asking the reviewer to check?</summary>
         <ol>
-          <li><strong>Identify my file.</strong> Check the exact ISO fingerprint for either download. For Vault, also confirm the signing key through a trusted channel and verify the signature on the manifest. The current Node checksum list is unsigned. The brief lists the exact filenames and fingerprints.</li>
+          <li><strong>Identify my file.</strong> For either download, confirm the signing key through a trusted channel, verify the release’s signature on its checksum list and match your ISO to the listed SHA-256. The brief lists the exact filenames and fingerprints.</li>
           <li><strong>Check the original software.</strong> Get reference copies from Debian, Bitcoin Core and KeePassXC and verify their publishers’ signatures. Compare the programs inside the ISO with those copies.</li>
           <li><strong>Examine Pavao’s changes.</strong> Account for what starts automatically, which programs can read a wallet and where each can write. Check the entire image for unexpected files and permissions, including the installer. The brief links to the exact <a href={vault}>Vault code</a> and <a href={node}>Node build inputs and source patch</a>.</li>
           <li><strong>Try the workflow on a spare machine.</strong> With a disposable wallet, observe network and disk activity, inspect a USB export and sign a test payment after restoring the backup.</li>

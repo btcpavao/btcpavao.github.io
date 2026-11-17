@@ -11,6 +11,8 @@ export const nodeBuild = {
   isoName,
   sha256: "8efaf0fb4f05a7a59554855575e24e178f07a3629cea5c9b9bbe6e5f498691b6",
   isoUrl: assetBase + isoName,
+  manifestUrl: assetBase + "SHA256SUMS",
+  signatureUrl: assetBase + "SHA256SUMS.asc",
   releaseUrl: repo + "/releases/tag/" + tag,
   sourceUrl: assetBase + "bitcoin-core-node-" + tag + "-source.tar.gz",
   instructionsUrl: repo + "/blob/" + revision + "/docs/REBUILD.md",

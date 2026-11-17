@@ -6,15 +6,15 @@ Review request from BTC Pavao, updated 17 November 2026.
 
 ## Identify the download before starting
 
-These SHA-256 fingerprints identify the expected files. For a signed release, authenticate its manifest independently before relying on an expected value. Confirm Pavao’s entire signing-key fingerprint through a channel you already trust: `787A 2AAF B0D1 19CA 0522 B2A5 B9C9 9AF8 5788 96D0`.
+These SHA-256 fingerprints identify the expected files. For both releases, authenticate the signed manifest before relying on an expected value. Confirm Pavao’s entire signing-key fingerprint through a channel you already trust. The expected fingerprint is `787A 2AAF B0D1 19CA 0522 B2A5 B9C9 9AF8 5788 96D0`.
 
 | Artifact | Exact ISO filename | SHA-256 |
 | --- | --- | --- |
 | Signed Vault v0.7.0 | `bitcoin-core-vault-v0.7.0-amd64.iso` | `1e1782d6dc1354585cf6ec941ed7d231f0e48adfc0cee3972af1eaf3483424bb` |
-| Current unsigned Node rebuild candidate | `bitcoin-core-node-rebuild-e6519d7e5e95-core32.1-amd64.iso` | `8efaf0fb4f05a7a59554855575e24e178f07a3629cea5c9b9bbe6e5f498691b6` |
+| Signed Node rebuild candidate | `bitcoin-core-node-rebuild-e6519d7e5e95-core32.1-amd64.iso` | `8efaf0fb4f05a7a59554855575e24e178f07a3629cea5c9b9bbe6e5f498691b6` |
 
 - **Vault.** Collect the ISO, signed manifest, named source archive, signing key, package inventory and acceptance results. The source revision is `5346a0db977049a028429482ff943619c52009c4`. [Signed release](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.7.0) · [Browse tagged source](https://github.com/btcpavao/bitcoin-core-vault-releases/tree/5346a0db977049a028429482ff943619c52009c4).
-- **Node.** Review the candidate ISO at recipe commit `e6519d7e5e956aa62512294389a9db2cd0a60a96`. Its checksum manifest is unsigned. Compare the downloaded file against the recorded SHA-256 and an ISO built on a machine you control. The recipe verifies the signed RC2 base source, applies a public patch and assembles the current image. The downloadable source bundle contains the prepared source and recipe. [Candidate files](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/rebuild-e6519d7e5e95) · [Recipe and patch](https://github.com/btcpavao/bitcoin-core-node-releases/tree/e6519d7e5e956aa62512294389a9db2cd0a60a96/rebuild) · [Comparison log](https://github.com/btcpavao/bitcoin-core-node-releases/actions/runs/43015398147/job/130513786522).
+- **Node.** Review the candidate ISO at recipe commit `e6519d7e5e956aa62512294389a9db2cd0a60a96`. Verify its detached OpenPGP signature on `SHA256SUMS`. Check the downloaded ISO against its entry in that signed list, then compare it with an ISO built on a machine you control. The recipe verifies the signed RC2 base source, applies a public patch and assembles the current image. The downloadable source bundle contains the prepared source and recipe. [Candidate files](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/rebuild-e6519d7e5e95) · [Recipe and patch](https://github.com/btcpavao/bitcoin-core-node-releases/tree/e6519d7e5e956aa62512294389a9db2cd0a60a96/rebuild) · [Comparison log](https://github.com/btcpavao/bitcoin-core-node-releases/actions/runs/43015398147/job/130513786522).
 
 ## What runs in addition to the upstream programs?
 

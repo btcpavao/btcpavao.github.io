@@ -66,7 +66,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "1.5": {
     image:
-      "Bitcoin Core Vault v0.7.0 handles offline wallet work and GPG backups. The Node test image runs your online node. You can rebuild either ISO from its published recipe and compare it with the download. Check Vault’s signed checksum list and Node’s full ISO checksum in the downloads guide.",
+      "Bitcoin Core Vault v0.7.0 handles offline wallet work and GPG backups. The Node test image runs your online node. You can rebuild either ISO from its published recipe and compare it with the download. The downloads guide shows how to verify the signature on each release’s checksum list and check the ISO against it.",
     reading: ["simpler"],
   },
   "software-continuity": {

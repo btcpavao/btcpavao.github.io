@@ -36,15 +36,33 @@ function NodeDownloadCheck() {
   return (
     <>
       <details className="signed-download-check">
-        <summary>Verify the Node ISO and reproduce it from source</summary>
+        <summary>Verify the Node signature and ISO</summary>
         <div className="signed-download-check__body" id="verify-node-download">
-          <p>Save the <a href={nodeBuild.isoUrl}>Node ISO</a> in Downloads. On Debian, open Terminal and run this command to compare your file with the SHA-256 recorded for the reproducible build.</p>
-          <Commands title="Check the Node ISO checksum" lines={[
-            'cd "$HOME/Downloads" &&',
-            "  echo '" + nodeBuild.sha256 + "  " + nodeBuild.isoName + "' | sha256sum --check -",
+          <p>Save the <a href={nodeBuild.isoUrl}>Node ISO</a> in Downloads on Debian 13. Before you start, confirm Pavao’s signing-key fingerprint through a separate channel you already trust.</p>
+          <code className="debian-signing-fingerprint">787A 2AAF B0D1 19CA 0522 B2A5 B9C9 9AF8 5788 96D0</code>
+          <p>Open Terminal. If you need curl or GnuPG, install them with <code>sudo apt install curl gnupg</code>. Paste the block below. It downloads the public key and signed checksum list from the <a href={nodeBuild.releaseUrl}>Node release</a>, verifies the signature in a temporary keyring, then checks your entire ISO against the signed entry and the recorded rebuild.</p>
+          <Commands title="Verify the Node signature and ISO" lines={[
+            "(",
+            "  set -eu",
+            '  cd "$HOME/Downloads"',
+            "  base=" + nodeBuild.repo + "/releases/download/" + nodeBuild.tag,
+            "  iso=" + nodeBuild.isoName,
+            "  expected=" + nodeBuild.sha256,
+            "  signer=787A2AAFB0D119CA0522B2A5B9C99AF8578896D0",
+            "  work=$(mktemp -d)",
+            '  trap \'rm -rf -- "$work"\' EXIT',
+            "  for file in SHA256SUMS SHA256SUMS.asc btcpavao-pgp.asc; do",
+            '    curl -fsSL --retry 2 -o "$work/$file" "$base/$file"',
+            "  done",
+            '  gpg --no-options --batch --homedir "$work" --dearmor \\',
+            '    --output "$work/release.gpg" "$work/btcpavao-pgp.asc"',
+            '  gpg --no-options --batch --homedir "$work" --no-default-keyring \\',
+            '    --keyring "$work/release.gpg" --no-auto-key-retrieve --assert-signer "$signer" \\',
+            '    --verify "$work/SHA256SUMS.asc" "$work/SHA256SUMS"',
+            '  grep -Fx "$expected  $iso" "$work/SHA256SUMS" | sha256sum --check --strict',
+            ")",
           ]} />
-          <p>Look for <strong>OK</strong> beside <code>{nodeBuild.isoName}</code>. If you see <strong>FAILED</strong>, download the ISO again from its release page and repeat the check before writing the USB.</p>
-          <p>The <a href={nodeBuild.releaseUrl}>release record</a> publishes this checksum and links to the builders’ byte comparisons. The checksum list for this image is currently unsigned.</p>
+          <p>Look for <strong>Good signature</strong> from <code>btcpavao</code> and <strong>OK</strong> next to your ISO’s filename. GnuPG can also show an uncertified-key warning in a fresh keyring. The command checks the full fingerprint above. If either check fails, stop before writing the USB.</p>
           <p>For an independent check, use the <a href={nodeBuild.sourceUrl}>matching project source</a> and follow the <a href={DEBIAN_IMAGE_VERIFICATION_PATH + "#rebuild-tutorial"}>step-by-step rebuild guide</a>. Its final comparison checks every byte of your local build against the ISO offered on this page.</p>
           <div className="signed-download-check__next">
             <a href="#install-node">Continue to Node setup on a spare disk</a>
