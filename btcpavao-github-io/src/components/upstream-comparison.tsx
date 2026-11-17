@@ -1,3 +1,4 @@
+import { nodeBuild } from "../iso-releases"
 import { useState } from "react"
 import { VerificationCommands } from "./verification-commands"
 
@@ -9,9 +10,9 @@ const images = {
     core: "usr/local/bin",
   },
   node: {
-    name: "Node v0.1.0-rc.2",
-    file: "bitcoin-core-node-v0.1.0-rc.2-core32.1-amd64.iso",
-    hash: "7934c3ddd2f39e126d6ed29b50be688ada25c50b60e37be60967bf1c6297ec0b",
+    name: "Node " + nodeBuild.tag,
+    file: nodeBuild.isoName,
+    hash: nodeBuild.sha256,
     core: "opt/bitcoin-core/32.1/bin",
   },
 }
@@ -34,7 +35,7 @@ export function UpstreamComparison() {
       </p>
       <ol>
         <li>
-          <strong>Authenticate your reference copies.</strong> Keep your signed and verified Vault or Node
+          <strong>Authenticate your reference copies.</strong> Keep your checksum-verified Vault or Node
           ISO in <code>~/Downloads</code>. Save both of the following upstream downloads there too.
           <ul>
             <li>

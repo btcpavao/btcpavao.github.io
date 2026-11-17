@@ -1,3 +1,4 @@
+import { nodeBuild } from "@/iso-releases"
 import { useEffect, useRef, useState } from "react"
 import { CalendarDays, Mail, MessageCircle } from "lucide-react"
 import { CurriculumQuestionForm } from "@/components/curriculum-question-form"
@@ -10,15 +11,15 @@ const standardLesson = (slug: string) => EN_BITCOIN_CORE_CURRICULUM_PATH + "#les
 const questions = [
   {
     question: "Will these images run on my computer?",
-    answer: "Both images are built for compatible 64-bit Intel and AMD computers. Apple Silicon Macs use a different processor. You can try Vault in Live RAM from a USB stick. Node RC2 is a test release that installs to a dedicated disk and erases its contents. Check the release notes for boot and hardware requirements.",
+    answer: "Both images are built for compatible 64-bit Intel and AMD computers. Apple Silicon Macs use a different processor. You can try Vault in Live RAM from a USB stick. The Node download is a reproducible test release that installs to a dedicated disk and erases its contents. Check the release notes for boot and hardware requirements.",
     links: [
       ["Vault release notes", "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.7.0"],
-      ["Node release notes", "https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.2"],
+      ["Current Node release", nodeBuild.releaseUrl],
     ],
   },
   {
     question: "How do I know I downloaded the file Pavao published?",
-    answer: "Before writing the USB, confirm Pavao’s public signing-key fingerprint through a separate channel you already trust. The guide then checks the signature on his list of file fingerprints and compares your ISO with its entry. A match means the downloaded bytes are the ones he signed for.",
+    answer: "For Vault, confirm Pavao’s signing-key fingerprint through a separate trusted channel, verify the signature on the checksums, then check your ISO. For Node, compare the SHA-256 of your download with the one recorded by the builders. Node’s checksum list is unsigned. You can also rebuild either ISO and compare the entire file with the one you downloaded.",
     links: [
       ["Check my Vault download", "#verify-vault-download"],
       ["Check my Node download", "#verify-node-download"],
@@ -26,7 +27,7 @@ const questions = [
   },
   {
     question: "Can someone I trust inspect the code and rebuild the ISO?",
-    answer: "Yes. The review guide identifies Pavao’s additions and links to the source for each release. Two builds run by this project matched the signed Vault v0.7.0 download byte for byte. For Node, the matching builds produced a separate unsigned comparison image. The signed Node RC2 download still has no demonstrated byte-for-byte rebuild.",
+    answer: "Yes. Both download buttons link to the exact ISOs reproduced by the project’s builders. The guide lists the source revision and inputs for each one, then shows how to build it on your own machine and compare every byte with your download.",
     links: [
       ["Inspect the code and build evidence", DEBIAN_IMAGE_VERIFICATION_PATH],
       ["Give the brief to my reviewer", DEBIAN_IMAGE_VERIFICATION_PATH + "#reviewer-brief"],
@@ -76,7 +77,7 @@ const questions = [
   },
   {
     question: "Does a review still apply after I update?",
-    answer: "A review refers to a specific release and the digital fingerprint of its ISO. When you change versions, check the new signature, read what changed and ask which parts were checked again. If a finding relevant to your wallet remains open, you can keep evaluating with test funds or ask a reviewer you choose to examine it.",
+    answer: "A review refers to a specific release and the digital fingerprint of its ISO. When you change versions, check the new checksum and any published signature, read what changed and ask which parts were checked again. If a finding relevant to your wallet remains open, you can keep evaluating with test funds or ask a reviewer you choose to examine it.",
     links: [["Give this release to my reviewer", DEBIAN_IMAGE_VERIFICATION_PATH + "#reviewer-brief"]],
   },
 ]
@@ -89,8 +90,8 @@ const contactTopics: Record<string, { section: string; lesson: string; prompt?: 
   "ask-boot": { section: vaultRelease, lesson: "Starting Vault in Live RAM" },
   "ask-wallet": { section: vaultRelease, lesson: "Creating an empty practice wallet" },
   "ask-feedback": { section: vaultRelease, lesson: "First-run feedback", prompt: "Which computer did you try, and how did it go?" },
-  "ask-node-setup": { section: "Bitcoin Core Node v0.1.0-rc.2", lesson: "Setting up a dedicated Node", prompt: "What would you like to know about setting up or using Node?" },
-  "ask-node-verify": { section: "Bitcoin Core Node v0.1.0-rc.2", lesson: "Checking the signed Node download" },
+  "ask-node-setup": { section: "Bitcoin Core Node " + nodeBuild.tag, lesson: "Setting up a dedicated Node", prompt: "What would you like to know about setting up or using Node?" },
+  "ask-node-verify": { section: "Bitcoin Core Node " + nodeBuild.tag, lesson: "Checking the reproducible Node download" },
 }
 
 export function IsoCustodyQuestions() {

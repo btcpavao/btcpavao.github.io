@@ -24,7 +24,7 @@ export function IsoLandingHero({ vaultIso, nodeIso }: { vaultIso: string; nodeIs
             </a>
             <a href={nodeIso}>
               <ArrowDownToLine size={18} aria-hidden="true" />
-              <span>Download Node ISO<small>RC2 · Online test release</small></span>
+              <span>Download Node ISO<small>Unsigned · Reproducible test ISO</small></span>
             </a>
           </nav>
           <div className="iso-hero-secondary">
@@ -41,9 +41,9 @@ export function IsoLandingHero({ vaultIso, nodeIso }: { vaultIso: string; nodeIs
             <img className="iso-workbench__node" src={nodeDesktop} alt="" width={1280} height={800} />
           </div>
           <figcaption>
-            <span>Open the actual desktops</span>
+            <span>Open the desktop screenshots</span>
             <a href={vaultDesktop}>Vault <ArrowUpRight size={14} aria-hidden="true" /></a>
-            <a href={nodeDesktop}>Node <ArrowUpRight size={14} aria-hidden="true" /></a>
+            <a href={nodeDesktop}>Node (RC2) <ArrowUpRight size={14} aria-hidden="true" /></a>
           </figcaption>
         </figure>
       </div>

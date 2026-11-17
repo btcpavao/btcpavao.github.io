@@ -2,17 +2,22 @@
 
 Use a separate Debian 13 **amd64** virtual machine. A VM is a disposable computer that runs inside your usual computer. Open its Terminal and run one block at a time. Downloading and checking an ISO takes no USB stick, wallet, or Bitcoin. The build instructions for each image list additional space and tools.
 
-To **build your own ISO** and check it against the signed Vault release or the public Node test candidate, [start at step 4](#4-build-on-a-clean-machine). To **inspect a signed release** or see what changed between versions, start at step 1.
+Both ISO downloads on [the project page](https://btcpavao.com/en/bitcoin-core/debian-images/) are reproducible. Choose your download and [build it from its exact revision in step 4](#4-build-on-a-clean-machine).
 
-A release has a version (for example, `v0.7.0`), an exact revision of its source code (the **commit**) and a fingerprint of the finished file (the **SHA-256**). A signed list called `SHA256SUMS` connects filenames to their SHA-256 values. To check a rebuild, calculate the SHA-256 of the ISO **you built** and compare it with the value signed for that same release.
+| Current download | Published SHA-256 of the complete ISO | Verification |
+| --- | --- | --- |
+| [Vault v0.7.0](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.7.0) | `1e1782d6dc1354585cf6ec941ed7d231f0e48adfc0cee3972af1eaf3483424bb` | Verify the OpenPGP-signed manifest, then compare the rebuilt ISO. |
+| [Node rebuild-e6519d7e5e95](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/rebuild-e6519d7e5e95) | `8efaf0fb4f05a7a59554855575e24e178f07a3629cea5c9b9bbe6e5f498691b6` | Verify the published SHA-256, then compare the rebuilt ISO. The current candidate manifest is unsigned. |
 
-## 1. Get the verification tool
+A release has a version (for example, `v0.7.0`), an exact revision of its source code (the **commit**) and a fingerprint of the finished file (the **SHA-256**). The release list `SHA256SUMS` connects filenames to their SHA-256 values. A publisher signature authenticates that list when available. To check a rebuild, calculate the SHA-256 of the ISO **you built** and compare every byte against the actual downloaded ISO.
+
+## 1. Get the signed-release verification tool
 
 In the VM, install the tools and open this guide's directory. The last command displays the small Python program so you can read what it will do. Use the arrow keys to scroll and press `q` to exit.
 
 ```sh
 sudo apt update
-sudo apt install git python3 gnupg curl less
+sudo apt install git python3 gnupg curl less patch
 git clone --depth 1 --filter=blob:none --sparse https://github.com/btcpavao/btcpavao.github.io.git verification-guide
 cd verification-guide
 git sparse-checkout set docs/debian-images
@@ -30,7 +35,19 @@ The program downloads the public key, manifest and detached signature for the ve
 
 ## 2. Download authenticated source files
 
-Run the line for the product you want to inspect. You can run both in the same directory.
+These two commands authenticate the signed Vault release and the historical signed RC2 **source** used as an input to today’s Node recipe. For the prepared source of the current Node download, use its own tag and apply the public build patch:
+
+```bash
+git clone --depth 1 --branch rebuild-e6519d7e5e95 https://github.com/btcpavao/bitcoin-core-node-releases.git node-source-review
+(
+  set -eu
+  cd node-source-review
+  test "$(git rev-parse HEAD)" = e6519d7e5e956aa62512294389a9db2cd0a60a96
+  bash rebuild/node source ../node-inspection
+)
+```
+
+The following commands inspect the signed archives. Run them in the verification guide directory where you opened `check_release.py`.
 
 ```sh
 python3 check_release.py vault v0.7.0
@@ -42,9 +59,9 @@ Look for `OK` or `Verified existing file` beside the source archive and a final 
 | Published image | Source revision recorded by its signed files | Release |
 | --- | --- | --- |
 | Vault v0.7.0 | `5346a0db977049a028429482ff943619c52009c4` | [Vault files](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.7.0) |
-| Node v0.1.0-rc.2 | `0d43a61e82ab1a0ee86a0b916d1215f31f4502e3` | [Node files](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.2) |
+| Historical Node v0.1.0-rc.2 (base source) | `0d43a61e82ab1a0ee86a0b916d1215f31f4502e3` | [Node files](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.2) |
 
-To check a downloaded ISO, save it in your VM's Downloads folder and run the matching line. The program prints the expected release filename and the SHA-256 it computed from your local file. A mismatch exits with an error. If you are only reading the source, skip the ISO download.
+To check the signed Vault ISO or an archived copy of the older signed Node RC2 ISO, save it in your VM's Downloads folder and run the matching line. For the current Node ISO use the fingerprint and comparison in steps 4–5. The program prints the expected release filename and the SHA-256 it computed from your local file. A mismatch exits with an error. If you are only reading the source, skip the ISO download.
 
 ```sh
 python3 check_release.py vault v0.7.0 --iso ~/Downloads/bitcoin-core-vault-v0.7.0-amd64.iso
@@ -86,24 +103,25 @@ For these two `git diff --no-index` commands, exit code 1 means differences were
 
 ### Check a file inside the downloaded ISO
 
-You can compare application files without booting or installing the image. For example, these commands compare Node's chain-backup code with the signed source archive. Run step 2 for Node first and verify the downloaded ISO with `--iso`. From the guide directory, use a new working folder:
+To check the current Node download's chain-backup code before booting it, prepare its `node-inspection` source in step 2 and save the ISO in Downloads. From the directory containing `node-inspection`, run:
 
-```sh
+```bash
 sudo apt install xorriso squashfs-tools
 (
   set -eu
-  mkdir inspect-node
-  xorriso -osirrox on -indev ~/Downloads/bitcoin-core-node-v0.1.0-rc.2-core32.1-amd64.iso -extract /live/filesystem.squashfs inspect-node/filesystem.squashfs
-  unsquashfs -cat inspect-node/filesystem.squashfs usr/lib/bitcoin-core-node/chain_backup.py > inspect-node/from-iso.py
-  tar -xOzf release-checks/node/v0.1.0-rc.2/bitcoin-core-node-v0.1.0-rc.2-source.tar.gz bitcoin-core-node-v0.1.0-rc.2/app/chain_backup.py > inspect-node/from-source.py
-  cmp inspect-node/from-source.py inspect-node/from-iso.py
-  echo "The source archive and ISO contain identical chain-backup code."
+  iso="$HOME/Downloads/bitcoin-core-node-rebuild-e6519d7e5e95-core32.1-amd64.iso"
+  printf '%s  %s\n' 8efaf0fb4f05a7a59554855575e24e178f07a3629cea5c9b9bbe6e5f498691b6 "$iso" | sha256sum --check
+  work=$(mktemp -d "$HOME/inspect-node.XXXXXX")
+  xorriso -osirrox on -indev "$iso" -extract /live/filesystem.squashfs "$work/payload.squashfs"
+  unsquashfs -cat "$work/payload.squashfs" usr/lib/bitcoin-core-node/chain_backup.py > "$work/from-iso.py"
+  cmp node-inspection/app/chain_backup.py "$work/from-iso.py"
+  echo "The prepared Node source and the downloaded ISO contain identical chain-backup code."
 )
 ```
 
 For Vault v0.7.0, the same method works for the code that checks signed PSBTs and watch-only wallets before writing them to a mounted transfer drive. The ISO path is `usr/lib/core-vault/public_export.py`. Its source archive member is `bitcoin-core-vault-v0.7.0-source/config/includes.chroot/usr/lib/core-vault/public_export.py`.
 
-To check the full set of regular files the project copies into the system, run either line after step 2. The tool rechecks the ISO and the source archive against the same signed manifest before opening either. Keep 2 GiB free for temporary files per run.
+For the signed Vault release and the archived signed Node RC2, the verifier also checks the mapped regular files. Run the matching line after step 2. The tool rechecks the ISO and the source archive against the same signed manifest before opening either. Keep 2 GiB free for temporary files per run.
 
 ```sh
 python3 check_release.py vault v0.7.0 --iso ~/Downloads/bitcoin-core-vault-v0.7.0-amd64.iso --inspect
@@ -121,7 +139,7 @@ The comparison checks the contents of the paths supplied by the source archive. 
 
 **Vault v0.7.0.** The build recipe targets the same ISO distributed with the signed release. Authenticate the downloaded ISO in step 2, then compare your own build with it.
 
-**Node v0.1.0-rc.2.** The signed Node release was prepared with an earlier image and Debian packages from changing repositories. To test a repeatable build, use the separate Node candidate and its checksum below.
+**Node rebuild-e6519d7e5e95.** The current Node download is the candidate built by the recipe below. Its recipe starts with the signed RC2 source archive and pins the build environment, Debian packages and upstream inputs. Compare the finished ISO with this candidate’s published file.
 
 ### Prepare your build VM
 
@@ -172,15 +190,22 @@ The recipe authenticates Node's RC2 project sources, applies its public changes 
 
 **Node.** Open [the build recipe changes](https://github.com/btcpavao/bitcoin-core-node-releases/pull/1/files). The file `rebuild/node.patch` shows each change applied to the signed RC2 sources. To read the finished sources before building, run `bash rebuild/node source ../node-inspection` in your checked-out candidate directory and open the resulting folder. Node also includes upstream firmware packages. Those packages can be identified and hashed even where the vendor does not publish their source.
 
-Each recipe links to a public revision and checksum record. The Node candidate also links to its byte comparison. Authenticate the signed Vault download in step 2. The Node candidate has a published checksum, while the separate Node RC2 download has a signed manifest.
+Each recipe links to a public revision and a checksum for the current download. Authenticate Vault’s signed manifest in step 2. The Node candidate currently supplies an unsigned manifest and public build comparisons.
 
 ## 5. Compare the finished images and report the result
 
 In each builder's Terminal type `sha256sum ` (including a space), drag the ISO **from the build output folder** into the Terminal, then press Enter. Record all 64 characters. If both files are on one machine you can also run `cmp first.iso second.iso` with their actual paths. Exit code 0 means every byte matched. Two builds on one provider test repeatability there. A second person using their own machine can provide independent confirmation.
 
-Download the Vault v0.7.0 release ISO or the Node candidate ISO for the exact tag you built. Compare its SHA-256 with the value in step 4 and run `cmp` on the downloaded ISO and your local build. A successful comparison establishes that both files contain the same bytes. See the [website rebuild tutorial](https://btcpavao.com/en/bitcoin-core/debian-images/verification/#rebuild-tutorial).
+Save your chosen ISO from the main download button in Downloads. From the directory containing the `vault-result` or `node-result` build folder, run the relevant line:
 
-For the signed Vault v0.7.0 or Node v0.1.0-rc.2 download, return to the guide directory and use `python3 check_release.py PRODUCT TAG --iso "/path/to/your/downloaded.iso"` with the actual product, version and path. The tool verifies the publisher’s signature on the checksum list and compares your file with the entry for that release. See [how to verify a signed download](https://btcpavao.com/en/bitcoin-core/debian-images/#verify-download).
+```bash
+cmp vault-result/bitcoin-core-vault-amd64.iso "$HOME/Downloads/bitcoin-core-vault-v0.7.0-amd64.iso" && echo "MATCH: Vault"
+sudo cmp node-result/bitcoin-core-node-candidate-amd64.iso "$HOME/Downloads/bitcoin-core-node-rebuild-e6519d7e5e95-core32.1-amd64.iso" && echo "MATCH: Node"
+```
+
+A successful comparison establishes that your machine reproduced the actual download. See the [website rebuild tutorial](https://btcpavao.com/en/bitcoin-core/debian-images/verification/#rebuild-tutorial) for a single comparison block per product that also downloads and checks the published ISO.
+
+For signed Vault v0.7.0 or a historical copy of Node v0.1.0-rc.2, return to the guide directory and use `python3 check_release.py PRODUCT TAG --iso "/path/to/your/downloaded.iso"` with the actual product, version and path. The tool verifies the publisher’s signature on the checksum list and compares your file with the entry for that release. See [how to verify a signed download](https://btcpavao.com/en/bitcoin-core/debian-images/#verify-download).
 
 If any hashes differ, keep both files, record the expected and actual digests and keep the build logs. On a disposable VM with both files, install `diffoscope` and run `diffoscope --text differences.txt first.iso second.iso` with the actual paths. It opens nested filesystems and identifies the first meaningful differences. A timestamp difference still changes the ISO.
 

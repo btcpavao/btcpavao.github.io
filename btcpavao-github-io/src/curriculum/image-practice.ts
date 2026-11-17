@@ -19,8 +19,8 @@ type ImageLesson = {
 const downloads = "/en/bitcoin-core/debian-images/"
 const course = "/en/bitcoin-core/self-custody/#lesson/"
 const imageCourse = "/en/bitcoin-core/self-custody/?setup=vault-node#lesson/"
-const signedCheck = { label: "Check a signed ISO", href: downloads + "#verify-download" }
-const rebuild = { label: "Rebuild Vault or the Node comparison image", href: DEBIAN_IMAGE_VERIFICATION_PATH + "#rebuild-tutorial" }
+const downloadCheck = { label: "Check your Vault or Node ISO", href: downloads + "#verify-download" }
+const rebuild = { label: "Rebuild the Vault or Node download", href: DEBIAN_IMAGE_VERIFICATION_PATH + "#rebuild-tutorial" }
 const nativeExport = {
   label: "Core 32.1 watch-only export on Vault",
   href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.7.0/docs/WATCH-ONLY.md",
@@ -61,7 +61,7 @@ export const imagePractice: Record<string, ImageLesson> = {
       title: "Read a successful signature and a rejected file",
       instructions: ["Compare the BTC Pavao key fingerprint through a channel you already trust. In the wrong-file example, GnuPG accepts the signature on the checksum list, then the verifier rejects the file you selected. Identify which check passed and which one stopped the process."],
       result: "You can distinguish the publisher’s identity, the downloaded bytes and an independent rebuild. Each answers a different question.",
-      links: [signedCheck, rebuild],
+      links: [downloadCheck, rebuild],
     },
   },
   "debian-setup": {
@@ -69,8 +69,8 @@ export const imagePractice: Record<string, ImageLesson> = {
       "verify-image": {
         role: "Vault and Node",
         title: "If you downloaded a prepared ISO",
-        instructions: ["Use the signed check for the exact file you selected: Vault v0.7.0 or Node v0.1.0-rc.2. Find the full signer fingerprint and the OK line for that ISO. The Debian installer in the main exercise has its own publisher and signature."],
-        links: [signedCheck],
+        instructions: ["For Vault v0.7.0, confirm Pavao’s key fingerprint, verify the checksum list signature, then compare the ISO’s SHA-256. For the reproducible Node test image, compare the whole ISO’s SHA-256 with the value from the matching builds. The guide gives the command and expected result for each download."],
+        links: [downloadCheck, rebuild],
       },
       "boot-install-clean-v42": {
         role: "Vault and Node",
@@ -85,8 +85,8 @@ export const imagePractice: Record<string, ImageLesson> = {
       signature: {
         role: "Vault and Node",
         title: "Who signed which download?",
-        instructions: ["The builders in this exercise attest to the upstream Bitcoin Core release. BTC Pavao signs the checksums for the complete prepared Debian images, which also contain the desktop, installer and project tools. Follow the signed image guide if that is the file you have."],
-        links: [signedCheck],
+        instructions: ["The builders in this exercise attest to the upstream Bitcoin Core release. Pavao’s signature on Vault’s checksum list authenticates the complete Vault image, including the desktop, installer and project tools. The screenshot shows an earlier signed Node release. For the current Node download, follow its checksum and rebuild instructions."],
+        links: [downloadCheck, rebuild],
       },
     },
   },
@@ -192,7 +192,7 @@ export const imagePractice: Record<string, ImageLesson> = {
       role: "Vault",
       title: "Rehearse with an empty Vault wallet",
       instructions: ["The signed Vault v0.7.0 image runs Core 32.1 inside its protected offline launcher. Use an unfunded disposable wallet to practise backup, shutdown and restoration. For the funded Signet exercise, use the standard Core path unless you have separately verified a matching practice network on both computers. The Vault screenshots follow an unfunded wallet with a single GPG backup layer across a guest OS restart. For your own drill, also encrypt the wallet in Core and perform the full shutdown below."],
-      links: [signedCheck],
+      links: [downloadCheck],
     },
     steps: {
       "debian-preparation": {
@@ -313,7 +313,7 @@ export const imagePractice: Record<string, ImageLesson> = {
       card: {
         role: "Vault and Node", title: "Write down how the next person recognizes success",
         instructions: ["Record the image versions, where to find the authenticated downloads, which machine handles each file and how to recognize a completed restore. Record pointers to the separate recovery arrangements. Keep the private wallet, passwords and private descriptors out of the procedure."],
-        links: [signedCheck, independentRecovery],
+        links: [downloadCheck, independentRecovery],
       },
     },
   },

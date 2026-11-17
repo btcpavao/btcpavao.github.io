@@ -23,7 +23,7 @@ export const captures = {
     src: "/software/screenshots/verification/node-signed.webp", width: 1192, height: 448,
     context: "Node v0.1.0-rc.2 · signed ISO",
     alt: "The Node ISO checksum is shown beside an OK result.",
-    caption: "This signature authenticates the prepared Node ISO. The upstream Bitcoin Core archive has its own verification procedure.",
+    caption: "This example verifies the earlier signed RC2 download. Use the checksum published for the Node image you have.",
   },
   "vault-home": {
     src: "/software/screenshots/vault/v0.6.0/home.webp", width: 1280, height: 800,

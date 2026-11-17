@@ -1473,9 +1473,11 @@ function ArchitectureDiagram({ onOpen }: { onOpen: (image: GuideImage, opener: H
       </h2>
       <p className="mt-5 max-w-3xl leading-8 text-muted-foreground">
         This optional two-computer exercise comes after the single-wallet restore.
-        Vault v0.7.0 holds the private signing wallet offline. Node v0.1.0-rc.2 is the
-        online release candidate for tracking payments, preparing proposals and broadcasting.
-        Both include Core 32.1.
+        Vault v0.7.0 holds the private signing wallet offline. The reproducible Node
+        test image tracks payments, prepares proposals and broadcasts signed transactions
+        online. <ResourceLink href={DEBIAN_IMAGES_PATH + "#verify-node-download"}>Check the Node download</ResourceLink> before installation.
+        Both include Bitcoin Core 32.1. The Node screenshots in this exercise
+        were taken on v0.1.0-rc.2.
       </p>
       <ol className="mt-7 grid gap-4">
         <li className="rounded-[20px] bg-card p-5 shadow-[var(--shadow-border)]">

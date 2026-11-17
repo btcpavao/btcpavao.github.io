@@ -1,3 +1,4 @@
+import { nodeBuild } from "./iso-releases"
 import { LegacyVerificationLinks } from "./components/legacy-verification-links"
 import { DEBIAN_IMAGE_VERIFICATION_PATH } from "./routes"
 import { Archive, LockKeyhole } from "lucide-react"
@@ -16,8 +17,6 @@ import { SiteFooter } from "@/components/site-footer"
 const lesson = (slug: string) => `/en/bitcoin-core/self-custody/#lesson/${slug}`
 
 const vaultRelease = "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.7.0"
-const nodeRelease = "https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.2"
-const nodeIso = "https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.2/bitcoin-core-node-v0.1.0-rc.2-core32.1-amd64.iso"
 const vaultIso = "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.7.0/bitcoin-core-vault-v0.7.0-amd64.iso"
 
 
@@ -175,17 +174,18 @@ function ReleaseDownloads() {
           </div>
         </article>
         <article id="node-release" className="debian-download-panel" aria-labelledby="node-download-heading">
-          <p className="debian-images-eyebrow">Signed test release · v0.1.0-rc.2</p>
+          <p className="debian-images-eyebrow">Reproducible test ISO · {nodeBuild.tag}</p>
           <h3 id="node-download-heading">Bitcoin Core Node</h3>
           <p>Verify Bitcoin and prepare payments online with Bitcoin Core 32.1 on Debian 13. Installation erases the selected drive. Use a disposable wallet for testing.</p>
           <nav className="debian-release-links" aria-label="Node download and verification">
-            <a href={nodeIso}>Download Node ISO</a>
+            <a href={nodeBuild.isoUrl}>Download Node ISO</a>
             <a href="#verify-node-download">Check my Node download</a>
           </nav>
-          <p>You can verify the RC2 signature and checksum. The recorded rebuild matches a separate, unsigned comparison image. A byte-for-byte rebuild of the signed download has yet to be demonstrated.</p>
+          <p>Two clean GitHub builders produced this exact ISO, and a second pair reproduced the same bytes. The release includes its build instructions and SHA-256. Its checksum list is unsigned.</p>
           <div className="iso-evidence-links">
-            <a href={nodeRelease}>Signed files and test results</a>
-            <a href={DEBIAN_IMAGE_VERIFICATION_PATH + "#rebuild-tutorial"}>See which Node image was rebuilt</a>
+            <a href={nodeBuild.releaseUrl}>Release files and checksums</a>
+            <a href={nodeBuild.proofUrl}>See the full-file comparison</a>
+            <a href={DEBIAN_IMAGE_VERIFICATION_PATH + "#rebuild-tutorial"}>Rebuild this Node ISO</a>
             <a href="#node-setup">Install Node on a spare disk</a>
           </div>
         </article>
@@ -238,7 +238,7 @@ export function DebianImagesPage() {
       </a>
       <SiteHeader />
       <main id="main-content" className="debian-images-page iso-landing">
-        <IsoLandingHero vaultIso={vaultIso} nodeIso={nodeIso} />
+        <IsoLandingHero vaultIso={vaultIso} nodeIso={nodeBuild.isoUrl} />
         <LegacyVerificationLinks />
         <IsoOriginStory />
         <IsoSystemRoles />
@@ -431,7 +431,7 @@ export function DebianImagesPage() {
               wallets and selected portable configuration to removable media.
             </p>
             <p>
-              Node v0.1.0-rc.2 includes a practical 19-chapter guide for the
+              This Node build includes the practical 19-chapter guide from RC2 for the
               watch-only wallet, PSBT signing and recovery workflow. Backups
               in all four Backup and Restore categories finish after writing
               and flushing, without a separate USB read-back pass. Restore

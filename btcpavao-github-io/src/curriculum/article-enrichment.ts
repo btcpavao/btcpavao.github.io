@@ -66,7 +66,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "1.5": {
     image:
-      "Bitcoin Core Vault v0.7.0 is published for offline wallet work and GPG backups, and the dedicated online Bitcoin Core Node v0.1.0-rc.2 is available as a test release. Both have downloadable ISO images, release metadata and signed checksum manifests. Verify the fingerprint and test recovery before relying on either image.",
+      "Bitcoin Core Vault v0.7.0 handles offline wallet work and GPG backups. The Node test image runs your online node. You can rebuild either ISO from its published recipe and compare it with the download. Check Vault’s signed checksum list and Node’s full ISO checksum in the downloads guide.",
     reading: ["simpler"],
   },
   "software-continuity": {
@@ -83,7 +83,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "debian-setup": {
     image:
-      "Download verified Debian 13 ISO releases for Bitcoin Core Vault v0.7.0 (offline wallet work in a private RAM session) and Bitcoin Core Node v0.1.0-rc.2 (installed online node retaining blockchain and watch-only data). Follow the release page for signed checksums and recovery guidance. You can also install stock Debian and Bitcoin Core directly using the steps below.",
+      "The Debian 13 images give you an offline Vault with a private RAM session and a dedicated online Node that retains its blockchain and watch-only wallet. The download page links each ISO to its checksum and reproducible build instructions. You can also install stock Debian and Bitcoin Core directly using the steps below.",
   },
   "generate-passphrase": {
     image:
@@ -116,7 +116,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "2.4": {
     image:
-      "Bitcoin Core Node is available as a test release for validation, the watch-only wallet, PSBT preparation and broadcast, without a browser, email client or unrelated applications. Bitcoin Core Vault provides the separate offline environment for signing keys. The Debian images page links to both releases and their signed checksums.",
+      "Bitcoin Core Node is available as a test release for validation, the watch-only wallet, PSBT preparation and broadcast, without a browser, email client or unrelated applications. Bitcoin Core Vault provides the separate offline environment for signing keys. The Debian images page links to each download, its verification steps and its rebuild recipe.",
   },
   "offline-device": {
     image:

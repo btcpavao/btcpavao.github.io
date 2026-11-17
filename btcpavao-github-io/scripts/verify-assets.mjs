@@ -1213,6 +1213,22 @@ assertStructuredDataIsValid(
 assertStructuredDataIsValid(longRoadArticleRouteHtml, "The Long Road article")
 assertStructuredDataIsValid(bip39ArticleRouteHtml, "The BIP39 article")
 
+// Compare the actual download buttons with the URLs assembled by the published rebuild commands.
+const isoRoutes = "dist/en/bitcoin-core/debian-images/"
+const [isoDownloadsHtml, isoVerificationHtml] = await Promise.all(
+  ["index.html", "verification/index.html"].map(file => readFile(new URL(isoRoutes + file, root), "utf8"))
+)
+const downloadButtons = isoDownloadsHtml.match(/<nav[^>]*aria-label="Download the ISO images"[^>]*>([\s\S]*?)<\/nav>/)?.[1]
+assert(downloadButtons, "The main Vault and Node download buttons are missing")
+const downloadUrls = [...downloadButtons.matchAll(/href="([^"]+\.iso)"/g)].map(match => match[1])
+const comparedUrls = [...isoVerificationHtml.matchAll(/^\s*base=(https:\/\/[^\s]+)\s+image=([^\s]+\.iso)$/gm)]
+  .map(([, base, image]) => base + "/" + image)
+for (const product of ["vault", "node"]) {
+  const matches = downloadUrls.filter(url => url.includes("/bitcoin-core-" + product + "-releases/"))
+  assert(matches.length === 1 && comparedUrls.includes(matches[0]),
+    "The main " + product + " download must match an ISO in the build-and-compare instructions")
+}
+
 const entryScriptMatch = distIndexHtml.match(
   /<script type="module" crossorigin src="([^"]+)"><\/script>/
 )
