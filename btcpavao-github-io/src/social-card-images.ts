@@ -10,6 +10,7 @@ export type SocialCardImageKey =
   | "default"
   | "workflow"
   | "learning"
+  | "debianImages"
   | "bitcoinCore"
   | "longRoad"
   | "walletGuide"

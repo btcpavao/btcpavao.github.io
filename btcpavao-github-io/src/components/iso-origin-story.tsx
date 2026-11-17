@@ -10,13 +10,13 @@ const reports = [
     url: "https://blog.coinkite.com/coldcard-mk3-seed-generation-warning/",
   },
   {
-    date: "2026-08-13", month: "13 August", title: "Trezor buyers’ shipping data exposed",
-    text: "A breach at fulfillment provider ShipMonk exposed customer names and contact details, including delivery addresses.",
+    date: "2026-08-13", month: "13 August", title: "Shipping records exposed for some Trezor buyers",
+    text: "Trezor said a breach at ShipMonk, one of its shipping companies, exposed customers’ contact details. For some buyers, these included their delivery address.",
     url: "https://trezor.io/blog/news/recent-customer-data-exposed-in-shipping-provider-incident",
   },
   {
-    date: "2026-09-10", month: "10 September", title: "Phishing from a real mailing list",
-    text: "A fake security alert sent through Trezor’s newsletter provider directed readers to an app that asked for their wallet backup.",
+    date: "2026-09-10", month: "10 September", title: "Phishing through Trezor’s newsletter",
+    text: "Trezor reported that someone used its account at Brevo, its newsletter provider, to send readers a fake alert. It led to an app that asked for their wallet backup.",
     url: "https://trezor.io/blog/news/security-incident-at-brevo-our-third-party-email-provider",
   },
   {
@@ -59,11 +59,9 @@ export function IsoOriginStory() {
           <p className="iso-origin-links"><a href="/en/bitcoin-core/hardware-wallets-are-an-economic-security-failure/">The economics of targeting wallet buyers</a><a href="https://www.microsoft.com/investor/reports/ar22/index.html">Microsoft’s device count</a></p>
         </div>
       </div>
-      <div className="iso-origin-reports">
-        <div>
-          <h3>What manufacturers reported in 2026</h3>
-          <p>From July through November, the manufacturers documented theft, exposure of buyer information and tampering in reseller channels.</p>
-        </div>
+      <details className="iso-origin-reports">
+        <summary>Five 2026 incident reports from Coinkite, Trezor and Ledger</summary>
+        <p>The dates below are when a manufacturer published or updated its report.</p>
         <ul>
           {reports.map((report) => (
             <li key={report.date}>
@@ -75,7 +73,7 @@ export function IsoOriginStory() {
             </li>
           ))}
         </ul>
-      </div>
+      </details>
       <div className="iso-origin-backup">
         <h3>Why I chose a wallet file over seed words</h3>
         <div className="iso-origin-prose">

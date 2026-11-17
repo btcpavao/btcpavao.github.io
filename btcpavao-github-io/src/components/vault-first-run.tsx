@@ -3,6 +3,7 @@ import { Clipboard, MessageCircle, Smartphone } from "lucide-react"
 import { BITCOIN_CORE_WALLET_GUIDE_PATH } from "@/routes"
 import { SITE_URL } from "@/site-config"
 import { DEBIAN_IMAGES_PATH } from "./debian-images-notice"
+import { EtcherUsbSteps } from "./etcher-usb-steps"
 import { SignedDownloadCheck } from "./signed-download-check"
 import { ZoomableImage } from "./zoomable-image"
 import "./vault-first-run.css"
@@ -55,8 +56,13 @@ function StepImage({ shot, caption }: { shot: FirstRunShot; caption: string }) {
 export function VaultFirstRun({ vaultIso }: { vaultIso: string }) {
   return (
     <section className="vault-first-run" id="first-run" aria-labelledby="first-run-heading">
-      <h2 id="first-run-heading">Start Vault for the first time</h2>
-      <p>You’ll need a USB stick you can erase and a spare 64-bit Intel or AMD computer. Prepare the USB on your everyday computer. The spare computer stays offline while you create an empty wallet and display its first receiving address. You can do this before downloading the blockchain.</p>
+      <h3 id="first-run-heading" className="text-xl font-semibold">What you need for the Vault trial</h3>
+      <ul className="my-3 max-w-prose list-disc space-y-1 pl-5 leading-7">
+        <li>A spare <strong>64-bit Intel or AMD computer</strong> to run Vault offline.</li>
+        <li>A <strong>USB stick you can erase</strong> for the boot image. Prepare it on a Windows, macOS or Debian computer.</li>
+        <li>A <strong>separate backup drive</strong> if you want to keep the practice wallet after shutdown.</li>
+      </ul>
+      <p>You can create an unfunded wallet and see your first receiving address in Live RAM without installing Vault or downloading the blockchain.</p>
       <ol className="first-run-steps" role="list">
         <li>
           <h3><span aria-hidden="true">1</span> Verify your copy of Vault</h3>
@@ -67,9 +73,10 @@ export function VaultFirstRun({ vaultIso }: { vaultIso: string }) {
           <h3><span aria-hidden="true">2</span> Write the verified ISO to a USB stick</h3>
           <div className="first-run-row">
             <div>
-              <p><strong>Writing the image erases the entire selected drive.</strong> Unplug any backup drives. Connect the USB stick you set aside and check its model and capacity.</p>
-              <p>On a Debian 13 desktop with <a href="https://apps.gnome.org/DiskUtility/">GNOME Disks</a>, right-click the verified ISO and choose <strong>Open With → Disk Image Writer</strong>. In <strong>Restore Disk Image</strong>, choose the USB stick under <strong>Destination</strong>. Check its model and capacity again, then choose <strong>Start Restoring…</strong> and confirm with <strong>Restore</strong>.</p>
-              <p>Wait for writing to finish, then safely eject the stick. If you verified in a virtual machine, the computer running Disks must have access to the actual USB stick and the same verified file.</p>
+              <p><strong>Writing the image erases the entire selected drive.</strong> Unplug your backup drives and connect the boot USB.</p>
+              <EtcherUsbSteps />
+              <p><strong>On Debian 13,</strong> right-click the verified ISO and choose <strong>Open With → Disk Image Writer</strong> in <a href="https://apps.gnome.org/DiskUtility/">GNOME Disks</a>. Under <strong>Destination</strong>, match the USB stick by model and capacity. Choose <strong>Start Restoring…</strong> and confirm with <strong>Restore</strong>. Safely eject the stick when writing finishes.</p>
+              <p>If you verified in a virtual machine, write the same verified file from a system with access to your USB stick.</p>
               <AskAboutStep href="#ask-usb" label="Ask Pavao about the USB" />
             </div>
             <StepImage shot={{
@@ -98,12 +105,12 @@ export function VaultFirstRun({ vaultIso }: { vaultIso: string }) {
           </div>
         </li>
         <li id="practice-wallet">
-          <h3><span aria-hidden="true">4</span> Create an empty wallet and see your first address</h3>
+          <h3><span aria-hidden="true">4</span> Create a practice receiving address</h3>
           <div className="first-run-row">
             <div>
               <p>Open <strong>Bitcoin Core</strong> from the Vault desktop and choose <strong>File → Create Wallet…</strong>. Name it <strong>Practice Wallet</strong>. For the disposable wallet shown here, leave the defaults and click <strong>Create</strong>. To practise wallet encryption too, select <strong>Encrypt Wallet</strong> before clicking Create and set a fresh practice passphrase.</p>
               <p>Open <strong>Receive</strong>, enter <strong>Recovery check</strong> in the Label field and click <strong>Create new receiving address</strong>.</p>
-              <p>When Core displays your address, you have finished the first run. Leave the address unfunded. The wallet in this live session disappears when you shut down.</p>
+              <p>Leave this address unfunded. Record the address and label if you want to test your backup in the next step.</p>
               <AskAboutStep href="#ask-wallet" label="Ask Pavao about the practice wallet" />
             </div>
             <StepImage shot={{
@@ -118,8 +125,8 @@ export function VaultFirstRun({ vaultIso }: { vaultIso: string }) {
           <h3><span aria-hidden="true">5</span> Keep an encrypted wallet backup</h3>
           <div className="first-run-row">
             <div>
-              <p>Record the practice receiving address and its label. Connect a separate backup drive and open <strong>Wallet Backup</strong>. Choose the practice wallet, select your backup drive under <strong>Save to</strong> and set a backup passphrase.</p>
-              <p>Before shutting down, check that the encrypted file is on the backup drive. Keep the passphrase separately. Practise restoring the backup in a fresh offline session and compare the address with the one you recorded.</p>
+              <p>Connect the separate backup drive and open <strong>Wallet Backup</strong>. Choose your practice wallet, select the backup drive under <strong>Save to</strong> and set a backup passphrase.</p>
+              <p>Before shutting down, check that the encrypted file is on the drive. Store the backup passphrase separately from the file. If you selected <strong>Encrypt Wallet</strong> in Core, keep its passphrase too. In a fresh offline session, restore the wallet and look for the address and label you recorded.</p>
               <a href={BITCOIN_CORE_WALLET_GUIDE_PATH + "?setup=vault#step-7"}>Follow the backup and recovery exercise</a>
             </div>
             <StepImage shot={{
@@ -131,11 +138,10 @@ export function VaultFirstRun({ vaultIso }: { vaultIso: string }) {
         </li>
       </ol>
       <div className="first-run-followup">
-        <h3>Did Vault start on your computer?</h3>
-        <a className="first-run-feedback" href="#ask-feedback"><MessageCircle size={18} aria-hidden="true" /> Tell Pavao how it went</a>
         <nav className="first-run-links" aria-label="More practice">
           <a href="#node-setup">Set up the online Node</a>
           <a href="#practice-without-funds">See how offline signing works</a>
+          <AskAboutStep href="#ask-feedback" label="Tell Pavao how the Vault trial went" />
         </nav>
       </div>
     </section>

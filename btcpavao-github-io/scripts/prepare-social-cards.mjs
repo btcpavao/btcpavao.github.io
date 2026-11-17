@@ -18,6 +18,7 @@ const sources = {
 
   homepage: "btcpavao-home-share-v3.jpg",
   default: "og-image-v2.jpg",
+  debianImages: "software/illustrations/origin/two-computer-workbench.webp",
   bitcoinCore: "bitcoin-core-entropija-cover-v2-share.jpg",
   longRoad: "long-road-bitcoin-core-cover-share.jpg",
   walletGuide: "bitcoin-core-wallet-guide/10-backup-wallet-menu.webp",

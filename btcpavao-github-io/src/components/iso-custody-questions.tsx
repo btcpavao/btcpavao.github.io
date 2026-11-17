@@ -1,4 +1,4 @@
-import { nodeBuild } from "@/iso-releases"
+import { nodeBuild, vaultBuild } from "@/iso-releases"
 import { useEffect, useRef, useState } from "react"
 import { CalendarDays, Mail, MessageCircle } from "lucide-react"
 import { CurriculumQuestionForm } from "@/components/curriculum-question-form"
@@ -11,10 +11,10 @@ const standardLesson = (slug: string) => EN_BITCOIN_CORE_CURRICULUM_PATH + "#les
 const questions = [
   {
     question: "Will these images run on my computer?",
-    answer: "Both images are built for compatible 64-bit Intel and AMD computers. Apple Silicon Macs use a different processor. You can try Vault in Live RAM from a USB stick. The Node download is a reproducible test release that installs to a dedicated disk and erases its contents. Check the release notes for boot and hardware requirements.",
+    answer: "Both images boot on compatible 64-bit Intel or AMD computers. You can prepare the USB on an Apple Silicon Mac, but the images cannot boot on its ARM processor. Start with one spare PC to try Vault in Live RAM. Node needs a second machine with a disk you can erase. For Intel Macs with T2 chips, Secure Boot or specific Wi-Fi adapters, check the hardware notes for your release.",
     links: [
-      ["Vault release notes", "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.7.0"],
-      ["Current Node release", nodeBuild.releaseUrl],
+      ["Vault release notes", vaultBuild.releaseUrl],
+      ["Node hardware and boot notes", nodeBuild.repo + "/blob/" + nodeBuild.revision + "/README.md"],
     ],
   },
   {
@@ -82,7 +82,7 @@ const questions = [
   },
 ]
 
-const vaultRelease = "Bitcoin Core Vault v0.7.0"
+const vaultRelease = "Bitcoin Core Vault " + vaultBuild.tag
 const contactTopics: Record<string, { section: string; lesson: string; prompt?: string }> = {
   "ask-pavao": { section: "Vault and Node download guide", lesson: "General question", prompt: "What would you like to know before trying Vault or Node?" },
   "ask-verify": { section: vaultRelease, lesson: "Checking the signed Vault download" },

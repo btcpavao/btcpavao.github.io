@@ -34,7 +34,7 @@ export function IsoBackupStory() {
 
       <div className="iso-backup-drill">
         <FileKey2 aria-hidden="true" />
-        <p><strong>Practise putting the pieces back together.</strong> Make spare copies of each part and store them so a single loss leaves a complete recovery path, and a single keeper cannot assemble it. On a fresh offline computer, bring one copy of each part together, decrypt the file and restore it in Bitcoin Core. Test signing with the recovered wallet.</p>
+        <p><strong>Practise putting the pieces back together.</strong> Make spare copies of each part and store them so a single loss leaves a complete recovery path, and a single keeper cannot assemble it. On a fresh offline computer, bring one copy of each part together, decrypt the file and restore it in Bitcoin Core. Test signing with the recovered wallet. <a href="#practice-recovery">See the recovery exercise</a>.</p>
       </div>
     </section>
   )

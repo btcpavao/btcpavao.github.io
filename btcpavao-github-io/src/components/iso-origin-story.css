@@ -5,7 +5,7 @@
   scroll-margin-block-start: 6rem;
 }
 
-.iso-origin :is(.iso-origin-intro, .iso-origin-backup, .iso-origin-reports) {
+.iso-origin :is(.iso-origin-intro, .iso-origin-backup) {
   display: grid;
   gap: 1rem clamp(2rem, 5vw, 4rem);
   grid-template-columns: minmax(0, .85fr) minmax(0, 1.5fr);
@@ -73,18 +73,33 @@
 .iso-origin .iso-origin-reports {
   background: var(--secondary);
   border-radius: .75rem;
-  padding: clamp(1.2rem, 3.4vw, 2.2rem);
   margin-block-end: clamp(2.4rem, 5vw, 4rem);
 }
 
-.iso-origin .iso-origin-reports > div > p {
-  margin-block-start: .75rem;
+.iso-origin-reports > summary {
+  display: list-item;
+  padding: 1rem clamp(1rem, 3vw, 2rem);
+  border-radius: inherit;
+  cursor: pointer;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.iso-origin-reports > summary:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.iso-origin .iso-origin-reports > p {
+  margin-inline: clamp(1rem, 3vw, 2rem);
+  color: var(--muted-foreground);
   font-size: .94rem;
 }
 
 .iso-origin .iso-origin-reports ul {
-  padding: 0;
-  margin: 0;
+  padding: .9rem 0 1.4rem;
+  margin: 0 clamp(1rem, 3vw, 2rem);
+  max-inline-size: 80ch;
   list-style: none;
 }
 
@@ -119,12 +134,8 @@
 }
 
 @media (max-width: 780px) {
-  .iso-origin :is(.iso-origin-intro, .iso-origin-backup, .iso-origin-reports, .iso-origin-comparison) {
+  .iso-origin :is(.iso-origin-intro, .iso-origin-backup, .iso-origin-comparison) {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .iso-origin .iso-origin-reports {
-    gap: 1.4rem;
   }
 
   .debian-images-page .iso-origin h2 {

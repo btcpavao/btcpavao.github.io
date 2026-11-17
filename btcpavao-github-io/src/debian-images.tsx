@@ -1,10 +1,10 @@
-import { nodeBuild } from "./iso-releases"
+import { nodeBuild, vaultBuild } from "./iso-releases"
 import { LegacyVerificationLinks } from "./components/legacy-verification-links"
 import { DEBIAN_IMAGE_VERIFICATION_PATH } from "./routes"
-import { Archive, LockKeyhole } from "lucide-react"
+import { Archive, ArrowDownToLine, ArrowRight, BookOpen, ChevronDown, LockKeyhole, Monitor, RotateCcw, Usb } from "lucide-react"
 import { NodeFirstRun } from "./components/node-first-run"
 import { VaultFirstRun } from "./components/vault-first-run"
-import { IsoPracticeWalkthrough } from "./components/iso-practice-walkthrough"
+import { IsoPracticeWalkthrough, WalletRecovery } from "./components/iso-practice-walkthrough"
 import { IsoCustodyQuestions } from "./components/iso-custody-questions"
 import { IsoLandingHero } from "./components/iso-landing-hero"
 import { IsoOriginStory } from "./components/iso-origin-story"
@@ -13,12 +13,9 @@ import { IsoBackupStory } from "./components/iso-backup-story"
 import { useEffect } from "react"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import "./iso-download-guide.css"
 
 const lesson = (slug: string) => `/en/bitcoin-core/self-custody/#lesson/${slug}`
-
-const vaultRelease = "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.7.0"
-const vaultIso = "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.7.0/bitcoin-core-vault-v0.7.0-amd64.iso"
-
 
 const software = {
   debian: {
@@ -154,49 +151,50 @@ function ReleaseDownloads() {
   return (
     <section id="try-the-isos" className="iso-try" aria-labelledby="download-heading">
       <div id="release-status">
-        <h2 id="download-heading">Try the ISOs on a spare computer</h2>
+        <h2 id="download-heading">Downloads and verification</h2>
       </div>
-      <p id="verify-download">Each ISO is a complete system image you can write to USB. Start with Vault, a USB stick you can erase and one compatible 64-bit Intel or AMD computer. You can create and recover an empty wallet before you install anything or download the blockchain. Add Node on a second computer when you’re ready to try both halves of a payment.</p>
-      <div className="iso-download-grid">
-        <article className="debian-download-panel" aria-labelledby="vault-download-heading">
-          <p className="debian-images-eyebrow">Signed release · v0.7.0</p>
-          <h3 id="vault-download-heading">Bitcoin Core Vault</h3>
-          <p>Debian 13.7 with Bitcoin Core 32.1. Choose Live RAM in the boot menu to try Vault while keeping the internal disk available for its usual system.</p>
-          <nav className="debian-release-links" aria-label="Vault download and verification">
-            <a href={vaultIso}>Download Vault ISO</a>
-            <a href="#verify-vault-download">Check my Vault download</a>
-          </nav>
-          <p>Two builds run by this project produced a byte-for-byte match with the signed Vault ISO. An independent security review of this release has yet to be published.</p>
-          <div className="iso-evidence-links">
-            <a href={vaultRelease}>Signed files and test results</a>
-            <a href="https://github.com/btcpavao/bitcoin-core-vault-releases/actions/runs/43864705133">Both build results</a>
-            <a href="#first-run">Start Vault from USB</a>
+      <p id="verify-download">Before writing the ISO to USB, check my signature on the checksum list and compare your download with its entry. Both images include Bitcoin Core 32.1.</p>
+      <div className="iso-release-list">
+        <article className="iso-release-row" aria-labelledby="vault-download-heading">
+          <div>
+            <h3 id="vault-download-heading">Bitcoin Core Vault</h3>
+            <p>Signed release · {vaultBuild.tag} · Debian 13.7</p>
           </div>
+          <a className="iso-file" href={vaultBuild.isoUrl}><ArrowDownToLine aria-hidden="true" /> Download Vault ISO <small>{vaultBuild.downloadSize}</small></a>
+          <a className="iso-check" href="#verify-vault-download">Verify Vault <ArrowRight aria-hidden="true" /></a>
         </article>
-        <article id="node-release" className="debian-download-panel" aria-labelledby="node-download-heading">
-          <p className="debian-images-eyebrow">Signed test ISO · {nodeBuild.tag}</p>
-          <h3 id="node-download-heading">Bitcoin Core Node</h3>
-          <p>Verify Bitcoin and prepare payments online with Bitcoin Core 32.1 on Debian 13. Installation erases the selected drive. Use a disposable wallet for testing.</p>
-          <nav className="debian-release-links" aria-label="Node download and verification">
-            <a href={nodeBuild.isoUrl}>Download Node ISO</a>
-            <a href="#verify-node-download">Check my Node download</a>
-          </nav>
-          <p>Two clean GitHub builders produced this exact ISO, and a second pair reproduced the same bytes. My OpenPGP signature authenticates the checksum list for this release. Check your ISO against the signed entry before writing it to USB.</p>
-          <div className="iso-evidence-links">
-            <a href={nodeBuild.releaseUrl}>Release files</a>
-            <a href={nodeBuild.manifestUrl}>SHA256SUMS</a>
-            <a href={nodeBuild.signatureUrl}>OpenPGP signature (.asc)</a>
-            <a href={nodeBuild.proofUrl}>See the full-file comparison</a>
-            <a href={DEBIAN_IMAGE_VERIFICATION_PATH + "#rebuild-tutorial"}>Rebuild this Node ISO</a>
-            <a href="#node-setup">Install Node on a spare disk</a>
+        <article id="node-release" className="iso-release-row" aria-labelledby="node-download-heading">
+          <div>
+            <h3 id="node-download-heading">Bitcoin Core Node</h3>
+            <p>Signed test release · <code>{nodeBuild.tag}</code> · Debian 13</p>
           </div>
+          <a className="iso-file" href={nodeBuild.isoUrl}><ArrowDownToLine aria-hidden="true" /> Download Node ISO <small>{nodeBuild.downloadSize}</small></a>
+          <a className="iso-check" href="#verify-node-download">Verify Node <ArrowRight aria-hidden="true" /></a>
         </article>
       </div>
-      <nav className="iso-guide-nav" aria-label="Questions and technical instructions">
-        <a href={DEBIAN_IMAGE_VERIFICATION_PATH}>Review the software and rebuild an ISO</a>
-        <a href="#custody-questions">Frequently asked questions</a>
-        <a href="#ask-pavao">Ask Pavao</a>
-      </nav>
+      <details className="iso-release-evidence">
+        <summary>Release files and reproducible build results</summary>
+        <div className="iso-release-evidence-grid">
+          <div>
+            <h3>Vault {vaultBuild.tag}</h3>
+            <p>Two project builds matched the signed ISO byte for byte. An independent security review of this release has yet to be published.</p>
+            <ul>
+              <li><a href={vaultBuild.releaseUrl}>Signed files, release notes and test results</a></li>
+              <li><a href={vaultBuild.proofUrl}>Compare the two Vault builds</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Node test release</h3>
+            <p>Two pairs of GitHub builders produced the same ISO. My OpenPGP signature authenticates the checksum list for this build.</p>
+            <ul>
+              <li><a href={nodeBuild.releaseUrl}>Node release notes and files</a></li>
+              <li><a href={nodeBuild.manifestUrl}>SHA256SUMS</a> and <a href={nodeBuild.signatureUrl}>OpenPGP signature</a></li>
+              <li><a href={nodeBuild.proofUrl}>Compare the Node builds</a></li>
+            </ul>
+          </div>
+        </div>
+      </details>
+      <a className="iso-rebuild-link" href={DEBIAN_IMAGE_VERIFICATION_PATH}>Inspect the software and rebuild an ISO <ArrowRight aria-hidden="true" /></a>
     </section>
   )
 }
@@ -240,26 +238,34 @@ export function DebianImagesPage() {
       </a>
       <SiteHeader />
       <main id="main-content" className="debian-images-page iso-landing">
-        <IsoLandingHero vaultIso={vaultIso} nodeIso={nodeBuild.isoUrl} />
+        <IsoLandingHero />
         <LegacyVerificationLinks />
-        <IsoOriginStory />
-        <IsoSystemRoles />
-        <IsoBackupStory />
         <ReleaseDownloads />
-        <div className="iso-guides-group">
-          <details className="iso-reference-panel">
-            <summary><h2>Start Vault from USB and make your first backup</h2></summary>
-            <VaultFirstRun vaultIso={vaultIso} />
+        <section id="setup-guides" className="iso-guides-group" aria-labelledby="setup-guides-heading">
+          <div className="iso-guides-heading">
+            <h2 id="setup-guides-heading">Setup guides</h2>
+            <a href="#ask-pavao">Ask Pavao a question</a>
+          </div>
+          <details name="iso-setup-guide" className="iso-reference-panel iso-guide">
+            <summary><Usb aria-hidden="true" /><span>Start Vault and back up an empty wallet</span><ChevronDown aria-hidden="true" /></summary>
+            <VaultFirstRun vaultIso={vaultBuild.isoUrl} />
           </details>
-          <details className="iso-reference-panel">
-            <summary><h2>Install Node and check synchronization</h2></summary>
+          <details name="iso-setup-guide" className="iso-reference-panel iso-guide">
+            <summary><Monitor aria-hidden="true" /><span>Install Node and check synchronization</span><ChevronDown aria-hidden="true" /></summary>
             <NodeFirstRun />
           </details>
-          <details className="iso-reference-panel">
-            <summary><h2>Pair the wallets and practise signing a payment</h2></summary>
+          <details name="iso-setup-guide" className="iso-reference-panel iso-guide">
+            <summary><BookOpen aria-hidden="true" /><span>Pair the wallets and sign a practice payment</span><ChevronDown aria-hidden="true" /></summary>
             <IsoPracticeWalkthrough />
           </details>
-        </div>
+          <details name="iso-setup-guide" className="iso-reference-panel iso-guide">
+            <summary><RotateCcw aria-hidden="true" /><span>Restore a wallet from an encrypted backup</span><ChevronDown aria-hidden="true" /></summary>
+            <WalletRecovery />
+          </details>
+        </section>
+        <IsoSystemRoles />
+        <IsoOriginStory />
+        <IsoBackupStory />
         <details className="iso-reference-panel iso-desktops">
           <summary><h2>Included software and earlier interface screenshots</h2></summary>
           <div className="debian-role-grid">

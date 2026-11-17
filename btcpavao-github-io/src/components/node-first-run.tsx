@@ -8,13 +8,17 @@ export function NodeFirstRun() {
   const backup = captures["node-backup"]
   return (
     <section id="node-setup" className="vault-first-run" aria-labelledby="node-setup-heading">
-      <h2 id="node-setup-heading">Set up a dedicated Bitcoin Core Node</h2>
-      <p>Use the reproducible Node test image on a spare 64-bit Intel or AMD computer with a disk you can erase. <strong>Installation erases the entire selected disk.</strong> Unplug your backup drives before you begin.</p>
+      <h3 id="node-setup-heading" className="text-xl font-semibold">What you need for the Node test release</h3>
+      <ul className="my-3 max-w-prose list-disc space-y-1 pl-5 leading-7">
+        <li>A spare <strong>64-bit Intel or AMD computer</strong> with Ethernet or compatible Wi-Fi.</li>
+        <li>A <strong>USB stick you can erase</strong> to prepare the installer on a Windows, macOS or Debian computer.</li>
+        <li>A <strong>dedicated destination disk</strong>. Installation erases that entire disk. Disconnect backup drives before starting.</li>
+      </ul>
       <SignedDownloadCheck product="Node" />
       <div className="first-run-row my-6">
         <div>
-          <h3 className="text-xl font-semibold">Connect Node and open its guide</h3>
-          <p className="my-3">After installation, remove the USB and restart. Plug in Ethernet or join Wi-Fi under <strong>Network Status</strong>. Open <strong>Node Guide</strong> on the desktop. Its first chapter shows how the public wallet and payment files move between the computers.</p>
+          <h3 className="text-xl font-semibold">Open Bitcoin Core and start syncing</h3>
+          <p className="my-3">On the installed Node, connect to the internet and open <strong>Bitcoin Core</strong>. It will download and validate blocks. While it syncs, open <strong>Node Guide</strong> on the desktop to learn how to pair a watch-only wallet.</p>
           <a href="#pair-wallets">Follow the watch-only wallet setup</a>
         </div>
         <figure className="first-run-shot">
@@ -25,22 +29,22 @@ export function NodeFirstRun() {
         </figure>
       </div>
       <div id="node-status" className="scroll-mt-24 border-t border-border pt-5">
-        <h3 className="text-xl font-semibold">Check synchronization and choose what to back up</h3>
+        <h3 className="text-xl font-semibold">Check synchronization and backups</h3>
         <div className="iso-node-shots">
           <figure>
             <h4>Bitcoin Core Status</h4>
             <ZoomableImage src={sync.src} width={sync.width} height={sync.height} alt={sync.alt} loading="lazy" decoding="async" />
-            <figcaption>Look for connected peers and the number of validated blocks. In this RC2 screenshot, Node has caught up with all 112 blocks on a private practice network. Your mainnet Node will show the Bitcoin blockchain’s own height.</figcaption>
+            <figcaption>Check connected peers and the validated block count. This RC2 example shows all 112 blocks on a private practice network. Your mainnet Node tracks the Bitcoin blockchain.</figcaption>
           </figure>
           <figure>
             <h4>Backup and Restore</h4>
             <ZoomableImage src={backup.src} width={backup.width} height={backup.height} alt={backup.alt} loading="lazy" decoding="async" />
-            <figcaption>The RC2 screenshot shows the backup categories for the watch-only wallet, blockchain data and settings. Keep the signing wallet’s encrypted backup with your offline Vault recovery materials.</figcaption>
+            <figcaption>Node RC2 can back up the watch-only wallet, blockchain and settings. Keep the signing wallet’s encrypted backup with the offline Vault recovery materials.</figcaption>
           </figure>
         </div>
       </div>
       <nav className="first-run-links" aria-label="Continue from Node setup">
-        <a href="#practice-without-funds">Try a payment with both computers</a>
+        <a href="#practice-without-funds">See a payment signed with both computers</a>
         <a href="#ask-node-setup"><MessageCircle size={18} aria-hidden="true" /> Ask Pavao about Node</a>
       </nav>
     </section>

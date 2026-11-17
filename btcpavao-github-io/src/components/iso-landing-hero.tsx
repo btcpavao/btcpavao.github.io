@@ -1,59 +1,74 @@
-import { ArrowDownToLine, ArrowUpRight, ChevronRight } from "lucide-react"
+import { ArrowDownToLine, ArrowRight, ArrowUpRight, ChevronRight, LockKeyhole, Network } from "lucide-react"
+import { nodeBuild, vaultBuild } from "../iso-releases"
 import "./iso-landing-hero.css"
 
 const workbench = "/software/illustrations/origin/two-computer-workbench"
 const vaultDesktop = "/software/screenshots/verification/vault-v070-desktop.webp"
 const nodeDesktop = "/software/screenshots/node/v0.1.0-rc.2/desktop.webp"
 
-export function IsoLandingHero({ vaultIso, nodeIso }: { vaultIso: string; nodeIso: string }) {
+export function IsoLandingHero() {
   return (
     <header className="iso-landing-hero">
       <nav className="iso-breadcrumb" aria-label="Breadcrumb">
         <a href="/en/bitcoin-core/">Bitcoin Core</a>
         <ChevronRight size={13} aria-hidden="true" />
-        <span>Debian images</span>
+        <span aria-current="page">Debian images</span>
       </nav>
       <div className="iso-landing-hero__grid">
         <div className="iso-landing-hero__copy">
           <h1>Run Bitcoin Core on two ordinary computers.</h1>
-          <p>Two dedicated Debian Linux operating systems for compatible laptops and desktops. <strong>Bitcoin Core Vault</strong> creates your wallet and signs payments offline. <strong>Bitcoin Core Node</strong> verifies the blockchain, tracks your wallet and sends your signed payments online.</p>
-          <nav className="iso-landing-downloads" aria-label="Download the ISO images">
-            <a href={vaultIso}>
-              <ArrowDownToLine size={18} aria-hidden="true" />
-              <span>Download Vault ISO<small>v0.7.0 · Offline</small></span>
-            </a>
-            <a href={nodeIso}>
-              <ArrowDownToLine size={18} aria-hidden="true" />
-              <span>Download Node ISO<small>Signed · Reproducible test ISO</small></span>
-            </a>
+          <p>Two dedicated Debian Linux systems for 64-bit Intel and AMD computers.
+            <strong> Vault</strong> creates your wallet and signs payments offline.
+            Add <strong>Node</strong> on a second computer to verify the blockchain, track your wallet and broadcast signed payments.</p>
+          <nav className="iso-hero-paths" aria-label="Download the ISO images">
+            <div className="iso-hero-path">
+              <LockKeyhole className="iso-hero-path__icon" size={19} aria-hidden="true" />
+              <div>
+                <a className="iso-hero-path__guide" href="#first-run">
+                  Try Vault from USB <ArrowRight size={16} aria-hidden="true" />
+                </a>
+                <p>{vaultBuild.tag} · Runs in RAM without installing.</p>
+              </div>
+              <a className="iso-hero-path__download" href={vaultBuild.isoUrl} aria-label="Download Vault ISO">
+                <ArrowDownToLine size={15} aria-hidden="true" /> Vault ISO
+              </a>
+            </div>
+            <div className="iso-hero-path">
+              <Network className="iso-hero-path__icon" size={19} aria-hidden="true" />
+              <div>
+                <a className="iso-hero-path__guide" href="#node-setup">
+                  Set up the online Node <ArrowRight size={16} aria-hidden="true" />
+                </a>
+                <p>Test release · Installation erases the selected disk.</p>
+              </div>
+              <a className="iso-hero-path__download" href={nodeBuild.isoUrl} aria-label="Download Node ISO">
+                <ArrowDownToLine size={15} aria-hidden="true" /> Node ISO
+              </a>
+            </div>
           </nav>
-          <div className="iso-hero-secondary">
-            <a href="#verify-download">Verify a download</a>
-            <a href="#first-run">Try Vault on one spare PC</a>
-          </div>
         </div>
         <figure className="iso-workbench">
-          <div className="iso-workbench__scene" role="img" aria-label="Illustration of a spare laptop running the real offline Vault desktop beside a small desktop PC running the online Node. A USB stick sits between them.">
+          <div className="iso-workbench__scene" role="img" aria-label="A laptop showing the Vault desktop beside a monitor showing the Node desktop. A USB stick sits between them.">
             <img src={workbench + ".webp"} srcSet={workbench + "-640.webp 640w, " + workbench + ".webp 1200w"}
-              sizes="(min-width: 1200px) 650px, (min-width: 900px) 54vw, 94vw"
+              sizes="(min-width: 1264px) 590px, (min-width: 900px) 48vw, 92vw"
               alt="" width={1200} height={800} fetchPriority="high" />
             <img className="iso-workbench__vault" src={vaultDesktop} alt="" width={1280} height={800} />
             <img className="iso-workbench__node" src={nodeDesktop} alt="" width={1280} height={800} />
           </div>
           <figcaption>
-            <span>Open the desktop screenshots</span>
-            <a href={vaultDesktop}>Vault <ArrowUpRight size={14} aria-hidden="true" /></a>
-            <a href={nodeDesktop}>Node (RC2) <ArrowUpRight size={14} aria-hidden="true" /></a>
+            <span>Desktop screenshots</span>
+            <a href={vaultDesktop} aria-label="Open the Vault v0.7.0 desktop screenshot">Vault v0.7.0 <ArrowUpRight size={14} aria-hidden="true" /></a>
+            <a href={nodeDesktop} aria-label="Open the Node RC2 desktop screenshot">Node RC2 <ArrowUpRight size={14} aria-hidden="true" /></a>
           </figcaption>
         </figure>
       </div>
       <nav className="iso-contents" aria-label="On this page">
+        <a href="#try-the-isos">Downloads &amp; verification</a>
+        <a href="#setup-guides">Setup guides</a>
+        <a href="#systems">Inside the systems</a>
         <a href="#why-two-computers">Why I built them</a>
-        <a href="#systems">Inside Vault &amp; Node</a>
         <a href="#wallet-backup-plan">Wallet backups</a>
-        <a href="#try-the-isos">Downloads &amp; setup</a>
         <a href="#custody-questions">FAQ</a>
-        <a href="#ask-pavao">Ask Pavao <ArrowUpRight size={15} aria-hidden="true" /></a>
       </nav>
     </header>
   )
