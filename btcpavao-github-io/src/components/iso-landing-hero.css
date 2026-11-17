@@ -1,0 +1,85 @@
+.debian-images-page.iso-landing {
+  max-width: 1264px;
+  padding: clamp(1.15rem, 3vw, 2.5rem) clamp(1.15rem, 4vw, 3.5rem) 4rem;
+}
+.iso-landing [id] { scroll-margin-top: 6rem; }
+.iso-breadcrumb, .iso-hero-secondary, .iso-workbench figcaption, .iso-contents {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.iso-breadcrumb { gap: .55rem; color: var(--muted-foreground); font-size: .85rem; }
+.iso-breadcrumb a { text-decoration: none; }
+.iso-breadcrumb a:hover { text-decoration: underline; }
+.iso-landing-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
+  align-items: center;
+  gap: clamp(1.8rem, 4vw, 4rem);
+  margin-block: clamp(1.35rem, 3vw, 2.8rem) clamp(1.4rem, 3vw, 2.8rem);
+}
+.debian-images-page .iso-landing-hero h1 {
+  margin: 0 0 1.15rem;
+  max-width: 16ch;
+  font-size: clamp(2.65rem, 4.65vw, 4.3rem);
+  letter-spacing: -.065em;
+  line-height: 1.02;
+  font-weight: 720;
+}
+.iso-landing-hero__copy > p { max-width: 54ch; font-size: clamp(1rem, 1.22vw, 1.13rem); line-height: 1.65; }
+.iso-landing-hero__copy > p strong { font-weight: 660; }
+.iso-landing-downloads { display: flex; flex-wrap: wrap; gap: .6rem; margin-block-start: 1.55rem; }
+.debian-images-page .iso-landing-downloads a {
+  display: inline-flex; justify-content: flex-start; align-items: center; gap: .65rem;
+  padding: .72rem .95rem; border-radius: .65rem; border: 1px solid var(--primary-button);
+  background: var(--primary-button); color: var(--primary-button-foreground); text-decoration: none;
+  font-size: .92rem; font-weight: 680; line-height: 1.35;
+}
+.debian-images-page .iso-landing-downloads a:hover { background: var(--primary-button-hover); }
+.debian-images-page .iso-landing-downloads a:nth-child(2) { color: var(--foreground); background: var(--card); border-color: color-mix(in srgb, var(--foreground) 52%, transparent); }
+.debian-images-page .iso-landing-downloads a:nth-child(2):hover { background: var(--secondary); }
+.iso-landing-downloads small { display: block; font-size: .76rem; font-weight: 450; margin-top: .1rem; }
+.iso-hero-secondary { gap: .4rem 1.2rem; margin-top: .65rem; font-size: .87rem; }
+.iso-hero-secondary a, .iso-workbench figcaption a { padding-block: .45rem; }
+.iso-workbench { min-width: 0; margin: 0; }
+.iso-workbench__scene { position: relative; isolation: isolate; }
+.iso-workbench__scene > img:first-child { display: block; width: 100%; height: auto; border-radius: .75rem; }
+.iso-workbench__scene > img:not(:first-child) { position: absolute; transform-origin: top left; object-fit: fill; pointer-events: none; }
+.iso-workbench__vault {
+  left: 14.97%; top: 37.24%; width: 25.06%; height: 22.65%;
+  transform: matrix(1,.009,-.094,1,0,0);
+  clip-path: polygon(0 0,100% 0,100% 100%,0 98%);
+}
+.iso-workbench__node {
+  left: 47.73%; top: 25.99%; width: 33.98%; height: 30.38%;
+  transform: matrix(1,-.011,-.025,1,0,0);
+  clip-path: polygon(0 0,100% 0,100% 100%,0 93%);
+}
+.iso-workbench figcaption { gap: .25rem .9rem; padding-top: .32rem; color: var(--muted-foreground); font-size: .8rem; }
+.iso-workbench figcaption span { margin-inline-end: auto; }
+.iso-workbench figcaption a, .iso-contents a { display: inline-flex; align-items: center; gap: .15rem; }
+.iso-contents { gap: 0 clamp(1rem, 2.7vw, 2.6rem); border-block: 1px solid var(--border); padding-block: .3rem; }
+.debian-images-page .iso-contents a { min-height: 44px; font-size: .88rem; font-weight: 610; text-decoration: none; }
+.debian-images-page .iso-contents a:hover { text-decoration: underline; }
+.iso-contents a:last-child { margin-left: auto; }
+.iso-landing :is(a, summary):focus-visible { outline: 2px solid var(--foreground); outline-offset: 3px; }
+.iso-try { margin-block: clamp(3rem, 6vw, 5rem) 2.2rem; }
+.iso-try > p { max-width: 68ch; line-height: 1.65; margin-block: 1rem; }
+.iso-try .iso-download-grid { margin-block-end: 1.2rem; }
+.iso-guides-group { margin-bottom: 3rem; }
+@media (max-width: 899px) {
+  .iso-landing-hero__grid { grid-template-columns: minmax(0,1fr); gap: 1.35rem; }
+  .debian-images-page .iso-landing-hero h1 { max-width: 21ch; font-size: clamp(2.6rem, 7.5vw, 3.8rem); }
+  .iso-landing-hero__copy > p { max-width: 65ch; }
+  .iso-contents a:last-child { margin-left: 0; }
+}
+@media (max-width: 460px) {
+  .iso-landing-downloads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .45rem; }
+  .debian-images-page .iso-landing-downloads a { gap: .4rem; padding: .7rem .55rem; font-size: .86rem; }
+  .iso-landing-downloads a svg { flex-shrink: 0; width: .92rem; }
+  .iso-landing-downloads small { font-size: .7rem; }
+  .iso-contents { gap: 0 1rem; }
+}
+@media (max-width: 345px) {
+  .iso-landing-downloads { grid-template-columns: minmax(0, 1fr); }
+}

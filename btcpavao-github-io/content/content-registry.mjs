@@ -152,9 +152,9 @@ export const contentRegistry = [
     id: "en-core-debian-images",
     path: "/en/bitcoin-core/debian-images/",
     locale: "en",
-    title: "Bitcoin Core Vault and Node — Downloads and Independent Verification",
+    title: "Bitcoin Core Vault and Node — Two Dedicated Debian Linux Systems",
     description:
-      "Download and verify Bitcoin Core Vault and Node. See how to back up and sign offline on Vault, then track your wallet and send signed payments from a dedicated Node.",
+      "Turn ordinary PCs into an offline Bitcoin signer and an online watch-only node. Explore both Debian systems, verify the ISOs and try your first wallet backup.",
     contentType: "page",
     section: "core-practical",
     publishedAt: null,

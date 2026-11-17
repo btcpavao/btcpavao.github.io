@@ -1,0 +1,48 @@
+.iso-backup-story {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  align-items: start;
+  gap: 1.4rem clamp(2rem, 5vw, 4rem);
+  border-block-start: 1px solid var(--border);
+  padding-block: clamp(2.2rem, 5vw, 4rem);
+  scroll-margin-block-start: 6rem;
+}
+.iso-backup-copy p, .iso-backup-example p, .iso-backup-drill p { line-height: 1.7; }
+.iso-backup-copy p { max-width: 68ch; margin-block: .8rem; }
+.iso-backup-copy a {
+  display: inline-flex; align-items: center; min-height: 2.75rem;
+  font-weight: 650; text-underline-offset: .22em;
+}
+.iso-backup-example {
+  min-width: 0;
+  padding: clamp(1.15rem, 3vw, 2rem);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: .8rem;
+}
+.iso-backup-example h3 {
+  font-size: clamp(1.3rem, 2.6vw, 1.75rem);
+  line-height: 1.25; letter-spacing: -.035em; font-weight: 680;
+}
+.iso-backup-example > p { margin-block: .5rem 1.2rem; }
+.iso-backup-parts { list-style: none; padding: 0; margin: 0; }
+.iso-backup-parts li { display: flex; align-items: flex-start; gap: .85rem; margin-block: 1rem; }
+.iso-backup-parts svg {
+  box-sizing: content-box; width: 1.4rem; height: 1.4rem; padding: .55rem; flex: none;
+  background: var(--secondary); border-radius: .5rem; stroke-width: 1.6;
+}
+.iso-backup-parts strong, .iso-backup-parts span { display: block; }
+.iso-backup-parts strong { line-height: 1.4; font-weight: 650; }
+.iso-backup-parts span { font-size: .94rem; line-height: 1.5; color: var(--muted-foreground); margin-block-start: .15rem; }
+.iso-backup-extra { border-block-start: 1px solid var(--border); margin-block-start: 1.1rem; }
+.iso-backup-extra summary { padding-block: .85rem .5rem; min-height: 2.75rem; cursor: pointer; font-weight: 650; }
+.iso-backup-extra summary > span { display: inline; }
+.iso-backup-extra summary svg { display: inline; width: 1.05rem; height: 1.05rem; margin-inline: .15rem .45rem; vertical-align: -.15em; }
+.iso-backup-extra p { margin-block: .65rem 0; }
+.iso-backup-story :is(a, summary):focus-visible { outline: 2px solid var(--foreground); outline-offset: 3px; }
+.iso-backup-drill { grid-column: 1 / -1; display: flex; gap: .8rem; align-items: flex-start; }
+.iso-backup-drill p { max-width: 79ch; margin: 0; }
+.iso-backup-drill svg { width: 1.4rem; height: 1.4rem; flex: none; margin-block-start: .18rem; }
+@media (max-width: 760px) {
+  .iso-backup-story { grid-template-columns: minmax(0, 1fr); }
+}

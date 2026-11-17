@@ -9,6 +9,38 @@ const standardLesson = (slug: string) => EN_BITCOIN_CORE_CURRICULUM_PATH + "#les
 
 const questions = [
   {
+    question: "Will these images run on my computer?",
+    answer: "Both images are built for compatible 64-bit Intel and AMD computers. Apple Silicon Macs use a different processor. You can try Vault in Live RAM from a USB stick. Node RC2 is a test release that installs to a dedicated disk and erases its contents. Check the release notes for boot and hardware requirements.",
+    links: [
+      ["Vault release notes", "https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.7.0"],
+      ["Node release notes", "https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.2"],
+    ],
+  },
+  {
+    question: "How do I know I downloaded the file Pavao published?",
+    answer: "Before writing the USB, confirm Pavao’s public signing-key fingerprint through a separate channel you already trust. The guide then checks the signature on his list of file fingerprints and compares your ISO with its entry. A match means the downloaded bytes are the ones he signed for.",
+    links: [
+      ["Check my Vault download", "#verify-vault-download"],
+      ["Check my Node download", "#verify-node-download"],
+    ],
+  },
+  {
+    question: "Can someone I trust inspect the code and rebuild the ISO?",
+    answer: "Yes. The review guide identifies Pavao’s additions and links to the source for each release. Two builds run by this project matched the signed Vault v0.7.0 download byte for byte. For Node, the matching builds produced a separate unsigned comparison image. The signed Node RC2 download still has no demonstrated byte-for-byte rebuild.",
+    links: [
+      ["Inspect the code and build evidence", DEBIAN_IMAGE_VERIFICATION_PATH],
+      ["Give the brief to my reviewer", DEBIAN_IMAGE_VERIFICATION_PATH + "#reviewer-brief"],
+    ],
+  },
+  {
+    question: "Are the words protecting my Vault backup a seed phrase?",
+    answer: "They unlock a particular encrypted file. Someone holding only those words has no wallet keys or addresses from them. With BIP39, the recovery words generate a wallet seed. In a typical single-signature wallet, a holder of those words can recreate the signing keys unless you used an additional BIP39 passphrase.",
+    links: [
+      ["See what a Vault recovery needs", "#wallet-backup-plan"],
+      ["Read the BIP39 specification", "https://bips.dev/39/"],
+    ],
+  },
+  {
     question: "My BTC is on an exchange. How can I check my withdrawal address?",
     answer: "Choose the Bitcoin network for the withdrawal. Compare the full address on the exchange’s confirmation screen with the receiving address on Vault. If they differ, stop. After testing wallet recovery, try a small withdrawal. Then sign a small payment from the restored wallet and confirm it on Node.",
     links: [["Check the setup before your first deposit", imageLesson("mainnet-readiness-before-first-deposit")]],
@@ -106,7 +138,7 @@ export function IsoCustodyQuestions() {
   return (
     <>
       <section className="iso-custody-section" id="custody-questions" aria-labelledby="iso-custody-title">
-        <h2 id="iso-custody-title">Questions before moving your bitcoin</h2>
+        <h2 id="iso-custody-title">Frequently asked questions</h2>
         <div className="iso-custody-faq">
           {questions.map(({ question, answer, links }) => (
             <details key={question}>
@@ -147,7 +179,7 @@ export function IsoCustodyQuestions() {
           <span className="iso-contact-anchor" key={id} id={id} aria-hidden="true" />
         ))}
         <h2 id="iso-contact-title">Ask Pavao about Vault or Node</h2>
-        <p>Your name and email are optional. Please include an email if you would like a personal reply. Keep wallet files, addresses and passphrases private.</p>
+        <p>You can ask a question without entering your name or email. Please include an email address if you would like a personal reply. Keep wallet files, addresses and passphrases private.</p>
         <details ref={panel} className="iso-contact-form course-question-panel" onToggle={(event) => { if (event.currentTarget.open) setShowForm(true) }}>
           <summary><MessageCircle aria-hidden="true" /> Write to Pavao</summary>
           {showForm && <CurriculumQuestionForm

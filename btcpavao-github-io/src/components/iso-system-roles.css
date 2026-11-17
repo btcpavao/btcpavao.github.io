@@ -1,0 +1,105 @@
+.iso-system-roles {
+  container-type: inline-size;
+  margin-block: clamp(3.25rem, 7vw, 6.5rem);
+  scroll-margin-top: 6rem;
+}
+.iso-roles-intro,
+.iso-payment-path > p {
+  max-width: 70ch;
+  line-height: 1.65;
+}
+.iso-roles-grid {
+  display: grid;
+  gap: 2.5rem;
+  margin-block-start: 2rem;
+}
+.iso-role-profile {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-block-start: 1px solid var(--border);
+  padding-block-start: 1.15rem;
+}
+.iso-role-mode {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  color: var(--muted-foreground);
+  font-size: .82rem;
+  font-weight: 650;
+}
+.iso-role-mode svg,
+.iso-role-action svg {
+  inline-size: 1rem;
+  block-size: 1rem;
+  flex-shrink: 0;
+}
+.iso-role-profile h3 {
+  margin-block: .45rem .65rem;
+  font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+  line-height: 1.1;
+  letter-spacing: -.045em;
+  font-weight: 680;
+}
+.iso-role-summary,
+.iso-role-profile dd {
+  line-height: 1.6;
+}
+.iso-role-profile figure { margin-block: 1.15rem 1.35rem; }
+.iso-role-profile figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: .55rem;
+}
+.iso-role-profile figcaption {
+  margin-block-start: .55rem;
+  color: var(--muted-foreground);
+  font-size: .87rem;
+  line-height: 1.4;
+}
+.iso-role-profile dl { display: grid; gap: 1.1rem; margin-block-end: 1rem; }
+.iso-role-profile dt,
+.iso-payment-path li strong { font-weight: 680; }
+.iso-role-profile dd { margin: .25rem 0 0; }
+.iso-role-action {
+  display: inline-flex;
+  align-items: center;
+  align-self: start;
+  gap: .3rem;
+  min-height: 2.75rem;
+  margin-block-start: auto;
+  font-size: .93rem;
+  font-weight: 650;
+}
+.iso-payment-path {
+  margin-block-start: clamp(2.25rem, 5vw, 3.5rem);
+  padding: clamp(1.2rem, 3vw, 2rem);
+  border-radius: .75rem;
+  background: var(--muted);
+}
+.iso-payment-path h3 {
+  margin-block-end: .5rem;
+  font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+  line-height: 1.2;
+  letter-spacing: -.025em;
+  font-weight: 680;
+}
+.iso-payment-path ol {
+  display: grid;
+  gap: 1rem 1.75rem;
+  margin-block: 1.35rem .6rem;
+  list-style: decimal;
+}
+.iso-payment-path li {
+  margin-inline-start: 1.2rem;
+  padding-inline-start: .15rem;
+}
+.iso-payment-path li::marker { font-weight: 650; }
+.iso-payment-path li span { display: block; margin-block-start: .25rem; line-height: 1.55; }
+
+@container (min-width: 44rem) {
+  .iso-roles-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .iso-payment-path ol { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}

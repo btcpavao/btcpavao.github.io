@@ -1,0 +1,139 @@
+.iso-origin {
+  margin-block: clamp(2.8rem, 7vw, 5.5rem);
+  padding-block-start: clamp(1.6rem, 4vw, 3rem);
+  border-block-start: 1px solid var(--border);
+  scroll-margin-block-start: 6rem;
+}
+
+.iso-origin :is(.iso-origin-intro, .iso-origin-backup, .iso-origin-reports) {
+  display: grid;
+  gap: 1rem clamp(2rem, 5vw, 4rem);
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.5fr);
+}
+
+.debian-images-page .iso-origin h2 {
+  margin: 0;
+  max-inline-size: 19ch;
+  font-size: clamp(1.8rem, 3.4vw, 2.75rem);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.iso-origin h3 {
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+
+.iso-origin .iso-origin-prose > * + * {
+  margin-block-start: .85rem;
+}
+
+.iso-origin p {
+  line-height: 1.72;
+}
+
+.iso-origin .iso-origin-prose > a {
+  display: inline-block;
+  font-weight: 600;
+}
+
+.iso-origin .iso-origin-comparison {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 1.4rem clamp(2rem, 5vw, 4rem);
+  margin-block: clamp(2.4rem, 5vw, 4rem);
+}
+
+.iso-origin figure img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  border-radius: .65rem;
+}
+
+.iso-origin figcaption {
+  color: var(--muted-foreground);
+  margin-block-start: .65rem;
+  font-size: .875rem;
+  line-height: 1.55;
+}
+
+.iso-origin .iso-origin-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem 1.2rem;
+  font-size: .93rem;
+  font-weight: 600;
+}
+
+.iso-origin .iso-origin-reports {
+  background: var(--secondary);
+  border-radius: .75rem;
+  padding: clamp(1.2rem, 3.4vw, 2.2rem);
+  margin-block-end: clamp(2.4rem, 5vw, 4rem);
+}
+
+.iso-origin .iso-origin-reports > div > p {
+  margin-block-start: .75rem;
+  font-size: .94rem;
+}
+
+.iso-origin .iso-origin-reports ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.iso-origin .iso-origin-reports li {
+  display: grid;
+  grid-template-columns: 6.4rem minmax(0, 1fr);
+  gap: .25rem .6rem;
+}
+
+.iso-origin .iso-origin-reports li + li {
+  border-block-start: 1px solid var(--border);
+  padding-block-start: .85rem;
+  margin-block-start: .85rem;
+}
+
+.iso-origin .iso-origin-reports time {
+  padding-block-start: .16rem;
+  color: var(--muted-foreground);
+  font-size: .82rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.iso-origin .iso-origin-reports li a {
+  line-height: 1.45;
+  font-weight: 650;
+}
+
+.iso-origin .iso-origin-reports li p {
+  margin-block-start: .35rem;
+  font-size: .93rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 780px) {
+  .iso-origin :is(.iso-origin-intro, .iso-origin-backup, .iso-origin-reports, .iso-origin-comparison) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .iso-origin .iso-origin-reports {
+    gap: 1.4rem;
+  }
+
+  .debian-images-page .iso-origin h2 {
+    max-inline-size: 27ch;
+  }
+}
+
+@media (max-width: 480px) {
+  .iso-origin .iso-origin-reports li {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
