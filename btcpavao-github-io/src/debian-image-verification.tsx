@@ -24,7 +24,7 @@ const builds = {
     inventory: "image-packages.tsv",
     result: "../vault-result/bitcoin-core-vault-amd64.iso",
     build: "bash tools/rebuild/build-release.sh --sudo-docker ../vault-result",
-    proofUrl: vaultBuild.instructionsUrl,
+    proofUrl: vaultBuild.proofUrl,
   },
   Node: {
     repo: nodeRepo,
@@ -51,7 +51,7 @@ function BuildLinks({ product }: { product: Product }) {
       <a href={repo + "/tree/" + revision}><Braces size={15} aria-hidden="true" />Browse release code</a>
       <a href={files + inventory}><List size={15} aria-hidden="true" />Installed packages</a>
       <a href={repo + "/releases/tag/" + tag}><Disc3 size={15} aria-hidden="true" />Signed release files</a>
-      <a href={proofUrl}><GitCompareArrows size={15} aria-hidden="true" />{product === "Vault" ? "Vault build instructions" : "Node rebuild log"}</a>
+      <a href={proofUrl}><GitCompareArrows size={15} aria-hidden="true" />{product + " rebuild log"}</a>
     </nav>
   )
 }
@@ -372,7 +372,7 @@ export function DebianImageVerification() {
         caption="The two prints line up on the light box. For two ISO files, the equivalent check is a byte-for-byte comparison." />
       <div className="verification-targets">
         <p><strong>Vault v0.8.0</strong>Compare your build directly with the signed Vault ISO from the main
-          download button. Use the tagged recipe to rebuild the base system and apply the release updates. <a href={vaultBuild.instructionsUrl}>Read the complete build instructions.</a></p>
+          download button. <a href={vaultBuild.proofUrl}>Two project builds matched the published ISO byte for byte.</a> Follow the <a href={vaultBuild.instructionsUrl}>build instructions</a> to check it on your own machine.</p>
         <p><strong>Node {builds.Node.tag}</strong>Compare your build with the ISO from the main Node download button.
           The recipe pins its Debian snapshot and build inputs. The <a href={nodeBuild.proofUrl}>tagged build comparison</a> matched both complete ISOs. Their SHA-256 also matches the entry in the <a href={nodeBuild.releaseUrl}>signed Node checksum list</a>.</p>
       </div>

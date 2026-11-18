@@ -16,6 +16,7 @@ export const vaultBuild = {
   manifestUrl: vaultAssets + "SHA256SUMS",
   signatureUrl: vaultAssets + "SHA256SUMS.asc",
   instructionsUrl: `${vaultRepo}/blob/${vaultRevision}/docs/REBUILD.md`,
+  proofUrl: vaultRepo + "/actions/runs/44328053285/job/134901484375",
   downloadSize: "714 MB",
 } as const
 

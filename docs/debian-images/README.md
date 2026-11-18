@@ -156,7 +156,7 @@ The last command should show a **Server** section. Choose Vault or Node below an
 
 ### Rebuild Vault v0.8.0
 
-This recipe builds the Calamares installer, Thunar file manager and Vault Backup from source. It assembles the base system with pinned Debian packages and verified upstream Bitcoin Core and KeePassXC binaries. The release script uses the full Git history to rebuild the base and apply the reviewed updates to the live and installed systems. The tagged recipe targets the 714,407,936-byte release ISO. The release page includes the signed checksum list, ISO, package inventory and source archive. [Signed release files](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.8.0) · [Build instructions at this revision](https://github.com/btcpavao/bitcoin-core-vault-releases/blob/d0bc35aa9a64d45d5c24a226aa9ba2ec2a315ebf/docs/REBUILD.md)
+This recipe builds the Calamares installer, Thunar file manager and Vault Backup from source. It assembles the base system with pinned Debian packages and verified upstream Bitcoin Core and KeePassXC binaries. The release script uses the full Git history to rebuild the base and apply the reviewed updates to the live and installed systems. [Two project builds](https://github.com/btcpavao/bitcoin-core-vault-releases/actions/runs/44328053285/job/134901484375) produced identical 714,407,936-byte ISOs matching the signed release hash. The release page includes the signed checksum list, ISO, package inventory and source archive. [Signed release files](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.8.0) · [Build instructions at this revision](https://github.com/btcpavao/bitcoin-core-vault-releases/blob/d0bc35aa9a64d45d5c24a226aa9ba2ec2a315ebf/docs/REBUILD.md)
 
 ```bash
 (
