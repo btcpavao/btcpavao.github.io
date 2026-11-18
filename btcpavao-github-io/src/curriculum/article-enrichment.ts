@@ -66,7 +66,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "1.5": {
     image:
-      "Bitcoin Core Vault v0.7.0 handles offline wallet work and GPG backups. The Node test image runs your online node. You can rebuild either ISO from its published recipe and compare it with the download. The downloads guide shows how to verify the signature on each release’s checksum list and check the ISO against it.",
+      "Bitcoin Core Vault v0.8.0 handles offline wallet work and GPG backups. The Node test image runs your online node. You can rebuild either ISO from its published recipe and compare it with the download. The downloads guide shows how to verify the signature on each release’s checksum list and check the ISO against it.",
     reading: ["simpler"],
   },
   "software-continuity": {
@@ -87,7 +87,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "generate-passphrase": {
     image:
-      "Bitcoin Core Vault v0.7.0 includes KeePassXC for this task. Select the intended word count and list, generate locally in the offline environment, protect the exact result separately and prove recovery. Download the published ISO and signed checksum manifest from the Debian images page.",
+      "Bitcoin Core Vault v0.8.0 includes KeePassXC for this task. Select the intended word count and list, generate locally in the offline environment, protect the exact result separately and prove recovery. Download the published ISO and signed checksum manifest from the Debian images page.",
     reading: ["detour"],
   },
   "backup-redundancy-freshness": {
@@ -102,11 +102,11 @@ export const articleEnrichment: Record<string, Addition> = {
     ],
     reading: ["backup", "gpg"],
     image:
-      "Vault v0.7.0 encrypts a single wallet.dat directly with OpenPGP AES-256 CFB+MDC. It uses TAR for multiple files or folders. Wallet Backup creates one GPG layer by default. Add another only if you have a reason to keep its independent passphrase separately. Test the external copy through a full restore.",
+      "Vault v0.8.0 encrypts a single wallet.dat directly with OpenPGP AES-256 CFB+MDC. It uses TAR for multiple files or folders. Wallet Backup creates one GPG layer by default. Add another only if you have a reason to keep its independent passphrase separately. Test the external copy through a full restore.",
   },
   "backup-media": {
     image:
-      "Vault v0.7.0 includes Thunar for removable files, Brasero for optical media and local printing support. Choose media for the failures you need to survive. Recover a disposable wallet from the actual medium you intend to keep. The published release includes package information, checksums and test records.",
+      "Vault v0.8.0 includes Thunar for removable files, Brasero for optical media and local printing support. Choose media for the failures you need to survive. Recover a disposable wallet from the actual medium you intend to keep. The published release includes package information, checksums and test records.",
   },
   "architecture-choice": {
     notes: [
@@ -136,7 +136,7 @@ export const articleEnrichment: Record<string, Addition> = {
   },
   "real-encryption": {
     image:
-      "The signed Vault v0.7.0 image includes Core 32.1, KeePassXC and GnuPG. Both live and installed modes keep the signing wallet in private RAM. Before shutdown, export an encrypted backup to separate media. Rehearse restoring the empty wallet in a fresh session before the small-payment test.",
+      "The signed Vault v0.8.0 image includes Core 32.1, KeePassXC and GnuPG. Both live and installed modes keep the signing wallet in private RAM. Before shutdown, export an encrypted backup to separate media. Rehearse restoring the empty wallet in a fresh session before the small-payment test.",
   },
   "multisig-why": {
     notes: [

@@ -83,7 +83,7 @@ export function VaultFirstRun({ vaultIso }: { vaultIso: string }) {
               src: "/software/screenshots/verification/vault-usb-target.webp",
               width: 505, height: 236,
               alt: "Restore Disk Image shows the Vault v0.7.0 ISO and the selected destination, an 8.0 GB Practice USB Drive.",
-            }} caption="On Debian 13, the 714 MB image fits on this 8.0 GB virtual USB. The size notice is expected. Identify your stick by its own name and capacity." />
+            }} caption="This Vault v0.7.0 screenshot shows the 714 MB image on an 8.0 GB virtual USB. The size notice is expected. Identify your stick by its own name and capacity." />
           </div>
           <PhoneGuide />
         </li>

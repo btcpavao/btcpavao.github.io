@@ -57,7 +57,7 @@ export function IsoLandingHero() {
           </div>
           <figcaption>
             <span>Desktop screenshots</span>
-            <a href={vaultDesktop} aria-label="Open the Vault v0.7.0 desktop screenshot">Vault v0.7.0 <ArrowUpRight size={14} aria-hidden="true" /></a>
+            <a href={vaultDesktop} aria-label="Open the Vault v0.7.0 desktop screenshot">Vault desktop (v0.7.0) <ArrowUpRight size={14} aria-hidden="true" /></a>
             <a href={nodeDesktop} aria-label="Open the Node RC2 desktop screenshot">Node RC2 <ArrowUpRight size={14} aria-hidden="true" /></a>
           </figcaption>
         </figure>

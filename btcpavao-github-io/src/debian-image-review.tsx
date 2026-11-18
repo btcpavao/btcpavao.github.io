@@ -6,8 +6,9 @@ import { SiteFooter } from "./components/site-footer"
 import { SiteHeader } from "./components/site-header"
 import { ZoomableImage } from "./components/zoomable-image"
 import { captures } from "./curriculum/practice-captures"
+import { vaultBuild } from "./iso-releases"
 
-const exportSource = "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/5346a0db977049a028429482ff943619c52009c4/config/includes.chroot/usr/lib/core-vault/public_export.py#L75-L96"
+const exportSource = `${vaultBuild.repo}/blob/${vaultBuild.revision}/config/includes.chroot/usr/lib/core-vault/public_export.py#L101-L147`
 const coreGuide = "https://github.com/bitcoin/bitcoin/blob/v32.1/doc/offline-signing-tutorial.md"
 
 function ProjectChanges() {
@@ -23,9 +24,9 @@ function ProjectChanges() {
         </figure>
         <div>
           <h3>When I export a watch-only wallet, what goes onto my USB?</h3>
-          <p>Node needs the information that lets it recognize your payments. The private keys that authorize spending belong on Vault. In v0.7.0, Bitcoin Core prepares the watch-only file. My export tool checks it in memory before writing it to the drive you selected.</p>
-          <p>The tool checks that private keys are disabled, rejects unexpected kinds of records and asks Bitcoin Core whether any wallet description contains a private key. If a check fails, it stops the export. The exported file can still reveal your addresses and transaction history.</p>
-          <a href={exportSource}>Read the export checks in Vault v0.7.0</a>
+          <p>Node needs the information that lets it recognize your payments. The private keys that authorize spending belong on Vault. In {vaultBuild.tag}, Bitcoin Core prepares the watch-only file. My export tool checks it in memory before writing it to the drive you selected.</p>
+          <p>The tool checks that private keys are disabled, rejects unexpected kinds of records and asks Bitcoin Core whether any wallet description contains a private key. If a check fails, it stops the export. When the copy contains address-book or transaction data, Vault asks for your consent before writing to USB.</p>
+          <a href={exportSource}>Read the export checks in Vault {vaultBuild.tag}</a>
         </div>
       </div>
       <p>That example covers one action. A wider review includes what starts automatically, which programs can access a wallet, and where they can write. The reviewer brief identifies the exact releases and gives your reviewer a starting point for each question.</p>

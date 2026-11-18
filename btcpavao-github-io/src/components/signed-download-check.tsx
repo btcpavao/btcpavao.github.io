@@ -7,7 +7,7 @@ import { EtcherUsbSteps } from "./etcher-usb-steps"
 import { ZoomableImage } from "./zoomable-image"
 import "./signed-download-check.css"
 
-export const verifierRevision = "db2f63ff320235f020d633e3ae2ede10e9fa422d"
+export const verifierRevision = "a48ff1e405dfb126471049c838fa4ec150023b1a"
 const verifierPath = verifierRevision + "/docs/debian-images/check_release.py"
 const screenshots = "/software/screenshots/verification/"
 
@@ -123,10 +123,10 @@ export function SignedDownloadCheck({ product }: { product: "Vault" | "Node" }) 
                 <p>Look for <strong>OK</strong> next to the checksum and your ISO’s filename. This means the signature was accepted and your file matches the signed release. If either check fails, stop before writing the USB. Check the signing key and download again from the release you chose.</p>
                 <figure className="verification-shot signed-download-check__result">
                   <ZoomableImage src={screenshots + "vault-v070-ok-detail.webp"}
-                    fullSrc={fullImage} alt="The verifier names bitcoin-core-vault-v0.7.0-amd64.iso and prints OK."
+                    fullSrc={fullImage} alt="Earlier example showing OK for bitcoin-core-vault-v0.7.0-amd64.iso."
                     width={544} height={48} loading="lazy" decoding="async" />
                   <figcaption>
-                    <span>Expected result for <code>{filename}</code> · <strong>OK</strong></span>
+                    <span>Example from Vault v0.7.0. Your result should show <strong>OK</strong> beside <code>{filename}</code>.</span>
                     <a href={fullImage}>View the full terminal output</a>
                   </figcaption>
                 </figure>

@@ -1,15 +1,21 @@
 const vaultRepo = "https://github.com/btcpavao/bitcoin-core-vault-releases"
-const vaultTag = "v0.7.0"
+const vaultTag = "v0.8.0"
+const vaultRevision = "d0bc35aa9a64d45d5c24a226aa9ba2ec2a315ebf"
 const vaultIsoName = `bitcoin-core-vault-${vaultTag}-amd64.iso`
 const vaultAssets = `${vaultRepo}/releases/download/${vaultTag}/`
 
 export const vaultBuild = {
   tag: vaultTag,
+  repo: vaultRepo,
+  revision: vaultRevision,
+  sha256: "0bc142508a35172ea92f645decc31be1373b05956e9a17d0ad01cee9bab84857",
   isoName: vaultIsoName,
   isoUrl: vaultAssets + vaultIsoName,
   releaseUrl: `${vaultRepo}/releases/tag/${vaultTag}`,
   signingKeyUrl: vaultAssets + "btcpavao-pgp.asc",
-  proofUrl: vaultRepo + "/actions/runs/43864705133",
+  manifestUrl: vaultAssets + "SHA256SUMS",
+  signatureUrl: vaultAssets + "SHA256SUMS.asc",
+  instructionsUrl: `${vaultRepo}/blob/${vaultRevision}/docs/REBUILD.md`,
   downloadSize: "714 MB",
 } as const
 

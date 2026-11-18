@@ -1,12 +1,12 @@
-import { nodeBuild } from "../iso-releases"
+import { nodeBuild, vaultBuild } from "../iso-releases"
 import { useState } from "react"
 import { VerificationCommands } from "./verification-commands"
 
 const images = {
   vault: {
-    name: "Vault v0.7.0",
-    file: "bitcoin-core-vault-v0.7.0-amd64.iso",
-    hash: "1e1782d6dc1354585cf6ec941ed7d231f0e48adfc0cee3972af1eaf3483424bb",
+    name: "Vault " + vaultBuild.tag,
+    file: vaultBuild.isoName,
+    hash: vaultBuild.sha256,
     core: "usr/local/bin",
   },
   node: {

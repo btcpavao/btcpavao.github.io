@@ -49,12 +49,12 @@ function WalletPairing() {
       <ol role="list" className="my-5 grid list-none gap-6 md:grid-cols-2">
         <li className="flex min-w-0 flex-col">
           <h4 className="text-lg font-semibold">On Vault, export the watch-only copy</h4>
-          <p className="mt-2 flex-1 leading-7">In Bitcoin Core, select your practice wallet and choose <strong>File → Export watch-only wallet</strong>. Save the file directly to the transfer USB. Keep the encrypted backup of your signing wallet on a separate drive, offline.</p>
+          <p className="mt-2 flex-1 leading-7">In Bitcoin Core, select your practice wallet and choose <strong>File → Export watch-only wallet</strong>. Choose the transfer USB. If Vault warns that the copy contains address-book or transaction data, check that you intend to share it and choose <strong>Export wallet</strong>. Choosing <strong>Cancel</strong> leaves the file off the USB. Keep the encrypted backup of your signing wallet on a separate drive, offline.</p>
           <PracticePhoto shot={{
             src: "/software/screenshots/vault/v0.7.0/watch-only-usb.webp", width: 544, height: 152,
             fullSrc: "/software/screenshots/vault/v0.7.0/watch-only-usb-full.webp",
             alt: "Vault’s Export Successful dialog names /media/vault/TRANSFER/Course files/watch only.dat.",
-          }} label="Watch-only wallet export on Vault" caption="Vault v0.7.0 saved watch only.dat to the drive named TRANSFER." />
+          }} label="Watch-only wallet export on Vault" caption="Earlier example from Vault v0.7.0. Core saved watch only.dat to the drive named TRANSFER." />
         </li>
         <li className="flex min-w-0 flex-col">
           <h4 className="text-lg font-semibold">On Node, open and check the copy</h4>

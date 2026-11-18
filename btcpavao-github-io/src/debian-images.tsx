@@ -177,10 +177,11 @@ function ReleaseDownloads() {
         <div className="iso-release-evidence-grid">
           <div>
             <h3>Vault {vaultBuild.tag}</h3>
-            <p>Two project builds matched the signed ISO byte for byte. An independent security review of this release has yet to be published.</p>
+            <p>Verify the OpenPGP signature on the checksum list, check the ISO, and compare it with your own build.</p>
             <ul>
               <li><a href={vaultBuild.releaseUrl}>Signed files, release notes and test results</a></li>
-              <li><a href={vaultBuild.proofUrl}>Compare the two Vault builds</a></li>
+              <li><a href={vaultBuild.manifestUrl}>SHA256SUMS</a> and <a href={vaultBuild.signatureUrl}>OpenPGP signature</a></li>
+              <li><a href={vaultBuild.instructionsUrl}>Build Vault from source</a></li>
             </ul>
           </div>
           <div>

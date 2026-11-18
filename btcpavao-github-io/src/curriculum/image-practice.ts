@@ -23,11 +23,11 @@ const downloadCheck = { label: "Check your Vault or Node ISO", href: downloads +
 const rebuild = { label: "Rebuild the Vault or Node download", href: DEBIAN_IMAGE_VERIFICATION_PATH + "#rebuild-tutorial" }
 const nativeExport = {
   label: "Core 32.1 watch-only export on Vault",
-  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.7.0/docs/WATCH-ONLY.md",
+  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.8.0/docs/WATCH-ONLY.md",
 }
 const independentRecovery = {
   label: "Recover a Vault backup using GnuPG and Core",
-  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/5346a0db977049a028429482ff943619c52009c4/docs/GPG-BACKUP.md",
+  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/d0bc35aa9a64d45d5c24a226aa9ba2ec2a315ebf/docs/GPG-BACKUP.md",
 }
 
 export const imagePractice: Record<string, ImageLesson> = {
@@ -191,7 +191,7 @@ export const imagePractice: Record<string, ImageLesson> = {
     overview: {
       role: "Vault",
       title: "Rehearse with an empty Vault wallet",
-      instructions: ["The signed Vault v0.7.0 image runs Core 32.1 inside its protected offline launcher. Use an unfunded disposable wallet to practise backup, shutdown and restoration. For the funded Signet exercise, use the standard Core path unless you have separately verified a matching practice network on both computers. The Vault screenshots follow an unfunded wallet with a single GPG backup layer across a guest OS restart. For your own drill, also encrypt the wallet in Core and perform the full shutdown below."],
+      instructions: ["The signed Vault v0.8.0 image runs Core 32.1 inside its protected offline launcher. Use an unfunded disposable wallet to practise backup, shutdown and restoration. For the funded Signet exercise, use the standard Core path unless you have separately verified a matching practice network on both computers. The Vault screenshots follow an unfunded wallet with a single GPG backup layer across a guest OS restart. For your own drill, also encrypt the wallet in Core and perform the full shutdown below."],
       links: [downloadCheck],
     },
     steps: {
@@ -336,7 +336,7 @@ export const imagePractice: Record<string, ImageLesson> = {
     steps: {
       "gpg-recover-20261016": {
         role: "Vault", title: "Recover one wallet without the Vault interface",
-        instructions: ["For a Vault v0.7.0 single-wallet export, use standard GnuPG on a clean offline system to open each GPG layer, outermost first. The final output is the Core wallet file. Restore it using File → Restore Wallet and use the separate Core passphrase when the signing test asks for it. A grouped file or folder backup also requires extracting the recovered TAR archive."],
+        instructions: ["For a Vault v0.8.0 single-wallet export, use standard GnuPG on a clean offline system to open each GPG layer, outermost first. The final output is the Core wallet file. Restore it using File → Restore Wallet and use the separate Core passphrase when the signing test asks for it. A grouped file or folder backup also requires extracting the recovered TAR archive."],
         result: "A backup from the removable medium restores in standard Core and can sign the disposable test payment.",
         links: [independentRecovery],
       },
