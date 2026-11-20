@@ -7,7 +7,7 @@ For either download on [the project page](https://btcpavao.com/en/bitcoin-core/d
 | Current download | Published SHA-256 of the complete ISO | Verification |
 | --- | --- | --- |
 | [Vault v0.8.0](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.8.0) | `0bc142508a35172ea92f645decc31be1373b05956e9a17d0ad01cee9bab84857` | Verify the OpenPGP-signed manifest, then compare the rebuilt ISO. |
-| [Node rebuild-e6519d7e5e95](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/rebuild-e6519d7e5e95) | `8efaf0fb4f05a7a59554855575e24e178f07a3629cea5c9b9bbe6e5f498691b6` | Verify the OpenPGP-signed manifest, then compare the rebuilt ISO. |
+| [Node v0.1.0-rc.3](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.3) | `39e9b5b76dce7d9854989365d389caa50d55f0b0c5654602eafc7e12904b6675` | Verify the OpenPGP-signed manifest, then compare the rebuilt ISO. |
 
 A release has a version (for example, `v0.8.0`), an exact revision of its source code (the **commit**) and a fingerprint of the finished file (the **SHA-256**). The release list `SHA256SUMS` connects filenames to their SHA-256 values. Pavao’s detached OpenPGP signature authenticates each release’s list once you establish the signing key’s fingerprint. To check a rebuild, calculate the SHA-256 of the ISO **you built** and compare every byte against the actual downloaded ISO.
 
@@ -38,11 +38,11 @@ The program downloads the public key, manifest and detached signature for the ve
 These two commands authenticate the signed Vault release and the historical signed RC2 **source** used as an input to today’s Node recipe. For the prepared source of the current Node download, use its own tag and apply the public build patch:
 
 ```bash
-git clone --depth 1 --branch rebuild-e6519d7e5e95 https://github.com/btcpavao/bitcoin-core-node-releases.git node-source-review
+git clone --depth 1 --branch v0.1.0-rc.3 https://github.com/btcpavao/bitcoin-core-node-releases.git node-source-review
 (
   set -eu
   cd node-source-review
-  test "$(git rev-parse HEAD)" = e6519d7e5e956aa62512294389a9db2cd0a60a96
+  test "$(git rev-parse HEAD)" = dc82242379bc9c6f8c7d7c60d94a0dbb69bdd1e0
   bash rebuild/node source ../node-inspection
 )
 ```
@@ -109,8 +109,8 @@ To check the current Node download's chain-backup code before booting it, prepar
 sudo apt install xorriso squashfs-tools
 (
   set -eu
-  iso="$HOME/Downloads/bitcoin-core-node-rebuild-e6519d7e5e95-core32.1-amd64.iso"
-  printf '%s  %s\n' 8efaf0fb4f05a7a59554855575e24e178f07a3629cea5c9b9bbe6e5f498691b6 "$iso" | sha256sum --check
+  iso="$HOME/Downloads/bitcoin-core-node-v0.1.0-rc.3-core32.1-amd64.iso"
+  printf '%s  %s\n' 39e9b5b76dce7d9854989365d389caa50d55f0b0c5654602eafc7e12904b6675 "$iso" | sha256sum --check
   work=$(mktemp -d "$HOME/inspect-node.XXXXXX")
   xorriso -osirrox on -indev "$iso" -extract /live/filesystem.squashfs "$work/payload.squashfs"
   unsquashfs -cat "$work/payload.squashfs" usr/lib/bitcoin-core-node/chain_backup.py > "$work/from-iso.py"
@@ -139,7 +139,7 @@ The comparison checks the contents of the paths supplied by the source archive. 
 
 **Vault v0.8.0.** The build recipe targets the same ISO distributed with the signed release. Authenticate the downloaded ISO in step 2, then compare your own build with it.
 
-**Node rebuild-e6519d7e5e95.** The current Node download is the candidate built by the recipe below. Its recipe starts with the signed RC2 source archive and pins the build environment, Debian packages and upstream inputs. Verify the detached signature and ISO checksum for the candidate, then compare your build with that downloaded file.
+**Node v0.1.0-rc.3.** The current Node download is the candidate built by the recipe below. Its recipe starts with the signed RC2 source archive and pins the build environment, Debian packages and upstream inputs. Verify the detached signature and ISO checksum for the candidate, then compare your build with that downloaded file.
 
 ### Prepare your build VM
 
@@ -171,16 +171,16 @@ This recipe builds the Calamares installer, Thunar file manager and Vault Backup
 
 ### Rebuild the Node candidate
 
-The recipe authenticates Node's RC2 project sources, applies its public changes and builds the local installer and login screen. Two fresh runners produced the same 1,284,276,224-byte ISO. The release page includes the downloadable image, recipe commit ID, signed checksum list and detached signature. [Candidate files](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/rebuild-e6519d7e5e95) · [Build instructions at this revision](https://github.com/btcpavao/bitcoin-core-node-releases/blob/e6519d7e5e956aa62512294389a9db2cd0a60a96/docs/REBUILD.md) · [Build logs and byte comparison](https://github.com/btcpavao/bitcoin-core-node-releases/actions/runs/43015398147/job/130513786522)
+The recipe authenticates Node's RC2 project sources, applies its public changes and builds the local installer and login screen. The tested RC3 download is 1,288,060,928 bytes. The workflow records the two rebuilds and their comparison. The release page includes the downloadable image, recipe commit ID, signed checksum list and detached signature. [Candidate files](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.3) · [Build instructions at this revision](https://github.com/btcpavao/bitcoin-core-node-releases/blob/dc82242379bc9c6f8c7d7c60d94a0dbb69bdd1e0/docs/REBUILD.md) · [Build logs and byte comparison](https://github.com/btcpavao/bitcoin-core-node-releases/actions/runs/44714236174)
 
 ```bash
 (
   set -eu
-  git clone --depth 1 --branch rebuild-e6519d7e5e95 https://github.com/btcpavao/bitcoin-core-node-releases.git node-candidate
+  git clone --depth 1 --branch v0.1.0-rc.3 https://github.com/btcpavao/bitcoin-core-node-releases.git node-candidate
   cd node-candidate
-  test "$(git rev-parse HEAD)" = e6519d7e5e956aa62512294389a9db2cd0a60a96
+  test "$(git rev-parse HEAD)" = dc82242379bc9c6f8c7d7c60d94a0dbb69bdd1e0
   sudo bash rebuild/node build ../node-result
-  printf '%s  %s\n' 8efaf0fb4f05a7a59554855575e24e178f07a3629cea5c9b9bbe6e5f498691b6 ../node-result/bitcoin-core-node-candidate-amd64.iso | sudo sha256sum --check
+  printf '%s  %s\n' 39e9b5b76dce7d9854989365d389caa50d55f0b0c5654602eafc7e12904b6675 ../node-result/bitcoin-core-node-candidate-amd64.iso | sudo sha256sum --check
 )
 ```
 
@@ -188,7 +188,7 @@ The recipe authenticates Node's RC2 project sources, applies its public changes 
 
 **Vault.** Review the [changes since v0.7.0](https://github.com/btcpavao/bitcoin-core-vault-releases/compare/v0.7.0...d0bc35aa9a64d45d5c24a226aa9ba2ec2a315ebf) and the [source inputs for the patched packages](https://github.com/btcpavao/bitcoin-core-vault-releases/tree/d0bc35aa9a64d45d5c24a226aa9ba2ec2a315ebf/tools/rebuild/packages/sources). The release revision and signed build-inputs.txt identify the recipe. The signed package inventory identifies the installed Debian packages.
 
-**Node.** Open [the build recipe changes](https://github.com/btcpavao/bitcoin-core-node-releases/pull/1/files). The file `rebuild/node.patch` shows each change applied to the signed RC2 sources. To read the finished sources before building, run `bash rebuild/node source ../node-inspection` in your checked-out candidate directory and open the resulting folder. Node also includes upstream firmware packages. Those packages can be identified and hashed even where the vendor does not publish their source.
+**Node.** Open [the build recipe changes](https://github.com/btcpavao/bitcoin-core-node-releases/compare/e6519d7e5e956aa62512294389a9db2cd0a60a96...97922f807e84de7184aaae6be56375da56d7f1de). The file `rebuild/node.patch` shows each change applied to the signed RC2 sources. To read the finished sources before building, run `bash rebuild/node source ../node-inspection` in your checked-out candidate directory and open the resulting folder. Node also includes upstream firmware packages. Those packages can be identified and hashed even where the vendor does not publish their source.
 
 Each recipe links to a public revision. For the main [Vault](https://btcpavao.com/en/bitcoin-core/debian-images/#verify-vault-download) and [Node](https://btcpavao.com/en/bitcoin-core/debian-images/#verify-node-download) downloads, verify the release’s detached signature before checking your ISO against its checksum list.
 
@@ -200,7 +200,7 @@ Save your chosen ISO from the main download button in Downloads. From the direct
 
 ```bash
 cmp vault-result/bitcoin-core-vault-amd64.iso "$HOME/Downloads/bitcoin-core-vault-v0.8.0-amd64.iso" && echo "MATCH: Vault"
-sudo cmp node-result/bitcoin-core-node-candidate-amd64.iso "$HOME/Downloads/bitcoin-core-node-rebuild-e6519d7e5e95-core32.1-amd64.iso" && echo "MATCH: Node"
+sudo cmp node-result/bitcoin-core-node-candidate-amd64.iso "$HOME/Downloads/bitcoin-core-node-v0.1.0-rc.3-core32.1-amd64.iso" && echo "MATCH: Node"
 ```
 
 A successful comparison establishes that your machine reproduced the actual download. See the [website rebuild tutorial](https://btcpavao.com/en/bitcoin-core/debian-images/verification/#rebuild-tutorial) for a single comparison block per product that also downloads and checks the published ISO.

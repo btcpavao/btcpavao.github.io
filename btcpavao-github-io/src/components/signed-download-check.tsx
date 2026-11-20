@@ -45,7 +45,7 @@ function NodeDownloadCheck() {
             <div className="signed-download-check__body">
               <p>Save the <a href={nodeBuild.isoUrl}>Node ISO</a> in Downloads. Before you start, confirm Pavao’s signing-key fingerprint through a separate channel you already trust.</p>
               <code className="debian-signing-fingerprint">787A 2AAF B0D1 19CA 0522 B2A5 B9C9 9AF8 5788 96D0</code>
-              <p>Open Terminal. If you need curl or GnuPG, install them with <code>sudo apt install curl gnupg</code>. Paste the block below. It downloads the public key and signed checksum list from the <a href={nodeBuild.releaseUrl}>Node release</a>, verifies the signature in a temporary keyring, then checks your entire ISO against the signed entry and the recorded rebuild.</p>
+              <p>Open Terminal. If you need curl or GnuPG, install them with <code>sudo apt install curl gnupg</code>. Paste the block below. It downloads the public key and signed checksum list from the <a href={nodeBuild.releaseUrl}>Node release</a>, verifies the signature in a temporary keyring, then checks your entire ISO against the signed entry for RC3.</p>
               <Commands title="Verify the Node signature and ISO" lines={[
                 "(",
                 "  set -eu",

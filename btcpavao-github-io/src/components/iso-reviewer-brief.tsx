@@ -2,7 +2,7 @@ import { Download, FileSearch, Mail } from "lucide-react"
 import { nodeBuild, vaultBuild } from "../iso-releases"
 import { SITE_URL } from "../site-config"
 
-const brief = "/software/reviewer-brief-vault-v0.8.0-node-rebuild-e6519d7e5e95.md"
+const brief = "/software/reviewer-brief-vault-v0.8.0-node-v0.1.0-rc.3.md"
 const vault = vaultBuild.repo + "/tree/" + vaultBuild.revision
 const node = nodeBuild.repo + "/tree/" + nodeBuild.revision + "/rebuild"
 

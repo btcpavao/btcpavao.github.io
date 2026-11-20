@@ -166,7 +166,7 @@ function ReleaseDownloads() {
         <article id="node-release" className="iso-release-row" aria-labelledby="node-download-heading">
           <div>
             <h3 id="node-download-heading">Bitcoin Core Node</h3>
-            <p>Signed test release · <code>{nodeBuild.tag}</code> · Debian 13</p>
+            <p>Signed release candidate · <code>{nodeBuild.tag}</code> · Debian 13</p>
           </div>
           <a className="iso-file" href={nodeBuild.isoUrl}><ArrowDownToLine aria-hidden="true" /> Download Node ISO <small>{nodeBuild.downloadSize}</small></a>
           <a className="iso-check" href="#verify-node-download">Verify Node <ArrowRight aria-hidden="true" /></a>
@@ -186,12 +186,13 @@ function ReleaseDownloads() {
             </ul>
           </div>
           <div>
-            <h3>Node test release</h3>
-            <p>Two pairs of GitHub builders produced the same ISO. My OpenPGP signature authenticates the checksum list for this build.</p>
+            <h3>Node {nodeBuild.tag}</h3>
+            <p>I tested this ISO on a ThinkPad T550 and signed its checksum list. The build record shows the results from two fresh GitHub runners.</p>
             <ul>
               <li><a href={nodeBuild.releaseUrl}>Node release notes and files</a></li>
               <li><a href={nodeBuild.manifestUrl}>SHA256SUMS</a> and <a href={nodeBuild.signatureUrl}>OpenPGP signature</a></li>
-              <li><a href={nodeBuild.proofUrl}>Compare the Node builds</a></li>
+              <li><a href={nodeBuild.instructionsUrl}>Build Node from source</a></li>
+              <li><a href={nodeBuild.proofUrl}>View the Node build jobs and comparison</a></li>
             </ul>
           </div>
         </div>

@@ -117,7 +117,7 @@ function RebuildSteps({ product }: { product: Product }) {
           ]} />
           {product === "Node" && <VerificationShot file="node-source-revision" width={1114} height={223}
             alt="A checkout of the Node candidate prints the full Git commit beginning with e6519d7e5e95."
-            caption="The final line identifies the Node source revision. Compare the entire value before building." />}
+            caption="Example from an earlier release. For RC3, compare the full revision printed by the command above." />}
         </li>
         <li>
           <strong>Review what the project changes.</strong>{" "}
@@ -323,8 +323,8 @@ export function DebianImageVerification() {
           <a href={vaultExport + "#L101-L128"}>watch-only checks</a> read the wallet flags and ask Core whether a descriptor
           contains private keys. Follow the call from{" "}
           <a href={vaultExport + "#L187-L225"}>the function that publishes the file</a>.
-          The Node recipe carries this backup module over from RC2. Compare the <a href={nodeSource + "/app/chain_backup.py#L28"}>folder list</a> with the{" "}
-          <a href={nodeSource + "/app/chain_backup.py#L220-L240"}>loop that reads those folders</a>.
+          For Node, inspect the backup module from the RC3 source archive. Its RC2 ancestor shows the <a href={nodeSource + "/app/chain_backup.py#L28"}>folder list</a> with the{" "}
+          <a href={nodeSource + "/app/chain_backup.py#L220-L240"}>loop that reads those folders</a>. Review the RC3 changes in <code>node-inspection/app/chain_backup.py</code>.
           If an answer cites only a comment or a README, ask for the code that enforces the behaviour.
           An AI can overlook another code path. Treat an unsupported claim as an open question.
         </li>
@@ -374,7 +374,7 @@ export function DebianImageVerification() {
         <p><strong>Vault v0.8.0</strong>Compare your build directly with the signed Vault ISO from the main
           download button. <a href={vaultBuild.proofUrl}>Two project builds matched the published ISO byte for byte.</a> Follow the <a href={vaultBuild.instructionsUrl}>build instructions</a> to check it on your own machine.</p>
         <p><strong>Node {builds.Node.tag}</strong>Compare your build with the ISO from the main Node download button.
-          The recipe pins its Debian snapshot and build inputs. The <a href={nodeBuild.proofUrl}>tagged build comparison</a> matched both complete ISOs. Their SHA-256 also matches the entry in the <a href={nodeBuild.releaseUrl}>signed Node checksum list</a>.</p>
+          The recipe pins its Debian snapshot and build inputs. Open the <a href={nodeBuild.proofUrl}>RC3 build jobs and byte comparison</a>. Check the hash from your own build against the <a href={nodeBuild.releaseUrl}>signed RC3 checksum list</a>.</p>
       </div>
       <details className="build-instructions">
         <summary>Already downloaded an ISO? Check its SHA-256 first</summary>
@@ -408,12 +408,12 @@ export function DebianImageVerification() {
       <h3 id="verification-results" className="learning-heading"><CircleCheckBig className="section-pictogram" aria-hidden="true" /><span>Read the result</span></h3>
       <p>
         Two <strong>OK</strong> lines followed by <strong>MATCH</strong> mean your build and the published
-        image are identical, down to the last byte. The Node comparison log below shows the output from two builders. Running the recipe on infrastructure you control provides a separate check. Assessing what the software does also requires reading the code and testing its behaviour.
+        image are identical, down to the last byte. This example from an earlier Node release shows the output from two builders. Running the recipe on infrastructure you control provides a separate check. Assessing what the software does also requires reading the code and testing its behaviour.
       </p>
       <VerificationShot file="node-ci-comparison" width={906} height={348}
         alt="The Node GitHub comparison log shows identical SHA-256 values for both build outputs and a final MATCH."
-        caption="The recorded GitHub job compared the two Node builds. Each ISO has the same hash, and MATCH confirms that the full files are identical." />
-      <a href={nodeBuild.proofUrl}>Open the original Node comparison log</a>
+        caption="Historical example from an earlier Node release. Each ISO has the same hash, and MATCH confirms that the full files are identical." />
+      <a href={nodeBuild.proofUrl}>Open the current RC3 build record</a>
       <p>
         If they differ, keep both files, the full commit ID, the expected and actual hashes and the build log.
         These let another builder investigate the same result. The{" "}
