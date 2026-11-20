@@ -12,13 +12,13 @@ RETIRED_VAULT_FILES = {"usr/local/bin/core-signer-session", "usr/share/xsessions
 def project_files(archive, role, version):
     if role == "vault" and version in ("v0.5.0", "v0.6.0", "v0.7.0", "v0.8.0"):
         roots = {f"bitcoin-core-vault-{version}-source/config/includes.chroot/": ""}
-    elif (role, version) == ("node", "v0.1.0-rc.2"):
-        roots = {
-            "bitcoin-core-node-v0.1.0-rc.2/runtime/": "",
-            "bitcoin-core-node-v0.1.0-rc.2/app/": "usr/lib/bitcoin-core-node/",
-        }
+    elif role == "node" and version in ("v0.1.0-rc.2", "v0.1.0-rc.3"):
+        prefix = f"bitcoin-core-node-{version}"
+        if version == "v0.1.0-rc.3":
+            prefix += "-source"
+        roots = {f"{prefix}/runtime/": "", f"{prefix}/app/": "usr/lib/bitcoin-core-node/"}
     else:
-        raise ValueError("This source-to-ISO mapping covers Vault v0.5.0 through v0.8.0 and Node v0.1.0-rc.2.")
+        raise ValueError("This source-to-ISO mapping covers Vault v0.5.0 through v0.8.0 and Node v0.1.0-rc.2 and v0.1.0-rc.3.")
     expected = {}
     with tarfile.open(archive, "r:gz") as tar:
         for member in tar:
@@ -45,10 +45,16 @@ def project_files(archive, role, version):
 def compare_payload(archive, iso, stage, role, version):
     expected = project_files(archive, role, version)
     retired = RETIRED_VAULT_FILES if (role, version) == ("vault", "v0.8.0") else set()
+    # RC3 ships the same shell assignment twice in this initramfs setting.
+    # Check the precise source and installed forms separately.
+    crypt_config = "etc/cryptsetup-initramfs/conf-hook"
+    check_crypt_config = (role, version) == ("node", "v0.1.0-rc.3")
+    if check_crypt_config and expected.pop(crypt_config) != hashlib.sha256(b"CRYPTSETUP=y\n").hexdigest():
+        raise ValueError("Unexpected RC3 source contents for " + crypt_config)
     image = stage / "filesystem.squashfs"
     root = stage / "root"
     listing = stage / "project-files.txt"
-    listing.write_text("".join(path + "\n" for path in sorted(expected.keys() | retired)))
+    listing.write_text("".join(path + "\n" for path in sorted(expected.keys() | retired | ({crypt_config} if check_crypt_config else set()))))
     subprocess.run(["xorriso", "-osirrox", "on", "-indev", str(iso.resolve()),
                     "-extract", "/live/filesystem.squashfs", str(image)], check=True)
     subprocess.run(["unsquashfs", "-no-xattrs", "-no-progress", "-no-wildcards",
@@ -67,8 +73,14 @@ def compare_payload(archive, iso, stage, role, version):
             with path.open("rb") as stream:
                 if hashlib.file_digest(stream, "sha256").hexdigest() != digest:
                     failures.append(name + " (different bytes)")
+    if check_crypt_config:
+        path = root / crypt_config
+        if path.resolve() != path or not path.is_file() or path.read_bytes() != b"CRYPTSETUP=y\n" * 2:
+            failures.append(crypt_config + " (unexpected installed contents)")
     if failures:
         raise ValueError("Source-to-ISO differences:\n" + "\n".join(failures))
     print(f"MATCH  {len(expected)} regular project files have the same bytes in the source archive and the ISO.")
+    if check_crypt_config:
+        print("MATCH  cryptsetup-initramfs configuration has the documented RC3 source and installed forms.")
     if retired:
         print(f"MATCH  All {len(retired)} retired session files are absent.")

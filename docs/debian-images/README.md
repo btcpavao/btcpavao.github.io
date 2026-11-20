@@ -121,17 +121,19 @@ sudo apt install xorriso squashfs-tools
 
 For Vault v0.8.0, the same method works for the code that checks signed PSBTs and watch-only wallets before writing them to a mounted transfer drive. The ISO path is `usr/lib/core-vault/public_export.py`. Its source archive member is `bitcoin-core-vault-v0.8.0-source/config/includes.chroot/usr/lib/core-vault/public_export.py`.
 
-For the signed Vault release and the archived signed Node RC2, the verifier also checks the mapped regular files. Run the matching line after step 2. The tool rechecks the ISO and the source archive against the same signed manifest before opening either. Keep 2 GiB free for temporary files per run.
+For the signed Vault and Node releases, the verifier also checks the mapped project files. Use the current release commands below. Allow 2 GiB of temporary disk space. The verifier checks the source archive and ISO against the same signed manifest before extracting them.
 
 ```sh
 python3 check_release.py vault v0.8.0 --iso ~/Downloads/bitcoin-core-vault-v0.8.0-amd64.iso --inspect
-python3 check_release.py node v0.1.0-rc.2 --iso ~/Downloads/bitcoin-core-node-v0.1.0-rc.2-core32.1-amd64.iso --inspect
+python3 check_release.py node v0.1.0-rc.3
+python3 check_release.py node v0.1.0-rc.3 --iso ~/Downloads/bitcoin-core-node-v0.1.0-rc.3-core32.1-amd64.iso --inspect
 ```
 
 | Image | Files covered by the comparison | Recorded result |
 | --- | --- | --- |
 | Vault v0.8.0 | 162 installed regular files from `config/includes.chroot/`, including both Bitcoin Core executables and the public export helpers, plus two intentionally removed session files | 162 matched and both retired files were absent on 18 November 2026 |
 | Node v0.1.0-rc.2 | 156 regular files in `runtime/` and 71 Python modules in `app/` | 227 matched on 11 November 2026 |
+| Node v0.1.0-rc.3 | Project runtime files and Python modules | 247 matched byte for byte on 20 November 2026. A separate exact check covers the initramfs setting: the source sets `CRYPTSETUP=y` once and the installed file contains that same assignment twice. |
 
 The comparison checks the contents of the paths supplied by the source archive. Other files, permissions, symbolic links, installed Debian packages and machine behavior require separate inspection. You can read the path mapping in [inspect_payload.py](inspect_payload.py).
 
@@ -205,7 +207,7 @@ sudo cmp node-result/bitcoin-core-node-candidate-amd64.iso "$HOME/Downloads/bitc
 
 A successful comparison establishes that your machine reproduced the actual download. See the [website rebuild tutorial](https://btcpavao.com/en/bitcoin-core/debian-images/verification/#rebuild-tutorial) for a single comparison block per product that also downloads and checks the published ISO.
 
-For signed Vault v0.8.0 or a historical copy of Node v0.1.0-rc.2, return to the guide directory and use `python3 check_release.py PRODUCT TAG --iso "/path/to/your/downloaded.iso"` with the actual product, version and path. The tool verifies the publisher’s signature on the checksum list and compares your file with the entry for that release. See [how to verify a signed download](https://btcpavao.com/en/bitcoin-core/debian-images/#verify-download).
+For signed Vault v0.8.0 or Node v0.1.0-rc.3, return to the guide directory and use `python3 check_release.py PRODUCT TAG --iso "/path/to/your/downloaded.iso"` with the actual product, version and path. The tool verifies the publisher’s signature on the checksum list and compares your file with the entry for that release. See [how to verify a signed download](https://btcpavao.com/en/bitcoin-core/debian-images/#verify-download).
 
 If any hashes differ, keep both files, record the expected and actual digests and keep the build logs. On a disposable VM with both files, install `diffoscope` and run `diffoscope --text differences.txt first.iso second.iso` with the actual paths. It opens nested filesystems and identifies the first meaningful differences. A timestamp difference still changes the ISO.
 

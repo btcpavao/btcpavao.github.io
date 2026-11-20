@@ -345,7 +345,7 @@ export function DebianImageVerification() {
         <Commands title="Compare Vault’s project files" lines={[
           'python3 check_release.py vault v0.8.0 --inspect --iso "$HOME/Downloads/bitcoin-core-vault-v0.8.0-amd64.iso"',
         ]} />
-        <p>The Vault v0.8.0 check compares 162 installed project files and confirms that the old desktop session and its launcher are absent. For Node, install <code>xorriso</code> and <code>squashfs-tools</code> and prepare the current source folder as above. Run the block below from the parent directory of <code>node-inspection</code> to compare the chain-backup module in your ISO with the file you reviewed. It checks the full ISO fingerprint before opening the filesystem.</p>
+        <p>The Vault v0.8.0 check compares 162 installed project files and confirms that the old desktop session and its launcher are absent. For Node, install <code>xorriso</code> and <code>squashfs-tools</code> and prepare the current source folder as above. Run the block below from the parent directory of <code>node-inspection</code> to compare the chain-backup module in your ISO with the file you reviewed. It checks the full ISO fingerprint before opening the filesystem. The <a href="https://github.com/btcpavao/btcpavao.github.io/tree/main/docs/debian-images">full RC3 verifier</a> also compares 247 project files byte for byte and checks the exact installed form of one initramfs setting.</p>
         <Commands title="Compare the current Node chain-backup module" lines={[
           "(",
           "  set -eu",
