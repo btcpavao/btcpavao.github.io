@@ -173,7 +173,7 @@ This recipe builds the Calamares installer, Thunar file manager and Vault Backup
 
 ### Rebuild the Node candidate
 
-The recipe authenticates Node's RC2 project sources, applies its public changes and builds the local installer and login screen. The tested RC3 download is 1,288,060,928 bytes. The workflow records the two rebuilds and their comparison. The release page includes the downloadable image, recipe commit ID, signed checksum list and detached signature. [Candidate files](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.3) · [Build instructions at this revision](https://github.com/btcpavao/bitcoin-core-node-releases/blob/dc82242379bc9c6f8c7d7c60d94a0dbb69bdd1e0/docs/REBUILD.md) · [Build logs and byte comparison](https://github.com/btcpavao/bitcoin-core-node-releases/actions/runs/44714236174)
+The recipe authenticates Node's RC2 project sources, applies its public changes and builds the local installer and login screen. The tested RC3 download is 1,288,060,928 bytes. Two fresh GitHub rebuilds matched each other byte for byte and reproduced the signed RC3 hash. The release page includes the downloadable image, recipe commit ID, signed checksum list and detached signature. [Candidate files](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.3) · [Build instructions at this revision](https://github.com/btcpavao/bitcoin-core-node-releases/blob/dc82242379bc9c6f8c7d7c60d94a0dbb69bdd1e0/docs/REBUILD.md) · [Build logs and byte comparison](https://github.com/btcpavao/bitcoin-core-node-releases/actions/runs/44714236174/job/136224300463)
 
 ```bash
 (

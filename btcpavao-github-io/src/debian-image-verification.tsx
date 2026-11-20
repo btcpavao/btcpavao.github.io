@@ -374,7 +374,7 @@ export function DebianImageVerification() {
         <p><strong>Vault v0.8.0</strong>Compare your build directly with the signed Vault ISO from the main
           download button. <a href={vaultBuild.proofUrl}>Two project builds matched the published ISO byte for byte.</a> Follow the <a href={vaultBuild.instructionsUrl}>build instructions</a> to check it on your own machine.</p>
         <p><strong>Node {builds.Node.tag}</strong>Compare your build with the ISO from the main Node download button.
-          The recipe pins its Debian snapshot and build inputs. Open the <a href={nodeBuild.proofUrl}>RC3 build jobs and byte comparison</a>. Check the hash from your own build against the <a href={nodeBuild.releaseUrl}>signed RC3 checksum list</a>.</p>
+          The recipe pins its Debian snapshot and build inputs. The <a href={nodeBuild.proofUrl}>RC3 comparison job</a> matched both complete builds byte for byte. Their SHA-256 matches the published ISO. Check the hash from your own build against the <a href={nodeBuild.releaseUrl}>signed RC3 checksum list</a>.</p>
       </div>
       <details className="build-instructions">
         <summary>Already downloaded an ISO? Check its SHA-256 first</summary>

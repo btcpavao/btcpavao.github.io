@@ -187,7 +187,7 @@ function ReleaseDownloads() {
           </div>
           <div>
             <h3>Node {nodeBuild.tag}</h3>
-            <p>I tested this ISO on a ThinkPad T550 and signed its checksum list. The build record shows the results from two fresh GitHub runners.</p>
+            <p>Two fresh GitHub builds matched each other byte for byte. Their SHA-256 matches the signed ISO I tested on a ThinkPad T550.</p>
             <ul>
               <li><a href={nodeBuild.releaseUrl}>Node release notes and files</a></li>
               <li><a href={nodeBuild.manifestUrl}>SHA256SUMS</a> and <a href={nodeBuild.signatureUrl}>OpenPGP signature</a></li>

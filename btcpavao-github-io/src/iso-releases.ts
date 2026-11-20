@@ -39,5 +39,5 @@ export const nodeBuild = {
   releaseUrl: repo + "/releases/tag/" + tag,
   sourceUrl: assetBase + "bitcoin-core-node-" + tag + "-source.tar.gz",
   instructionsUrl: repo + "/blob/" + revision + "/docs/REBUILD.md",
-  proofUrl: repo + "/actions/runs/44714236174",
+  proofUrl: repo + "/actions/runs/44714236174/job/136224300463",
 } as const
