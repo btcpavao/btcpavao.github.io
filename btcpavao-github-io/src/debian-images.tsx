@@ -191,6 +191,7 @@ function ReleaseDownloads() {
             <ul>
               <li><a href={nodeBuild.releaseUrl}>Node release notes and files</a></li>
               <li><a href={nodeBuild.manifestUrl}>SHA256SUMS</a> and <a href={nodeBuild.signatureUrl}>OpenPGP signature</a></li>
+              <li><a href={nodeBuild.isoUrl + ".asc"}>PGP signature for the ISO itself</a></li>
               <li><a href={nodeBuild.instructionsUrl}>Build Node from source</a></li>
               <li><a href={nodeBuild.proofUrl}>View the Node build jobs and comparison</a></li>
             </ul>

@@ -23,6 +23,18 @@ https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.8.0
 Detached signature:
 https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.8.0/SHA256SUMS.asc
 
+Bitcoin Core Node v0.1.0-rc.3
+https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.3
+
+Signed Node checksum list
+https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.3/SHA256SUMS
+
+Detached signature for the Node checksum list
+https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.3/SHA256SUMS.asc
+
+Detached signature for the Node ISO
+https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.3/bitcoin-core-node-v0.1.0-rc.3-core32.1-amd64.iso.asc
+
 Verification
 
 Download the public key, SHA256SUMS, SHA256SUMS.asc and the release files.
