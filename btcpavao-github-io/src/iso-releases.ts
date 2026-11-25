@@ -1,6 +1,6 @@
 const vaultRepo = "https://github.com/btcpavao/bitcoin-core-vault-releases"
-const vaultTag = "v0.8.0"
-const vaultRevision = "d0bc35aa9a64d45d5c24a226aa9ba2ec2a315ebf"
+const vaultTag = "v0.9.0"
+const vaultRevision = "58f873fa727054f262b2f99bf742aff251cc5672"
 const vaultIsoName = `bitcoin-core-vault-${vaultTag}-amd64.iso`
 const vaultAssets = `${vaultRepo}/releases/download/${vaultTag}/`
 
@@ -8,7 +8,7 @@ export const vaultBuild = {
   tag: vaultTag,
   repo: vaultRepo,
   revision: vaultRevision,
-  sha256: "0bc142508a35172ea92f645decc31be1373b05956e9a17d0ad01cee9bab84857",
+  sha256: "615067c09f573a4476c7039adc90e58f75a46bdf20a028fd3c58f3e300c832fe",
   isoName: vaultIsoName,
   isoUrl: vaultAssets + vaultIsoName,
   releaseUrl: `${vaultRepo}/releases/tag/${vaultTag}`,
@@ -16,8 +16,9 @@ export const vaultBuild = {
   manifestUrl: vaultAssets + "SHA256SUMS",
   signatureUrl: vaultAssets + "SHA256SUMS.asc",
   instructionsUrl: `${vaultRepo}/blob/${vaultRevision}/docs/REBUILD.md`,
-  proofUrl: vaultRepo + "/actions/runs/44328053285/job/134901484375",
-  downloadSize: "714 MB",
+  proofUrl: vaultAssets + "BUILD-PROVENANCE.json",
+  sourceUrl: vaultAssets + `bitcoin-core-vault-${vaultTag}-source.tar.gz`,
+  downloadSize: "1.13 GB",
 } as const
 
 const repo = "https://github.com/btcpavao/bitcoin-core-node-releases"

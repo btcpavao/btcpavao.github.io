@@ -158,7 +158,7 @@ function ReleaseDownloads() {
         <article className="iso-release-row" aria-labelledby="vault-download-heading">
           <div>
             <h3 id="vault-download-heading">Bitcoin Core Vault</h3>
-            <p>Signed release · {vaultBuild.tag} · Debian 13.7</p>
+            <p>Signed release · {vaultBuild.tag} · Debian 13</p>
           </div>
           <a className="iso-file" href={vaultBuild.isoUrl}><ArrowDownToLine aria-hidden="true" /> Download Vault ISO <small>{vaultBuild.downloadSize}</small></a>
           <a className="iso-check" href="#verify-vault-download">Verify Vault <ArrowRight aria-hidden="true" /></a>
@@ -173,16 +173,16 @@ function ReleaseDownloads() {
         </article>
       </div>
       <details className="iso-release-evidence">
-        <summary>Release files and reproducible build results</summary>
+        <summary>Release files and build records</summary>
         <div className="iso-release-evidence-grid">
           <div>
             <h3>Vault {vaultBuild.tag}</h3>
-            <p>Two project builds produced identical ISO files. Their SHA-256 matches the signed download.</p>
+            <p>This release includes the source, package inventory and records from local verification and hardware testing. A byte-identical independent rebuild has not yet been demonstrated for this ISO.</p>
             <ul>
               <li><a href={vaultBuild.releaseUrl}>Signed files, release notes and test results</a></li>
               <li><a href={vaultBuild.manifestUrl}>SHA256SUMS</a> and <a href={vaultBuild.signatureUrl}>OpenPGP signature</a></li>
-              <li><a href={vaultBuild.instructionsUrl}>Build Vault from source</a></li>
-              <li><a href={vaultBuild.proofUrl}>Compare the two Vault builds</a></li>
+              <li><a href={vaultBuild.instructionsUrl}>Vault source and build instructions</a></li>
+              <li><a href={vaultBuild.proofUrl}>Build provenance and validation</a></li>
             </ul>
           </div>
           <div>

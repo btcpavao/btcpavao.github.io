@@ -1,3 +1,4 @@
+import { vaultBuild } from "../iso-releases"
 export const DEBIAN_IMAGES_PATH = "/en/bitcoin-core/debian-images/"
 
 export function DebianImagesNotice({ compact = false }: { compact?: boolean }) {
@@ -10,7 +11,7 @@ export function DebianImagesNotice({ compact = false }: { compact?: boolean }) {
         <p className="debian-images-eyebrow">Available now · Vault release and Node test image</p>
         <h2>Dedicated Debian images for Bitcoin Core.</h2>
         <p>
-          Vault v0.8.0 keeps your wallet offline for signing and encrypted backups.
+          Vault {vaultBuild.tag} keeps your wallet offline for signing and encrypted backups.
           The reproducible Node test image runs Bitcoin Core on a dedicated online computer to verify
           the blockchain, prepare payments and broadcast them after you sign on Vault.
         </p>

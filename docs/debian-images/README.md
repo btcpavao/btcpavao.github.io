@@ -1,5 +1,20 @@
 # Verify the sources and rebuild a Bitcoin Core image
 
+
+## Current Vault release: v0.9.0
+
+The current Vault download is [v0.9.0](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.9.0), SHA-256 `615067c09f573a4476c7039adc90e58f75a46bdf20a028fd3c58f3e300c832fe`, size 1,133,379,584 bytes. It publishes the tested local ISO, source archive, package inventory, build inputs and validation records. A byte-identical independent rebuild of this ISO has not yet been demonstrated. Read its [current build guide and limits](https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.9.0/docs/REBUILD.md) and [BUILD-PROVENANCE.json](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/download/v0.9.0/BUILD-PROVENANCE.json).
+
+After completing the verifier setup and independently confirming the signing fingerprint below, use:
+
+```bash
+python3 check_release.py vault v0.9.0
+python3 check_release.py vault v0.9.0 --iso "$HOME/Downloads/bitcoin-core-vault-v0.9.0-amd64.iso"
+```
+
+The version-specific Vault rebuild and 162-file `--inspect` walkthrough below is retained for **the archived v0.8.0 ISO**. The existing `inspect_payload.py` mapping stops at v0.8.0 and must not be presented as a full v0.9.0 source-to-ISO check. Use the new release's source and published validation records when reviewing v0.9.0. Node RC3 commands and evidence remain current.
+
+
 Use a separate Debian 13 **amd64** virtual machine. A VM is a disposable computer that runs inside your usual computer. Open its Terminal and run one block at a time. Downloading and checking an ISO takes no USB stick, wallet, or Bitcoin. The build instructions for each image list additional space and tools.
 
 For either download on [the project page](https://btcpavao.com/en/bitcoin-core/debian-images/), check the signature and file hash, then [build it from the release revision in step 4](#4-build-on-a-clean-machine).
