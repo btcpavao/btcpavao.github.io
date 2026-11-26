@@ -1,8 +1,11 @@
 import { ArrowUpRight, LockKeyhole, Network } from "lucide-react"
 import { ZoomableImage } from "./zoomable-image"
+import { captures } from "../curriculum/practice-captures"
 import "./iso-system-roles.css"
 
 export function IsoSystemRoles() {
+  const vaultBackup = captures["vault-backup"]
+  const nodeBackup = captures["node-backup"]
   return (
     <section className="iso-system-roles" id="systems" aria-labelledby="systems-heading">
       <h2 id="systems-heading">Inside Vault and Node</h2>
@@ -23,10 +26,9 @@ export function IsoSystemRoles() {
             blocks traffic to and from other computers.
           </p>
           <figure>
-            <ZoomableImage src="/software/screenshots/vault/v0.7.0/encrypted-backup-usb-full.webp"
-              alt="Vault’s Create Encrypted Backup window with a passphrase, an optional encryption layer and the TRANSFER USB selected as the destination."
-              width={1280} height={800} loading="lazy" decoding="async" />
-            <figcaption>Saving an encrypted wallet backup directly to USB on Vault v0.7.0.</figcaption>
+            <ZoomableImage src={vaultBackup.src} fullSrc={vaultBackup.fullSrc} alt={vaultBackup.alt}
+              width={vaultBackup.width} height={vaultBackup.height} loading="lazy" decoding="async" />
+            <figcaption>{vaultBackup.context}. {vaultBackup.caption}</figcaption>
           </figure>
           <dl>
             <div>
@@ -54,10 +56,9 @@ export function IsoSystemRoles() {
             validates blocks and uses a watch-only copy of your wallet to track payments.
           </p>
           <figure>
-            <ZoomableImage src="/software/screenshots/curriculum/node-backup-categories.webp"
-              alt="Node’s Backup and Restore window offers separate Backup and Restore buttons for the blockchain, watch-only wallets, Bitcoin Core configuration and Node configuration."
-              width={1280} height={800} loading="lazy" decoding="async" />
-            <figcaption>The four backup options in this earlier Node RC2 screenshot. Open Settings → Backup and Restore on the current Node.</figcaption>
+            <ZoomableImage src={nodeBackup.src} fullSrc={nodeBackup.fullSrc} alt={nodeBackup.alt}
+              width={nodeBackup.width} height={nodeBackup.height} loading="lazy" decoding="async" />
+            <figcaption>{nodeBackup.context}. {nodeBackup.caption}</figcaption>
           </figure>
           <dl>
             <div>

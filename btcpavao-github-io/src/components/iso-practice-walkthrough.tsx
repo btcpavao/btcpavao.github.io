@@ -50,16 +50,18 @@ function WalletPairing() {
         <li className="flex min-w-0 flex-col">
           <h4 className="text-lg font-semibold">On Vault, export the watch-only copy</h4>
           <p className="mt-2 flex-1 leading-7">In Bitcoin Core, select your practice wallet and choose <strong>File → Export watch-only wallet</strong>. Choose the transfer USB. If Vault warns that the copy contains address-book or transaction data, check that you intend to share it and choose <strong>Export wallet</strong>. Choosing <strong>Cancel</strong> leaves the file off the USB. Keep the encrypted backup of your signing wallet on a separate drive, offline.</p>
-          <PracticePhoto shot={{
-            src: "/software/screenshots/vault/v0.7.0/watch-only-usb.webp", width: 544, height: 152,
-            fullSrc: "/software/screenshots/vault/v0.7.0/watch-only-usb-full.webp",
-            alt: "Vault’s Export Successful dialog names /media/vault/TRANSFER/Course files/watch only.dat.",
-          }} label="Watch-only wallet export on Vault" caption="Earlier example from Vault v0.7.0. Core saved watch only.dat to the drive named TRANSFER." />
+          <PracticePhoto shot={captures["vault-watch-complete"]} label="Watch-only wallet export on Vault" caption={captures["vault-watch-complete"].caption} />
+          <details className="signed-download-check">
+            <summary>Read the export disclosure before sharing</summary>
+            <div className="signed-download-check__body">
+              <PracticePhoto shot={captures["vault-watch-disclosure"]} label="Watch-only export disclosure on Vault" caption={captures["vault-watch-disclosure"].caption} />
+            </div>
+          </details>
         </li>
         <li className="flex min-w-0 flex-col">
           <h4 className="text-lg font-semibold">On Node, open and check the copy</h4>
           <p className="mt-2 flex-1 leading-7">On the same Bitcoin network, choose <strong>File → Restore Wallet</strong> and open the exported file from the USB. In Core’s console, select the restored wallet and run <code>getwalletinfo</code>. Check the wallet name and look for <code>private_keys_enabled: false</code>.</p>
-          <PracticePhoto shot={captures["node-public-proof"]} label="Watch-only wallet check on Node" caption="Node v0.1.0-rc.2 shows the practice wallet with private keys disabled." />
+          <PracticePhoto shot={captures["node-public-proof"]} label="Watch-only wallet check on Node" caption={captures["node-public-proof"].caption} />
         </li>
       </ol>
       <p className="max-w-prose leading-7">Before using a receiving address from Node, check that Vault recognizes that exact address as its own.</p>
@@ -68,23 +70,16 @@ function WalletPairing() {
   )
 }
 
-const vaultRecoveryPath = "/software/screenshots/curriculum/vault-v0.6.0/"
 const recoverySteps = [
   {
     title: "Before shutdown",
     text: "Create a receiving address, give it a label and record it. Save the encrypted wallet backup to a separate drive.",
-    shot: {
-      src: vaultRecoveryPath + "stock-vault-guide-address-before.webp", width: 1280, height: 160,
-      alt: "GuidePractice shows the label Recovery check and its receiving address before the wallet backup.",
-    },
+    shot: captures["vault-address-before"],
   },
   {
     title: "After restoring the backup",
-    text: "Start a fresh session, decrypt the external backup in the private workspace and restore it in Core. Compare the saved address and label.",
-    shot: {
-      src: vaultRecoveryPath + "stock-vault-guide-address-restored.webp", width: 1280, height: 160,
-      alt: "GuideRestored shows the same Recovery check label and address after the offline session restarted.",
-    },
+    text: "Start a fresh session, decrypt the external backup in Private Workspace and restore it in Core. Compare the saved address and label.",
+    shot: captures["vault-address-restored"],
   },
 ]
 
@@ -92,7 +87,7 @@ function OfflinePayment() {
   return (
     <section id="practice-without-funds" aria-labelledby="practice-payment-heading" className="scroll-mt-24 border-t border-border py-6">
       <h3 id="practice-payment-heading" className="mb-3 text-2xl font-bold tracking-tight">Follow a payment from proposal to broadcast</h3>
-      <p className="max-w-prose leading-7">These Bitcoin Core 32.1 screens follow one transaction on Regtest, a private network where you can practise with coins that have no monetary value. The transfer USB carries a partially signed Bitcoin transaction (PSBT) between the computers.</p>
+      <p className="max-w-prose leading-7">These earlier Bitcoin Core 32.1 screens follow one transaction on Regtest, a private network where you can practise with coins that have no monetary value. The transfer USB carries a partially signed Bitcoin transaction (PSBT) between the computers.</p>
       <ol role="list" className="my-5 grid list-none gap-6 lg:grid-cols-3">
         {paymentSteps.map(({ title, icon: Icon, shot, text }) => (
           <li key={title} className="flex min-w-0 flex-col">
@@ -102,14 +97,6 @@ function OfflinePayment() {
           </li>
         ))}
       </ol>
-      <details className="my-4 max-w-3xl rounded-lg border border-border px-4">
-        <summary className="cursor-pointer py-3 font-semibold">See where to save the signed file on Vault v0.7.0</summary>
-        <div className="pb-4"><PracticePhoto shot={{
-          src: "/software/screenshots/vault/v0.7.0/signed-psbt.webp", width: 700, height: 148,
-          fullSrc: "/software/screenshots/vault/v0.7.0/signed-psbt-full.webp",
-          alt: "Vault’s PSBT Operations window reports a successful signature and shows the Save button.",
-        }} label="Signed practice transaction on Vault" caption="In this separate Vault demonstration, choose Save… after signing and select the transfer USB." /></div>
-      </details>
       <nav className="first-run-links" aria-label="Offline payment exercises">
         <a href="#first-run">Start with an empty practice wallet</a>
         <a href={practiceLesson("first-offline-signed-transaction")}>Practise this payment step by step</a>
@@ -122,7 +109,7 @@ export function WalletRecovery() {
   return (
     <section id="practice-recovery" aria-labelledby="practice-recovery-heading" className="scroll-mt-24 border-t border-border py-6">
       <h3 id="practice-recovery-heading" className="text-2xl font-bold tracking-tight">Recover the signing wallet in a fresh session</h3>
-      <p className="mt-3 max-w-prose leading-7">Compare these two screenshots from an unfunded wallet on Vault v0.6.0. The test computer was restarted between them. Only the encrypted backup and its passphrases were needed to bring the wallet back.</p>
+      <p className="mt-3 max-w-prose leading-7">Compare the same receiving address and label before and after recovery on Vault v0.9.0. This unfunded practice wallet was recovered from its encrypted backup in a fresh offline session.</p>
       <div className="my-5 grid gap-5 md:grid-cols-2">
         {recoverySteps.map(({ title, text, shot }) => (
           <div key={title} className="min-w-0">

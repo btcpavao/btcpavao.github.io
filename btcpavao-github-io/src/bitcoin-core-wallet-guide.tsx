@@ -59,6 +59,7 @@ const GNUPG_DOWNLOAD_URL = "https://gnupg.org/download/"
 
 type GuideImage = {
   src: string
+  fullSrc?: string
   alt: string
   width?: number
   height?: number
@@ -907,26 +908,14 @@ const steps: GuideStep[] = [
 ]
 
 const stockVaultProof = {
-  before: {
-    src: "/software/screenshots/curriculum/vault-v0.6.0/stock-vault-guide-address-before.webp",
-    width: 1280, height: 160,
-    context: "Vault v0.6.0 · Core 32.1 · offline VM · unfunded mainnet wallet",
-    alt: "The Receiving addresses window of GuidePractice shows the Recovery check label and its full Bitcoin address.",
-    caption: "Before backup, copy the complete address and label from the original wallet’s address book.",
-  },
-  after: {
-    src: "/software/screenshots/curriculum/vault-v0.6.0/stock-vault-guide-address-restored.webp",
-    width: 1280, height: 160,
-    context: "Vault v0.6.0 · Core 32.1 · fresh offline session after restart",
-    alt: "The Receiving addresses window of GuideRestored shows the original Recovery check label and address.",
-    caption: "After recovery from the external encrypted file, compare this row with the original in step 6.",
-  },
+  before: captures["vault-address-before"],
+  after: captures["vault-address-restored"],
 }
 
 const vaultSteps: Record<number, Partial<GuideStep>> = {
   1: {
     images: [captures["vault-home"]],
-    content: <><p>On a separate computer, <ResourceLink href={`${DEBIAN_IMAGES_PATH}#verify-vault-download`}>verify the signed Vault ISO</ResourceLink>, then prepare the boot USB. Start Vault v0.8.0 on a compatible amd64 computer with networking disconnected. Select Live RAM for this exercise, or use an existing installed practice Vault.</p>
+    content: <><p>On a separate computer, <ResourceLink href={`${DEBIAN_IMAGES_PATH}#verify-vault-download`}>verify the signed Vault ISO</ResourceLink>, then prepare the boot USB. Start Vault v0.9.0 on a compatible amd64 computer with networking disconnected. Select Live RAM for this exercise, or use an existing installed practice Vault.</p>
       <p>From Home, open Bitcoin Core. The protected launcher keeps the private session in RAM in either mode. Have a separate removable backup medium ready before you create the wallet. An empty wallet is sufficient for this exercise. <ResourceLink href={vaultLesson("prepare-offline-signer")}>Check the offline Vault setup</ResourceLink>.</p></>,
   },
   2: {
@@ -935,8 +924,11 @@ const vaultSteps: Record<number, Partial<GuideStep>> = {
       Leave <strong>Disable Private Keys</strong>, <strong>Make Blank Wallet</strong> and <strong>External signer</strong> unchecked.
       Keep this dialog open for step 3.</p>,
   },
+  3: {
+    images: [captures["vault-encrypt"]],
+  },
   4: {
-    images: [captures["vault-keepass"], proofImages.passphrase],
+    images: [proofImages.passphrase],
     content: <><p>Open <strong>KeePassXC</strong> from Vault Home. In <strong>Password Generator → Passphrase</strong>,
       the bundled generator opens with six words. Select <strong>eight</strong> for the Core wallet in this exercise,
       then generate a fresh phrase. <ResourceLink href="https://github.com/bitcoin/bitcoin/blob/v32.1/src/qt/askpassphrasedialog.cpp#L42">Core’s encryption dialog recommends eight or more words</ResourceLink>.</p>
@@ -954,16 +946,15 @@ const vaultSteps: Record<number, Partial<GuideStep>> = {
   6: {
     images: [stockVaultProof.before],
     content: <><p>On Vault, select your signing wallet, open <strong>Receive</strong>, enter the label
-      <strong> Recovery check</strong> and choose <strong>Create new receiving address</strong>. Open
-      <strong> Window → Receiving addresses</strong>. Record the exact label and full address in the same row.</p>
-      <p>The stock Vault example shows the address book of <strong>GuidePractice</strong>. We generated its labelled
-      address with Core’s RPC interface. Leave the wallet empty and the Vault offline. Step 10 checks this
-      same address-book row after a full restart.</p></>,
+      <strong> Practice only - do not fund</strong> and choose <strong>Create new receiving address</strong>.
+      Record the exact label and full address shown in the request window.</p>
+      <p>The Vault v0.9.0 example uses <strong>Practice Wallet</strong>, created in Core’s interface.
+      Leave the wallet empty and the Vault offline. Step 10 compares the same address and label after recovery.</p></>,
   },
   7: {
-    images: [captures["vault-select-backup"], captures["vault-backup"], captures["vault-private-backup"], captures["vault-usb-backup"]],
+    images: [captures["vault-backup"], captures["vault-backup-complete"], captures["vault-usb-backup"]],
     content: <><p>In Vault Home, open <strong>Wallet Backup</strong> and select the disposable wallet you created in Core.
-      The selector shows PracticeVault in this example. Choose your own wallet. The example USB drive is named TRANSFER. Select your backup drive in <strong>Save to</strong>, or accept Private Workspace and then use <strong>Files</strong> to copy the completed <code>wallet.dat.gpg</code> to that medium.</p>
+      Choose your own wallet. This example uses <strong>Practice Wallet</strong> and a disposable drive named <strong>DEMOUSB</strong>. Select your backup drive in <strong>Save to</strong>, or accept Private Workspace and then use <strong>Files</strong> to copy the completed <code>wallet.dat.gpg</code> to that medium.</p>
       <p>Set one GPG layer with a newly generated, independently recorded passphrase. Wait for the backup check.
       In Files, open the external drive and check the filename and destination path before ejecting it.
       A copy left only in Private Workspace disappears when Vault shuts down.</p>
@@ -987,12 +978,12 @@ const vaultSteps: Record<number, Partial<GuideStep>> = {
   },
   10: {
     images: [stockVaultProof.after],
-    content: <><p>Select the restored wallet and open <strong>Window → Receiving addresses</strong>. Compare
-      <strong> Recovery check</strong> and the complete address against the record you made in step 6.</p>
-      <p>In the pictured Vault v0.6.0 exercise, we saved the Core-encrypted signing wallet under a separate
-      GPG passphrase on a virtual USB drive, then restarted the offline Vault. We decrypted the file into fresh
-      private RAM and restored it as <strong>GuideRestored</strong>. Core displayed the same address and label,
-      recognized the address as its own and accepted the original Core wallet passphrase. We then locked it again.</p>
+    content: <><p>Select the restored wallet and open its receiving-address history. Compare
+      <strong>Practice only - do not fund</strong> and the complete address against the record you made in step 6.</p>
+      <p>The Vault v0.9.0 example saves the Core-encrypted signing wallet under a separate GPG passphrase
+      on the disposable <strong>DEMOUSB</strong> drive. After restarting the offline session, the backup is
+      decrypted into Private Workspace and restored as <strong>Restored Practice</strong>. Compare the
+      address and label in the before and after screenshots.</p>
       <p>This wallet held no funds. Continue with the <ResourceLink href={vaultLesson("first-offline-signed-transaction")}>offline-signed
       Regtest payment</ResourceLink> to practise signing a payment, then <ResourceLink href={vaultLesson("recovery-drill-without-original-coordinator")}>repeat
       the payment with replacement computers</ResourceLink>.</p></>,
@@ -1260,6 +1251,7 @@ function ScreenshotButton({
     >
       <img
         src={screenshot.src}
+        data-full-src={screenshot.fullSrc}
         alt={screenshot.alt}
         width={screenshot.width}
         height={screenshot.height}
@@ -1473,11 +1465,11 @@ function ArchitectureDiagram({ onOpen }: { onOpen: (image: GuideImage, opener: H
       </h2>
       <p className="mt-5 max-w-3xl leading-8 text-muted-foreground">
         This optional two-computer exercise comes after the single-wallet restore.
-        Vault v0.8.0 holds the private signing wallet offline. The reproducible Node
-        test image tracks payments, prepares proposals and broadcasts signed transactions
-        online. <ResourceLink href={DEBIAN_IMAGES_PATH + "#verify-node-download"}>Check the Node download</ResourceLink> before installation.
-        Both include Bitcoin Core 32.1. The Node screenshots in this exercise
-        were taken on v0.1.0-rc.2.
+        Vault v0.9.0 holds the private signing wallet offline. Node v0.1.0-rc.4
+        tracks payments, prepares proposals and broadcasts signed transactions online.
+        <ResourceLink href={DEBIAN_IMAGES_PATH + "#verify-node-download"}>Check the Node download</ResourceLink> before installation.
+        Both include Bitcoin Core 32.1. Current interface captures use disposable test VMs;
+        the earlier transaction examples identify their separate Regtest wallets.
       </p>
       <ol className="mt-7 grid gap-4">
         <li className="rounded-[20px] bg-card p-5 shadow-[var(--shadow-border)]">
@@ -1554,7 +1546,7 @@ export function BitcoinCoreWalletGuidePage() {
       .filter(item => !item.closest("details:not([open])"))
     const selected = opener.querySelector("img")
     setGallery({
-      images: screenshots.length ? screenshots.map(item => ({ src: item.src, alt: item.alt })) : [selectedImage],
+      images: screenshots.length ? screenshots.map(item => ({ src: item.dataset.fullSrc ?? item.src, alt: item.alt })) : [{ src: selectedImage.fullSrc ?? selectedImage.src, alt: selectedImage.alt }],
       startIndex: Math.max(0, selected ? screenshots.indexOf(selected) : 0),
     })
   }
@@ -1606,11 +1598,11 @@ export function BitcoinCoreWalletGuidePage() {
             estimatedTime="60–90 minutes"
             realBitcoin="No. This is a disposable practice wallet. Complete the self-custody curriculum before preparing meaningful funds."
             softwareVersion="Bitcoin Core 32.1"
-            operatingSystems={vault ? "Bitcoin Core Vault v0.8.0 on compatible amd64 hardware, in Live RAM or installed mode." : "Native Core on macOS 14 or newer, Windows 10 version 1903 or newer, or supported Linux. Screen captures identify their platform."}
+            operatingSystems={vault ? "Bitcoin Core Vault v0.9.0 on compatible amd64 hardware, in Live RAM or installed mode." : "Native Core on macOS 14 or newer, Windows 10 version 1903 or newer, or supported Linux. Screen captures identify their platform."}
             recommendedOs={vault ? "Use Vault offline on a dedicated compatible computer. Both live and installed modes start each private session in RAM." : "For this empty-wallet exercise, use a maintained desktop OS. For serious funds, I recommend a dedicated computer with a fresh Debian Stable installation."}
             prerequisites={vault ? "Verified Vault ISO, a separate external backup medium, and separate records for the Core and GPG passphrases." : "Verified Bitcoin Core, a separate practice environment and backup destination, and separate passphrase records."}
             outcome="A restored practice wallet with the same receiving address and label."
-            lastReviewed="13 November 2026 · Vault v0.6.0 recovery after restart with an unfunded mainnet wallet in an offline VM. The Debian 13 Regtest examples use Bitcoin Core 32.1. Node examples use a release-candidate VM. Earlier macOS reference screens were reviewed with Core 31.1 on 16 October 2026."
+            lastReviewed="26 November 2026 · Current Vault v0.9.0 and Node v0.1.0-rc.4 interface captures use disposable offline VMs and unfunded wallets. Earlier Debian 13 Regtest examples use Bitcoin Core 32.1. macOS reference screens use Core 31.1 and were reviewed on 16 October 2026."
           />
 
           <div className="mt-10 grid gap-4 rounded-[28px] bg-card p-5 shadow-[var(--shadow-border)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-7">

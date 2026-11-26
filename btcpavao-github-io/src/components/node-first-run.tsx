@@ -4,7 +4,9 @@ import { SignedDownloadCheck } from "./signed-download-check"
 import { ZoomableImage } from "./zoomable-image"
 
 export function NodeFirstRun() {
-  const sync = captures["node-synced"]
+  const guide = captures["node-guide"]
+  const peers = captures["node-peers"]
+  const settings = captures["node-settings"]
   const backup = captures["node-backup"]
   return (
     <section id="node-setup" className="vault-first-run" aria-labelledby="node-setup-heading">
@@ -22,26 +24,33 @@ export function NodeFirstRun() {
           <a href="#pair-wallets">Follow the watch-only wallet setup</a>
         </div>
         <figure className="first-run-shot">
-          <ZoomableImage src="/software/screenshots/node/v0.1.0-rc.2/guide.webp" width={1280} height={800}
-            alt="Node Guide opens to Start here: Node &amp; Vault, with steps to pair the public wallet, prepare a payment, sign offline and broadcast online."
-            loading="lazy" decoding="async" />
-          <figcaption>The built-in guide as it appeared on Node RC2.</figcaption>
+          <ZoomableImage src={guide.src} fullSrc={guide.fullSrc} width={guide.width} height={guide.height} alt={guide.alt} loading="lazy" decoding="async" />
+          <figcaption>{guide.context}. {guide.caption}</figcaption>
         </figure>
       </div>
       <div id="node-status" className="scroll-mt-24 border-t border-border pt-5">
-        <h3 className="text-xl font-semibold">Check synchronization and backups</h3>
+        <h3 className="text-xl font-semibold">Check Bitcoin Core and backups</h3>
         <div className="iso-node-shots">
           <figure>
-            <h4>Earlier synchronization example</h4>
-            <ZoomableImage src={sync.src} width={sync.width} height={sync.height} alt={sync.alt} loading="lazy" decoding="async" />
-            <figcaption>This historical RC2 screen shows 112 blocks on a private practice network. On the current Node, check synchronization in Bitcoin Core; its desktop does not include this separate status panel.</figcaption>
+            <h4>Read Core’s network state</h4>
+            <ZoomableImage src={peers.src} fullSrc={peers.fullSrc} width={peers.width} height={peers.height} alt={peers.alt} loading="lazy" decoding="async" />
+            <figcaption>{peers.context}. {peers.caption}</figcaption>
           </figure>
           <figure>
             <h4>Backup and Restore</h4>
-            <ZoomableImage src={backup.src} width={backup.width} height={backup.height} alt={backup.alt} loading="lazy" decoding="async" />
-            <figcaption>This earlier RC2 screen illustrates wallet, blockchain and settings backups. On the current Node, open Settings → Backup and Restore. Keep the signing wallet’s encrypted backup with the offline Vault recovery materials.</figcaption>
+            <ZoomableImage src={backup.src} fullSrc={backup.fullSrc} width={backup.width} height={backup.height} alt={backup.alt} loading="lazy" decoding="async" />
+            <figcaption>{backup.context}. {backup.caption} Keep the signing wallet’s encrypted backup with the offline Vault recovery materials.</figcaption>
           </figure>
         </div>
+        <details className="signed-download-check">
+          <summary>Find Backup and Restore in Settings</summary>
+          <div className="signed-download-check__body">
+            <figure className="first-run-shot">
+              <ZoomableImage src={settings.src} fullSrc={settings.fullSrc} width={settings.width} height={settings.height} alt={settings.alt} loading="lazy" decoding="async" />
+              <figcaption>{settings.caption}</figcaption>
+            </figure>
+          </div>
+        </details>
       </div>
       <nav className="first-run-links" aria-label="Continue from Node setup">
         <a href="#practice-without-funds">See a payment signed with both computers</a>

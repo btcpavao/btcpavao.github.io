@@ -85,7 +85,7 @@ export const imagePractice: Record<string, ImageLesson> = {
       signature: {
         role: "Vault and Node",
         title: "Who signed which download?",
-        instructions: ["The builders in this exercise attest to the upstream Bitcoin Core release. Pavao signs a separate checksum list for each complete Vault or Node image, including its desktop, installer and project tools. The screenshot shows an earlier signed Node release. Follow the current download guide for the signature, checksum and rebuild checks."],
+        instructions: ["The builders in this exercise attest to the upstream Bitcoin Core release. Pavao signs a separate checksum list for each complete Vault or Node image, including its desktop, installer and project tools. The screenshot verifies the signed Node v0.1.0-rc.4 ISO. Follow the current download guide for the signature, checksum and rebuild checks."],
         links: [downloadCheck, rebuild],
       },
     },
@@ -182,7 +182,7 @@ export const imagePractice: Record<string, ImageLesson> = {
       media: {
         role: "Vault and Node",
         title: "Choose the correct file before copying",
-        instructions: ["Keep transfer media distinct from signing-wallet backup media. In Vault, select the mounted transfer USB when saving a signed PSBT or exporting a watch-only wallet. On Node, the PSBT Transfer Folder provides temporary RAM space. Copy the completed file to the transfer medium before shutdown."],
+        instructions: ["Keep transfer media distinct from signing-wallet backup media. In Vault, select the mounted transfer USB when saving a signed PSBT or exporting a watch-only wallet. On Node, Private Workspace provides temporary RAM space for PSBT files. Copy the completed file to the transfer medium before shutdown."],
         result: "You can identify the single file needed for this hand-off. The original signing wallet stays on the offline side.",
       },
     },
@@ -191,7 +191,7 @@ export const imagePractice: Record<string, ImageLesson> = {
     overview: {
       role: "Vault",
       title: "Rehearse with an empty Vault wallet",
-      instructions: ["The signed Vault v0.8.0 image runs Core 32.1 inside its protected offline launcher. Use an unfunded disposable wallet to practise backup, shutdown and restoration. For the funded Signet exercise, use the standard Core path unless you have separately verified a matching practice network on both computers. The Vault screenshots follow an unfunded wallet with a single GPG backup layer across a guest OS restart. For your own drill, also encrypt the wallet in Core and perform the full shutdown below."],
+      instructions: ["The signed Vault v0.9.0 image runs Core 32.1 inside its protected offline launcher. Use an unfunded disposable wallet to practise backup, shutdown and restoration. For the funded Signet exercise, use the standard Core path unless you have separately verified a matching practice network on both computers. The current Vault screenshots use an unfunded Core-encrypted wallet and a separate GPG backup layer. Keep both passphrases and perform the full shutdown below for your own recovery drill."],
       links: [downloadCheck],
     },
     steps: {
@@ -226,7 +226,7 @@ export const imagePractice: Record<string, ImageLesson> = {
   "watch-only-setup": {
     overview: {
       role: "Vault and Node", title: "Use the native Core 32.1 watch-only export",
-      instructions: ["Use a disposable signing wallet and check that both Core instances are on the same chain. You can practise the export and address check without funding the wallet. The Vault export and Node import screenshots show separate unfunded wallets on Bitcoin mainnet. The address comparison uses a separate Regtest wallet. The watch-only file carries public descriptors, address-book data and wallet history. Keep it private even though it contains no signing keys."],
+      instructions: ["Use a disposable signing wallet and check that both Core instances are on the same chain. You can practise the export and address check without funding the wallet. The current screenshots show the unfunded public export from Practice Wallet on Vault v0.9.0 opened as PracticeWatchOnly on Node v0.1.0-rc.4, both on Bitcoin mainnet. The address comparison uses a separate Regtest wallet. The watch-only file carries public descriptors, address-book data and wallet history. Keep it private even though it contains no signing keys."],
       links: [nativeExport],
     },
     steps: {
@@ -328,7 +328,7 @@ export const imagePractice: Record<string, ImageLesson> = {
     steps: {
       "media-review-v4": {
         role: "Vault and Node", title: "Test the copy on the medium you intend to trust",
-        instructions: ["Restore one externally stored signing-wallet backup on a fresh offline system. Separately test the Node data you plan to reuse. In Node RC2 the four exports finish after writing and flushing the files. A recovery drill shows whether your particular saved copy works."],
+        instructions: ["Restore one externally stored signing-wallet backup on a fresh offline system. Separately test the Node data you plan to reuse. Node RC4 exports have no read-back verification pass; restore checks remain enabled. A recovery drill shows whether your particular saved copy works."],
       },
     },
   },

@@ -24,8 +24,8 @@ function NodeInstallation() {
           <li>When installation finishes, remove the USB and restart. At the Node desktop, connect an Ethernet cable or open <strong>Settings → Network Connections</strong> to join Wi-Fi. Open <strong>Node Guide</strong> for the watch-only wallet and synchronization steps.</li>
         </ol>
         <figure className="verification-shot">
-          <ZoomableImage src={target.src} alt={target.alt} width={target.width} height={target.height} loading="lazy" decoding="async" />
-          <figcaption><span>This earlier Node RC2 screenshot shows the selected disk in a test virtual machine. Identify your own disk by model and capacity.</span> <a href={target.src}>View the full installer screen</a></figcaption>
+          <ZoomableImage src={target.src} fullSrc={target.fullSrc} alt={target.alt} width={target.width} height={target.height} loading="lazy" decoding="async" />
+          <figcaption><span>{target.context}. {target.caption}</span> <a href={target.fullSrc ?? target.src}>View the full installer screen</a></figcaption>
         </figure>
         <p><a href={nodeBuild.releaseUrl}>Read the release notes for this Node download</a></p>
       </div>
@@ -81,6 +81,7 @@ function PendingNodeDownloadCheck() {
 
 function NodeDownloadCheck() {
   if (nodeBuild.signatureStatus === "pending") return <PendingNodeDownloadCheck />
+  const verification = captures["node-iso"]
   return (
     <>
       <details className="signed-download-check">
@@ -115,6 +116,11 @@ function NodeDownloadCheck() {
                 ")",
               ]} />
               <p>Look for <strong>Good signature</strong> from <code>btcpavao</code> and <strong>OK</strong> next to your ISO’s filename. GnuPG can also show an uncertified-key warning in a fresh keyring. The command checks the full fingerprint above. If either check fails, stop before writing the USB.</p>
+              <figure className="verification-shot signed-download-check__result">
+                <ZoomableImage src={verification.src} fullSrc={verification.fullSrc} alt={verification.alt}
+                  width={verification.width} height={verification.height} loading="lazy" decoding="async" />
+                <figcaption>{verification.caption} <a href={verification.fullSrc ?? verification.src}>View the full terminal output</a></figcaption>
+              </figure>
               <p>For a source review, use the <a href={nodeBuild.sourceUrl}>matching project source</a> and <a href={nodeBuild.proofUrl}>recorded build provenance</a>. A byte-identical independent rebuild of this ISO has not yet been demonstrated.</p>
             </div>
           </details>
@@ -132,7 +138,8 @@ function NodeDownloadCheck() {
 export function SignedDownloadCheck({ product }: { product: "Vault" | "Node" }) {
   if (product === "Node") return <NodeDownloadCheck />
   const { tag, isoName: filename } = vaultBuild
-  const fullImage = screenshots + "vault-v070-signed.webp"
+  const verification = captures["vault-iso"]
+  const fullImage = verification.fullSrc ?? verification.src
 
   return (
     <details className="signed-download-check">
@@ -169,11 +176,10 @@ export function SignedDownloadCheck({ product }: { product: "Vault" | "Node" }) 
                 ]} />
                 <p>Look for <strong>OK</strong> next to the checksum and your ISO’s filename. This means the signature was accepted and your file matches the signed release. If either check fails, stop before writing the USB. Check the signing key and download again from the release you chose.</p>
                 <figure className="verification-shot signed-download-check__result">
-                  <ZoomableImage src={screenshots + "vault-v070-ok-detail.webp"}
-                    fullSrc={fullImage} alt="Earlier example showing OK for bitcoin-core-vault-v0.7.0-amd64.iso."
-                    width={544} height={48} loading="lazy" decoding="async" />
+                  <ZoomableImage src={verification.src} fullSrc={fullImage} alt={verification.alt}
+                    width={verification.width} height={verification.height} loading="lazy" decoding="async" />
                   <figcaption>
-                    <span>Example from Vault v0.7.0. Your result should show <strong>OK</strong> beside <code>{filename}</code>.</span>
+                    <span>{verification.caption} Your result should show <strong>OK</strong> beside <code>{filename}</code>.</span>
                     <a href={fullImage}>View the full terminal output</a>
                   </figcaption>
                 </figure>

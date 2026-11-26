@@ -1,10 +1,11 @@
 import { ArrowDownToLine, ArrowRight, ArrowUpRight, ChevronRight, LockKeyhole, Network } from "lucide-react"
 import { nodeBuild, vaultBuild } from "../iso-releases"
+import { captures } from "../curriculum/practice-captures"
 import "./iso-landing-hero.css"
 
 const workbench = "/software/illustrations/origin/two-computer-workbench"
-const vaultDesktop = "/software/screenshots/verification/vault-v070-desktop.webp"
-const nodeDesktop = "/software/screenshots/node/v0.1.0-rc.2/desktop.webp"
+const vaultDesktop = captures["vault-home"]
+const nodeDesktop = captures["node-home"]
 
 export function IsoLandingHero() {
   return (
@@ -52,13 +53,13 @@ export function IsoLandingHero() {
             <img src={workbench + ".webp"} srcSet={workbench + "-640.webp 640w, " + workbench + ".webp 1200w"}
               sizes="(min-width: 1264px) 590px, (min-width: 900px) 48vw, 92vw"
               alt="" width={1200} height={800} fetchPriority="high" />
-            <img className="iso-workbench__vault" src={vaultDesktop} alt="" width={1280} height={800} />
-            <img className="iso-workbench__node" src={nodeDesktop} alt="" width={1280} height={800} />
+            <img className="iso-workbench__vault" src={vaultDesktop.src} alt="" width={vaultDesktop.width} height={vaultDesktop.height} />
+            <img className="iso-workbench__node" src={nodeDesktop.src} alt="" width={nodeDesktop.width} height={nodeDesktop.height} />
           </div>
           <figcaption>
             <span>Desktop screenshots</span>
-            <a href={vaultDesktop} aria-label="Open the Vault v0.7.0 desktop screenshot">Vault desktop (v0.7.0) <ArrowUpRight size={14} aria-hidden="true" /></a>
-            <a href={nodeDesktop} aria-label="Open the Node RC2 desktop screenshot">Node RC2 <ArrowUpRight size={14} aria-hidden="true" /></a>
+            <a href={vaultDesktop.fullSrc} aria-label="Open the Vault v0.9.0 Home screenshot">Vault {vaultBuild.tag} <ArrowUpRight size={14} aria-hidden="true" /></a>
+            <a href={nodeDesktop.fullSrc} aria-label="Open the Node RC4 Home screenshot">Node RC4 <ArrowUpRight size={14} aria-hidden="true" /></a>
           </figcaption>
         </figure>
       </div>

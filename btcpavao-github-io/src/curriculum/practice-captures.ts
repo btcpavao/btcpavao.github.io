@@ -1,6 +1,132 @@
 const base = "/software/screenshots/curriculum/"
 
-export const captures = {
+const captureData = {
+  "vault-address-restored": {
+    "src": "/software/screenshots/vault/v0.9.0/address-restored-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/address-restored.webp",
+    "width": 471,
+    "height": 117,
+    "context": "Vault v0.9.0 · fresh offline session after restart",
+    "alt": "Payment information in Restored Practice shows the same full receiving address and Practice only - do not fund label.",
+    "caption": "After restarting and restoring the encrypted backup: the same address and label appear in Restored Practice."
+  },
+  "vault-watch-disclosure": {
+    "src": "/software/screenshots/vault/v0.9.0/watch-export-notice-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/watch-export-notice.webp",
+    "width": 316,
+    "height": 418,
+    "context": "Vault v0.9.0 · offline live session · public export disclosure",
+    "alt": "The export disclosure explains that address-book and transaction data, including text entered in those fields, travel with the watch-only file.",
+    "caption": "Read the disclosure before exporting. Anyone with the public copy can read the address-book and transaction data it contains."
+  },
+  "vault-backup-destinations": {
+    "src": "/software/screenshots/vault/v0.9.0/backup-destinations.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/backup-destinations.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Vault v0.9.0 · offline live session · unfunded wallet · disposable USB",
+    "alt": "The Save to menu offers Private Workspace and the mounted DEMOUSB drive.",
+    "caption": "Choose external media for a backup that must survive shutdown. Private Workspace remains in RAM."
+  },
+  "vault-backup-complete": {
+    "src": "/software/screenshots/vault/v0.9.0/backup-complete.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/backup-complete.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Vault v0.9.0 · offline live session · unfunded wallet · disposable USB",
+    "alt": "Vault confirms that the encrypted wallet.dat.gpg backup was created and verified on DEMOUSB.",
+    "caption": "Wait for the backup check to finish, then confirm the encrypted file is on the external drive."
+  },
+  "vault-address-before": {
+    "src": "/software/screenshots/vault/v0.9.0/practice-address-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/practice-address.webp",
+    "width": 471,
+    "height": 117,
+    "context": "Vault v0.9.0 · offline live session · unfunded wallet",
+    "alt": "Payment information shows the original address, label Practice only - do not fund, and wallet name Practice Wallet.",
+    "caption": "Before backup: Practice Wallet, with the label Practice only - do not fund. Record your own full address and label."
+  },
+  "vault-encrypt": {
+    "src": "/software/screenshots/vault/v0.9.0/encrypt-wallet.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/encrypt-wallet.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Vault v0.9.0 · offline live session · unfunded wallet",
+    "alt": "Bitcoin Core asks for the encryption passphrase and its confirmation for the disposable Practice Wallet.",
+    "caption": "Keep the Core wallet passphrase separately from the encrypted backup and its GPG passphrase."
+  },
+  "vault-settings": {
+    "src": "/software/screenshots/vault/v0.9.0/settings.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/settings.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Vault v0.9.0 · offline live session",
+    "alt": "Vault Settings offers Display Settings, Keyboard and Mouse, Date and Time, and Backup and Restore.",
+    "caption": "Open Settings → Backup and Restore to find wallet backup and recovery tools."
+  },
+  "vault-guide": {
+    "src": "/software/screenshots/vault/v0.9.0/guide.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/guide.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Vault v0.9.0 · offline live session",
+    "alt": "The built-in Vault Guide shows its navigation and instructions for using the offline wallet.",
+    "caption": "Keep the guide open beside the wallet when practising the offline workflow."
+  },
+  "vault-backup-restore": {
+    "src": "/software/screenshots/vault/v0.9.0/backup-restore.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/backup-restore.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Vault v0.9.0 · offline live session",
+    "alt": "Backup and Restore offers Wallet Backup, Decrypt Backup and Open Bitcoin Core.",
+    "caption": "Create the encrypted backup, recover it into Private Workspace, then restore the recovered wallet in Core."
+  },
+  "vault-workspace": {
+    "src": "/software/screenshots/vault/v0.9.0/private-workspace.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/private-workspace.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Vault v0.9.0 · offline live session",
+    "alt": "Files opens the empty Private Workspace.",
+    "caption": "Private Workspace is temporary. Keep the encrypted backup on a separate external medium before ending the session."
+  },
+  "vault-boot": {
+    "src": "/software/screenshots/vault/v0.9.0/boot-menu.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/boot-menu.webp",
+    "width": 640,
+    "height": 480,
+    "context": "Vault v0.9.0 · BIOS boot menu",
+    "alt": "Start Bitcoin Core Vault (Live RAM) is highlighted above Install Bitcoin Core Vault.",
+    "caption": "Choose Start Bitcoin Core Vault (Live RAM). This is the BIOS menu from the published v0.9.0 image."
+  },
+  "node-home": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/home.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/home.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Node v0.1.0-rc.4 · demonstration VM · network disconnected",
+    "alt": "Node Home shows Bitcoin Core, Wallets, Private Workspace, Encrypt Files, Decrypt Files and utility tools.",
+    "caption": "Open Bitcoin Core from Home. Private Workspace holds temporary files in RAM."
+  },
+  "node-settings": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/settings.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/settings.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Node v0.1.0-rc.4 · demonstration VM · network disconnected",
+    "alt": "Node Settings shows Backup and Restore, Network Connections, Bitcoin Core Status and device controls.",
+    "caption": "Open Settings → Backup and Restore for backups, or Bitcoin Core Status to inspect validation and peers."
+  },
+  "node-guide": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/guide.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/guide.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Node v0.1.0-rc.4 · demonstration VM · network disconnected",
+    "alt": "Node Guide opens Start here: Node and Vault with steps to pair the public wallet, prepare a payment, sign offline and broadcast online.",
+    "caption": "Keep Node Guide beside the wallet while learning the pairing and payment workflow."
+  },
   "fingerprint": {
     src: "/software/screenshots/verification/signer-fingerprint.webp", width: 1192, height: 198,
     context: "Debian terminal · publisher key",
@@ -9,63 +135,81 @@ export const captures = {
   },
   "wrong-file": {
     src: "/software/screenshots/verification/vault-v060-rejected.webp", width: 1242, height: 384,
-    context: "Vault v0.6.0 · deliberately wrong test file",
+    context: "Historical Vault v0.6.0 · deliberately wrong test file",
     alt: "GnuPG accepts the manifest signature but the verifier reports different expected and computed hashes.",
     caption: "The signature passes. The selected file fails its own check, so stop before writing the USB.",
   },
   "vault-iso": {
-    src: "/software/screenshots/verification/vault-v060-signed.webp", width: 1242, height: 384,
-    context: "Vault v0.6.0 · signed ISO",
-    alt: "The verifier prints the required signer and OK next to the Vault ISO.",
-    caption: "Match the expected signer, file name and full ISO hash.",
+    "src": "/software/screenshots/verification/current-20261126/vault-signed-verification.webp",
+    "fullSrc": "/software/screenshots/verification/current-20261126/vault-signed-verification.webp",
+    "width": 1280,
+    "height": 422,
+    "context": "Vault v0.9.0 · signed release verification",
+    "alt": "GnuPG accepts the Vault v0.9.0 checksum-list signature from the required publisher fingerprint, and sha256sum reports OK for the published ISO.",
+    "caption": "Vault v0.9.0: the manifest signature matches the publisher fingerprint, and the downloaded ISO matches its signed checksum. Confirm the fingerprint independently before trusting it."
   },
   "node-iso": {
-    src: "/software/screenshots/verification/node-signed.webp", width: 1192, height: 448,
-    context: "Node v0.1.0-rc.2 · signed ISO",
-    alt: "The Node ISO checksum is shown beside an OK result.",
-    caption: "This example verifies the earlier signed RC2 download. Use the checksum published for the Node image you have.",
+    "src": "/software/screenshots/verification/current-20261126/node-signed-verification.webp",
+    "fullSrc": "/software/screenshots/verification/current-20261126/node-signed-verification.webp",
+    "width": 1280,
+    "height": 422,
+    "context": "Node v0.1.0-rc.4 · signed release verification",
+    "alt": "GnuPG accepts the Node RC4 checksum-list signature from the required publisher fingerprint, and sha256sum reports OK for the published ISO.",
+    "caption": "Node v0.1.0-rc.4: the manifest signature matches the publisher fingerprint, and the downloaded ISO matches its signed checksum. Confirm the fingerprint independently before trusting it."
   },
   "vault-home": {
-    src: "/software/screenshots/vault/v0.6.0/home.webp", width: 1280, height: 800,
-    context: "Vault v0.6.0 · offline Live RAM session",
-    alt: "Vault Home shows Bitcoin Core, Wallet Backup, Decrypt Backup, KeePassXC and Files.",
-    caption: "Start Bitcoin Core from Home. The private wallet session runs in RAM in installed mode too.",
+    "src": "/software/screenshots/vault/v0.9.0/home.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/home.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Vault v0.9.0 · offline live session",
+    "alt": "Vault Home shows Bitcoin Core, wallet backup and decryption, KeePassXC, Files and the built-in guide.",
+    "caption": "Open Bitcoin Core from Home. Wallets and working files in the private session stay in RAM until shutdown."
   },
   "node-disk": {
-    src: base + "node-install-destination.webp", width: 1280, height: 800,
-    context: "Node v0.1.0-rc.2 · UEFI installer in a disposable VM",
-    alt: "The installer shows the target disk for the dedicated Node.",
-    caption: "Identify the destination by model and capacity. The device shown here is a disposable virtual disk.",
+    "src": "/software/screenshots/node/v0.1.0-rc.4/install-destination-selected.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/install-destination-selected.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Node v0.1.0-rc.4 · installer in a disposable offline VM",
+    "alt": "The Node installer has Install to disk selected and shows the 128 GiB Practice SSD 128 as the destination.",
+    "caption": "Match the destination by model and capacity. This example selects a disposable 128 GiB virtual disk; installation was not started."
   },
   "node-backup": {
-    src: base + "node-backup-categories.webp", width: 1280, height: 800,
-    context: "Node v0.1.0-rc.2 · installed VM",
-    alt: "Node’s Backup and Restore screen lists the components available for backup.",
-    caption: "Identify the watch-only wallet, blockchain and configuration entries before choosing what to back up.",
+    "src": "/software/screenshots/node/v0.1.0-rc.4/backup-restore.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/backup-restore.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Node v0.1.0-rc.4 · demonstration VM · network disconnected",
+    "alt": "Node Backup and Restore offers blockchain, watch-only wallet, Bitcoin Core configuration and Node configuration categories.",
+    "caption": "Open Settings → Backup and Restore. The screen notes that backup export has no read-back verification pass; restore checks remain enabled."
   },
   "vault-create": {
-    src: "/software/screenshots/curriculum/vault-v0.6.0/vault-create-wallet.webp", width: 720, height: 278,
-    context: "Vault v0.6.0 · Bitcoin Core 32.1 · unfunded wallet",
-    alt: "The Create Wallet dialog on Vault shows the disposable name GuidePractice and the Encrypt Wallet checkbox.",
-    caption: "The dialog opens with Encrypt Wallet unchecked. Select it to set the separate Bitcoin Core passphrase used in this exercise.",
+    "src": "/software/screenshots/vault/v0.9.0/create-wallet.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/create-wallet.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Vault v0.9.0 · offline live session · unfunded wallet",
+    "alt": "Bitcoin Core’s Create Wallet dialog shows the name Practice Wallet and the Encrypt Wallet option.",
+    "caption": "Choose a recognizable practice name and select Encrypt Wallet for a separate Core wallet passphrase. Leave this wallet unfunded."
   },
   "node-peers": {
-    src: base + "node-peer-status.webp", width: 1280, height: 800,
-    context: "Node v0.1.0-rc.2 · Regtest VM · offline mode",
-    alt: "Node reports that it is waiting for peers and shows Bitcoin Core offline.",
-    caption: "Read the connection message first. This offline exercise cannot make synchronization progress through peers.",
-  },
-  "vault-select-backup": {
-    src: "/software/screenshots/vault/v0.6.0/select-wallet.webp", width: 1280, height: 760,
-    context: "Vault v0.6.0 · installed offline VM · unfunded wallets",
-    alt: "The Select wallet to back up dialog lists two practice wallets with PracticeVault selected.",
-    caption: "If you have several wallets, select the one you intend to back up before choosing the backup destination.",
+    "src": "/software/screenshots/node/v0.1.0-rc.4/peers.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/peers.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Node v0.1.0-rc.4 · demonstration VM · network disconnected",
+    "alt": "Bitcoin Core Status shows No peers connected, zero validated blocks, zero known headers and zero peers on mainnet.",
+    "caption": "This isolated VM has no network adapter. Core is waiting for peers, with zero blocks and headers; this is not a synchronized node."
   },
   "vault-backup": {
-    src: "/software/screenshots/vault/v0.6.0/backup.webp", width: 1280, height: 760,
-    context: "Vault v0.6.0 · Vault Backup 0.7.5 · disposable USB",
-    alt: "Create Encrypted Backup shows the open Save to menu with Private Workspace and the TRANSFER USB drive.",
-    caption: "Choose your mounted USB drive under Save to for an external encrypted backup. The default Private Workspace is in RAM.",
+    "src": "/software/screenshots/vault/v0.9.0/backup-destination-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/backup.webp",
+    "width": 1240,
+    "height": 200,
+    "context": "Vault v0.9.0 · offline live session · unfunded wallet · disposable USB",
+    "alt": "The backup destination detail selects DEMOUSB and shows /media/vault/DEMOUSB/wallet.dat.gpg.",
+    "caption": "Vault v0.9.0 saves this encrypted backup to the drive named DEMOUSB. Identify your own external backup drive under Save to."
   },
   "psbt-review": {
     src: base + "unsigned-signer.webp", width: 585, height: 327,
@@ -79,23 +223,23 @@ export const captures = {
     alt: "The decoded Regtest proposal shows one input worth 1 BTC, two outputs and a fee of 282 sat.",
     caption: "Output 0 returns 0.74999718 BTC to the wallet. Output 1 pays 0.25000000 BTC to the test recipient. Subtract both from the 1 BTC input to check the 282 sat fee.",
   },
-  "vault-private-backup": {
-    src: "/software/screenshots/curriculum/vault-v0.6.0/private-backup.webp", width: 800, height: 270,
-    context: "Vault v0.6.0 · installed offline VM · private RAM",
-    alt: "Files shows wallet.dat.gpg in Private Workspace.",
-    caption: "This encrypted file is still in the temporary session. Copy it to the separate backup medium.",
-  },
   "vault-usb-backup": {
-    src: "/software/screenshots/curriculum/vault-v0.6.0/usb-backup.webp", width: 800, height: 270,
-    context: "Vault v0.6.0 · installed offline VM · disposable USB",
-    alt: "Files shows the encrypted wallet.dat.gpg backup on the mounted TRANSFER drive.",
-    caption: "Check the destination path and the file on the drive before ejecting it. This exercise used a virtual USB device.",
+    "src": "/software/screenshots/vault/v0.9.0/usb-backup.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/usb-backup.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Vault v0.9.0 · offline live session · unfunded wallet · disposable USB",
+    "alt": "Files shows wallet.dat.gpg and watch-only.dat on the mounted DEMOUSB drive.",
+    "caption": "This disposable demonstration drive contains both files. For your own setup, keep signing-wallet backups separate from the transfer drive."
   },
   "vault-restart": {
-    src: "/software/screenshots/curriculum/vault-v0.6.0/restart-warning.webp", width: 500, height: 344,
-    context: "Vault v0.6.0 · offline Live RAM session",
-    alt: "Vault warns that files left only in the current RAM session will be lost on restart.",
-    caption: "Verify the external backup before accepting the restart. Vault leaves that check to you.",
+    "src": "/software/screenshots/vault/v0.9.0/after-restart-workspace.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/after-restart-workspace.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Vault v0.9.0 · fresh offline session after restart",
+    "alt": "Private Workspace is empty after restarting the live Vault while the external DEMOUSB drive remains available.",
+    "caption": "The actual restart cleared Private Workspace. The encrypted backup on the separate virtual USB survived."
   },
   "psbt-node-unsigned": {
     src: base + "unsigned-node.webp", width: 585, height: 327,
@@ -128,52 +272,58 @@ export const captures = {
     caption: "The private wallet was restored first. Its fresh public export let the replacement coordinator find the earlier output. This new 0.05 BTC payment spends from the recovered setup.",
   },
   "vault-decrypt": {
-    src: "/software/screenshots/vault/v0.6.0/recover.webp", width: 1280, height: 760,
-    context: "Vault v0.6.0 · Vault Backup 0.7.5 · disposable USB",
-    alt: "Decrypt Encrypted Backup shows the Recover to menu with Private Workspace and the TRANSFER USB drive.",
-    caption: "Keep Private Workspace selected for this restore. Choosing USB writes the recovered files to that drive without the outer GPG protection.",
+    "src": "/software/screenshots/vault/v0.9.0/decrypt.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/decrypt.webp",
+    "width": 1280,
+    "height": 1024,
+    "context": "Vault v0.9.0 · fresh offline session after restart · external encrypted backup",
+    "alt": "Decrypt Encrypted Backup selects Private Workspace and a new recovered-20261126-162817 folder for wallet.dat.gpg.",
+    "caption": "Decrypt the external wallet.dat.gpg into Private Workspace. Keep the recovered file in the private RAM session."
   },
   "vault-recovered-ram": {
-    src: "/software/screenshots/curriculum/vault-v0.6.0/recovery-result.webp", width: 1280, height: 205,
-    context: "Vault v0.6.0 · installed offline VM · after restarting",
-    alt: "Decrypt Backup reports File recovered to RAM in the practice-recovery folder.",
-    caption: "The external GPG backup has been decrypted into the new session. Core can now restore the recovered wallet file.",
-  },
-  "vault-keepass": {
-    src: "/software/screenshots/curriculum/vault-v0.6.0/keepass-passphrase.webp", width: 1160, height: 195,
-    context: "Vault v0.6.0 · KeePassXC 2.8.0 · offline Live RAM session",
-    alt: "The Passphrase settings show a six-word count, the eff_large wordlist, separator and lower-case options.",
-    caption: "Check the word list, number of words and separator before generating your own disposable practice phrase.",
+    "src": "/software/screenshots/vault/v0.9.0/recovered-ram.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/recovered-ram.webp",
+    "width": 1280,
+    "height": 1024,
+    "context": "Vault v0.9.0 · fresh offline session after restart",
+    "alt": "Vault reports File recovered to RAM in Private Workspace/recovered-20261126-162817.",
+    "caption": "The external GPG backup has been recovered into the fresh session. Restore the resulting wallet.dat in Bitcoin Core."
   },
   "vault-restored-file": {
-    src: "/software/screenshots/curriculum/vault-v0.6.0/recovered-wallet.webp", width: 800, height: 270,
-    context: "Vault v0.6.0 · installed offline VM · after USB recovery",
-    alt: "Files shows wallet.dat inside Private Workspace/practice-recovery after decrypting the USB backup.",
-    caption: "Select this recovered wallet.dat in Core’s File → Restore Wallet dialog. Keep it in private RAM.",
-  },
-  "vault-isolation": {
-    src: "/software/screenshots/curriculum/vault-v0.6.0/stock-vault-isolation.webp", width: 1274, height: 337,
-    context: "Vault v0.6.0 · protected Core session · offline VM",
-    alt: "The Core console reports networkactive false and a connection count of zero.",
-    caption: "Check both values in the protected signer. Zero peers alone would also be possible on a disconnected online node.",
+    "src": "/software/screenshots/vault/v0.9.0/restored-file.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/restored-file.webp",
+    "width": 1280,
+    "height": 1024,
+    "context": "Vault v0.9.0 · fresh offline session after restart",
+    "alt": "Files shows the recovered wallet.dat inside Private Workspace/recovered-20261126-162817.",
+    "caption": "Select the recovered wallet.dat in Core’s File → Restore Wallet dialog."
   },
   "vault-watch-menu": {
-    src: "/software/screenshots/curriculum/vault-v0.6.0/stock-vault-export-menu.webp", width: 658, height: 361,
-    context: "Vault v0.6.0 · protected Core session · unfunded wallet",
-    alt: "The File menu in the signing wallet includes Export watch-only wallet.",
-    caption: "Select File → Export watch-only wallet while the disposable signing wallet is active.",
+    "src": "/software/screenshots/vault/v0.9.0/watch-menu.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/watch-menu.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Vault v0.9.0 · offline live session · unfunded wallet",
+    "alt": "The File menu in Practice Wallet includes Export watch-only wallet.",
+    "caption": "Select the signing wallet, then choose File → Export watch-only wallet to prepare its public copy."
   },
   "vault-watch-complete": {
-    src: "/software/screenshots/curriculum/vault-v0.6.0/stock-vault-export-complete.webp", width: 511, height: 121,
-    context: "Vault v0.6.0 · protected Core session · unfunded wallet",
-    alt: "Core confirms it has exported watch-only.dat to Private Workspace.",
-    caption: "This is the public copy you can move to Node. Leave the private wallet and its backup with the signer.",
+    "src": "/software/screenshots/vault/v0.9.0/watch-complete.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/watch-complete.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Vault v0.9.0 · offline live session · unfunded wallet · disposable USB",
+    "alt": "Core confirms that watch-only.dat was exported to /media/vault/DEMOUSB/watch-only.dat.",
+    "caption": "Vault v0.9.0 exported watch-only.dat to DEMOUSB. Move only this public copy to Node; keep the signing wallet and its recovery backup offline."
   },
   "vault-watch-usb": {
-    src: "/software/screenshots/curriculum/vault-v0.6.0/stock-vault-public-usb.webp", width: 1040, height: 284,
-    context: "Vault v0.6.0 · Files · disposable transfer USB",
-    alt: "Files shows watch-only.dat on the TRANSFER USB drive.",
-    caption: "Check the file name and the destination. This USB carries the public coordinator wallet.",
+    "src": "/software/screenshots/vault/v0.9.0/watch-usb.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/watch-usb.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Vault v0.9.0 · offline live session · unfunded wallet · disposable USB",
+    "alt": "Files shows watch-only.dat on the mounted DEMOUSB drive.",
+    "caption": "Check the public export’s filename and destination. This demonstration drive is named DEMOUSB."
   },
   "psbt-confirmed": {
     src: base + "confirmed-transaction.webp", width: 620, height: 250,
@@ -181,43 +331,64 @@ export const captures = {
     alt: "Transaction details show seven confirmations of the original 0.25 BTC test payment and its 282 sat fee.",
     caption: "Match the transaction ID with the broadcast screen. The test chain now has seven confirmations for this payment.",
   },
-  "node-synced": {
-    src: base + "node-synchronized-regtest.webp", width: 1280, height: 515,
-    context: "Node v0.1.0-rc.2 · isolated Regtest VM · one local peer",
-    alt: "Bitcoin Core Status shows Synchronized, 112 validated blocks, 112 known headers, 100% validation and one connected peer.",
-    caption: "This Node downloaded 112 test blocks from one local peer. Its validated block count now matches its known headers. Compare that with the waiting-for-peers screen.",
-  },
   "vault-restore-success": {
-    src: "/software/screenshots/curriculum/vault-v0.6.0/vault-wallet-restored.webp", width: 269, height: 120,
-    context: "Vault v0.6.0 · installed offline VM · after USB recovery",
-    alt: "Core displays Wallet restored successfully after opening the recovered wallet.dat.",
-    caption: "Core accepted the recovered backup. Check a previously recorded receiving address in your own rehearsal.",
+    "src": "/software/screenshots/vault/v0.9.0/restore-success.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/restore-success.webp",
+    "width": 1280,
+    "height": 1024,
+    "context": "Vault v0.9.0 · fresh offline session after restart",
+    "alt": "Bitcoin Core reports that the wallet was restored successfully.",
+    "caption": "Core accepted the recovered wallet file. Compare an address and label recorded before the backup."
   },
   "vault-restored-overview": {
-    src: "/software/screenshots/curriculum/vault-v0.6.0/vault-restored-overview.webp", width: 1280, height: 260,
-    context: "Vault v0.6.0 · installed offline VM · unfunded wallet after restore",
-    alt: "Bitcoin Core shows the restored practice wallet named GuideRestored and a zero BTC balance.",
-    caption: "The disposable wallet reopened in Core after the guest restarted. For your own recovery drill, also verify an address recorded before the backup.",
+    "src": "/software/screenshots/vault/v0.9.0/restored-overview.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/restored-overview.webp",
+    "width": 1280,
+    "height": 1024,
+    "context": "Vault v0.9.0 · fresh offline session after restart · unfunded wallet",
+    "alt": "Bitcoin Core shows the restored wallet named Restored Practice with a zero BTC balance.",
+    "caption": "The unfunded wallet reopened after the real restart and USB recovery. Its recorded address and label also matched."
   },
   "node-public-open": {
-    src: base + "stock-node-restore-open.webp", width: 700, height: 443,
-    context: "Node v0.1.0-rc.2 · fresh offline VM · unfunded mainnet exercise",
-    alt: "Load Wallet Backup shows watch-only.dat on the PUBLICDEMO transfer device.",
-    caption: "On Node, select watch-only.dat from your transfer drive. The drive in this Node example is named PUBLICDEMO.",
+    "src": "/software/screenshots/node/v0.1.0-rc.4/public-open.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/public-open.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Node v0.1.0-rc.4 · demonstration VM · network disconnected · unfunded watch-only wallet",
+    "alt": "Load Wallet Backup selects watch-only.dat on the NODECAPTURE transfer drive.",
+    "caption": "On Node, select the public watch-only.dat supplied by Vault. This demonstration drive is named NODECAPTURE."
   },
   "node-public-name": {
-    src: base + "stock-node-restore-name.webp", width: 517, height: 238,
-    context: "Node v0.1.0-rc.2 · fresh offline VM · unfunded mainnet exercise",
-    alt: "The Restore Wallet dialog contains the local name PracticeWatchOnly.",
-    caption: "Use a distinct local name so you can select this watch-only wallet in Core.",
+    "src": "/software/screenshots/node/v0.1.0-rc.4/public-name.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/public-name.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Node v0.1.0-rc.4 · demonstration VM · network disconnected · unfunded watch-only wallet",
+    "alt": "The Restore Wallet dialog contains the local wallet name PracticeWatchOnly.",
+    "caption": "Give the imported public wallet a recognizable local name. This example uses PracticeWatchOnly."
   },
   "node-public-proof": {
-    src: base + "stock-node-watch-only-proof.webp", width: 732, height: 292,
-    context: "Node v0.1.0-rc.2 · fresh offline VM · unfunded mainnet exercise",
-    alt: "The Core console reports chain main, wallet name PracticeWatchOnly and private_keys_enabled false.",
-    caption: "Read the chain, wallet name and private-key flag together. This Node opened the public copy supplied by Vault. The payment exercise uses separate Regtest wallets.",
+    "src": "/software/screenshots/node/v0.1.0-rc.4/public-proof-detail.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/public-proof.webp",
+    "width": 710,
+    "height": 365,
+    "context": "Node v0.1.0-rc.4 · demonstration VM · network disconnected · same public export from Vault v0.9.0",
+    "alt": "Core’s getwalletinfo result shows walletname PracticeWatchOnly, private_keys_enabled false, descriptors true and zero transactions.",
+    "caption": "The actual public copy exported by Vault v0.9.0 opens as PracticeWatchOnly with private keys disabled. The VM is offline and the wallet is unfunded."
   },
 }
+
+export type PracticeCapture = {
+  src: string
+  fullSrc?: string
+  width: number
+  height: number
+  context: string
+  alt: string
+  caption: string
+}
+
+export const captures: { [K in keyof typeof captureData]: PracticeCapture } = captureData
 
 type CaptureKey = keyof typeof captures
 
@@ -240,13 +411,13 @@ export const capturePlacements: Record<string, Record<string, CaptureKey[]>> = {
   },
   "prepare-offline-signer": {
     "debian-preparation": ["vault-home"],
-    "wallet": ["vault-create", "vault-select-backup", "vault-backup"],
-    "debian-datadir": ["vault-private-backup", "vault-usb-backup"],
+    "wallet": ["vault-create", "vault-backup"],
+    "debian-datadir": ["vault-backup-complete", "vault-usb-backup"],
     "coldboot": ["vault-restart", "vault-recovered-ram", "vault-restore-success"],
-    "isolate": ["vault-isolation"],
+    "isolate": [],
   },
   "ibd-does-not-block-wallet-learning": {
-    "overview": ["node-peers", "node-synced"],
+    "overview": ["node-peers"],
   },
   "wallet-backup-vs-node-data": {
     "overview": ["node-backup", "vault-usb-backup"],
@@ -284,7 +455,7 @@ export const capturePlacements: Record<string, Record<string, CaptureKey[]>> = {
     "restore": ["vault-restored-file", "vault-restore-success"],
   },
   "generate-passphrase": {
-    "keepass-bundled-v41": ["vault-keepass"],
+    "keepass-bundled-v41": [],
   },
   "malware-usb-and-destination-verification": {
     "media": ["vault-watch-usb"],

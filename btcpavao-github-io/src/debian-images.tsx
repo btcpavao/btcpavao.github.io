@@ -11,6 +11,8 @@ import { IsoOriginStory } from "./components/iso-origin-story"
 import { IsoSystemRoles } from "./components/iso-system-roles"
 import { IsoBackupStory } from "./components/iso-backup-story"
 import { useEffect } from "react"
+import { captures } from "./curriculum/practice-captures"
+import { ZoomableImage } from "./components/zoomable-image"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import "./iso-download-guide.css"
@@ -106,43 +108,40 @@ function SoftwareRow({ ids, label }: { ids: SoftwareId[]; label: string }) {
 const productScreenshots = {
   vault: {
     name: "Bitcoin Core Vault",
-    version: "v0.6.0 screenshots",
+    version: "v0.9.0",
     images: [
-      { file: "v0.6.0/home", title: "Your offline workspace", description: "Bitcoin Core, encrypted backup and recovery tools in one private workspace.", alt: "Bitcoin Core Vault home with Bitcoin Core, Wallet Backup, Decrypt Backup, KeePassXC and offline utilities" },
-      { file: "v0.6.0/guide", title: "Practical Vault Guide", description: "Start with the complete wallet, backup, watch-only Node and offline signing workflow.", alt: "Vault Guide with the Start here chapter open, showing how a watch-only wallet and a payment file move between Vault and Node." },
-      { file: "v0.6.0/backup", title: "Wallet Backup", description: "Choose Private Workspace or a connected USB drive under Save to.", alt: "Create Encrypted Backup in Vault with the Save to menu showing Private Workspace and the TRANSFER USB drive" },
+      { shot: captures["vault-home"], title: "Your offline workspace", description: "Bitcoin Core, encrypted backup and recovery tools in one private session." },
+      { shot: captures["vault-guide"], title: "Practical Vault Guide", description: "Follow the wallet, backup, watch-only Node and offline signing workflow." },
+      { shot: captures["vault-backup-restore"], title: "Backup and Restore", description: "Find the encrypted backup, recovery and Core restore tools together." },
     ],
+    note: "Captured from the published Vault v0.9.0 image in disposable offline live sessions. Practice wallets are unfunded.",
   },
   node: {
     name: "Bitcoin Core Node",
-    version: "v0.1.0-rc.1 (earlier interface preview)",
+    version: "v0.1.0-rc.4",
     images: [
-      { file: "home", title: "Your node at a glance", description: "A dedicated home for Bitcoin Core and the tools around it.", alt: "Bitcoin Core Node home with node controls, workspace and utility launchers" },
-      { file: "settings", title: "Settings in one place", description: "Manage the environment from the Node settings interface.", alt: "Bitcoin Core Node settings with its available configuration controls" },
-      { file: "guide", title: "A guide beside your node", description: "Read the built-in guide while setting up and using the Node.", alt: "Bitcoin Core Node Guide with its navigation sidebar and setup instructions" },
+      { shot: captures["node-home"], title: "Your online workspace", description: "A dedicated home for Bitcoin Core, Private Workspace and the tools around them." },
+      { shot: captures["node-settings"], title: "Settings in one place", description: "Open Network Connections, Backup and Restore, and the available device settings." },
+      { shot: captures["node-guide"], title: "A guide beside your node", description: "Read the built-in guide while setting up the watch-only wallet and transfer workflow." },
     ],
+    note: "Node RC4 interface shown in a disposable offline test VM. The synchronization examples report that VM’s observed state.",
   },
 }
 
 function ProductScreenshots({ product }: { product: keyof typeof productScreenshots }) {
-  const { name, version, images } = productScreenshots[product]
-  const basePath = `/software/screenshots/${product}`
+  const { name, version, images, note } = productScreenshots[product]
   return (
     <div className="product-screenshots" aria-label={`${name} screenshots`}>
       <p className="product-screenshots-intro">Inside {name} · {version}. Open any image for the full-size screenshot.</p>
       <div className="product-screenshots-grid">
-        {images.map(({ file, title, description, alt }) => (
-          <figure key={file}>
-            <a href={`${basePath}/${file}.png`} aria-label={`View full-size screenshot: ${title}`}>
-              <img src={`${basePath}/${file}.webp`} alt={alt} width={1280} height={file === "v0.6.0/backup" ? 760 : 800} loading="lazy" decoding="async" />
-            </a>
+        {images.map(({ shot, title, description }) => (
+          <figure key={shot.src}>
+            <ZoomableImage src={shot.src} fullSrc={shot.fullSrc} alt={shot.alt} width={shot.width} height={shot.height} loading="lazy" decoding="async" />
             <figcaption><strong>{title}</strong><span>{description}</span></figcaption>
           </figure>
         ))}
       </div>
-      <p className="product-screenshots-note">{product === "vault"
-        ? "Home and Guide were captured in a Live RAM session. The Wallet Backup example uses a disposable USB drive in an installed Vault."
-        : "Captured on Node v0.1.0-rc.1 with a disposable setup. Node is shown without a network connection, with the optional Backup and Restore Home shortcut enabled."}</p>
+      <p className="product-screenshots-note">{note}</p>
     </div>
   )
 }
@@ -271,8 +270,8 @@ export function DebianImagesPage() {
         <IsoSystemRoles />
         <IsoOriginStory />
         <IsoBackupStory />
-        <details className="iso-reference-panel iso-desktops">
-          <summary><h2>Included software and earlier interface screenshots</h2></summary>
+        <details id="product-screenshots" className="iso-reference-panel iso-desktops">
+          <summary><h2>Included software and current screenshots</h2></summary>
           <div className="debian-role-grid">
           <section id="vault">
             <p className="debian-images-eyebrow">

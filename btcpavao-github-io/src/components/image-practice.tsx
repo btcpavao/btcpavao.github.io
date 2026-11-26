@@ -9,13 +9,13 @@ export function PracticeFigures({ slug, step }: { slug: string; step?: string })
   if (!captures.length) return null
   return (
     <div className="practice-figures">
-      {captures.map(({ src, alt, caption, context, width, height }) => (
+      {captures.map(({ src, fullSrc, alt, caption, context, width, height }) => (
         <figure key={src} className="practice-capture">
-          <ZoomableImage src={src} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
+          <ZoomableImage src={src} fullSrc={fullSrc} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
           <figcaption>
             <span className="practice-capture__context">{context}</span>
             <span>{caption}</span>
-            <a href={src} aria-label={"Full size: " + alt}>Full size</a>
+            <a href={fullSrc ?? src} aria-label={"Full size: " + alt}>Full size</a>
           </figcaption>
         </figure>
       ))}
