@@ -804,6 +804,47 @@
         700
       ],
       "full_image": "/software/screenshots/vault/v0.9.0/backup.webp"
+    },
+    {
+      "path": "/software/screenshots/vault/v0.9.0/isolation-console.webp",
+      "sha256": "99636d8f8b2169e362e1876583cb58afee91276d3a19a190fd551b096f378c44",
+      "width": 1280,
+      "height": 800,
+      "bytes": 22374,
+      "original_png": "isolation-console.png",
+      "original_png_sha256": "235996fa2c546e85f8005e2631f8ebc03cdcbf200e9ddc1b30bfbe4edb6a1f3c",
+      "original_width": 1280,
+      "original_height": 800,
+      "captured_at_utc": "2026-11-26T21:42:45.262872+00:00",
+      "capture_date": "2026-11-26",
+      "lossless_webp_pixels_verified": true,
+      "source_iso_sha256": "615067c09f573a4476c7039adc90e58f75a46bdf20a028fd3c58f3e300c832fe",
+      "acquisition": "QEMU framebuffer from a separate live RAM boot of the verified Vault v0.9.0 ISO, with no virtual disk or network adapter. Bitcoin Core launched from Vault Home.",
+      "observed": "Bitcoin Core console displayed false for getnetworkinfo()[networkactive], 0 for getconnectioncount, and main for getblockchaininfo()[chain]."
+    },
+    {
+      "path": "/software/screenshots/vault/v0.9.0/isolation-console-detail.webp",
+      "sha256": "26a6eb0a052709daf80d90037bb4e609589a78861746e61febbf4f8fe386969f",
+      "width": 356,
+      "height": 144,
+      "bytes": 4388,
+      "original_png": "isolation-console.png",
+      "original_png_sha256": "235996fa2c546e85f8005e2631f8ebc03cdcbf200e9ddc1b30bfbe4edb6a1f3c",
+      "original_width": 1280,
+      "original_height": 800,
+      "captured_at_utc": "2026-11-26T21:42:45.262872+00:00",
+      "capture_date": "2026-11-26",
+      "lossless_webp_pixels_verified": true,
+      "source_iso_sha256": "615067c09f573a4476c7039adc90e58f75a46bdf20a028fd3c58f3e300c832fe",
+      "acquisition": "QEMU framebuffer from a separate live RAM boot of the verified Vault v0.9.0 ISO, with no virtual disk or network adapter. Bitcoin Core launched from Vault Home.",
+      "observed": "Bitcoin Core console displayed false for getnetworkinfo()[networkactive], 0 for getconnectioncount, and main for getblockchaininfo()[chain].",
+      "crop_box_left_top_right_bottom": [
+        24,
+        217,
+        380,
+        361
+      ],
+      "full_image": "/software/screenshots/vault/v0.9.0/isolation-console.webp"
     }
   ]
 }

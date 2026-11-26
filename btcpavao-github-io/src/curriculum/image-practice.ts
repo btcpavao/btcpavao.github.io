@@ -202,8 +202,8 @@ export const imagePractice: Record<string, ImageLesson> = {
       },
       isolate: {
         replacesStep: true, role: "Vault", title: "Check the offline boundary",
-        instructions: ["Disconnect the cable and disable radios. Launch Bitcoin Core from Vault Home. In Core’s console, run the two commands below, one at a time. Check that networking is disabled and the peer count is zero. Open the Information tab or read getblockchaininfo to record which chain is selected."],
-        command: { title: "Bitcoin Core console · Vault", code: "getnetworkinfo()[networkactive]\ngetconnectioncount" },
+        instructions: ["Disconnect the cable and disable radios. Launch Bitcoin Core from Vault Home and choose Window → Console. Run each command below on its own line. Check that networking is disabled and the peer count is zero, then record the chain shown by the third command."],
+        command: { title: "Bitcoin Core console · Vault", code: "getnetworkinfo()[networkactive]\ngetconnectioncount\ngetblockchaininfo()[chain]" },
         result: "Core reports networkactive false and zero peer connections. You have written down the actual chain.",
       },
       "debian-datadir": {

@@ -158,10 +158,12 @@ const captureData = {
     "caption": "Node v0.1.0-rc.4: the manifest signature matches the publisher fingerprint, and the downloaded ISO matches its signed checksum. Confirm the fingerprint independently before trusting it."
   },
   "vault-isolation-console": {
-    src: base + "vault-v0.6.0/stock-vault-isolation.webp", width: 1274, height: 337,
-    context: "Archived Vault v0.6.0 · Bitcoin Core console",
-    alt: "The console shows getnetworkinfo()[networkactive] returning false and getconnectioncount returning 0.",
-    caption: "Run both checks in your own Vault session. The first shows whether Core networking is enabled. The second counts connected peers.",
+    src: "/software/screenshots/vault/v0.9.0/isolation-console-detail.webp",
+    fullSrc: "/software/screenshots/vault/v0.9.0/isolation-console.webp",
+    width: 356, height: 144,
+    context: "Vault v0.9.0 · Bitcoin Core console",
+    alt: "The console shows getnetworkinfo()[networkactive] returning false, getconnectioncount returning 0, and getblockchaininfo()[chain] returning main.",
+    caption: "In this live session, Core networking was disabled (false), the peer count was 0, and the selected chain was main.",
   },
   "vault-home": {
     "src": "/software/screenshots/vault/v0.9.0/home.webp",
