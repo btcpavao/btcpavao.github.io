@@ -57,7 +57,7 @@ export function IsoSystemRoles() {
             <ZoomableImage src="/software/screenshots/curriculum/node-backup-categories.webp"
               alt="Node’s Backup and Restore window offers separate Backup and Restore buttons for the blockchain, watch-only wallets, Bitcoin Core configuration and Node configuration."
               width={1280} height={800} loading="lazy" decoding="async" />
-            <figcaption>The four backup options on the installed Node.</figcaption>
+            <figcaption>The four backup options in this earlier Node RC2 screenshot. Open Settings → Backup and Restore on the current Node.</figcaption>
           </figure>
           <dl>
             <div>
@@ -69,8 +69,8 @@ export function IsoSystemRoles() {
             </div>
             <div>
               <dt>Keep transfer files temporary</dt>
-              <dd>Private Workspace and PSBT Transfer Folder use RAM. Files saved there disappear
-                at shutdown. The blockchain, watch-only wallet and settings remain on disk.</dd>
+              <dd>Private Workspace holds temporary files, including PSBTs, in RAM. Files saved there
+                disappear at shutdown. The blockchain, watch-only wallet and settings remain on disk.</dd>
             </div>
           </dl>
           <a className="iso-role-action" href="#node-setup">Set up the online Node <ArrowUpRight aria-hidden="true" /></a>

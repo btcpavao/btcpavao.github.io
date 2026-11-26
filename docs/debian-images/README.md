@@ -12,14 +12,40 @@ python3 check_release.py vault v0.9.0
 python3 check_release.py vault v0.9.0 --iso "$HOME/Downloads/bitcoin-core-vault-v0.9.0-amd64.iso"
 ```
 
-The version-specific Vault rebuild and 162-file `--inspect` walkthrough below is retained for **the archived v0.8.0 ISO**. The existing `inspect_payload.py` mapping stops at v0.8.0 and must not be presented as a full v0.9.0 source-to-ISO check. Use the new release's source and published validation records when reviewing v0.9.0. Node RC3 commands and evidence remain current.
+The version-specific Vault rebuild and 162-file `--inspect` walkthrough below is retained for **the archived v0.8.0 ISO**. The existing `inspect_payload.py` mapping stops at v0.8.0 and must not be presented as a full v0.9.0 source-to-ISO check. Use the new release's source and published validation records when reviewing v0.9.0. The Node RC3 commands and evidence below likewise describe the archived RC3 ISO.
+
+## Current Node release: v0.1.0-rc.4
+
+The current Node download is [v0.1.0-rc.4](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.4):
+
+- Filename: `bitcoin-core-node-v0.1.0-rc.4-core32.1-amd64.iso`
+- Size: 1,800,142,848 bytes (1.80 GB).
+- SHA-256: `b25093180bb9b8f57adf2163634be3473fbc0f5163e9fcb05008651f2e0f6da7`.
+- PGP publication status at the RC4 website update: **signature pending**. The checksum identifies the exact download but does not authenticate its publisher. The signed verification helpers below are for releases whose signature files have actually been published.
+- Matching tracked-source archive: [bitcoin-core-node-v0.1.0-rc.4-source.tar.gz](https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.4/bitcoin-core-node-v0.1.0-rc.4-source.tar.gz), with prefix `bitcoin-core-node-v0.1.0-rc.4/`, archival commit `8eae47cb3c2c67c7365dcfcc25af44cd5048baf3` and archive SHA-256 `c629d565d6b2e999d5c229ccb4cc5fd3f0a1ee0160ce7fcb1655fd96b5defb49`.
+- [SOURCE-PROVENANCE.json](https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.4/SOURCE-PROVENANCE.json), [BUILD-INFO.json](https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.4/BUILD-INFO.json), [ACCEPTANCE.json](https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.4/ACCEPTANCE.json) and [TEST-SCOPE-LIMITS.json](https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.4/TEST-SCOPE-LIMITS.json) record the actual derivation and verification scope.
+
+The release also includes its recipe and native installer source bundles. The archival commit records the tracked source after the build; read the provenance for the actual build base and working-tree changes. A fresh byte-identical independent rebuild of RC4 has not been demonstrated. RC3's two matching GitHub builds and its 247-file source mapping do not establish those properties for RC4.
+
+RC4 uses one RAM-only **Private Workspace**, including PSBT files. Blockchain data, Core-managed wallets and saved Node settings remain persistent. Use **Settings → Network Connections** for Wi-Fi and **Settings → Backup and Restore** for supported backups.
+
+To compare the downloaded RC4 ISO with the published hash on Debian:
+
+```bash
+cd "$HOME/Downloads" &&
+  echo 'b25093180bb9b8f57adf2163634be3473fbc0f5163e9fcb05008651f2e0f6da7  bitcoin-core-node-v0.1.0-rc.4-core32.1-amd64.iso' | sha256sum --check -
+```
+
+## Historical signed-release and rebuild walkthrough
+
+The walkthrough below retains the original **Vault v0.8.0 and Node v0.1.0-rc.3** targets. Use the current release sections above for the downloads now offered on the website. Do not substitute RC4's filename into an RC3 build or inspection command.
 
 
 Use a separate Debian 13 **amd64** virtual machine. A VM is a disposable computer that runs inside your usual computer. Open its Terminal and run one block at a time. Downloading and checking an ISO takes no USB stick, wallet, or Bitcoin. The build instructions for each image list additional space and tools.
 
-For either download on [the project page](https://btcpavao.com/en/bitcoin-core/debian-images/), check the signature and file hash, then [build it from the release revision in step 4](#4-build-on-a-clean-machine).
+For either archived target below, check the signature and file hash, then [build it from the release revision in step 4](#4-build-on-a-clean-machine).
 
-| Current download | Published SHA-256 of the complete ISO | Verification |
+| Archived rebuild target | Published SHA-256 of the complete ISO | Verification |
 | --- | --- | --- |
 | [Vault v0.8.0](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.8.0) | `0bc142508a35172ea92f645decc31be1373b05956e9a17d0ad01cee9bab84857` | Verify the OpenPGP-signed manifest, then compare the rebuilt ISO. |
 | [Node v0.1.0-rc.3](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.3) | `39e9b5b76dce7d9854989365d389caa50d55f0b0c5654602eafc7e12904b6675` | Verify the OpenPGP-signed manifest, then compare the rebuilt ISO. |
@@ -50,7 +76,7 @@ The program downloads the public key, manifest and detached signature for the ve
 
 ## 2. Download authenticated source files
 
-These two commands authenticate the signed Vault release and the historical signed RC2 **source** used as an input to today’s Node recipe. For the prepared source of the current Node download, use its own tag and apply the public build patch:
+These two commands authenticate the archived signed Vault release and the signed RC2 **source** used as an input to the RC3 recipe. For the prepared source of the archived Node RC3 download, use its tag and apply that release's public build patch:
 
 ```bash
 git clone --depth 1 --branch v0.1.0-rc.3 https://github.com/btcpavao/bitcoin-core-node-releases.git node-source-review
@@ -76,7 +102,7 @@ Look for `OK` or `Verified existing file` beside the source archive and a final 
 | Vault v0.8.0 | `d0bc35aa9a64d45d5c24a226aa9ba2ec2a315ebf` | [Vault files](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.8.0) |
 | Historical Node v0.1.0-rc.2 (base source) | `0d43a61e82ab1a0ee86a0b916d1215f31f4502e3` | [Node files](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.2) |
 
-To check the signed Vault ISO or an archived copy of the older signed Node RC2 ISO, save it in your VM's Downloads folder and run the matching line. For the current Node ISO, [verify its detached signature and match its signed ISO checksum](https://btcpavao.com/en/bitcoin-core/debian-images/#verify-node-download) before the build comparison in steps 4–5. The program prints the expected release filename and the SHA-256 it computed from your local file. A mismatch exits with an error. If you are only reading the source, skip the ISO download.
+To check the archived signed Vault ISO or an archived copy of the older signed Node RC2 ISO, save it in your VM's Downloads folder and run the matching line. For the archived Node RC3 ISO, verify its detached signature and match its signed ISO checksum before the historical build comparison in steps 4–5. The program prints the expected release filename and the SHA-256 it computed from your local file. A mismatch exits with an error. If you are only reading the source, skip the ISO download. For current RC4 verification and pending-signature status, use the RC4 section above.
 
 ```sh
 python3 check_release.py vault v0.8.0 --iso ~/Downloads/bitcoin-core-vault-v0.8.0-amd64.iso
@@ -118,7 +144,7 @@ For these two `git diff --no-index` commands, exit code 1 means differences were
 
 ### Check a file inside the downloaded ISO
 
-To check the current Node download's chain-backup code before booting it, prepare its `node-inspection` source in step 2 and save the ISO in Downloads. From the directory containing `node-inspection`, run:
+To check the archived Node RC3 download's chain-backup code, prepare its `node-inspection` source in step 2 and save that RC3 ISO in Downloads. From the directory containing `node-inspection`, run:
 
 ```bash
 sudo apt install xorriso squashfs-tools
@@ -156,7 +182,7 @@ The comparison checks the contents of the paths supplied by the source archive. 
 
 **Vault v0.8.0.** The build recipe targets the same ISO distributed with the signed release. Authenticate the downloaded ISO in step 2, then compare your own build with it.
 
-**Node v0.1.0-rc.3.** The current Node download is the candidate built by the recipe below. Its recipe starts with the signed RC2 source archive and pins the build environment, Debian packages and upstream inputs. Verify the detached signature and ISO checksum for the candidate, then compare your build with that downloaded file.
+**Historical Node v0.1.0-rc.3.** The archived RC3 download is the candidate built by the recipe below. Its recipe starts with the signed RC2 source archive and pins the build environment, Debian packages and upstream inputs. Verify the detached signature and ISO checksum for that candidate, then compare your build with that exact downloaded file. These commands do not build RC4.
 
 ### Prepare your build VM
 

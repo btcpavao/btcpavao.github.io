@@ -54,7 +54,7 @@ export function DebianImageReviewPage() {
         <header className="iso-intro max-w-3xl">
           <a href={DEBIAN_IMAGES_PATH}>← Vault and Node downloads</a>
           <h1>What can the ISO do with my wallet?</h1>
-          <p className="max-w-prose text-lg leading-relaxed">Both download buttons lead to ISOs you can rebuild and compare byte for byte. For either download, verify my signature on its checksum list, then match your file to the listed SHA-256. To find out what can read your wallet or write to USB, you or a reviewer you trust can follow the code below and test it with an empty wallet.</p>
+           <p className="max-w-prose text-lg leading-relaxed">Start with the exact ISO, its published checksum and its signature status. The current releases include source and build evidence; earlier reproducibility results describe their original files. To find out what can read your wallet or write to USB, you or a reviewer you trust can follow the code below and test it with an empty wallet.</p>
           <nav className="iso-guide-nav" aria-label="Choose a review task">
             <a href="#what-pavao-added">See what I added</a>
             <a href="#reviewer-brief">Give the brief to my reviewer</a>

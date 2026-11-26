@@ -27,7 +27,8 @@ const tag = "v0.1.0-rc.3"
 const assetBase = repo + "/releases/download/" + tag + "/"
 const isoName = "bitcoin-core-node-" + tag + "-core32.1-amd64.iso"
 
-export const nodeBuild = {
+// Historical RC3 evidence belongs to that exact ISO, not the current download.
+export const nodeRc3Build = {
   tag,
   revision,
   repo,
@@ -41,4 +42,34 @@ export const nodeBuild = {
   sourceUrl: assetBase + "bitcoin-core-node-" + tag + "-source.tar.gz",
   instructionsUrl: repo + "/blob/" + revision + "/docs/REBUILD.md",
   proofUrl: repo + "/actions/runs/44714236174/job/136224300463",
+} as const
+
+const nodeTag = "v0.1.0-rc.4"
+const nodeReleaseRevision = "83fee141e5c7b42351aa5dab46beeaa853c7f8c5"
+const nodeAssets = `${repo}/releases/download/${nodeTag}/`
+const nodeIsoName = `bitcoin-core-node-${nodeTag}-core32.1-amd64.iso`
+
+export const nodeBuild = {
+  tag: nodeTag,
+  repo,
+  revision: "8eae47cb3c2c67c7365dcfcc25af44cd5048baf3",
+  releaseRevision: nodeReleaseRevision,
+  isoName: nodeIsoName,
+  bytes: 1800142848,
+  downloadSize: "1.80 GB",
+  sha256: "b25093180bb9b8f57adf2163634be3473fbc0f5163e9fcb05008651f2e0f6da7",
+  signatureStatus: "pending" as "pending" | "signed",
+  isoUrl: nodeAssets + nodeIsoName,
+  manifestUrl: nodeAssets + "SHA256SUMS",
+  signatureUrl: nodeAssets + "SHA256SUMS.asc",
+  releaseUrl: `${repo}/releases/tag/${nodeTag}`,
+  sourceUrl: nodeAssets + `bitcoin-core-node-${nodeTag}-source.tar.gz`,
+  sourceSha256: "c629d565d6b2e999d5c229ccb4cc5fd3f0a1ee0160ce7fcb1655fd96b5defb49",
+  sourceCommitUrl: nodeAssets + "SOURCE-COMMIT.txt",
+  recipeUrl: nodeAssets + `bitcoin-core-node-${nodeTag}-recipe.tar.gz`,
+  instructionsUrl: `${repo}/blob/${nodeReleaseRevision}/README.md`,
+  proofUrl: nodeAssets + "SOURCE-PROVENANCE.json",
+  buildInfoUrl: nodeAssets + "BUILD-INFO.json",
+  acceptanceUrl: nodeAssets + "ACCEPTANCE.json",
+  limitsUrl: nodeAssets + "TEST-SCOPE-LIMITS.json",
 } as const

@@ -32,14 +32,14 @@ export function NodeFirstRun() {
         <h3 className="text-xl font-semibold">Check synchronization and backups</h3>
         <div className="iso-node-shots">
           <figure>
-            <h4>Bitcoin Core Status</h4>
+            <h4>Earlier synchronization example</h4>
             <ZoomableImage src={sync.src} width={sync.width} height={sync.height} alt={sync.alt} loading="lazy" decoding="async" />
-            <figcaption>Check connected peers and the validated block count. This RC2 example shows all 112 blocks on a private practice network. Your mainnet Node tracks the Bitcoin blockchain.</figcaption>
+            <figcaption>This historical RC2 screen shows 112 blocks on a private practice network. On the current Node, check synchronization in Bitcoin Core; its desktop does not include this separate status panel.</figcaption>
           </figure>
           <figure>
             <h4>Backup and Restore</h4>
             <ZoomableImage src={backup.src} width={backup.width} height={backup.height} alt={backup.alt} loading="lazy" decoding="async" />
-            <figcaption>Node RC2 can back up the watch-only wallet, blockchain and settings. Keep the signing wallet’s encrypted backup with the offline Vault recovery materials.</figcaption>
+            <figcaption>This earlier RC2 screen illustrates wallet, blockchain and settings backups. On the current Node, open Settings → Backup and Restore. Keep the signing wallet’s encrypted backup with the offline Vault recovery materials.</figcaption>
           </figure>
         </div>
       </div>

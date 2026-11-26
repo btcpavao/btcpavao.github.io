@@ -153,7 +153,7 @@ function ReleaseDownloads() {
       <div id="release-status">
         <h2 id="download-heading">Downloads and verification</h2>
       </div>
-      <p id="verify-download">Before writing the ISO to USB, check my signature on the checksum list and compare your download with its entry. Both images include Bitcoin Core 32.1.</p>
+      <p id="verify-download">Both images include Bitcoin Core 32.1. Check the release’s signature status and compare your download with its published checksum before writing the ISO to USB.</p>
       <div className="iso-release-list">
         <article className="iso-release-row" aria-labelledby="vault-download-heading">
           <div>
@@ -166,7 +166,7 @@ function ReleaseDownloads() {
         <article id="node-release" className="iso-release-row" aria-labelledby="node-download-heading">
           <div>
             <h3 id="node-download-heading">Bitcoin Core Node</h3>
-            <p>Signed release candidate · <code>{nodeBuild.tag}</code> · Debian 13</p>
+            <p>Test release candidate · <code>{nodeBuild.tag}</code> · Debian 13 · {nodeBuild.signatureStatus === "signed" ? "PGP signed" : "PGP signature pending"}</p>
           </div>
           <a className="iso-file" href={nodeBuild.isoUrl}><ArrowDownToLine aria-hidden="true" /> Download Node ISO <small>{nodeBuild.downloadSize}</small></a>
           <a className="iso-check" href="#verify-node-download">Verify Node <ArrowRight aria-hidden="true" /></a>
@@ -187,13 +187,14 @@ function ReleaseDownloads() {
           </div>
           <div>
             <h3>Node {nodeBuild.tag}</h3>
-            <p>Two fresh GitHub builds matched each other byte for byte. Their SHA-256 matches the signed ISO I tested on a ThinkPad T550.</p>
+            <p>This release publishes the approved local ISO, matching source and recorded build and validation evidence. A byte-identical independent rebuild of this ISO has not yet been demonstrated.</p>
             <ul>
               <li><a href={nodeBuild.releaseUrl}>Node release notes and files</a></li>
-              <li><a href={nodeBuild.manifestUrl}>SHA256SUMS</a> and <a href={nodeBuild.signatureUrl}>OpenPGP signature</a></li>
-              <li><a href={nodeBuild.isoUrl + ".asc"}>PGP signature for the ISO itself</a></li>
-              <li><a href={nodeBuild.instructionsUrl}>Build Node from source</a></li>
-              <li><a href={nodeBuild.proofUrl}>View the Node build jobs and comparison</a></li>
+              <li><a href={nodeBuild.manifestUrl}>SHA256SUMS</a>{nodeBuild.signatureStatus === "signed" ? <> and <a href={nodeBuild.signatureUrl}>OpenPGP signature</a></> : " · PGP signature pending"}</li>
+              {nodeBuild.signatureStatus === "signed" && <li><a href={nodeBuild.isoUrl + ".asc"}>PGP signature for the ISO itself</a></li>}
+              <li><a href={nodeBuild.sourceUrl}>Matching Node source archive</a></li>
+              <li><a href={nodeBuild.proofUrl}>Source and build provenance</a></li>
+              <li><a href={nodeBuild.acceptanceUrl}>Validation records</a> and <a href={nodeBuild.limitsUrl}>test limits</a></li>
             </ul>
           </div>
         </div>
@@ -438,12 +439,12 @@ export function DebianImagesPage() {
             </p>
             <p>
               Blockchain data, watch-only wallets and Node configuration persist
-              after reboot. Private Workspace and the PSBT Transfer Folder are
-              RAM-only. Backup and Restore can export a blockchain copy, public
+              after reboot. Private Workspace is the RAM-only workspace for
+              temporary files, including PSBTs. Backup and Restore can export a blockchain copy, public
               wallets and selected portable configuration to removable media.
             </p>
             <p>
-              This Node build includes the practical 19-chapter guide from RC2 for the
+              This Node build includes the updated practical guide for the
               watch-only wallet, PSBT signing and recovery workflow. Backups
               in all four Backup and Restore categories finish after writing
               and flushing, without a separate USB read-back pass. Restore

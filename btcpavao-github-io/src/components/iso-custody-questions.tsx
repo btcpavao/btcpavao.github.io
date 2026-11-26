@@ -14,12 +14,12 @@ const questions = [
     answer: "Both images boot on compatible 64-bit Intel or AMD computers. You can prepare the USB on an Apple Silicon Mac, but the images cannot boot on its ARM processor. Start with one spare PC to try Vault in Live RAM. Node needs a second machine with a disk you can erase. For Intel Macs with T2 chips, Secure Boot or specific Wi-Fi adapters, check the hardware notes for your release.",
     links: [
       ["Vault release notes", vaultBuild.releaseUrl],
-      ["Node hardware and boot notes", nodeBuild.repo + "/blob/" + nodeBuild.revision + "/README.md"],
+      ["Node hardware and boot notes", nodeBuild.limitsUrl],
     ],
   },
   {
     question: "How do I know I downloaded the file Pavao published?",
-    answer: "For either download, confirm Pavao’s signing-key fingerprint through a separate trusted channel. Use that key to verify the signature on the checksum list for the release you chose. Then compare the SHA-256 of your downloaded ISO with its entry in the signed list. You can also rebuild either ISO and compare the entire file with the one you downloaded.",
+    answer: "For Vault, confirm Pavao’s signing-key fingerprint through a separate trusted channel, verify the signature on its checksum list, then compare your ISO with the listed SHA-256. " + (nodeBuild.signatureStatus === "signed" ? "The same signature and checksum checks are available for Node " + nodeBuild.tag + "." : "The PGP signature for Node " + nodeBuild.tag + " is pending. Its published SHA-256 lets you check that your copy matches the listed file; that check does not authenticate the publisher."),
     links: [
       ["Check my Vault download", "#verify-vault-download"],
       ["Check my Node download", "#verify-node-download"],
@@ -27,7 +27,7 @@ const questions = [
   },
   {
     question: "Can someone I trust inspect the code and rebuild the ISO?",
-    answer: "Yes. Both download buttons link to the exact ISOs reproduced by the project’s builders. The guide lists the source revision and inputs for each one, then shows how to build it on your own machine and compare every byte with your download.",
+    answer: "Yes. The current releases provide source and build records for review. A byte-identical independent rebuild of the current Vault and Node ISOs has not yet been demonstrated. The guide keeps earlier reproducibility results attached to their original releases and explains how to record a new comparison.",
     links: [
       ["Inspect the code and build evidence", DEBIAN_IMAGE_VERIFICATION_PATH],
       ["Give the brief to my reviewer", DEBIAN_IMAGE_VERIFICATION_PATH + "#reviewer-brief"],
@@ -51,7 +51,7 @@ const questions = [
     answer: "Someone who can read Node’s disk may see your addresses, balance and transaction history. The keys needed to spend stay on Vault. If someone tampers with Node, it could show a different address or propose a different payment. Check your receiving address on Vault. Before signing a payment, check the recipient, amount and fee on Vault too.",
     links: [
       ["Review a payment offline", imageLesson("first-offline-signed-transaction")],
-      ["Node RC2 storage and login details", "https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.2"],
+      ["Current Node release and storage details", nodeBuild.releaseUrl],
     ],
   },
   {
@@ -91,7 +91,7 @@ const contactTopics: Record<string, { section: string; lesson: string; prompt?: 
   "ask-wallet": { section: vaultRelease, lesson: "Creating an empty practice wallet" },
   "ask-feedback": { section: vaultRelease, lesson: "First-run feedback", prompt: "Which computer did you try, and how did it go?" },
   "ask-node-setup": { section: "Bitcoin Core Node " + nodeBuild.tag, lesson: "Setting up a dedicated Node", prompt: "What would you like to know about setting up or using Node?" },
-  "ask-node-verify": { section: "Bitcoin Core Node " + nodeBuild.tag, lesson: "Checking the signed, reproducible Node download" },
+  "ask-node-verify": { section: "Bitcoin Core Node " + nodeBuild.tag, lesson: "Checking the Node download and signature status" },
 }
 
 export function IsoCustodyQuestions() {

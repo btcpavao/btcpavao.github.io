@@ -15,13 +15,13 @@ function NodeInstallation() {
   const target = captures["node-disk"]
   return (
     <details className="signed-download-check">
-      <summary>Install the verified Node image on a spare disk</summary>
+      <summary>Install the Node test image on a spare disk</summary>
       <div className="signed-download-check__body" id="install-node">
         <p><strong>Installation erases the entire selected disk.</strong> Set aside a spare 64-bit Intel or AMD computer and a destination disk you can erase. Disconnect backup drives before you begin.</p>
         <ol>
           <li><p>On Debian, use GNOME Disks to write <code>{nodeBuild.isoName}</code> to a USB stick you can erase. Check the USB model and capacity before confirming. Wait for writing to finish, then safely eject it.</p><EtcherUsbSteps /></li>
           <li>Start the spare computer from that USB. In the Node installer, choose your keyboard and the intended destination disk. Match the disk’s model and capacity to the spare disk you set aside. Review the final selection before confirming the installation.</li>
-          <li>When installation finishes, remove the USB and restart. At the Node desktop, connect an Ethernet cable or open <strong>Network Status</strong> to join Wi-Fi. Open <strong>Node Guide</strong> for the watch-only wallet and synchronization steps.</li>
+          <li>When installation finishes, remove the USB and restart. At the Node desktop, connect an Ethernet cable or open <strong>Settings → Network Connections</strong> to join Wi-Fi. Open <strong>Node Guide</strong> for the watch-only wallet and synchronization steps.</li>
         </ol>
         <figure className="verification-shot">
           <ZoomableImage src={target.src} alt={target.alt} width={target.width} height={target.height} loading="lazy" decoding="async" />
@@ -33,7 +33,54 @@ function NodeInstallation() {
   )
 }
 
+function PendingNodeDownloadCheck() {
+  return (
+    <>
+      <details className="signed-download-check">
+        <summary>Check the Node ISO · PGP signature pending</summary>
+        <div className="signed-download-check__body" id="verify-node-download">
+          <p><strong>Pavao’s PGP signature for {nodeBuild.tag} is pending.</strong> The ISO and checksum list are available for testing. A matching SHA-256 confirms that your copy matches the file identified here; it does not authenticate the publisher.</p>
+          <p>Expected SHA-256 for <code>{nodeBuild.isoName}</code>:</p>
+          <code className="break-all">{nodeBuild.sha256}</code>
+          <details className="signed-download-check">
+            <summary>Check on Debian 13</summary>
+            <Commands title="Compare the Node ISO checksum" lines={[
+              'cd "$HOME/Downloads" &&',
+              "  echo '" + nodeBuild.sha256 + "  " + nodeBuild.isoName + "' | sha256sum --check -",
+            ]} />
+            <p>Look for <strong>OK</strong> beside the exact filename.</p>
+          </details>
+          <details className="signed-download-check">
+            <summary>Check on macOS</summary>
+            <Commands title="Show the Node ISO checksum on macOS" lines={[
+              'cd "$HOME/Downloads" &&',
+              "  shasum -a 256 " + nodeBuild.isoName,
+            ]} />
+            <p>Compare all 64 characters with the expected SHA-256 above.</p>
+          </details>
+          <details className="signed-download-check">
+            <summary>Check on Windows</summary>
+            <Commands title="Show the Node ISO checksum in PowerShell" lines={[
+              'Set-Location -LiteralPath "$HOME/Downloads"',
+              "(Get-FileHash -LiteralPath '" + nodeBuild.isoName + "' -Algorithm SHA256).Hash.ToLowerInvariant()",
+            ]} />
+            <p>Compare all 64 characters with the expected SHA-256 above.</p>
+          </details>
+          <p><a href={nodeBuild.manifestUrl}>Checksum list</a>{" · "}<a href={nodeBuild.releaseUrl}>Release files and signature status</a>{" · "}<a href={nodeBuild.proofUrl}>Source provenance</a></p>
+          <p>Signature verification instructions will become available when the signed files are published. If publisher authentication is required for your use, wait for that signature before installing.</p>
+          <div className="signed-download-check__next">
+            <a href="#install-node">Node setup on a spare disk</a>
+            <a href="#ask-node-verify">Ask Pavao about this check</a>
+          </div>
+        </div>
+      </details>
+      <NodeInstallation />
+    </>
+  )
+}
+
 function NodeDownloadCheck() {
+  if (nodeBuild.signatureStatus === "pending") return <PendingNodeDownloadCheck />
   return (
     <>
       <details className="signed-download-check">
@@ -45,7 +92,7 @@ function NodeDownloadCheck() {
             <div className="signed-download-check__body">
               <p>Save the <a href={nodeBuild.isoUrl}>Node ISO</a> in Downloads. Before you start, confirm Pavao’s signing-key fingerprint through a separate channel you already trust.</p>
               <code className="debian-signing-fingerprint">787A 2AAF B0D1 19CA 0522 B2A5 B9C9 9AF8 5788 96D0</code>
-              <p>Open Terminal. If you need curl or GnuPG, install them with <code>sudo apt install curl gnupg</code>. Paste the block below. It downloads the public key and signed checksum list from the <a href={nodeBuild.releaseUrl}>Node release</a>, verifies the signature in a temporary keyring, then checks your entire ISO against the signed entry for RC3.</p>
+              <p>Open Terminal. If you need curl or GnuPG, install them with <code>sudo apt install curl gnupg</code>. Paste the block below. It downloads the public key and signed checksum list from the <a href={nodeBuild.releaseUrl}>Node release</a>, verifies the signature in a temporary keyring, then checks your entire ISO against its signed entry for {nodeBuild.tag}.</p>
               <Commands title="Verify the Node signature and ISO" lines={[
                 "(",
                 "  set -eu",
@@ -68,7 +115,7 @@ function NodeDownloadCheck() {
                 ")",
               ]} />
               <p>Look for <strong>Good signature</strong> from <code>btcpavao</code> and <strong>OK</strong> next to your ISO’s filename. GnuPG can also show an uncertified-key warning in a fresh keyring. The command checks the full fingerprint above. If either check fails, stop before writing the USB.</p>
-              <p>For an independent check, use the <a href={nodeBuild.sourceUrl}>matching project source</a> and follow the <a href={DEBIAN_IMAGE_VERIFICATION_PATH + "#rebuild-tutorial"}>step-by-step rebuild guide</a>. Its final comparison checks every byte of your local build against the ISO offered on this page.</p>
+              <p>For a source review, use the <a href={nodeBuild.sourceUrl}>matching project source</a> and <a href={nodeBuild.proofUrl}>recorded build provenance</a>. A byte-identical independent rebuild of this ISO has not yet been demonstrated.</p>
             </div>
           </details>
           <div className="signed-download-check__next">
