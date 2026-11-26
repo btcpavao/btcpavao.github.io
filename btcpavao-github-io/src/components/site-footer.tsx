@@ -5,10 +5,10 @@ const footerGroups = [
   {
     label: "Learn Core",
     links: [
-      { label: "Self-custody curriculum", href: "/en/bitcoin-core/self-custody/" },
-      { label: "Quick Core practice", href: "/en/bitcoin-core/start-here/" },
-      { label: "Debian images · downloads", href: "/en/bitcoin-core/debian-images/" },
-      { label: "Wallet guide", href: "/en/bitcoin-core/wallet-setup-backup-recovery/" },
+      { label: "Self-custody curriculum", href: "/bitcoin-core/self-custody/" },
+      { label: "Quick Core practice", href: "/bitcoin-core/start-here/" },
+      { label: "Debian images · downloads", href: "/bitcoin-core/debian-images/" },
+      { label: "Wallet guide", href: "/bitcoin-core/wallet-setup-backup-recovery/" },
     ],
   },
   {
@@ -21,7 +21,7 @@ const footerGroups = [
   {
     label: "Writing",
     links: [
-      { label: "Bitcoin Core essays", href: "/en/bitcoin-core/#essays" },
+      { label: "Bitcoin Core essays", href: "/bitcoin-core/#essays" },
       { label: "Latest writing", href: "/#writing" },
     ],
   },

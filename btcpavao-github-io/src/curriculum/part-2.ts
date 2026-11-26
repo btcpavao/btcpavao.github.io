@@ -3054,7 +3054,7 @@ export const part2Lessons: PlayerLesson[] = [
     sources: [
       { label: "GnuPG: symmetric encryption and decryption", url: "https://gnupg.org/documentation/manuals/gnupg/Operational-GPG-Commands.html" },
       { label: "Vault v0.8.0 backup format and portable recovery", url: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/d0bc35aa9a64d45d5c24a226aa9ba2ec2a315ebf/docs/GPG-BACKUP.md" },
-      { label: "GPG wallet guide: installation, macOS interface and recovery", url: "/en/bitcoin-core/wallet-setup-backup-recovery/#optional-backup-protection" },
+      { label: "GPG wallet guide: installation, macOS interface and recovery", url: "/bitcoin-core/wallet-setup-backup-recovery/#optional-backup-protection" },
       { label: "GPG Suite for macOS", url: "https://gpgtools.org/" },
     ],
     reviewNote: "On 16 October 2026, synthetic one- and two-layer CLI round trips passed with MacGPG 2.2.41, including wrong-passphrase and corruption rejection. The November update links the current Vault backup format. The recorded Mac tests cover the command line.",

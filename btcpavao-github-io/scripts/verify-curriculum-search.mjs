@@ -126,7 +126,7 @@ try {
     () => {
       for (const r of search("recovery")) {
         const url = new URL(r.href, "https://btcpavao.com")
-        assert.equal(url.pathname, "/en/bitcoin-core/self-custody/")
+        assert.equal(url.pathname, "/bitcoin-core/self-custody/")
         assert.equal(decodeURIComponent(url.hash), `#lesson/${r.lesson.slug}`)
         assert.equal(url.searchParams.get("q"), "recovery")
       }

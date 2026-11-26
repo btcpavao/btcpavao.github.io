@@ -44,7 +44,7 @@ export function questionPayload(
     // The service accepts optional curriculum links. Guide questions carry
     // their release and step in sectionTitle and lessonTitle instead.
     ...(context.material !== "download guide" && {
-      pageUrl: `${SITE_URL}/en/bitcoin-core/self-custody/${context.slug ? `#lesson/${encodeURIComponent(context.slug)}` : ""}`,
+      pageUrl: `${SITE_URL}/bitcoin-core/self-custody/${context.slug ? `#lesson/${encodeURIComponent(context.slug)}` : ""}`,
     }),
     locale: "en",
     ...(context.searchQuery

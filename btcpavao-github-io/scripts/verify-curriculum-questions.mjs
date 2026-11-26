@@ -69,7 +69,7 @@ try {
       assert.equal(payload.lessonTitle, context.lesson)
       assert.equal(
         payload.pageUrl,
-        "https://btcpavao.com/en/bitcoin-core/self-custody/#lesson/threat-model-before-tools"
+        "https://btcpavao.com/bitcoin-core/self-custody/#lesson/threat-model-before-tools"
       )
       assert.ok(!JSON.stringify(payload).includes("private"))
     }
@@ -98,7 +98,7 @@ try {
       assert.equal(payload.email, "person@example.com")
       assert.equal(
         payload.pageUrl,
-        "https://btcpavao.com/en/bitcoin-core/self-custody/"
+        "https://btcpavao.com/bitcoin-core/self-custody/"
       )
       assert.ok(
         questionPayload(fields, {

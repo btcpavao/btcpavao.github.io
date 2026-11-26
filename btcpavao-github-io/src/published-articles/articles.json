@@ -2,7 +2,7 @@
   {
     "id": "en-core-hardware-wallets-backups",
     "slug": "three-hardware-wallets-twenty-backups",
-    "path": "/en/bitcoin-core/three-hardware-wallets-twenty-backups/",
+    "path": "/bitcoin-core/three-hardware-wallets-twenty-backups/",
     "title": "Three Hardware Wallets That Scream Bitcoin. Twenty Backups That Don't.",
     "description": "2-of-3 multisig vs. 2-of-20 singlesig. The economics of Bitcoin self-custody, privacy, and why we've made a simple problem so complicated.",
     "hideDescription": true,
@@ -1449,7 +1449,7 @@
   {
     "id": "en-core-economic-security",
     "slug": "hardware-wallets-are-an-economic-security-failure",
-    "path": "/en/bitcoin-core/hardware-wallets-are-an-economic-security-failure/",
+    "path": "/bitcoin-core/hardware-wallets-are-an-economic-security-failure/",
     "title": "Hardware Wallets Are an Economic Security Failure",
     "description": "Why Bitcoin-specific supply chains and concentrated rewards change the economics of attacking hardware wallets.",
     "date": "2026-10-12",
@@ -2853,7 +2853,7 @@
   {
     "id": "en-core-self-custody-got-weird",
     "slug": "bitcoin-self-custody-got-weird",
-    "path": "/en/bitcoin-core/bitcoin-self-custody-got-weird/",
+    "path": "/bitcoin-core/bitcoin-self-custody-got-weird/",
     "title": "Bitcoin Self-Custody Got Weird. It’s Time to Simplify It.",
     "description": "How hardware wallets, BIP39 ceremonies and fragmented security stacks became the default — and why Bitcoin Core on generic hardware deserves another look.",
     "date": "2026-09-25",
@@ -3343,7 +3343,7 @@
       },
       {
         "type": "paragraph",
-        "html": "I am currently building a <a href=\"/en/bitcoin-core/debian-images/\">stripped-down Debian image</a> specifically for this purpose."
+        "html": "I am currently building a <a href=\"/bitcoin-core/debian-images/\">stripped-down Debian image</a> specifically for this purpose."
       },
       {
         "type": "paragraph",
@@ -4215,7 +4215,7 @@
   {
     "id": "en-core-single-sig-multisig",
     "slug": "single-sig-and-multisig-from-first-principles",
-    "path": "/en/bitcoin-core/single-sig-and-multisig-from-first-principles/",
+    "path": "/bitcoin-core/single-sig-and-multisig-from-first-principles/",
     "title": "Single-Sig and Multisig from First Principles",
     "description": "Start with people and spending authority. Then choose the signing policy that enforces the arrangement you actually need.",
     "date": "2026-09-22",
@@ -5747,7 +5747,7 @@
   {
     "id": "en-core-hardware-wallet-detour",
     "slug": "the-hardware-wallet-detour",
-    "path": "/en/bitcoin-core/the-hardware-wallet-detour/",
+    "path": "/bitcoin-core/the-hardware-wallet-detour/",
     "title": "The Hardware Wallet Detour",
     "description": "How Bitcoiners turned a software-security problem into a culture of devices, seed rituals and vendor dependencies.",
     "date": "2026-09-16",
@@ -7747,7 +7747,7 @@
   {
     "id": "en-core-self-custody-harder",
     "slug": "we-made-bitcoin-self-custody-harder-than-it-had-to-be",
-    "path": "/en/bitcoin-core/we-made-bitcoin-self-custody-harder-than-it-had-to-be/",
+    "path": "/bitcoin-core/we-made-bitcoin-self-custody-harder-than-it-had-to-be/",
     "title": "We Made Bitcoin Self-Custody Harder Than It Had to Be",
     "description": "Separate the encrypted wallet, its passphrase, validation and recovery — and rethink what a backup should preserve.",
     "date": "2026-08-24",

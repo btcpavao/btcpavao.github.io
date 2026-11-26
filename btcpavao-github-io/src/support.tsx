@@ -31,7 +31,7 @@ const paths = [
     title: "Help the right reader find it",
     copy: "If a guide or article helped you, sending it to one person who needs it is a meaningful form of support.",
     action: "Browse Bitcoin Core resources",
-    href: "/en/bitcoin-core/",
+    href: "/bitcoin-core/",
     external: false,
   },
 ] as const

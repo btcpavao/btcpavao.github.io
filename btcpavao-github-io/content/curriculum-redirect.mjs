@@ -1,6 +1,6 @@
 // Keep old bookmarks working without maintaining a second curriculum.
 export const retiredCurriculumPath = "/hr/bitcoin-core/self-custody/"
-export const englishCurriculumPath = "/en/bitcoin-core/self-custody/"
+export const englishCurriculumPath = "/bitcoin-core/self-custody/"
 export const retiredLessonSlugs = {
   "sto-self-custody-stvarno-znaci": "what-self-custody-really-means",
   "threat-model-prije-alata": "threat-model-before-tools",

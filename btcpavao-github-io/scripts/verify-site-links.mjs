@@ -44,7 +44,7 @@ try {
     }
     const fragment = decodeURIComponent(url.hash.slice(1))
     if (!fragment) return
-    if (url.pathname === "/en/bitcoin-core/self-custody/" && fragment.startsWith("lesson/")) {
+    if (url.pathname === "/bitcoin-core/self-custody/" && fragment.startsWith("lesson/")) {
       if (!lessonSlugs.has(fragment.slice(7))) failures.push(`${from} → ${href}: unknown lesson`)
     } else if (documents.has(file) && !attrs(documents.get(file), "id").includes(fragment)) {
       failures.push(`${from} → ${href}: missing anchor`)
@@ -65,7 +65,7 @@ try {
     if (value && typeof value === "object") return Object.values(value).flatMap(collect)
     return []
   }
-  for (const href of collect(curriculumLessons)) await check(href, "/en/bitcoin-core/self-custody/")
+  for (const href of collect(curriculumLessons)) await check(href, "/bitcoin-core/self-custody/")
   assert.deepEqual([...new Set(failures)], [], "Broken production links")
 
   const sitemap = await readFile("dist/sitemap.xml", "utf8")

@@ -173,21 +173,21 @@ try {
             "?from=bookmark",
             "#lesson/" + encodeURIComponent(oldSlug)
           ),
-          "/en/bitcoin-core/self-custody/?from=bookmark#lesson/" +
+          "/bitcoin-core/self-custody/?from=bookmark#lesson/" +
             encodeURIComponent(newSlug)
         )
       }
       assert.equal(
         englishCurriculumDestination(),
-        "/en/bitcoin-core/self-custody/"
+        "/bitcoin-core/self-custody/"
       )
       assert.equal(
         englishCurriculumDestination("", "#lesson/%ZZ"),
-        "/en/bitcoin-core/self-custody/#lesson/%ZZ"
+        "/bitcoin-core/self-custody/#lesson/%ZZ"
       )
       assert.equal(
         englishCurriculumDestination("", "#lesson/https://example.com"),
-        "/en/bitcoin-core/self-custody/#lesson/https%3A%2F%2Fexample.com"
+        "/bitcoin-core/self-custody/#lesson/https%3A%2F%2Fexample.com"
       )
     }
   )
@@ -555,7 +555,7 @@ try {
     let writes = 0, notifications = 0, unavailable = false
     const originalWindow = globalThis.window
     globalThis.window = {
-      location: new URL("https://btcpavao.com/en/bitcoin-core/self-custody/#lesson/passphrase-strength"),
+      location: new URL("https://btcpavao.com/bitcoin-core/self-custody/#lesson/passphrase-strength"),
       localStorage: {
         getItem: (k) => { if (unavailable) throw Error("blocked"); return memory.get(k) ?? null },
         setItem: (k, v) => { if (unavailable) throw Error("blocked"); writes++; memory.set(k, v) },
@@ -610,7 +610,7 @@ try {
   check("Example links round-trip every setting and reject damaged or incomplete examples", () => {
     const settings = {words: 3, listSize: 7776, gpus: "25", rate: "40000", power: "0.8", energy: "0.2", compute: "1.25"}
     for (const hash of ["#lesson/passphrase-strength", "#lesson/brute-force-economics", "#step-4"]) {
-      const url = new URL(preferences.createPassphraseLink(`https://btcpavao.com/en/bitcoin-core/self-custody/?keep=yes${hash}`, settings))
+      const url = new URL(preferences.createPassphraseLink(`https://btcpavao.com/bitcoin-core/self-custody/?keep=yes${hash}`, settings))
       assert.deepEqual(preferences.parsePassphraseLink(url), settings)
       assert.equal(url.searchParams.get("keep"), "yes")
       assert.equal(url.hash, hash.startsWith("#lesson/") ? hash : "#passphrase-calculator")
@@ -627,7 +627,7 @@ try {
   })
 
   check("Copied summaries preserve the example and show average time and total rental without exponent notation", () => {
-    const href = "https://btcpavao.com/en/bitcoin-core/self-custody/#lesson/brute-force-economics"
+    const href = "https://btcpavao.com/bitcoin-core/self-custody/#lesson/brute-force-economics"
     const settings = {words: 3, listSize: 7776, gpus: "25", rate: "40000", power: "0.8", energy: "0.2", compute: "1.25"}
     const text = sharing.createPassphraseSummary(href, settings)
     assert.ok(text.includes("3 words · 38.77 bits · EFF large list (7,776 words)"))
@@ -675,7 +675,7 @@ try {
     const key = preferences.PASSPHRASE_PREFERENCES_KEY
     const defaults = preferences.DEFAULT_PASSPHRASE_PREFERENCES
     const settings = {words: 3, listSize: 7776, gpus: "25", rate: "40000", power: "0.8", energy: "0.2", compute: "1.25"}
-    const base = "https://btcpavao.com/en/bitcoin-core/self-custody/?keep=yes#lesson/passphrase-strength"
+    const base = "https://btcpavao.com/bitcoin-core/self-custody/?keep=yes#lesson/passphrase-strength"
     const sharedUrl = preferences.createPassphraseLink(base, settings)
     const memory = new Map([[key, JSON.stringify({version: 1, settings: defaults})], ["course-progress-test", "keep"]])
     const events = new Map()

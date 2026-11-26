@@ -75,7 +75,7 @@ export function BitcoinCoreStartPage() {
   const walletGuide = BITCOIN_CORE_WALLET_GUIDE_PATH + (vault ? "?setup=vault" : "")
 
   useEffect(() => {
-    const { title, description } = findContentByPath("/en/bitcoin-core/start-here/")!
+    const { title, description } = findContentByPath("/bitcoin-core/start-here/")!
 
     document.documentElement.lang = "en"
     document.title = title

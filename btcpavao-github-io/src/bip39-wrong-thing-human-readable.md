@@ -182,7 +182,7 @@ A machine-readable wallet is not immortal. File formats change. Storage media fa
 
 KeePassXC is the curriculum’s recommended passphrase generator. Start with six independently generated random words. Choose eight if you are comfortable memorizing two extra words and want a larger margin against guessing.
 
-The [current generator lesson](/en/bitcoin-core/self-custody/#lesson/generate-passphrase) uses the verified bundled list on dedicated Debian Stable. Six words give approximately **77.54 bits** of selection entropy; eight give **103.39 bits**. The shorter option means fewer words to memorize and type. Two extra random words multiply the search space by **60,403,984** at the cost of remembering and handling two more words.
+The [current generator lesson](/bitcoin-core/self-custody/#lesson/generate-passphrase) uses the verified bundled list on dedicated Debian Stable. Six words give approximately **77.54 bits** of selection entropy; eight give **103.39 bits**. The shorter option means fewer words to memorize and type. Two extra random words multiply the search space by **60,403,984** at the cost of remembering and handling two more words.
 
 The original EFF large Diceware list contains 7,776 entries. The reviewed KeePassXC 2.7.12 release ships a modified `eff_large.wordlist` containing **7,772 unique entries**.
 

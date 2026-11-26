@@ -1,6 +1,6 @@
 import type { PlayerLesson } from "../bitcoin-core-curriculum-player-en-data"
 
-const essay = (slug: string) => `/en/bitcoin-core/${slug}/`
+const essay = (slug: string) => `/bitcoin-core/${slug}/`
 const sources = {
   economic: {
     label: "Hardware Wallets Are an Economic Security Failure",

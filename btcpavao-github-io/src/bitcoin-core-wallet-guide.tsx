@@ -1089,7 +1089,7 @@ function setMetaContent(
 
 function useGuideMetadata() {
   useEffect(() => {
-    const { title, description } = findContentByPath("/en/bitcoin-core/wallet-setup-backup-recovery/")!
+    const { title, description } = findContentByPath("/bitcoin-core/wallet-setup-backup-recovery/")!
     const url = `${SITE_URL}${BITCOIN_CORE_WALLET_GUIDE_PATH}`
     const socialImage = SOCIAL_CARD_IMAGES.walletGuide
 

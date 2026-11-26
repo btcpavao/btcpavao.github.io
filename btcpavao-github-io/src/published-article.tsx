@@ -39,7 +39,7 @@ export function PublishedArticlePage({
           <header className="published-article-header">
             <a
               className="published-article-back"
-              href="/en/bitcoin-core/#essays"
+              href="/bitcoin-core/#essays"
             >
               ← Bitcoin Core essays
             </a>
@@ -174,10 +174,10 @@ export function PublishedArticlePage({
                 test coins. Learn to recover one wallet before moving signing
                 offline or adding a spending policy.
               </p>
-              <a {...articleLinkProps("/en/bitcoin-core/self-custody/")}>
+              <a {...articleLinkProps("/bitcoin-core/self-custody/")}>
                 Open the self-custody curriculum →
               </a>
-              <a {...articleLinkProps("/en/bitcoin-core/debian-images/")}>
+              <a {...articleLinkProps("/bitcoin-core/debian-images/")}>
                 Download Vault and Node Debian images →
               </a>
             </aside>
@@ -201,7 +201,7 @@ export function PublishedArticlePage({
                     <span aria-hidden="true">↗</span>
                   </a>
                 ))}
-              <a href="/en/bitcoin-core/#essays">
+              <a href="/bitcoin-core/#essays">
                 All Bitcoin Core essays<span aria-hidden="true">→</span>
               </a>
             </nav>

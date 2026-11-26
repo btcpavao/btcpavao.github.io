@@ -62,10 +62,11 @@ export function validateSubmission(input: unknown): Submission | null {
         url.username ||
         url.password ||
         url.search ||
-        url.pathname !== "/en/bitcoin-core/self-custody/" ||
+        !["/bitcoin-core/self-custody/", "/en/bitcoin-core/self-custody/"].includes(url.pathname) ||
         (url.hash && !/^#lesson\/[a-z0-9-]+$/.test(url.hash))
       )
         return null
+      url.pathname = "/bitcoin-core/self-custody/"
       data.pageUrl = url.href
     } catch {
       return null

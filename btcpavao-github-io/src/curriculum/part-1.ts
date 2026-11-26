@@ -641,7 +641,7 @@ export const part1Lessons: PlayerLesson[] = [
     sources: [
       {
         label: "Why BIP39 made the wrong thing human-readable",
-        url: "/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/",
+        url: "/bitcoin-core/bip39-made-the-wrong-thing-human-readable/",
       },
       {
         label: "BIP 39 — mnemonic code for deterministic keys",
@@ -699,7 +699,7 @@ export const part1Lessons: PlayerLesson[] = [
         kind: "warning",
         title: "Recovery words are a secret",
         body: "Someone with BIP39 words and any required additional passphrase can derive the wallet's keys. Keep them out of messages, screenshots and websites. The linked essay explains why this course chooses file-based recovery.",
-        url: "/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/",
+        url: "/bitcoin-core/bip39-made-the-wrong-thing-human-readable/",
       },
     ],
     origin: "Moved from legacy module 1",

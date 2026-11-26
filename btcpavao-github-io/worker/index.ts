@@ -80,7 +80,12 @@ export function createAskPavaoHandler(dependencies: Dependencies = {}) {
     request: Request,
     env: AskPavaoEnv
   ): Promise<Response> {
-    if (new URL(request.url).pathname !== "/api/ask-pavao")
+    const url = new URL(request.url)
+    if (url.pathname === "/en" || url.pathname.startsWith("/en/")) {
+      url.pathname = url.pathname.slice(3) || "/"
+      return Response.redirect(url.href, 301)
+    }
+    if (url.pathname !== "/api/ask-pavao")
       return reply(404, "not_found")
     if (request.method !== "POST") return reply(405, "method_not_allowed")
     if (request.headers.get("Origin") !== env.APP_ORIGIN)

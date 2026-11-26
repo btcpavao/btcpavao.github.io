@@ -90,6 +90,14 @@ try {
     checks++
     console.log(`✓ ${name}`)
   }
+  await check("Old English addresses redirect permanently and keep the query", async () => {
+    const s = setup()
+    for (const [from, to] of [["/en", "/"], ["/en/", "/"], ["/en/bitcoin-core/start-here/?via=share", "/bitcoin-core/start-here/?via=share"]]) {
+      const response = await s.handle(new Request("https://btcpavao.com" + from), s.env)
+      assert.equal(response.status, 301)
+      assert.equal(response.headers.get("Location"), "https://btcpavao.com" + to)
+    }
+  })
   await check(
     "Accepts question only, optional name/email combinations and lesson context",
     async () => {
@@ -98,11 +106,12 @@ try {
         { name: "Pavao" },
         { email: "reader@example.com" },
         { name: "Reader", email: "reader@example.com" },
+        { pageUrl: "https://btcpavao.com/en/bitcoin-core/self-custody/" },
         {
           lessonTitle: "Backup and recovery",
           sectionTitle: "Master the Simple System",
           pageUrl:
-            "https://btcpavao.com/en/bitcoin-core/self-custody/#lesson/coin-control-fees",
+            "https://btcpavao.com/bitcoin-core/self-custody/#lesson/coin-control-fees",
           locale: "en",
         },
       ]) {
@@ -226,11 +235,11 @@ try {
     async () => {
       for (const pageUrl of [
         "https://evil.example/",
-        "https://btcpavao.com.evil.example/en/bitcoin-core/self-custody/",
-        "https://user@btcpavao.com/en/bitcoin-core/self-custody/",
-        "https://btcpavao.com/en/bitcoin-core/self-custody/?token=private",
+        "https://btcpavao.com.evil.example/bitcoin-core/self-custody/",
+        "https://user@btcpavao.com/bitcoin-core/self-custody/",
+        "https://btcpavao.com/bitcoin-core/self-custody/?token=private",
         "https://btcpavao.com/private/",
-        "https://btcpavao.com/en/bitcoin-core/self-custody/#other",
+        "https://btcpavao.com/bitcoin-core/self-custody/#other",
         "not a URL",
       ]) {
         const s = setup()

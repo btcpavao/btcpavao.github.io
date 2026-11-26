@@ -17,7 +17,7 @@ import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import "./iso-download-guide.css"
 
-const lesson = (slug: string) => `/en/bitcoin-core/self-custody/#lesson/${slug}`
+const lesson = (slug: string) => `/bitcoin-core/self-custody/#lesson/${slug}`
 
 const software = {
   debian: {
@@ -379,7 +379,7 @@ export function DebianImagesPage() {
                 for the tested format and practice a full, independent recovery
                 before relying on the backup.
               </p>
-              <a href="/en/bitcoin-core/wallet-setup-backup-recovery/#optional-backup-protection">
+              <a href="/bitcoin-core/wallet-setup-backup-recovery/#optional-backup-protection">
                 Practise GPG backup and recovery now →
               </a>
             </div>

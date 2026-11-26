@@ -1,12 +1,12 @@
 export const SITE_URL = "https://btcpavao.com"
 
-const coreEn = "/en/bitcoin-core/"
+const coreEn = "/bitcoin-core/"
 const coreHr = "/hr/bitcoin-core/"
 
 export const contentRegistry = [
 {
   "id": "en-core-hardware-wallets-backups",
-  "path": "/en/bitcoin-core/three-hardware-wallets-twenty-backups/",
+  "path": "/bitcoin-core/three-hardware-wallets-twenty-backups/",
   "locale": "en",
   "title": "Three Hardware Wallets That Scream Bitcoin. Twenty Backups That Don't.",
   "description": "2-of-3 multisig vs. 2-of-20 singlesig. The economics of Bitcoin self-custody, privacy, and why we've made a simple problem so complicated.",
@@ -28,7 +28,7 @@ export const contentRegistry = [
 },
   {
     id: "en-core-economic-security",
-    path: "/en/bitcoin-core/hardware-wallets-are-an-economic-security-failure/",
+    path: "/bitcoin-core/hardware-wallets-are-an-economic-security-failure/",
     locale: "en",
     title: "Hardware Wallets Are an Economic Security Failure",
     description:
@@ -53,7 +53,7 @@ export const contentRegistry = [
   },
   {
     id: "en-core-self-custody-got-weird",
-    path: "/en/bitcoin-core/bitcoin-self-custody-got-weird/",
+    path: "/bitcoin-core/bitcoin-self-custody-got-weird/",
     locale: "en",
     title: "Bitcoin Self-Custody Got Weird. It’s Time to Simplify It.",
     description:
@@ -77,7 +77,7 @@ export const contentRegistry = [
   },
   {
     id: "en-core-single-sig-multisig",
-    path: "/en/bitcoin-core/single-sig-and-multisig-from-first-principles/",
+    path: "/bitcoin-core/single-sig-and-multisig-from-first-principles/",
     locale: "en",
     title: "Single-Sig and Multisig from First Principles",
     description:
@@ -102,7 +102,7 @@ export const contentRegistry = [
   },
   {
     id: "en-core-hardware-wallet-detour",
-    path: "/en/bitcoin-core/the-hardware-wallet-detour/",
+    path: "/bitcoin-core/the-hardware-wallet-detour/",
     locale: "en",
     title: "The Hardware Wallet Detour",
     description:
@@ -125,7 +125,7 @@ export const contentRegistry = [
   },
   {
     id: "en-core-self-custody-harder",
-    path: "/en/bitcoin-core/we-made-bitcoin-self-custody-harder-than-it-had-to-be/",
+    path: "/bitcoin-core/we-made-bitcoin-self-custody-harder-than-it-had-to-be/",
     locale: "en",
     title: "We Made Bitcoin Self-Custody Harder Than It Had to Be",
     description:
@@ -150,7 +150,7 @@ export const contentRegistry = [
   },
   {
     id: "en-core-debian-images",
-    path: "/en/bitcoin-core/debian-images/",
+    path: "/bitcoin-core/debian-images/",
     locale: "en",
     title: "Bitcoin Core Vault and Node — Two Dedicated Debian Linux Systems",
     description:
@@ -173,7 +173,7 @@ export const contentRegistry = [
   },
   {
     id: "en-core-debian-image-verification",
-    path: "/en/bitcoin-core/debian-images/verification/",
+    path: "/bitcoin-core/debian-images/verification/",
     locale: "en",
     title: "Review the Bitcoin Core Vault and Node images",
     description:

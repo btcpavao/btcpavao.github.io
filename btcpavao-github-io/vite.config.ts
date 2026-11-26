@@ -35,6 +35,8 @@ export default defineConfig(() => {
       react(),
       tailwindcss(),
     ],
+    // Prerendered pages need styles from lazy routes before their first paint.
+    build: { cssCodeSplit: false },
     define: {
       __SOCIAL_CARD_URLS__: JSON.stringify(socialCardUrls),
     },

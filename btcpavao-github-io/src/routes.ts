@@ -2,25 +2,25 @@ export const AI_SERIES_PATH = "/hr/ai-u-praksi/"
 export const HR_HOME_PATH = "/hr/"
 export const BITCOIN_CORE_SERIES_PATH = "/hr/bitcoin-core/"
 export const BITCOIN_CORE_CURRICULUM_PATH = "/hr/bitcoin-core/self-custody/"
-export const EN_BITCOIN_CORE_SERIES_PATH = "/en/bitcoin-core/"
-export const EN_BITCOIN_CORE_CURRICULUM_PATH = "/en/bitcoin-core/self-custody/"
-export const DEBIAN_IMAGE_VERIFICATION_PATH = "/en/bitcoin-core/debian-images/verification/"
-export const START_HERE_PATH = "/en/bitcoin-core/start-here/"
+export const EN_BITCOIN_CORE_SERIES_PATH = "/bitcoin-core/"
+export const EN_BITCOIN_CORE_CURRICULUM_PATH = "/bitcoin-core/self-custody/"
+export const DEBIAN_IMAGE_VERIFICATION_PATH = "/bitcoin-core/debian-images/verification/"
+export const START_HERE_PATH = "/bitcoin-core/start-here/"
 export const SUPPORT_PATH = "/support/"
 export const SUPPORT_THANK_YOU_PATH = "/support/thank-you/"
 export const NOT_FOUND_PATH = "/404/"
 export const BITCOIN_CORE_WALLET_GUIDE_PATH =
-  "/en/bitcoin-core/wallet-setup-backup-recovery/"
+  "/bitcoin-core/wallet-setup-backup-recovery/"
 export const BITCOIN_CORE_ENTROPY_ARTICLE_PATH =
   "/hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/"
 export const EN_BITCOIN_CORE_ENTROPY_ARTICLE_PATH =
-  "/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"
+  "/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"
 export const BIP39_WRONG_THING_ARTICLE_PATH =
-  "/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/"
+  "/bitcoin-core/bip39-made-the-wrong-thing-human-readable/"
 export const LONG_ROAD_BITCOIN_CORE_ARTICLE_PATH =
-  "/en/bitcoin-core/the-long-road-back-to-bitcoin-core/"
+  "/bitcoin-core/the-long-road-back-to-bitcoin-core/"
 export const MULTISIG_NOT_DOLLAR_AMOUNT_ARTICLE_PATH =
-  "/en/bitcoin-core/multisig-is-not-a-dollar-amount/"
+  "/bitcoin-core/multisig-is-not-a-dollar-amount/"
 export const ARTICLE_PATH =
   "/hr/ai-u-praksi/jedan-covjek-ai-i-dva-mjeseca-rada/"
 export const WORKFLOW_ARTICLE_PATH =

@@ -307,22 +307,22 @@ const bitcoinCoreArticleRouteHtml = await readFile(
   "utf8"
 )
 const enBitcoinCoreSeriesRouteHtml = await readFile(
-  new URL("../dist/en/bitcoin-core/index.html", import.meta.url),
+  new URL("../dist/bitcoin-core/index.html", import.meta.url),
   "utf8"
 )
 const bitcoinCoreStartRouteHtml = await readFile(
-  new URL("../dist/en/bitcoin-core/start-here/index.html", import.meta.url),
+  new URL("../dist/bitcoin-core/start-here/index.html", import.meta.url),
   "utf8"
 )
 const bitcoinCoreWalletGuideRouteHtml = await readFile(
   new URL(
-    "../dist/en/bitcoin-core/wallet-setup-backup-recovery/index.html",
+    "../dist/bitcoin-core/wallet-setup-backup-recovery/index.html",
     import.meta.url
   ),
   "utf8"
 )
 const enBitcoinCoreCurriculumRouteHtml = await readFile(
-  new URL("../dist/en/bitcoin-core/self-custody/index.html", import.meta.url),
+  new URL("../dist/bitcoin-core/self-custody/index.html", import.meta.url),
   "utf8"
 )
 const hrBitcoinCoreCurriculumRouteHtml = await readFile(
@@ -331,21 +331,21 @@ const hrBitcoinCoreCurriculumRouteHtml = await readFile(
 )
 const enBitcoinCoreArticleRouteHtml = await readFile(
   new URL(
-    "../dist/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/index.html",
+    "../dist/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/index.html",
     import.meta.url
   ),
   "utf8"
 )
 const longRoadArticleRouteHtml = await readFile(
   new URL(
-    "../dist/en/bitcoin-core/the-long-road-back-to-bitcoin-core/index.html",
+    "../dist/bitcoin-core/the-long-road-back-to-bitcoin-core/index.html",
     import.meta.url
   ),
   "utf8"
 )
 const bip39ArticleRouteHtml = await readFile(
   new URL(
-    "../dist/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/index.html",
+    "../dist/bitcoin-core/bip39-made-the-wrong-thing-human-readable/index.html",
     import.meta.url
   ),
   "utf8"
@@ -443,7 +443,7 @@ assert(
 )
 assert(
   sitemapSource.includes(
-    "https://btcpavao.com/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"
+    "https://btcpavao.com/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"
   ) &&
     sitemapSource.includes(
       "<image:caption>The cryptographic process of creating a Bitcoin Core wallet.</image:caption>"
@@ -452,7 +452,7 @@ assert(
 )
 assert(
   sitemapSource.includes(
-    "https://btcpavao.com/en/bitcoin-core/the-long-road-back-to-bitcoin-core/"
+    "https://btcpavao.com/bitcoin-core/the-long-road-back-to-bitcoin-core/"
   ) &&
     sitemapSource.includes(
       "https://btcpavao.com/long-road-bitcoin-core-cover.webp"
@@ -461,7 +461,7 @@ assert(
 )
 assert(
   sitemapSource.includes(
-    "https://btcpavao.com/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/"
+    "https://btcpavao.com/bitcoin-core/bip39-made-the-wrong-thing-human-readable/"
   ) &&
     sitemapSource.includes("https://btcpavao.com/bip39-wrong-thing-cover.webp"),
   "Sitemap is missing the BIP39 article or cover"
@@ -585,6 +585,12 @@ for (const [key, asset] of Object.entries(socialCardManifest.assets)) {
 }
 
 for (const { relativePath, html } of distHtmlDocuments) {
+  if (relativePath.startsWith("en/")) {
+    const target = "/" + relativePath.slice(3, -"index.html".length)
+    assert(html.includes(`rel="canonical" href="${SITE_URL}${target}"`), `Wrong redirect: ${relativePath}`)
+    assert(html.includes(`location.replace(${JSON.stringify(target)} + location.search + location.hash)`), `Lost bookmark context: ${relativePath}`)
+    continue
+  }
   if (
     relativePath.startsWith("hr/ai-u-praksi/") ||
     relativePath === "hr/bitcoin-core/self-custody/index.html"
@@ -814,9 +820,9 @@ assert(
     "Your first exercise uses no real bitcoin."
   ) &&
     bitcoinCoreStartRouteHtml.includes('href="https://bitcoincore.org/en/download/"') &&
-    bitcoinCoreStartRouteHtml.includes('href="/en/bitcoin-core/wallet-setup-backup-recovery/#step-8"') &&
+    bitcoinCoreStartRouteHtml.includes('href="/bitcoin-core/wallet-setup-backup-recovery/#step-8"') &&
     bitcoinCoreStartRouteHtml.includes(
-      'rel="canonical" href="https://btcpavao.com/en/bitcoin-core/start-here/"'
+      'rel="canonical" href="https://btcpavao.com/bitcoin-core/start-here/"'
     ),
   "Bitcoin Core start page was not prerendered or has incomplete metadata"
 )
@@ -872,7 +878,7 @@ assert(
     'name="robots" content="noindex,follow"'
   ) &&
     hrBitcoinCoreCurriculumRouteHtml.includes(
-      'rel="canonical" href="https://btcpavao.com/en/bitcoin-core/self-custody/"'
+      'rel="canonical" href="https://btcpavao.com/bitcoin-core/self-custody/"'
     ) &&
     hrBitcoinCoreCurriculumRouteHtml.includes(
       "englishCurriculumDestination(location.search,location.hash)"
@@ -1039,7 +1045,7 @@ assert(
       "/long-road-bitcoin-core-cover-840.webp"
     ) &&
     longRoadArticleRouteHtml.includes(
-      'href="/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/" target="_blank" rel="noopener noreferrer">Bitcoin Core’s entropy generation</a>'
+      'href="/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/" target="_blank" rel="noopener noreferrer">Bitcoin Core’s entropy generation</a>'
     ),
   "The Long Road cover or its contextual entropy article link is missing"
 )
@@ -1138,7 +1144,7 @@ assert(
 assert(
   enBitcoinCoreArticleRouteHtml.includes('<html lang="en">') &&
     enBitcoinCoreArticleRouteHtml.includes(
-      'rel="canonical" href="https://btcpavao.com/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"'
+      'rel="canonical" href="https://btcpavao.com/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"'
     ) &&
     enBitcoinCoreArticleRouteHtml.includes(
       'property="og:locale" content="en_US"'
@@ -1148,10 +1154,10 @@ assert(
       'hreflang="hr" href="https://btcpavao.com/hr/bitcoin-core/kako-bitcoin-core-generira-entropiju-kada-napravimo-novi-wallet/"'
     ) &&
     enBitcoinCoreArticleRouteHtml.includes(
-      'hreflang="en" href="https://btcpavao.com/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"'
+      'hreflang="en" href="https://btcpavao.com/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"'
     ) &&
     enBitcoinCoreArticleRouteHtml.includes(
-      'hreflang="x-default" href="https://btcpavao.com/en/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"'
+      'hreflang="x-default" href="https://btcpavao.com/bitcoin-core/how-bitcoin-core-generates-entropy-when-you-create-a-new-wallet/"'
     ) &&
     bitcoinCoreArticleRouteHtml.includes("English version"),
   "English Bitcoin Core article language metadata or reciprocal links are incomplete"
@@ -1159,7 +1165,7 @@ assert(
 assert(
   longRoadArticleRouteHtml.includes('<html lang="en">') &&
     longRoadArticleRouteHtml.includes(
-      'rel="canonical" href="https://btcpavao.com/en/bitcoin-core/the-long-road-back-to-bitcoin-core/"'
+      'rel="canonical" href="https://btcpavao.com/bitcoin-core/the-long-road-back-to-bitcoin-core/"'
     ) &&
     longRoadArticleRouteHtml.includes('property="og:locale" content="en_US"') &&
     longRoadArticleRouteHtml.includes('"inLanguage":"en-US"') &&
@@ -1172,17 +1178,17 @@ assert(
       'property="og:image:height" content="887"'
     ) &&
     longRoadArticleRouteHtml.includes(
-      'rel="alternate" hreflang="en" href="https://btcpavao.com/en/bitcoin-core/the-long-road-back-to-bitcoin-core/"'
+      'rel="alternate" hreflang="en" href="https://btcpavao.com/bitcoin-core/the-long-road-back-to-bitcoin-core/"'
     ) &&
     longRoadArticleRouteHtml.includes(
-      'rel="alternate" hreflang="x-default" href="https://btcpavao.com/en/bitcoin-core/the-long-road-back-to-bitcoin-core/"'
+      'rel="alternate" hreflang="x-default" href="https://btcpavao.com/bitcoin-core/the-long-road-back-to-bitcoin-core/"'
     ),
   "The Long Road article metadata or hreflang links are incomplete"
 )
 assert(
   bip39ArticleRouteHtml.includes('<html lang="en">') &&
     bip39ArticleRouteHtml.includes(
-      'rel="canonical" href="https://btcpavao.com/en/bitcoin-core/bip39-made-the-wrong-thing-human-readable/"'
+      'rel="canonical" href="https://btcpavao.com/bitcoin-core/bip39-made-the-wrong-thing-human-readable/"'
     ) &&
     bip39ArticleRouteHtml.includes('property="og:locale" content="en_US"') &&
     bip39ArticleRouteHtml.includes('"inLanguage":"en-US"') &&
@@ -1214,7 +1220,7 @@ assertStructuredDataIsValid(longRoadArticleRouteHtml, "The Long Road article")
 assertStructuredDataIsValid(bip39ArticleRouteHtml, "The BIP39 article")
 
 // Compare the actual download buttons with the URLs assembled by the published rebuild commands.
-const isoRoutes = "dist/en/bitcoin-core/debian-images/"
+const isoRoutes = "dist/bitcoin-core/debian-images/"
 const [isoDownloadsHtml, isoVerificationHtml] = await Promise.all(
   ["index.html", "verification/index.html"].map(file => readFile(new URL(isoRoutes + file, root), "utf8"))
 )

@@ -6,7 +6,11 @@
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": false,
   "preview_urls": false,
-  "routes": [{"pattern": "btcpavao.com/api/ask-pavao*", "zone_name": "btcpavao.com"}],
+  "routes": [
+    {"pattern": "btcpavao.com/api/ask-pavao*", "zone_name": "btcpavao.com"},
+    {"pattern": "btcpavao.com/en", "zone_name": "btcpavao.com"},
+    {"pattern": "btcpavao.com/en/*", "zone_name": "btcpavao.com"}
+  ],
   "vars": {"APP_ORIGIN": "https://btcpavao.com"},
   "secrets": {"required": ["TURNSTILE_SECRET_KEY"]},
   "send_email": [{

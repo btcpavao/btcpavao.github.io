@@ -1,5 +1,5 @@
 import { vaultBuild } from "../iso-releases"
-export const DEBIAN_IMAGES_PATH = "/en/bitcoin-core/debian-images/"
+export const DEBIAN_IMAGES_PATH = "/bitcoin-core/debian-images/"
 
 export function DebianImagesNotice({ compact = false }: { compact?: boolean }) {
   return (
@@ -24,7 +24,7 @@ export function DebianImagesNotice({ compact = false }: { compact?: boolean }) {
         </p>
         <div className="debian-notice-links">
           <a href={DEBIAN_IMAGES_PATH}>Downloads and verification →</a>
-          <a href="/en/bitcoin-core/self-custody/?setup=vault-node#lesson/prepare-offline-signer">Follow the Vault and Node walkthrough →</a>
+          <a href="/bitcoin-core/self-custody/?setup=vault-node#lesson/prepare-offline-signer">Follow the Vault and Node walkthrough →</a>
         </div>
       </div>
       <div className="debian-images-notice__art">

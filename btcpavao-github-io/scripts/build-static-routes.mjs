@@ -121,6 +121,17 @@ function renderRoute(baseHtml, entry) {
       : "image/jpeg"
   const type = entry.contentType === "article" ? "article" : "website"
   let html = renderRoot(baseHtml, entry.path)
+  if (entry.path === "/") {
+    html = html.replace("</head>", `<link
+      rel="preload"
+      as="image"
+      href="/homepage-hero-v2.webp"
+      type="image/webp"
+      imagesrcset="/homepage-hero-v2-840.webp 840w, /homepage-hero-v2.webp 1774w"
+      imagesizes="100vw"
+      fetchpriority="high"
+    />\n  </head>`)
+  }
 
   html = html.replace(/<html lang="[^"]*">/, `<html lang="${entry.locale}">`)
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(entry.title)}</title>`)
@@ -190,6 +201,14 @@ for (const entry of getPublishedContent().filter(({ path }) => path !== "/")) {
   const directoryUrl = new URL(`../dist${entry.path}`, import.meta.url)
   await mkdir(directoryUrl, { recursive: true })
   await writeFile(new URL("index.html", directoryUrl), renderRoute(baseHtml, entry))
+}
+
+// Keep bookmarks usable on static hosts as well as behind the HTTP redirects.
+for (const entry of getPublishedContent().filter(({ locale }) => locale === "en")) {
+  const directory = new URL(`../dist/en${entry.path}`, import.meta.url)
+  const destination = absolute(entry.path)
+  await mkdir(directory, { recursive: true })
+  await writeFile(new URL("index.html", directory), `<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="canonical" href="${escapeHtml(destination)}"><title>Page moved | BTC Pavao</title><script>location.replace(${JSON.stringify(entry.path)} + location.search + location.hash)</script><noscript><meta http-equiv="refresh" content="0;url=${escapeHtml(destination)}"></noscript></head><body><a href="${escapeHtml(destination)}">Continue to the page</a></body></html>`)
 }
 
 for (const [sourcePath, destination] of Object.entries(migratedAiRedirects)) {

@@ -16,9 +16,9 @@ type ImageLesson = {
   steps?: Record<string, ImagePractice>
 }
 
-const downloads = "/en/bitcoin-core/debian-images/"
-const course = "/en/bitcoin-core/self-custody/#lesson/"
-const imageCourse = "/en/bitcoin-core/self-custody/?setup=vault-node#lesson/"
+const downloads = "/bitcoin-core/debian-images/"
+const course = "/bitcoin-core/self-custody/#lesson/"
+const imageCourse = "/bitcoin-core/self-custody/?setup=vault-node#lesson/"
 const downloadCheck = { label: "Check your Vault or Node ISO", href: downloads + "#verify-download" }
 const rebuild = { label: "Rebuild the Vault or Node download", href: DEBIAN_IMAGE_VERIFICATION_PATH + "#rebuild-tutorial" }
 const nativeExport = {

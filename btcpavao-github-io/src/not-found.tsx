@@ -41,7 +41,7 @@ export function NotFoundPage() {
               </a>
             </Button>
             <Button asChild size="lg" variant="outline" className="min-h-12 rounded-full px-6">
-              <a href="/en/bitcoin-core/">
+              <a href="/bitcoin-core/">
                 <BookOpen aria-hidden="true" />
                 Explore Bitcoin Core
               </a>

@@ -5,7 +5,7 @@
 @font-face {
   font-family: "Geist Variable";
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
   font-weight: 100 900;
   src: url("@fontsource-variable/geist/files/geist-latin-ext-wght-normal.woff2")
     format("woff2-variations");
@@ -18,7 +18,7 @@
 @font-face {
   font-family: "Geist Variable";
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
   font-weight: 100 900;
   src: url("@fontsource-variable/geist/files/geist-latin-wght-normal.woff2")
     format("woff2-variations");

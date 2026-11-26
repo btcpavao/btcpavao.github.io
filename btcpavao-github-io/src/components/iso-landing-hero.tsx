@@ -11,7 +11,7 @@ export function IsoLandingHero() {
   return (
     <header className="iso-landing-hero">
       <nav className="iso-breadcrumb" aria-label="Breadcrumb">
-        <a href="/en/bitcoin-core/">Bitcoin Core</a>
+        <a href="/bitcoin-core/">Bitcoin Core</a>
         <ChevronRight size={13} aria-hidden="true" />
         <span aria-current="page">Debian images</span>
       </nav>

@@ -39,7 +39,7 @@ export function curriculumLessonHref(slug: string, query = "", images = false) {
   const params = new URLSearchParams()
   if (query.trim()) params.set("q", query.trim())
   if (images) params.set("setup", "vault-node")
-  return `/en/bitcoin-core/self-custody/${params.size ? `?${params}` : ""}#lesson/${encodeURIComponent(slug)}`
+  return `/bitcoin-core/self-custody/${params.size ? `?${params}` : ""}#lesson/${encodeURIComponent(slug)}`
 }
 
 function lessonPassages(lesson: PlayerLesson) {

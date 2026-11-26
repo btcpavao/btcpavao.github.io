@@ -81,7 +81,7 @@ function setMetaContent(
 function useCurriculumMetadata() {
   useEffect(() => {
     const { title, description } = findContentByPath(
-      "/en/bitcoin-core/self-custody/"
+      "/bitcoin-core/self-custody/"
     )!
     const url = `${SITE_URL}${EN_BITCOIN_CORE_CURRICULUM_PATH}`
 

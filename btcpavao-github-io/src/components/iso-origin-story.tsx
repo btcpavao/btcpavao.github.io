@@ -39,7 +39,7 @@ export function IsoOriginStory() {
         <div className="iso-origin-prose">
           <p>Early Bitcoin users ran the original Bitcoin client or Electrum on the same computer they used for email and downloads. By 2011, researchers had found malware that stole Bitcoin wallet files. On an infected desktop, a thief could get to the keys that authorized payments.</p>
           <p>In 2014, Trezor released the first hardware wallet. The little device generated the keys and signed payments while the everyday computer handled the network. I wanted that same separation. What I questioned was the need to buy a specially manufactured signer when a spare laptop could do the job.</p>
-          <p className="iso-origin-links"><a href="/en/bitcoin-core/the-hardware-wallet-detour/">Read The Hardware Wallet Detour</a><a href="https://community.broadcom.com/symantecenterprise/viewdocument/all-your-bitcoins-are-ours?CommunityKey=1ecf5f55-9545-44d6-b0f4-4e4a7f5f5e68">The 2011 malware report</a></p>
+          <p className="iso-origin-links"><a href="/bitcoin-core/the-hardware-wallet-detour/">Read The Hardware Wallet Detour</a><a href="https://community.broadcom.com/symantecenterprise/viewdocument/all-your-bitcoins-are-ours?CommunityKey=1ecf5f55-9545-44d6-b0f4-4e4a7f5f5e68">The 2011 malware report</a></p>
         </div>
       </div>
       <div className="iso-origin-comparison">
@@ -56,7 +56,7 @@ export function IsoOriginStory() {
         <div className="iso-origin-prose">
           <h3>What a purchase reveals</h3>
           <p>A shipment of 1,000 hardware wallets contains 1,000 devices designed to secure cryptocurrency. A shipment of 1,000 ordinary laptops could end up running shops, doing homework or signing payments. The order list gives little away. Microsoft alone counted over 1.4 billion active Windows 10 and 11 devices in 2022. Reusing a computer you already own also leaves no new hardware-wallet order tied to your address.</p>
-          <p className="iso-origin-links"><a href="/en/bitcoin-core/hardware-wallets-are-an-economic-security-failure/">The economics of targeting wallet buyers</a><a href="https://www.microsoft.com/investor/reports/ar22/index.html">Microsoft’s device count</a></p>
+          <p className="iso-origin-links"><a href="/bitcoin-core/hardware-wallets-are-an-economic-security-failure/">The economics of targeting wallet buyers</a><a href="https://www.microsoft.com/investor/reports/ar22/index.html">Microsoft’s device count</a></p>
         </div>
       </div>
       <details className="iso-origin-reports">
