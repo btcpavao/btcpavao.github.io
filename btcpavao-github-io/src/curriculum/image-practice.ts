@@ -23,11 +23,11 @@ const downloadCheck = { label: "Check your Vault or Node ISO", href: downloads +
 const rebuild = { label: "Rebuild the Vault or Node download", href: DEBIAN_IMAGE_VERIFICATION_PATH + "#rebuild-tutorial" }
 const nativeExport = {
   label: "Core 32.1 watch-only export on Vault",
-  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.8.0/docs/WATCH-ONLY.md",
+  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/v0.9.0/docs/WATCH-ONLY.md",
 }
 const independentRecovery = {
   label: "Recover a Vault backup using GnuPG and Core",
-  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/d0bc35aa9a64d45d5c24a226aa9ba2ec2a315ebf/docs/GPG-BACKUP.md",
+  href: "https://github.com/btcpavao/bitcoin-core-vault-releases/blob/58f873fa727054f262b2f99bf742aff251cc5672/docs/GPG-BACKUP.md",
 }
 
 export const imagePractice: Record<string, ImageLesson> = {
@@ -59,7 +59,7 @@ export const imagePractice: Record<string, ImageLesson> = {
     overview: {
       role: "Vault and Node",
       title: "Read a successful signature and a rejected file",
-      instructions: ["Compare the BTC Pavao key fingerprint through a channel you already trust. In the wrong-file example, GnuPG accepts the signature on the checksum list, then the verifier rejects the file you selected. Identify which check passed and which one stopped the process."],
+      instructions: ["Compare the BTC Pavao key fingerprint through a channel you already trust. In the Vault v0.9.0 example, look for Good signature from btcpavao. The next check reads a deliberately incorrect file with the release ISO’s name. Its line ends in FAILED. Stop before writing it to a USB drive. Identify which check passed and which one stopped the process."],
       result: "You can distinguish the publisher’s identity, the downloaded bytes and an independent rebuild. Each answers a different question.",
       links: [downloadCheck, rebuild],
     },
@@ -105,7 +105,7 @@ export const imagePractice: Record<string, ImageLesson> = {
       backup: {
         role: "Vault",
         title: "Export the wallet after Core encryption",
-        instructions: ["In a separate Vault exercise with a disposable wallet, open Wallet Backup on Home and select the intended wallet. Choose a new .gpg destination on your backup medium. Supply an independently generated GPG passphrase and wait for the completed backup check."],
+        instructions: ["In a separate Vault exercise with a disposable wallet, open Wallet Backup on Home and select the intended wallet. Under Save to, select your external backup drive and choose a new .gpg filename. Supply an independently generated GPG passphrase and wait for the completed backup check."],
         result: "You can locate the encrypted file on the external medium and explain when recovery needs the GPG passphrase and when it needs the Core passphrase.",
       },
     },
@@ -208,7 +208,7 @@ export const imagePractice: Record<string, ImageLesson> = {
       },
       "debian-datadir": {
         replacesStep: true, role: "Vault", title: "Locate the private working files",
-        instructions: ["Open Files → Private Workspace. Use this folder for a temporary test note and, later, for public exports and PSBTs. Locate the removable backup medium separately. Vault’s Home launcher already selects the protected Core data directory."],
+        instructions: ["Open Files from Vault Home and select Private Workspace. Create a temporary test note there. In the backup tool, open Save to and identify your removable drive by name. The example drive is DEMOUSB. Vault’s Home launcher already selects the protected Core data directory."],
         result: "You can point to the temporary workspace and a separate destination that will survive shutdown.",
       },
       wallet: {
@@ -232,7 +232,7 @@ export const imagePractice: Record<string, ImageLesson> = {
     steps: {
       export: {
         replacesStep: true, role: "Vault", title: "Export watch-only.dat",
-        instructions: ["Select the intended signing wallet in Core and choose File → Export watch-only wallet. Select your mounted transfer USB and save watch-only.dat there. Keep the original wallet.dat and its encrypted backup on the offline side."],
+        instructions: ["Select the intended signing wallet in Core and choose File → Export watch-only wallet. Select your mounted transfer USB and save watch-only.dat there. If Core lists address-book or transaction data, review what will be shared before choosing Export wallet. Wait for Export Successful. Keep the original wallet.dat and its encrypted backup on the offline side."],
         result: "The transfer USB contains the public watch-only export.",
       },
       "watchonly-gui-v4": {
@@ -242,7 +242,7 @@ export const imagePractice: Record<string, ImageLesson> = {
       },
       import: {
         replacesStep: true, role: "Node", title: "Check that the online wallet cannot sign",
-        instructions: ["In Core’s console, select the restored wallet and run getwalletinfo. Check walletname, then find private_keys_enabled. If it says true, stop the exercise and establish which file was transferred before using this setup."],
+        instructions: ["In Core, choose Window → Console, select the restored wallet and run getwalletinfo. Check walletname, then find private_keys_enabled. If it says true, stop the exercise and establish which file was transferred before using this setup."],
         command: { title: "Bitcoin Core console · selected Node watch-only wallet", code: "getwalletinfo" },
         result: "The intended wallet reports private_keys_enabled: false. The native export already supplied its public descriptors.",
       },
@@ -335,9 +335,9 @@ export const imagePractice: Record<string, ImageLesson> = {
   "optional-gpg-layers": {
     steps: {
       "gpg-recover-20261016": {
-        role: "Vault", title: "Recover one wallet without the Vault interface",
-        instructions: ["For a Vault v0.8.0 single-wallet export, use standard GnuPG on a clean offline system to open each GPG layer, outermost first. The final output is the Core wallet file. Restore it using File → Restore Wallet and use the separate Core passphrase when the signing test asks for it. A grouped file or folder backup also requires extracting the recovered TAR archive."],
-        result: "A backup from the removable medium restores in standard Core and can sign the disposable test payment.",
+        role: "Vault", title: "Recover a wallet with Decrypt Backup",
+        instructions: ["Open Decrypt Backup on the offline Vault and select the .gpg file on your external drive. Leave Recover to set to Private Workspace and choose a new recovery folder. Enter the GPG passphrases starting with the outermost layer. When Vault reports File recovered to RAM, open Bitcoin Core and choose File → Restore Wallet. Select wallet.dat from the recovery folder."],
+        result: "Bitcoin Core opens the restored wallet. Use its separate Core passphrase for the signing test.",
         links: [independentRecovery],
       },
     },

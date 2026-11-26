@@ -9,7 +9,6 @@ import "./signed-download-check.css"
 
 export const verifierRevision = "a48ff1e405dfb126471049c838fa4ec150023b1a"
 const verifierPath = verifierRevision + "/docs/debian-images/check_release.py"
-const screenshots = "/software/screenshots/verification/"
 
 function NodeInstallation() {
   const target = captures["node-disk"]
@@ -167,7 +166,7 @@ export function SignedDownloadCheck({ product }: { product: "Vault" | "Node" }) 
                   "  gpg --show-keys --with-fingerprint btcpavao-pgp.asc",
                 ]} />
                 <code className="debian-signing-fingerprint">787A 2AAF B0D1 19CA 0522 B2A5 B9C9 9AF8 5788 96D0</code>
-                <a href={screenshots + "signer-fingerprint.webp"}>See the signing key in Terminal</a>
+                <a href={captures.fingerprint.fullSrc ?? captures.fingerprint.src}>See the signing key in Terminal</a>
               </li>
               <li>
                 <strong>Check your ISO against the signed list.</strong> Run this in the same terminal. If you saved the file elsewhere, change the path in quotes.

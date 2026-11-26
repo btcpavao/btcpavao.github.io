@@ -20,7 +20,7 @@ function ProjectChanges() {
       <div className="iso-usb-example">
         <figure>
           <ZoomableImage src={menu.src} alt={menu.alt} width={menu.width} height={menu.height} loading="lazy" decoding="async" />
-          <figcaption>The export command in an earlier Vault v0.6.0 practice session. <a href={menu.src}>Full size</a></figcaption>
+          <figcaption>{menu.context}. {menu.caption} <a href={menu.src}>Full size</a></figcaption>
         </figure>
         <div>
           <h3>When I export a watch-only wallet, what goes onto my USB?</h3>

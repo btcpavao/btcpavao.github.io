@@ -1,6 +1,42 @@
 const base = "/software/screenshots/curriculum/"
 
 const captureData = {
+  "node-revision": {
+    "src": "/software/screenshots/verification/current-20261126/node-rc4-source-detail.webp",
+    "fullSrc": "/software/screenshots/verification/current-20261126/node-rc4-source.webp",
+    "width": 791,
+    "height": 171,
+    "context": "Node v0.1.0-rc.4 · signed release records in a Debian terminal",
+    "alt": "The terminal verifies the signature on the RC4 checksum list, reports SOURCE-COMMIT.txt: OK, and prints source revision 8eae47cb3c2c67c7365dcfcc25af44cd5048baf3.",
+    "caption": "After checking the signature and the checksum of SOURCE-COMMIT.txt, read the full revision recorded in that file. It identifies the source used for RC4."
+  },
+  "vault-malware-warning": {
+    "src": "/software/screenshots/vault/v0.9.0/encryption-malware-warning-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/encryption-malware-warning.webp",
+    "width": 500,
+    "height": 133,
+    "context": "Vault v0.9.0 · unfunded wallet creation",
+    "alt": "Wallet to be encrypted warns that encryption cannot fully protect against malware and offers Yes and Cancel.",
+    "caption": "Choose Yes to encrypt the empty practice wallet on your offline computer."
+  },
+  "vault-loss-warning": {
+    "src": "/software/screenshots/vault/v0.9.0/encryption-loss-warning-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/encryption-loss-warning.webp",
+    "width": 500,
+    "height": 133,
+    "context": "Vault v0.9.0 · unfunded wallet creation",
+    "alt": "Confirm wallet encryption warns that losing the passphrase means losing access to the bitcoin. Its buttons are Continue and Back.",
+    "caption": "Check that you can recover your Core passphrase, then choose Continue."
+  },
+  "vault-wallet-name": {
+    "src": "/software/screenshots/vault/v0.9.0/wallet-name-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/wallet-name.webp",
+    "width": 480,
+    "height": 257,
+    "context": "Vault v0.9.0 · empty practice wallet",
+    "alt": "Create Wallet shows Practice Wallet in the Wallet Name field. Encrypt Wallet and the advanced options are unchecked.",
+    "caption": "Enter a local practice name. The next step selects Encrypt Wallet before you click Create."
+  },
   "vault-address-restored": {
     "src": "/software/screenshots/vault/v0.9.0/address-restored-detail.webp",
     "fullSrc": "/software/screenshots/vault/v0.9.0/address-restored.webp",
@@ -128,16 +164,22 @@ const captureData = {
     "caption": "Keep Node Guide beside the wallet while learning the pairing and payment workflow."
   },
   "fingerprint": {
-    src: "/software/screenshots/verification/signer-fingerprint.webp", width: 1192, height: 198,
-    context: "Debian terminal · publisher key",
-    alt: "GnuPG displays the full BTC Pavao signing-key fingerprint.",
-    caption: "Identify the whole fingerprint through a separate channel before trusting the signed checksum list.",
+    "src": "/software/screenshots/verification/current-20261126/vault-publisher-key-detail.webp",
+    "fullSrc": "/software/screenshots/verification/current-20261126/vault-publisher-key.webp",
+    "width": 715,
+    "height": 69,
+    "context": "Vault v0.9.0 · release verification in a Debian terminal",
+    "alt": "GnuPG displays the public key for btcpavao and its full fingerprint ending in 5788 96D0.",
+    "caption": "Compare all 40 characters of the signing-key fingerprint with a copy obtained through a separate trusted channel."
   },
   "wrong-file": {
-    src: "/software/screenshots/verification/vault-v060-rejected.webp", width: 1242, height: 384,
-    context: "Historical Vault v0.6.0 · deliberately wrong test file",
-    alt: "GnuPG accepts the manifest signature but the verifier reports different expected and computed hashes.",
-    caption: "The signature passes. The selected file fails its own check, so stop before writing the USB.",
+    "src": "/software/screenshots/verification/current-20261126/vault-wrong-file-detail.webp",
+    "fullSrc": "/software/screenshots/verification/current-20261126/vault-wrong-file.webp",
+    "width": 791,
+    "height": 153,
+    "context": "Vault v0.9.0 · deliberately incorrect test file",
+    "alt": "GnuPG reports a good signature from btcpavao. The SHA-256 check for bitcoin-core-vault-v0.9.0-amd64.iso reports FAILED.",
+    "caption": "The signature on the list passed. The file given the Vault ISO name failed its checksum. Stop before writing it to a USB drive."
   },
   "vault-iso": {
     "src": "/software/screenshots/verification/current-20261126/vault-signed-verification.webp",
@@ -418,9 +460,9 @@ export const capturePlacements: Record<string, Record<string, CaptureKey[]>> = {
     "overview": ["node-peers", "vault-home"],
   },
   "prepare-offline-signer": {
-    "debian-preparation": ["vault-home"],
+    "debian-preparation": ["vault-boot", "vault-home"],
     "wallet": ["vault-create", "vault-backup"],
-    "debian-datadir": ["vault-backup-complete", "vault-usb-backup"],
+    "debian-datadir": ["vault-workspace", "vault-backup-destinations"],
     "coldboot": ["vault-restart", "vault-recovered-ram", "vault-restore-success"],
     "isolate": ["vault-isolation-console"],
   },
@@ -434,7 +476,7 @@ export const capturePlacements: Record<string, Record<string, CaptureKey[]>> = {
     "prepare-copy-v4": ["node-backup"],
   },
   "encrypt-signet-wallet-and-create-new-backup": {
-    "backup": ["vault-backup"],
+    "backup": ["vault-backup", "vault-backup-complete", "vault-usb-backup"],
   },
   "first-offline-signed-transaction": {
     "review": ["psbt-review"],
@@ -448,7 +490,7 @@ export const capturePlacements: Record<string, Record<string, CaptureKey[]>> = {
   "watch-only-setup": {
     "watchonly-gui-v4": ["node-public-open", "node-public-name"],
     "address": ["watch-address"],
-    "export": ["vault-watch-menu", "vault-watch-complete"],
+    "export": ["vault-watch-menu", "vault-watch-disclosure", "vault-watch-complete"],
     "import": ["node-public-proof"],
   },
   "recovery-drill-without-original-coordinator": {

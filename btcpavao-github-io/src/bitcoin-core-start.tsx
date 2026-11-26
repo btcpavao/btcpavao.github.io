@@ -51,14 +51,14 @@ const exerciseSteps = [
     id: "create",
     title: "Create an empty wallet and record one address",
     desktop: "In Bitcoin Core, choose Create Wallet. Name it Practice Wallet, select Encrypt Wallet and set a fresh practice passphrase. On the Receive tab, enter the label Recovery check and create a receiving address. Record the full address and label for the restore exercise. Leave the address unfunded.",
-    vault: "Open Bitcoin Core from Vault Home and choose Create Wallet. Name it Practice Wallet, select Encrypt Wallet and set a fresh practice passphrase. On the Receive tab, use the label Recovery check and create one address. Record the full address and label outside this RAM session. Leave the address unfunded.",
+    vault: "Open Bitcoin Core from Vault Home and choose Create Wallet. Name it Practice Wallet, select Encrypt Wallet and set a fresh practice passphrase. On the Receive tab, enter Practice only - do not fund as the label and choose Create new receiving address. Record the full address and label outside this RAM session. Leave the address unfunded.",
     icon: KeyRound,
   },
   {
     id: "backup",
     title: "Save the backup and find it again",
     desktop: "Choose File → Backup Wallet and save practice-wallet.dat on the removable drive. Open the drive in your file manager and check the file’s location. Keep the Core passphrase in its separate recovery record. The backup guide also shows how to encrypt the whole file with GPG.",
-    vault: "Open Wallet Backup from Vault Home. Select Practice Wallet and protect the backup with a separate GPG passphrase. If the resulting .gpg file is in Private Workspace, use Files to copy it to the backup drive. Open the drive and check the file there before ejecting it or ending your session.",
+    vault: "Open Wallet Backup from Vault Home. Select Practice Wallet and protect the backup with a separate GPG passphrase. Under Save to, choose your external backup drive. Wait for Vault to confirm that the backup was verified. Open the drive and check the file there before ejecting it or ending your session.",
     icon: FileCheck2,
   },
 ]
@@ -124,12 +124,12 @@ export function BitcoinCoreStartPage() {
             difficulty="Beginner"
             estimatedTime={vault ? "30–45 minutes once the verified Vault boot USB is ready." : "30–45 minutes for the wallet exercise. Allow extra time for downloading and verifying Core."}
             realBitcoin="Use an unfunded, disposable practice wallet."
-            softwareVersion={vault ? "Bitcoin Core 32.1 in Vault v0.8.0" : "Bitcoin Core 32.1"}
+            softwareVersion={vault ? "Bitcoin Core 32.1 in Vault v0.9.0" : "Bitcoin Core 32.1"}
             operatingSystems={vault ? "Vault runs Debian 13 on supported amd64 (64-bit Intel or AMD) computers." : "macOS 14 or later (Intel or Apple silicon), Windows 10 version 1903 or later, or a maintained Linux distribution."}
             recommendedOs={vault ? "Start Vault from USB in Live RAM mode for this exercise." : "Use a maintained operating system on a computer you already know."}
             prerequisites={vault ? "A Vault boot USB, a separate removable backup drive and separate passphrase records. Use the native macOS package for Core on an Apple silicon Mac." : "A separate practice environment, removable backup media and a separate passphrase record."}
             outcome="A backup outside the working session and a recorded address and label to compare when you restore it."
-            lastReviewed={vault ? "November 13, 2026. On Vault v0.6.0 we restored an encrypted backup from a virtual USB drive in a fresh offline session and matched the original address and label." : "Instructions reviewed against the Bitcoin Core 32.1 release on November 11, 2026. The focused guide labels each practical test by platform."}
+            lastReviewed={vault ? "November 26, 2026. On Vault v0.9.0 we restored an encrypted backup from a virtual USB drive after restarting and matched the original receiving address and label." : "Instructions reviewed against the Bitcoin Core 32.1 release on November 11, 2026. The focused guide labels each practical test by platform."}
           />
 
           <div className="mt-10 rounded-[28px] bg-card p-6 shadow-[var(--shadow-border)] sm:p-8">
@@ -200,7 +200,7 @@ export function BitcoinCoreStartPage() {
                         <>
                           {vault && (
                             <div className="mt-5 sm:[&_.practice-figures]:grid-cols-2">
-                              <PracticeFigures slug="prepare-offline-signer" step="debian-datadir" />
+                              <PracticeFigures slug="encrypt-signet-wallet-and-create-new-backup" step="backup" />
                             </div>
                           )}
                           <a className={stepLinkClass} href={walletGuide + "#step-7"}>

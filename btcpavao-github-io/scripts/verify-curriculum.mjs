@@ -97,7 +97,25 @@ try {
     }
   )
   const { imagePractice } = await bundle("src/curriculum/image-practice.ts", "image-practice")
-  const { capturePlacements, capturesFor } = await bundle("src/curriculum/practice-captures.ts", "captures")
+  const { captures, capturePlacements, capturesFor } = await bundle("src/curriculum/practice-captures.ts", "captures")
+  const { vaultBuild, nodeBuild } = await bundle("src/iso-releases.ts", "releases")
+  const evidence = JSON.parse(await readFile("../docs/debian-images/screenshots-2026-11-26.json", "utf8"))
+  const recorded = new Map(evidence.images.map(image => [image.path, image]))
+  check("Release screenshots and their full-size links match the current Vault and Node capture records", () => {
+    for (const capture of Object.values(captures)) {
+      if (capture.context.startsWith("Bitcoin Core ") && capture.context.includes("Regtest")) continue
+      const release = capture.context.startsWith("Node ") ? nodeBuild : vaultBuild
+      assert.ok(capture.context.includes(release.tag), capture.src)
+      for (const src of new Set([capture.src, capture.fullSrc].filter(Boolean))) {
+        const image = recorded.get(src)
+        assert.ok(image, "Missing capture record: " + src)
+        assert.equal(image.source_iso_sha256, release.sha256, src)
+        assert.ok(existsSync(path.join("public", src)), src)
+      }
+      const preview = recorded.get(capture.src)
+      assert.deepEqual([capture.width, capture.height], [preview.width, preview.height], capture.src)
+    }
+  })
   check("Vault and Node material resolves to real lessons, steps and screenshot files", () => {
     for (const slug of new Set([...Object.keys(imagePractice), ...Object.keys(capturePlacements)])) {
       const lesson = lessons.find(l => l.slug === slug)

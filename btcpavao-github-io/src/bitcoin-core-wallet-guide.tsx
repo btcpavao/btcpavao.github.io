@@ -919,16 +919,17 @@ const vaultSteps: Record<number, Partial<GuideStep>> = {
       <p>From Home, open Bitcoin Core. The protected launcher keeps the private session in RAM in either mode. Have a separate removable backup medium ready before you create the wallet. An empty wallet is sufficient for this exercise. <ResourceLink href={vaultLesson("prepare-offline-signer")}>Check the offline Vault setup</ResourceLink>.</p></>,
   },
   2: {
-    images: [captures["vault-create"]],
+    images: [captures["vault-wallet-name"]],
     content: <p>In Core, choose <strong>Create Wallet</strong> and enter a recognizable practice name.
       Leave <strong>Disable Private Keys</strong>, <strong>Make Blank Wallet</strong> and <strong>External signer</strong> unchecked.
       Keep this dialog open for step 3.</p>,
   },
   3: {
-    images: [captures["vault-encrypt"]],
+    images: [captures["vault-create"]],
+    content: <p>Select <strong>Encrypt Wallet</strong>, then click <strong>Create</strong> to open the passphrase dialog.</p>,
   },
   4: {
-    images: [proofImages.passphrase],
+    images: [captures["vault-encrypt"]],
     content: <><p>Open <strong>KeePassXC</strong> from Vault Home. In <strong>Password Generator → Passphrase</strong>,
       the bundled generator opens with six words. Select <strong>eight</strong> for the Core wallet in this exercise,
       then generate a fresh phrase. <ResourceLink href="https://github.com/bitcoin/bitcoin/blob/v32.1/src/qt/askpassphrasedialog.cpp#L42">Core’s encryption dialog recommends eight or more words</ResourceLink>.</p>
@@ -938,8 +939,8 @@ const vaultSteps: Record<number, Partial<GuideStep>> = {
     note: undefined,
   },
   5: {
-    images: [proofImages.loss, proofImages.malware],
-    content: <><p>Read Core’s passphrase-loss and malware warnings, then finish creating the practice wallet.
+    images: [captures["vault-loss-warning"], captures["vault-malware-warning"]],
+    content: <><p>At <strong>Confirm wallet encryption</strong>, read the passphrase-loss warning and choose <strong>Continue</strong>. The next dialog, <strong>Wallet to be encrypted</strong>, explains the risk from malware. Choose <strong>Yes</strong> to finish creating the practice wallet.
       Confirm that you could recover the exact Core passphrase from its separate record.</p>
       <p>Leave the Vault offline while it holds the signing wallet. Its temporary wallet and the contents of Private Workspace disappear when the session ends.</p></>,
   },
@@ -1290,7 +1291,7 @@ function OptionalBackupProtection({ vault }: { vault: boolean }) {
             <p>
               {vault ? <>Vault’s Wallet Backup and Decrypt Backup tools handle the GPG layer for you. After copying the encrypted file to your external medium, <a className="font-semibold underline underline-offset-4" href="#step-8">continue to step 8</a>. The independent methods below also work on another offline system.</> :
                 <>For an offline graphical workflow on compatible amd64 hardware, <ResourceLink href={`${BITCOIN_CORE_WALLET_GUIDE_PATH}?setup=vault#step-7`} inverse>follow step 7 on Vault</ResourceLink>. On your desktop, choose Finder or Terminal below.</>}
-              {" "}<ResourceLink href="https://github.com/btcpavao/bitcoin-core-vault-releases/blob/d0bc35aa9a64d45d5c24a226aa9ba2ec2a315ebf/docs/GPG-BACKUP.md" inverse>Vault v0.8.0 backup format and independent recovery</ResourceLink>.
+              {" "}<ResourceLink href="https://github.com/btcpavao/bitcoin-core-vault-releases/blob/58f873fa727054f262b2f99bf742aff251cc5672/docs/GPG-BACKUP.md" inverse>Vault v0.9.0 backup format and independent recovery</ResourceLink>.
             </p>
 
             <details className="space-y-4 border-t border-white/20 pt-4">

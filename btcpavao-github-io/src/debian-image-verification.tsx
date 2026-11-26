@@ -1,6 +1,7 @@
 import { Braces, CircleCheckBig, Disc3, Fingerprint, GitCompareArrows, Hammer, List, LockKeyhole, Network, PackageOpen, ScanLine, ShieldCheck } from "lucide-react"
 import { nodeBuild, nodeRc3Build, vaultBuild } from "./iso-releases"
 import { DEBIAN_IMAGES_PATH } from "./components/debian-images-notice"
+import { captures, type PracticeCapture } from "./curriculum/practice-captures"
 import { verifierRevision } from "./components/signed-download-check"
 import { VerificationCommands as Commands } from "./components/verification-commands"
 import { UpstreamComparison } from "./components/upstream-comparison"
@@ -57,14 +58,12 @@ function SourceFolder({ product }: { product: Product }) {
   ]} />
 }
 
-function VerificationShot({ file, alt, caption, width, height }: {
-  file: string; alt: string; caption: string; width: number; height: number
-}) {
-  const src = "/software/screenshots/verification/" + file + ".webp"
+function VerificationShot({ shot }: { shot: PracticeCapture }) {
+  const full = shot.fullSrc ?? shot.src
   return (
     <figure className="verification-shot">
-      <ZoomableImage src={src} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
-      <figcaption><span>{caption}</span> <a href={src} aria-label={"Full size: " + alt}>Full size</a></figcaption>
+      <ZoomableImage src={shot.src} fullSrc={full} alt={shot.alt} width={shot.width} height={shot.height} loading="lazy" decoding="async" />
+      <figcaption><span>{shot.caption}</span> <a href={full} aria-label={"Full size: " + shot.alt}>Full size</a></figcaption>
     </figure>
   )
 }
@@ -130,9 +129,6 @@ function HistoricalNodeRebuild() {
             "  git rev-parse HEAD &&",
             '  test "$(git rev-parse HEAD)" = ' + revision,
           ]} />
-          <VerificationShot file="node-source-revision" width={1114} height={223}
-            alt="A checkout of the Node candidate prints the full Git commit beginning with e6519d7e5e95."
-            caption="Example from an earlier release. For RC3, compare the full revision printed by the command above." />
         </li>
         <li>
           <strong>Review what the project changes.</strong>{" "}
@@ -280,9 +276,7 @@ export function DebianImageVerification() {
         caption="The maker’s mark stands for the signature on the list. The pattern on the box stands for the checksum you calculate from your download." />
       <details className="build-instructions">
         <summary>See what happens when a file fails verification</summary>
-        <VerificationShot file="vault-v060-rejected" width={1242} height={384}
-          alt="A deliberately wrong ISO makes the verifier stop and print the different expected and computed SHA-256 values."
-          caption="In this earlier Vault v0.6.0 example the checksum list has a valid signature, but the selected file differs. Check the release and file before writing a USB stick." />
+        <VerificationShot shot={captures["wrong-file"]} />
       </details>
 
       <h3 id="review-project-code" className="learning-heading"><Braces className="section-pictogram" aria-hidden="true" /><span>Read what the project does, with your own AI</span></h3>
@@ -305,6 +299,7 @@ export function DebianImageVerification() {
             <SourceFolder product="Vault" />
             <p>For Node, use a fresh directory on Debian 13 with curl, tar and sha256sum. The block checks the archive against the exact hash published here and extracts its tracked files into <code>node-inspection</code>. Compare the archival revision in <a href={nodeBuild.sourceCommitUrl}>SOURCE-COMMIT.txt</a> with the <a href={nodeBuild.proofUrl}>source provenance</a>. {nodeBuild.signatureStatus === "pending" && "PGP signing is pending, so this hash check does not authenticate the publisher."}</p>
             <SourceFolder product="Node" />
+            <VerificationShot shot={captures["node-revision"]} />
           </details>
         </li>
         <li>
@@ -402,12 +397,9 @@ export function DebianImageVerification() {
       <HistoricalNodeRebuild />
       <h3 id="verification-results" className="learning-heading"><CircleCheckBig className="section-pictogram" aria-hidden="true" /><span>Read the result</span></h3>
       <p>
-        Two <strong>OK</strong> lines followed by <strong>MATCH</strong> mean your build and the published
-        image are identical, down to the last byte. This example from an earlier Node release shows the output from two builders. Running the recipe on infrastructure you control provides a separate check. Assessing what the software does also requires reading the code and testing its behavior.
+        In the Node {nodeBuild.tag} download check, <strong>Good signature</strong> authenticates the checksum list and <strong>OK</strong> confirms the downloaded ISO matches its signed entry. If you also built a separate candidate, the comparison above prints <strong>MATCH</strong> only when the two complete files are identical.
       </p>
-      <VerificationShot file="node-ci-comparison" width={906} height={348}
-        alt="The Node GitHub comparison log shows identical SHA-256 values for both build outputs and a final MATCH."
-        caption="Historical example from an earlier Node release. Each ISO has the same hash, and MATCH confirms that the full files are identical." />
+      <VerificationShot shot={captures["node-iso"]} />
       <a href={nodeRc3Build.proofUrl}>Open the historical RC3 build record</a>
       <p>
         If they differ, keep both files, the full commit ID, the expected and actual hashes and the build log.
