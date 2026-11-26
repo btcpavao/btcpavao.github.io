@@ -20,7 +20,7 @@ const paths = [
     icon: CalendarDays,
     eyebrow: "Value for Value conversation",
     title: "Work through a real question together",
-    copy: "Start with a 15-minute introduction about your question. If we arrange a longer advisory session, afterwards you decide what it was worth. No fixed fee or obligation.",
+    copy: "Start with a 15-minute introduction about your question. If we arrange a longer advisory session, afterward you decide what it was worth. No fixed fee or obligation.",
     action: "Book a 15-minute introduction",
     href: BOOKING_URL,
     external: true,

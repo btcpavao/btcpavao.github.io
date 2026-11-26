@@ -35,7 +35,7 @@ export function ConsultingInvitation({
           <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
             Book a 15-minute introduction to outline the question and decide
             whether a longer session would help. If we arrange one, that session
-            is Value for Value: afterwards, you decide what it was worth. No
+            is Value for Value: afterward, you decide what it was worth. No
             fixed fee or obligation.
           </p>
           <a

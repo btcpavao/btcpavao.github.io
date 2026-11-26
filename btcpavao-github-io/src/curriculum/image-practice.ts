@@ -191,7 +191,7 @@ export const imagePractice: Record<string, ImageLesson> = {
     overview: {
       role: "Vault",
       title: "Rehearse with an empty Vault wallet",
-      instructions: ["The signed Vault v0.9.0 image runs Core 32.1 inside its protected offline launcher. Use an unfunded disposable wallet to practise backup, shutdown and restoration. For the funded Signet exercise, use the standard Core path unless you have separately verified a matching practice network on both computers. The current Vault screenshots use an unfunded Core-encrypted wallet and a separate GPG backup layer. Keep both passphrases and perform the full shutdown below for your own recovery drill."],
+      instructions: ["The signed Vault v0.9.0 image runs Core 32.1 inside its protected offline launcher. Use an unfunded disposable wallet to practice backup, shutdown and restoration. For the funded Signet exercise, use the standard Core path unless you have separately verified a matching practice network on both computers. The current Vault screenshots use an unfunded Core-encrypted wallet and a separate GPG backup layer. Keep both passphrases and perform the full shutdown below for your own recovery drill."],
       links: [downloadCheck],
     },
     steps: {
@@ -202,8 +202,8 @@ export const imagePractice: Record<string, ImageLesson> = {
       },
       isolate: {
         replacesStep: true, role: "Vault", title: "Check the offline boundary",
-        instructions: ["Disconnect the cable and disable radios. Launch Bitcoin Core from Vault Home. In Core’s console, read getnetworkinfo and find networkactive and connections. Open the Information tab or read getblockchaininfo to record which chain is selected."],
-        command: { title: "Bitcoin Core console · Vault", code: "getnetworkinfo" },
+        instructions: ["Disconnect the cable and disable radios. Launch Bitcoin Core from Vault Home. In Core’s console, run the two commands below, one at a time. Check that networking is disabled and the peer count is zero. Open the Information tab or read getblockchaininfo to record which chain is selected."],
+        command: { title: "Bitcoin Core console · Vault", code: "getnetworkinfo()[networkactive]\ngetconnectioncount" },
         result: "Core reports networkactive false and zero peer connections. You have written down the actual chain.",
       },
       "debian-datadir": {
@@ -226,7 +226,7 @@ export const imagePractice: Record<string, ImageLesson> = {
   "watch-only-setup": {
     overview: {
       role: "Vault and Node", title: "Use the native Core 32.1 watch-only export",
-      instructions: ["Use a disposable signing wallet and check that both Core instances are on the same chain. You can practise the export and address check without funding the wallet. The current screenshots show the unfunded public export from Practice Wallet on Vault v0.9.0 opened as PracticeWatchOnly on Node v0.1.0-rc.4, both on Bitcoin mainnet. The address comparison uses a separate Regtest wallet. The watch-only file carries public descriptors, address-book data and wallet history. Keep it private even though it contains no signing keys."],
+      instructions: ["Use a disposable signing wallet and check that both Core instances are on the same chain. You can practice the export and address check without funding the wallet. The current screenshots show the unfunded public export from Practice Wallet on Vault v0.9.0 opened as PracticeWatchOnly on Node v0.1.0-rc.4, both on Bitcoin mainnet. The address comparison uses a separate Regtest wallet. The watch-only file carries public descriptors, address-book data and wallet history. Keep it private even though it contains no signing keys."],
       links: [nativeExport],
     },
     steps: {

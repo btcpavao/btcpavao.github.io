@@ -325,7 +325,7 @@ The model I want to examine throughout this series is deliberately plain:
 
 That is not magic. A laptop has firmware. Linux has a supply chain. Bitcoin Core can have bugs. Operators make mistakes. An ordinary daily-use laptop connected to the internet is not the offline signer I am describing.
 
-The purpose of going back to Core is not to pretend trust disappears. It is to remove specialized assumptions one at a time, make the remaining boundaries explicit, and test the real recovery system instead of worshipping one artifact.
+The purpose of going back to Core is not to pretend trust disappears. It is to remove specialized assumptions one at a time, make the remaining boundaries explicit, and test the real recovery system instead of worshiping one artifact.
 
 My client did not give me his root secret.
 

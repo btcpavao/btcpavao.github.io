@@ -157,11 +157,11 @@ export function IsoCustodyQuestions() {
         <h2 id="iso-readiness-title">From an empty wallet to your first small payment</h2>
         <ol className="iso-readiness-steps">
           <li>
-            <strong>Practise without putting savings at risk.</strong> Create an empty practice wallet, save an encrypted backup on a separate drive and keep its passphrases separately. Restore it on a clean offline computer. With coins on Bitcoin’s Signet test network, prove you can sign a payment from the restored wallet and confirm it on your online Node.
+            <strong>Practice without putting savings at risk.</strong> Create an empty practice wallet, save an encrypted backup on a separate drive and keep its passphrases separately. Restore it on a clean offline computer. With coins on Bitcoin’s Signet test network, prove you can sign a payment from the restored wallet and confirm it on your online Node.
             <div className="iso-custody-links">
               <a href={START_HERE_PATH + "?setup=vault"}>Start with an empty wallet</a>
               <a href={BITCOIN_CORE_WALLET_GUIDE_PATH + "?setup=vault#optional-backup-protection"}>Make an encrypted backup</a>
-              <a href={imageLesson("recovery-drill-without-original-coordinator")}>Practise the recovery and payment</a>
+              <a href={imageLesson("recovery-drill-without-original-coordinator")}>Practice the recovery and payment</a>
             </div>
           </li>
           <li>
@@ -196,7 +196,7 @@ export function IsoCustodyQuestions() {
           </div>
           <div>
             <a href={BOOKING_URL}><CalendarDays aria-hidden="true" /> Book a 15-minute introduction</a>
-            <p>Bring a question about your setup or invite the specialist reviewing it. If we arrange a longer session, you decide afterwards what it was worth to you.</p>
+            <p>Bring a question about your setup or invite the specialist reviewing it. If we arrange a longer session, you decide afterward what it was worth to you.</p>
           </div>
         </div>
       </section>

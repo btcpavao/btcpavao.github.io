@@ -1773,7 +1773,7 @@ export const part2Lessons: PlayerLesson[] = [
     chapter: "Prove backup and recovery",
     sourceReviewed: "2026-10-16",
     reviewNote:
-      "GPG privacy wording originally reviewed on 16 October 2026. The Vault format described here follows the published v0.8.0 backup guide.",
+      "GPG privacy wording originally reviewed on October 16, 2026. The Vault format described here follows the published v0.8.0 backup guide.",
     why: "Understand how key protection differs from financial privacy.",
     risk: "A missing or misunderstood step can leave you unable to verify the result or recover the wallet. Demonstrate the outcome before continuing.",
     takeaway:
@@ -3030,7 +3030,7 @@ export const part2Lessons: PlayerLesson[] = [
     id: "optional-veracrypt",
     slug: "optional-gpg-layers",
     widget: "gpg-layers",
-    title: "Practise GPG backup encryption and optional layers",
+    title: "Practice GPG backup encryption and optional layers",
     summary: "Protect the complete backup with one GPG layer; add independent layers only for a clear purpose.",
     objective: "Encrypt a disposable wallet backup and prove recovery through every chosen GPG layer.",
     what: "Use standard GnuPG for external backup encryption and independent recovery.",
@@ -3057,7 +3057,7 @@ export const part2Lessons: PlayerLesson[] = [
       { label: "GPG wallet guide: installation, macOS interface and recovery", url: "/bitcoin-core/wallet-setup-backup-recovery/#optional-backup-protection" },
       { label: "GPG Suite for macOS", url: "https://gpgtools.org/" },
     ],
-    reviewNote: "On 16 October 2026, synthetic one- and two-layer CLI round trips passed with MacGPG 2.2.41, including wrong-passphrase and corruption rejection. The November update links the current Vault backup format. The recorded Mac tests cover the command line.",
+    reviewNote: "On October 16, 2026, synthetic one- and two-layer CLI round trips passed with MacGPG 2.2.41, including wrong-passphrase and corruption rejection. The November update links the current Vault backup format. The recorded Mac tests cover the command line.",
     origin: "First-principles curriculum; GPG backup revision",
     guidedSteps: [
       {

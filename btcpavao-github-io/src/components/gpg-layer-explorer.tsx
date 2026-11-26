@@ -32,7 +32,7 @@ export function GpgLayerExplorer() {
             <svg viewBox="0 0 360 360" role="img" aria-labelledby={`${id}-diagram-title ${id}-diagram-desc`}>
               <title id={`${id}-diagram-title`}>{`${count} GPG ${count === 1 ? "layer" : "layers"} around one wallet`}</title>
               <desc id={`${id}-diagram-desc`}>
-                {`The wallet is at the centre. ${activeLayers.map((layer) => `Layer ${layer.name}: ${layer.detail}`).join(" ")} Open ${recoveryLayers.map((layer) => layer.name).join(", then ")} to recover the wallet file.`}
+                {`The wallet is at the center. ${activeLayers.map((layer) => `Layer ${layer.name}: ${layer.detail}`).join(" ")} Open ${recoveryLayers.map((layer) => layer.name).join(", then ")} to recover the wallet file.`}
               </desc>
               {[...activeLayers].reverse().map((layer) => (
                 <circle key={layer.name} cx="180" cy="180" r={layer.radius} className={`gpg-explorer__ring ${layer.className}`} />

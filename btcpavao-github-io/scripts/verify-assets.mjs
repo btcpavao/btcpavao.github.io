@@ -1219,7 +1219,7 @@ assertStructuredDataIsValid(
 assertStructuredDataIsValid(longRoadArticleRouteHtml, "The Long Road article")
 assertStructuredDataIsValid(bip39ArticleRouteHtml, "The BIP39 article")
 
-// Compare the actual download buttons with the URLs assembled by the published rebuild commands.
+// Check each current comparison independently of the archived RC3 walkthrough.
 const isoRoutes = "dist/bitcoin-core/debian-images/"
 const [isoDownloadsHtml, isoVerificationHtml] = await Promise.all(
   ["index.html", "verification/index.html"].map(file => readFile(new URL(isoRoutes + file, root), "utf8"))
@@ -1227,12 +1227,15 @@ const [isoDownloadsHtml, isoVerificationHtml] = await Promise.all(
 const downloadButtons = isoDownloadsHtml.match(/<nav[^>]*aria-label="Download the ISO images"[^>]*>([\s\S]*?)<\/nav>/)?.[1]
 assert(downloadButtons, "The main Vault and Node download buttons are missing")
 const downloadUrls = [...downloadButtons.matchAll(/href="([^"]+\.iso)"/g)].map(match => match[1])
-const comparedUrls = [...isoVerificationHtml.matchAll(/^\s*base=(https:\/\/[^\s]+)\s+image=([^\s]+\.iso)$/gm)]
-  .map(([, base, image]) => base + "/" + image)
 for (const product of ["vault", "node"]) {
-  const matches = downloadUrls.filter(url => url.includes("/bitcoin-core-" + product + "-releases/"))
-  assert(matches.length === 1 && comparedUrls.includes(matches[0]),
-    "The main " + product + " download must match an ISO in the build-and-compare instructions")
+  const urls = downloadUrls.filter(url => url.includes("/bitcoin-core-" + product + "-releases/"))
+  assert(urls.length === 1, "Expected one current ISO download for " + product)
+  const comparison = isoVerificationHtml.split(`id="compare-current-${product}">`)[1]?.split("</details>")[0]
+  const filename = new URL(urls[0]).pathname.split("/").pop()
+  assert(comparison?.includes(`href="${urls[0]}"`) &&
+    comparison.includes(`reference=&quot;$HOME/Downloads/${filename}&quot;`) &&
+    comparison.includes("cmp -- &quot;$reference&quot; &quot;$candidate&quot;"),
+    "The " + product + " comparison must use the ISO offered by its current download button")
 }
 
 const entryScriptMatch = distIndexHtml.match(

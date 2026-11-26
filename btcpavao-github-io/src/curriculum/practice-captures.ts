@@ -71,7 +71,7 @@ const captureData = {
     "height": 800,
     "context": "Vault v0.9.0 · offline live session",
     "alt": "The built-in Vault Guide shows its navigation and instructions for using the offline wallet.",
-    "caption": "Keep the guide open beside the wallet when practising the offline workflow."
+    "caption": "Keep the guide open beside the wallet when practicing the offline workflow."
   },
   "vault-backup-restore": {
     "src": "/software/screenshots/vault/v0.9.0/backup-restore.webp",
@@ -156,6 +156,12 @@ const captureData = {
     "context": "Node v0.1.0-rc.4 · signed release verification",
     "alt": "GnuPG accepts the Node RC4 checksum-list signature from the required publisher fingerprint, and sha256sum reports OK for the published ISO.",
     "caption": "Node v0.1.0-rc.4: the manifest signature matches the publisher fingerprint, and the downloaded ISO matches its signed checksum. Confirm the fingerprint independently before trusting it."
+  },
+  "vault-isolation-console": {
+    src: base + "vault-v0.6.0/stock-vault-isolation.webp", width: 1274, height: 337,
+    context: "Archived Vault v0.6.0 · Bitcoin Core console",
+    alt: "The console shows getnetworkinfo()[networkactive] returning false and getconnectioncount returning 0.",
+    caption: "Run both checks in your own Vault session. The first shows whether Core networking is enabled. The second counts connected peers.",
   },
   "vault-home": {
     "src": "/software/screenshots/vault/v0.9.0/home.webp",
@@ -414,7 +420,7 @@ export const capturePlacements: Record<string, Record<string, CaptureKey[]>> = {
     "wallet": ["vault-create", "vault-backup"],
     "debian-datadir": ["vault-backup-complete", "vault-usb-backup"],
     "coldboot": ["vault-restart", "vault-recovered-ram", "vault-restore-success"],
-    "isolate": [],
+    "isolate": ["vault-isolation-console"],
   },
   "ibd-does-not-block-wallet-learning": {
     "overview": ["node-peers"],

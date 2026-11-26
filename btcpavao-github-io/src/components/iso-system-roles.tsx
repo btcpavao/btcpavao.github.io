@@ -4,8 +4,8 @@ import { captures } from "../curriculum/practice-captures"
 import "./iso-system-roles.css"
 
 export function IsoSystemRoles() {
-  const vaultBackup = captures["vault-backup"]
-  const nodeBackup = captures["node-backup"]
+  const vaultHome = captures["vault-home"]
+  const nodeHome = captures["node-home"]
   return (
     <section className="iso-system-roles" id="systems" aria-labelledby="systems-heading">
       <h2 id="systems-heading">Inside Vault and Node</h2>
@@ -26,9 +26,9 @@ export function IsoSystemRoles() {
             blocks traffic to and from other computers.
           </p>
           <figure>
-            <ZoomableImage src={vaultBackup.src} fullSrc={vaultBackup.fullSrc} alt={vaultBackup.alt}
-              width={vaultBackup.width} height={vaultBackup.height} loading="lazy" decoding="async" />
-            <figcaption>{vaultBackup.context}. {vaultBackup.caption}</figcaption>
+            <ZoomableImage src={vaultHome.src} fullSrc={vaultHome.fullSrc} alt={vaultHome.alt}
+              width={vaultHome.width} height={vaultHome.height} loading="lazy" decoding="async" />
+            <figcaption>Vault Home in v0.9.0. Open Bitcoin Core to sign or Wallet Backup to save an encrypted copy.</figcaption>
           </figure>
           <dl>
             <div>
@@ -56,9 +56,9 @@ export function IsoSystemRoles() {
             validates blocks and uses a watch-only copy of your wallet to track payments.
           </p>
           <figure>
-            <ZoomableImage src={nodeBackup.src} fullSrc={nodeBackup.fullSrc} alt={nodeBackup.alt}
-              width={nodeBackup.width} height={nodeBackup.height} loading="lazy" decoding="async" />
-            <figcaption>{nodeBackup.context}. {nodeBackup.caption}</figcaption>
+            <ZoomableImage src={nodeHome.src} fullSrc={nodeHome.fullSrc} alt={nodeHome.alt}
+              width={nodeHome.width} height={nodeHome.height} loading="lazy" decoding="async" />
+            <figcaption>Node Home in RC4. Open Bitcoin Core to work with the watch-only wallet and broadcast signed payments.</figcaption>
           </figure>
           <dl>
             <div>

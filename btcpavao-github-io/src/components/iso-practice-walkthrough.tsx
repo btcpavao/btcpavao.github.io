@@ -87,7 +87,7 @@ function OfflinePayment() {
   return (
     <section id="practice-without-funds" aria-labelledby="practice-payment-heading" className="scroll-mt-24 border-t border-border py-6">
       <h3 id="practice-payment-heading" className="mb-3 text-2xl font-bold tracking-tight">Follow a payment from proposal to broadcast</h3>
-      <p className="max-w-prose leading-7">These earlier Bitcoin Core 32.1 screens follow one transaction on Regtest, a private network where you can practise with coins that have no monetary value. The transfer USB carries a partially signed Bitcoin transaction (PSBT) between the computers.</p>
+      <p className="max-w-prose leading-7">These earlier Bitcoin Core 32.1 screens follow one transaction on Regtest, a private network where you can practice with coins that have no monetary value. The transfer USB carries a partially signed Bitcoin transaction (PSBT) between the computers.</p>
       <ol role="list" className="my-5 grid list-none gap-6 lg:grid-cols-3">
         {paymentSteps.map(({ title, icon: Icon, shot, text }) => (
           <li key={title} className="flex min-w-0 flex-col">
@@ -99,7 +99,7 @@ function OfflinePayment() {
       </ol>
       <nav className="first-run-links" aria-label="Offline payment exercises">
         <a href="#first-run">Start with an empty practice wallet</a>
-        <a href={practiceLesson("first-offline-signed-transaction")}>Practise this payment step by step</a>
+        <a href={practiceLesson("first-offline-signed-transaction")}>Practice this payment step by step</a>
       </nav>
     </section>
   )
@@ -127,7 +127,7 @@ export function WalletRecovery() {
       </details>
       <nav className="first-run-links" aria-label="Wallet recovery exercises">
         <a href={`${BITCOIN_CORE_WALLET_GUIDE_PATH}?setup=vault`}>Make and restore an encrypted backup</a>
-        <a href={practiceLesson("recovery-drill-without-original-coordinator")}>Practise with a replacement signer and node</a>
+        <a href={practiceLesson("recovery-drill-without-original-coordinator")}>Practice with a replacement signer and node</a>
       </nav>
     </section>
   )

@@ -129,7 +129,7 @@ const latestPosts = contentRegistry
   .map((entry) => ({
     category: entry.section.startsWith("core") ? "Bitcoin Core" : "Writing",
     language: "EN",
-    date: new Intl.DateTimeFormat("en", {
+    date: new Intl.DateTimeFormat("en-US", {
       dateStyle: "long",
       timeZone: "UTC",
     }).format(new Date(`${entry.publishedAt}T00:00:00Z`)),
@@ -318,7 +318,7 @@ export function Homepage() {
               <p className="mt-4 max-w-xl text-sm leading-6 text-muted-foreground">
                 Start with a 15-minute introduction. If a longer advisory
                 session would help, we can arrange it on a Value for Value
-                basis: afterwards, you decide what it was worth.
+                basis: afterward, you decide what it was worth.
               </p>
             </div>
           </div>
@@ -891,7 +891,7 @@ export function Homepage() {
               <p className="mt-5 max-w-2xl text-sm leading-7 text-white/72">
                 The calendar opens a 15-minute introduction. If we arrange a
                 longer advisory session, it works on a Value for Value basis:
-                afterwards, you decide what it was worth. No fixed fee or
+                afterward, you decide what it was worth. No fixed fee or
                 obligation.
               </p>
               <p className="mt-6 text-sm text-white/60">

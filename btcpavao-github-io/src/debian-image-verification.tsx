@@ -13,36 +13,9 @@ const nodeRepo = nodeBuild.repo
 const nodeSnapshot = "669e90f9768975924ae443225f23f78cb4a28ecf"
 const nodeSource = nodeRepo + "/blob/" + nodeSnapshot + "/source"
 
-const builds = {
-  Vault: {
-    repo: vaultRepo,
-    tag: vaultBuild.tag,
-    revision: vaultBuild.revision,
-    digest: vaultBuild.sha256,
-    download: vaultBuild.isoName,
-    inventory: "image-packages.tsv",
-    result: "live-image-amd64.hybrid.iso",
-    build: "QT_QPA_PLATFORM=offscreen PYTHONDONTWRITEBYTECODE=1 bash tools/core-vault/build-live-iso.sh",
-    proofUrl: vaultBuild.proofUrl,
-    reproducible: false,
-  },
-  Node: {
-    repo: nodeRepo,
-    tag: nodeRc3Build.tag,
-    revision: nodeRc3Build.revision,
-    digest: nodeRc3Build.sha256,
-    download: nodeRc3Build.isoName,
-    inventory: "filesystem.packages",
-    result: "../node-result/bitcoin-core-node-candidate-amd64.iso",
-    build: "sudo bash rebuild/node build ../node-result",
-    proofUrl: nodeRc3Build.proofUrl,
-    reproducible: true,
-  },
-}
+type Product = "Vault" | "Node"
 
-type Product = keyof typeof builds
-
-const vaultExport = vaultRepo + "/blob/" + builds.Vault.revision + "/config/includes.chroot/usr/lib/core-vault/public_export.py"
+const vaultExport = vaultRepo + "/blob/" + vaultBuild.revision + "/config/includes.chroot/usr/lib/core-vault/public_export.py"
 
 function BuildLinks({ product }: { product: Product }) {
   if (product === "Node") return (
@@ -54,14 +27,14 @@ function BuildLinks({ product }: { product: Product }) {
       <a href={nodeBuild.limitsUrl}>Test scope and limits</a>
     </nav>
   )
-  const { repo, tag, revision, inventory, proofUrl } = builds[product]
+  const { repo, tag, revision, proofUrl } = vaultBuild
   const files = repo + "/releases/download/" + tag + "/"
   return (
     <nav className="build-evidence-links" aria-label={product + " release evidence"}>
       <a href={repo + "/tree/" + revision}><Braces size={15} aria-hidden="true" />Browse release code</a>
-      <a href={files + inventory}><List size={15} aria-hidden="true" />Installed packages</a>
+      <a href={files + "image-packages.tsv"}><List size={15} aria-hidden="true" />Installed packages</a>
       <a href={repo + "/releases/tag/" + tag}><Disc3 size={15} aria-hidden="true" />Signed release files</a>
-      <a href={proofUrl}><GitCompareArrows size={15} aria-hidden="true" />{product === "Vault" ? "Build provenance" : product + " rebuild log"}</a>
+      <a href={proofUrl}><GitCompareArrows size={15} aria-hidden="true" />Build provenance</a>
     </nav>
   )
 }
@@ -109,75 +82,88 @@ function VerificationIllustration({ file, alt, caption, sizes = "(min-width: 960
   )
 }
 
-function RebuildSteps({ product }: { product: Product }) {
-  if (!builds[product].reproducible) {
-    return (
-      <details className="build-instructions">
-        <summary>Review the current Vault build</summary>
-        <p>Vault {vaultBuild.tag} is the tested local ISO identified by the signed checksum list. Its source, package inputs and validation records are published with the release. A byte-identical independent rebuild of this image has not yet been demonstrated.</p>
-        <p>Read the <a href={vaultBuild.instructionsUrl}>current build instructions and limits</a> and the <a href={vaultBuild.proofUrl}>build provenance</a> before rebuilding. A functional build from source is not by itself evidence that it matches the published ISO byte for byte.</p>
-        <p>The <a href="https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.8.0">archived Vault v0.8.0 release</a> retains its separate reproducibility records. Those records describe that older ISO.</p>
-      </details>
-    )
-  }
-  const { repo, tag, revision, build, result, download, digest } = builds[product]
-  const folder = product === "Vault" ? "vault-release" : "node-candidate"
-  const readAs = product === "Node" ? "sudo " : ""
+function CurrentIsoComparison({ product }: { product: Product }) {
+  const release = product === "Vault" ? vaultBuild : nodeBuild
+  const role = product.toLowerCase()
+  return (
+    <details className="build-instructions" id={`compare-current-${role}`}>
+      <summary>Compare your candidate with {product} {release.tag}</summary>
+      <p>Save the <a href={release.isoUrl}>published {product} ISO</a> in Downloads and
+        follow the <a href={DEBIAN_IMAGES_PATH + "#verify-" + role + "-download"}>signed checksum check</a>.
+        Keep your own candidate in a separate file.</p>
+      {product === "Vault"
+        ? <p>The <a href={release.instructionsUrl}>Vault build guide</a> lists the Debian 13 prerequisites and the command that produces <code>live-image-amd64.hybrid.iso</code>. Use that output as your candidate.</p>
+        : <p>The <a href={nodeBuild.recipeUrl}>RC4 recipe archive</a> records how the publisher assembled the image. Some inputs were local to that build. If you have produced an RC4 candidate, use its ISO here.</p>}
+      <p>In Bash on Debian, run the block below. At the prompt, type the full path to your candidate, without quotation marks.</p>
+      <Commands title={`Compare with ${product} ${release.tag}`} lines={[
+        "(",
+        "  set -eu",
+        '  reference="$HOME/Downloads/' + release.isoName + '"',
+        '  expected=' + release.sha256,
+        "  printf '%s  %s\\n' \"$expected\" \"$reference\" | sha256sum --check -",
+        '  read -r -p "Path to your candidate ISO: " candidate',
+        '  if [[ ! -f "$candidate" || "$candidate" -ef "$reference" ]]; then',
+        '    echo "Choose a separate candidate ISO file." >&2',
+        '    exit 1',
+        '  fi',
+        '  cmp -- "$reference" "$candidate"',
+        '  echo "MATCH: the two ISO files are byte-identical."',
+        ")",
+      ]} />
+      <p><code>OK</code> confirms the release file’s checksum. <code>MATCH</code> appears only when the entire candidate matches it. If the files differ, keep the output and build log with the source revision you tested.</p>
+    </details>
+  )
+}
+
+function HistoricalNodeRebuild() {
+  const { repo, tag, revision, isoName, sha256 } = nodeRc3Build
   return (
     <details className="build-instructions">
-      <summary>Historical {product} {tag} rebuild and comparison</summary>
+      <summary>Historical Node {tag} rebuild and comparison</summary>
       <p>These commands reproduce the archived {tag} ISO. They do not build or verify the current Node {nodeBuild.tag} download.</p>
       <ol>
         <li>
           <strong>Get the exact source.</strong> In the VM, open a terminal in a fresh folder. The block prints and checks the full commit ID. Continue when it matches <code>{revision}</code>.
-          <Commands title={product + " source revision"} lines={[
-            "git clone " + (product === "Node" ? "--depth 1 " : "") + "--branch " + tag + " " + repo + ".git " + folder + " &&",
-            "  cd " + folder + " &&",
+          <Commands title="Node source revision" lines={[
+            "git clone --depth 1 --branch " + tag + " " + repo + ".git node-candidate &&",
+            "  cd node-candidate &&",
             "  git rev-parse HEAD &&",
             '  test "$(git rev-parse HEAD)" = ' + revision,
           ]} />
-          {product === "Node" && <VerificationShot file="node-source-revision" width={1114} height={223}
+          <VerificationShot file="node-source-revision" width={1114} height={223}
             alt="A checkout of the Node candidate prints the full Git commit beginning with e6519d7e5e95."
-            caption="Example from an earlier release. For RC3, compare the full revision printed by the command above." />}
+            caption="Example from an earlier release. For RC3, compare the full revision printed by the command above." />
         </li>
         <li>
           <strong>Review what the project changes.</strong>{" "}
-          {product === "Vault" ? <>
-            Open the <a href={vaultRepo + "/compare/v0.7.0..." + revision}>changes since Vault v0.7.0</a> and
-            the <a href={vaultRepo + "/tree/" + revision + "/tools/rebuild/packages/sources"}>patched package sources</a>.
-            For example, inspect how Vault checks a watch-only wallet or signed PSBT before writing it to a transfer drive.
-            The release includes the corresponding Calamares and Thunar sources.
-          </> : <>
             Open the <a href={nodeRepo + "/blob/" + revision + "/rebuild/node.patch"}>patch applied to the signed RC2 source</a>.
             Extract the resulting files with the command below. Open <code>../node-inspection/app/chain_backup.py</code> to see how the Node copies blockchain data.
             <Commands title="Inspect the Node source" lines={["bash rebuild/node source ../node-inspection"]} />
-          </>}
         </li>
         <li>
           <strong>Build the ISO.</strong> Stay in the same terminal and directory. The command needs
           a new result folder and may take hours. Docker provides the specified build environment. Continue after it finishes successfully.
-          {product === "Vault" && <p>The Vault entry point makes a new functional candidate named <code>live-image-amd64.hybrid.iso</code>. Read the current build guide for its prerequisites and limits; equality with the published ISO has not yet been demonstrated.</p>}
-          <Commands title={"Build the " + product + " ISO"} lines={['test "$(git rev-parse HEAD)" = ' + revision + " &&", "  " + build]} />
+          <Commands title="Build the Node ISO" lines={['test "$(git rev-parse HEAD)" = ' + revision + " &&", "  sudo bash rebuild/node build ../node-result"]} />
         </li>
         <li>
           <strong>Compare your ISO with the published image.</strong> Run this block from the same
           directory. It downloads the published file, checks both SHA-256 values, then compares every byte.
-          <Commands title={"Compare the " + product + " ISOs"} lines={[
+          <Commands title="Compare the Node ISOs" lines={[
             "(",
             "  set -euo pipefail",
             "  base=" + repo + "/releases/download/" + tag,
-            "  image=" + download,
-            "  built=" + result,
-            "  expected=" + digest,
+            "  image=" + isoName,
+            "  built=../node-result/bitcoin-core-node-candidate-amd64.iso",
+            "  expected=" + sha256,
             '  curl --fail --location --retry 3 -o "../$image" "$base/$image"',
-            "  printf '%s  %s\\n' \"$expected\" \"$built\" \"$expected\" \"../$image\" | " + readAs + "sha256sum --check",
-            '  ' + readAs + 'cmp -- "$built" "../$image"',
-            '  echo "MATCH: your ' + product + ' ISO and the published image are identical."',
+            "  printf '%s  %s\\n' \"$expected\" \"$built\" \"$expected\" \"../$image\" | sudo sha256sum --check",
+            '  sudo cmp -- "$built" "../$image"',
+            '  echo "MATCH: your Node ISO and the published image are identical."',
             ")",
           ]} />
         </li>
       </ol>
-      <p><a href={repo + "/blob/" + revision + "/docs/REBUILD.md"}>Full {product} build guide and troubleshooting</a></p>
+      <p><a href={repo + "/blob/" + revision + "/docs/REBUILD.md"}>Full Node build guide and troubleshooting</a></p>
     </details>
   )
 }
@@ -207,7 +193,7 @@ export function DebianImageVerification() {
         <strong>Before writing a USB stick, check the fingerprint for the ISO you downloaded.</strong> If you
         are deciding whether to trust the software with a wallet, go further. Even a perfect copy
         can reproduce a programming mistake. Reading how the system handles a wallet and testing that
-        behaviour with an empty practice wallet answer questions a file comparison leaves open.
+        behavior with an empty practice wallet answer questions a file comparison leaves open.
         You can do all the file checks on a separate computer before booting either image.
       </p>
       <h3 id="upstream-programs" className="learning-heading"><PackageOpen className="section-pictogram" aria-hidden="true" /><span>Where do the programs come from?</span></h3>
@@ -219,26 +205,26 @@ export function DebianImageVerification() {
       </p>
       <dl className="verification-suppliers">
         <div><dt>Debian GNU/Linux</dt><dd>The operating system and many tools, including GnuPG for encryption,
-          come as <strong>packages</strong> (bundles of program files). Debian signs its catalogue.
-          Its package manager, APT, checks the catalogue’s signature, then follows its checksums down to
+          come as <strong>packages</strong> (bundles of program files). Debian signs its catalog.
+          Its package manager, APT, checks the catalog’s signature, then follows its checksums down to
           the individual package. For example, the <code>gpg</code> program inside the earlier Vault v0.7.0 and the earlier signed Node RC2
           matched Debian’s package <code>2.4.7-21+deb13u1+b5</code> byte for byte in our check.
           A package inventory lists the versions installed.{" "}
           <a href="https://www.debian.org/doc/manuals/debian-handbook/sect.package-authentication.en.html">How Debian authenticates packages</a>{" · "}
-          <a href={vaultRepo + "/blob/" + builds.Vault.revision + "/tools/rebuild/inside.sh#L11-L45"}>How Vault checks the Debian snapshot</a></dd></div>
+          <a href={vaultRepo + "/blob/" + vaultBuild.revision + "/tools/rebuild/inside.sh#L11-L45"}>How Vault checks the Debian snapshot</a></dd></div>
         <div><dt>Bitcoin Core 32.1</dt><dd>Both images include the graphical wallet (<code>bitcoin-qt</code>)
           and its command-line companion (<code>bitcoin-cli</code>). Bitcoin Core publishes a signed list of
           hashes for its downloads. Authenticate its Linux archive, unpack the two programs and compare them
           with the copies inside your chosen ISO. A byte match is stronger evidence than a version number
           in an About window.{" "}
           <a href="https://bitcoincore.org/bin/bitcoin-core-32.1/">Official 32.1 files</a>{" · "}
-          <a href={vaultRepo + "/blob/" + builds.Vault.revision + "/provenance/32.1/verification.json"}>Recorded archive and executable hashes</a></dd></div>
+          <a href={vaultRepo + "/blob/" + vaultBuild.revision + "/provenance/32.1/verification.json"}>Recorded archive and executable hashes</a></dd></div>
         <div><dt>KeePassXC 2.8.0</dt><dd>This password and passphrase tool comes in an <strong>AppImage</strong>,
           a single downloadable bundle. KeePassXC signs that bundle with its own release key. The images install
           the extracted application and give it project-specific launchers or settings. Compare the executable
           inside the authenticated bundle with the executable inside the ISO.{" "}
           <a href="https://keepassxc.org/verifying-signatures/">KeePassXC’s signature instructions</a>{" · "}
-          <a href={vaultRepo + "/blob/" + builds.Vault.revision + "/tools/core-vault/manifests/keepassxc-release.json"}>Pinned version, key and hash</a></dd></div>
+          <a href={vaultRepo + "/blob/" + vaultBuild.revision + "/tools/core-vault/manifests/keepassxc-release.json"}>Pinned version, key and hash</a></dd></div>
       </dl>
       <UpstreamComparison />
       <h3 className="learning-heading"><LockKeyhole className="section-pictogram" aria-hidden="true" /><span>What Vault adds to the offline computer</span></h3>
@@ -249,8 +235,8 @@ export function DebianImageVerification() {
         the installer. A <strong>patch</strong> is a record of edits you can read, like tracked changes
         in a document. A <strong>commit</strong> identifies one saved revision, so two readers can
         discuss the very same lines.{" "}
-        <a href={vaultRepo + "/tree/" + builds.Vault.revision + "/tools/core-vault/calamares"}>Current installer patches</a>{" · "}
-        <a href={vaultRepo + "/tree/" + builds.Vault.revision + "/tools/rebuild/packages/sources"}>File-manager source inputs</a>
+        <a href={vaultRepo + "/tree/" + vaultBuild.revision + "/tools/core-vault/calamares"}>Current installer patches</a>{" · "}
+        <a href={vaultRepo + "/tree/" + vaultBuild.revision + "/tools/rebuild/packages/sources"}>File-manager source inputs</a>
       </p>
       <BuildLinks product="Vault" />
       <h3 className="learning-heading"><Network className="section-pictogram" aria-hidden="true" /><span>What Node adds to the online computer</span></h3>
@@ -309,9 +295,9 @@ export function DebianImageVerification() {
       <ol>
         <li>
           <strong>Give the AI the exact edition.</strong> Choose{" "}
-          <a href={vaultRepo + "/tree/" + builds.Vault.revision}>the Vault {vaultBuild.tag} source</a> or{" "}
+          <a href={vaultRepo + "/tree/" + vaultBuild.revision}>the Vault {vaultBuild.tag} source</a> or{" "}
           <a href={nodeBuild.sourceUrl}>the current Node source archive</a>.
-          Start with the full release. A <a href={vaultRepo + "/compare/v0.8.0..." + builds.Vault.revision}>diff between two Vault versions</a> can then show individual edits, including an added line marked <code>+</code> or a removed line marked <code>−</code>. If your assistant cannot open the link, give it the relevant public files from the verified archive.
+          Start with the full release. A <a href={vaultRepo + "/compare/v0.8.0..." + vaultBuild.revision}>diff between two Vault versions</a> can then show individual edits, including an added line marked <code>+</code> or a removed line marked <code>−</code>. If your assistant cannot open the link, give it the relevant public files from the verified archive.
           Keep wallet files, private descriptors, passphrases and signing keys out of the conversation.
           <details className="build-instructions">
             <summary>Get the source folder for my assistant</summary>
@@ -330,7 +316,7 @@ export function DebianImageVerification() {
               alt="Three linked cards follow a file-selection action to a line of code and onward to a USB drive. A pencil points to the line to inspect."
               caption="Ask the AI to follow one action through the public release code. For example, when Vault saves a signed PSBT, which file handles the request, what does it check, and where does it write? Ask for links to the exact source lines and open them yourself." />
             <Commands kind="prompt" title="Vault · trace a USB export" lines={[
-              "Use the public Vault " + vaultBuild.tag + " source at " + vaultRepo + "/tree/" + builds.Vault.revision + ". Read the code without executing it.",
+              "Use the public Vault " + vaultBuild.tag + " source at " + vaultRepo + "/tree/" + vaultBuild.revision + ". Read the code without executing it.",
               "I click File → Export watch-only wallet and choose a USB drive. Follow the action from Bitcoin Core to Vault’s export helper. Start with export_view.py and public_export.py. Which code belongs to Core, and which to Vault? What is held in RAM, what is checked, what reaches the drive, and what happens if a check fails?",
               "Explain each step in everyday language. For each claim give the exact file, function and line link for this revision, or file and line numbers if working locally. Identify anything you could not verify. Suggest one test using an empty practice wallet.",
             ]} />
@@ -349,7 +335,7 @@ export function DebianImageVerification() {
           For the current Node, inspect <code>node-inspection/app/chain_backup.py</code> from its matching source archive and follow its actual call paths.
           The older RC2 <a href={nodeSource + "/app/chain_backup.py#L28"}>folder list</a> and
           {" "}<a href={nodeSource + "/app/chain_backup.py#L220-L240"}>copy loop</a> are historical examples, not citations for the current code.
-          If an answer cites only a comment or a README, ask for the code that enforces the behaviour.
+          If an answer cites only a comment or a README, ask for the code that enforces the behavior.
           An AI can overlook another code path. Treat an unsupported claim as an open question.
         </li>
       </ol>
@@ -383,7 +369,7 @@ export function DebianImageVerification() {
           '  echo "MATCH: Node chain_backup.py"',
           ")",
         ]} />
-        <p>These checks cover the contents of the selected paths. File permissions, other packages and behaviour on a running computer need their own checks.</p>
+        <p>These checks cover the contents of the selected paths. File permissions, other packages and behavior on a running computer need their own checks.</p>
       </details>
 
       <h3 id="rebuild-tutorial" className="learning-heading"><Hammer className="section-pictogram" aria-hidden="true" /><span>Build an image from source, step by step</span></h3>
@@ -400,39 +386,24 @@ export function DebianImageVerification() {
         <p><strong>Node {nodeBuild.tag}</strong>The current download has a matching source archive and <a href={nodeBuild.proofUrl}>recorded build provenance</a>. An independent byte-identical rebuild has not yet been demonstrated. {nodeBuild.signatureStatus === "pending" && "Its PGP signature is also pending."} Read the <a href={nodeBuild.instructionsUrl}>current release instructions and limits</a>.</p>
         <p><strong>Historical Node {nodeRc3Build.tag}</strong>The <a href={nodeRc3Build.proofUrl}>RC3 comparison job</a> matched two complete builds. Those results and the <a href={nodeRc3Build.releaseUrl}>signed RC3 files</a> remain evidence for that older ISO. The archived rebuild walkthrough below is pinned to RC3.</p>
       </div>
-      <details className="build-instructions">
-        <summary>Already downloaded an ISO? Check its SHA-256 first</summary>
-        <p>Open a terminal in the download folder and run the line for your ISO.
-          An <strong>OK</strong> result confirms that the file has the published hash for that image.
-          To check that the source produces those bytes, continue with the build below.</p>
-        <Commands title={"Check the Vault " + vaultBuild.tag + " hash"} lines={[
-          "echo '" + builds.Vault.digest + "  " + builds.Vault.download + "' | sha256sum --check -",
-        ]} />
-        <Commands title="Check the Node candidate hash" lines={[
-          "echo '" + nodeBuild.sha256 + "  " + nodeBuild.isoName + "' | sha256sum --check -",
-        ]} />
-        <VerificationShot file="vault-v060-checksum" width={1256} height={178}
-          alt="The checksum command prints OK next to bitcoin-core-vault-v0.6.0-amd64.iso."
-          caption="This earlier Vault v0.6.0 example shows a matching SHA-256. The separate signature check authenticates that checksum." />
-      </details>
+      <CurrentIsoComparison product="Vault" />
+      <CurrentIsoComparison product="Node" />
       <p>
-        <strong>Prepare a clean build computer.</strong> Use a fresh Debian 13 amd64 virtual machine
-        with internet access, 4 CPU cores, 8 GB of RAM and at least 50 GB of free disk for one build.
-        Open Bash, the VM’s command terminal, and run the commands below. Docker runs the build with permission to mount
-        filesystems, so keep wallets, signing keys and personal files outside this VM.
+        <strong>Historical RC3 build environment.</strong> To repeat the archived Node build,
+        use a fresh Debian 13 amd64 virtual machine with internet access, 4 CPU cores, 8 GB of RAM
+        and at least 50 GB of free disk. Open Bash in that VM. Docker mounts filesystems during the build.
       </p>
       <Commands title="Prepare the build VM" lines={[
         "sudo apt update && sudo apt install ca-certificates curl docker.io docker-cli git gnupg patch xz-utils",
         "sudo systemctl start docker",
         "sudo docker version",
       ]} />
-      <p>When Docker shows a <strong>Server</strong> section, read the current Vault notes or the historical Node RC3 walkthrough below. The latter does not produce Node {nodeBuild.tag}.</p>
-      <RebuildSteps product="Vault" />
-      <RebuildSteps product="Node" />
+      <p>When Docker shows a <strong>Server</strong> section, follow the historical Node RC3 walkthrough below.</p>
+      <HistoricalNodeRebuild />
       <h3 id="verification-results" className="learning-heading"><CircleCheckBig className="section-pictogram" aria-hidden="true" /><span>Read the result</span></h3>
       <p>
         Two <strong>OK</strong> lines followed by <strong>MATCH</strong> mean your build and the published
-        image are identical, down to the last byte. This example from an earlier Node release shows the output from two builders. Running the recipe on infrastructure you control provides a separate check. Assessing what the software does also requires reading the code and testing its behaviour.
+        image are identical, down to the last byte. This example from an earlier Node release shows the output from two builders. Running the recipe on infrastructure you control provides a separate check. Assessing what the software does also requires reading the code and testing its behavior.
       </p>
       <VerificationShot file="node-ci-comparison" width={906} height={348}
         alt="The Node GitHub comparison log shows identical SHA-256 values for both build outputs and a final MATCH."

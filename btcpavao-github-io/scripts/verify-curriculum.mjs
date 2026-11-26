@@ -352,7 +352,7 @@ try {
     }
   )
   check(
-    "Threat modelling precedes products; Debian is the default and Tails and the GPG exercise are optional",
+    "Threat modeling precedes products; Debian is the default and Tails and the GPG exercise are optional",
     () => {
       assert.ok(ids.indexOf("0.2") < ids.indexOf("1.1"))
       assert.ok(

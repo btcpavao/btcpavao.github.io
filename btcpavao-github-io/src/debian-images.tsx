@@ -380,7 +380,7 @@ export function DebianImagesPage() {
                 before relying on the backup.
               </p>
               <a href="/bitcoin-core/wallet-setup-backup-recovery/#optional-backup-protection">
-                Practise GPG backup and recovery now →
+                Practice GPG backup and recovery now →
               </a>
             </div>
             <div className="debian-session-note">

@@ -340,7 +340,7 @@ export const contentRegistry = [
     locale: "en",
     title: "Quick Bitcoin Core Practice | BTC Pavao",
     description:
-      "Practise with Bitcoin Core 32.1 on your desktop or with Vault. Verify your download, create an empty practice wallet and save a backup you can restore.",
+      "Practice with Bitcoin Core 32.1 on your desktop or with Vault. Verify your download, create an empty practice wallet and save a backup you can restore.",
     contentType: "tutorial",
     section: "core-practical",
     publishedAt: null,

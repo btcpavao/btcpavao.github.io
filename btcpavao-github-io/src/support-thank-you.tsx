@@ -117,7 +117,7 @@ export function SupportThankYouPage() {
                 <p>
                   My one-to-one consulting works on the same Value for Value
                   principle. There is no predetermined consulting fee. We have
-                  the conversation first, and afterwards you decide what value,
+                  the conversation first, and afterward you decide what value,
                   if any, you want to return based on how useful it was to you.
                 </p>
                 <p>
@@ -144,7 +144,7 @@ export function SupportThankYouPage() {
                   </h3>
                   <p className="mt-2 text-sm leading-7 text-muted-foreground">
                     If we arrange a longer advisory conversation, there is no
-                    fixed consulting price. Afterwards you decide what it was
+                    fixed consulting price. Afterward you decide what it was
                     worth to you.
                   </p>
                 </div>

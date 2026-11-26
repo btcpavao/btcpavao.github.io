@@ -456,7 +456,7 @@ const legacySteps: GuideStep[] = [
           <ResourceLink href={BITCOIN_CORE_DOWNLOAD_URL}>
             verified Bitcoin Core
           </ResourceLink>{" "}
-          . For now, practise creating, encrypting, backing up and restoring an
+          . For now, practice creating, encrypting, backing up and restoring an
           empty wallet. The curriculum covers preparing a computer for real funds.
         </p>
       </>
@@ -901,7 +901,7 @@ const steps: GuideStep[] = [
     note: (
       <>
         Opening the backup is the first check. The curriculum then helps you
-        practise a payment with valueless test coins, before preparing real funds.
+        practice a payment with valueless test coins, before preparing real funds.
       </>
     ),
   },
@@ -985,7 +985,7 @@ const vaultSteps: Record<number, Partial<GuideStep>> = {
       decrypted into Private Workspace and restored as <strong>Restored Practice</strong>. Compare the
       address and label in the before and after screenshots.</p>
       <p>This wallet held no funds. Continue with the <ResourceLink href={vaultLesson("first-offline-signed-transaction")}>offline-signed
-      Regtest payment</ResourceLink> to practise signing a payment, then <ResourceLink href={vaultLesson("recovery-drill-without-original-coordinator")}>repeat
+      Regtest payment</ResourceLink> to practice signing a payment, then <ResourceLink href={vaultLesson("recovery-drill-without-original-coordinator")}>repeat
       the payment with replacement computers</ResourceLink>.</p></>,
   },
 }
@@ -1283,7 +1283,7 @@ function OptionalBackupProtection({ vault }: { vault: boolean }) {
             GPG puts the whole wallet backup inside an encrypted file. Think of
             it as a locked envelope: the GPG passphrase opens the envelope, and
             the separate Core passphrase unlocks the wallet inside for spending.
-            Start with one GPG layer and practise opening it again.
+            Start with one GPG layer and practice opening it again.
           </p>
 
           <div className="mt-8 max-w-[75ch] space-y-5 text-base leading-8 text-white/80 [&_strong]:text-white">
@@ -1485,13 +1485,13 @@ function ArchitectureDiagram({ onOpen }: { onOpen: (image: GuideImage, opener: H
         </li>
         <li className="rounded-[20px] bg-card p-5 shadow-[var(--shadow-border)]">
           <h3 className="learning-heading font-bold"><SectionIcon topic="review" />Node → Vault · unsigned payment proposal</h3>
-          <p className="my-2 leading-7">On a matching practice network, Node creates an unsigned PSBT. Transfer it to Vault. Check every recipient, amount, change output and fee before signing. The curriculum shows one payment on isolated Regtest. <ResourceLink href={vaultLesson("psbt-debugging")}>Download and inspect the original unsigned PSBT</ResourceLink> before practising with your own proposal.</p>
+          <p className="my-2 leading-7">On a matching practice network, Node creates an unsigned PSBT. Transfer it to Vault. Check every recipient, amount, change output and fee before signing. The curriculum shows one payment on isolated Regtest. <ResourceLink href={vaultLesson("psbt-debugging")}>Download and inspect the original unsigned PSBT</ResourceLink> before practicing with your own proposal.</p>
           <ResourceLink href={vaultLesson("first-offline-signed-transaction")}>Follow the first offline-signed payment</ResourceLink>
         </li>
         <li className="rounded-[20px] bg-card p-5 shadow-[var(--shadow-border)]">
           <h3 className="learning-heading font-bold"><SectionIcon topic="check" />Vault → Node · signed payment</h3>
           <p className="my-2 leading-7">Choose <strong>Save…</strong> and save the signed PSBT under a distinct name on the transfer USB. On Node, reload it, broadcast and check for a confirmation. To prove that your setup survives replacement of both computers, repeat that payment exercise with a recovered signer and a fresh public export.</p>
-          <ResourceLink href={vaultLesson("recovery-drill-without-original-coordinator")}>Practise recovery on two replacements</ResourceLink>
+          <ResourceLink href={vaultLesson("recovery-drill-without-original-coordinator")}>Practice recovery on two replacements</ResourceLink>
         </li>
       </ol>
     </section>
@@ -1602,7 +1602,7 @@ export function BitcoinCoreWalletGuidePage() {
             recommendedOs={vault ? "Use Vault offline on a dedicated compatible computer. Both live and installed modes start each private session in RAM." : "For this empty-wallet exercise, use a maintained desktop OS. For serious funds, I recommend a dedicated computer with a fresh Debian Stable installation."}
             prerequisites={vault ? "Verified Vault ISO, a separate external backup medium, and separate records for the Core and GPG passphrases." : "Verified Bitcoin Core, a separate practice environment and backup destination, and separate passphrase records."}
             outcome="A restored practice wallet with the same receiving address and label."
-            lastReviewed="26 November 2026 · Current Vault v0.9.0 and Node v0.1.0-rc.4 interface captures use disposable offline VMs and unfunded wallets. Earlier Debian 13 Regtest examples use Bitcoin Core 32.1. macOS reference screens use Core 31.1 and were reviewed on 16 October 2026."
+            lastReviewed="November 26, 2026 · Current Vault v0.9.0 and Node v0.1.0-rc.4 interface captures use disposable offline VMs and unfunded wallets. Earlier Debian 13 Regtest examples use Bitcoin Core 32.1. macOS reference screens use Core 31.1 and were reviewed on October 16, 2026."
           />
 
           <div className="mt-10 grid gap-4 rounded-[28px] bg-card p-5 shadow-[var(--shadow-border)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:p-7">

@@ -12,7 +12,7 @@ export function GuidePracticeSetup({ vault, selectVault }: ReturnType<typeof use
         </label>
         <label className={labelClass}>
           <input type="radio" name="guide-practice-setup" className="size-4 shrink-0 accent-primary" checked={vault} onChange={() => selectVault(true)} />
-          Practise offline with Vault
+          Practice offline with Vault
         </label>
       </div>
     </fieldset>

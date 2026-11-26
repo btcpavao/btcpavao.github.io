@@ -172,9 +172,9 @@ python3 check_release.py node v0.1.0-rc.3 --iso ~/Downloads/bitcoin-core-node-v0
 
 | Image | Files covered by the comparison | Recorded result |
 | --- | --- | --- |
-| Vault v0.8.0 | 162 installed regular files from `config/includes.chroot/`, including both Bitcoin Core executables and the public export helpers, plus two intentionally removed session files | 162 matched and both retired files were absent on 18 November 2026 |
-| Node v0.1.0-rc.2 | 156 regular files in `runtime/` and 71 Python modules in `app/` | 227 matched on 11 November 2026 |
-| Node v0.1.0-rc.3 | Project runtime files and Python modules | 247 matched byte for byte on 20 November 2026. A separate exact check covers the initramfs setting: the source sets `CRYPTSETUP=y` once and the installed file contains that same assignment twice. |
+| Vault v0.8.0 | 162 installed regular files from `config/includes.chroot/`, including both Bitcoin Core executables and the public export helpers, plus two intentionally removed session files | 162 matched and both retired files were absent on November 18, 2026 |
+| Node v0.1.0-rc.2 | 156 regular files in `runtime/` and 71 Python modules in `app/` | 227 matched on November 11, 2026 |
+| Node v0.1.0-rc.3 | Project runtime files and Python modules | 247 matched byte for byte on November 20, 2026. A separate exact check covers the initramfs setting: the source sets `CRYPTSETUP=y` once and the installed file contains that same assignment twice. |
 
 The comparison checks the contents of the paths supplied by the source archive. Other files, permissions, symbolic links, installed Debian packages and machine behavior require separate inspection. You can read the path mapping in [inspect_payload.py](inspect_payload.py).
 

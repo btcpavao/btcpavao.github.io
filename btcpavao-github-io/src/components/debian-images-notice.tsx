@@ -12,11 +12,11 @@ export function DebianImagesNotice({ compact = false }: { compact?: boolean }) {
         <h2>Dedicated Debian images for Bitcoin Core.</h2>
         <p>
           Vault {vaultBuild.tag} keeps your wallet offline for signing and encrypted backups.
-          The reproducible Node test image runs Bitcoin Core on a dedicated online computer to verify
+          The Node test image runs Bitcoin Core on a dedicated online computer to verify
           the blockchain, prepare payments and broadcast them after you sign on Vault.
         </p>
         <p>
-          Both downloads have public rebuild instructions. Before writing your USB,
+          Both releases publish source archives and signed checksums. Before writing your USB,
           verify the signature on the checksum list for your chosen release using Pavao’s confirmed key,
           then compare your ISO with its SHA-256 entry.
           Installing the online Node erases the selected disk. Start with a
