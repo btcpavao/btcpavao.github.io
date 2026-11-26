@@ -21,7 +21,7 @@ The current Node download is [v0.1.0-rc.4](https://github.com/btcpavao/bitcoin-c
 - Filename: `bitcoin-core-node-v0.1.0-rc.4-core32.1-amd64.iso`
 - Size: 1,800,142,848 bytes (1.80 GB).
 - SHA-256: `b25093180bb9b8f57adf2163634be3473fbc0f5163e9fcb05008651f2e0f6da7`.
-- PGP publication status at the RC4 website update: **signature pending**. The checksum identifies the exact download but does not authenticate its publisher. The signed verification helpers below are for releases whose signature files have actually been published.
+- PGP publication status: **signed**. The release publishes the [signed checksum list](https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.4/SHA256SUMS.asc) and a [detached signature for the ISO](https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.4/bitcoin-core-node-v0.1.0-rc.4-core32.1-amd64.iso.asc). Confirm the full signing-key fingerprint through a trusted channel before verifying either signature.
 - Matching tracked-source archive: [bitcoin-core-node-v0.1.0-rc.4-source.tar.gz](https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.4/bitcoin-core-node-v0.1.0-rc.4-source.tar.gz), with prefix `bitcoin-core-node-v0.1.0-rc.4/`, archival commit `8eae47cb3c2c67c7365dcfcc25af44cd5048baf3` and archive SHA-256 `c629d565d6b2e999d5c229ccb4cc5fd3f0a1ee0160ce7fcb1655fd96b5defb49`.
 - [SOURCE-PROVENANCE.json](https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.4/SOURCE-PROVENANCE.json), [BUILD-INFO.json](https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.4/BUILD-INFO.json), [ACCEPTANCE.json](https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.4/ACCEPTANCE.json) and [TEST-SCOPE-LIMITS.json](https://github.com/btcpavao/bitcoin-core-node-releases/releases/download/v0.1.0-rc.4/TEST-SCOPE-LIMITS.json) record the actual derivation and verification scope.
 
@@ -29,7 +29,7 @@ The release also includes its recipe and native installer source bundles. The ar
 
 RC4 uses one RAM-only **Private Workspace**, including PSBT files. Blockchain data, Core-managed wallets and saved Node settings remain persistent. Use **Settings → Network Connections** for Wi-Fi and **Settings → Backup and Restore** for supported backups.
 
-To compare the downloaded RC4 ISO with the published hash on Debian:
+Follow the [current Node signature-verification instructions](https://btcpavao.com/en/bitcoin-core/debian-images/#verify-node-download) for Debian, macOS or Windows. After verifying the signed checksum list, compare the downloaded RC4 ISO with the published hash on Debian:
 
 ```bash
 cd "$HOME/Downloads" &&
@@ -102,7 +102,7 @@ Look for `OK` or `Verified existing file` beside the source archive and a final 
 | Vault v0.8.0 | `d0bc35aa9a64d45d5c24a226aa9ba2ec2a315ebf` | [Vault files](https://github.com/btcpavao/bitcoin-core-vault-releases/releases/tag/v0.8.0) |
 | Historical Node v0.1.0-rc.2 (base source) | `0d43a61e82ab1a0ee86a0b916d1215f31f4502e3` | [Node files](https://github.com/btcpavao/bitcoin-core-node-releases/releases/tag/v0.1.0-rc.2) |
 
-To check the archived signed Vault ISO or an archived copy of the older signed Node RC2 ISO, save it in your VM's Downloads folder and run the matching line. For the archived Node RC3 ISO, verify its detached signature and match its signed ISO checksum before the historical build comparison in steps 4–5. The program prints the expected release filename and the SHA-256 it computed from your local file. A mismatch exits with an error. If you are only reading the source, skip the ISO download. For current RC4 verification and pending-signature status, use the RC4 section above.
+To check the archived signed Vault ISO or an archived copy of the older signed Node RC2 ISO, save it in your VM's Downloads folder and run the matching line. For the archived Node RC3 ISO, verify its detached signature and match its signed ISO checksum before the historical build comparison in steps 4–5. The program prints the expected release filename and the SHA-256 it computed from your local file. A mismatch exits with an error. If you are only reading the source, skip the ISO download. For current RC4 signature verification, use the RC4 section above.
 
 ```sh
 python3 check_release.py vault v0.8.0 --iso ~/Downloads/bitcoin-core-vault-v0.8.0-amd64.iso
