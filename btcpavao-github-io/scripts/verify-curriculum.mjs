@@ -147,20 +147,29 @@ try {
       }
     }
   })
-  check("The Signet export and offline signing steps show the released Vault on public Signet", () => {
-    for (const [slug, step] of [
-      ["start-bitcoin-core-on-signet", "launch-v4"],
-      ["watch-only-setup", "export"],
-      ["first-offline-signed-transaction", "review"],
-      ["first-offline-signed-transaction", "sign"],
-    ]) {
-      const shown = capturesFor(slug, step)
-      assert.ok(shown.length, slug + "/" + step)
-      for (const capture of shown) {
-        assert.match(capture.context, /public Signet/, capture.src)
-        assert.ok(capture.fullSrc.startsWith("/software/screenshots/vault/" + vaultBuild.tag + "/signet/"), capture.src)
+  check("Every stage of the public Signet payment uses a capture from the correct released image", () => {
+    const stages = {
+      "start-bitcoin-core-on-signet": { "launch-v4": "vault", "inspect-gui-v4": "node" },
+      "watch-only-setup": { export: "vault", "watchonly-gui-v4": "node", import: "node", address: "vault" },
+      "first-offline-signed-transaction": { proposal: "node", review: "vault", sign: "vault", broadcast: "node" },
+    }
+    for (const [slug, steps] of Object.entries(stages)) {
+      for (const [step, product] of Object.entries(steps)) {
+        const shown = capturesFor(slug, step)
+        const release = product === "node" ? nodeBuild : vaultBuild
+        assert.ok(shown.length, slug + "/" + step)
+        for (const capture of shown) {
+          assert.match(capture.context, /public Signet/, capture.src)
+          assert.ok(capture.fullSrc.startsWith(`/software/screenshots/${product}/${release.tag}/signet/`), capture.src)
+        }
       }
     }
+    const { vault, payment } = evidence.acquisition.signet
+    assert.equal(payment.funding_outpoint, vault.funding_txid + ":" + vault.funding_vout)
+    assert.equal(payment.input_sats, payment.recipient_sats + payment.change_sats + payment.fee_sats)
+    assert.equal(payment.node_debit_sats, payment.recipient_sats + payment.fee_sats)
+    const links = imagePractice["first-offline-signed-transaction"].overview.links
+    assert.ok(links.some(link => link.href === "https://mempool.space/signet/tx/" + payment.txid))
   })
   const binaryExample = await readFile("public/software/examples/practice-unsigned.psbt")
   const textExample = await readFile("public/software/examples/practice-unsigned.base64.txt", "utf8")

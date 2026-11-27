@@ -1,32 +1,158 @@
 const base = "/software/screenshots/curriculum/"
 
 const captureData = {
-  "vault-signet-preflight-saved": {
-    "src": "/software/screenshots/vault/v0.9.0/signet/preflight-saved-detail.webp",
-    "fullSrc": "/software/screenshots/vault/v0.9.0/signet/preflight-saved.webp",
-    "width": 706,
-    "height": 132,
-    "context": "Vault v0.9.0 · public Signet",
-    "alt": "PSBT Operations displays PSBT saved to disk above the payment details.",
-    "caption": "After Save, look for “PSBT saved to disk.” Eject the transfer drive and carry the signed file back to your online Node."
+  "node-signet-confirmed": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/signet/confirmed-detail.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/signet/confirmed.webp",
+    "width": 845,
+    "height": 118,
+    "context": "Node v0.1.0-rc.4 · public Signet",
+    "alt": "Signet Watch reports one confirmation and block height 332687 for this payment.",
+    "caption": "The watch-only wallet found the payment in Signet block 332687. The confirmation count increases as new blocks arrive."
   },
-  "vault-signet-preflight-signed": {
-    "src": "/software/screenshots/vault/v0.9.0/signet/preflight-signed-detail.webp",
-    "fullSrc": "/software/screenshots/vault/v0.9.0/signet/preflight-signed.webp",
-    "width": 706,
-    "height": 132,
-    "context": "Vault v0.9.0 · public Signet",
-    "alt": "A green banner says Signed transaction successfully. Transaction is ready to broadcast.",
-    "caption": "After Sign Tx and the Core wallet passphrase, this green banner confirms that the offline signature is complete."
+  "node-signet-confirmed-details": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/signet/confirmed-details-detail.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/signet/confirmed-details.webp",
+    "width": 654,
+    "height": 188,
+    "context": "Node v0.1.0-rc.4 · public Signet",
+    "alt": "The transaction details show 1/unconfirmed, a 3,000 sat debit, a 141 sat fee, and the same transaction ID.",
+    "caption": "At one confirmation this version’s Details window displayed “1/unconfirmed.” Use the wallet console to check the confirmation count and block height for the same ID."
   },
-  "vault-signet-preflight-review": {
-    "src": "/software/screenshots/vault/v0.9.0/signet/preflight-review-detail.webp",
-    "fullSrc": "/software/screenshots/vault/v0.9.0/signet/preflight-review.webp",
+  "node-signet-broadcast": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/signet/broadcast-detail.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/signet/broadcast.webp",
+    "width": 904,
+    "height": 136,
+    "context": "Node v0.1.0-rc.4 · public Signet",
+    "alt": "The online Node reports Transaction broadcast successfully and shows the transaction ID.",
+    "caption": "Record the ID after Broadcast Tx. The first block confirmation appears separately in Transactions."
+  },
+  "node-signet-ready": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/signet/ready-detail.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/signet/ready.webp",
+    "width": 742,
+    "height": 127,
+    "context": "Node v0.1.0-rc.4 · public Signet",
+    "alt": "The watch-only Node displays Transaction is fully signed and ready for broadcast.",
+    "caption": "Check the payment once more. Broadcast Tx is now available in the online watch-only wallet."
+  },
+  "node-signet-return-file": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/signet/return-file-detail.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/signet/return-file.webp",
+    "width": 558,
+    "height": 108,
+    "context": "Node v0.1.0-rc.4 · public Signet",
+    "alt": "Load Transaction Data lists both payment-signed.psbt and payment-unsigned.psbt with the signed file selected.",
+    "caption": "On Node, select payment-signed.psbt. Both files can be on the same drive."
+  },
+  "vault-signet-saved": {
+    "src": "/software/screenshots/vault/v0.9.0/signet/saved-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/signet/saved.webp",
+    "width": 725,
+    "height": 128,
+    "context": "Vault v0.9.0 · public Signet",
+    "alt": "PSBT Operations reports PSBT saved to disk.",
+    "caption": "The save confirmation appears after writing payment-signed.psbt. Eject the transfer drive before moving it."
+  },
+  "vault-signet-signed": {
+    "src": "/software/screenshots/vault/v0.9.0/signet/signed-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/signet/signed.webp",
+    "width": 725,
+    "height": 128,
+    "context": "Vault v0.9.0 · public Signet",
+    "alt": "The green status reads Signed transaction successfully. Transaction is ready to broadcast.",
+    "caption": "After Sign Tx and the Core wallet passphrase, this message confirms the offline signature. Choose Save to take the signed file back to Node."
+  },
+  "vault-signet-review": {
+    "src": "/software/screenshots/vault/v0.9.0/signet/review-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/signet/review.webp",
+    "width": 725,
+    "height": 156,
+    "context": "Vault v0.9.0 · public Signet",
+    "alt": "PSBT Operations reports one unsigned input and lists the recipient, the change marked own address, and the fee.",
+    "caption": "On Vault, 3,000 sats go to the recipient and 4,859 sats return as change. Total Amount adds the two outputs to get 7,859 sats. With the 141 sat fee, that accounts for all 8,000 sats."
+  },
+  "node-signet-save-unsigned": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/signet/save-unsigned-detail.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/signet/save-unsigned.webp",
+    "width": 700,
+    "height": 453,
+    "context": "Node v0.1.0-rc.4 · public Signet",
+    "alt": "Save Transaction Data shows payment-unsigned.psbt on the selected transfer USB.",
+    "caption": "Select your transfer USB and save payment-unsigned.psbt. If ejecting reports that the drive is busy, exit Bitcoin Core, then eject again."
+  },
+  "node-signet-unsigned": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/signet/unsigned-detail.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/signet/unsigned.webp",
+    "width": 216,
+    "height": 176,
+    "context": "Node v0.1.0-rc.4 · public Signet",
+    "alt": "Unsigned Transaction says the PSBT was copied to the clipboard and offers Save and Discard.",
+    "caption": "Choose Save to open the file dialog. The clipboard message alone does not put a file on the USB."
+  },
+  "node-signet-proposal-review": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/signet/proposal-review-detail.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/signet/proposal-review.webp",
+    "width": 521,
+    "height": 309,
+    "context": "Node v0.1.0-rc.4 · public Signet",
+    "alt": "Confirm send coins lists 3,000 sats for the recipient and a 141 sat fee, totaling 3,141 sats.",
+    "caption": "Review the recipient and fee, then click Create Unsigned again. Here 3,141 sats will leave the wallet."
+  },
+  "node-signet-send": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/signet/send.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/signet/send.webp",
+    "width": 1280,
+    "height": 800,
+    "context": "Node v0.1.0-rc.4 · public Signet",
+    "alt": "The Send tab shows the test recipient, 0.00003000 BTC, the custom fee rate, and Create Unsigned.",
+    "caption": "Enter your own test recipient in Pay To. This Node had no fee estimate yet. Under Transaction Fee, Choose opened the Custom rate. The example uses 0.00001000 BTC per kilobyte, or 1 sat/vB."
+  },
+  "node-signet-watch-proof": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/signet/watch-proof-detail.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/signet/watch-proof.webp",
     "width": 701,
-    "height": 155,
-    "context": "Vault v0.9.0 · public Signet",
-    "alt": "PSBT Operations lists the recipient, a second output marked own address, a 141 satoshi fee, and one unsigned input.",
-    "caption": "The recipient gets 3,000 test sats. The 4,859 sats marked “own address” return to this wallet. Total Amount adds those two outputs. The 141 sat fee appears on its own line."
+    "height": 158,
+    "context": "Node v0.1.0-rc.4 · public Signet",
+    "alt": "Signet Watch reports false for private_keys_enabled and true for ismine on the funded address.",
+    "caption": "Node recognizes the receiving address with private keys disabled. Check the same full address in the signing wallet on Vault."
+  },
+  "node-signet-funded": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/signet/funded-detail.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/signet/funded.webp",
+    "width": 1278,
+    "height": 432,
+    "context": "Node v0.1.0-rc.4 · public Signet",
+    "alt": "Wallet restored successfully appears over Signet Watch with an available balance of 0.00008000 BTC.",
+    "caption": "After the scan, Node found the 8,000 test sats sent to the address recorded on Vault. An unfunded wallet will still show zero."
+  },
+  "node-signet-restore-name": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/signet/restore-name-detail.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/signet/restore-name.webp",
+    "width": 223,
+    "height": 137,
+    "context": "Node v0.1.0-rc.4 · public Signet",
+    "alt": "Restore Wallet asks for a Wallet Name. This run uses Signet Watch.",
+    "caption": "Give the public wallet a name you will recognize on the online Node. Here it is Signet Watch."
+  },
+  "node-signet-restore-file": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/signet/restore-file-detail.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/signet/restore-file.webp",
+    "width": 700,
+    "height": 453,
+    "context": "Node v0.1.0-rc.4 · public Signet",
+    "alt": "Load Wallet Backup shows watch-only.dat selected on the SIGNETUSB transfer drive.",
+    "caption": "Choose the transfer drive in the left sidebar, select watch-only.dat, and click Open. The bracketed identifier after the drive label can differ."
+  },
+  "node-signet-network": {
+    "src": "/software/screenshots/node/v0.1.0-rc.4/signet/network-detail.webp",
+    "fullSrc": "/software/screenshots/node/v0.1.0-rc.4/signet/network.webp",
+    "width": 641,
+    "height": 336,
+    "context": "Node v0.1.0-rc.4 · public Signet",
+    "alt": "Bitcoin Core 32.1 lists signet, seven outbound connections, and block height 332686.",
+    "caption": "On Node, open Window → Information. Name is signet and the seven outbound connections are Bitcoin peers. The offline Vault shows zero connections."
   },
   "vault-signet-address-proof": {
     "src": "/software/screenshots/vault/v0.9.0/signet/address-proof-detail.webp",
@@ -560,22 +686,23 @@ export const capturePlacements: Record<string, Record<string, CaptureKey[]>> = {
     "backup": ["vault-backup", "vault-backup-complete", "vault-usb-backup"],
   },
   "first-offline-signed-transaction": {
-    "review": ["vault-signet-preflight-review"],
-    "proposal": ["psbt-node-unsigned"],
-    "sign": ["vault-signet-preflight-signed", "vault-signet-preflight-saved"],
-    "broadcast": ["psbt-broadcast", "psbt-confirmed"],
+    "review": ["vault-signet-review"],
+    "proposal": ["node-signet-send", "node-signet-proposal-review", "node-signet-unsigned", "node-signet-save-unsigned"],
+    "sign": ["vault-signet-signed", "vault-signet-saved"],
+    "broadcast": ["node-signet-return-file", "node-signet-ready", "node-signet-broadcast", "node-signet-confirmed-details", "node-signet-confirmed"],
   },
   "psbt-debugging": {
     "decode-v4": ["psbt-review", "psbt-decode"],
   },
   "start-bitcoin-core-on-signet": {
     "launch-v4": ["vault-signet-offline-chain"],
+    "inspect-gui-v4": ["node-signet-network"],
   },
   "watch-only-setup": {
-    "watchonly-gui-v4": ["node-public-open", "node-public-name"],
+    "watchonly-gui-v4": ["node-signet-restore-file", "node-signet-restore-name", "node-signet-funded"],
     "address": ["vault-signet-address-proof"],
     "export": ["vault-signet-export-menu", "vault-signet-export-file", "vault-signet-metadata", "vault-signet-exported"],
-    "import": ["node-public-proof"],
+    "import": ["node-signet-watch-proof"],
   },
   "recovery-drill-without-original-coordinator": {
     "sign-again": ["restored-pair"],

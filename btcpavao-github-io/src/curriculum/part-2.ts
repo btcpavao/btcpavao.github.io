@@ -546,7 +546,7 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     reviewNote:
-      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
+      "The standard Core 31.1 instructions were source-reviewed on 2026-09-14. On the prepared-image path, Vault v0.9.0 ran on public Signet with networking disabled. Node v0.1.0-rc.4 reported Signet, seven outbound peers, and a current chain tip.",
     origin: "First-principles curriculum v4",
     guidedSteps: [
       {
@@ -2477,7 +2477,7 @@ export const part2Lessons: PlayerLesson[] = [
       },
     ],
     reviewNote:
-      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
+      "The standard Core 31.1 instructions were source-reviewed on 2026-09-14. In the prepared-image exercise, Node restored the public file from Vault, recognized the same receiving address with private keys disabled, and found the 8,000 sat Signet payment.",
     origin: "First-principles curriculum v4",
     guidedSteps: [
       {
@@ -2548,7 +2548,7 @@ export const part2Lessons: PlayerLesson[] = [
     verification: "source-reviewed",
     referenceVersion: "Bitcoin Core 31.1",
     reviewNote:
-      "v4.1 wording, sequence and source review on 2026-09-14. Earlier hands-on evidence is listed separately. This review does not certify a physical Debian installation or funded Signet exercise.",
+      "The standard Core 31.1 instructions were source-reviewed on 2026-09-14. The prepared-image exercise used the released Vault and Node in virtual machines. Node created the proposal, Vault signed offline, and Node broadcast the payment and verified its inclusion in public Signet block 332687.",
     explanation: [
       "You have already imported the signer’s public descriptors into the online watch-only wallet. Return to the GUI for the payment cycle: build the proposal online, sign on the offline computer, return the signed file and broadcast from the online node.",
       "A payment consumes inputs, the previously received outputs selected to spend, and creates new outputs for the recipient and any change. In the PSBT dialog, review every output and the total fee. The displayed Total Amount can include change; it is not necessarily the amount paid to the recipient.",
