@@ -1,6 +1,87 @@
 const base = "/software/screenshots/curriculum/"
 
 const captureData = {
+  "vault-signet-preflight-saved": {
+    "src": "/software/screenshots/vault/v0.9.0/signet/preflight-saved-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/signet/preflight-saved.webp",
+    "width": 706,
+    "height": 132,
+    "context": "Vault v0.9.0 · public Signet",
+    "alt": "PSBT Operations displays PSBT saved to disk above the payment details.",
+    "caption": "After Save, look for “PSBT saved to disk.” Eject the transfer drive and carry the signed file back to your online Node."
+  },
+  "vault-signet-preflight-signed": {
+    "src": "/software/screenshots/vault/v0.9.0/signet/preflight-signed-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/signet/preflight-signed.webp",
+    "width": 706,
+    "height": 132,
+    "context": "Vault v0.9.0 · public Signet",
+    "alt": "A green banner says Signed transaction successfully. Transaction is ready to broadcast.",
+    "caption": "After Sign Tx and the Core wallet passphrase, this green banner confirms that the offline signature is complete."
+  },
+  "vault-signet-preflight-review": {
+    "src": "/software/screenshots/vault/v0.9.0/signet/preflight-review-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/signet/preflight-review.webp",
+    "width": 701,
+    "height": 155,
+    "context": "Vault v0.9.0 · public Signet",
+    "alt": "PSBT Operations lists the recipient, a second output marked own address, a 141 satoshi fee, and one unsigned input.",
+    "caption": "The recipient gets 3,000 test sats. The 4,859 sats marked “own address” return to this wallet. Total Amount adds those two outputs. The 141 sat fee appears on its own line."
+  },
+  "vault-signet-address-proof": {
+    "src": "/software/screenshots/vault/v0.9.0/signet/address-proof-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/signet/address-proof.webp",
+    "width": 646,
+    "height": 91,
+    "context": "Vault v0.9.0 · public Signet",
+    "alt": "The Signet Signer wallet returns true for ismine when given the full practice address.",
+    "caption": "Use the same address on both machines. Here Signet Signer recognizes the address that received the test coins."
+  },
+  "vault-signet-exported": {
+    "src": "/software/screenshots/vault/v0.9.0/signet/exported-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/signet/exported.webp",
+    "width": 539,
+    "height": 142,
+    "context": "Vault v0.9.0 · public Signet",
+    "alt": "The Export Successful dialog identifies watch-only.dat on SIGNETUSB.",
+    "caption": "Check the destination in Export Successful before you eject the USB and take it to Node."
+  },
+  "vault-signet-metadata": {
+    "src": "/software/screenshots/vault/v0.9.0/signet/metadata-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/signet/metadata.webp",
+    "width": 340,
+    "height": 442,
+    "context": "Vault v0.9.0 · public Signet",
+    "alt": "Export wallet metadata? offers Export wallet or Cancel.",
+    "caption": "This wallet already had an address-book entry. Core asks whether to include its metadata. Choose Export wallet to continue."
+  },
+  "vault-signet-export-file": {
+    "src": "/software/screenshots/vault/v0.9.0/signet/export-file-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/signet/export-file.webp",
+    "width": 1280,
+    "height": 84,
+    "context": "Vault v0.9.0 · public Signet",
+    "alt": "The Save Watch-only Wallet Export dialog has watch-only.dat in the File name field.",
+    "caption": "Select your transfer USB in the sidebar. Save the public export as watch-only.dat. SIGNETUSB is the drive name in this exercise."
+  },
+  "vault-signet-export-menu": {
+    "src": "/software/screenshots/vault/v0.9.0/signet/export-menu-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/signet/export-menu.webp",
+    "width": 290,
+    "height": 352,
+    "context": "Vault v0.9.0 · public Signet",
+    "alt": "The File menu of Signet Signer shows Export watch-only wallet.",
+    "caption": "With Signet Signer selected, open File and choose Export watch-only wallet."
+  },
+  "vault-signet-offline-chain": {
+    "src": "/software/screenshots/vault/v0.9.0/signet/offline-chain-detail.webp",
+    "fullSrc": "/software/screenshots/vault/v0.9.0/signet/offline-chain.webp",
+    "width": 578,
+    "height": 160,
+    "context": "Vault v0.9.0 · public Signet",
+    "alt": "Vault's console returns signet, false for networkactive, and 0 connections.",
+    "caption": "Run these three commands on Vault before creating the signing wallet. It can sign a Signet payment with networking disabled."
+  },
   "node-revision": {
     "src": "/software/screenshots/verification/current-20261126/node-rc4-source-detail.webp",
     "fullSrc": "/software/screenshots/verification/current-20261126/node-rc4-source.webp",
@@ -479,18 +560,21 @@ export const capturePlacements: Record<string, Record<string, CaptureKey[]>> = {
     "backup": ["vault-backup", "vault-backup-complete", "vault-usb-backup"],
   },
   "first-offline-signed-transaction": {
-    "review": ["psbt-review"],
+    "review": ["vault-signet-preflight-review"],
     "proposal": ["psbt-node-unsigned"],
-    "sign": ["psbt-signed"],
+    "sign": ["vault-signet-preflight-signed", "vault-signet-preflight-saved"],
     "broadcast": ["psbt-broadcast", "psbt-confirmed"],
   },
   "psbt-debugging": {
     "decode-v4": ["psbt-review", "psbt-decode"],
   },
+  "start-bitcoin-core-on-signet": {
+    "launch-v4": ["vault-signet-offline-chain"],
+  },
   "watch-only-setup": {
     "watchonly-gui-v4": ["node-public-open", "node-public-name"],
-    "address": ["watch-address"],
-    "export": ["vault-watch-menu", "vault-watch-disclosure", "vault-watch-complete"],
+    "address": ["vault-signet-address-proof"],
+    "export": ["vault-signet-export-menu", "vault-signet-export-file", "vault-signet-metadata", "vault-signet-exported"],
     "import": ["node-public-proof"],
   },
   "recovery-drill-without-original-coordinator": {

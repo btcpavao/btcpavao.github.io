@@ -147,6 +147,21 @@ try {
       }
     }
   })
+  check("The Signet export and offline signing steps show the released Vault on public Signet", () => {
+    for (const [slug, step] of [
+      ["start-bitcoin-core-on-signet", "launch-v4"],
+      ["watch-only-setup", "export"],
+      ["first-offline-signed-transaction", "review"],
+      ["first-offline-signed-transaction", "sign"],
+    ]) {
+      const shown = capturesFor(slug, step)
+      assert.ok(shown.length, slug + "/" + step)
+      for (const capture of shown) {
+        assert.match(capture.context, /public Signet/, capture.src)
+        assert.ok(capture.fullSrc.startsWith("/software/screenshots/vault/" + vaultBuild.tag + "/signet/"), capture.src)
+      }
+    }
+  })
   const binaryExample = await readFile("public/software/examples/practice-unsigned.psbt")
   const textExample = await readFile("public/software/examples/practice-unsigned.base64.txt", "utf8")
   check("The downloadable PSBT and its console text match the captured Regtest transaction", () => {

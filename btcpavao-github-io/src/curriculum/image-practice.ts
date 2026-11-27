@@ -17,7 +17,6 @@ type ImageLesson = {
 }
 
 const downloads = "/bitcoin-core/debian-images/"
-const course = "/bitcoin-core/self-custody/#lesson/"
 const imageCourse = "/bitcoin-core/self-custody/?setup=vault-node#lesson/"
 const downloadCheck = { label: "Check your Vault or Node ISO", href: downloads + "#verify-download" }
 const rebuild = { label: "Rebuild the Vault or Node download", href: DEBIAN_IMAGE_VERIFICATION_PATH + "#rebuild-tutorial" }
@@ -191,7 +190,7 @@ export const imagePractice: Record<string, ImageLesson> = {
     overview: {
       role: "Vault",
       title: "Rehearse with an empty Vault wallet",
-      instructions: ["The signed Vault v0.9.0 image runs Core 32.1 inside its protected offline launcher. Use an unfunded disposable wallet to practice backup, shutdown and restoration. For the funded Signet exercise, use the standard Core path unless you have separately verified a matching practice network on both computers. The current Vault screenshots use an unfunded Core-encrypted wallet and a separate GPG backup layer. Keep both passphrases and perform the full shutdown below for your own recovery drill."],
+      instructions: ["The signed Vault v0.9.0 image runs Core 32.1 inside its protected offline launcher. Use an unfunded disposable wallet to practice backup, shutdown and restoration. For the funded exercise, start a fresh Signet session and check its chain before creating the signing wallet. The current Vault screenshots use an unfunded Core-encrypted wallet and a separate GPG backup layer. Keep both passphrases and perform the full shutdown below for your own recovery drill."],
       links: [downloadCheck],
     },
     steps: {
@@ -223,10 +222,20 @@ export const imagePractice: Record<string, ImageLesson> = {
       },
     },
   },
+  "start-bitcoin-core-on-signet": {
+    steps: {
+      "launch-v4": {
+        replacesStep: true, role: "Vault", title: "Start the offline signer on Signet",
+        instructions: ["Boot a fresh Vault v0.9.0 Live RAM session with networking disconnected. Before opening Bitcoin Core, open Terminal and run the commands below. The first two commands select Signet in this temporary session. The last starts Vault’s protected Bitcoin Core launcher. If bitcoin.conf already exists, start a fresh practice session."],
+        command: { title: "Terminal · fresh Vault live session", code: 'mkdir -p "$HOME/.bitcoin" && (set -C; echo chain=signet > "$HOME/.bitcoin/bitcoin.conf") && core-vault-bitcoin' },
+        result: "Bitcoin Core opens with [signet] in the title. Start this way again after each fresh Vault boot.",
+      },
+    },
+  },
   "watch-only-setup": {
     overview: {
       role: "Vault and Node", title: "Use the native Core 32.1 watch-only export",
-      instructions: ["Use a disposable signing wallet and check that both Core instances are on the same chain. You can practice the export and address check without funding the wallet. The current screenshots show the unfunded public export from Practice Wallet on Vault v0.9.0 opened as PracticeWatchOnly on Node v0.1.0-rc.4, both on Bitcoin mainnet. The address comparison uses a separate Regtest wallet. The watch-only file carries public descriptors, address-book data and wallet history. Keep it private even though it contains no signing keys."],
+      instructions: ["Start the offline Vault and the online Node on public Signet. Check the chain in both windows before exporting. A watch-only copy lets Node recognize the signer’s addresses. It can also reveal labels and transaction history to anyone who can read the file. Keep the signing wallet and its recovery backup on Vault."],
       links: [nativeExport],
     },
     steps: {
@@ -248,8 +257,8 @@ export const imagePractice: Record<string, ImageLesson> = {
       },
       address: {
         replacesStep: true, role: "Vault and Node", title: "Check one address on both computers",
-        instructions: ["Generate a receiving address in the Node’s watch-only wallet. On Vault, select the matching signing wallet. In its console, replace the placeholder below with the full public receiving address from your disposable Node wallet. Compare the full address and the ismine result. Generating a fresh address on both computers can select two different indices."],
-        command: { title: "Bitcoin Core console · selected Vault signing wallet", code: 'getaddressinfo "YOUR_PUBLIC_TEST_RECEIVING_ADDRESS"' },
+        instructions: ["Choose one receiving address to compare. You can create it on Node after restoring the public wallet, or record it on Vault before exporting, as in this exercise. On each machine, select its corresponding wallet in Window → Console. Replace the placeholder with that same complete address and check ismine. Two separately generated requests can use different address indices."],
+        command: { title: "Bitcoin Core console · selected Vault signing wallet", code: 'getaddressinfo("YOUR_PUBLIC_TEST_RECEIVING_ADDRESS")[ismine]' },
         result: "Vault recognizes the exact address shown by Node as its own. If the address or wallet differs, stop before requesting payment.",
       },
     },
@@ -257,8 +266,8 @@ export const imagePractice: Record<string, ImageLesson> = {
   "first-offline-signed-transaction": {
     overview: {
       role: "Vault and Node", title: "Follow one test payment across two devices",
-      instructions: ["For a live rehearsal, use matching practice networks and a funded disposable test wallet. Check the network in both Core instances before creating the proposal. The released images start with their own launcher settings. If you have not established a supported practice network on both, use the Standard Core Signet path to make the payment. An empty mainnet wallet is sufficient for the earlier export exercise. The accompanying Core 32.1 Regtest session shows a 0.25 test BTC payment signed offline, returned to the watch-only node and confirmed in a block."],
-      links: [{ label: "Verify the practice network first", href: course + "start-bitcoin-core-on-signet" }],
+      instructions: ["Use your own disposable wallet, recipient address and test coins. In the public Signet signing example below, Vault v0.9.0 approved a 3,000 sat payment from an 8,000 sat input with networking disabled. For that example the proposal was prepared separately in Bitcoin Core. The Node proposal and broadcast screenshots show a separate Regtest example."],
+      links: [{ label: "Verify the practice network first", href: imageCourse + "start-bitcoin-core-on-signet" }],
     },
     steps: {
       proposal: {
@@ -268,12 +277,12 @@ export const imagePractice: Record<string, ImageLesson> = {
       },
       review: {
         replacesStep: true, role: "Vault", title: "Check what the proposal authorizes",
-        instructions: ["Open or restore the matching disposable signing wallet. Use File → Load PSBT from file to open the unsigned proposal on your transfer USB. Compare the complete recipient address and amount with your independent record. Inspect every other output, identify any change belonging to your wallet and check the total fee."],
+        instructions: ["Open or restore the matching disposable signing wallet. Use File → Load PSBT from file to open the unsigned proposal on your transfer USB. Compare the complete recipient address and amount with your independent record. Core marks this wallet’s change as “own address.” Total Amount adds the recipient and the change together. Read the fee from “Pays transaction fee of” and check that all outputs plus the fee account for the input."],
         result: "You can explain every output. An unknown destination, unexplained change or unexpected fee is a reason to leave the proposal unsigned.",
       },
       sign: {
         replacesStep: true, role: "Vault", title: "Sign and return the signed file",
-        instructions: ["Choose Sign Tx only after reviewing the payment. Unlock the wallet with its Core passphrase if prompted. Wait for Core to report that signing is complete. Choose Save… and select the mounted transfer USB. Give the signed file a distinct name such as payment-signed.psbt."],
+        instructions: ["Choose Sign Tx only after reviewing the payment. Unlock the wallet with its Core passphrase if prompted. Wait for Core to report that signing is complete. Choose Save… and select the mounted transfer USB. Give the signed file a distinct name such as payment-signed.psbt. Wait for “PSBT saved to disk” before ejecting the USB."],
         result: "You have a signed file ready to broadcast and can distinguish it from the original unsigned file.",
       },
       broadcast: {
